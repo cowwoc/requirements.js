@@ -1,0 +1,6 @@
+syntax: glob
+.idea
+bower_components
+nbproject
+node_modules
+build

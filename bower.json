@@ -1,0 +1,14 @@
+{
+  "name": "requirements.js",
+  "version": "1.0.0",
+  "main": "path/to/main.css",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "urijs": "uri.js#^1.18.4",
+    "sugar": "^2.0.4"
+  },
+  "devDependencies": {}
+}
