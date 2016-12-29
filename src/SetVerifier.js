@@ -1,3 +1,4 @@
+import Utilities from "./Utilities";
 import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 
@@ -8,14 +9,14 @@ import ContainerSizeVerifier from "./ContainerSizeVerifier";
  * @param {Set} actual the actual value
  * @param {String} name   the name of the value
  * @param {Configuration} config the instance configuration
- *
- * @property {Set} actual the actual value
- * @property {String} name the name of the value
- * @property {Configuration} config the instance configuration
+ * @throws {TypeError} if {@code name} or {@code config} are null or undefined; if {@code actual} is not a {@code Set}
+ * @throws {RangeError} if {@code name} is empty
  * @author Gili Tzabari
  */
 function SetVerifier(actual, name, config)
 {
+	Utilities.verifyValue(actual, "actual", Set);
+	Utilities.verifyName(name, "name");
 	Object.defineProperty(this, "actual",
 		{
 			value: actual
@@ -39,7 +40,7 @@ function SetVerifier(actual, name, config)
  */
 SetVerifier.prototype.size = function()
 {
-	return new ContainerSizeVerifier(this.actual, this.actual.size, name, name + ".size", Pluralizer.ELEMENT,
+	return new ContainerSizeVerifier(this.actual, this.actual.size, this.name, this.name + ".size", Pluralizer.ELEMENT,
 		this.config);
 };
 

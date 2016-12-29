@@ -15,11 +15,6 @@ import Utilities from "./Utilities";
  *   exception instance
  * @param {String} message        the exception message
  * @param {List<Object>} contextPostfix the key-value pairs to append to the context set by the user
- *
- * @property {ExceptionConstructor} constructor           a function that takes an exception message and returns
- *   an exception instance
- * @property {String} message        the exception message
- * @property {List<Object>} contextPostfix the key-value pairs to append to the context set by the user
  * @throws {TypeError} if any of the arguments are not set
  * @author Gili Tzabari
  */
@@ -153,8 +148,9 @@ ExceptionBuilder.prototype.build = function()
 	for (let entry of mergedContext)
 	{
 		// We can't use Object.values() until it is well-supported: http://stackoverflow.com/a/40421941/14731
+		let key = Object.keys(entry)[0];
 		let value = entry[Object.keys(entry)[0]];
-		contextToAdd.push(justifyLeft(Object.keys(entry)[0], maxKeyLength) + ": " + Utilities.toString(value));
+		contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + Utilities.toString(value));
 	}
 	let messageWithContext = contextToAdd.join("\n");
 

@@ -12,14 +12,13 @@ import NumberVerifier from "./NumberVerifier";
  * @param {Object} actual the actual value
  * @param {String} name   the name of the value
  * @param {Configuration} config the instance configuration
- *
- * @property {Object} actual the actual value
- * @property {String} name the name of the value
- * @property {Configuration} config the instance configuration
+ * @throws {TypeError} if {@code name} or {@code config} are null or undefined
+ * @throws {RangeError} if {@code name} is empty
  * @author Gili Tzabari
  */
 function ObjectVerifier(actual, name, config)
 {
+	Utilities.verifyName(name, "name");
 	Object.defineProperty(this, "actual",
 		{
 			value: actual
@@ -99,7 +98,7 @@ ObjectVerifier.prototype.withContext = function(context)
 ObjectVerifier.prototype.isEqualTo = function(expected, name)
 {
 	if (name !== undefined)
-		this.config.internalVerifier.requireThat(name, "name").isNotNull().trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	if (this.actual === expected)
 		return this;
 	if (name)
@@ -127,8 +126,8 @@ ObjectVerifier.prototype.isEqualTo = function(expected, name)
 ObjectVerifier.prototype.isNotEqualTo = function(value, name)
 {
 	if (name !== undefined)
-		this.config.internalVerifier.requireThat(name, "name").isNotNull().trim().isNotEmpty();
-	if (this.actual !== expected)
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+	if (this.actual !== value)
 		return this;
 	if (name)
 	{
@@ -170,7 +169,7 @@ ObjectVerifier.prototype.isInstanceOf = function(type)
 {
 	if (Utilities.instanceOf(this.actual, type))
 		return this;
-	throw this.config.exceptionBuilder(RangeError, this.name + " must be an instance of " + Utilities.toString(type) +
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be an instance of " + Utilities.getClassName(type) +
 		".").
 		addContext("Actual", Utilities.getClassName(this.actual)).
 		build();

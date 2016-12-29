@@ -16,7 +16,7 @@ define(function(require)
 				{
 					const actual = [];
 					new RequirementVerifier().requireThat(actual, null);
-				}, RangeError);
+				}, TypeError);
 			},
 
 			nameIsEmpty: function()
@@ -488,351 +488,203 @@ define(function(require)
 					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"],
 						"nameOfExpected");
 				}, RangeError);
+			},
+
+			doesNotContainAll_expectedEmptyName: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"one",
+							"two",
+							"three"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
+				}, RangeError);
+			},
+
+			doesNotContainDuplicates: function()
+			{
+				const actual =
+					[
+						"one",
+						"two",
+						"three"
+					];
+				new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
+			},
+
+			doesNotContainDuplicates_False: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"one",
+							"two",
+							"three",
+							"two",
+							"four"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
+				}, RangeError);
+			},
+
+			lengthIsEqualTo: function()
+			{
+				const actual =
+					[
+						"element"
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1);
+			},
+
+			lengthIsEqualTo_False: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2);
+				}, RangeError);
+			},
+
+			lengthIsEqualToVariable: function()
+			{
+				const actual =
+					[
+						"element"
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
+			},
+
+			lengthIsEqualToVariable_False: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2, "nameOfExpected");
+				}, RangeError);
+			},
+
+			lengthIsEqualTo_expectedEmptyName: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, " ");
+				}, RangeError);
+			},
+
+			lengthIsNotEqualTo: function()
+			{
+				const actual =
+					[
+						"element"
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2);
+			},
+			lengthIsNotEqualTo_False: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1);
+				}, RangeError);
+			},
+
+			lengthIsNotEqualToVariable: function()
+			{
+				const actual =
+					[
+						"element"
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
+			},
+
+			lengthIsNotEqualToVariable_False: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
+				}, RangeError);
+			},
+
+			lengthIsNotEqualTo_expectedEmptyName: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							"element"
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, " ");
+				}, RangeError);
+			},
+
+			isInRange_expectedIsLowerBound: function()
+			{
+				const actual =
+					[
+						1,
+						2,
+						3
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+			},
+
+			isInRange_expectedIsInBounds: function()
+			{
+				const actual =
+					[
+						1,
+						2,
+						3,
+						4
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+			},
+
+			isInRange_expectedIsUpperBound: function()
+			{
+				const actual =
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					];
+				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+			},
+
+			isInRange_expectedIsBelow: function()
+			{
+				assert.throws(function()
+				{
+					const actual =
+						[
+							1,
+							2
+						];
+					new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+				}, RangeError);
 			}
 		});
 });
-
-
-// ,
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void doesNotContainAll_expectedEmptyName()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		const actual =
-// 			{
-// 				"one",
-// 				"two",
-// 				"three"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
-// 	}
-// }
-//
-// @Test
-// public
-// void doesNotContainDuplicates()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"one",
-// 				"two",
-// 				"three"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void doesNotContainDuplicates_False()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"one",
-// 				"two",
-// 				"three",
-// 				"two",
-// 				"four"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
-// 	}
-// }
-//
-// @Test
-// public
-// void lengthIsEqualTo()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1);
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsEqualTo_False()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2);
-// 	}
-// }
-//
-// @Test
-// public
-// void lengthIsEqualToVariable()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsEqualToVariable_False()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2, "nameOfExpected");
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsEqualTo_expectedEmptyName()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, " ");
-// 	}
-// }
-//
-// @Test
-// public
-// void lengthIsNotEqualTo()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2);
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsNotEqualTo_False()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1);
-// 	}
-// }
-//
-// @Test
-// public
-// void lengthIsNotEqualToVariable()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsNotEqualToVariable_False()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void lengthIsNotEqualTo_expectedEmptyName()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		String[]
-// 		actual =
-// 			{
-// 				"element"
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, " ");
-// 	}
-// }
-//
-// @Test
-// public
-// void isInRange_expectedIsLowerBound()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		Integer[]
-// 		actual =
-// 			{
-// 				1,
-// 				2,
-// 				3
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isIn(3, 5);
-// 	}
-// }
-//
-// @Test
-// public
-// void isInRange_expectedIsInBounds()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		Integer[]
-// 		actual =
-// 			{
-// 				1,
-// 				2,
-// 				3,
-// 				4
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isIn(3, 5);
-// 	}
-// }
-//
-// @Test
-// public
-// void isInRange_expectedIsUpperBound()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		Integer[]
-// 		actual =
-// 			{
-// 				1,
-// 				2,
-// 				3,
-// 				4,
-// 				5
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isIn(3, 5);
-// 	}
-// }
-//
-// @Test(expectedExceptions = IllegalArgumentException.class)
-// public
-// void isInRange_expectedIsBelow()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		Integer[]
-// 		actual =
-// 			{
-// 				1,
-// 				2
-// 			};
-// 		new RequirementVerifier().requireThat(actual, "actual").length().isIn(3, 5);
-// 	}
-// }
-//
-// @Test
-// public
-// void assertionsDisabled()
-// {
-// 	try
-// 	(SingletonScope
-// 	scope = new TestSingletonScope()
-// )
-// 	{
-// 		// Ensure that no exception is thrown if assertions are disabled
-// 		Collection < ?
-// 	>
-// 		actual = null;
-// 		new AssertionVerifier(scope, false).requireThat(actual, "actual").isNotNull();
-// 	}
-// }
-// })
-// ;

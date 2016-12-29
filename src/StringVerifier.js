@@ -10,14 +10,15 @@ import ContainerSizeVerifier from "./ContainerSizeVerifier";
  * @param {String} actual the actual value
  * @param {String} name   the name of the value
  * @param {Configuration} config the instance configuration
- *
- * @property {String} actual the actual value
- * @property {String} name the name of the value
- * @property {Configuration} config the instance configuration
+ * @throws {TypeError} if {@code name} or {@code config} are null or undefined; if {@code actual} is not a
+ * {@code String}
+ * @throws {RangeError} if {@code name} is empty
  * @author Gili Tzabari
  */
 function StringVerifier(actual, name, config)
 {
+	Utilities.verifyValue(actual, "actual", String);
+	Utilities.verifyName(name, "name");
 	Object.defineProperty(this, "actual",
 		{
 			value: actual
@@ -205,8 +206,8 @@ StringVerifier.prototype.trim = function()
  */
 StringVerifier.prototype.length = function()
 {
-	return new ContainerSizeVerifier(this.actual, this.actual.length(), name, name + ".length()", Pluralizer.CHARACTER,
-		this.config);
+	return new ContainerSizeVerifier(this.actual, this.actual.length(), this.name, this.name + ".length()",
+		Pluralizer.CHARACTER, this.config);
 };
 
 /**

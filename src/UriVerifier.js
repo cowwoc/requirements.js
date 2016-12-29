@@ -1,3 +1,4 @@
+import Utilities from "./Utilities";
 import * as URI from "urijs";
 
 /**
@@ -7,14 +8,14 @@ import * as URI from "urijs";
  * @param {URI} actual the actual value
  * @param {String} name   the name of the value
  * @param {Configuration} config the instance configuration
- *
- * @property {URI} actual the actual value
- * @property {String} name the name of the value
- * @property {Configuration} config the instance configuration
+ * @throws {TypeError} if {@code name} or {@code config} are null or undefined; if {@code actual} is not a {@code URI}
+ * @throws {RangeError} if {@code name} is empty
  * @author Gili Tzabari
  */
 function UriVerifier(actual, name, config)
 {
+	Utilities.verifyValue(actual, "actual", URI);
+	Utilities.verifyName(name, "name");
 	Object.defineProperty(this, "actual",
 		{
 			value: actual

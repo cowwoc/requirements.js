@@ -58,6 +58,11 @@ Utilities.getClassName = function(object)
  */
 Utilities.toString = function(object)
 {
+	if (object === undefined)
+		return "undefined";
+	if (object === null)
+		return "null";
+	// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
 	let current = object;
 	while (true)
 	{
@@ -68,6 +73,48 @@ Utilities.toString = function(object)
 			return current.constructor.prototype.toString.call(object);
 		current = Object.getPrototypeOf(current.constructor.prototype);
 	}
+};
+
+/**
+ * @param {Object} actual the actual value
+ * @param {String} name the name of the value
+ * @param {Object} type the expected type of the value
+ * @throws {TypeError} if value is not of the expected type
+ */
+Utilities.verifyValue = function(value, name, type)
+{
+	if (value === undefined || value === null)
+		return;
+	if (!Utilities.instanceOf(value, type))
+	{
+		const nameOfType = Utilities.getClassName(type);
+		throw new TypeError(name + " must be an instance of " + nameOfType + ".\n" +
+			"Actual: " + Utilities.getClassName(actual));
+	}
+};
+
+/**
+ * @param {String} value a name
+ * @param {String} name the name of the name
+ * @throws {TypeError} if name is undefined or null or not a String
+ * @throws {RangeError} if name is empty
+ */
+Utilities.verifyName = function(value, name)
+{
+	if (name === undefined || name === null)
+	{
+		throw new TypeError(name + " must be set.\n" +
+			"Actual: " + value);
+	}
+	const type = Utilities.getClassName(value);
+	if (type !== "String")
+	{
+		throw new TypeError(name + " must be an instance of String.\n" +
+			"Actual: " + type);
+	}
+	const trimmed = value.trim();
+	if (trimmed.length === 0)
+		throw new RangeError(name + " may not be empty");
 };
 
 export default Utilities;

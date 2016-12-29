@@ -2,6 +2,7 @@ import Utilities from "./Utilities";
 import Configuration from "./Configuration";
 import ObjectVerifier from "./ObjectVerifier";
 import StringVerifier from "./StringVerifier";
+import NumberVerifier from "./NumberVerifier";
 import ArrayVerifier from "./ArrayVerifier";
 import UriVerifier from "./UriVerifier";
 
@@ -13,12 +14,13 @@ import UriVerifier from "./UriVerifier";
  *
  * @constructor
  * @param {Configuration} [config] (optional) the instance configuration
- *
- * @property {Configuration} config the instance configuration
+ * @throws {TypeError} if {@code config} is null
  * @author Gili Tzabari
  */
 function RequirementVerifier(config)
 {
+	if (config === null)
+		throw new TypeError("config may not be null.");
 	if (config === undefined)
 		config = new Configuration(this);
 	Object.defineProperty(this, "config",
@@ -41,8 +43,7 @@ RequirementVerifier.prototype.constructor = RequirementVerifier;
  */
 RequirementVerifier.prototype.requireThat = function(actual, name)
 {
-	if (name !== undefined)
-		new StringVerifier(name, "name", this.config).isNotNull().trim().isNotEmpty();
+	Utilities.verifyName(name, "name");
 	switch (Utilities.getClassName(actual))
 	{
 		case "String":
@@ -51,6 +52,9 @@ RequirementVerifier.prototype.requireThat = function(actual, name)
 		case "Array":
 			//noinspection JSCheckFunctionSignatures
 			return new ArrayVerifier(actual, name, this.config);
+		case "Number":
+			//noinspection JSCheckFunctionSignatures
+			return new NumberVerifier(actual, name, this.config);
 		case "URI":
 			//noinspection JSCheckFunctionSignatures
 			return new UriVerifier(actual, name, this.config);

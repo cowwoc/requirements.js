@@ -1,22 +1,21 @@
 import ObjectVerifier from "./ObjectVerifier";
+import Utilities from "./Utilities";
 
 /**
  * Creates a new NumberVerifier.
  *
  * @constructor
- * @param {Array} actual the actual value
+ * @param {Number} actual the actual value
  * @param {String} name   the name of the value
  * @param {Configuration} config the instance configuration
- *
- * @property {Number} actual the actual value
- * @property {String} name the name of the value
- * @property {Configuration} config the instance configuration
  * @throws {TypeError} if {@code name} or {@code config} are null or undefined
  * @throws {RangeError} if {@code name} is empty
  * @author Gili Tzabari
  */
 function NumberVerifier(actual, name, config)
 {
+	Utilities.verifyValue(actual, "actual", Number);
+	Utilities.verifyName(name, "name");
 	Object.defineProperty(this, "actual",
 		{
 			value: actual
@@ -204,6 +203,142 @@ NumberVerifier.prototype.isSet = function()
 {
 	this.asObject.isSet();
 	return this;
+};
+
+/**
+ * Ensures that the actual value is greater than a value.
+ *
+ * @param {Number} value the lower bound
+ * @param {String} [name]  the name of the lower bound
+ * @return {NumberVerifier} this
+ * @throws {TypeError}      if {@code value} or {@code name} are null
+ * @throws {RangeError}  if the actual value is less than or equal to {@code value}; if {@code name} is empty
+ */
+NumberVerifier.prototype.isGreaterThan = function(value, name)
+{
+	if (name !== undefined)
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+	if (this.actual > value)
+		return this;
+	if (name)
+	{
+		throw this.config.exceptionBuilder(RangeError, this.name + " must be greater than " + name).
+			addContext("Actual", this.actual).
+			addContext("Min", value).
+			build();
+	}
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be greater than: " + Utilities.toString(value)).
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is greater than or equal to a value.
+ *
+ * @param {Number} value the minimum value
+ * @param {String} [name]  the name of the minimum value
+ * @return {NumberVerifier} this
+ * @throws {TypeError}      if {@code value} or {@code name} are null
+ * @throws {RangeError}  if the actual value is less than {@code value}; if {@code name} is empty
+ */
+NumberVerifier.prototype.isGreaterThanOrEqualTo = function(value, name)
+{
+	if (name !== undefined)
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+	if (this.actual >= value)
+		return this;
+	if (name)
+	{
+		throw this.config.exceptionBuilder(RangeError, this.name + " must be greater than or equal to " + name).
+			addContext("Actual", this.actual).
+			addContext("Min", value).
+			build();
+	}
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be greater than or equal to: " +
+		Utilities.toString(value)).
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is less than a value.
+ *
+ * @param {Number} value the upper bound
+ * @param {String} [name]  the name of the upper bound
+ * @return {NumberVerifier} this
+ * @throws {TypeError}      if {@code value} or {@code name} are null
+ * @throws {RangeError}  if the actual value is greater than or equal to {@code value}; if {@code name} is empty
+ */
+NumberVerifier.prototype.isLessThan = function(value, name)
+{
+	if (name !== undefined)
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+	if (this.actual < value)
+		return this;
+	if (name)
+	{
+		throw this.config.exceptionBuilder(RangeError, this.name + " must be less than " + name).
+			addContext("Actual", this.actual).
+			addContext("Max", value).
+			build();
+	}
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be less than: " +
+		Utilities.toString(value)).
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is less or equal to a value.
+ *
+ * @param {Number} value the maximum value
+ * @param {String} [name]  the name of the maximum value
+ * @return {NumberVerifier} this
+ * @throws {TypeError}      if {@code value} or {@code name} are null
+ * @throws {RangeError}  if the actual value is greater than {@code value}; if {@code name} is empty
+ */
+NumberVerifier.prototype.isLessThanOrEqualTo = function(value, name)
+{
+	if (name !== undefined)
+		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+	if (this.actual <= value)
+		return this;
+	if (name)
+	{
+		throw this.config.exceptionBuilder(RangeError, this.name + " must be less than or equal to " + name).
+			addContext("Actual", this.actual).
+			addContext("Max", value).
+			build();
+	}
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be less than or equal to: " +
+		Utilities.toString(value)).
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is within range.
+ *
+ * @param {Number} min the minimum value (inclusive)
+ * @param {Number} max  the maximum value (inclusive)
+ * @return {NumberVerifier} this
+ * @throws {TypeError}      if any of the arguments are null
+ * @throws {RangeError}  if {@code last} is less than {@code first}; if
+ *                                  the actual value is not in range
+ */
+NumberVerifier.prototype.isInRange = function(min, max)
+{
+	this.config.internalVerifier.requireThat(max, "max").isInstanceOf(Number);
+	this.config.internalVerifier.requireThat(min, "min").isInstanceOf(Number).isLessThan(max, "max");
+	if (this.actual >= min && this.actual <= max)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be in range [" + min + ", " + max + "]").
+		addContext("Actual", this.actual).
+		build();
 };
 
 /**
