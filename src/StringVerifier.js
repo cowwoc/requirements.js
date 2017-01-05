@@ -2,6 +2,10 @@ import Utilities from "./Utilities";
 import Pluralizer from "./Pluralizer";
 import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
+import InetAddress from "./InetAddressVerifier";
+
+// See http://stackoverflow.com/a/9209720/14731
+const INTERNET_ADDRESS = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^(?:(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){6})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:::(?:(?:(?:[0-9a-fA-F]{1,4})):){5})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){4})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,1}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){3})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,2}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){2})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,3}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:[0-9a-fA-F]{1,4})):)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,4}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,5}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,6}(?:(?:[0-9a-fA-F]{1,4})))?::))))$/;
 
 /**
  * Creates a new StringVerifier.
@@ -36,8 +40,6 @@ function StringVerifier(actual, name, config)
 			value: new ObjectVerifier(this.actual, this.name, config)
 		});
 }
-StringVerifier.prototype = Object.create(StringVerifier.prototype);
-StringVerifier.prototype.constructor = StringVerifier;
 
 /**
  * Overrides the type of exception that will get thrown if a requirement fails.
@@ -206,8 +208,20 @@ StringVerifier.prototype.trim = function()
  */
 StringVerifier.prototype.length = function()
 {
-	return new ContainerSizeVerifier(this.actual, this.actual.length(), this.name, this.name + ".length()",
+	return new ContainerSizeVerifier(this.actual, this.actual.length, this.name, this.name + ".length",
 		Pluralizer.CHARACTER, this.config);
+};
+
+/**
+ * @param {Function<ContainerSizeVerifier>} consumer a function that accepts a verifier for the length of the string
+ * @return {StringVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+StringVerifier.prototype.lengthConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.length());
+	return this;
 };
 
 /**
@@ -248,9 +262,9 @@ StringVerifier.prototype.isNotEqualTo = function(value, name)
  * @throws {TypeError}  if {@code array} is not an {@code Array}
  * @throws {RangeError} if {@code array} does not contain the actual value
  */
-StringVerifier.prototype.isIn = function(array)
+StringVerifier.prototype.isInArray = function(array)
 {
-	this.asObject.isIn(array);
+	this.asObject.isInArray(array);
 	return this;
 };
 
@@ -293,6 +307,74 @@ StringVerifier.prototype.isNotNull = function()
 };
 
 /**
+ * Ensures that the actual value starts with a value.
+ *
+ * @param prefix the value that the string must start with
+ * @return {StringVerifier} this
+ * @throws {RangeError} if the actual value does not start with {@code prefix}
+ */
+StringVerifier.prototype.startsWith = function(prefix)
+{
+	this.config.internalVerifier.requireThat(prefix, "prefix").isInstanceOf(String);
+	if (this.actual.startsWith(prefix))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must start with \"" + prefix + "\".").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value does not start with a value.
+ *
+ * @param prefix the value that the string must not start with
+ * @return {StringVerifier} this
+ * @throws {RangeError} if the actual value starts with {@code prefix}
+ */
+StringVerifier.prototype.doesNotStartWith = function(prefix)
+{
+	this.config.internalVerifier.requireThat(prefix, "prefix").isInstanceOf(String);
+	if (!this.actual.startsWith(prefix))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not start with \"" + prefix + "\".").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value ends with a value.
+ *
+ * @param suffix the value that the string must end with
+ * @return {StringVerifier} this
+ * @throws {RangeError} if the actual value does not end with {@code suffix}
+ */
+StringVerifier.prototype.endsWith = function(suffix)
+{
+	this.config.internalVerifier.requireThat(suffix, "prefix").isInstanceOf(String);
+	if (this.actual.endsWith(suffix))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must end with \"" + suffix + "\".").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value does not end with a value.
+ *
+ * @param suffix the value that the string must not end with
+ * @return {StringVerifier} this
+ * @throws {RangeError} if the actual value ends with {@code prefix}
+ */
+StringVerifier.prototype.doesNotEndWith = function(suffix)
+{
+	this.config.internalVerifier.requireThat(suffix, "prefix").isInstanceOf(String);
+	if (!this.actual.endsWith(suffix))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not end with \"" + suffix + "\".").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
  * Verifies a String.
  *
  * @return {StringVerifier} a {@code String} verifier
@@ -303,11 +385,50 @@ StringVerifier.prototype.asString = function()
 	return this;
 };
 
+/**
+ * Ensures that the actual value contains a valid Internet address format.
+ *
+ * @return {InetAddressVerifier} a verifier for Internet addresses
+ * @throws {RangeError} if the actual value does not contain a valid Internet address format
+ */
+StringVerifier.prototype.asInetAddress = function()
+{
+	if (INTERNET_ADDRESS.test(this.actual))
+		return new InetAddress(this.actual, this.name, this.config);
+	throw this.config.exceptionBuilder(RangeError, this.name + " must contain a valid IP address or hostname.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value contains a valid URI format.
+ *
+ * @return a verifier for URIs
+ * @throws {RangeError} if the actual value does not contain a valid URI format
+ */
+StringVerifier.prototype.asUri = function()
+{
+	try
+	{
+		new URI("foobar");
+		return this;
+	}
+	catch (e)
+	{
+		if (e instanceof TypeError)
+		{
+			throw this.config.exceptionBuilder(RangeError, this.name + " must contain a URI.").
+				addContext("Actual", this.actual).
+				build();
+		}
+		throw e;
+	}
+};
+
+
 // TODO:
-// asEmailAddress
-// asInetAddress
-// asUri
 // getActual()
 // getActualIfPresent()
+// add consumers to any method that returns new X
 
 export default StringVerifier;

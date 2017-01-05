@@ -1,8 +1,7 @@
 function Pluralizer()
-	{
-	};
-Pluralizer.prototype = Object.create(Pluralizer.prototype);
-Pluralizer.prototype.constructor = Pluralizer;
+{
+};
+
 
 Pluralizer.CHARACTER = new Pluralizer();
 Pluralizer.CHARACTER.nameOf = function(count)

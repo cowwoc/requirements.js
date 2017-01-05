@@ -28,8 +28,6 @@ function RequirementVerifier(config)
 			value: config
 		});
 }
-RequirementVerifier.prototype = Object.create(RequirementVerifier.prototype);
-RequirementVerifier.prototype.constructor = RequirementVerifier;
 
 /**
  * Verifies an object.
@@ -37,14 +35,14 @@ RequirementVerifier.prototype.constructor = RequirementVerifier;
  * @function
  * @param {Object} actual the actual value
  * @param {String} name   the name of the value
- * @return {ObjectVerifier|StringVerifier|ArrayVerifier|UriVerifier} a verifier
+ * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|UriVerifier} a verifier
  * @throws {TypeError} if {@code name} is null
  * @throws {RangeError} if {@code name} is empty
  */
 RequirementVerifier.prototype.requireThat = function(actual, name)
 {
 	Utilities.verifyName(name, "name");
-	switch (Utilities.getClassName(actual))
+	switch (Utilities.getTypeName(actual))
 	{
 		case "String":
 			//noinspection JSCheckFunctionSignatures

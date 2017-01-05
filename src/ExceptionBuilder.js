@@ -2,43 +2,43 @@ import Utilities from "./Utilities";
 
 /**
  * Constructs an exception.
- * @function
+ * @constructs Error
  * @name ExceptionConstructor
  * @param {String} message the exception message
- * @return {Error} the exception instance
  */
 
 /**
  * Builds an exception.
  *
- * @param {ExceptionConstructor} constructor           a function that takes an exception message and returns an
+ * @param {ExceptionConstructor} type a function that takes an exception message and returns an
  *   exception instance
- * @param {String} message        the exception message
+ * @param {String} message the exception message
  * @param {List<Object>} contextPostfix the key-value pairs to append to the context set by the user
  * @throws {TypeError} if any of the arguments are not set
  * @author Gili Tzabari
  */
-function ExceptionBuilder(constructor, message, contextPostfix)
+function ExceptionBuilder(type, message, contextPostfix)
 {
-	if (!constructor)
+	if (!type)
 	{
-		throw new TypeError("constructor must be set.\n" +
-			"Actual: " + Utilities.getClassName(constructor));
+		throw new TypeError("type must be set.\n" +
+			"Actual: " + Utilities.getTypeName(type));
 	}
 	if (!message)
 	{
 		throw new TypeError("message must be set.\n" +
-			"Actual: " + Utilities.getClassName(message));
+			"Actual: " + Utilities.getTypeName(message));
 	}
 	if (!contextPostfix)
 	{
 		throw new TypeError("contextPostfix must be set.\n" +
-			"Actual: " + Utilities.getClassName(contextPostfix));
+			"Actual: " + Utilities.getTypeName(contextPostfix));
 	}
 
 	Object.defineProperty(this, "constructor",
 		{
-			value: constructor
+			value: type,
+			writable: true
 		});
 	Object.defineProperty(this, "message",
 		{
@@ -54,24 +54,22 @@ function ExceptionBuilder(constructor, message, contextPostfix)
 			writable: true
 		});
 }
-ExceptionBuilder.prototype = Object.create(ExceptionBuilder.prototype);
-ExceptionBuilder.prototype.constructor = ExceptionBuilder;
 
 /**
- * @param {ExceptionConstructor} constructor a function that takes an exception message and returns an exception
+ * @param {ExceptionConstructor} type a function that takes an exception message and returns an exception
  *   instance
  * @return {ExceptionBuilder} this
- * @throws {TypeError} if {@code constructor} is not set
+ * @throws {TypeError} if {@code type} is not set
  */
-ExceptionBuilder.prototype.constructor = function(constructor)
+ExceptionBuilder.prototype.type = function(type)
 {
-	if (!constructor)
+	if (!type)
 	{
-		throw new TypeError("constructor must be set." +
-			"Actual: " + Utilities.getClassName(constructor));
+		throw new TypeError("type must be set." +
+			"Actual: " + Utilities.getTypeName(type));
 	}
 
-	this.constructor = constructor;
+	this.constructor = type;
 	return this;
 };
 
@@ -89,12 +87,12 @@ ExceptionBuilder.prototype.addContext = function(key, value)
 	if (typeof(key) !== "string")
 	{
 		throw new TypeError("key must be a String.\n" +
-			"Actual: " + Utilities.getClassName(key));
+			"Actual: " + Utilities.getTypeName(key));
 	}
 	if (!key)
 	{
 		throw new RangeError("key must be set.\n" +
-			"Actual: " + Utilities.getClassName(key));
+			"Actual: " + Utilities.getTypeName(key));
 	}
 	const entry = {};
 	entry[key] = value;
@@ -114,12 +112,12 @@ ExceptionBuilder.prototype.addContextArray = function(context)
 	if (!context)
 	{
 		throw new TypeError("context must be set.\n" +
-			"Actual: " + Utilities.getClassName(context));
+			"Actual: " + Utilities.getTypeName(context));
 	}
 	if (!Array.isArray(context))
 	{
 		throw new TypeError("context must be an Array.\n" +
-			"Actual: " + Utilities.getClassName(context));
+			"Actual: " + Utilities.getTypeName(context));
 	}
 	this.context.push(context);
 	return this;
@@ -154,7 +152,7 @@ ExceptionBuilder.prototype.build = function()
 	}
 	let messageWithContext = contextToAdd.join("\n");
 
-	return this.constructor(messageWithContext.toString());
+	return new this.constructor(messageWithContext.toString());
 };
 
 /**

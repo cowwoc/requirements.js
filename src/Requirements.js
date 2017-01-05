@@ -1,6 +1,6 @@
 import RequirementVerifier from "./RequirementVerifier";
-
-// TODO: Ensure that the method names and Javadoc match in the Java and JS APIs
+import "babel-polyfill";
+// babel-polyfill needed for Object.entries(). See http://stackoverflow.com/a/35382020/14731.
 
 const delegate = new RequirementVerifier();
 
@@ -11,6 +11,8 @@ const delegate = new RequirementVerifier();
  * @param {Object} actual the actual value
  * @param {String} name the name of the value
  * @return {ObjectVerifier} a verifier
+ * @throws {TypeError} if {@code name} is null
+ * @throws {RangeError} if {@code name} is empty
  */
 const requireThat = function(actual, name)
 {

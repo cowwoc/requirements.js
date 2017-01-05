@@ -2,36 +2,16 @@ define(function(require)
 {
 	var registerSuite = require('intern!object');
 	var assert = require('intern/chai!assert');
-	//var URI = require("intern/dojo/node!urijs");
-	var Requirements = require("Requirements");
-	var RequirementVerifier = require("RequirementVerifier");
+	var requireThat = require("Requirements");
 
 	registerSuite(
 		{
 			name: 'ArrayTest',
-
-			nameIsNull: function()
-			{
-				assert.throws(function()
-				{
-					const actual = [];
-					new RequirementVerifier().requireThat(actual, null);
-				}, TypeError);
-			},
-
-			nameIsEmpty: function()
-			{
-				assert.throws(function()
-				{
-					const actual = [];
-					new RequirementVerifier().requireThat(actual, "");
-				}, RangeError)
-			},
-
+			
 			isEmpty: function()
 			{
 				const actual = [];
-				new RequirementVerifier().requireThat(actual, "actual").isEmpty();
+				requireThat(actual, "actual").isEmpty();
 			},
 
 			isEmpty_actualContainsOneElement: function()
@@ -39,14 +19,14 @@ define(function(require)
 				assert.throws(function()
 				{
 					const actual = ["element"];
-					new RequirementVerifier().requireThat(actual, "actual").isEmpty();
+					requireThat(actual, "actual").isEmpty();
 				}, RangeError);
 			},
 
 			isNotEmpty: function()
 			{
 				const actual = ["element"];
-				new RequirementVerifier().requireThat(actual, "actual").isNotEmpty();
+				requireThat(actual, "actual").isNotEmpty();
 			},
 
 			isNotEmpty_False: function()
@@ -54,14 +34,14 @@ define(function(require)
 				assert.throws(function()
 				{
 					const actual = [];
-					new RequirementVerifier().requireThat(actual, "actual").isNotEmpty();
+					requireThat(actual, "actual").isNotEmpty();
 				}, RangeError);
 			},
 
 			contains: function()
 			{
 				const actual = ["element"]
-				new RequirementVerifier().requireThat(actual, "actual").contains("element");
+				requireThat(actual, "actual").contains("element");
 			},
 
 			contains_False: function()
@@ -69,14 +49,14 @@ define(function(require)
 				assert.throws(function()
 				{
 					const actual = ["notElement"];
-					new RequirementVerifier().requireThat(actual, "actual").contains("element");
+					requireThat(actual, "actual").contains("element");
 				}, RangeError);
 			},
 
 			containsVariable: function()
 			{
 				const actual = ["element"];
-				new RequirementVerifier().requireThat(actual, "actual").contains("element", "nameOfExpected");
+				requireThat(actual, "actual").contains("element", "nameOfExpected");
 			},
 
 			containsVariable_False: function()
@@ -84,7 +64,7 @@ define(function(require)
 				assert.throws(function()
 				{
 					const actual = ["notElement"];
-					new RequirementVerifier().requireThat(actual, "actual").contains("element", "nameOfExpected");
+					requireThat(actual, "actual").contains("element", "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -93,7 +73,7 @@ define(function(require)
 				assert.throws(function()
 				{
 					const actual = ["element"];
-					new RequirementVerifier().requireThat(actual, "actual").contains(" ");
+					requireThat(actual, "actual").contains(" ");
 				}, RangeError);
 			},
 
@@ -105,7 +85,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
+				requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
 			},
 
 			containsExactly_actualContainsUnwantedElements: function()
@@ -118,7 +98,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two"]);
+					requireThat(actual, "actual").containsExactly(["one", "two"]);
 				}, RangeError);
 			},
 
@@ -131,7 +111,7 @@ define(function(require)
 							"one",
 							"two"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
+					requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
 				}, RangeError);
 			},
 
@@ -144,7 +124,7 @@ define(function(require)
 							"one",
 							"two"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two", "three"], "expected");
+					requireThat(actual, "actual").containsExactly(["one", "two", "three"], "expected");
 				}, RangeError);
 			},
 
@@ -156,7 +136,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsExactly(
+				requireThat(actual, "actual").containsExactly(
 					["one", "two", "three"], "nameOfExpected");
 			},
 
@@ -170,7 +150,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two"], "nameOfExpected");
+					requireThat(actual, "actual").containsExactly(["one", "two"], "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -184,7 +164,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsExactly(["one", "two", "three"], " ");
+					requireThat(actual, "actual").containsExactly(["one", "two", "three"], " ");
 				}, RangeError);
 			},
 
@@ -196,7 +176,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsAny(["two", "four"]);
+				requireThat(actual, "actual").containsAny(["two", "four"]);
 			},
 
 			containsAny_False: function()
@@ -209,7 +189,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAny(["four", "five"]);
+					requireThat(actual, "actual").containsAny(["four", "five"]);
 				}, RangeError);
 			},
 
@@ -221,7 +201,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsAny(["two", "four"], "nameOfExpected");
+				requireThat(actual, "actual").containsAny(["two", "four"], "nameOfExpected");
 			},
 
 			containsAnyVariable_False: function()
@@ -234,7 +214,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAny(["four", "five"], "nameOfExpected");
+					requireThat(actual, "actual").containsAny(["four", "five"], "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -248,7 +228,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAny(["two", "four"], " ");
+					requireThat(actual, "actual").containsAny(["two", "four"], " ");
 				}, RangeError);
 			},
 
@@ -260,7 +240,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsAll(["two", "three"]);
+				requireThat(actual, "actual").containsAll(["two", "three"]);
 			},
 
 			containsAll_False: function()
@@ -273,7 +253,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAll(["two", "four"]);
+					requireThat(actual, "actual").containsAll(["two", "four"]);
 				}, RangeError);
 			},
 
@@ -285,7 +265,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").containsAll(["two", "three"], "nameOfExpected");
+				requireThat(actual, "actual").containsAll(["two", "three"], "nameOfExpected");
 			},
 
 			containsAllVariable_False: function()
@@ -298,7 +278,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAll(["two", "four"], "nameOfExpected");
+					requireThat(actual, "actual").containsAll(["two", "four"], "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -312,7 +292,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").containsAll(["two", "three"], " ");
+					requireThat(actual, "actual").containsAll(["two", "three"], " ");
 				}, RangeError);
 			},
 
@@ -322,7 +302,7 @@ define(function(require)
 					[
 						"notElement"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContain("element");
+				requireThat(actual, "actual").doesNotContain("element");
 			},
 
 			doesNotContain_False: function()
@@ -333,7 +313,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContain("element");
+					requireThat(actual, "actual").doesNotContain("element");
 				}, RangeError);
 			},
 
@@ -343,7 +323,7 @@ define(function(require)
 					[
 						"notElement"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
+				requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
 			},
 
 			doesNotContainVariable_False: function()
@@ -354,7 +334,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
+					requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -366,7 +346,7 @@ define(function(require)
 						[
 							"notElement"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContain("element", " ");
+					requireThat(actual, "actual").doesNotContain("element", " ");
 				}, RangeError);
 			},
 
@@ -378,7 +358,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"]);
+				requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"]);
 			},
 
 			doesNotContainAny_False: function()
@@ -391,7 +371,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAny(["three", "four", "five"]);
+					requireThat(actual, "actual").doesNotContainAny(["three", "four", "five"]);
 				}, RangeError);
 			},
 
@@ -403,7 +383,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"],
+				requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"],
 					"nameOfExpected");
 			},
 
@@ -417,7 +397,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAny(["three", "four", "five"],
+					requireThat(actual, "actual").doesNotContainAny(["three", "four", "five"],
 						"nameOfExpected");
 				}, RangeError);
 			},
@@ -432,7 +412,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"], " ");
+					requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"], " ");
 				}, RangeError);
 			},
 
@@ -444,7 +424,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"]);
+				requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"]);
 			},
 
 			doesNotContainAll_False: function()
@@ -458,7 +438,7 @@ define(function(require)
 							"three",
 							"four"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"]);
+					requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"]);
 				}, RangeError);
 			},
 
@@ -470,7 +450,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"],
+				requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"],
 					"nameOfExpected");
 			},
 
@@ -485,7 +465,7 @@ define(function(require)
 							"three",
 							"four"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"],
+					requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"],
 						"nameOfExpected");
 				}, RangeError);
 			},
@@ -500,7 +480,7 @@ define(function(require)
 							"two",
 							"three"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
+					requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
 				}, RangeError);
 			},
 
@@ -512,7 +492,7 @@ define(function(require)
 						"two",
 						"three"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
+				requireThat(actual, "actual").doesNotContainDuplicates();
 			},
 
 			doesNotContainDuplicates_False: function()
@@ -527,7 +507,7 @@ define(function(require)
 							"two",
 							"four"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").doesNotContainDuplicates();
+					requireThat(actual, "actual").doesNotContainDuplicates();
 				}, RangeError);
 			},
 
@@ -537,7 +517,7 @@ define(function(require)
 					[
 						"element"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1);
+				requireThat(actual, "actual").length().isEqualTo(1);
 			},
 
 			lengthIsEqualTo_False: function()
@@ -548,7 +528,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2);
+					requireThat(actual, "actual").length().isEqualTo(2);
 				}, RangeError);
 			},
 
@@ -558,7 +538,7 @@ define(function(require)
 					[
 						"element"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
+				requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
 			},
 
 			lengthIsEqualToVariable_False: function()
@@ -569,7 +549,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(2, "nameOfExpected");
+					requireThat(actual, "actual").length().isEqualTo(2, "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -581,7 +561,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isEqualTo(1, " ");
+					requireThat(actual, "actual").length().isEqualTo(1, " ");
 				}, RangeError);
 			},
 
@@ -591,7 +571,7 @@ define(function(require)
 					[
 						"element"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2);
+				requireThat(actual, "actual").length().isNotEqualTo(2);
 			},
 			lengthIsNotEqualTo_False: function()
 			{
@@ -601,7 +581,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1);
+					requireThat(actual, "actual").length().isNotEqualTo(1);
 				}, RangeError);
 			},
 
@@ -611,7 +591,7 @@ define(function(require)
 					[
 						"element"
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
+				requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
 			},
 
 			lengthIsNotEqualToVariable_False: function()
@@ -622,7 +602,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
+					requireThat(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
 				}, RangeError);
 			},
 
@@ -634,7 +614,7 @@ define(function(require)
 						[
 							"element"
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isNotEqualTo(2, " ");
+					requireThat(actual, "actual").length().isNotEqualTo(2, " ");
 				}, RangeError);
 			},
 
@@ -646,7 +626,7 @@ define(function(require)
 						2,
 						3
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
 			isInRange_expectedIsInBounds: function()
@@ -658,7 +638,7 @@ define(function(require)
 						3,
 						4
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
 			isInRange_expectedIsUpperBound: function()
@@ -671,7 +651,7 @@ define(function(require)
 						4,
 						5
 					];
-				new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
 			isInRange_expectedIsBelow: function()
@@ -683,7 +663,7 @@ define(function(require)
 							1,
 							2
 						];
-					new RequirementVerifier().requireThat(actual, "actual").length().isInRange(3, 5);
+					requireThat(actual, "actual").length().isInRange(3, 5);
 				}, RangeError);
 			}
 		});

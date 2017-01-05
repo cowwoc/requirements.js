@@ -50,8 +50,6 @@ function ContainerSizeVerifier(container, size, containerName, sizeName, plurali
 			value: new NumberVerifier(size, sizeName, config)
 		});
 }
-ContainerSizeVerifier.prototype = Object.create(ContainerSizeVerifier.prototype);
-ContainerSizeVerifier.prototype.constructor = ContainerSizeVerifier;
 
 /**
  * Overrides the type of exception that will get thrown if a requirement fails.
@@ -142,9 +140,9 @@ ContainerSizeVerifier.prototype.isNotEqualTo = function(value, name)
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value
  */
-ContainerSizeVerifier.prototype.isIn = function(array)
+ContainerSizeVerifier.prototype.isInArray = function(array)
 {
-	this.asNumber.isIn(array);
+	this.asNumber.isInArray(array);
 	return this;
 };
 

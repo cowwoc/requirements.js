@@ -63,7 +63,5 @@ SetVerifier.prototype.withException = function(exception)
 		return this;
 	return new SetVerifier(this.actual, this.name, newConfig);
 };
-SetVerifier.prototype = Object.create(SetVerifier.prototype);
-SetVerifier.prototype.constructor = SetVerifier;
 
 export default SetVerifier;

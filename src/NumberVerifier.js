@@ -33,8 +33,6 @@ function NumberVerifier(actual, name, config)
 			value: new ObjectVerifier(this.actual, this.name, config)
 		});
 }
-NumberVerifier.prototype = Object.create(NumberVerifier.prototype);
-NumberVerifier.prototype.constructor = NumberVerifier;
 
 /**
  * Overrides the type of exception that will get thrown if a requirement fails.
@@ -125,9 +123,9 @@ NumberVerifier.prototype.isNotEqualTo = function(value, name)
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value
  */
-NumberVerifier.prototype.isIn = function(array)
+NumberVerifier.prototype.isInArray = function(array)
 {
-	this.asObject.isIn(array);
+	this.asObject.isInArray(array);
 	return this;
 };
 
@@ -203,6 +201,95 @@ NumberVerifier.prototype.isSet = function()
 {
 	this.asObject.isSet();
 	return this;
+};
+
+/**
+ * Ensures that the actual value is negative.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if the actual value is not negative
+ */
+NumberVerifier.prototype.isNegative = function()
+{
+	if (this.actual < 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be negative.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is not negative.
+ *
+ * @return {NumberVerifier this
+ * @throws {RangeError} if the actual value is negative
+ */
+NumberVerifier.prototype.isNotNegative = function()
+{
+	if (this.actual >= 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not be negative.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is zero.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if the actual value is not zero
+ */
+NumberVerifier.prototype.isZero = function()
+{
+	if (this.actual === 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be zero.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is not zero.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if the actual value is zero
+ */
+NumberVerifier.prototype.isNotZero = function()
+{
+	if (this.actual !== 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not be zero").
+		build();
+};
+
+/**
+ * Ensures that the actual value is positive.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if the actual value is not positive
+ */
+NumberVerifier.prototype.isPositive = function()
+{
+	if (this.actual > 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be positive.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is not positive.
+ *
+ * @return {NumberVerifier this
+ * @throws {RangeError} if the actual value is positive
+ */
+NumberVerifier.prototype.isNotPositive = function()
+{
+	if (this.actual <= 0)
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not be positive.").
+		addContext("Actual", this.actual).
+		build();
 };
 
 /**
@@ -337,6 +424,70 @@ NumberVerifier.prototype.isInRange = function(min, max)
 	if (this.actual >= min && this.actual <= max)
 		return this;
 	throw this.config.exceptionBuilder(RangeError, this.name + " must be in range [" + min + ", " + max + "]").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is a number.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if actual value is not a number
+ */
+NumberVerifier.prototype.isNumber = function()
+{
+	// See http://stackoverflow.com/a/1830844/14731
+	if (!Number.isNaN(parseFloat(this.actual)))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be a number.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is not a number.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if actual value is a number
+ */
+NumberVerifier.prototype.isNotNumber = function()
+{
+	// See http://stackoverflow.com/a/1830844/14731
+	if (Number.isNaN(parseFloat(this.actual)))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not be a number.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is a finite number.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if actual value is not a finite number
+ */
+NumberVerifier.prototype.isFinite = function()
+{
+	// See http://stackoverflow.com/a/1830844/14731
+	if (Number.isFinite(this.actual))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " must be finite.").
+		addContext("Actual", this.actual).
+		build();
+};
+
+/**
+ * Ensures that the actual value is not a finite number.
+ *
+ * @return {NumberVerifier} this
+ * @throws {RangeError} if actual value is a finite number
+ */
+NumberVerifier.prototype.isNotFinite = function()
+{
+	// See http://stackoverflow.com/a/1830844/14731
+	if (!Number.isFinite(this.actual))
+		return this;
+	throw this.config.exceptionBuilder(RangeError, this.name + " may not be finite.").
 		addContext("Actual", this.actual).
 		build();
 };

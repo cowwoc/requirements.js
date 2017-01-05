@@ -2,7 +2,7 @@ const Utilities = {};
 
 /**
  * @param {Object} value a value
- * @param {Object} type a type (e.g. String not "string")
+ * @param {Object} type a type (e.g. {@code String} not "string")
  * @return {Boolean} true if {@code value} is of type {@code type}; false if {@code value} or {@code type} are null,
  * undefined or unequal
  */
@@ -17,39 +17,108 @@ Utilities.instanceOf = function(value, type)
 };
 
 /**
- * Returns an object's class name.
+ * @param {Object} child the child class
+ * @param {Object} parent the parent class
+ * @return {Boolean} true if {@code child} extends {@code parent}; false if {@code parent} or {@code child} are null or
+ *   undefined; false if {@code child} does not extend {@code parent}
+ */
+Utilities.extends = function(child, parent)
+{
+	if (child === undefined || child === null || parent == undefined || parent === null)
+		return false;
+	return child.prototype instanceof parent;
+};
+
+/**
+ * Returns the name of an object's type.
+ *
+ * If the input is undefined, returns "Undefined".
+ * If the input is null, returns "Null".
+ * If the input is a boolean, returns "Boolean".
+ * If the input is a number, returns "Number".
+ * If the input is a string, returns "String".
+ * If the input is a named function or a class constructor, returns "Function".
+ * If the input is an anonymous function, returns "AnonymousFunction".
+ * If the input is an arrow function, returns "ArrowFunction".
+ * If the input is a class instance, returns "Object".
  *
  * @param {Object} object an object
  * @return {String} the name of the object's class
  * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
+ * @see Utilities.getFunctionName
+ * @see Utilities.getObjectClass
  */
-Utilities.getClassName = function(object)
+Utilities.getTypeName = function(object)
 {
-	// We cannot modify Object.prototype directly because libraries like JQuery blow up:
-	// http://stackoverflow.com/q/14941657/14731
-	// See also http://sugarjs.com/native#enumerable_properties.
-	if (object === undefined)
-		return "undefined";
-	if (object === null)
-		return "null";
-
-	let results = object.constructor.toString().match(/^function ([^(]+)\(/);
-	if (results && results.length > 1)
+	const objectToString = Object.prototype.toString.call(object).slice(8, -1);
+	if (objectToString === "Function")
 	{
-		if (object === Array)
-			return "Array";
-		let constructor = results[1];
-		if (constructor === "Function")
-		{
-			// Built-in types (e.g. String)
-			return object.toString().match(/^function ([^(]+)\(/)[1];
-		}
-		// User-defined types
-		return constructor;
+		const instanceToString = object.toString();
+		if (instanceToString.indexOf(" => ") != -1)
+			return "ArrowFunction";
+		const getFunctionName = /^function ([^(]+)\(/;
+		const match = instanceToString.match(getFunctionName);
+		if (match === null)
+			return "AnonymousFunction";
+		return "Function";
 	}
+	// Built-in types (e.g. String) or class instances
+	return objectToString;
+};
 
-	// Instances of built-in types (e.g. "abc")
-	return Object.prototype.toString.call(object).match(/^\[object (.*)\]$/)[1];
+/**
+ * Returns the name of a function or class.
+ *
+ * If the input is an anonymous function, returns "".
+ * If the input is an arrow function, returns "=>".
+ *
+ * @param {Function} fn a function
+ * @return {String} the name of the function
+ * @throws {TypeError} if {@code fn} is not a function
+ * @see Utilities.getTypeName
+ */
+Utilities.getFunctionName = function(fn)
+{
+	try
+	{
+		const instanceToString = fn.toString();
+		if (instanceToString.indexOf(" => ") != -1)
+			return "=>";
+		const getFunctionName = /^function ([^(]+)\(/;
+		const match = instanceToString.match(getFunctionName);
+		if (match === null)
+		{
+			const objectToString = Object.prototype.toString.call(fn).slice(8, -1);
+			if (objectToString === "Function")
+				return "";
+			throw TypeError("object must be a Function.\n" +
+				"Actual: " + Utilities.getTypeName(fn));
+		}
+		return match[1];
+	}
+	catch (e)
+	{
+		throw TypeError("object must be a Function.\n" +
+			"Actual: " + Utilities.getTypeName(fn));
+	}
+};
+
+/**
+ * @param {Object} object an object
+ * @return {String} the name of the object's class
+ * @throws {TypeError} if {@code object} is not an Object
+ * @see Utilities.getTypeName
+ */
+Utilities.getObjectClass = function(object)
+{
+	const getFunctionName = /^function ([^(]+)\(/;
+	const result = object.constructor.toString().match(getFunctionName)[1];
+	if (result === "Function")
+	{
+		throw TypeError("object must be an Object.\n" +
+			"Actual: " + Utilities.getTypeName(object));
+	}
+	return result;
 };
 
 /**
@@ -64,14 +133,22 @@ Utilities.toString = function(object)
 		return "null";
 	// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
 	let current = object;
+	switch (Utilities.getTypeName(current))
+	{
+		case "Array":
+			return "[" + current.join(", ") + "]";
+		case "Object":
+			if (Utilities.getObjectClass(current) === "Object")
+				return JSON.stringify(current);
+	}
 	while (true)
 	{
-		if (Utilities.getClassName(current) === "Object")
-			return JSON.stringify(current);
 		// See http://stackoverflow.com/a/22445303/14731
 		if (current.constructor.prototype.hasOwnProperty("toString"))
 			return current.constructor.prototype.toString.call(object);
 		current = Object.getPrototypeOf(current.constructor.prototype);
+		if (Utilities.getTypeName(current) === "Object" && Utilities.getObjectClass(current) === "Object")
+			return JSON.stringify(current);
 	}
 };
 
@@ -87,9 +164,9 @@ Utilities.verifyValue = function(value, name, type)
 		return;
 	if (!Utilities.instanceOf(value, type))
 	{
-		const nameOfType = Utilities.getClassName(type);
+		const nameOfType = Utilities.getTypeName(type);
 		throw new TypeError(name + " must be an instance of " + nameOfType + ".\n" +
-			"Actual: " + Utilities.getClassName(actual));
+			"Actual: " + Utilities.getTypeName(actual));
 	}
 };
 
@@ -106,7 +183,7 @@ Utilities.verifyName = function(value, name)
 		throw new TypeError(name + " must be set.\n" +
 			"Actual: " + value);
 	}
-	const type = Utilities.getClassName(value);
+	const type = Utilities.getTypeName(value);
 	if (type !== "String")
 	{
 		throw new TypeError(name + " must be an instance of String.\n" +

@@ -37,8 +37,6 @@ function Configuration(internalVerifier, exceptionOverride, context)
 			value: []
 		});
 }
-Configuration.prototype = Object.create(Configuration.prototype);
-Configuration.prototype.constructor = Configuration;
 
 /**
  * Overrides the type of exception that will get thrown if a requirement fails.
@@ -50,21 +48,24 @@ Configuration.prototype.constructor = Configuration;
  * @param {Error} exception the type of exception to throw, {@code null} to throw the default exception
  *                  type
  * @return {Configuration} a configuration with the specified exception override
- * @throws {TypeError} if {@code exception} is not an Error
+ * @throws {TypeError} if {@code exception} is undefined; if {@code exception} is not null or an {@code Error}
  * @see #getException()
  */
 Configuration.prototype.withException = function(exception)
 {
-	switch (typeof(exception))
+	switch (Utilities.getTypeName(exception))
 	{
-		case "undefined":
+		case "Undefined":
 			throw new TypeError("exception may not be undefined");
-		case "Error":
-			break;
+		case "Function":
+		{
+			if (Utilities.extends(exception, Error))
+				break;
+		}
 		default:
 		{
 			throw new TypeError("exception must be an Error.\n" +
-				Utilities.getClassName(exception));
+				"Actual: " + Utilities.getTypeName(exception));
 		}
 	}
 	if (exception === this.exceptionOverride)
@@ -96,12 +97,12 @@ Configuration.prototype.addContext = function(key, value)
 	if (typeof(key) !== "string")
 	{
 		throw new TypeError("key must be a String.\n" +
-			"Actual: " + Utilities.getClassName(key));
+			"Actual: " + Utilities.getTypeName(key));
 	}
 	if (!key)
 	{
 		throw new RangeError("key must be set.\n" +
-			"Actual: " + Utilities.getClassName(key));
+			"Actual: " + Utilities.getTypeName(key));
 	}
 	const newContext = [...this.context, {key: value}];
 	return new Configuration(this.internalVerifier, this.exceptionOverride, newContext);
@@ -124,12 +125,12 @@ Configuration.prototype.withContext = function(context)
 	if (!Array.isArray(context))
 	{
 		throw new TypeError("context must be an array.\n" +
-			"Actual: " + Utilities.getClassName(context));
+			"Actual: " + Utilities.getTypeName(context));
 	}
 	if (!context)
 	{
 		throw new RangeError("context must be set.\n" +
-			"Actual: " + Utilities.getClassName(context));
+			"Actual: " + Utilities.getTypeName(context));
 	}
 	let i = 0;
 	for (let entry of context)
@@ -138,12 +139,12 @@ Configuration.prototype.withContext = function(context)
 		if (typeof(key) !== "string")
 		{
 			throw new TypeError("context.key must be a String at index " + i + ".\n" +
-				"Actual: " + Utilities.getClassName(key));
+				"Actual: " + Utilities.getTypeName(key));
 		}
 		if (!key)
 		{
 			throw new RangeError("context.key must be set at index " + i + ".\n" +
-				"Actual: " + Utilities.getClassName(key));
+				"Actual: " + Utilities.getTypeName(key));
 		}
 		++i;
 	}

@@ -40,11 +40,10 @@ define({
 		// Packages that should be registered with the loader in each testing environment
 		packages: [
 			//{name: "Requirements", location: "build/bundle-as-es5", main: "Requirements"},
-			// {name: "urijs", location: "node_modules/urijs/src", main: "URI"}
+			//{name: "urijs", location: "node_modules/urijs/src", main: "URI"}
 		],
 		paths: {
-			"Requirements": "build/amd/Requirements",
-			"RequirementVerifier": "build/amd/RequirementVerifier"
+			"Requirements": "build/amd/Requirements"
 		}
 	},
 

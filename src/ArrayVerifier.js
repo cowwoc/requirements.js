@@ -35,8 +35,6 @@ function ArrayVerifier(actual, name, config)
 			value: new ObjectVerifier(this.actual, this.name, config)
 		});
 }
-ArrayVerifier.prototype = Object.create(ArrayVerifier.prototype);
-ArrayVerifier.prototype.constructor = ArrayVerifier;
 
 /**
  * Overrides the type of exception that will get thrown if a requirement fails.
@@ -127,9 +125,9 @@ ArrayVerifier.prototype.isNotEqualTo = function(value, name)
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value
  */
-ArrayVerifier.prototype.isIn = function(array)
+ArrayVerifier.prototype.isInArray = function(array)
 {
-	this.asObject.isIn(array);
+	this.asObject.isInArray(array);
 	return this;
 };
 
@@ -526,7 +524,5 @@ ArrayVerifier.prototype.length = function()
 	return new ContainerSizeVerifier(this.actual, this.actual.length, this.name, this.name + ".length", Pluralizer.ELEMENT,
 		this.config);
 };
-ArrayVerifier.prototype = Object.create(ArrayVerifier.prototype);
-ArrayVerifier.prototype.constructor = ArrayVerifier;
 
 export default ArrayVerifier;
