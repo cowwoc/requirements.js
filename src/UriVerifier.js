@@ -1,6 +1,6 @@
 import Utilities from "./Utilities";
 import ObjectVerifier from "./ObjectVerifier";
-import * as URI from "urijs";
+import URI from "urijs";
 
 /**
  * Creates a new UriVerifier.
@@ -133,6 +133,8 @@ UriVerifier.prototype.isInArray = function(array)
 /**
  * Ensures that the actual value is an instance of a type.
  *
+ * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
+ *
  * @param type the type  to compare to
  * @return {UriVerifier} this
  * @throws {TypeError}  if {@code type} is undefined, null, anonymous function, arrow function or an object
@@ -220,12 +222,12 @@ UriVerifier.prototype.isNotSet = function()
  * Ensures that the URI is absolute.
  *
  * @return {UriVerifier} this
- * @throws {TypeError} if the path is not absolute
+ * @throws {RangeError} if the path is not absolute
  */
 UriVerifier.prototype.isAbsolute = function()
 {
 	if (!this.actual.is("absolute"))
-		throw new TypeError(this.name + " must be absolute: " + this.actual.toString());
+		throw new RangeError(this.name + " must be absolute: " + this.actual.toString());
 	return this;
 };
 
@@ -233,12 +235,12 @@ UriVerifier.prototype.isAbsolute = function()
  * Ensures that the URI is relative.
  *
  * @return {UriVerifier} this
- * @throws {TypeError} if the path is not a relative
+ * @throws {RangeError} if the path is not a relative
  */
 UriVerifier.prototype.isRelative = function()
 {
 	if (!this.actual.is("relative"))
-		throw new TypeError(this.name + " must be relative: " + this.actual.toString());
+		throw new RangeError(this.name + " must be relative: " + this.actual.toString());
 	return this;
 };
 

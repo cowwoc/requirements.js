@@ -1,13 +1,13 @@
-define(function(require)
-{
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var requireThat = require("Requirements");
-	var URI = require("urijs");
+import registerSuite from "intern!object";
+import assert from "intern/chai!assert";
+import requireThat from "./Requirements";
+import URI from "urijs";
 
+define(function()
+{
 	registerSuite(
 		{
-			name: 'UriTest',
+			name: "UriTest",
 
 			isAbsolute: function()
 			{

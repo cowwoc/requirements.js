@@ -26,29 +26,29 @@ define({
 	],
 
 	// Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
-	maxConcurrency: 1,//2,
+	maxConcurrency: 2,
 
 	// Name of the tunnel class to use for WebDriver tests.
 	// See <https://theintern.github.io/intern/#option-tunnel> for built-in options
 	tunnel: "BrowserStackTunnel",
 
+	loaders: {
+		// WORKAROUND: https://github.com/theintern/intern/issues/708#issuecomment-270720242
+		"host-node": "../../node_modules/requirejs"
+	},
 	// Configuration options for the module loader; any AMD configuration options supported by the AMD loader in use
 	// can be used here.
 	// If you want to use a different loader than the default loader, see
 	// <https://theintern.github.io/intern/#option-useLoader> for more information.
 	loaderOptions: {
 		// Packages that should be registered with the loader in each testing environment
-		packages: [
-			//{name: "Requirements", location: "build/bundle-as-es5", main: "Requirements"},
-			//{name: "urijs", location: "node_modules/urijs/src", main: "URI"}
-		],
 		paths: {
 			"Requirements": "build/amd/Requirements"
 		}
 	},
 
 	// Unit test suite(s) to run in each browser
-	suites: ["test/unit/*.js"],
+	suites: ["build/test/unit/*.js"],
 
 	// Functional test suite(s) to execute against each browser once unit tests are completed
 	functionalSuites: [/* "myPackage/tests/functional" */],

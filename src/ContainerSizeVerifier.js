@@ -149,6 +149,8 @@ ContainerSizeVerifier.prototype.isInArray = function(array)
 /**
  * Ensures that the actual value is an instance of a type.
  *
+ * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
+ *
  * @param type the type  to compare to
  * @return {ContainerSizeVerifier} this
  * @throws {TypeError}  if {@code type} is null

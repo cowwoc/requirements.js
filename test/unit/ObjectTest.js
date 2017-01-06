@@ -1,9 +1,9 @@
-define(function(require)
-{
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var requireThat = require("Requirements");
+import registerSuite from "intern!object";
+import assert from "intern/chai!assert";
+import requireThat from "./Requirements";
 
+define(function()
+{
 	// See http://stackoverflow.com/a/27724419/14731
 	function IllegalArgumentException(message)
 	{
@@ -13,7 +13,7 @@ define(function(require)
 			Error.captureStackTrace(this, IllegalArgumentException);
 		else
 		{
-			Object.defineProperty(this, 'stack', {
+			Object.defineProperty(this, "stack", {
 				value: (new Error(message)).stack
 			});
 		}
@@ -25,7 +25,7 @@ define(function(require)
 
 	registerSuite(
 		{
-			name: 'ObjectTest',
+			name: "ObjectTest",
 
 			nameIsNull: function()
 			{

@@ -158,6 +158,8 @@ ObjectVerifier.prototype.isInArray = function(array)
 /**
  * Ensures that the actual value is an instance of a type.
  *
+ * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
+ *
  * @param type the type  to compare to
  * @return {ObjectVerifier} this
  * @throws {TypeError}  if {@code type} is undefined, null, anonymous function, arrow function or an object

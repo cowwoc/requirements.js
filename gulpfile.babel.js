@@ -1,12 +1,13 @@
 import gulp from "gulp";
-// See http://stackoverflow.com/a/27732401/14731
 import babel from "gulp-babel";
 import rollup from "gulp-rollup";
+import rollupJs from "rollup";
 import rollupBabel from "rollup-plugin-babel";
 import sourcemaps from "gulp-sourcemaps";
 import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import intern from "gulp-intern";
+import bower from "gulp-bower";
 import bowerResolve from "rollup-plugin-bower-resolve";
 import eslint from "gulp-eslint";
 const rollupBabelConfiguration =
@@ -22,7 +23,7 @@ const rollupBabelConfiguration =
 				}
 			]
 		],
-		exclude: 'node_modules/**',
+		exclude: "node_modules/**",
 		plugins: [
 			"external-helpers"
 		]
@@ -40,30 +41,31 @@ gulp.task("lint", function()
 		pipe(eslint.failOnError());
 });
 
-gulp.task("bundle-for-browser", function()
+gulp.task("bower", function()
+{
+	return bower();
+});
+
+gulp.task("bundle-for-browser", ["bower"], function()
 {
 	return gulp.src("src/*.js").
 		pipe(sourcemaps.init()).
 		pipe(rollup(
 			{
+				rollup: rollupJs,
 				entry: "src/Requirements.js",
 				format: "iife",
 				// See https://github.com/rollup/rollup/issues/772#issuecomment-231299803
 				allowRealFiles: true,
 				moduleName: "requireThat",
-				moduleContext: {
-					"bower_components/urijs/src/URI.js": "window",
-					"bower_components/sugar/dist/sugar.js": "window"
-				},
 				plugins: [
 					bowerResolve(),
 					rollupBabel(rollupBabelConfiguration)
 				],
-				external: ["urijs", "sugar", "babel-polyfill"],
+				external: ["urijs", "sugar"],
 				globals: {
 					urijs: "URI",
 					sugar: "Sugar",
-					"babel-polyfill": "_babelPolyfill"
 				}
 			})).
 		pipe(sourcemaps.write()).
@@ -76,10 +78,12 @@ gulp.task("bundle-for-amd", function()
 		pipe(sourcemaps.init()).
 		pipe(rollup(
 			{
+				rollup: rollupJs,
 				entry: "src/Requirements.js",
 				format: "amd",
 				// See https://github.com/rollup/rollup/issues/772#issuecomment-231299803
 				allowRealFiles: true,
+				external: ["urijs"],
 				moduleName: "Requirements",
 				plugins: [
 					nodeResolve({jsnext: true, main: true}),
@@ -100,7 +104,7 @@ gulp.task("test-as-es5", function()
 		pipe(gulp.dest("build/test/unit"));
 });
 
-gulp.task("test", ["bundle-for-amd"], function() // "test-as-es5"
+gulp.task("test", ["bundle-for-amd", "test-as-es5"], function()
 {
 	return gulp.src("build/test/unit/*.js").
 		pipe(gulp.dest("build/intern")).

@@ -1,13 +1,13 @@
-define(function(require)
-{
-	var registerSuite = require('intern!object');
-	var assert = require('intern/chai!assert');
-	var requireThat = require("Requirements");
+import registerSuite from "intern!object";
+import assert from "intern/chai!assert";
+import requireThat from "./Requirements";
 
+define(function()
+{
 	registerSuite(
 		{
-			name: 'ArrayTest',
-			
+			name: "ArrayTest",
+
 			isEmpty: function()
 			{
 				const actual = [];

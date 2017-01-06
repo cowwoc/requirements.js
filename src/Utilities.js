@@ -5,15 +5,46 @@ const Utilities = {};
  * @param {Object} type a type (e.g. {@code String} not "string")
  * @return {Boolean} true if {@code value} is of type {@code type}; false if {@code value} or {@code type} are null,
  * undefined or unequal
+ * @throws {TypeError} if {@code type} is not a constructor
  */
 Utilities.instanceOf = function(value, type)
 {
 	if ((value === undefined || value === null || type === undefined || type === null) && value !== type)
 		return false;
-	// instanceof works for most objects, constructor works for literals
-	// http://stackoverflow.com/a/1185835/14731
-	return value instanceof type || value.constructor === type ||
-		value.constructor instanceof type;
+	// instanceof only works for non-primitives: http://stackoverflow.com/a/203757/14731
+	// So we wrap them...
+
+	let wrappedValue;
+	switch (Utilities.getTypeName(value))
+	{
+		case "String":
+		{
+			if (value instanceof String)
+				wrappedValue = value;
+			else
+				wrappedValue = new String(value);
+			break;
+		}
+		case "Number":
+		{
+			if (value instanceof Number)
+				wrappedValue = value;
+			else
+				wrappedValue = new Number(value);
+			break;
+		}
+		case "Boolean":
+		{
+			if (value instanceof Boolean)
+				wrappedValue = value;
+			else
+				wrappedValue = new Boolean(value);
+			break;
+		}
+		default:
+			wrappedValue = value;
+	}
+	return wrappedValue instanceof type;
 };
 
 /**
@@ -28,6 +59,39 @@ Utilities.extends = function(child, parent)
 		return false;
 	return child.prototype instanceof parent;
 };
+
+/**
+ * Returns the name of a type.
+ *
+ * If the input is undefined, returns "undefined".
+ * If the input is null, returns "null".
+ * If the input is a primitive, returns the name of the wrapper class (e.g. "String" for primitive strings).
+ * If the input is a class, returns the class name.
+ *
+ * @param {Object} object an object
+ * @return {String} the name of the object's class
+ * @throws {TypeError} if {@code object} is a function or a class instance
+ */
+Utilities.getClassName = function(object)
+{
+	const typeName = Utilities.getTypeName(object);
+	switch (typeName)
+	{
+		case "Undefined":
+			return "undefined";
+		case "Null":
+			return "null";
+		case "Function":
+			return Utilities.getFunctionName(object);
+		case "AnonymousFunction":
+		case "ArrowFunction":
+		case "Object":
+			throw new TypeError("Expecting a class type.\n" +
+				"Actual: " + typeName);
+		default:
+			return typeName;
+	}
+}
 
 /**
  * Returns the name of an object's type.
@@ -164,9 +228,8 @@ Utilities.verifyValue = function(value, name, type)
 		return;
 	if (!Utilities.instanceOf(value, type))
 	{
-		const nameOfType = Utilities.getTypeName(type);
-		throw new TypeError(name + " must be an instance of " + nameOfType + ".\n" +
-			"Actual: " + Utilities.getTypeName(actual));
+		throw new TypeError(name + " must be an instance of " + Utilities.getClassName(type) + ".\n" +
+			"Actual: " + value);
 	}
 };
 

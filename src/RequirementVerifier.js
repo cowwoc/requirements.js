@@ -53,9 +53,15 @@ RequirementVerifier.prototype.requireThat = function(actual, name)
 		case "Number":
 			//noinspection JSCheckFunctionSignatures
 			return new NumberVerifier(actual, name, this.config);
-		case "URI":
+		case "Object":
+		{
 			//noinspection JSCheckFunctionSignatures
-			return new UriVerifier(actual, name, this.config);
+			switch (Utilities.getObjectClass(actual))
+			{
+				case "URI":
+					return new UriVerifier(actual, name, this.config);
+			}
+		}
 		default:
 			return new ObjectVerifier(actual, name, this.config);
 	}

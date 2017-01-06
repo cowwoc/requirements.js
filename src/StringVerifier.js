@@ -271,6 +271,8 @@ StringVerifier.prototype.isInArray = function(array)
 /**
  * Ensures that the actual value is an instance of a type.
  *
+ * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
+ *
  * @param type the type  to compare to
  * @return {StringVerifier} this
  * @throws {TypeError}  if {@code type} is null
@@ -403,7 +405,7 @@ StringVerifier.prototype.asInetAddress = function()
 /**
  * Ensures that the actual value contains a valid URI format.
  *
- * @return a verifier for URIs
+ * @return {StringVerifier} a verifier for URIs
  * @throws {RangeError} if the actual value does not contain a valid URI format
  */
 StringVerifier.prototype.asUri = function()
