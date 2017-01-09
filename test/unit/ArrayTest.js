@@ -665,6 +665,33 @@ define(function()
 						];
 					requireThat(actual, "actual").length().isInRange(3, 5);
 				}, RangeError);
+			},
+
+			asSet: function()
+			{
+				const set = new Set([1, 2, 3]);
+				const actual = Array.from(set);
+				requireThat(actual, "actual").asSet().isEqualTo(set);
+			},
+
+			asString: function()
+			{
+				const actual = [1, 2, 3];
+				requireThat(actual, "actual").asString().isEqualTo("[1, 2, 3]");
+			},
+
+			getActual: function()
+			{
+				const input =
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					];
+				const output = requireThat(input, "input").getActual();
+				assert.equal(output, input);
 			}
 		});
 });

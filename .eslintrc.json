@@ -1,15 +1,105 @@
 {
-	"parserOptions":
-	{
+	"extends": "eslint:recommended",
+	"parserOptions": {
 		"ecmaVersion": 6,
 		"sourceType": "module"
 	},
-	"ecmaFeatures":
-	{
+	"ecmaFeatures": {
 		"modules": true
 	},
-	"env":
-	{
-		"browser": true
+	"rules": {
+		"no-constant-condition": [
+			"error",
+			{
+				"checkLoops": false
+			}
+		],
+		"valid-jsdoc": [
+			"warn",
+			{
+				"prefer": {
+					"returns": "return"
+				},
+				"preferType": {
+					"object": "Object",
+					"string": "String",
+					"number": "Number"
+				},
+				"requireReturnType": true,
+				"requireParamDescription": true,
+				"requireReturnDescription": true
+			}
+		],
+		"semi": "error",
+		"block-scoped-var": "error",
+		"consistent-return": [
+			"error",
+			{
+				"treatUndefinedAsUnspecified": true
+			}
+		],
+		"dot-location": "error",
+		"dot-notation": "error",
+		"eqeqeq": "error",
+		"no-caller": "error",
+		"no-div-regex": "error",
+		"no-else-return": "error",
+		"no-empty-function": "error",
+		"no-eq-null": "error",
+		"no-eval": "error",
+		"no-extend-native": "error",
+		"no-extra-bind": "error",
+		"no-extra-label": "error",
+		"no-floating-decimal": "error",
+		"no-global-assign": "error",
+		"no-implicit-coercion": "error",
+		"no-implicit-globals": "error",
+		"no-implied-eval": "error",
+		"no-invalid-this": "error",
+		"no-iterator": "error",
+		"no-lone-blocks": "error",
+		"no-loop-func": "error",
+		"no-magic-numbers": "off",
+		"no-multi-spaces": "error",
+		"no-multi-str": "error",
+		"no-new-func": "error",
+		"no-new-wrappers": "error",
+		"no-new": "warn",
+		"no-octal-escape": "error",
+		"no-param-reassign": "off",
+		"no-proto": "error",
+		//"no-restricted-properties": "error",
+		"no-return-assign": "error",
+		//"no-return-await": "error",
+		"no-script-url": "error",
+		"no-self-compare": "error",
+		"no-sequences": "error",
+		"no-throw-literal": "error",
+		"no-unmodified-loop-condition": "error",
+		"no-unused-expressions": "error",
+		"no-useless-call": "error",
+		"no-useless-concat": "error",
+		//"no-useless-return": "error",
+		"no-void": "error",
+		"no-with": "error",
+		"radix": "error",
+		//"require-await": "error",
+		"vars-on-top": "error",
+		"wrap-iife": "error",
+		"yoda": "error",
+		"strict": "error",
+		"no-catch-shadow": "error",
+		"no-label-var": "error",
+		"no-restricted-globals": "error",
+		"no-shadow-restricted-names": "error",
+		"no-shadow": "error",
+		"no-undef-init": "error",
+		"no-undefined": "error",
+		"no-use-before-define": [
+			"error",
+			{
+				"functions": false
+			}
+		]
 	}
 }

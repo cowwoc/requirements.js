@@ -134,7 +134,7 @@ NumberVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {NumberVerifier} this
  * @throws {TypeError}  if {@code type} is null
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -223,7 +223,7 @@ NumberVerifier.prototype.isNegative = function()
 /**
  * Ensures that the actual value is not negative.
  *
- * @return {NumberVerifier this
+ * @return {NumberVerifier} this
  * @throws {RangeError} if the actual value is negative
  */
 NumberVerifier.prototype.isNotNegative = function()
@@ -282,7 +282,7 @@ NumberVerifier.prototype.isPositive = function()
 /**
  * Ensures that the actual value is not positive.
  *
- * @return {NumberVerifier this
+ * @return {NumberVerifier} this
  * @throws {RangeError} if the actual value is positive
  */
 NumberVerifier.prototype.isNotPositive = function()
@@ -305,7 +305,7 @@ NumberVerifier.prototype.isNotPositive = function()
  */
 NumberVerifier.prototype.isGreaterThan = function(value, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 	if (this.actual > value)
@@ -333,7 +333,7 @@ NumberVerifier.prototype.isGreaterThan = function(value, name)
  */
 NumberVerifier.prototype.isGreaterThanOrEqualTo = function(value, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 	if (this.actual >= value)
@@ -362,7 +362,7 @@ NumberVerifier.prototype.isGreaterThanOrEqualTo = function(value, name)
  */
 NumberVerifier.prototype.isLessThan = function(value, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 	if (this.actual < value)
@@ -391,7 +391,7 @@ NumberVerifier.prototype.isLessThan = function(value, name)
  */
 NumberVerifier.prototype.isLessThanOrEqualTo = function(value, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 	if (this.actual <= value)
@@ -495,15 +495,19 @@ NumberVerifier.prototype.isNotFinite = function()
 };
 
 /**
- * Verifies a string.
- *
- * @return {StringVerifier} a {@code String} verifier
- * @throws {TypeError}  if the value is not a {@code String}
+ * @return {StringVerifier} a verifier for the number's string representation
  */
 NumberVerifier.prototype.asString = function()
 {
 	return this.asObject.asString();
 };
 
+/**
+ * @return {Number} the actual value
+ */
+NumberVerifier.prototype.getActual = function()
+{
+	return this.actual;
+};
 
 export default NumberVerifier;

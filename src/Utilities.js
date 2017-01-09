@@ -9,11 +9,12 @@ const Utilities = {};
  */
 Utilities.instanceOf = function(value, type)
 {
-	if ((value === undefined || value === null || type === undefined || type === null) && value !== type)
+	if ((typeof(value) === "undefined" || value === null || typeof(type) === "undefined" || type === null) && value !== type)
 		return false;
 	// instanceof only works for non-primitives: http://stackoverflow.com/a/203757/14731
 	// So we wrap them...
 
+	/* eslint-disable no-new-wrappers */
 	let wrappedValue;
 	switch (Utilities.getTypeName(value))
 	{
@@ -44,6 +45,7 @@ Utilities.instanceOf = function(value, type)
 		default:
 			wrappedValue = value;
 	}
+	/* eslint-enable no-new-wrappers */
 	return wrappedValue instanceof type;
 };
 
@@ -55,7 +57,7 @@ Utilities.instanceOf = function(value, type)
  */
 Utilities.extends = function(child, parent)
 {
-	if (child === undefined || child === null || parent == undefined || parent === null)
+	if (typeof(child) === "undefined" || child === null || typeof(parent) === "undefined" || parent === null)
 		return false;
 	return child.prototype instanceof parent;
 };
@@ -91,7 +93,7 @@ Utilities.getClassName = function(object)
 		default:
 			return typeName;
 	}
-}
+};
 
 /**
  * Returns the name of an object's type.
@@ -118,7 +120,7 @@ Utilities.getTypeName = function(object)
 	if (objectToString === "Function")
 	{
 		const instanceToString = object.toString();
-		if (instanceToString.indexOf(" => ") != -1)
+		if (instanceToString.indexOf(" => ") !== -1)
 			return "ArrowFunction";
 		const getFunctionName = /^function ([^(]+)\(/;
 		const match = instanceToString.match(getFunctionName);
@@ -146,7 +148,7 @@ Utilities.getFunctionName = function(fn)
 	try
 	{
 		const instanceToString = fn.toString();
-		if (instanceToString.indexOf(" => ") != -1)
+		if (instanceToString.indexOf(" => ") !== -1)
 			return "=>";
 		const getFunctionName = /^function ([^(]+)\(/;
 		const match = instanceToString.match(getFunctionName);
@@ -186,12 +188,12 @@ Utilities.getObjectClass = function(object)
 };
 
 /**
- * @param object an object
- * @returns {String} the String representation of the object
+ * @param {Object} object an object
+ * @return {String} the String representation of the object
  */
 Utilities.toString = function(object)
 {
-	if (object === undefined)
+	if (typeof(object) === "undefined")
 		return "undefined";
 	if (object === null)
 		return "null";
@@ -199,11 +201,33 @@ Utilities.toString = function(object)
 	let current = object;
 	switch (Utilities.getTypeName(current))
 	{
+		case "Set":
+			current = Array.from(current.values());
+		// fallthrough
 		case "Array":
-			return "[" + current.join(", ") + "]";
+		{
+			let result = "[";
+			// Can't use Array.join() because it doesn't handle nested arrays well
+			let size = current.length;
+			for (let i = 0; i < size; ++i)
+			{
+				result += Utilities.toString(current[i]);
+				if (i < size - 1)
+					result += ", ";
+			}
+			result += "]";
+			return result;
+		}
+		case "Map":
+		{
+			let result = new Object();
+			for (let entry of object.entries())
+				result[entry[0]] = entry[1];
+			return JSON.stringify(result, null, 2);
+		}
 		case "Object":
 			if (Utilities.getObjectClass(current) === "Object")
-				return JSON.stringify(current);
+				return JSON.stringify(current, null, 2);
 	}
 	while (true)
 	{
@@ -212,19 +236,20 @@ Utilities.toString = function(object)
 			return current.constructor.prototype.toString.call(object);
 		current = Object.getPrototypeOf(current.constructor.prototype);
 		if (Utilities.getTypeName(current) === "Object" && Utilities.getObjectClass(current) === "Object")
-			return JSON.stringify(current);
+			return JSON.stringify(current, null, 2);
 	}
 };
 
 /**
- * @param {Object} actual the actual value
+ * @param {Object} value the actual value
  * @param {String} name the name of the value
  * @param {Object} type the expected type of the value
+ * @return {undefined}
  * @throws {TypeError} if value is not of the expected type
  */
 Utilities.verifyValue = function(value, name, type)
 {
-	if (value === undefined || value === null)
+	if (typeof(value) === "undefined" || value === null)
 		return;
 	if (!Utilities.instanceOf(value, type))
 	{
@@ -236,12 +261,13 @@ Utilities.verifyValue = function(value, name, type)
 /**
  * @param {String} value a name
  * @param {String} name the name of the name
+ * @return {undefined}
  * @throws {TypeError} if name is undefined or null or not a String
  * @throws {RangeError} if name is empty
  */
 Utilities.verifyName = function(value, name)
 {
-	if (name === undefined || name === null)
+	if (typeof(name) === "undefined" || name === null)
 	{
 		throw new TypeError(name + " must be set.\n" +
 			"Actual: " + value);

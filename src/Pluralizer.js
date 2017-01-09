@@ -1,6 +1,7 @@
 function Pluralizer()
 {
-};
+	// Intentionally empty
+}
 
 
 Pluralizer.CHARACTER = new Pluralizer();

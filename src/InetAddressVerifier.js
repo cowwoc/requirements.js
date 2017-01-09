@@ -135,7 +135,7 @@ InetAddressVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {InetAddressVerifier} this
  * @throws {TypeError}  if {@code type} is null
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -171,14 +171,11 @@ InetAddressVerifier.prototype.isNotNull = function()
 };
 
 /**
- * Verifies a String.
- *
- * @return {InetAddressVerifier} a {@code String} verifier
- * @throws {TypeError}  if the value is not a {@code String}
+ * @return {StringVerifier} a {@code String} verifier for the address' string representation
  */
 InetAddressVerifier.prototype.asString = function()
 {
-	return this;
+	return this.asObject.asString();
 };
 
 /**
@@ -191,7 +188,7 @@ InetAddressVerifier.prototype.isIpV4 = function()
 {
 	// See https://blogs.msdn.microsoft.com/oldnewthing/20060522-08/?p=31113
 	const match = this.actual.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
-	if (match != null && match[1] <= 255 && match[2] <= 255 && match[3] <= 255 && match[4] <= 255)
+	if (match !== null && match[1] <= 255 && match[2] <= 255 && match[3] <= 255 && match[4] <= 255)
 		return this;
 	throw this.config.exceptionBuilder(RangeError, this.name + " must be an IP v4 address.").
 		addContext("Actual", this.actual).
@@ -214,7 +211,7 @@ InetAddressVerifier.prototype.isIpV6 = function()
 };
 
 /**
- * @param {String} a String
+ * @param {String} value a String
  * @return {Boolean} true if the String is a valid IPv6 address; false otherwise
  */
 function isIpV6(value)
@@ -257,9 +254,12 @@ function isIpV6(value)
 	return true;
 }
 
-// TODO:
-// asUri
-// getActual()
-// getActualIfPresent()
+/**
+ * @return {String} the actual value
+ */
+InetAddressVerifier.prototype.getActual = function()
+{
+	return this.actual;
+};
 
 export default InetAddressVerifier;

@@ -1,7 +1,11 @@
 import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
+import SetVerifier from "./SetVerifier";
 import Pluralizer from "./Pluralizer";
 import Utilities from "./Utilities";
+import Sugar from "sugar";
+import "babel-polyfill";
+// babel-polyfill needed for Set
 
 /**
  * Creates a new ArrayVerifier.
@@ -136,7 +140,7 @@ ArrayVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {ArrayVerifier} this
  * @throws {TypeError}  if {@code type} is null
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -208,10 +212,7 @@ ArrayVerifier.prototype.isSet = function()
 };
 
 /**
- * Verifies a string.
- *
- * @return {StringVerifier} a {@code String} verifier
- * @throws {TypeError}  if the value is not a {@code String}
+ * @return {StringVerifier} a {@code String} verifier for the array's string representation
  */
 ArrayVerifier.prototype.asString = function()
 {
@@ -258,9 +259,9 @@ ArrayVerifier.prototype.isNotEmpty = function()
  */
 ArrayVerifier.prototype.contains = function(element, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
-	if (this.actual.indexOf(element) !== -1)
+	if (actualContains(this.actual, element))
 		return this;
 	if (name)
 	{
@@ -275,6 +276,22 @@ ArrayVerifier.prototype.contains = function(element, name)
 };
 
 /**
+ * @param {Array} array an array
+ * @param {Object} element an element
+ * @return {Boolean} true if {@code arrays} contains the element
+ */
+function actualContains(array, element)
+{
+	// indexOf() does not work on 2D arrays: http://stackoverflow.com/a/24943461/14731
+	for (let i = 0; i < array.length; ++i)
+	{
+		if (Sugar.Array.isEqual(array[i], element))
+			return true;
+	}
+	return false;
+}
+
+/**
  * Ensures that the array contains exactly the specified elements; nothing less, nothing more.
  *
  * @param {Array} expected the elements that must exist
@@ -286,7 +303,7 @@ ArrayVerifier.prototype.contains = function(element, name)
  */
 ArrayVerifier.prototype.containsExactly = function(expected, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
 	const expectedAsSet = new Set(expected);
@@ -323,10 +340,10 @@ ArrayVerifier.prototype.containsExactly = function(expected, name)
  */
 ArrayVerifier.prototype.containsAny = function(expected, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
-	if (actualContainsAny.call(this, expected))
+	if (actualContainsAny(this.actual, expected))
 		return this;
 	if (name)
 	{
@@ -342,14 +359,15 @@ ArrayVerifier.prototype.containsAny = function(expected, name)
 };
 
 /**
- * @param {Array} elements an array of elements
- * @return {boolean} true if {@code actual} contains any of the elements
+ * @param {Array} actual an array
+ * @param {Array} expected the expected elements
+ * @return {boolean} true if {@code actual} contains any of the {@code expected} elements
  */
-function actualContainsAny(elements)
+function actualContainsAny(actual, expected)
 {
-	for (let element of elements)
+	for (let element of expected)
 	{
-		if (this.actual.indexOf(element) !== -1)
+		if (actualContains(actual, element))
 			return true;
 	}
 	return false;
@@ -366,10 +384,10 @@ function actualContainsAny(elements)
  */
 ArrayVerifier.prototype.containsAll = function(expected, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
-	if (actualContainsAll.call(this, expected))
+	if (actualContainsAll(this.actual, expected))
 		return this;
 	const expectedAsSet = new Set(expected);
 	const actualAsSet = new Set(this.actual);
@@ -400,9 +418,9 @@ ArrayVerifier.prototype.containsAll = function(expected, name)
  */
 ArrayVerifier.prototype.doesNotContain = function(element, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
-	if (this.actual.indexOf(element) === -1)
+	if (!actualContains(this.actual, element))
 		return this;
 	if (name)
 	{
@@ -427,10 +445,10 @@ ArrayVerifier.prototype.doesNotContain = function(element, name)
  */
 ArrayVerifier.prototype.doesNotContainAny = function(elements, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
-	if (!actualContainsAny.call(this, elements))
+	if (!actualContainsAny(this.actual, elements))
 		return this;
 	if (name)
 	{
@@ -456,10 +474,10 @@ ArrayVerifier.prototype.doesNotContainAny = function(elements, name)
  */
 ArrayVerifier.prototype.doesNotContainAll = function(elements, name)
 {
-	if (name !== undefined)
+	if (typeof(name) !== "undefined")
 		this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
 	this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
-	if (!actualContainsAll.call(this, elements))
+	if (!actualContainsAll(this.actual, elements))
 		return this;
 	const elementsAsSet = new Set(elements);
 	const actualAsSet = new Set(this.actual);
@@ -480,14 +498,15 @@ ArrayVerifier.prototype.doesNotContainAll = function(elements, name)
 };
 
 /**
- * @param {Array} elements an array of elements
- * @return {boolean} true if {@code actual} contains all of the elements
+ * @param {Array} actual an array
+ * @param {Array} expected an array of expected elements
+ * @return {boolean} true if {@code actual} contains all of the {@code expected} elements
  */
-function actualContainsAll(elements)
+function actualContainsAll(actual, expected)
 {
-	for (let element of elements)
+	for (let element of expected)
 	{
-		if (this.actual.indexOf(element) === -1)
+		if (!actualContains(actual, element))
 			return false;
 	}
 	return true;
@@ -525,6 +544,37 @@ ArrayVerifier.prototype.length = function()
 {
 	return new ContainerSizeVerifier(this.actual, this.actual.length, this.name, this.name + ".length", Pluralizer.ELEMENT,
 		this.config);
+};
+
+/**
+ * @param {Function<ContainerSizeVerifier>} consumer a function that accepts a verifier for the length of the array
+ * @return {ArrayVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+ArrayVerifier.prototype.lengthConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.length());
+	return this;
+};
+
+/**
+ * Verifies the Set representation of the array.
+ *
+ * @return {SetVerifier} a {@code Set} verifier
+ * @throws {TypeError}  if the value is not a {@code Set}
+ */
+ArrayVerifier.prototype.asSet = function()
+{
+	return new SetVerifier(new Set(this.actual), this.name + ".asSet()", this.config);
+};
+
+/**
+ * @return {Array} the actual value
+ */
+ArrayVerifier.prototype.getActual = function()
+{
+	return this.actual;
 };
 
 export default ArrayVerifier;

@@ -10,6 +10,7 @@ import Utilities from "./Utilities";
 /**
  * Builds an exception.
  *
+ * @constructor
  * @param {ExceptionConstructor} type a function that takes an exception message and returns an
  *   exception instance
  * @param {String} message the exception message
@@ -168,7 +169,7 @@ function justifyLeft(text, length)
 	const needed = length - text.length;
 	if (needed === 0)
 		return text;
-	return " ".repeat(needed) + text;
+	return text + " ".repeat(needed);
 }
 
 export default ExceptionBuilder;

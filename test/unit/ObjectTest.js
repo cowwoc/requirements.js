@@ -45,37 +45,6 @@ define(function()
 				}, RangeError);
 			},
 
-			isEmpty: function()
-			{
-				const actual = {};
-				requireThat(actual, "actual").isEmpty();
-			},
-
-			isEmpty_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "value"};
-					requireThat(actual, "actual").isEmpty();
-				}, RangeError);
-			},
-
-			isNotEmpty: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").isNotEmpty();
-			},
-
-			isNotEmpty_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {};
-					requireThat(actual, "actual").isNotEmpty();
-				}, RangeError);
-			},
-
-
 			isEqualTo: function()
 			{
 				const actual = "actual";
@@ -97,15 +66,6 @@ define(function()
 				{
 					const actual = "null";
 					requireThat(actual, "actual").isEqualTo(null);
-				}, RangeError);
-			},
-
-			isEqual_sameToStringAndTypeDifferentHashCode: function()
-			{
-				assert.throws(function()
-				{
-					const actual = new Object();
-					requireThat(actual, "actual").isEqualTo(new Object());
 				}, RangeError);
 			},
 
@@ -135,7 +95,7 @@ define(function()
 
 			isNotEqualTo: function()
 			{
-				requireThat(new Object(), "actual").isNotEqualTo(new Object());
+				requireThat(new String(), "actual").isNotEqualTo(new Object());
 			},
 
 			isNotEqualTo_False: function()
@@ -147,17 +107,17 @@ define(function()
 				}, RangeError);
 			},
 
-			isInCollection: function()
+			isInArray: function()
 			{
-				const actual = "value";
+				const actual = new Object();
 				requireThat(actual, "actual").isInArray(["first", actual, "third"])
 			},
 
-			isInCollection_False: function()
+			isInArray_False: function()
 			{
 				assert.throws(function()
 				{
-					const actual = "value";
+					const actual = new Object();
 					requireThat(actual, "actual").isInArray(["first", "second", "third"])
 				}, RangeError);
 			},
@@ -233,174 +193,11 @@ define(function()
 				}, IllegalArgumentException);
 			},
 
-			containsKey: function()
+			getActual: function()
 			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").keys().contains("key");
+				const input = new Object();
+				const output = requireThat(input, "input").getActual();
+				assert.equal(output, input);
 			}
-			,
-
-			containsKey_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"notKey": "value"};
-					requireThat(actual, "actual").keys().contains("key");
-				}, RangeError);
-			}
-			,
-
-			doesNotContainKey: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").keys().doesNotContain("notKey");
-			}
-			,
-
-			doesNotContainKey_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"notKey": "value"};
-					requireThat(actual, "actual").keys().doesNotContain("notKey");
-				}, RangeError);
-			}
-			,
-
-			containsValue: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").values().contains("value");
-			}
-			,
-
-			containsValue_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "notValue"};
-					requireThat(actual, "actual").values().contains("value");
-				}, RangeError);
-			}
-			,
-
-			doesNotContainValue: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").values().doesNotContain("notValue");
-			}
-			,
-
-			doesNotContainValue_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "notValue"};
-					requireThat(actual, "actual").values().doesNotContain("notValue");
-				}, RangeError);
-			}
-			,
-
-			containsEntry: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").contains({"key": "value"});
-			}
-			,
-
-			containsEntry_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "notValue"};
-					requireThat(actual, "actual").contains({"key": "value"});
-				}, RangeError);
-			}
-			,
-
-			doesNotContainEntry: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").doesNotContain({"key": "notValue"});
-			}
-			,
-
-			doesNotContainEntry_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "notValue"};
-					requireThat(actual, "actual").doesNotContain({"key": "notValue"});
-				}, RangeError);
-			}
-			,
-
-
-			sizeIsEqualTo: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").size().isEqualTo(1);
-			}
-			,
-
-			sizeIsEqualTo_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "value"};
-					requireThat(actual, "actual").size().isEqualTo(2);
-				}, RangeError);
-			}
-			,
-
-			sizeIsNotEqualTo: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").size().isNotEqualTo(2);
-			}
-			,
-
-			sizeIsNotEqualTo_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "value"};
-					requireThat(actual, "actual").size().isNotEqualTo(1);
-				}, RangeError);
-			}
-			,
-
-			childConsumers: function()
-			{
-				const actual = {"key": "value"};
-				requireThat(actual, "actual").
-					keysConsumer(k => k.contains("key")).
-					valuesConsumer(v => v.contains("value"))
-			}
-			,
-
-			keysConsumer_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "value"};
-					requireThat(actual, "actual").
-						keysConsumer(k => k.contains("notTheKey")).
-						valuesConsumer(v => v.contains("value"));
-				}, RangeError);
-			}
-			,
-
-			valuesConsumer_False: function()
-			{
-				assert.throws(function()
-				{
-					const actual = {"key": "value"};
-					requireThat(actual, "actual").
-						keysConsumer(k => k.contains("key")).
-						valuesConsumer(v => v.contains("notTheValue"));
-				}, RangeError);
-			}
-		})
-	;
+		});
 });

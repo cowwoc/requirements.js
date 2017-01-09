@@ -4,6 +4,8 @@ import ObjectVerifier from "./ObjectVerifier";
 import StringVerifier from "./StringVerifier";
 import NumberVerifier from "./NumberVerifier";
 import ArrayVerifier from "./ArrayVerifier";
+import SetVerifier from "./SetVerifier";
+import MapVerifier from "./MapVerifier";
 import UriVerifier from "./UriVerifier";
 
 /**
@@ -21,7 +23,7 @@ function RequirementVerifier(config)
 {
 	if (config === null)
 		throw new TypeError("config may not be null.");
-	if (config === undefined)
+	if (typeof(config) === "undefined")
 		config = new Configuration(this);
 	Object.defineProperty(this, "config",
 		{
@@ -35,7 +37,7 @@ function RequirementVerifier(config)
  * @function
  * @param {Object} actual the actual value
  * @param {String} name   the name of the value
- * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|UriVerifier} a verifier
+ * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|SetVerifier|MapVerifier|UriVerifier} a verifier
  * @throws {TypeError} if {@code name} is null
  * @throws {RangeError} if {@code name} is empty
  */
@@ -53,15 +55,21 @@ RequirementVerifier.prototype.requireThat = function(actual, name)
 		case "Number":
 			//noinspection JSCheckFunctionSignatures
 			return new NumberVerifier(actual, name, this.config);
+		case "Set":
+			//noinspection JSCheckFunctionSignatures
+			return new SetVerifier(actual, name, this.config);
+		case "Map":
+			//noinspection JSCheckFunctionSignatures
+			return new MapVerifier(actual, name, this.config);
 		case "Object":
-		{
 			//noinspection JSCheckFunctionSignatures
 			switch (Utilities.getObjectClass(actual))
 			{
 				case "URI":
+					//noinspection JSCheckFunctionSignatures
 					return new UriVerifier(actual, name, this.config);
 			}
-		}
+		// Otherwise, fallthrough
 		default:
 			return new ObjectVerifier(actual, name, this.config);
 	}

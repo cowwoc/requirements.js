@@ -105,6 +105,13 @@ define(function()
 					const actual = ":0:2F3B:2AA:FF:FE28:9C5A";
 					requireThat(actual, "actual").asInetAddress().isIpV6();
 				}, RangeError)
+			},
+
+			getActual: function()
+			{
+				const input = "::0:2F3B:2AA:FF:FE28:9C5A";
+				const output = requireThat(input, "input").getActual();
+				assert.equal(output, input);
 			}
 		});
 });

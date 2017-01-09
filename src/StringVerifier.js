@@ -3,6 +3,8 @@ import Pluralizer from "./Pluralizer";
 import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import InetAddress from "./InetAddressVerifier";
+import UriVerifier from "./UriVerifier";
+import URI from "urijs";
 
 // See http://stackoverflow.com/a/9209720/14731
 const INTERNET_ADDRESS = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^(?:(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){6})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:::(?:(?:(?:[0-9a-fA-F]{1,4})):){5})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){4})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,1}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){3})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,2}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:(?:[0-9a-fA-F]{1,4})):){2})(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,3}(?:(?:[0-9a-fA-F]{1,4})))?::(?:(?:[0-9a-fA-F]{1,4})):)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,4}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9]))\.){3}(?:(?:25[0-5]|(?:[1-9]|1[0-9]|2[0-4])?[0-9])))))))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,5}(?:(?:[0-9a-fA-F]{1,4})))?::)(?:(?:[0-9a-fA-F]{1,4})))|(?:(?:(?:(?:(?:(?:[0-9a-fA-F]{1,4})):){0,6}(?:(?:[0-9a-fA-F]{1,4})))?::))))$/;
@@ -198,7 +200,7 @@ StringVerifier.prototype.isNotEmpty = function()
 StringVerifier.prototype.trim = function()
 {
 	const trimmed = this.actual.trim();
-	if (trimmed == this.actual)
+	if (trimmed === this.actual)
 		return this;
 	return new StringVerifier(trimmed, this.name, this.config);
 };
@@ -273,7 +275,7 @@ StringVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {StringVerifier} this
  * @throws {TypeError}  if {@code type} is null
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -311,7 +313,7 @@ StringVerifier.prototype.isNotNull = function()
 /**
  * Ensures that the actual value starts with a value.
  *
- * @param prefix the value that the string must start with
+ * @param {String} prefix the value that the string must start with
  * @return {StringVerifier} this
  * @throws {RangeError} if the actual value does not start with {@code prefix}
  */
@@ -328,7 +330,7 @@ StringVerifier.prototype.startsWith = function(prefix)
 /**
  * Ensures that the actual value does not start with a value.
  *
- * @param prefix the value that the string must not start with
+ * @param {String} prefix the value that the string must not start with
  * @return {StringVerifier} this
  * @throws {RangeError} if the actual value starts with {@code prefix}
  */
@@ -345,7 +347,7 @@ StringVerifier.prototype.doesNotStartWith = function(prefix)
 /**
  * Ensures that the actual value ends with a value.
  *
- * @param suffix the value that the string must end with
+ * @param {String} suffix the value that the string must end with
  * @return {StringVerifier} this
  * @throws {RangeError} if the actual value does not end with {@code suffix}
  */
@@ -362,7 +364,7 @@ StringVerifier.prototype.endsWith = function(suffix)
 /**
  * Ensures that the actual value does not end with a value.
  *
- * @param suffix the value that the string must not end with
+ * @param {String} suffix the value that the string must not end with
  * @return {StringVerifier} this
  * @throws {RangeError} if the actual value ends with {@code prefix}
  */
@@ -377,10 +379,7 @@ StringVerifier.prototype.doesNotEndWith = function(suffix)
 };
 
 /**
- * Verifies a String.
- *
- * @return {StringVerifier} a {@code String} verifier
- * @throws {TypeError}  if the value is not a {@code String}
+ * @return {StringVerifier} this
  */
 StringVerifier.prototype.asString = function()
 {
@@ -405,32 +404,19 @@ StringVerifier.prototype.asInetAddress = function()
 /**
  * Ensures that the actual value contains a valid URI format.
  *
- * @return {StringVerifier} a verifier for URIs
- * @throws {RangeError} if the actual value does not contain a valid URI format
+ * @return {UriVerifier} a verifier for URIs
  */
 StringVerifier.prototype.asUri = function()
 {
-	try
-	{
-		new URI("foobar");
-		return this;
-	}
-	catch (e)
-	{
-		if (e instanceof TypeError)
-		{
-			throw this.config.exceptionBuilder(RangeError, this.name + " must contain a URI.").
-				addContext("Actual", this.actual).
-				build();
-		}
-		throw e;
-	}
+	return new UriVerifier(new URI(this.actual), this.name, this.config);
 };
 
-
-// TODO:
-// getActual()
-// getActualIfPresent()
-// add consumers to any method that returns new X
+/**
+ * @return {String} the actual value
+ */
+StringVerifier.prototype.getActual = function()
+{
+	return this.actual;
+};
 
 export default StringVerifier;

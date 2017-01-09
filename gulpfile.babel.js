@@ -29,14 +29,34 @@ const rollupBabelConfiguration =
 		]
 	};
 
-gulp.task("lint", function()
+gulp.task("lint-for-node", function()
 {
 	return gulp.src(
 		[
 			"gulpfile.babel.js",
-			"src/*.js"
+			"src/**.js",
+			"test/**.js"
 		]).
-		pipe(eslint()).
+		pipe(eslint(
+			{
+				"envs": ["es6", "node", "amd"]
+			}
+		)).
+		pipe(eslint.format()).
+		pipe(eslint.failOnError());
+});
+
+gulp.task("lint-for-browser", function()
+{
+	return gulp.src(
+		[
+			"src/**.js"
+		]).
+		pipe(eslint(
+			{
+				"envs": ["es6", "browser"]
+			}
+		)).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
 });
@@ -72,7 +92,7 @@ gulp.task("bundle-for-browser", ["bower"], function()
 		pipe(gulp.dest("build/browser"));
 });
 
-gulp.task("bundle-for-amd", function()
+gulp.task("bundle-for-node", function()
 {
 	return gulp.src("src/*.js").
 		pipe(sourcemaps.init()).
@@ -83,7 +103,7 @@ gulp.task("bundle-for-amd", function()
 				format: "amd",
 				// See https://github.com/rollup/rollup/issues/772#issuecomment-231299803
 				allowRealFiles: true,
-				external: ["urijs"],
+				external: ["urijs", "sugar", "babel-polyfill"],
 				moduleName: "Requirements",
 				plugins: [
 					nodeResolve({jsnext: true, main: true}),
@@ -91,7 +111,7 @@ gulp.task("bundle-for-amd", function()
 				]
 			})).
 		pipe(sourcemaps.write()).
-		pipe(gulp.dest("build/amd"));
+		pipe(gulp.dest("build/node"));
 });
 
 gulp.task("test-as-es5", function()
@@ -104,7 +124,7 @@ gulp.task("test-as-es5", function()
 		pipe(gulp.dest("build/test/unit"));
 });
 
-gulp.task("test", ["bundle-for-amd", "test-as-es5"], function()
+gulp.task("test", ["bundle-for-node", "test-as-es5"], function()
 {
 	return gulp.src("build/test/unit/*.js").
 		pipe(gulp.dest("build/intern")).
@@ -114,5 +134,7 @@ gulp.task("test", ["bundle-for-amd", "test-as-es5"], function()
 		}));
 });
 
-gulp.task("build", ["lint", "bundle-for-browser", "test"]);
+gulp.task("lint", ["lint-for-node", "lint-for-browser"]);
+gulp.task("bundle", ["lint", "bundle-for-node", "bundle-for-browser"]);
+gulp.task("build", ["bundle", "test"]);
 gulp.task("default", ["build"]);

@@ -14,7 +14,7 @@ import Utilities from "./Utilities";
  */
 function Configuration(internalVerifier, exceptionOverride, context)
 {
-	if (internalVerifier === undefined)
+	if (typeof(internalVerifier) === "undefined")
 	{
 		throw new TypeError("internalVerifier must be set.\n" +
 			"Actual: " + internalVerifier);
@@ -24,13 +24,13 @@ function Configuration(internalVerifier, exceptionOverride, context)
 			enumerable: true,
 			value: internalVerifier
 		});
-	if (exceptionOverride === undefined)
+	if (typeof(exceptionOverride) === "undefined")
 		exceptionOverride = null;
 	Object.defineProperty(this, "exceptionOverride",
 		{
 			value: exceptionOverride
 		});
-	if (context === undefined)
+	if (typeof(context) === "undefined")
 		context = [];
 	Object.defineProperty(this, "context",
 		{
@@ -58,10 +58,9 @@ Configuration.prototype.withException = function(exception)
 		case "Undefined":
 			throw new TypeError("exception may not be undefined");
 		case "Function":
-		{
 			if (Utilities.extends(exception, Error))
 				break;
-		}
+		// Otherwise, fallthrough
 		default:
 		{
 			throw new TypeError("exception must be an Error.\n" +
@@ -73,7 +72,7 @@ Configuration.prototype.withException = function(exception)
 	return new Configuration(this.internalVerifier, exception, this.context);
 };
 
-/**
+/**!
  * @return {Error} the type of exception to throw, {@code null} to throw the default exception type
  * @see #withException(Class)
  */
@@ -171,7 +170,7 @@ Configuration.prototype.getContext = function()
 Configuration.prototype.exceptionBuilder = function(type, message)
 {
 	const result = new ExceptionBuilder(type, message, this.context);
-	if (this.exceptionOverride != null)
+	if (this.exceptionOverride !== null)
 		result.type(this.exceptionOverride);
 	return result;
 };

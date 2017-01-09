@@ -151,7 +151,7 @@ ContainerSizeVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {ContainerSizeVerifier} this
  * @throws {TypeError}  if {@code type} is null
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -299,15 +299,19 @@ ContainerSizeVerifier.prototype.isInRange = function(min, max)
 };
 
 /**
- * Verifies a string.
- *
- * @return {StringVerifier} a {@code String} verifier
- * @throws {TypeError}  if the value is not a {@code String}
+ * @return {StringVerifier} a verifier for the number's string representation
  */
 ContainerSizeVerifier.prototype.asString = function()
 {
 	return this.asNumber.asString();
 };
 
+/**
+ * @return {Number} the actual value
+ */
+ContainerSizeVerifier.prototype.getActual = function()
+{
+	return this.actual;
+};
 
 export default ContainerSizeVerifier;

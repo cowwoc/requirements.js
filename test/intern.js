@@ -43,7 +43,7 @@ define({
 	loaderOptions: {
 		// Packages that should be registered with the loader in each testing environment
 		paths: {
-			"Requirements": "build/amd/Requirements"
+			"Requirements": "build/node/Requirements"
 		}
 	},
 

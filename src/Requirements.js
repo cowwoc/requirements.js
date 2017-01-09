@@ -1,6 +1,4 @@
 import RequirementVerifier from "./RequirementVerifier";
-import "babel-polyfill";
-// babel-polyfill needed for Object.entries(). See http://stackoverflow.com/a/35382020/14731.
 
 const delegate = new RequirementVerifier();
 

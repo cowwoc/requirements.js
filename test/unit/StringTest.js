@@ -162,5 +162,18 @@ define(function()
 					requireThat(actual, "actual").length().isNotEqualTo(actual.length);
 				}, RangeError);
 			},
+
+			asString: function()
+			{
+				const actual = "value";
+				requireThat(actual, "actual").asString().isEqualTo(actual);
+			},
+
+			getActual: function()
+			{
+				const input = "value";
+				const output = requireThat(input, "input").getActual();
+				assert.equal(output, input);
+			}
 		});
 });

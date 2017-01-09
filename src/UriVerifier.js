@@ -112,7 +112,7 @@ UriVerifier.prototype.isEqualTo = function(expected, name)
  */
 UriVerifier.prototype.isNotEqualTo = function(value, name)
 {
-	this.asObject.isNotEqualTo(expected, name);
+	this.asObject.isNotEqualTo(value, name);
 	return this;
 };
 
@@ -135,7 +135,7 @@ UriVerifier.prototype.isInArray = function(array)
  *
  * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
  *
- * @param type the type  to compare to
+ * @param {Function} type the type to compare to
  * @return {UriVerifier} this
  * @throws {TypeError}  if {@code type} is undefined, null, anonymous function, arrow function or an object
  * @throws {RangeError} if the actual value is not an instance of {@code type}
@@ -242,6 +242,22 @@ UriVerifier.prototype.isRelative = function()
 	if (!this.actual.is("relative"))
 		throw new RangeError(this.name + " must be relative: " + this.actual.toString());
 	return this;
+};
+
+/**
+ * @return {StringVerifier} a verifier for the URI's string representation
+ */
+UriVerifier.prototype.asString = function()
+{
+	return this.asObject.asString();
+};
+
+/**
+ * @return {URI} the actual value
+ */
+UriVerifier.prototype.getActual = function()
+{
+	return this.actual;
 };
 
 export default UriVerifier;

@@ -322,6 +322,19 @@ define(function()
 				{
 					requireThat(1.0, "actual").isNotNumber();
 				}, RangeError)
+			},
+
+			asString: function()
+			{
+				const actual = 5;
+				requireThat(actual, "actual").asString().isEqualTo("5");
+			},
+
+			getActual: function()
+			{
+				const input = 5;
+				const output = requireThat(input, "input").getActual();
+				assert.equal(output, input);
 			}
 		});
 });
