@@ -9,26 +9,26 @@ define(function()
 		{
 			name: "NumberTest",
 
-			isInRange_actualIsLowerBound: function()
+			isBetween_actualIsLowerBound: function()
 			{
-				requireThat(0, "actual").isInRange(0, 2);
+				requireThat(0, "actual").isBetween(0, 2);
 			},
 
-			isInRange_actualIsInBounds: function()
+			isBetween_actualIsInBounds: function()
 			{
-				requireThat(1, "actual").isInRange(0, 2);
+				requireThat(1, "actual").isBetween(0, 2);
 			},
 
-			isInRange_actualIsUpperBound: function()
+			isBetween_actualIsUpperBound: function()
 			{
-				requireThat(2, "actual").isInRange(0, 2);
+				requireThat(2, "actual").isBetween(0, 2);
 			},
 
-			isInRange_actualIsBelow: function()
+			isBetween_actualIsBelow: function()
 			{
 				assert.throws(function()
 				{
-					requireThat(1, "actual").isInRange(10, 20);
+					requireThat(1, "actual").isBetween(10, 20);
 				}, RangeError)
 			},
 

@@ -419,7 +419,7 @@ NumberVerifier.prototype.isLessThanOrEqualTo = function(value, name)
  * @throws {RangeError}  if {@code last} is less than {@code first}; if
  *                                  the actual value is not in range
  */
-NumberVerifier.prototype.isInRange = function(min, max)
+NumberVerifier.prototype.isBetween = function(min, max)
 {
 	this.config.internalVerifier.requireThat(max, "max").isInstanceOf(Number);
 	this.config.internalVerifier.requireThat(min, "min").isInstanceOf(Number).isLessThan(max, "max");

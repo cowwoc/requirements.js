@@ -295,9 +295,9 @@ ContainerSizeVerifier.prototype.isLessThanOrEqualTo = function(value, name)
  * @throws {RangeError}  if {@code last} is less than {@code first}; if
  *                                  the actual value is not in range
  */
-ContainerSizeVerifier.prototype.isInRange = function(min, max)
+ContainerSizeVerifier.prototype.isBetween = function(min, max)
 {
-	this.asNumber.isInRange(min, max);
+	this.asNumber.isBetween(min, max);
 	return this;
 };
 

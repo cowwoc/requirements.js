@@ -619,7 +619,7 @@ define(function()
 				}, RangeError);
 			},
 
-			isInRange_expectedIsLowerBound()
+			isBetween_expectedIsLowerBound()
 			{
 				const actual =
 					[
@@ -627,10 +627,10 @@ define(function()
 						2,
 						3
 					];
-				requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isBetween(3, 5);
 			},
 
-			isInRange_expectedIsInBounds()
+			isBetween_expectedIsInBounds()
 			{
 				const actual =
 					[
@@ -639,10 +639,10 @@ define(function()
 						3,
 						4
 					];
-				requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isBetween(3, 5);
 			},
 
-			isInRange_expectedIsUpperBound()
+			isBetween_expectedIsUpperBound()
 			{
 				const actual =
 					[
@@ -652,10 +652,10 @@ define(function()
 						4,
 						5
 					];
-				requireThat(actual, "actual").length().isInRange(3, 5);
+				requireThat(actual, "actual").length().isBetween(3, 5);
 			},
 
-			isInRange_expectedIsBelow()
+			isBetween_expectedIsBelow()
 			{
 				assert.throws(function()
 				{
@@ -664,7 +664,7 @@ define(function()
 							1,
 							2
 						];
-					requireThat(actual, "actual").length().isInRange(3, 5);
+					requireThat(actual, "actual").length().isBetween(3, 5);
 				}, RangeError);
 			},
 
