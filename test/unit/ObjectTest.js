@@ -1,7 +1,8 @@
-import registerSuite from "intern!object";
 import assert from "intern/chai!assert";
+import registerSuite from "intern!object";
 import requireThat from "./Requirements";
 
+/* eslint-disable camelcase */
 define(function()
 {
 	// See http://stackoverflow.com/a/27724419/14731

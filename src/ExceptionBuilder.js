@@ -14,7 +14,7 @@ import Utilities from "./Utilities";
  * @param {ExceptionConstructor} type a function that takes an exception message and returns an
  *   exception instance
  * @param {String} message the exception message
- * @param {List<Object>} contextPostfix the key-value pairs to append to the context set by the user
+ * @param {Array.<Array>} contextPostfix an array of key-value pairs to append to the context set by the user
  * @throws {TypeError} if any of the arguments are not set
  * @author Gili Tzabari
  */
@@ -104,23 +104,14 @@ ExceptionBuilder.prototype.addContext = function(key, value)
 /**
  * Adds contextual information to append to the exception message.
  *
- * @param {Object} context the key-value pairs to add
+ * @param {Array.<Array>} context a list of key-value pairs to add
  * @return {ExceptionBuilder} this
  * @throws {TypeError} if {@code context} is not set
  */
 ExceptionBuilder.prototype.addContextArray = function(context)
 {
-	if (!context)
-	{
-		throw new TypeError("context must be set.\n" +
-			"Actual: " + Utilities.getTypeName(context));
-	}
-	if (!Array.isArray(context))
-	{
-		throw new TypeError("context must be an Array.\n" +
-			"Actual: " + Utilities.getTypeName(context));
-	}
-	this.context.push(context);
+	Utilities.verifyContext(context);
+	this.context.push([...context]);
 	return this;
 };
 
@@ -129,7 +120,7 @@ ExceptionBuilder.prototype.addContextArray = function(context)
  */
 ExceptionBuilder.prototype.build = function()
 {
-	let contextToAdd = [this.message];
+	const contextToAdd = [this.message];
 
 	let mergedContext;
 	if (this.contextPostfix === 0)
@@ -140,18 +131,18 @@ ExceptionBuilder.prototype.build = function()
 	let maxKeyLength = 0;
 	for (let i = 0; i < mergedContext.length; ++i)
 	{
-		let keyLength = Object.keys(mergedContext[i])[0].length;
+		const keyLength = Object.keys(mergedContext[i])[0].length;
 		if (keyLength > maxKeyLength)
 			maxKeyLength = keyLength;
 	}
-	for (let entry of mergedContext)
+	for (const entry of mergedContext)
 	{
 		// We can't use Object.values() until it is well-supported: http://stackoverflow.com/a/40421941/14731
-		let key = Object.keys(entry)[0];
-		let value = entry[Object.keys(entry)[0]];
+		const key = Object.keys(entry)[0];
+		const value = entry[Object.keys(entry)[0]];
 		contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + Utilities.toString(value));
 	}
-	let messageWithContext = contextToAdd.join("\n");
+	const messageWithContext = contextToAdd.join("\n");
 
 	return new this.constructor(messageWithContext.toString());
 };

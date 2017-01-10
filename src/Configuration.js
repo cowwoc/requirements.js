@@ -8,8 +8,11 @@ import Utilities from "./Utilities";
  * @param {RequirementVerifier} internalVerifier the verifier that can be used to check a verifier's own parameters
  * @param {Error} [exceptionOverride] the type of exception to throw, {@code null} to throw the default exception
  *                  type
- * @param {Array<Object>} [context] a list of key-value pairs to append to the exception message
- * @throws {TypeError} if {@code internalVerifier} is undefined or null
+ * @param {Array.<Array>} [context] a list of key-value pairs to append to the exception message
+ * @throws {TypeError} if {@code internalVerifier} is undefined or null; {@code context} or one of its elements are not
+ *   an array; if the nested array contains less or more than 2 elements; if the elements nested in the context array
+ *   are not strings
+ * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
  * @author Gili Tzabari
  */
 function Configuration(internalVerifier, exceptionOverride, context)
@@ -32,6 +35,8 @@ function Configuration(internalVerifier, exceptionOverride, context)
 		});
 	if (typeof(context) === "undefined")
 		context = [];
+	else
+		Utilities.verifyContext(context);
 	Object.defineProperty(this, "context",
 		{
 			value: []
@@ -72,7 +77,7 @@ Configuration.prototype.withException = function(exception)
 	return new Configuration(this.internalVerifier, exception, this.context);
 };
 
-/**!
+/**
  * @return {Error} the type of exception to throw, {@code null} to throw the default exception type
  * @see #withException(Class)
  */
@@ -103,14 +108,24 @@ Configuration.prototype.addContext = function(key, value)
 		throw new RangeError("key must be set.\n" +
 			"Actual: " + Utilities.getTypeName(key));
 	}
-	const newContext = [...this.context, {key: value}];
+	if (typeof(value) !== "string")
+	{
+		throw new TypeError("value must be a String.\n" +
+			"Actual: " + Utilities.getTypeName(value));
+	}
+	if (!value)
+	{
+		throw new RangeError("value must be set.\n" +
+			"Actual: " + Utilities.getTypeName(value));
+	}
+	const newContext = [...this.context, [key, value]];
 	return new Configuration(this.internalVerifier, this.exceptionOverride, newContext);
 };
 
 /**
  * Sets the contextual information to append to the exception message.
  *
- * @param {Array<Object>} context the contextual information
+ * @param {Array.<Array>} context the contextual information
  * @return {Configuration} a configuration with the specified context
  * @throws {TypeError} if {@code context} is not an Array
  * @throws {RangeError} if {@code context} is undefined or null, or if it contains entries that would be rejected by
@@ -121,37 +136,11 @@ Configuration.prototype.withContext = function(context)
 {
 	if (context === this.context)
 		return this;
-	if (!Array.isArray(context))
-	{
-		throw new TypeError("context must be an array.\n" +
-			"Actual: " + Utilities.getTypeName(context));
-	}
-	if (!context)
-	{
-		throw new RangeError("context must be set.\n" +
-			"Actual: " + Utilities.getTypeName(context));
-	}
-	let i = 0;
-	for (let entry of context)
-	{
-		let key = Object.keys(entry)[0];
-		if (typeof(key) !== "string")
-		{
-			throw new TypeError("context.key must be a String at index " + i + ".\n" +
-				"Actual: " + Utilities.getTypeName(key));
-		}
-		if (!key)
-		{
-			throw new RangeError("context.key must be set at index " + i + ".\n" +
-				"Actual: " + Utilities.getTypeName(key));
-		}
-		++i;
-	}
 	return new Configuration(this.internalVerifier, this.exceptionOverride, this.context);
 };
 
 /**
- * @return {List<Object>} a list of key-value pairs to append to the exception message
+ * @return {Array.<Array>} an array of key-value pairs to append to the exception message
  * @see #addContext(String, Object)
  */
 Configuration.prototype.getContext = function()

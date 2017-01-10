@@ -1,11 +1,11 @@
-import ObjectVerifier from "./ObjectVerifier";
-import ContainerSizeVerifier from "./ContainerSizeVerifier";
-import SetVerifier from "./SetVerifier";
-import Pluralizer from "./Pluralizer";
-import Utilities from "./Utilities";
-import Sugar from "sugar";
 import "babel-polyfill";
 // babel-polyfill needed for Set
+import ContainerSizeVerifier from "./ContainerSizeVerifier";
+import ObjectVerifier from "./ObjectVerifier";
+import Pluralizer from "./Pluralizer";
+import SetVerifier from "./SetVerifier";
+import Sugar from "sugar";
+import Utilities from "./Utilities";
 
 /**
  * Creates a new ArrayVerifier.
@@ -78,7 +78,7 @@ ArrayVerifier.prototype.addContext = function(key, value)
 /**
  * Sets the contextual information to append to the exception message.
  *
- * @param {Array<Object>} context the contextual information
+ * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
  * @return {ArrayVerifier} a configuration with the specified context
  * @throws {TypeError} if {@code context} is not an Array
  * @throws {RangeError} if {@code context} is not set
@@ -124,7 +124,7 @@ ArrayVerifier.prototype.isNotEqualTo = function(value, name)
 /**
  * Ensures that an array contains the actual value.
  *
- * @param {Array<Array>} array an array
+ * @param {Array.<Array>} array an array
  * @return {ArrayVerifier} this
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value
@@ -365,7 +365,7 @@ ArrayVerifier.prototype.containsAny = function(expected, name)
  */
 function actualContainsAny(actual, expected)
 {
-	for (let element of expected)
+	for (const element of expected)
 	{
 		if (actualContains(actual, element))
 			return true;
@@ -504,7 +504,7 @@ ArrayVerifier.prototype.doesNotContainAll = function(elements, name)
  */
 function actualContainsAll(actual, expected)
 {
-	for (let element of expected)
+	for (const element of expected)
 	{
 		if (!actualContains(actual, element))
 			return false;
@@ -522,7 +522,7 @@ ArrayVerifier.prototype.doesNotContainDuplicates = function()
 {
 	const unique = new Set();
 	const duplicates = new Set();
-	for (let element of this.actual)
+	for (const element of this.actual)
 	{
 		if (unique.has(element))
 			duplicates.add(element);
@@ -542,8 +542,8 @@ ArrayVerifier.prototype.doesNotContainDuplicates = function()
  */
 ArrayVerifier.prototype.length = function()
 {
-	return new ContainerSizeVerifier(this.actual, this.actual.length, this.name, this.name + ".length", Pluralizer.ELEMENT,
-		this.config);
+	return new ContainerSizeVerifier(this.actual, this.actual.length, this.name, this.name + ".length",
+		Pluralizer.ELEMENT, this.config);
 };
 
 /**

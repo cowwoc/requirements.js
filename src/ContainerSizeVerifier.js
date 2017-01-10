@@ -1,5 +1,5 @@
-import Utilities from "./Utilities";
 import NumberVerifier from "./NumberVerifier";
+import Utilities from "./Utilities";
 
 /**
  * Creates a new ContainerSizeVerifier.
@@ -68,7 +68,8 @@ ContainerSizeVerifier.prototype.withException = function(exception)
 	const newConfig = this.config.withException(exception);
 	if (newConfig === this.config)
 		return this;
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer, newConfig);
+	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
+		newConfig);
 };
 
 /**
@@ -83,13 +84,14 @@ ContainerSizeVerifier.prototype.withException = function(exception)
 ContainerSizeVerifier.prototype.addContext = function(key, value)
 {
 	const newConfig = this.config.addContext(key, value);
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer, newConfig);
+	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
+		newConfig);
 };
 
 /**
  * Sets the contextual information to append to the exception message.
  *
- * @param {Array<Object>} context the contextual information
+ * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
  * @return {ContainerSizeVerifier} a configuration with the specified context
  * @throws {TypeError} if {@code context} is not an Array
  * @throws {RangeError} if {@code context} is not set
@@ -99,7 +101,8 @@ ContainerSizeVerifier.prototype.withContext = function(context)
 	const newConfig = this.config.withContext(context);
 	if (context === this.context)
 		return this;
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer, newConfig);
+	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
+		newConfig);
 };
 
 /**
@@ -135,7 +138,7 @@ ContainerSizeVerifier.prototype.isNotEqualTo = function(value, name)
 /**
  * Ensures that an array contains the actual value.
  *
- * @param {Array<Array>} array an array
+ * @param {Array.<Array>} array an array
  * @return {ContainerSizeVerifier} this
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value

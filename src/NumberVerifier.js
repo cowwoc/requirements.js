@@ -72,7 +72,7 @@ NumberVerifier.prototype.addContext = function(key, value)
 /**
  * Sets the contextual information to append to the exception message.
  *
- * @param {Array<Object>} context the contextual information
+ * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
  * @return {NumberVerifier} a configuration with the specified context
  * @throws {TypeError} if {@code context} is not an Array
  * @throws {RangeError} if {@code context} is not set
@@ -118,7 +118,7 @@ NumberVerifier.prototype.isNotEqualTo = function(value, name)
 /**
  * Ensures that an Number contains the actual value.
  *
- * @param {Array<Number>} array an array
+ * @param {Array.<Number>} array an array
  * @return {NumberVerifier} this
  * @throws {TypeError}  if {@code array} is null
  * @throws {RangeError} if {@code array} does not contain the actual value

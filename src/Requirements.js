@@ -12,9 +12,9 @@ const delegate = new RequirementVerifier();
  * @throws {TypeError} if {@code name} is null
  * @throws {RangeError} if {@code name} is empty
  */
-const requireThat = function(actual, name)
+function requireThat(actual, name)
 {
 	return delegate.requireThat(actual, name);
-};
+}
 
 export default requireThat;

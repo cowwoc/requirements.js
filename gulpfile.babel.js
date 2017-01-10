@@ -1,15 +1,16 @@
-import gulp from "gulp";
 import babel from "gulp-babel";
-import rollup from "gulp-rollup";
-import rollupJs from "rollup";
-import rollupBabel from "rollup-plugin-babel";
-import sourcemaps from "gulp-sourcemaps";
-import nodeResolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
-import intern from "gulp-intern";
 import bower from "gulp-bower";
 import bowerResolve from "rollup-plugin-bower-resolve";
+import commonjs from "rollup-plugin-commonjs";
 import eslint from "gulp-eslint";
+import gulp from "gulp";
+import intern from "gulp-intern";
+import nodeResolve from "rollup-plugin-node-resolve";
+import rollup from "gulp-rollup";
+import rollupBabel from "rollup-plugin-babel";
+import rollupJs from "rollup";
+import sourcemaps from "gulp-sourcemaps";
+
 const rollupBabelConfiguration =
 	{
 		babelrc: false,
@@ -17,8 +18,8 @@ const rollupBabelConfiguration =
 			[
 				"latest",
 				{
-					"es2015": {
-						"modules": false
+					es2015: {
+						modules: false
 					}
 				}
 			]
@@ -29,6 +30,7 @@ const rollupBabelConfiguration =
 		]
 	};
 
+/* eslint-disable func-style */
 gulp.task("lint-for-node", function()
 {
 	return gulp.src(
@@ -39,7 +41,7 @@ gulp.task("lint-for-node", function()
 		]).
 		pipe(eslint(
 			{
-				"envs": ["es6", "node", "amd"]
+				envs: ["es6", "node", "amd"]
 			}
 		)).
 		pipe(eslint.format()).
@@ -54,7 +56,7 @@ gulp.task("lint-for-browser", function()
 		]).
 		pipe(eslint(
 			{
-				"envs": ["es6", "browser"]
+				envs: ["es6", "browser"]
 			}
 		)).
 		pipe(eslint.format()).
@@ -85,7 +87,7 @@ gulp.task("bundle-for-browser", ["bower"], function()
 				external: ["urijs", "sugar"],
 				globals: {
 					urijs: "URI",
-					sugar: "Sugar",
+					sugar: "Sugar"
 				}
 			})).
 		pipe(sourcemaps.write()).
@@ -106,7 +108,12 @@ gulp.task("bundle-for-node", function()
 				external: ["urijs", "sugar", "babel-polyfill"],
 				moduleName: "Requirements",
 				plugins: [
-					nodeResolve({jsnext: true, main: true}),
+					nodeResolve(
+						{
+							jsnext: true,
+							main: true
+						}
+					),
 					commonjs({include: "node_modules/**"})
 				]
 			})).
@@ -130,7 +137,8 @@ gulp.task("test", ["bundle-for-node", "test-as-es5"], function()
 		pipe(gulp.dest("build/intern")).
 		pipe(intern({
 			config: "test/intern",
-			runType: "client" // defaults to "client", use "runner" if you want to run functional tests
+			// defaults to "client", use "runner" if you want to run functional tests
+			runType: "client"
 		}));
 });
 

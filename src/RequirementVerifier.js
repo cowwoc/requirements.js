@@ -1,12 +1,12 @@
-import Utilities from "./Utilities";
-import Configuration from "./Configuration";
-import ObjectVerifier from "./ObjectVerifier";
-import StringVerifier from "./StringVerifier";
-import NumberVerifier from "./NumberVerifier";
 import ArrayVerifier from "./ArrayVerifier";
-import SetVerifier from "./SetVerifier";
+import Configuration from "./Configuration";
 import MapVerifier from "./MapVerifier";
+import NumberVerifier from "./NumberVerifier";
+import ObjectVerifier from "./ObjectVerifier";
+import SetVerifier from "./SetVerifier";
+import StringVerifier from "./StringVerifier";
 import UriVerifier from "./UriVerifier";
+import Utilities from "./Utilities";
 
 /**
  * Verifies a value.

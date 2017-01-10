@@ -9,8 +9,11 @@ const Utilities = {};
  */
 Utilities.instanceOf = function(value, type)
 {
-	if ((typeof(value) === "undefined" || value === null || typeof(type) === "undefined" || type === null) && value !== type)
+	if ((typeof(value) === "undefined" || value === null || typeof(type) === "undefined" || type === null) &&
+		value !== type)
+	{
 		return false;
+	}
 	// instanceof only works for non-primitives: http://stackoverflow.com/a/203757/14731
 	// So we wrap them...
 
@@ -157,14 +160,14 @@ Utilities.getFunctionName = function(fn)
 			const objectToString = Object.prototype.toString.call(fn).slice(8, -1);
 			if (objectToString === "Function")
 				return "";
-			throw TypeError("object must be a Function.\n" +
+			throw new TypeError("object must be a Function.\n" +
 				"Actual: " + Utilities.getTypeName(fn));
 		}
 		return match[1];
 	}
 	catch (e)
 	{
-		throw TypeError("object must be a Function.\n" +
+		throw new TypeError("object must be a Function.\n" +
 			"Actual: " + Utilities.getTypeName(fn));
 	}
 };
@@ -181,7 +184,7 @@ Utilities.getObjectClass = function(object)
 	const result = object.constructor.toString().match(getFunctionName)[1];
 	if (result === "Function")
 	{
-		throw TypeError("object must be an Object.\n" +
+		throw new TypeError("object must be an Object.\n" +
 			"Actual: " + Utilities.getTypeName(object));
 	}
 	return result;
@@ -208,7 +211,7 @@ Utilities.toString = function(object)
 		{
 			let result = "[";
 			// Can't use Array.join() because it doesn't handle nested arrays well
-			let size = current.length;
+			const size = current.length;
 			for (let i = 0; i < size; ++i)
 			{
 				result += Utilities.toString(current[i]);
@@ -220,8 +223,8 @@ Utilities.toString = function(object)
 		}
 		case "Map":
 		{
-			let result = new Object();
-			for (let entry of object.entries())
+			const result = {};
+			for (const entry of object.entries())
 				result[entry[0]] = entry[1];
 			return JSON.stringify(result, null, 2);
 		}
@@ -282,5 +285,70 @@ Utilities.verifyName = function(value, name)
 	if (trimmed.length === 0)
 		throw new RangeError(name + " may not be empty");
 };
+
+/**
+ * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
+ * @throws {TypeError} if {@code context} or one of its elements are not an array; if the nested array contains less
+ * or more than 2 elements; if the elements nested in the array are not strings
+ * @throws {RangeError} if the elements nested in the array are undefined, null, or are empty
+ * @return {undefined}
+ */
+Utilities.verifyContext = function(context)
+{
+	if (!context)
+	{
+		throw new TypeError("context must be set.\n" +
+			"Actual: " + Utilities.getTypeName(context));
+	}
+	if (!Array.isArray(context))
+	{
+		throw new TypeError("context must be an array.\n" +
+			"Actual: " + Utilities.getTypeName(context));
+	}
+	let i = 0;
+	for (const entry of context)
+	{
+		if (!Array.isArray(entry))
+		{
+			throw new TypeError("context must be an array at index " + i + ".\n" +
+				"Actual: " + Utilities.getTypeName(context));
+		}
+		if (entry.length !== 2)
+		{
+			throw new TypeError("context must contain 2 elements (key-value pair) at index " + i + ".\n" +
+				"Actual: " + Utilities.getTypeName(context));
+		}
+		verifyContextElement(entry[0], "context.key", i);
+		verifyContextElement(entry[1], "context.value", i);
+		++i;
+	}
+};
+
+/**
+ * @param {Object} element an element in the array
+ * @param {String} name the name of the element
+ * @param {Number} index the index of the element in the array
+ * @return {undefined}
+ * @throws {TypeError} if the element is not an array; if the element is not a string
+ * @throws {RangeError} if the element is undefined, null, or empty
+ */
+function verifyContextElement(element, name, index)
+{
+	if (typeof(element) !== "string")
+	{
+		throw new TypeError(name + " must be a String at index " + index + ".\n" +
+			"Actual: " + Utilities.getTypeName(element));
+	}
+	if (typeof(element) === "undefined" || element === null)
+	{
+		throw new RangeError(name + " must be set at index " + index + ".\n" +
+			"Actual: " + Utilities.getTypeName(element));
+	}
+	if (element.length === 0)
+	{
+		throw new RangeError(name + " may not be empty at index " + index + ".\n" +
+			"Actual: " + Utilities.getTypeName(element));
+	}
+}
 
 export default Utilities;

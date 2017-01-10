@@ -1,5 +1,5 @@
-import Utilities from "./Utilities";
 import ObjectVerifier from "./ObjectVerifier";
+import Utilities from "./Utilities";
 
 /**
  * Creates a new InetAddressVerifier.
@@ -73,7 +73,7 @@ InetAddressVerifier.prototype.addContext = function(key, value)
 /**
  * Sets the contextual information to append to the exception message.
  *
- * @param {Array<Object>} context the contextual information
+ * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
  * @return {InetAddressVerifier} a configuration with the specified context
  * @throws {TypeError} if {@code context} is not an Array
  * @throws {RangeError} if {@code context} is not set
@@ -119,7 +119,7 @@ InetAddressVerifier.prototype.isNotEqualTo = function(value, name)
 /**
  * Ensures that an array contains the actual value.
  *
- * @param {Array<Array>} array an array
+ * @param {Array.<Array>} array an array
  * @return {InetAddressVerifier} this
  * @throws {TypeError}  if {@code array} is not an {@code Array}
  * @throws {RangeError} if {@code array} does not contain the actual value

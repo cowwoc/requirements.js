@@ -1,20 +1,21 @@
-import registerSuite from "intern!object";
 import assert from "intern/chai!assert";
+import registerSuite from "intern!object";
 import requireThat from "./Requirements";
 
+/* eslint-disable camelcase */
 define(function()
 {
 	registerSuite(
 		{
 			name: "ArrayTest",
 
-			isEmpty: function()
+			isEmpty()
 			{
 				const actual = [];
 				requireThat(actual, "actual").isEmpty();
 			},
 
-			isEmpty_actualContainsOneElement: function()
+			isEmpty_actualContainsOneElement()
 			{
 				assert.throws(function()
 				{
@@ -23,13 +24,13 @@ define(function()
 				}, RangeError);
 			},
 
-			isNotEmpty: function()
+			isNotEmpty()
 			{
 				const actual = ["element"];
 				requireThat(actual, "actual").isNotEmpty();
 			},
 
-			isNotEmpty_False: function()
+			isNotEmpty_False()
 			{
 				assert.throws(function()
 				{
@@ -38,13 +39,13 @@ define(function()
 				}, RangeError);
 			},
 
-			contains: function()
+			contains()
 			{
 				const actual = ["element"]
 				requireThat(actual, "actual").contains("element");
 			},
 
-			contains_False: function()
+			contains_False()
 			{
 				assert.throws(function()
 				{
@@ -53,13 +54,13 @@ define(function()
 				}, RangeError);
 			},
 
-			containsVariable: function()
+			containsVariable()
 			{
 				const actual = ["element"];
 				requireThat(actual, "actual").contains("element", "nameOfExpected");
 			},
 
-			containsVariable_False: function()
+			containsVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -68,7 +69,7 @@ define(function()
 				}, RangeError);
 			},
 
-			contains_expectedEmptyName: function()
+			contains_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -77,7 +78,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsExactly: function()
+			containsExactly()
 			{
 				const actual =
 					[
@@ -88,7 +89,7 @@ define(function()
 				requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
 			},
 
-			containsExactly_actualContainsUnwantedElements: function()
+			containsExactly_actualContainsUnwantedElements()
 			{
 				assert.throws(function()
 				{
@@ -102,7 +103,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsExactly_actualIsMissingElements: function()
+			containsExactly_actualIsMissingElements()
 			{
 				assert.throws(function()
 				{
@@ -115,7 +116,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsExactlyVariable_actualIsMissingElements: function()
+			containsExactlyVariable_actualIsMissingElements()
 			{
 				assert.throws(function()
 				{
@@ -128,7 +129,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsExactlyVariable: function()
+			containsExactlyVariable()
 			{
 				const actual =
 					[
@@ -140,7 +141,7 @@ define(function()
 					["one", "two", "three"], "nameOfExpected");
 			},
 
-			containsExactlyVariable_False: function()
+			containsExactlyVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -154,7 +155,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsExactly_expectedEmptyName: function()
+			containsExactly_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -168,7 +169,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAny: function()
+			containsAny()
 			{
 				const actual =
 					[
@@ -179,7 +180,7 @@ define(function()
 				requireThat(actual, "actual").containsAny(["two", "four"]);
 			},
 
-			containsAny_False: function()
+			containsAny_False()
 			{
 				assert.throws(function()
 				{
@@ -193,7 +194,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAnyVariable: function()
+			containsAnyVariable()
 			{
 				const actual =
 					[
@@ -204,7 +205,7 @@ define(function()
 				requireThat(actual, "actual").containsAny(["two", "four"], "nameOfExpected");
 			},
 
-			containsAnyVariable_False: function()
+			containsAnyVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -218,7 +219,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAny_expectedEmptyName: function()
+			containsAny_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -232,7 +233,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAll: function()
+			containsAll()
 			{
 				const actual =
 					[
@@ -243,7 +244,7 @@ define(function()
 				requireThat(actual, "actual").containsAll(["two", "three"]);
 			},
 
-			containsAll_False: function()
+			containsAll_False()
 			{
 				assert.throws(function()
 				{
@@ -257,7 +258,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAllVariable: function()
+			containsAllVariable()
 			{
 				const actual =
 					[
@@ -268,7 +269,7 @@ define(function()
 				requireThat(actual, "actual").containsAll(["two", "three"], "nameOfExpected");
 			},
 
-			containsAllVariable_False: function()
+			containsAllVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -282,7 +283,7 @@ define(function()
 				}, RangeError);
 			},
 
-			containsAll_expectedEmptyName: function()
+			containsAll_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -296,7 +297,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContain: function()
+			doesNotContain()
 			{
 				const actual =
 					[
@@ -305,7 +306,7 @@ define(function()
 				requireThat(actual, "actual").doesNotContain("element");
 			},
 
-			doesNotContain_False: function()
+			doesNotContain_False()
 			{
 				assert.throws(function()
 				{
@@ -317,7 +318,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainVariable: function()
+			doesNotContainVariable()
 			{
 				const actual =
 					[
@@ -326,7 +327,7 @@ define(function()
 				requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
 			},
 
-			doesNotContainVariable_False: function()
+			doesNotContainVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -338,7 +339,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContain_expectedEmptyName: function()
+			doesNotContain_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -350,7 +351,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAny: function()
+			doesNotContainAny()
 			{
 				const actual =
 					[
@@ -361,7 +362,7 @@ define(function()
 				requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"]);
 			},
 
-			doesNotContainAny_False: function()
+			doesNotContainAny_False()
 			{
 				assert.throws(function()
 				{
@@ -375,7 +376,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAnyVariable: function()
+			doesNotContainAnyVariable()
 			{
 				const actual =
 					[
@@ -387,7 +388,7 @@ define(function()
 					"nameOfExpected");
 			},
 
-			doesNotContainAnyVariable_False: function()
+			doesNotContainAnyVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -402,7 +403,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAny_expectedEmptyName: function()
+			doesNotContainAny_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -416,7 +417,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAll: function()
+			doesNotContainAll()
 			{
 				const actual =
 					[
@@ -427,7 +428,7 @@ define(function()
 				requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"]);
 			},
 
-			doesNotContainAll_False: function()
+			doesNotContainAll_False()
 			{
 				assert.throws(function()
 				{
@@ -442,7 +443,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAllVariable: function()
+			doesNotContainAllVariable()
 			{
 				const actual =
 					[
@@ -454,7 +455,7 @@ define(function()
 					"nameOfExpected");
 			},
 
-			doesNotContainAllVariable_False: function()
+			doesNotContainAllVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -470,7 +471,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainAll_expectedEmptyName: function()
+			doesNotContainAll_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -484,7 +485,7 @@ define(function()
 				}, RangeError);
 			},
 
-			doesNotContainDuplicates: function()
+			doesNotContainDuplicates()
 			{
 				const actual =
 					[
@@ -495,7 +496,7 @@ define(function()
 				requireThat(actual, "actual").doesNotContainDuplicates();
 			},
 
-			doesNotContainDuplicates_False: function()
+			doesNotContainDuplicates_False()
 			{
 				assert.throws(function()
 				{
@@ -511,7 +512,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsEqualTo: function()
+			lengthIsEqualTo()
 			{
 				const actual =
 					[
@@ -520,7 +521,7 @@ define(function()
 				requireThat(actual, "actual").length().isEqualTo(1);
 			},
 
-			lengthIsEqualTo_False: function()
+			lengthIsEqualTo_False()
 			{
 				assert.throws(function()
 				{
@@ -532,7 +533,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsEqualToVariable: function()
+			lengthIsEqualToVariable()
 			{
 				const actual =
 					[
@@ -541,7 +542,7 @@ define(function()
 				requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
 			},
 
-			lengthIsEqualToVariable_False: function()
+			lengthIsEqualToVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -553,7 +554,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsEqualTo_expectedEmptyName: function()
+			lengthIsEqualTo_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -565,7 +566,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsNotEqualTo: function()
+			lengthIsNotEqualTo()
 			{
 				const actual =
 					[
@@ -573,7 +574,7 @@ define(function()
 					];
 				requireThat(actual, "actual").length().isNotEqualTo(2);
 			},
-			lengthIsNotEqualTo_False: function()
+			lengthIsNotEqualTo_False()
 			{
 				assert.throws(function()
 				{
@@ -585,7 +586,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsNotEqualToVariable: function()
+			lengthIsNotEqualToVariable()
 			{
 				const actual =
 					[
@@ -594,7 +595,7 @@ define(function()
 				requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
 			},
 
-			lengthIsNotEqualToVariable_False: function()
+			lengthIsNotEqualToVariable_False()
 			{
 				assert.throws(function()
 				{
@@ -606,7 +607,7 @@ define(function()
 				}, RangeError);
 			},
 
-			lengthIsNotEqualTo_expectedEmptyName: function()
+			lengthIsNotEqualTo_expectedEmptyName()
 			{
 				assert.throws(function()
 				{
@@ -618,7 +619,7 @@ define(function()
 				}, RangeError);
 			},
 
-			isInRange_expectedIsLowerBound: function()
+			isInRange_expectedIsLowerBound()
 			{
 				const actual =
 					[
@@ -629,7 +630,7 @@ define(function()
 				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
-			isInRange_expectedIsInBounds: function()
+			isInRange_expectedIsInBounds()
 			{
 				const actual =
 					[
@@ -641,7 +642,7 @@ define(function()
 				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
-			isInRange_expectedIsUpperBound: function()
+			isInRange_expectedIsUpperBound()
 			{
 				const actual =
 					[
@@ -654,7 +655,7 @@ define(function()
 				requireThat(actual, "actual").length().isInRange(3, 5);
 			},
 
-			isInRange_expectedIsBelow: function()
+			isInRange_expectedIsBelow()
 			{
 				assert.throws(function()
 				{
@@ -667,20 +668,20 @@ define(function()
 				}, RangeError);
 			},
 
-			asSet: function()
+			asSet()
 			{
 				const set = new Set([1, 2, 3]);
 				const actual = Array.from(set);
 				requireThat(actual, "actual").asSet().isEqualTo(set);
 			},
 
-			asString: function()
+			asString()
 			{
 				const actual = [1, 2, 3];
 				requireThat(actual, "actual").asString().isEqualTo("[1, 2, 3]");
 			},
 
-			getActual: function()
+			getActual()
 			{
 				const input =
 					[
