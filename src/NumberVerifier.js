@@ -503,6 +503,17 @@ NumberVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code NumberVerifier} for the number's string representation
+ * @return {NumberVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+NumberVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * @return {Number} the actual value
  */
 NumberVerifier.prototype.getActual = function()

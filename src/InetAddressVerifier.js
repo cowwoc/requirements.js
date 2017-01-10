@@ -179,6 +179,17 @@ InetAddressVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the number's string representation
+ * @return {InetAddressVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+InetAddressVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * Ensures that the actual value is an IP v4 address.
  *
  * @return {InetAddressVerifier} this

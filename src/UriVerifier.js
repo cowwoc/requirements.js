@@ -253,6 +253,17 @@ UriVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts an {@code StringVerifier} for the URI's string representation
+ * @return {UriVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+UriVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * @return {URI} the actual value
  */
 UriVerifier.prototype.getActual = function()

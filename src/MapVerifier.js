@@ -227,6 +227,17 @@ MapVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the Map's string representation
+ * @return {MapVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+MapVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * Ensures that value does not contain any entries
  *
  * @return {MapVerifier} this
@@ -264,8 +275,7 @@ MapVerifier.prototype.keys = function()
 };
 
 /**
- * @param {Function<ArrayVerifier>} consumer a function that accepts a verifier for the Map's keys
- *   names
+ * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's keys
  * @return {MapVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
  */
@@ -285,7 +295,7 @@ MapVerifier.prototype.values = function()
 };
 
 /**
- * @param {Function<ArrayVerifier>} consumer a function that accepts a verifier for the Map's values
+ * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's values
  * @return {MapVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
  */
@@ -306,7 +316,7 @@ MapVerifier.prototype.entries = function()
 };
 
 /**
- * @param {Function<ArrayVerifier>} consumer a function that accepts a verifier for the Map's entries (an array of
+ * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's entries (an array of
  *   {@code [key, value]} for each element in the Map)
  * @return {MapVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
@@ -327,7 +337,7 @@ MapVerifier.prototype.size = function()
 };
 
 /**
- * @param {Function<NumberVerifier>} consumer a function that accepts a verifier for the number of entries this Map
+ * @param {Function} consumer a function that accepts a {@code NumberVerifier} for the number of entries this Map
  *   contains
  * @return {MapVerifier} this
  * @throws {TypeError} if {@code consumer} is not set

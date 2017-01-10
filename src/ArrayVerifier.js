@@ -220,6 +220,17 @@ ArrayVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the array's string representation
+ * @return {ArrayVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+ArrayVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * Ensures that the actual value is empty.
  *
  * @return {ArrayVerifier} this
@@ -547,7 +558,7 @@ ArrayVerifier.prototype.length = function()
 };
 
 /**
- * @param {Function<ContainerSizeVerifier>} consumer a function that accepts a verifier for the length of the array
+ * @param {Function} consumer a function that accepts a {@code ContainerSizeVerifier} for the length of the array
  * @return {ArrayVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
  */
@@ -567,6 +578,18 @@ ArrayVerifier.prototype.lengthConsumer = function(consumer)
 ArrayVerifier.prototype.asSet = function()
 {
 	return new SetVerifier(new Set(this.actual), this.name + ".asSet()", this.config);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@code SetVerifier} for the Set representation of the array
+ * @return {ArrayVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+ArrayVerifier.prototype.asSetConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this.asSet());
+	return this;
 };
 
 /**

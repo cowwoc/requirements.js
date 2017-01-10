@@ -9,7 +9,6 @@ function Pluralizer()
 	// Intentionally empty
 }
 
-
 Pluralizer.CHARACTER = new Pluralizer();
 Pluralizer.CHARACTER.nameOf = function(count)
 {

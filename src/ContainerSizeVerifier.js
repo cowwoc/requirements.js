@@ -310,6 +310,17 @@ ContainerSizeVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the number's string representation
+ * @return {ContainerSizeVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+ContainerSizeVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asNumber.asStringConsumer(consumer);
+	return this;
+};
+
+/**
  * @return {Number} the actual value
  */
 ContainerSizeVerifier.prototype.getActual = function()

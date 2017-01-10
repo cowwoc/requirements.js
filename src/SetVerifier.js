@@ -1,8 +1,6 @@
 import ArrayVerifier from "./ArrayVerifier";
-import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import NumberVerifier from "./NumberVerifier";
 import ObjectVerifier from "./ObjectVerifier";
-import Pluralizer from "./Pluralizer";
 import Utilities from "./Utilities";
 
 /**
@@ -504,28 +502,7 @@ SetVerifier.prototype.size = function()
 };
 
 /**
- * @param {Function<NumberVerifier>} consumer a function that accepts a verifier for Set's size
- * @return {SetVerifier} this
- * @throws {TypeError} if {@code consumer} is not set
- */
-SetVerifier.prototype.sizeConsumer = function(consumer)
-{
-	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-	consumer(this.size);
-	return this;
-};
-
-/**
- * @return {ContainerSizeVerifier} a verifier for the size of this Set
- */
-SetVerifier.prototype.size = function()
-{
-	return new ContainerSizeVerifier(this.actual, this.actual.size, this.name, this.name + ".size", Pluralizer.ELEMENT,
-		this.config);
-};
-
-/**
- * @param {Function<NumberVerifier>} consumer a function that accepts a verifier for the size of this Set
+ * @param {Function} consumer a function that accepts a {@code NumberVerifier} for the Set's size
  * @return {SetVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
  */
@@ -545,11 +522,34 @@ SetVerifier.prototype.asArray = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Set's elements
+ * @return {SetVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+SetVerifier.prototype.asArrayConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this.asArray());
+	return this;
+};
+
+/**
  * @return {StringVerifier} a verifier for the Set's string representation
  */
 SetVerifier.prototype.asString = function()
 {
 	return this.asObject.asString();
+};
+
+/**
+ * @param {Function} consumer a function that accepts an {@code StringVerifier} for the Set's string representation
+ * @return {SetVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+SetVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.asObject.asStringConsumer(consumer);
+	return this;
 };
 
 /**

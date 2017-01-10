@@ -317,6 +317,18 @@ ObjectVerifier.prototype.asString = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the number's string representation
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+ObjectVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this.asString());
+	return this;
+};
+
+/**
  * @return {Object} the actual value
  */
 ObjectVerifier.prototype.getActual = function()

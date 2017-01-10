@@ -195,7 +195,7 @@ StringVerifier.prototype.isNotEmpty = function()
 /**
  * Trims whitespace at the beginning and end of the actual value.
  *
- * @return {StringVerifier} a verifier with the actual value trimmed
+ * @return {StringVerifier} a verifier for the trimmed representation of the actual value
  */
 StringVerifier.prototype.trim = function()
 {
@@ -203,6 +203,19 @@ StringVerifier.prototype.trim = function()
 	if (trimmed === this.actual)
 		return this;
 	return new StringVerifier(trimmed, this.name, this.config);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@code StringVerifier} for the trimmed representation of the
+ *   string
+ * @return {StringVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+StringVerifier.prototype.trimConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.trim());
+	return this;
 };
 
 /**
@@ -215,7 +228,7 @@ StringVerifier.prototype.length = function()
 };
 
 /**
- * @param {Function<ContainerSizeVerifier>} consumer a function that accepts a verifier for the length of the string
+ * @param {Function} consumer a function that accepts a {@code ContainerSizeVerifier} for the length of the string
  * @return {StringVerifier} this
  * @throws {TypeError} if {@code consumer} is not set
  */
@@ -387,9 +400,19 @@ StringVerifier.prototype.asString = function()
 };
 
 /**
- * Ensures that the actual value contains a valid Internet address format.
- *
- * @return {InetAddressVerifier} a verifier for Internet addresses
+ * @param {Function} consumer a function that accepts {@code this}
+ * @return {StringVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+StringVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this);
+	return this;
+};
+
+/**
+ * @return {InetAddressVerifier} a verifier for the value's Internet address representation
  * @throws {RangeError} if the actual value does not contain a valid Internet address format
  */
 StringVerifier.prototype.asInetAddress = function()
@@ -402,13 +425,38 @@ StringVerifier.prototype.asInetAddress = function()
 };
 
 /**
- * Ensures that the actual value contains a valid URI format.
- *
- * @return {UriVerifier} a verifier for URIs
+ * @param {Function} consumer a function that accepts an {@code InetAddressVerifier} for the value's Internet address
+ * representation
+ * @return {StringVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ * @throws {RangeError} if the actual value does not contain a valid Internet address format
+ */
+StringVerifier.prototype.asInetAddressConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this.asInetAddress());
+	return this;
+};
+
+/**
+ * @return {UriVerifier} a verifier for the value's URI representation
  */
 StringVerifier.prototype.asUri = function()
 {
 	return new UriVerifier(new URI(this.actual), this.name, this.config);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@code UriVerifier} for the value's Internet address
+ * representation
+ * @return {StringVerifier} this
+ * @throws {TypeError} if {@code consumer} is not set
+ */
+StringVerifier.prototype.asUriConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer.apply(this.asUri());
+	return this;
 };
 
 /**
