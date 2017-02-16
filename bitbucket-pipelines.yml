@@ -13,6 +13,4 @@ pipelines:
           - npm --version
           - npm install
           - npm install -g gulp-cli
-          - npm install -g intern-cli
           - gulp default
-          - intern run --config=test/intern.js
