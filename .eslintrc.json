@@ -112,10 +112,11 @@
 		"no-sync": "error",
 		"array-bracket-spacing": "error",
 		"block-spacing": "error",
-		"brace-style": [
-			"error",
-			"allman"
-		],
+		// Disabled until https://youtrack.jetbrains.com/issue/WEB-25425 is fixed
+		//		"brace-style": [
+		//			"error",
+		//			"allman"
+		//		],
 		"camelcase": "error",
 		//"capitalized-comments": "error",
 		"comma-dangle": "error",

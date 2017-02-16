@@ -19,7 +19,7 @@ Utilities.instanceOf = function(value, type)
 
 	/* eslint-disable no-new-wrappers */
 	let wrappedValue;
-	switch (Utilities.getTypeName(value))
+	switch (Utilities.getTypeOf(value))
 	{
 		case "String":
 		{
@@ -66,39 +66,6 @@ Utilities.extends = function(child, parent)
 };
 
 /**
- * Returns the name of a type.
- *
- * If the input is undefined, returns "undefined".
- * If the input is null, returns "null".
- * If the input is a primitive, returns the name of the wrapper class (e.g. "String" for primitive strings).
- * If the input is a class, returns the class name.
- *
- * @param {Object} object an object
- * @return {String} the name of the object's class
- * @throws {TypeError} if {@code object} is a function or a class instance
- */
-Utilities.getClassName = function(object)
-{
-	const typeName = Utilities.getTypeName(object);
-	switch (typeName)
-	{
-		case "Undefined":
-			return "undefined";
-		case "Null":
-			return "null";
-		case "Function":
-			return Utilities.getFunctionName(object);
-		case "AnonymousFunction":
-		case "ArrowFunction":
-		case "Object":
-			throw new TypeError("Expecting a class type.\n" +
-				"Actual: " + typeName);
-		default:
-			return typeName;
-	}
-};
-
-/**
  * Returns the name of an object's type.
  *
  * If the input is undefined, returns "Undefined".
@@ -112,83 +79,51 @@ Utilities.getClassName = function(object)
  * If the input is a class instance, returns "Object".
  *
  * @param {Object} object an object
- * @return {String} the name of the object's class
+ * @return {String} the name of the object's type
  * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
- * @see Utilities.getFunctionName
- * @see Utilities.getObjectClass
  */
-Utilities.getTypeName = function(object)
+Utilities.getTypeOf = function(object)
 {
 	const objectToString = Object.prototype.toString.call(object).slice(8, -1);
 	if (objectToString === "Function")
 	{
+		if (object.name !== null)
+			return object.name;
 		const instanceToString = object.toString();
 		if (instanceToString.indexOf(" => ") !== -1)
 			return "ArrowFunction";
-		const getFunctionName = /^function ([^(]+)\(/;
-		const match = instanceToString.match(getFunctionName);
-		if (match === null)
-			return "AnonymousFunction";
-		return "Function";
 	}
 	// Built-in types (e.g. String) or class instances
+	if (objectToString === "Object")
+		return getObjectClass(object);
 	return objectToString;
-};
-
-/**
- * Returns the name of a function or class.
- *
- * If the input is an anonymous function, returns "".
- * If the input is an arrow function, returns "=>".
- *
- * @param {Function} fn a function
- * @return {String} the name of the function
- * @throws {TypeError} if {@code fn} is not a function
- * @see Utilities.getTypeName
- */
-Utilities.getFunctionName = function(fn)
-{
-	try
-	{
-		const instanceToString = fn.toString();
-		if (instanceToString.indexOf(" => ") !== -1)
-			return "=>";
-		const getFunctionName = /^function ([^(]+)\(/;
-		const match = instanceToString.match(getFunctionName);
-		if (match === null)
-		{
-			const objectToString = Object.prototype.toString.call(fn).slice(8, -1);
-			if (objectToString === "Function")
-				return "";
-			throw new TypeError("object must be a Function.\n" +
-				"Actual: " + Utilities.getTypeName(fn));
-		}
-		return match[1];
-	}
-	catch (e)
-	{
-		throw new TypeError("object must be a Function.\n" +
-			"Actual: " + Utilities.getTypeName(fn));
-	}
 };
 
 /**
  * @param {Object} object an object
  * @return {String} the name of the object's class
  * @throws {TypeError} if {@code object} is not an Object
- * @see Utilities.getTypeName
+ * @see Utilities.getTypeOf
  */
-Utilities.getObjectClass = function(object)
+function getObjectClass(object)
 {
-	const getFunctionName = /^function ([^(]+)\(/;
-	const result = object.constructor.toString().match(getFunctionName)[1];
+	const functionNamePattern = /^function ([^(]+)\(/;
+	const asFunction = object.constructor.toString().match(functionNamePattern);
+	let result;
+	if (asFunction === null)
+	{
+		const classNamePattern = /^class ([^{]+)\{/;
+		result = object.constructor.toString().match(classNamePattern)[1];
+	}
+	else
+		result = asFunction[1];
 	if (result === "Function")
 	{
 		throw new TypeError("object must be an Object.\n" +
-			"Actual: " + Utilities.getTypeName(object));
+			"Actual: " + object);
 	}
-	return result;
-};
+	return result.trim();
+}
 
 /**
  * @param {Object} object an object
@@ -202,7 +137,7 @@ Utilities.toString = function(object)
 		return "null";
 	// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
 	let current = object;
-	switch (Utilities.getTypeName(current))
+	switch (Utilities.getTypeOf(current))
 	{
 		case "Set":
 			current = Array.from(current.values());
@@ -229,8 +164,7 @@ Utilities.toString = function(object)
 			return JSON.stringify(result, null, 2);
 		}
 		case "Object":
-			if (Utilities.getObjectClass(current) === "Object")
-				return JSON.stringify(current, null, 2);
+			return JSON.stringify(current, null, 2);
 	}
 	while (true)
 	{
@@ -238,7 +172,7 @@ Utilities.toString = function(object)
 		if (current.constructor.prototype.hasOwnProperty("toString"))
 			return current.constructor.prototype.toString.call(object);
 		current = Object.getPrototypeOf(current.constructor.prototype);
-		if (Utilities.getTypeName(current) === "Object" && Utilities.getObjectClass(current) === "Object")
+		if (Utilities.getTypeOf(current) === "Object")
 			return JSON.stringify(current, null, 2);
 	}
 };
@@ -256,8 +190,8 @@ Utilities.verifyValue = function(value, name, type)
 		return;
 	if (!Utilities.instanceOf(value, type))
 	{
-		throw new TypeError(name + " must be an instance of " + Utilities.getClassName(type) + ".\n" +
-			"Actual: " + value);
+		throw new TypeError(name + " must be an instance of " + Utilities.getTypeOf(type) + ".\n" +
+			"Actual: " + Utilities.getTypeOf(value));
 	}
 };
 
@@ -275,7 +209,7 @@ Utilities.verifyName = function(value, name)
 		throw new TypeError(name + " must be set.\n" +
 			"Actual: " + value);
 	}
-	const type = Utilities.getTypeName(value);
+	const type = Utilities.getTypeOf(value);
 	if (type !== "String")
 	{
 		throw new TypeError(name + " must be an instance of String.\n" +
@@ -298,12 +232,12 @@ Utilities.verifyContext = function(context)
 	if (!context)
 	{
 		throw new TypeError("context must be set.\n" +
-			"Actual: " + Utilities.getTypeName(context));
+			"Actual: " + Utilities.getTypeOf(context));
 	}
 	if (!Array.isArray(context))
 	{
 		throw new TypeError("context must be an array.\n" +
-			"Actual: " + Utilities.getTypeName(context));
+			"Actual: " + Utilities.getTypeOf(context));
 	}
 	let i = 0;
 	for (const entry of context)
@@ -311,12 +245,12 @@ Utilities.verifyContext = function(context)
 		if (!Array.isArray(entry))
 		{
 			throw new TypeError("context must be an array at index " + i + ".\n" +
-				"Actual: " + Utilities.getTypeName(context));
+				"Actual: " + Utilities.getTypeOf(context));
 		}
 		if (entry.length !== 2)
 		{
 			throw new TypeError("context must contain 2 elements (key-value pair) at index " + i + ".\n" +
-				"Actual: " + Utilities.getTypeName(context));
+				"Actual: " + Utilities.getTypeOf(context));
 		}
 		verifyContextElement(entry[0], "context.key", i);
 		verifyContextElement(entry[1], "context.value", i);
@@ -337,17 +271,17 @@ function verifyContextElement(element, name, index)
 	if (typeof(element) !== "string")
 	{
 		throw new TypeError(name + " must be a String at index " + index + ".\n" +
-			"Actual: " + Utilities.getTypeName(element));
+			"Actual: " + Utilities.getTypeOf(element));
 	}
 	if (typeof(element) === "undefined" || element === null)
 	{
 		throw new RangeError(name + " must be set at index " + index + ".\n" +
-			"Actual: " + Utilities.getTypeName(element));
+			"Actual: " + Utilities.getTypeOf(element));
 	}
 	if (element.length === 0)
 	{
 		throw new RangeError(name + " may not be empty at index " + index + ".\n" +
-			"Actual: " + Utilities.getTypeName(element));
+			"Actual: " + Utilities.getTypeOf(element));
 	}
 }
 

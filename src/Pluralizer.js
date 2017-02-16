@@ -1,3 +1,4 @@
+//noinspection SpellCheckingInspection
 /**
  * Generates the singular or plural form of an element type.
  *

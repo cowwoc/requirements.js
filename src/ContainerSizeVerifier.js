@@ -1,331 +1,356 @@
+import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
 import Utilities from "./Utilities";
 
 /**
- * Creates a new ContainerSizeVerifier.
+ * Verifies the size of a container.
  *
- * @constructor
- * @param {Object} container the container
- * @param {Number} size the size of the container
- * @param {String} containerName the name of the container
- * @param {String} sizeName the name of the container size
- * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
- * @param {Configuration} config the instance configuration
- * @throws {TypeError} if {@code containerName}, {@code sizeName}, {@code config} are undefined or null; if
- * {@code containerName} or {@code sizeName} are not a String
- * @throws {RangeError} if {@code containerName} or {@code sizeName} are empty
+ * @class
  * @author Gili Tzabari
  */
-function ContainerSizeVerifier(container, size, containerName, sizeName, pluralizer, config)
-{
-	Utilities.verifyValue(size, "size", Number);
-	Utilities.verifyName(containerName, "containerName");
-	Utilities.verifyName(sizeName, "sizeName");
-	Object.defineProperty(this, "container",
+class ContainerSizeVerifier extends NumberVerifier {
+	/**
+	 * Creates a new ContainerSizeVerifier.
+	 *
+	 * @constructor
+	 * @param {Configuration} configuration the instance configuration
+	 * @param {Object} container the container
+	 * @param {Number} size the size of the container
+	 * @param {String} containerName the name of the container
+	 * @param {String} sizeName the name of the container size
+	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
+	 * @throws {TypeError} if {@code containerName}, {@code sizeName}, {@code configuration} are undefined or null; if
+	 * {@code containerName} or {@code sizeName} are not a String
+	 * @throws {RangeError} if {@code containerName} or {@code sizeName} are empty
+	 */
+	constructor(configuration, container, size, containerName, sizeName, pluralizer)
+	{
+		super(configuration, size, sizeName);
+		Utilities.verifyName(containerName, "containerName");
+		Object.defineProperty(this, "container",
+			{
+				value: container
+			});
+		Object.defineProperty(this, "containerName",
+			{
+				value: containerName
+			});
+		Object.defineProperty(this, "pluralizer",
+			{
+				value: pluralizer
+			});
+	}
+
+	/**
+	 * Ensures that the actual value is greater than or equal to a value.
+	 *
+	 * @param {Number} value the minimum value
+	 * @param {String} [name]  the name of the minimum value
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}      if {@code value} or {@code name} are null
+	 * @throws {RangeError}  if the actual value is less than {@code value}; if {@code name} is empty
+	 */
+	isGreaterThanOrEqualTo(value, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+		if (this.actual >= value)
+			return this;
+
+		let eb;
+		if (name)
 		{
-			value: container
-		});
-	Object.defineProperty(this, "size",
+			eb = new ExceptionBuilder(this.config, RangeError,
+				this.name + " must contain at least " + name + " (" + value + ") " + this.pluralizer.nameOf(value));
+		}
+		else
 		{
-			value: size
-		});
-	Object.defineProperty(this, "containerName",
+			eb = new ExceptionBuilder(this.config, RangeError,
+				this.name + " must contain at least " + value + " " + this.pluralizer.nameOf(value));
+		}
+		eb.addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is greater than a value.
+	 *
+	 * @param {Number} value the lower bound
+	 * @param {String} [name]  the name of the lower bound
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}      if {@code value} or {@code name} are null
+	 * @throws {RangeError}  if the actual value is less than or equal to {@code value}; if {@code name} is empty
+	 */
+	isGreaterThan(value, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+		if (this.actual > value)
+			return this;
+
+		let eb;
+		if (name)
 		{
-			value: containerName
-		});
-	Object.defineProperty(this, "sizeName",
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain at more than " + name + " (" +
+				value + ") " + this.pluralizer.nameOf(value));
+		}
+		else
 		{
-			value: sizeName
-		});
-	Object.defineProperty(this, "pluralizer",
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain at more than " + value + " " +
+				this.pluralizer.nameOf(value));
+		}
+		eb.addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is less or equal to a value.
+	 *
+	 * @param {Number} value the maximum value
+	 * @param {String} [name]  the name of the maximum value
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}      if {@code value} or {@code name} are null
+	 * @throws {RangeError}  if the actual value is greater than {@code value}; if {@code name} is empty
+	 */
+	isLessThanOrEqualTo(value, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+		if (this.actual <= value)
+			return this;
+
+		let eb;
+		if (name)
 		{
-			value: pluralizer
-		});
-	Object.defineProperty(this, "config",
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " may not contain more than " + name + " (" +
+				value + ") " + this.pluralizer.nameOf(value));
+		}
+		else
 		{
-			value: config
-		});
-	Object.defineProperty(this, "asNumber",
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " may not contain more than " + value + " " +
+				this.pluralizer.nameOf(value));
+		}
+		eb.addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is less than a value.
+	 *
+	 * @param {Number} value the upper bound
+	 * @param {String} [name]  the name of the upper bound
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}      if {@code value} or {@code name} are null
+	 * @throws {RangeError}  if the actual value is greater than or equal to {@code value}; if {@code name} is empty
+	 */
+	isLessThan(value, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+		if (this.actual < value)
+			return this;
+
+		let eb;
+		if (name)
 		{
-			value: new NumberVerifier(size, sizeName, config)
-		});
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain less than " + name + " (" + value +
+				") " + this.pluralizer.nameOf(value));
+		}
+		else
+		{
+			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain less than " + value + " " +
+				this.pluralizer.nameOf(value));
+		}
+		eb.addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is not positive.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is positive
+	 */
+	isNotPositive()
+	{
+		return this.isZero();
+	}
+
+	/**
+	 * Ensures that the actual value is positive.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is not positive
+	 */
+	isPositive()
+	{
+		if (this.actual > 0)
+			return this;
+		const eb = new ExceptionBuilder(this.config, RangeError,
+			this.name + " must contain at least one " + this.pluralizer.nameOf(1) + ".").
+			addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is not zero.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is zero
+	 */
+	isNotZero()
+	{
+		return this.isPositive();
+	}
+
+	/**
+	 * Ensures that the actual value is zero.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is not zero
+	 */
+	isZero()
+	{
+		if (this.actual === 0)
+			return this;
+		const eb = new ExceptionBuilder(this.config, RangeError, this.name + " must be empty.").
+			addContext("Actual", this.actual);
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is not negative.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is negative
+	 */
+	isNotNegative()
+	{
+		// Always true
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is negative.
+	 *
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {RangeError} if the actual value is not negative
+	 */
+	isNegative()
+	{
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " cannot have a negative length").
+			build();
+	}
+
+	/**
+	 * Ensures that the actual value is within range.
+	 *
+	 * @param {Number} min the minimum value (inclusive)
+	 * @param {Number} max  the maximum value (inclusive)
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}      if any of the arguments are null
+	 * @throws {RangeError}  if {@code last} is less than {@code first}; if
+	 *                                  the actual value is not in range
+	 */
+	isBetween(min, max)
+	{
+		const verifier = this.config.internalVerifier;
+		verifier.requireThat(min, "min").isNotNull();
+		verifier.requireThat(max, "max").isNotNull().isGreaterThanOrEqualTo(min, "min");
+		if (this.actual >= min && this.actual <= max)
+			return this;
+
+		const eb = new ExceptionBuilder(this.config, RangeError,
+			this.name + " must contain [" + min + ", " + max + "] " + this.pluralizer.nameOf(2) + ".").
+			addContext("Actual", this.actual);
+
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is equal to a value.
+	 *
+	 * @param {Object} expected the expected value
+	 * @param {String} [name] the name of the expected value
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError} if {@code name} is null
+	 * @throws {RangeError} if {@code name} is empty; if the actual value is not equal to value
+	 */
+	isEqualTo(expected, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Number);
+		if (this.actual === expected)
+			return this;
+
+		let eb;
+		if (name)
+		{
+			eb = new ExceptionBuilder(this.config, RangeError,
+				this.name + " must contain " + name + "(" + expected + ") " + this.pluralizer.nameOf(expected) + ".");
+		}
+		else
+		{
+			eb = new ExceptionBuilder(this.config, RangeError,
+				name + " must contain " + expected + " " + this.pluralizer.nameOf(expected) + ".");
+		}
+		eb.addContext("Actual", this.actual);
+
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is not equal to a value.
+	 *
+	 * @param {Array} value the value to compare to
+	 * @param {String} [name] the name of the expected value
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError} if {@code name} is null
+	 * @throws {RangeError} if {@code name} is empty; if the actual value is equal to {@code value}
+	 */
+	isNotEqualTo(value, name)
+	{
+		if (typeof(name) !== "undefined")
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+		if (this.actual !== value)
+			return this;
+
+		if (name)
+		{
+			throw new ExceptionBuilder(this.config, RangeError,
+				this.name + " may not contain " + name + " (" + value + ") " + this.pluralizer.nameOf(value) + ".").
+				addContext(this.containerName, this.container).
+				build();
+		}
+		throw new ExceptionBuilder(this.config, RangeError,
+			name + " may not contain " + value + " " + this.pluralizer.nameOf(value)).
+			addContext(this.containerName, this.container).
+			build();
+	}
 }
-
-/**
- * Overrides the type of exception that will get thrown if a requirement fails.
- * <p>
- * The exception class must define the following constructors:
- * <p>
- * {@code <init>(String message)}
- *
- * @param {Error} exception the type of exception to throw, {@code null} to throw the default exception
- *                  type
- * @return {ContainerSizeVerifier} a configuration with the specified exception override
- * @see #getException()
- */
-ContainerSizeVerifier.prototype.withException = function(exception)
-{
-	const newConfig = this.config.withException(exception);
-	if (newConfig === this.config)
-		return this;
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
-		newConfig);
-};
-
-/**
- * Appends contextual information to the exception message.
- *
- * @param {String} key   a key
- * @param {String} value a value
- * @return {ContainerSizeVerifier} a new verifier with the specified context
- * @throws {TypeError} if {@code key} is not a String
- * @throws {RangeError} if {@code key} is not set
- */
-ContainerSizeVerifier.prototype.addContext = function(key, value)
-{
-	const newConfig = this.config.addContext(key, value);
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
-		newConfig);
-};
-
-/**
- * Sets the contextual information to append to the exception message.
- *
- * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
- * @return {ContainerSizeVerifier} a configuration with the specified context
- * @throws {TypeError} if {@code context} is not an Array
- * @throws {RangeError} if {@code context} is not set
- */
-ContainerSizeVerifier.prototype.withContext = function(context)
-{
-	const newConfig = this.config.withContext(context);
-	if (context === this.context)
-		return this;
-	return new ContainerSizeVerifier(this.container, this.size, this.containerName, this.sizeName, this.pluralizer,
-		newConfig);
-};
-
-/**
- * Ensures that the actual value is equal to a value.
- *
- * @param {Array} expected the expected value
- * @param {String} [name] the name of the expected value
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError} if {@code name} is null
- * @throws {RangeError} if {@code name} is empty; if the actual value is not equal to value
- */
-ContainerSizeVerifier.prototype.isEqualTo = function(expected, name)
-{
-	this.asNumber.isEqualTo(expected, name);
-	return this;
-};
-
-/**
- * Ensures that the actual value is not equal to a value.
- *
- * @param {Array} value the value to compare to
- * @param {String} [name] the name of the expected value
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError} if {@code name} is null
- * @throws {RangeError} if {@code name} is empty; if the actual value is equal to {@code value}
- */
-ContainerSizeVerifier.prototype.isNotEqualTo = function(value, name)
-{
-	this.asNumber.isNotEqualTo(value, name);
-	return this;
-};
-
-/**
- * Ensures that an array contains the actual value.
- *
- * @param {Array.<Array>} array an array
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}  if {@code array} is null
- * @throws {RangeError} if {@code array} does not contain the actual value
- */
-ContainerSizeVerifier.prototype.isInArray = function(array)
-{
-	this.asNumber.isInArray(array);
-	return this;
-};
-
-/**
- * Ensures that the actual value is an instance of a type.
- *
- * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
- *
- * @param {Function} type the type to compare to
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}  if {@code type} is null
- * @throws {RangeError} if the actual value is not an instance of {@code type}
- */
-ContainerSizeVerifier.prototype.isInstanceOf = function(type)
-{
-	this.asNumber.isInstanceOf(type);
-	return this;
-};
-
-/**
- * Ensures that the actual value is null.
- *
- * @return {ContainerSizeVerifier} this
- * @throws {RangeError} if the actual value is not null
- */
-ContainerSizeVerifier.prototype.isNull = function()
-{
-	this.asNumber.isNull();
-	return this;
-};
-
-/**
- * Ensures that the actual value is not null.
- *
- * @return {ContainerSizeVerifier} this
- * @throws {RangeError} if the actual value is null
- */
-ContainerSizeVerifier.prototype.isNotNull = function()
-{
-	this.asNumber.isNotNull();
-	return this;
-};
-
-/**
- * Ensures that the actual value is undefined.
- *
- * @return {ContainerSizeVerifier} this
- * @throws {RangeError} if the actual value is not undefined
- */
-ContainerSizeVerifier.prototype.isUndefined = function()
-{
-	this.asNumber.isUndefined();
-	return this;
-};
-
-/**
- * Ensures that the actual value is not undefined.
- *
- * @return {ContainerSizeVerifier} this
- * @throws {RangeError} if the actual value is undefined
- */
-ContainerSizeVerifier.prototype.isNotUndefined = function()
-{
-	this.asNumber.isNotUndefined();
-	return this;
-};
-
-/**
- * Ensures that value is not undefined or null.
- *
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError} if the value is undefined or null
- */
-ContainerSizeVerifier.prototype.isSet = function()
-{
-	this.asNumber.isSet();
-	return this;
-};
-
-/**
- * Ensures that the actual value is greater than a value.
- *
- * @param {Number} value the lower bound
- * @param {String} [name]  the name of the lower bound
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}      if {@code value} or {@code name} are null
- * @throws {RangeError}  if the actual value is less than or equal to {@code value}; if {@code name} is empty
- */
-ContainerSizeVerifier.prototype.isGreaterThan = function(value, name)
-{
-	this.asNumber.isGreaterThan(value, name);
-	return this;
-};
-
-/**
- * Ensures that the actual value is greater than or equal to a value.
- *
- * @param {Number} value the minimum value
- * @param {String} [name]  the name of the minimum value
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}      if {@code value} or {@code name} are null
- * @throws {RangeError}  if the actual value is less than {@code value}; if {@code name} is empty
- */
-ContainerSizeVerifier.prototype.isGreaterThanOrEqualTo = function(value, name)
-{
-	this.asNumber.isGreaterThanOrEqualTo(value, name);
-	return this;
-};
-
-/**
- * Ensures that the actual value is less than a value.
- *
- * @param {Number} value the upper bound
- * @param {String} [name]  the name of the upper bound
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}      if {@code value} or {@code name} are null
- * @throws {RangeError}  if the actual value is greater than or equal to {@code value}; if {@code name} is empty
- */
-ContainerSizeVerifier.prototype.isLessThan = function(value, name)
-{
-	this.asNumber.isLessThan(value, name);
-	return this;
-};
-
-/**
- * Ensures that the actual value is less or equal to a value.
- *
- * @param {Number} value the maximum value
- * @param {String} [name]  the name of the maximum value
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}      if {@code value} or {@code name} are null
- * @throws {RangeError}  if the actual value is greater than {@code value}; if {@code name} is empty
- */
-ContainerSizeVerifier.prototype.isLessThanOrEqualTo = function(value, name)
-{
-	this.asNumber.isLessThanOrEqualTo(value, name);
-	return this;
-};
-
-/**
- * Ensures that the actual value is within range.
- *
- * @param {Number} min the minimum value (inclusive)
- * @param {Number} max  the maximum value (inclusive)
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError}      if any of the arguments are null
- * @throws {RangeError}  if {@code last} is less than {@code first}; if
- *                                  the actual value is not in range
- */
-ContainerSizeVerifier.prototype.isBetween = function(min, max)
-{
-	this.asNumber.isBetween(min, max);
-	return this;
-};
-
-/**
- * @return {StringVerifier} a verifier for the number's string representation
- */
-ContainerSizeVerifier.prototype.asString = function()
-{
-	return this.asNumber.asString();
-};
-
-/**
- * @param {Function} consumer a function that accepts a {@code StringVerifier} for the number's string representation
- * @return {ContainerSizeVerifier} this
- * @throws {TypeError} if {@code consumer} is not set
- */
-ContainerSizeVerifier.prototype.asStringConsumer = function(consumer)
-{
-	this.asNumber.asStringConsumer(consumer);
-	return this;
-};
-
-/**
- * @return {Number} the actual value
- */
-ContainerSizeVerifier.prototype.getActual = function()
-{
-	return this.actual;
-};
 
 export default ContainerSizeVerifier;

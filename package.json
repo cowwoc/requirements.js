@@ -1,42 +1,46 @@
 {
-  "name": "requirements.js",
-  "version": "1.0.0",
-  "keywords": [
-    "util",
-    "functional",
-    "server",
-    "client",
-    "browser"
-  ],
-  "description": "A fluent API for enforcing design contracts with automatic message generation.",
-  "author": "Gili Tzabari <cowwoc@bbs.darktech.org>",
-  "contributors": [],
-  "repository": {
-    "type": "hg",
-    "url": "https://cowwoc@bitbucket.org/cowwoc/requirements.js"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "babel-plugin-external-helpers": "^6.18.0",
-    "babel-polyfill": "^6.20.0",
-    "babel-preset-latest": "^6.16.0",
-    "bower": "^1.8.0",
-    "eslint-config-recommended": "^1.5.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-bower": "0.0.13",
-    "gulp-eslint": "^3.0.1",
-    "gulp-intern": "0.0.4",
-    "gulp-rollup": "^2.7.0",
-    "intern": "^3.4.2",
-    "requirejs": "^2.3.2",
-    "rollup": "^0.41.1",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-bower-resolve": "^0.2.0",
-    "rollup-plugin-commonjs": "^6.0.1",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "sugar": "^2.0.4",
-    "urijs": "^1.18.4"
-  },
-  "license": "Apache-2.0"
+	"name": "requirements.js",
+	"version": "1.0.0",
+	"keywords": [
+		"util",
+		"functional",
+		"server",
+		"client",
+		"browser"
+	],
+	"description": "A fluent API for enforcing design contracts with automatic message generation.",
+	"author": "Gili Tzabari <cowwoc@bbs.darktech.org>",
+	"contributors": [],
+	"repository": {
+		"type": "hg",
+		"url": "https://cowwoc@bitbucket.org/cowwoc/requirements.js"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"babel-plugin-external-helpers": "^6.18.0",
+		"babel-plugin-transform-builtin-extend": "^1.1.2",
+		"babel-polyfill": "^6.20.0",
+		"babel-preset-latest": "^6.16.0",
+		"eslint-config-recommended": "^1.5.0",
+		"gulp": "^3.9.1",
+		"gulp-babel": "^6.1.2",
+		"gulp-eslint": "^3.0.1",
+		"gulp-istanbul": "^1.1.1",
+		"gulp-rename": "^1.2.2",
+		"gulp-rollup": "^2.7.0",
+		"gulp-sourcemaps": "^2.4.1",
+		"gulp-tape": "^0.0.9",
+		"istanbul": "^0.4.5",
+		"requirejs": "^2.3.2",
+		"rollup": "^0.41.1",
+		"rollup-plugin-babel": "^2.7.1",
+		"rollup-plugin-commonjs": "^6.0.1",
+		"rollup-plugin-node-resolve": "^2.0.0",
+		"sugar": "^2.0.4",
+		"tap-diff": "^0.1.1",
+		"tape": "^4.6.3",
+		"tape-catch": "^1.0.6",
+		"urijs": "^1.18.4"
+	},
+	"license": "Apache-2.0"
 }

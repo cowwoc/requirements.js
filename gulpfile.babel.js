@@ -1,37 +1,18 @@
 import babel from "gulp-babel";
-import bower from "gulp-bower";
-import bowerResolve from "rollup-plugin-bower-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import eslint from "gulp-eslint";
 import gulp from "gulp";
-import intern from "gulp-intern";
+import istanbul from "gulp-istanbul";
 import nodeResolve from "rollup-plugin-node-resolve";
+import rename from "gulp-rename";
 import rollup from "gulp-rollup";
-import rollupBabel from "rollup-plugin-babel";
 import rollupJs from "rollup";
 import sourcemaps from "gulp-sourcemaps";
-
-const rollupBabelConfiguration =
-	{
-		babelrc: false,
-		presets: [
-			[
-				"latest",
-				{
-					es2015: {
-						modules: false
-					}
-				}
-			]
-		],
-		exclude: "node_modules/**",
-		plugins: [
-			"external-helpers"
-		]
-	};
+import tape from "gulp-tape";
+import tapeReporter from "tap-diff";
 
 /* eslint-disable func-style */
-gulp.task("lint-for-node", function()
+gulp.task("lint", function()
 {
 	return gulp.src(
 		[
@@ -41,72 +22,27 @@ gulp.task("lint-for-node", function()
 		]).
 		pipe(eslint(
 			{
-				envs: ["es6", "node", "amd"]
+				envs: ["es6", "node", "browser"]
 			}
 		)).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
 });
 
-gulp.task("lint-for-browser", function()
-{
-	return gulp.src(
-		[
-			"src/**.js"
-		]).
-		pipe(eslint(
-			{
-				envs: ["es6", "browser"]
-			}
-		)).
-		pipe(eslint.format()).
-		pipe(eslint.failOnError());
-});
-
-gulp.task("bower", function()
-{
-	return bower();
-});
-
-gulp.task("bundle-for-browser", ["bower"], function()
+gulp.task("src-for-es5", function()
 {
 	return gulp.src("src/*.js").
 		pipe(sourcemaps.init()).
 		pipe(rollup(
 			{
 				rollup: rollupJs,
-				entry: "src/Requirements.js",
+				entry: "src/es5.js",
 				format: "iife",
 				// See https://github.com/rollup/rollup/issues/772#issuecomment-231299803
 				allowRealFiles: true,
-				moduleName: "requireThat",
-				plugins: [
-					bowerResolve(),
-					rollupBabel(rollupBabelConfiguration)
-				],
-				external: ["urijs", "sugar"],
-				globals: {
-					urijs: "URI",
-					sugar: "Sugar"
-				}
-			})).
-		pipe(sourcemaps.write()).
-		pipe(gulp.dest("build/browser"));
-});
-
-gulp.task("bundle-for-node", function()
-{
-	return gulp.src("src/*.js").
-		pipe(sourcemaps.init()).
-		pipe(rollup(
-			{
-				rollup: rollupJs,
-				entry: "src/Requirements.js",
-				format: "amd",
-				// See https://github.com/rollup/rollup/issues/772#issuecomment-231299803
-				allowRealFiles: true,
 				external: ["urijs", "sugar", "babel-polyfill"],
-				moduleName: "Requirements",
+				// See https://github.com/rollup/rollup/issues/494#issuecomment-268243574
+				moduleName: "window",
 				plugins: [
 					nodeResolve(
 						{
@@ -115,34 +51,58 @@ gulp.task("bundle-for-node", function()
 						}
 					),
 					commonjs({include: "node_modules/**"})
-				]
+				],
+				globals: {
+					urijs: "URI",
+					sugar: "Sugar"
+				}
 			})).
 		pipe(sourcemaps.write()).
-		pipe(gulp.dest("build/node"));
+		pipe(rename("index.js")).
+		pipe(gulp.dest("build/es5"));
 });
 
-gulp.task("test-as-es5", function()
+gulp.task("src-for-es6", function()
 {
-	return gulp.src("test/unit/*.js").
+	return gulp.src("src/*.js").
 		pipe(babel(
 			{
-				presets: ["latest"]
+				presets: ["latest"],
+				plugins: [
+					["babel-plugin-transform-builtin-extend", {
+						globals: ["Error", "Array"]
+					}]
+				]
 			})).
-		pipe(gulp.dest("build/test/unit"));
+		pipe(gulp.dest("build/node")).
+		pipe(istanbul()).
+		pipe(istanbul.hookRequire());
 });
 
-gulp.task("test", ["bundle-for-node", "test-as-es5"], function()
+gulp.task("test-es5", function()
 {
-	return gulp.src("build/test/unit/*.js").
-		pipe(gulp.dest("build/intern")).
-		pipe(intern({
-			config: "test/intern",
-			// defaults to "client", use "runner" if you want to run functional tests
-			runType: "client"
-		}));
+	return gulp.src("test/*.js").
+		pipe(babel(
+			{
+				presets: ["latest"],
+				plugins: [
+					["babel-plugin-transform-builtin-extend", {
+						globals: ["Error", "Array"]
+					}]
+				]
+			})).
+		pipe(gulp.dest("build/test"));
 });
 
-gulp.task("lint", ["lint-for-node", "lint-for-browser"]);
-gulp.task("bundle", ["lint", "bundle-for-node", "bundle-for-browser"]);
+gulp.task("test", ["src-for-es5", "test-es5"], function()
+{
+	return gulp.src("build/test/*.js").
+		pipe(tape({
+			reporter: tapeReporter()
+		})).
+		pipe(istanbul.writeReports());
+});
+
+gulp.task("bundle", ["lint", "src-for-es5", "src-for-es6"]);
 gulp.task("build", ["bundle", "test"]);
 gulp.task("default", ["build"]);
