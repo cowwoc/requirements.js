@@ -226,7 +226,7 @@ class Verifiers {
 	 * @param {String} key   a key
 	 * @param {Object} value a value
 	 * @return {Verifiers} a new verifier with the specified context
-	 * @throws {TypeError} if {@code key} or {@code value} are not a {@code String}
+	 * @throws {TypeError} if {@code key} is not a String
 	 * @see #getContext()
 	 */
 	addContext(key, value)

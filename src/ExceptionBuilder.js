@@ -32,11 +32,6 @@ function justifyLeft(text, length)
  */
 function getExceptionType(configuration, type)
 {
-	if (!configuration)
-	{
-		throw new TypeError("type must be set.\n" +
-			"Actual: " + Utilities.getTypeOf(type));
-	}
 	const result = configuration.getException();
 	if (result !== null)
 		return result;
@@ -128,18 +123,12 @@ class ExceptionBuilder {
 	 * @param {Object} value a value
 	 * @return {ExceptionBuilder} this
 	 * @throws {TypeError} if {@code key} is not a String
-	 * @throws {RangeError} if {@code key} is not set
 	 */
 	addContext(key, value)
 	{
 		if (typeof(key) !== "string")
 		{
 			throw new TypeError("key must be a String.\n" +
-				"Actual: " + Utilities.getTypeOf(key));
-		}
-		if (!key)
-		{
-			throw new RangeError("key must be set.\n" +
 				"Actual: " + Utilities.getTypeOf(key));
 		}
 		const entry = {};
@@ -170,7 +159,7 @@ class ExceptionBuilder {
 		const contextToAdd = [this.message];
 
 		let mergedContext;
-		if (this.contextPostfix === 0)
+		if (this.contextPostfix.length === 0)
 			mergedContext = this.context;
 		else
 			mergedContext = [...this.context, ...this.contextPostfix];

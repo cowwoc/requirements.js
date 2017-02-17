@@ -22,6 +22,14 @@ class NoOpInetAddressVerifier extends NoOpObjectVerifier {
 	{
 		return this;
 	}
+
+	/**
+	 * @return {NoOpInetAddressVerifier} this
+	 */
+	isHostname()
+	{
+		return this;
+	}
 }
 
 export default NoOpInetAddressVerifier;

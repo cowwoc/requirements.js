@@ -21,7 +21,7 @@ class Configuration {
 	 * @param {Boolean} [assertionsEnabled = false] true if {@code assertThat()} should invoke {@code requireThat()};
 	 *   false if {@code assertThat()} should do nothing
 	 * @throws {TypeError} if {@code internalVerifier} is undefined or null; {@code context} or one of its elements are
-	 *   not an array; if the nested array contains less or more than 2 elements; if the elements nested in the context
+	 *   not an array; if the nested array contains less or more than 2 elements; if the keys nested in the context
 	 *   array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
@@ -171,7 +171,7 @@ class Configuration {
 	 * @param {String} key   a key
 	 * @param {Object} value a value
 	 * @return {Configuration} a new verifier with the specified context
-	 * @throws {TypeError} if {@code key} or {@code value} are not a {@code String}
+	 * @throws {TypeError} if {@code key} is not a {@code String}
 	 * @see #getContext()
 	 */
 	addContext(key, value)
@@ -180,11 +180,6 @@ class Configuration {
 		{
 			throw new TypeError("key must be a String.\n" +
 				"Actual: " + Utilities.getTypeOf(key));
-		}
-		if (typeof(value) !== "string")
-		{
-			throw new TypeError("value must be a String.\n" +
-				"Actual: " + Utilities.getTypeOf(value));
 		}
 		const newContext = [...this.context, [key, value]];
 		return new Configuration(this.internalVerifier, this.exception, newContext);

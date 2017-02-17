@@ -224,7 +224,7 @@ Utilities.verifyName = function(value, name)
  * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
  * @throws {TypeError} if {@code context} or one of its elements are not an array; if the nested array contains less
  * or more than 2 elements; if the elements nested in the array are not strings
- * @throws {RangeError} if the elements nested in the array are undefined, null, or are empty
+ * @throws {RangeError} if the keys nested in the array are undefined, null, or are empty
  * @return {undefined}
  */
 Utilities.verifyContext = function(context)
@@ -253,7 +253,6 @@ Utilities.verifyContext = function(context)
 				"Actual: " + Utilities.getTypeOf(context));
 		}
 		verifyContextElement(entry[0], "context.key", i);
-		verifyContextElement(entry[1], "context.value", i);
 		++i;
 	}
 };

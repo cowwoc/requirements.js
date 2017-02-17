@@ -1,14 +1,14 @@
 import {requireThat} from "../node/Requirements";
 import test from "tape-catch";
 
-test("ArrayTest.isEmpty()", function(t)
+test("ArrayTest.isEmpty", function(t)
 {
 	const actual = [];
 	requireThat(actual, "actual").isEmpty();
 	t.end();
 });
 
-test("ArrayTest.isEmpty_actualContainsOneElement()", function(t)
+test("ArrayTest.isEmpty_actualContainsOneElement", function(t)
 {
 	t.throws(function()
 	{
@@ -18,14 +18,14 @@ test("ArrayTest.isEmpty_actualContainsOneElement()", function(t)
 	t.end();
 });
 
-test("ArrayTest.isNotEmpty()", function(t)
+test("ArrayTest.isNotEmpty", function(t)
 {
 	const actual = ["element"];
 	requireThat(actual, "actual").isNotEmpty();
 	t.end();
 });
 
-test("ArrayTest.isNotEmpty_False()", function(t)
+test("ArrayTest.isNotEmpty_False", function(t)
 {
 	t.throws(function()
 	{
@@ -35,14 +35,14 @@ test("ArrayTest.isNotEmpty_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.contains()", function(t)
+test("ArrayTest.contains", function(t)
 {
 	const actual = ["element"];
 	requireThat(actual, "actual").contains("element");
 	t.end();
 });
 
-test("ArrayTest.contains_False()", function(t)
+test("ArrayTest.contains_False", function(t)
 {
 	t.throws(function()
 	{
@@ -52,14 +52,14 @@ test("ArrayTest.contains_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsVariable()", function(t)
+test("ArrayTest.containsVariable", function(t)
 {
 	const actual = ["element"];
 	requireThat(actual, "actual").contains("element", "nameOfExpected");
 	t.end();
 });
 
-test("ArrayTest.containsVariable_False()", function(t)
+test("ArrayTest.containsVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -69,7 +69,7 @@ test("ArrayTest.containsVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.contains_expectedEmptyName()", function(t)
+test("ArrayTest.contains_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -79,7 +79,7 @@ test("ArrayTest.contains_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactly()", function(t)
+test("ArrayTest.containsExactly", function(t)
 {
 	const actual =
 		[
@@ -91,7 +91,7 @@ test("ArrayTest.containsExactly()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactly_actualContainsUnwantedElements()", function(t)
+test("ArrayTest.containsExactly_actualContainsUnwantedElements", function(t)
 {
 	t.throws(function()
 	{
@@ -106,7 +106,7 @@ test("ArrayTest.containsExactly_actualContainsUnwantedElements()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactly_actualIsMissingElements()", function(t)
+test("ArrayTest.containsExactly_actualIsMissingElements", function(t)
 {
 	t.throws(function()
 	{
@@ -120,7 +120,7 @@ test("ArrayTest.containsExactly_actualIsMissingElements()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactlyVariable_actualIsMissingElements()", function(t)
+test("ArrayTest.containsExactlyVariable_actualIsMissingElements", function(t)
 {
 	t.throws(function()
 	{
@@ -134,7 +134,7 @@ test("ArrayTest.containsExactlyVariable_actualIsMissingElements()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactlyVariable()", function(t)
+test("ArrayTest.containsExactlyVariable", function(t)
 {
 	const actual =
 		[
@@ -147,7 +147,7 @@ test("ArrayTest.containsExactlyVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactlyVariable_False()", function(t)
+test("ArrayTest.containsExactlyVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -162,7 +162,7 @@ test("ArrayTest.containsExactlyVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsExactly_expectedEmptyName()", function(t)
+test("ArrayTest.containsExactly_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -177,7 +177,7 @@ test("ArrayTest.containsExactly_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAny()", function(t)
+test("ArrayTest.containsAny", function(t)
 {
 	const actual =
 		[
@@ -189,7 +189,7 @@ test("ArrayTest.containsAny()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAny_False()", function(t)
+test("ArrayTest.containsAny_False", function(t)
 {
 	t.throws(function()
 	{
@@ -204,7 +204,7 @@ test("ArrayTest.containsAny_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAnyVariable()", function(t)
+test("ArrayTest.containsAnyVariable", function(t)
 {
 	const actual =
 		[
@@ -216,7 +216,7 @@ test("ArrayTest.containsAnyVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAnyVariable_False()", function(t)
+test("ArrayTest.containsAnyVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -231,7 +231,7 @@ test("ArrayTest.containsAnyVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAny_expectedEmptyName()", function(t)
+test("ArrayTest.containsAny_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -246,7 +246,7 @@ test("ArrayTest.containsAny_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAll()", function(t)
+test("ArrayTest.containsAll", function(t)
 {
 	const actual =
 		[
@@ -258,7 +258,7 @@ test("ArrayTest.containsAll()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAll_False()", function(t)
+test("ArrayTest.containsAll_False", function(t)
 {
 	t.throws(function()
 	{
@@ -273,7 +273,7 @@ test("ArrayTest.containsAll_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAllVariable()", function(t)
+test("ArrayTest.containsAllVariable", function(t)
 {
 	const actual =
 		[
@@ -285,7 +285,7 @@ test("ArrayTest.containsAllVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAllVariable_False()", function(t)
+test("ArrayTest.containsAllVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -300,7 +300,7 @@ test("ArrayTest.containsAllVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.containsAll_expectedEmptyName()", function(t)
+test("ArrayTest.containsAll_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -315,7 +315,7 @@ test("ArrayTest.containsAll_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContain()", function(t)
+test("ArrayTest.doesNotContain", function(t)
 {
 	const actual =
 		[
@@ -325,7 +325,7 @@ test("ArrayTest.doesNotContain()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContain_False()", function(t)
+test("ArrayTest.doesNotContain_False", function(t)
 {
 	t.throws(function()
 	{
@@ -338,7 +338,7 @@ test("ArrayTest.doesNotContain_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainVariable()", function(t)
+test("ArrayTest.doesNotContainVariable", function(t)
 {
 	const actual =
 		[
@@ -348,7 +348,7 @@ test("ArrayTest.doesNotContainVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainVariable_False()", function(t)
+test("ArrayTest.doesNotContainVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -361,7 +361,7 @@ test("ArrayTest.doesNotContainVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContain_expectedEmptyName()", function(t)
+test("ArrayTest.doesNotContain_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -374,7 +374,7 @@ test("ArrayTest.doesNotContain_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAny()", function(t)
+test("ArrayTest.doesNotContainAny", function(t)
 {
 	const actual =
 		[
@@ -386,7 +386,7 @@ test("ArrayTest.doesNotContainAny()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAny_False()", function(t)
+test("ArrayTest.doesNotContainAny_False", function(t)
 {
 	t.throws(function()
 	{
@@ -401,7 +401,7 @@ test("ArrayTest.doesNotContainAny_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAnyVariable()", function(t)
+test("ArrayTest.doesNotContainAnyVariable", function(t)
 {
 	const actual =
 		[
@@ -413,7 +413,7 @@ test("ArrayTest.doesNotContainAnyVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAnyVariable_False()", function(t)
+test("ArrayTest.doesNotContainAnyVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -428,7 +428,7 @@ test("ArrayTest.doesNotContainAnyVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAny_expectedEmptyName()", function(t)
+test("ArrayTest.doesNotContainAny_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -443,7 +443,7 @@ test("ArrayTest.doesNotContainAny_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAll()", function(t)
+test("ArrayTest.doesNotContainAll", function(t)
 {
 	const actual =
 		[
@@ -455,7 +455,7 @@ test("ArrayTest.doesNotContainAll()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAll_False()", function(t)
+test("ArrayTest.doesNotContainAll_False", function(t)
 {
 	t.throws(function()
 	{
@@ -471,7 +471,7 @@ test("ArrayTest.doesNotContainAll_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAllVariable()", function(t)
+test("ArrayTest.doesNotContainAllVariable", function(t)
 {
 	const actual =
 		[
@@ -483,7 +483,7 @@ test("ArrayTest.doesNotContainAllVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAllVariable_False()", function(t)
+test("ArrayTest.doesNotContainAllVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -500,7 +500,7 @@ test("ArrayTest.doesNotContainAllVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainAll_expectedEmptyName()", function(t)
+test("ArrayTest.doesNotContainAll_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -515,7 +515,7 @@ test("ArrayTest.doesNotContainAll_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainDuplicates()", function(t)
+test("ArrayTest.doesNotContainDuplicates", function(t)
 {
 	const actual =
 		[
@@ -527,7 +527,7 @@ test("ArrayTest.doesNotContainDuplicates()", function(t)
 	t.end();
 });
 
-test("ArrayTest.doesNotContainDuplicates_False()", function(t)
+test("ArrayTest.doesNotContainDuplicates_False", function(t)
 {
 	t.throws(function()
 	{
@@ -544,7 +544,7 @@ test("ArrayTest.doesNotContainDuplicates_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsEqualTo()", function(t)
+test("ArrayTest.lengthIsEqualTo", function(t)
 {
 	const actual =
 		[
@@ -554,7 +554,17 @@ test("ArrayTest.lengthIsEqualTo()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthConsumerIsEqualTo()", function(t)
+test("ArrayTest.lengthConsumerIsEqualTo", function(t)
+{
+	const actual =
+		[
+			"element"
+		];
+	requireThat(actual, "actual").lengthConsumer(l => l.isEqualTo(1));
+	t.end();
+});
+
+test("ArrayTest.lengthConsumerIsEqualTo_False", function(t)
 {
 	t.throws(function()
 	{
@@ -567,7 +577,7 @@ test("ArrayTest.lengthConsumerIsEqualTo()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsEqualTo_False()", function(t)
+test("ArrayTest.lengthIsEqualTo_False", function(t)
 {
 	t.throws(function()
 	{
@@ -580,7 +590,7 @@ test("ArrayTest.lengthIsEqualTo_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsEqualToVariable()", function(t)
+test("ArrayTest.lengthIsEqualToVariable", function(t)
 {
 	const actual =
 		[
@@ -590,7 +600,7 @@ test("ArrayTest.lengthIsEqualToVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsEqualToVariable_False()", function(t)
+test("ArrayTest.lengthIsEqualToVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -603,7 +613,7 @@ test("ArrayTest.lengthIsEqualToVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsEqualTo_expectedEmptyName()", function(t)
+test("ArrayTest.lengthIsEqualTo_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -616,7 +626,7 @@ test("ArrayTest.lengthIsEqualTo_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsNotEqualTo()", function(t)
+test("ArrayTest.lengthIsNotEqualTo", function(t)
 {
 	const actual =
 		[
@@ -626,7 +636,7 @@ test("ArrayTest.lengthIsNotEqualTo()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsNotEqualTo_False()", function(t)
+test("ArrayTest.lengthIsNotEqualTo_False", function(t)
 {
 	t.throws(function()
 	{
@@ -639,7 +649,7 @@ test("ArrayTest.lengthIsNotEqualTo_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsNotEqualToVariable()", function(t)
+test("ArrayTest.lengthIsNotEqualToVariable", function(t)
 {
 	const actual =
 		[
@@ -649,7 +659,7 @@ test("ArrayTest.lengthIsNotEqualToVariable()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsNotEqualToVariable_False()", function(t)
+test("ArrayTest.lengthIsNotEqualToVariable_False", function(t)
 {
 	t.throws(function()
 	{
@@ -662,7 +672,7 @@ test("ArrayTest.lengthIsNotEqualToVariable_False()", function(t)
 	t.end();
 });
 
-test("ArrayTest.lengthIsNotEqualTo_expectedEmptyName()", function(t)
+test("ArrayTest.lengthIsNotEqualTo_expectedEmptyName", function(t)
 {
 	t.throws(function()
 	{
@@ -675,7 +685,7 @@ test("ArrayTest.lengthIsNotEqualTo_expectedEmptyName()", function(t)
 	t.end();
 });
 
-test("ArrayTest.isBetween_expectedIsLowerBound()", function(t)
+test("ArrayTest.isBetween_expectedIsLowerBound", function(t)
 {
 	const actual =
 		[
@@ -687,7 +697,7 @@ test("ArrayTest.isBetween_expectedIsLowerBound()", function(t)
 	t.end();
 });
 
-test("ArrayTest.isBetween_expectedIsInBounds()", function(t)
+test("ArrayTest.isBetween_expectedIsInBounds", function(t)
 {
 	const actual =
 		[
@@ -700,7 +710,7 @@ test("ArrayTest.isBetween_expectedIsInBounds()", function(t)
 	t.end();
 });
 
-test("ArrayTest.isBetween_expectedIsUpperBound()", function(t)
+test("ArrayTest.isBetween_expectedIsUpperBound", function(t)
 {
 	const actual =
 		[
@@ -714,7 +724,7 @@ test("ArrayTest.isBetween_expectedIsUpperBound()", function(t)
 	t.end();
 });
 
-test("ArrayTest.isBetween_expectedIsBelow()", function(t)
+test("ArrayTest.isBetween_expectedIsBelow", function(t)
 {
 	t.throws(function()
 	{
@@ -728,7 +738,7 @@ test("ArrayTest.isBetween_expectedIsBelow()", function(t)
 	t.end();
 });
 
-test("ArrayTest.asSet()", function(t)
+test("ArrayTest.asSet", function(t)
 {
 	const set = new Set([1, 2, 3]);
 	const actual = Array.from(set);
@@ -736,7 +746,15 @@ test("ArrayTest.asSet()", function(t)
 	t.end();
 });
 
-test("ArrayTest.asSetConsumer()", function(t)
+test("ArrayTest.asSetConsumer", function(t)
+{
+	const set = new Set([1, 2, 3]);
+	const actual = Array.from(set);
+	requireThat(actual, "actual").asSetConsumer(s => s.isEqualTo(set));
+	t.end();
+});
+
+test("ArrayTest.asSetConsumer_False", function(t)
 {
 	t.throws(function()
 	{
@@ -747,14 +765,14 @@ test("ArrayTest.asSetConsumer()", function(t)
 	t.end();
 });
 
-test("ArrayTest.asString()", function(t)
+test("ArrayTest.asString", function(t)
 {
 	const actual = [1, 2, 3];
 	requireThat(actual, "actual").asString().isEqualTo("[1, 2, 3]");
 	t.end();
 });
 
-test("ArrayTest.getActual()", function(t)
+test("ArrayTest.getActual", function(t)
 {
 	const input =
 		[

@@ -4,7 +4,7 @@ import Verifiers from "../node/Verifiers";
 class IllegalArgumentException extends Error {
 }
 
-test("Verifiers.withException()", function(t)
+test("Verifiers.withException", function(t)
 {
 	t.throws(function()
 	{

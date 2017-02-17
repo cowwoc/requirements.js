@@ -5,7 +5,7 @@ import Verifiers from "../node/Verifiers";
 class IllegalArgumentException extends Error {
 }
 
-test("Configuration.undefinedInternalVerifier()", function(t)
+test("Configuration.undefinedInternalVerifier", function(t)
 {
 	t.throws(function()
 	{
@@ -15,7 +15,7 @@ test("Configuration.undefinedInternalVerifier()", function(t)
 	t.end();
 });
 
-test("Configuration.withAssertionsDisabled()", function(t)
+test("Configuration.withAssertionsDisabled", function(t)
 {
 	const verifiers = new Verifiers();
 	const config = new Configuration(verifiers);
@@ -31,7 +31,7 @@ test("Configuration.withAssertionsDisabled().alreadyDisabled", function(t)
 	t.end();
 });
 
-test("Configuration.withAssertionsEnabled()", function(t)
+test("Configuration.withAssertionsEnabled", function(t)
 {
 	const verifiers = new Verifiers();
 	const config = new Configuration(verifiers);
@@ -80,7 +80,7 @@ test("Configuration.withException(notException)", function(t)
 	t.end();
 });
 
-test("Configuration.withDefaultException()", function(t)
+test("Configuration.withDefaultException", function(t)
 {
 	const verifiers = new Verifiers();
 	const config = new Configuration(verifiers);
@@ -97,7 +97,7 @@ test("Configuration.withException(existingException)", function(t)
 	t.end();
 });
 
-test("Configuration.getContext()", function(t)
+test("Configuration.getContext", function(t)
 {
 	const verifiers = new Verifiers();
 	const config = new Configuration(verifiers);
@@ -105,13 +105,14 @@ test("Configuration.getContext()", function(t)
 	t.end();
 });
 
-test("Configuration.addContext()", function(t)
+test("Configuration.addContext", function(t)
 {
 	const verifiers = new Verifiers();
 	const config = new Configuration(verifiers);
-	const newConfig = config.addContext("key", "value");
+	const valueNotString = 12345;
+	const newConfig = config.addContext("key", valueNotString);
 	t.notEqual(config, newConfig);
-	t.deepEqual(newConfig.getContext(), [["key", "value"]]);
+	t.deepEqual(newConfig.getContext(), [["key", valueNotString]]);
 	t.end();
 });
 
@@ -133,28 +134,6 @@ test("Configuration.addContext(keyNotSet)", function(t)
 	t.throws(function()
 	{
 		config.addContext(null, "value");
-	}, TypeError);
-	t.end();
-});
-
-test("Configuration.addContext(key, valueNotString)", function(t)
-{
-	const verifiers = new Verifiers();
-	const config = new Configuration(verifiers);
-	t.throws(function()
-	{
-		config.addContext("key", 5);
-	}, TypeError);
-	t.end();
-});
-
-test("Configuration.addContext(key, valueNotSet)", function(t)
-{
-	const verifiers = new Verifiers();
-	const config = new Configuration(verifiers);
-	t.throws(function()
-	{
-		config.addContext("key", null);
 	}, TypeError);
 	t.end();
 });

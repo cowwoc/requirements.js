@@ -62,12 +62,12 @@ class ContainerSizeVerifier extends NumberVerifier {
 		if (name)
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				this.name + " must contain at least " + name + " (" + value + ") " + this.pluralizer.nameOf(value));
+				this.containerName + " must contain at least " + name + " (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				this.name + " must contain at least " + value + " " + this.pluralizer.nameOf(value));
+				this.containerName + " must contain at least " + value + " " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -95,13 +95,13 @@ class ContainerSizeVerifier extends NumberVerifier {
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain at more than " + name + " (" +
-				value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " + name +
+				" (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain at more than " + value + " " +
-				this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " + value +
+				" " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -129,13 +129,13 @@ class ContainerSizeVerifier extends NumberVerifier {
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " may not contain more than " + name + " (" +
-				value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " + name +
+				" (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " may not contain more than " + value + " " +
-				this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " + value +
+				" " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -163,12 +163,12 @@ class ContainerSizeVerifier extends NumberVerifier {
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain less than " + name + " (" + value +
-				") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + name + " (" +
+				value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.name + " must contain less than " + value + " " +
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + value + " " +
 				this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
@@ -198,12 +198,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	{
 		if (this.actual > 0)
 			return this;
-		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.name + " must contain at least one " + this.pluralizer.nameOf(1) + ".").
-			addContext("Actual", this.actual);
-		if (this.actual > 0)
-			eb.addContext(this.containerName, this.container);
-		throw eb.build();
+		throw new ExceptionBuilder(this.config, RangeError,
+			this.containerName + " must contain at least one " + this.pluralizer.nameOf(1) + ".").
+			addContext("Actual", this.actual).
+			build();
 	}
 
 	/**
@@ -227,11 +225,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	{
 		if (this.actual === 0)
 			return this;
-		const eb = new ExceptionBuilder(this.config, RangeError, this.name + " must be empty.").
-			addContext("Actual", this.actual);
-		if (this.actual > 0)
-			eb.addContext(this.containerName, this.container);
-		throw eb.build();
+		throw new ExceptionBuilder(this.config, RangeError, this.containerName + " must be empty.").
+			addContext("Actual", this.actual).
+			addContext(this.containerName, this.container).
+			build();
 	}
 
 	/**
@@ -254,7 +251,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 */
 	isNegative()
 	{
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " cannot have a negative length").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be negative").
 			build();
 	}
 
@@ -277,7 +274,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.name + " must contain [" + min + ", " + max + "] " + this.pluralizer.nameOf(2) + ".").
+			this.containerName + " must contain [" + min + ", " + max + "] " + this.pluralizer.nameOf(2) + ".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
@@ -307,12 +304,12 @@ class ContainerSizeVerifier extends NumberVerifier {
 		if (name)
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				this.name + " must contain " + name + "(" + expected + ") " + this.pluralizer.nameOf(expected) + ".");
+				this.containerName + " must contain " + name + "(" + expected + ") " + this.pluralizer.nameOf(expected) + ".");
 		}
 		else
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				name + " must contain " + expected + " " + this.pluralizer.nameOf(expected) + ".");
+				this.containerName + " must contain " + expected + " " + this.pluralizer.nameOf(expected) + ".");
 		}
 		eb.addContext("Actual", this.actual);
 
@@ -342,12 +339,12 @@ class ContainerSizeVerifier extends NumberVerifier {
 		if (name)
 		{
 			throw new ExceptionBuilder(this.config, RangeError,
-				this.name + " may not contain " + name + " (" + value + ") " + this.pluralizer.nameOf(value) + ".").
+				this.containerName + " may not contain " + name + " (" + value + ") " + this.pluralizer.nameOf(value) + ".").
 				addContext(this.containerName, this.container).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError,
-			name + " may not contain " + value + " " + this.pluralizer.nameOf(value)).
+			this.containerName + " may not contain " + value + " " + this.pluralizer.nameOf(value)).
 			addContext(this.containerName, this.container).
 			build();
 	}
