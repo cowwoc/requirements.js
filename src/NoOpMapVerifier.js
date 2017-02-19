@@ -58,8 +58,8 @@ class NoOpMapVerifier extends NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element in
-	 *   the Map)
+	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each
+	 *   element in the Map)
 	 */
 	entries()
 	{

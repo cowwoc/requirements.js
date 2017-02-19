@@ -81,8 +81,8 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element in the
-	 *   Map)
+	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element
+	 *   in the Map)
 	 */
 	entries()
 	{
