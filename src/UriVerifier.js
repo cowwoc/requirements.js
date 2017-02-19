@@ -1,7 +1,7 @@
 import ObjectVerifier from "./ObjectVerifierSuperclass";
 
 /**
- * Verifies a {@code URI}.
+ * Verifies a <code>URI</code>.
  *
  * @class
  * @author Gili Tzabari

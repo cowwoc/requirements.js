@@ -9,8 +9,8 @@ const delegate = new Verifiers();
  * @param {Object} actual the actual value
  * @param {String} name the name of the value
  * @return {ObjectVerifier} a verifier
- * @throws {TypeError} if {@code name} is null
- * @throws {RangeError} if {@code name} is empty
+ * @throws {TypeError}  if <code>name</code> is null
+ * @throws {RangeError} if <code>name</code> is empty
  */
 function requireThat(actual, name)
 {
@@ -25,8 +25,8 @@ function requireThat(actual, name)
  * @param {Object} actual the actual value
  * @param {String} name the name of the value
  * @return {ObjectVerifier} a verifier
- * @throws {TypeError} if {@code name} is null
- * @throws {RangeError} if {@code name} is empty
+ * @throws {TypeError}  if <code>name</code> is null
+ * @throws {RangeError} if <code>name</code> is empty
  * @see GlobalConfiguration#assertionsAreEnabled
  */
 function assertThat(actual, name)

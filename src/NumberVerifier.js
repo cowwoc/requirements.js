@@ -3,7 +3,7 @@ import ObjectVerifier from "./ObjectVerifierSuperclass";
 import Utilities from "./Utilities";
 
 /**
- * Verifier for a {@code Number}.
+ * Verifier for a <code>Number</code>.
  *
  * @class
  * @author Gili Tzabari
@@ -104,8 +104,9 @@ class NumberVerifier extends ObjectVerifier {
 	 * @param {Number} value the lower bound
 	 * @param {String} [name]  the name of the lower bound
 	 * @return {NumberVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is less than or equal to {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isGreaterThan(value, name)
 	{
@@ -133,8 +134,8 @@ class NumberVerifier extends ObjectVerifier {
 	 * @param {Number} value the minimum value
 	 * @param {String} [name]  the name of the minimum value
 	 * @return {NumberVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is less than {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is less than <code>value</code>; if <code>name</code> is empty
 	 */
 	isGreaterThanOrEqualTo(value, name)
 	{
@@ -162,8 +163,9 @@ class NumberVerifier extends ObjectVerifier {
 	 * @param {Number} value the upper bound
 	 * @param {String} [name]  the name of the upper bound
 	 * @return {NumberVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is greater than or equal to {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isLessThan(value, name)
 	{
@@ -191,8 +193,8 @@ class NumberVerifier extends ObjectVerifier {
 	 * @param {Number} value the maximum value
 	 * @param {String} [name]  the name of the maximum value
 	 * @return {NumberVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is greater than {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
@@ -221,8 +223,7 @@ class NumberVerifier extends ObjectVerifier {
 	 * @param {Number} max  the maximum value (inclusive)
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}      if any of the arguments are null
-	 * @throws {RangeError}  if {@code last} is less than {@code first}; if
-	 *                                  the actual value is not in range
+	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range
 	 */
 	isBetween(min, max)
 	{

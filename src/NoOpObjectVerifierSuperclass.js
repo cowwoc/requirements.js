@@ -1,5 +1,5 @@
 /**
- * An implementation of {@code ObjectVerifier} that does nothing.
+ * An implementation of <code>ObjectVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari
@@ -109,7 +109,7 @@ class NoOpObjectVerifier {
 	/**
 	 * Returns the actual value.
 	 *
-	 * @return {undefined} {@code undefined} if the verifier does not have access to the actual value
+	 * @return {undefined} <code>undefined</code> if the verifier does not have access to the actual value
 	 * @see #getActual()
 	 */
 	getActualIfPresent()

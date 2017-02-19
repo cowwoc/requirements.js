@@ -102,7 +102,7 @@ class ExceptionBuilder {
 	 * @param {ExceptionConstructor} type a function that takes an exception message and returns an exception
 	 *   instance
 	 * @return {ExceptionBuilder} this
-	 * @throws {TypeError} if {@code type} is not set
+	 * @throws {TypeError} if <code>type</code> is not set
 	 */
 	type(type)
 	{
@@ -122,7 +122,7 @@ class ExceptionBuilder {
 	 * @param {String} key   a key
 	 * @param {Object} value a value
 	 * @return {ExceptionBuilder} this
-	 * @throws {TypeError} if {@code key} is not a String
+	 * @throws {TypeError} if <code>key</code> is not a String
 	 */
 	addContext(key, value)
 	{
@@ -142,7 +142,7 @@ class ExceptionBuilder {
 	 *
 	 * @param {Array.<Array>} context a list of key-value pairs to add
 	 * @return {ExceptionBuilder} this
-	 * @throws {TypeError} if {@code context} is not set
+	 * @throws {TypeError} if <code>context</code> is not set
 	 */
 	addContextArray(context)
 	{

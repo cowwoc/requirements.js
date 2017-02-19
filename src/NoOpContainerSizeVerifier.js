@@ -1,7 +1,7 @@
 import NoOpNumberVerifier from "./NoOpNumberVerifier";
 
 /**
- * An implementation of {@code ContainerSizeVerifier} that does nothing.
+ * An implementation of {@link ContainerSizeVerifier} that does nothing.
  *
  * @class
  * @author Gili Tzabari

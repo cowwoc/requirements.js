@@ -2,10 +2,10 @@ const Utilities = {};
 
 /**
  * @param {Object} value a value
- * @param {Object} type a type (e.g. {@code String} not "string")
- * @return {Boolean} true if {@code value} is of type {@code type}; false if {@code value} or {@code type} are null,
- * undefined or unequal
- * @throws {TypeError} if {@code type} is not a constructor
+ * @param {Object} type a type (e.g. <code>String</code> not "string")
+ * @return {Boolean} true if <code>value</code> is of type <code>type</code>; false if <code>value</code> or
+ *   <code>type</code> are null, undefined or unequal
+ * @throws {TypeError} if <code>type</code> is not a constructor
  */
 Utilities.instanceOf = function(value, type)
 {
@@ -55,8 +55,8 @@ Utilities.instanceOf = function(value, type)
 /**
  * @param {Object} child the child class
  * @param {Object} parent the parent class
- * @return {Boolean} true if {@code child} extends {@code parent}; false if {@code parent} or {@code child} are null or
- *   undefined; false if {@code child} does not extend {@code parent}
+ * @return {Boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code> or
+ *   <code>child</code> are null or undefined; false if <code>child</code> does not extend <code>parent</code>
  */
 Utilities.extends = function(child, parent)
 {
@@ -105,7 +105,7 @@ Utilities.getTypeOf = function(object)
 /**
  * @param {Object} object an object
  * @return {String} the name of the object's class
- * @throws {TypeError} if {@code object} is not an Object
+ * @throws {TypeError} if <code>object</code> is not an Object
  * @see Utilities.getTypeOf
  */
 function getObjectClass(object)
@@ -207,8 +207,8 @@ Utilities.verifyName = function(value, name)
 
 /**
  * @param {Array.<Array>} context a list of key-value pairs to append to the exception message
- * @throws {TypeError} if {@code context} or one of its elements are not an array; if the nested array contains less
- * or more than 2 elements; if the elements nested in the array are not strings
+ * @throws {TypeError} if <code>context</code> or one of its elements are not an array; if the nested array contains
+ *   less or more than 2 elements; if the elements nested in the array are not strings
  * @throws {RangeError} if the keys nested in the array are undefined, null, or are empty
  * @return {undefined}
  */

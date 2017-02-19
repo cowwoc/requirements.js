@@ -7,8 +7,8 @@ import Utilities from "./Utilities";
 /**
  * @param {Array|Set} value a value
  * @param {String} name the name of the value
- * @return {Set} the value as a {@code Set}
- * @throws {TypeError} if {@code value} is not an {@code Array} or {@code Set}
+ * @return {Set} the value as a <code>Set</code>
+ * @throws {TypeError} if <code>value</code> is not an <code>Array</code> or <code>Set</code>
  */
 function asSet(value, name)
 {
@@ -30,7 +30,7 @@ function asSet(value, name)
 /**
  * @param {Set} actual a Set
  * @param {Set} expected a set of expected elements
- * @return {boolean} true if {@code actual} contains any of the {@code expected} elements
+ * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
  */
 function actualContainsAny(actual, expected)
 {
@@ -45,7 +45,7 @@ function actualContainsAny(actual, expected)
 /**
  * @param {Set} actual a Set
  * @param {Set} expected a Set of expected values
- * @return {boolean} true if {@code actual} contains all of the {@code expected} elements
+ * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
  */
 function actualContainsAll(actual, expected)
 {
@@ -58,7 +58,7 @@ function actualContainsAll(actual, expected)
 }
 
 /**
- * Verifies a {@code Set}.
+ * Verifies a <code>Set</code>.
  *
  * @class
  * @author Gili Tzabari
@@ -99,8 +99,8 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Object} expected the expected value
 	 * @param {String} [name] the name of the expected value
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the Set does not contain {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the Set does not contain <code>expected</code>
 	 */
 	contains(expected, name)
 	{
@@ -121,14 +121,16 @@ class SetVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less, nothing more.
+	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less, nothing
+	 * more.
 	 *
 	 * @param {Array|Set} expected the elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an {@code Array} or {@code Set}
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is missing any elements in {@code expected}; if
-	 *   the actual value contains elements not found in {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
+	 *   <code>Set</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
+	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
@@ -163,9 +165,10 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Set} expected the Set of elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an {@code Array} or {@code Set}
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is missing any elements in {@code expected}; if
-	 *   the actual value contains elements not found in {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
+	 *   <code>Set</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
+	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
@@ -193,8 +196,10 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Set} expected the Set of elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an {@code Array} or {@code Set}
-	 * @throws {RangeError} if {@code name} is empty; if the actual value does not contain all of {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
+	 *   <code>Set</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value does not contain all of
+	 *   <code>expected</code>
 	 */
 	containsAll(expected, name)
 	{
@@ -225,8 +230,8 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Object} entry an entry
 	 * @param {String} [name] the name of the entry
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the actual value contains {@code entry}
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains <code>entry</code>
 	 */
 	doesNotContain(entry, name)
 	{
@@ -252,8 +257,9 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Array|Set} elements the elements that must not exist
 	 * @param {String} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code elements} is not an {@code Array} or [@code Set}
-	 * @throws {RangeError} if {@code name} is empty; if the array contains any of {@code elements}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
+	 *   Set}
+	 * @throws {RangeError} if <code>name</code> is empty; if the array contains any of <code>elements</code>
 	 */
 	doesNotContainAny(elements, name)
 	{
@@ -281,8 +287,9 @@ class SetVerifier extends ObjectVerifier {
 	 * @param {Set} elements a Set of elements
 	 * @param {String} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code elements} is not an {@code Array} or [@code Set}
-	 * @throws {RangeError} if {@code name} is empty; if the actual value contains all of {@code elements}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
+	 *   Set}
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains all of <code>elements</code>
 	 */
 	doesNotContainAll(elements, name)
 	{
@@ -316,9 +323,9 @@ class SetVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code NumberVerifier} for the Set's size
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the Set's size
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer)
 	{
@@ -336,9 +343,9 @@ class SetVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Set's elements
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Set's elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	asArrayConsumer(consumer)
 	{

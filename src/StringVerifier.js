@@ -8,7 +8,7 @@ import UriVerifier from "./UriVerifier";
 import Utilities from "./Utilities";
 
 /**
- * Verifies a {@code String}.
+ * Verifies a <code>String</code>.
  *
  * @class
  * @author Gili Tzabari
@@ -19,7 +19,7 @@ class StringVerifier extends ObjectVerifier {
 	 *
 	 * @param {String} prefix the value that the string must start with
 	 * @return {StringVerifier} this
-	 * @throws {RangeError} if the actual value does not start with {@code prefix}
+	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
 	startsWith(prefix)
 	{
@@ -36,7 +36,7 @@ class StringVerifier extends ObjectVerifier {
 	 *
 	 * @param {String} prefix the value that the string may not start with
 	 * @return {StringVerifier} this
-	 * @throws {RangeError} if the actual value does not start with {@code prefix}
+	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
 	doesNotStartWith(prefix)
 	{
@@ -53,7 +53,7 @@ class StringVerifier extends ObjectVerifier {
 	 *
 	 * @param {String} suffix the value that the string must end with
 	 * @return {StringVerifier} this
-	 * @throws {RangeError} if the actual value does not end with {@code suffix}
+	 * @throws {RangeError} if the actual value does not end with <code>suffix</code>
 	 */
 	endsWith(suffix)
 	{
@@ -70,7 +70,7 @@ class StringVerifier extends ObjectVerifier {
 	 *
 	 * @param {String} suffix the value that the string may not end with
 	 * @return {StringVerifier} this
-	 * @throws {RangeError} if the actual value does not start with {@code suffix}
+	 * @throws {RangeError} if the actual value does not start with <code>suffix</code>
 	 */
 	doesNotEndWith(suffix)
 	{
@@ -126,10 +126,10 @@ class StringVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code StringVerifier} for the trimmed representation of the
+	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the trimmed representation of the
 	 *   string
 	 * @return {StringVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	trimConsumer(consumer)
 	{
@@ -148,9 +148,9 @@ class StringVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code ContainerSizeVerifier} for the length of the string
+	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the string
 	 * @return {StringVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer)
 	{
@@ -168,9 +168,9 @@ class StringVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts {@code this}
+	 * @param {Function} consumer a function that accepts <code>this</code>
 	 * @return {StringVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	asStringConsumer(consumer)
 	{
@@ -189,10 +189,10 @@ class StringVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@code InetAddressVerifier} for the value's Internet address
+	 * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet address
 	 * representation
 	 * @return {StringVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
 	 */
 	asInetAddressConsumer(consumer)
@@ -211,10 +211,10 @@ class StringVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code UriVerifier} for the value's Internet address
+	 * @param {Function} consumer a function that accepts a {@link UriVerifier} for the value's Internet address
 	 * representation
 	 * @return {StringVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	asUriConsumer(consumer)
 	{

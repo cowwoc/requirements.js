@@ -11,7 +11,7 @@ import Utilities from "./Utilities";
 /**
  * @param {Array} array an array
  * @param {Object} element an element
- * @return {Boolean} true if {@code arrays} contains the element
+ * @return {Boolean} true if <code>arrays</code> contains the element
  */
 function actualContains(array, element)
 {
@@ -27,7 +27,7 @@ function actualContains(array, element)
 /**
  * @param {Array} actual an array
  * @param {Array} expected the expected elements
- * @return {boolean} true if {@code actual} contains any of the {@code expected} elements
+ * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
  */
 function actualContainsAny(actual, expected)
 {
@@ -42,7 +42,7 @@ function actualContainsAny(actual, expected)
 /**
  * @param {Array} actual an array
  * @param {Array} expected an array of expected elements
- * @return {boolean} true if {@code actual} contains all of the {@code expected} elements
+ * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
  */
 function actualContainsAll(actual, expected)
 {
@@ -70,8 +70,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {String} name   the name of the value
 	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the container's element
 	 *   type
-	 * @throws {TypeError} if {@code name} or {@code config} are null or undefined
-	 * @throws {RangeError} if {@code name} is empty
+	 * @throws {TypeError} if <code>name</code> or <code>config</code> are null or undefined
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	constructor(configuration, actual, name, pluralizer)
 	{
@@ -119,8 +119,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Object} element the element that must exist
 	 * @param {String} [name] the name of the element
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the array does not contain {@code element}
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the array does not contain <code>element</code>
 	 */
 	contains(element, name)
 	{
@@ -146,9 +146,9 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Array} expected the elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an Array
-	 * @throws {RangeError} if {@code name} is empty; if the array is missing any elements in {@code expected}; if
-	 *   the array contains elements not found in {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
+	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
+	 *   if the array contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
@@ -185,9 +185,9 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Array} expected the elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an Array
-	 * @throws {RangeError} if {@code name} is empty; if the array is missing any elements in {@code expected}; if the
-	 *   array contains elements not found in {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
+	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
+	 *   if the array contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
@@ -215,8 +215,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Array} expected the elements that must exist
 	 * @param {String} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code expected} is not an Array
-	 * @throws {RangeError} if {@code name} is empty; if the array does not contain all of {@code expected}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
+	 * @throws {RangeError} if <code>name</code> is empty; if the array does not contain all of <code>expected</code>
 	 */
 	containsAll(expected, name)
 	{
@@ -249,8 +249,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Object} element the element that must not exist
 	 * @param {String} [name] the name of the element
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the array contains {@code element}
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the array contains <code>element</code>
 	 */
 	doesNotContain(element, name)
 	{
@@ -277,8 +277,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Array} elements the elements that must not exist
 	 * @param {String} [name] the name of the elements
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code elements} is not an Array
-	 * @throws {RangeError} if {@code name} is empty; if the array contains any of {@code elements}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an Array
+	 * @throws {RangeError} if <code>name</code> is empty; if the array contains any of <code>elements</code>
 	 */
 	doesNotContainAny(elements, name)
 	{
@@ -306,8 +306,8 @@ class ArrayVerifier extends ObjectVerifier {
 	 * @param {Array} elements the elements that must not exist
 	 * @param {String} [name] the name of the elements
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code name} is null; if {@code elements} is not an Array
-	 * @throws {RangeError} if {@code name} is empty; if the array contains all of {@code elements}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an Array
+	 * @throws {RangeError} if <code>name</code> is empty; if the array contains all of <code>elements</code>
 	 */
 	doesNotContainAll(elements, name)
 	{
@@ -369,9 +369,9 @@ class ArrayVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code ContainerSizeVerifier} for the length of the array
+	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the array
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer)
 	{
@@ -383,8 +383,8 @@ class ArrayVerifier extends ObjectVerifier {
 	/**
 	 * Verifies the Set representation of the array.
 	 *
-	 * @return {SetVerifier} a {@code Set} verifier
-	 * @throws {TypeError}  if the value is not a {@code Set}
+	 * @return {SetVerifier} a <code>Set</code> verifier
+	 * @throws {TypeError}  if the value is not a <code>Set</code>
 	 */
 	asSet()
 	{
@@ -392,9 +392,9 @@ class ArrayVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code SetVerifier} for the Set representation of the array
+	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the Set representation of the array
 	 * @return {ArrayVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	asSetConsumer(consumer)
 	{

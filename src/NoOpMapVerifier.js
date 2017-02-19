@@ -3,7 +3,7 @@ import NoOpNumberVerifier from "./NoOpNumberVerifier";
 import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 
 /**
- * An implementation of {@code Map} that does nothing.
+ * An implementation of <code>Map</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari
@@ -58,7 +58,7 @@ class NoOpMapVerifier extends NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of {@code [key, value]} for each element in
+	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element in
 	 *   the Map)
 	 */
 	entries()

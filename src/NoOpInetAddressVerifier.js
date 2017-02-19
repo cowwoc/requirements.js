@@ -1,7 +1,7 @@
 import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 
 /**
- * An implementation of {@code InetAddressVerifier} that does nothing.
+ * An implementation of <code>InetAddressVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari

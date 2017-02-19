@@ -4,7 +4,7 @@ import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 import NoOpUriVerifier from "./NoOpUriVerifier";
 
 /**
- * An implementation of {@code String} that does nothing.
+ * An implementation of <code>String</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari

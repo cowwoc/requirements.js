@@ -3,7 +3,7 @@ import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 import NoOpSetVerifier from "./NoOpSetVerifier";
 
 /**
- * An implementation of {@code ArrayVerifier} that does nothing.
+ * An implementation of <code>ArrayVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari
@@ -106,7 +106,7 @@ class NoOpArrayVerifier extends NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {NoOpSetVerifier} a {@code Set} verifier
+	 * @return {NoOpSetVerifier} a <code>Set</code> verifier
 	 */
 	asSet()
 	{

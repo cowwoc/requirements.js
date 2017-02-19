@@ -18,8 +18,8 @@ class ObjectVerifier {
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Object} actual the actual value
 	 * @param {String} name   the name of the value
-	 * @throws {TypeError} if {@code name} or {@code config} are null or undefined
-	 * @throws {RangeError} if {@code name} is empty
+	 * @throws {TypeError}  if <code>name</code> or <code>config</code> are null or undefined
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	constructor(configuration, actual, name)
 	{
@@ -50,8 +50,8 @@ class ObjectVerifier {
 	 * @param {Object} expected the expected value
 	 * @param {String} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is not equal to value
+	 * @throws {TypeError}  if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
 	 */
 	isEqualTo(expected, name)
 	{
@@ -80,8 +80,8 @@ class ObjectVerifier {
 	 * @param {Array} value the value to compare to
 	 * @param {String} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is equal to {@code value}
+	 * @throws {TypeError}  if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
 	 */
 	isNotEqualTo(value, name)
 	{
@@ -104,8 +104,8 @@ class ObjectVerifier {
 	 *
 	 * @param {Array.<Array>} array an array
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError}  if {@code array} is not an {@code Array}
-	 * @throws {RangeError} if {@code array} does not contain the actual value
+	 * @throws {TypeError}  if <code>array</code> is not an <code>Array</code>
+	 * @throws {RangeError} if <code>array</code> does not contain the actual value
 	 */
 	isInArray(array)
 	{
@@ -125,8 +125,8 @@ class ObjectVerifier {
 	 *
 	 * @param {Function} type the type to compare to
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError}  if {@code type} is undefined, null, anonymous function, arrow function or an object
-	 * @throws {RangeError} if the actual value is not an instance of {@code type}
+	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function, arrow function or an object
+	 * @throws {RangeError} if the actual value is not an instance of <code>type</code>
 	 */
 	isInstanceOf(type)
 	{
@@ -259,9 +259,9 @@ class ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code StringVerifier} for the number's string representation
+	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the number's string representation
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	asStringConsumer(consumer)
 	{
@@ -285,7 +285,7 @@ class ObjectVerifier {
 	/**
 	 * Returns the actual value.
 	 *
-	 * @return {Object} {@code undefined} if the verifier does not have access to the actual value
+	 * @return {Object} <code>undefined</code> if the verifier does not have access to the actual value
 	 * @see #getActual()
 	 */
 	getActualIfPresent()

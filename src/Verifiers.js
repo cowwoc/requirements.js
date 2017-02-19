@@ -52,8 +52,8 @@ class Verifiers {
 	 * @param {Object} actual the actual value
 	 * @param {String} name   the name of the value
 	 * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|SetVerifier|MapVerifier|UriVerifier} a verifier
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty
+	 * @throws {TypeError}  if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	requireThat(actual, name)
 	{
@@ -92,8 +92,8 @@ class Verifiers {
 	 * @param {Object} actual the actual value
 	 * @param {String} name   the name of the value
 	 * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|SetVerifier|MapVerifier|UriVerifier} a verifier
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty
+	 * @throws {TypeError}  if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	assertThat(actual, name)
 	{
@@ -129,7 +129,7 @@ class Verifiers {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {Boolean} true if {@code assertThat()} should delegate to {@code requireThat()}; false if it
+	 * @return {Boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
 	 *         shouldn't do anything
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
@@ -140,7 +140,7 @@ class Verifiers {
 	}
 
 	/**
-	 * Indicates that {@code assertThat()} should invoke {@code requireThat()}.
+	 * Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
 	 * @return {Verifiers} a verifier with the updated configuration
 	 */
@@ -153,7 +153,7 @@ class Verifiers {
 	}
 
 	/**
-	 * Indicates that {@code assertThat()} shouldn't do anything.
+	 * Indicates that <code>assertThat()</code> shouldn't do anything.
 	 *
 	 * @return {Verifiers} a verifier with the updated configuration
 	 */
@@ -168,7 +168,7 @@ class Verifiers {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {ExceptionConstructor} {@code null} if the default exception type will be thrown
+	 * @return {ExceptionConstructor} <code>null</code> if the default exception type will be thrown
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
 	 */
@@ -182,11 +182,11 @@ class Verifiers {
 	 * <p>
 	 * The exception class must define the following constructor:
 	 * <p>
-	 * {@code <init>(message)}
+	 * <code><init>(message)</code>
 	 *
 	 * @param {ExceptionConstructor} exception the type of exception to throw
 	 * @return {Verifiers} a verifier with the updated configuration
-	 * @throws {TypeError} if {@code exception} is not set
+	 * @throws {TypeError} if <code>exception</code> is not set
 	 * @see #getException()
 	 */
 	withException(exception)
@@ -226,7 +226,7 @@ class Verifiers {
 	 * @param {String} key   a key
 	 * @param {Object} value a value
 	 * @return {Verifiers} a verifier with the updated configuration
-	 * @throws {TypeError} if {@code key} is not a String
+	 * @throws {TypeError} if <code>key</code> is not a String
 	 * @see #getContext()
 	 */
 	addContext(key, value)

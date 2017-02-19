@@ -16,14 +16,14 @@ class Configuration {
 	 *
 	 * @constructor
 	 * @param {Verifiers} internalVerifier the verifier that can be used to check a verifier's own parameters
-	 * @param {Error} [exception = null] the type of exception that will be thrown if a verification fails, {@code null}
-	 *   to throw the default exception type
+	 * @param {Error} [exception = null] the type of exception that will be thrown if a verification fails,
+	 *   <code>null</code> to throw the default exception type
 	 * @param {Array.<Array>} [context = []] a list of key-value pairs to append to the exception message
-	 * @param {Boolean} [assertionsEnabled = false] true if {@code assertThat()} should invoke {@code requireThat()};
-	 *   false if {@code assertThat()} should do nothing
-	 * @throws {TypeError} if {@code internalVerifier} is undefined or null; {@code context} or one of its elements are
-	 *   not an array; if the nested array contains less or more than 2 elements; if the keys nested in the context
-	 *   array are not strings
+	 * @param {Boolean} [assertionsEnabled = false] true if <code>assertThat()</code> should invoke
+	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
+	 * @throws {TypeError} if <code>internalVerifier</code> is undefined or null; <code>context</code> or one of its
+	 *   elements are not an array; if the nested array contains less or more than 2 elements; if the keys nested in the
+	 *   context array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
 	constructor(internalVerifier, exception, context, assertionsEnabled)
@@ -63,7 +63,7 @@ class Configuration {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {Boolean} true if {@code assertThat()} should delegate to {@code requireThat()}; false if it
+	 * @return {Boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
 	 *         shouldn't do anything
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
@@ -74,7 +74,7 @@ class Configuration {
 	}
 
 	/**
-	 * Indicates that {@code assertThat()} should invoke {@code requireThat()}.
+	 * Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
 	 * @return {Configuration} the updated configuration
 	 */
@@ -86,7 +86,7 @@ class Configuration {
 	}
 
 	/**
-	 * Indicates that {@code assertThat()} shouldn't do anything.
+	 * Indicates that <code>assertThat()</code> shouldn't do anything.
 	 *
 	 * @return {Configuration} the updated configuration
 	 */
@@ -100,7 +100,7 @@ class Configuration {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {ExceptionConstructor} {@code null} if the default exception type will be thrown
+	 * @return {ExceptionConstructor} <code>null</code> if the default exception type will be thrown
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
 	 */
@@ -114,11 +114,11 @@ class Configuration {
 	 * <p>
 	 * The exception class must define the following constructor:
 	 * <p>
-	 * {@code <init>(message)}
+	 * <code><init>(message)</code>
 	 *
 	 * @param {ExceptionConstructor} exception the type of exception to throw
 	 * @return {Configuration} the updated configuration
-	 * @throws {TypeError} if {@code exception} is not set
+	 * @throws {TypeError} if <code>exception</code> is not set
 	 * @see #getException()
 	 */
 	withException(exception)
@@ -172,7 +172,7 @@ class Configuration {
 	 * @param {String} key   a key
 	 * @param {Object} value a value
 	 * @return {Configuration} the updated configuration
-	 * @throws {TypeError} if {@code key} is not a {@code String}
+	 * @throws {TypeError} if <code>key</code> is not a <code>String</code>
 	 * @see #getContext()
 	 */
 	addContext(key, value)

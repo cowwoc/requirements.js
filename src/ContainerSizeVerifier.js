@@ -19,9 +19,9 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {String} containerName the name of the container
 	 * @param {String} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
-	 * @throws {TypeError} if {@code containerName}, {@code sizeName}, {@code configuration} are undefined or null; if
-	 * {@code containerName} or {@code sizeName} are not a String
-	 * @throws {RangeError} if {@code containerName} or {@code sizeName} are empty
+	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are undefined
+	 *   or null; if <code>containerName</code> or <code>sizeName</code> are not a String
+	 * @throws {RangeError} if <code>containerName</code> or <code>sizeName</code> are empty
 	 */
 	constructor(configuration, container, size, containerName, sizeName, pluralizer)
 	{
@@ -47,8 +47,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Number} value the minimum value
 	 * @param {String} [name]  the name of the minimum value
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is less than {@code value}; if {@code name} is empty
+	 * @throws {TypeError}      if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is less than <code>value</code>; if <code>name</code> is empty
 	 */
 	isGreaterThanOrEqualTo(value, name)
 	{
@@ -81,8 +81,9 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Number} value the lower bound
 	 * @param {String} [name]  the name of the lower bound
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is less than or equal to {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isGreaterThan(value, name)
 	{
@@ -115,8 +116,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Number} value the maximum value
 	 * @param {String} [name]  the name of the maximum value
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is greater than {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
@@ -149,8 +150,9 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Number} value the upper bound
 	 * @param {String} [name]  the name of the upper bound
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError}      if {@code value} or {@code name} are null
-	 * @throws {RangeError}  if the actual value is greater than or equal to {@code value}; if {@code name} is empty
+	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
+	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isLessThan(value, name)
 	{
@@ -262,8 +264,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Number} max  the maximum value (inclusive)
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}      if any of the arguments are null
-	 * @throws {RangeError}  if {@code last} is less than {@code first}; if
-	 *                                  the actual value is not in range
+	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range
 	 */
 	isBetween(min, max)
 	{
@@ -289,8 +290,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Object} expected the expected value
 	 * @param {String} [name] the name of the expected value
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is not equal to value
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
 	 */
 	isEqualTo(expected, name)
 	{
@@ -325,8 +326,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * @param {Array} value the value to compare to
 	 * @param {String} [name] the name of the expected value
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError} if {@code name} is null
-	 * @throws {RangeError} if {@code name} is empty; if the actual value is equal to {@code value}
+	 * @throws {TypeError} if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
 	 */
 	isNotEqualTo(value, name)
 	{

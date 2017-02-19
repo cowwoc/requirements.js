@@ -5,7 +5,7 @@ import ObjectVerifier from "./ObjectVerifierSuperclass";
 import Pluralizer from "./Pluralizer";
 
 /**
- * Verifies a {@code Map}.
+ * Verifies a <code>Map</code>.
  *
  * @class
  * @author Gili Tzabari
@@ -49,9 +49,9 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's keys
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's keys
 	 * @return {MapVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	keysConsumer(consumer)
 	{
@@ -69,9 +69,9 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's values
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's values
 	 * @return {MapVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	valuesConsumer(consumer)
 	{
@@ -81,7 +81,7 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of {@code [key, value]} for each element in the
+	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element in the
 	 *   Map)
 	 */
 	entries()
@@ -91,10 +91,10 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@code ArrayVerifier} for the Map's entries (an array of
-	 *   {@code [key, value]} for each element in the Map)
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's entries (an array of
+	 *   <code>[key, value]</code> for each element in the Map)
 	 * @return {MapVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	entriesConsumer(consumer)
 	{
@@ -112,10 +112,10 @@ class MapVerifier extends ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@code NumberVerifier} for the number of entries this Map
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries this Map
 	 *   contains
 	 * @return {MapVerifier} this
-	 * @throws {TypeError} if {@code consumer} is not set
+	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer)
 	{

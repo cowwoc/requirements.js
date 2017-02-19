@@ -1,7 +1,7 @@
 import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 
 /**
- * An implementation of {@code UriVerifier} that does nothing.
+ * An implementation of <code>UriVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari

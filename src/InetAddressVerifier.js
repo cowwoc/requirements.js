@@ -115,8 +115,8 @@ class InetAddressVerifier extends ObjectVerifier {
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {String} actual the actual value
 	 * @param {String} name   the name of the value
-	 * @throws {TypeError} if {@code name} or {@code config} are null or undefined
-	 * @throws {RangeError} if {@code name} is empty
+	 * @throws {TypeError} if <code>name</code> or <code>config</code> are null or undefined
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	constructor(configuration, actual, name)
 	{

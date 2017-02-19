@@ -1,7 +1,7 @@
 import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 
 /**
- * An implementation of {@code NumberVerifier} that does nothing.
+ * An implementation of <code>NumberVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari

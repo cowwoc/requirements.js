@@ -3,7 +3,7 @@ import NoOpNumberVerifier from "./NoOpNumberVerifier";
 import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
 
 /**
- * An implementation of {@code SetVerifier} that does nothing.
+ * An implementation of <code>SetVerifier</code> that does nothing.
  *
  * @class
  * @author Gili Tzabari
