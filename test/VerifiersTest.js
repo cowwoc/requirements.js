@@ -115,6 +115,6 @@ test("Verifiers.withDefaultException", function(t)
 test("Verifiers.addContext", function(t)
 {
 	const verifiers = new Verifiers().addContext("key", "value");
-	t.equals(verifiers.getContext(), ["key", "value"]);
+	t.deepEquals(verifiers.getContext(), [["key", "value"]]);
 	t.end();
 });
