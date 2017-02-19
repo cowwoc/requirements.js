@@ -148,10 +148,14 @@ test("SetTest.contains", function(t)
 
 test("SetTest.contains_False", function(t)
 {
+	const actual = new Set([1, 2, 3]);
 	t.throws(function()
 	{
-		const actual = new Set([1, 2, 3]);
 		requireThat(actual, "actual").contains(5);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").contains(5, "expected");
 	}, RangeError);
 	t.end();
 });
@@ -165,10 +169,119 @@ test("SetTest.doesNotContain", function(t)
 
 test("SetTest.doesNotContain_False", function(t)
 {
+	const actual = new Set([1, 2, 3]);
 	t.throws(function()
 	{
-		const actual = new Set([1, 2, 3]);
 		requireThat(actual, "actual").doesNotContain(2);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").doesNotContain(2, "expected");
+	}, RangeError);
+	t.end();
+});
+
+test("SetTest.containsAny", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	requireThat(actual, "actual").containsAny([0, 2, 4]);
+	t.end();
+});
+
+test("SetTest.containsAny_False", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsAny([0, 5]);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsAny([0, 5], "expected");
+	}, RangeError);
+	t.end();
+});
+
+test("SetTest.doesNotContainAny", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	requireThat(actual, "actual").doesNotContainAny([0, 5]);
+	t.end();
+});
+
+test("SetTest.doesNotContainAny_False", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").doesNotContainAny([0, 2]);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").doesNotContainAny([0, 2], "expected");
+	}, RangeError);
+	t.end();
+});
+
+test("SetTest.containsAll", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	requireThat(actual, "actual").containsAll([2, 3]);
+	t.end();
+});
+
+test("SetTest.containsAll_False", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsAll([0, 1, 2]);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsAll([0, 1, 2], "expected");
+	}, RangeError);
+	t.end();
+});
+
+test("SetTest.doesNotContainAll", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	requireThat(actual, "actual").doesNotContainAll([0, 2, 3]);
+	t.end();
+});
+
+test("SetTest.doesNotContainAll_False", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").doesNotContainAll([2, 3]);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").doesNotContainAll([2, 3], "expected");
+	}, RangeError);
+	t.end();
+});
+
+test("SetTest.containsExactly", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	requireThat(actual, "actual").containsExactly([1, 2, 3]);
+	t.end();
+});
+
+test("SetTest.containsExactly_False", function(t)
+{
+	const actual = new Set([1, 2, 3]);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsExactly([0, 1, 2, 3]);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").containsExactly([0, 1, 2, 3], "expected");
 	}, RangeError);
 	t.end();
 });
@@ -207,11 +320,32 @@ test("SetTest.sizeIsNotEqualTo_False", function(t)
 	t.end();
 });
 
+test("SetTest.sizeConsumer", function(t)
+{
+	t.throws(function()
+	{
+		const actual = new Set([1, 2, 3]);
+		requireThat(actual, "actual").sizeConsumer(s => s.isNotEqualTo(3));
+	}, RangeError);
+	t.end();
+});
+
 test("SetTest.asArray", function(t)
 {
 	const array = [1, 2, 3];
 	const actual = new Set(array);
 	requireThat(actual, "actual").asArray().isEqualTo(array);
+	t.end();
+});
+
+test("SetTest.asArrayConsumer", function(t)
+{
+	const array = [1, 2, 3];
+	t.throws(function()
+	{
+		const actual = new Set(array);
+		requireThat(actual, "actual").asArrayConsumer(a => a.isNotEqualTo(array));
+	}, RangeError);
 	t.end();
 });
 
@@ -226,6 +360,6 @@ test("SetTest.getActual", function(t)
 {
 	const input = new Set([1, 2, 3]);
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

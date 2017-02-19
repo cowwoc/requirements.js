@@ -62,6 +62,29 @@ function actualContainsAll(actual, expected)
  */
 class ArrayVerifier extends ObjectVerifier {
 	/**
+	 * Creates a new ObjectVerifier.
+	 *
+	 * @constructor
+	 * @param {Configuration} configuration the instance configuration
+	 * @param {Object} actual the actual value
+	 * @param {String} name   the name of the value
+	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the container's element
+	 *   type
+	 * @throws {TypeError} if {@code name} or {@code config} are null or undefined
+	 * @throws {RangeError} if {@code name} is empty
+	 */
+	constructor(configuration, actual, name, pluralizer)
+	{
+		super(configuration, actual, name);
+		if (typeof(pluralizer) === "undefined")
+			pluralizer = Pluralizer.ELEMENT;
+		Object.defineProperty(this, "pluralizer",
+			{
+				value: pluralizer
+			});
+	}
+
+	/**
 	 * Ensures that the actual value is empty.
 	 *
 	 * @return {ArrayVerifier} this
@@ -342,7 +365,7 @@ class ArrayVerifier extends ObjectVerifier {
 	length()
 	{
 		return new ContainerSizeVerifier(this.config, this.actual, this.actual.length, this.name, this.name + ".length",
-			Pluralizer.ELEMENT);
+			this.pluralizer);
 	}
 
 	/**

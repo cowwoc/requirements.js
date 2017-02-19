@@ -146,9 +146,13 @@ test("StringTest.lengthIsEqualTo", function(t)
 
 test("StringTest.lengthIsEqualTo_False", function(t)
 {
+	const actual = "value";
 	t.throws(function()
 	{
-		const actual = "value";
+		requireThat(actual, "actual").length().isEqualTo(1);
+	}, RangeError);
+	t.throws(function()
+	{
 		requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
 	}, RangeError);
 	t.end();
@@ -171,6 +175,33 @@ test("StringTest.lengthIsNotEqualTo_False", function(t)
 	t.end();
 });
 
+test("StringTest.trim", function(t)
+{
+	const actual = " value ";
+	requireThat(actual, "actual").trim().length().isEqualTo(actual.length - 2);
+	t.end();
+});
+
+test("StringTest.trimConsumer_False", function(t)
+{
+	t.throws(function()
+	{
+		const actual = " value ";
+		requireThat(actual, "actual").trimConsumer(s => s.length().isNotEqualTo(actual.length - 2));
+	}, RangeError);
+	t.end();
+});
+
+test("StringTest.lengthConsumer", function(t)
+{
+	const actual = " value ";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").lengthConsumer(l => l.isEqualTo(actual.length + 1));
+	}, RangeError);
+	t.end();
+});
+
 test("StringTest.asString", function(t)
 {
 	const actual = "value";
@@ -178,10 +209,40 @@ test("StringTest.asString", function(t)
 	t.end();
 });
 
+test("StringTest.asStringConsumer", function(t)
+{
+	const actual = "value";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").asStringConsumer(s => s.isNotEqualTo(actual));
+	}, RangeError);
+	t.end();
+});
+
+test("StringTest.asInetAddressConsumer", function(t)
+{
+	const actual = "1.2.3.4";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6(actual));
+	}, RangeError);
+	t.end();
+});
+
+test("StringTest.asUriConsumer", function(t)
+{
+	const actual = "http://www.host.com/path/";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
+	}, RangeError);
+	t.end();
+});
+
 test("StringTest.getActual", function(t)
 {
 	const input = "value";
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

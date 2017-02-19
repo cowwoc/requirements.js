@@ -185,7 +185,7 @@ class Verifiers {
 	 * {@code <init>(message)}
 	 *
 	 * @param {ExceptionConstructor} exception the type of exception to throw
-	 * @return {Verifiers} this
+	 * @return {Verifiers} a verifier with the updated configuration
 	 * @throws {TypeError} if {@code exception} is not set
 	 * @see #getException()
 	 */
@@ -200,7 +200,7 @@ class Verifiers {
 	/**
 	 * Throws the default exception type if a verification fails.
 	 *
-	 * @return {Verifiers} this
+	 * @return {Verifiers} a verifier with the updated configuration
 	 * @see #getException()
 	 */
 	withDefaultException()
@@ -225,16 +225,13 @@ class Verifiers {
 	 *
 	 * @param {String} key   a key
 	 * @param {Object} value a value
-	 * @return {Verifiers} a new verifier with the specified context
+	 * @return {Verifiers} a verifier with the updated configuration
 	 * @throws {TypeError} if {@code key} is not a String
 	 * @see #getContext()
 	 */
 	addContext(key, value)
 	{
-		const newConfig = this.config.addContext(key, value);
-		if (newConfig === this.config)
-			return this;
-		return new Verifiers(newConfig);
+		return new Verifiers(this.config.addContext(key, value));
 	}
 }
 

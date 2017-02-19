@@ -139,43 +139,29 @@ class ObjectVerifier {
 			case "Undefined":
 			case "Null":
 			{
-				message = typeName.toLowerCase();
+				message = typeName.toLowerCase() + ".";
 				break;
 			}
 			case "AnonymousFunction":
 			{
-				message = "an anonymous function";
+				message = "an anonymous function.";
 				break;
 			}
 			case "ArrowFunction":
 			{
-				message = "an arrow function";
+				message = "an arrow function.";
 				break;
 			}
-			case "Object":
-			{
-				message = "an object";
-				break;
-			}
-		}
-		if (typeof(message) !== "undefined")
-		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be " + message).
-				build();
-		}
-
-		switch (typeName)
-		{
 			case "Boolean":
 			case "Number":
 			case "String":
 			{
-				message = "a " + typeName;
+				message = "a " + typeName + ".";
 				break;
 			}
-			case "Function":
+			default:
 			{
-				message = "an instance of " + Utilities.getFunctionName(type) + ".";
+				message = "an instance of  " + typeName + ".";
 				break;
 			}
 		}
@@ -214,31 +200,31 @@ class ObjectVerifier {
 	}
 
 	/**
+	 * Ensures that the actual value is defined.
+	 *
+	 * @return {ObjectVerifier} this
+	 * @throws {RangeError} if the actual value is undefined
+	 */
+	isDefined()
+	{
+		if (typeof(this.actual) !== "undefined")
+			return this;
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be defined").
+			build();
+	}
+
+	/**
 	 * Ensures that the actual value is undefined.
 	 *
 	 * @return {ObjectVerifier} this
 	 * @throws {RangeError} if the actual value is not undefined
 	 */
-	isUndefined()
+	isNotDefined()
 	{
-		if (typeof(this.actual) !== "undefined")
+		if (typeof(this.actual) === "undefined")
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be undefined.").
 			addContext("Actual", this.actual).
-			build();
-	}
-
-	/**
-	 * Ensures that the actual value is not undefined.
-	 *
-	 * @return {ObjectVerifier} this
-	 * @throws {RangeError} if the actual value is undefined
-	 */
-	isNotUndefined()
-	{
-		if (this.actual !== null)
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be undefined").
 			build();
 	}
 

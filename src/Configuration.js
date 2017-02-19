@@ -1,3 +1,4 @@
+import GlobalConfiguration from "./GlobalConfiguration";
 import Utilities from "./Utilities";
 
 /**
@@ -52,7 +53,7 @@ class Configuration {
 				value: context
 			});
 		if (typeof(assertionsEnabled) === "undefined")
-			assertionsEnabled = false;
+			assertionsEnabled = GlobalConfiguration.assertionsAreEnabled;
 		Object.defineProperty(this, "assertionsEnabled",
 			{
 				value: assertionsEnabled
@@ -75,7 +76,7 @@ class Configuration {
 	/**
 	 * Indicates that {@code assertThat()} should invoke {@code requireThat()}.
 	 *
-	 * @return {Configuration} a verifier with the updated configuration
+	 * @return {Configuration} the updated configuration
 	 */
 	withAssertionsEnabled()
 	{
@@ -87,7 +88,7 @@ class Configuration {
 	/**
 	 * Indicates that {@code assertThat()} shouldn't do anything.
 	 *
-	 * @return {Configuration} a verifier with the updated configuration
+	 * @return {Configuration} the updated configuration
 	 */
 	withAssertionsDisabled()
 	{
@@ -116,7 +117,7 @@ class Configuration {
 	 * {@code <init>(message)}
 	 *
 	 * @param {ExceptionConstructor} exception the type of exception to throw
-	 * @return {Configuration} this
+	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if {@code exception} is not set
 	 * @see #getException()
 	 */
@@ -146,7 +147,7 @@ class Configuration {
 	/**
 	 * Throws the default exception type if a verification fails.
 	 *
-	 * @return {Configuration} this
+	 * @return {Configuration} the updated configuration
 	 * @see #getException()
 	 */
 	withDefaultException()
@@ -170,7 +171,7 @@ class Configuration {
 	 *
 	 * @param {String} key   a key
 	 * @param {Object} value a value
-	 * @return {Configuration} a new verifier with the specified context
+	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if {@code key} is not a {@code String}
 	 * @see #getContext()
 	 */

@@ -76,7 +76,7 @@ Utilities.extends = function(child, parent)
  * If the input is a named function or a class constructor, returns "Function".
  * If the input is an anonymous function, returns "AnonymousFunction".
  * If the input is an arrow function, returns "ArrowFunction".
- * If the input is a class instance, returns "Object".
+ * If the input is a class instance, returns the class name.
  *
  * @param {Object} object an object
  * @return {String} the name of the object's type
@@ -87,11 +87,14 @@ Utilities.getTypeOf = function(object)
 	const objectToString = Object.prototype.toString.call(object).slice(8, -1);
 	if (objectToString === "Function")
 	{
-		if (object.name !== null)
+		if (object.name !== null && object.name !== "")
 			return object.name;
 		const instanceToString = object.toString();
-		if (instanceToString.indexOf(" => ") !== -1)
+		const indexOfArrow = instanceToString.indexOf("=>");
+		const indexOfBody = instanceToString.indexOf("{");
+		if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 			return "ArrowFunction";
+		return "AnonymousFunction";
 	}
 	// Built-in types (e.g. String) or class instances
 	if (objectToString === "Object")
@@ -174,24 +177,6 @@ Utilities.toString = function(object)
 		current = Object.getPrototypeOf(current.constructor.prototype);
 		if (Utilities.getTypeOf(current) === "Object")
 			return JSON.stringify(current, null, 2);
-	}
-};
-
-/**
- * @param {Object} value the actual value
- * @param {String} name the name of the value
- * @param {Object} type the expected type of the value
- * @return {undefined}
- * @throws {TypeError} if value is not of the expected type
- */
-Utilities.verifyValue = function(value, name, type)
-{
-	if (typeof(value) === "undefined" || value === null)
-		return;
-	if (!Utilities.instanceOf(value, type))
-	{
-		throw new TypeError(name + " must be an instance of " + Utilities.getTypeOf(type) + ".\n" +
-			"Actual: " + Utilities.getTypeOf(value));
 	}
 };
 

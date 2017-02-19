@@ -315,14 +315,14 @@ test("NumberTest.isFinite_False", function(t)
 {
 	t.throws(function()
 	{
-		requireThat(1.0, "actual").isGreaterThanOrEqualTo(2);
+		requireThat(1.0 / 0.0, "actual").isFinite();
 	}, RangeError);
 	t.end();
 });
 
 test("NumberTest.isNotFinite", function(t)
 {
-	requireThat(1.0, "actual").isFinite();
+	requireThat(1.0 / 0.0, "actual").isNotFinite();
 	t.end();
 });
 
@@ -330,7 +330,7 @@ test("NumberTest.isNotFinite_False", function(t)
 {
 	t.throws(function()
 	{
-		requireThat(1.0, "actual").isGreaterThanOrEqualTo(2);
+		requireThat(1.0, "actual").isNotFinite();
 	}, RangeError);
 	t.end();
 });
@@ -376,6 +376,6 @@ test("NumberTest.getActual", function(t)
 {
 	const input = 5;
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

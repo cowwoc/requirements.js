@@ -2,6 +2,7 @@ import ArrayVerifier from "./ArrayVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
 import ObjectVerifier from "./ObjectVerifierSuperclass";
+import Pluralizer from "./Pluralizer";
 
 /**
  * Verifies a {@code Map}.
@@ -44,7 +45,7 @@ class MapVerifier extends ObjectVerifier {
 	 */
 	keys()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.keys()), this.name + ".keys()");
+		return new ArrayVerifier(this.config, Array.from(this.actual.keys()), this.name + ".keys()", Pluralizer.KEY);
 	}
 
 	/**
@@ -64,7 +65,7 @@ class MapVerifier extends ObjectVerifier {
 	 */
 	values()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.values()), this.name + ".values()");
+		return new ArrayVerifier(this.config, Array.from(this.actual.values()), this.name + ".values()", Pluralizer.VALUE);
 	}
 
 	/**
@@ -85,7 +86,8 @@ class MapVerifier extends ObjectVerifier {
 	 */
 	entries()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.entries()), this.name + ".entries()");
+		return new ArrayVerifier(this.config, Array.from(this.actual.entries()), this.name + ".entries()",
+			Pluralizer.ENTRY);
 	}
 
 	/**
@@ -118,7 +120,7 @@ class MapVerifier extends ObjectVerifier {
 	sizeConsumer(consumer)
 	{
 		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.size);
+		consumer(this.size());
 		return this;
 	}
 }

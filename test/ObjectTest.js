@@ -1,5 +1,16 @@
-import {requireThat} from "../node/Requirements";
+import {assertThat, requireThat} from "../node/Requirements";
+import ObjectVerifier from "../node/ObjectVerifier";
 import test from "tape-catch";
+
+test("ObjectTest.constructor_configurationIsUndefined", function(t)
+{
+	t.throws(function()
+	{
+		// eslint-disable-next-line no-new
+		new ObjectVerifier();
+	}, TypeError);
+	t.end();
+});
 
 test("ObjectTest.nameIsNull", function(t)
 {
@@ -30,10 +41,14 @@ test("ObjectTest.isEqualTo", function(t)
 
 test("ObjectTest.isEqual_False", function(t)
 {
+	const actual = {};
 	t.throws(function()
 	{
-		const actual = {};
 		requireThat(actual, "actual").isEqualTo("expected");
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").isEqualTo("expected", "expected");
 	}, RangeError);
 	t.end();
 });
@@ -83,10 +98,14 @@ test("ObjectTest.isNotEqualTo", function(t)
 
 test("ObjectTest.isNotEqualTo_False", function(t)
 {
+	const actual = {};
 	t.throws(function()
 	{
-		const actual = {};
 		requireThat(actual, "actual").isNotEqualTo(actual);
+	}, RangeError);
+	t.throws(function()
+	{
+		requireThat(actual, "actual").isNotEqualTo(actual, "actual");
 	}, RangeError);
 	t.end();
 });
@@ -145,6 +164,42 @@ test("ObjectTest.isInstanceOf_False", function(t)
 	t.end();
 });
 
+test("ObjectTest.isInstanceOf_AnonymousFunction", function(t)
+{
+	t.throws(function()
+	{
+		const actual = {};
+		requireThat(actual, "actual").isInstanceOf(function()
+		{
+			return "anonymousFunction";
+		});
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.isInstanceOf_ArrowFunction", function(t)
+{
+	t.throws(function()
+	{
+		const actual = {};
+		requireThat(actual, "actual").isInstanceOf(input => input + " -> output");
+	}, RangeError);
+	t.end();
+});
+
+class MyClass {
+}
+
+test("ObjectTest.isInstanceOf_Object", function(t)
+{
+	t.throws(function()
+	{
+		const actual = 5;
+		requireThat(actual, "actual").isInstanceOf(MyClass);
+	}, RangeError);
+	t.end();
+});
+
 test("ObjectTest.isNull", function(t)
 {
 	requireThat(null, "actual").isNull();
@@ -178,10 +233,102 @@ test("ObjectTest.isNotNull_False", function(t)
 	t.end();
 });
 
+test("ObjectTest.isDefined", function(t)
+{
+	const actual = 5;
+	requireThat(actual, "actual").isDefined();
+	t.end();
+});
+
+test("ObjectTest.isDefined_False", function(t)
+{
+	t.throws(function()
+	{
+		let actual;
+		requireThat(actual, "actual").isDefined();
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.isNotDefined", function(t)
+{
+	let actual;
+	requireThat(actual, "actual").isNotDefined();
+	t.end();
+});
+
+test("ObjectTest.isNotDefined_False", function(t)
+{
+	t.throws(function()
+	{
+		const actual = 5;
+		requireThat(actual, "actual").isNotDefined();
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.isSet", function(t)
+{
+	const actual = 5;
+	requireThat(actual, "actual").isSet();
+	t.end();
+});
+
+test("ObjectTest.isSet_False", function(t)
+{
+	t.throws(function()
+	{
+		let actual;
+		requireThat(actual, "actual").isSet();
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.isNotSet", function(t)
+{
+	let actual;
+	requireThat(actual, "actual").isNotSet();
+	t.end();
+});
+
+test("ObjectTest.isNotSet_False", function(t)
+{
+	t.throws(function()
+	{
+		const actual = 5;
+		requireThat(actual, "actual").isNotSet();
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.asStringConsumer", function(t)
+{
+	const actual = 1234;
+	requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
+	t.end();
+});
+
 test("ObjectTest.getActual", function(t)
 {
 	const input = {};
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
+	t.end();
+});
+
+test("ObjectTest.requireThat.getActualIfPresent", function(t)
+{
+	const input = 12345;
+	const output = requireThat(input, "input").asString().getActualIfPresent();
+	t.equals(output, "12345");
+	t.end();
+});
+
+test("ObjectTest.assertThat.getActualIfPresent", function(t)
+{
+	const input = {};
+	let expected;
+	const output = assertThat(input, "input").getActualIfPresent();
+	t.equals(output, expected);
 	t.end();
 });

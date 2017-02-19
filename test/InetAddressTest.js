@@ -239,6 +239,6 @@ test("InetAddressTest.getActual", function(t)
 {
 	const input = "::0:2F3B:2AA:FF:FE28:9C5A";
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

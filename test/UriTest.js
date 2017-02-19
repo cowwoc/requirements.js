@@ -23,6 +23,21 @@ test("UriTest.isAbsolute_False", function(t)
 	t.end();
 });
 
+test("UriTest.isRelative", function(t)
+{
+	requireThat(new URI("../index.html"), "actual").isRelative();
+	t.end();
+});
+
+test("UriTest.isRelative_False", function(t)
+{
+	t.throws(function()
+	{
+		requireThat(new URI("http://host.com/index.html"), "actual").isRelative();
+	}, RangeError);
+	t.end();
+});
+
 test("UriTest.asString", function(t)
 {
 	const string = "http://host.com/index.html";
@@ -35,6 +50,6 @@ test("UriTest.getActual", function(t)
 {
 	const input = new URI("http://www.test.com/");
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

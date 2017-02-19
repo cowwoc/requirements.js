@@ -783,6 +783,6 @@ test("ArrayTest.getActual", function(t)
 			5
 		];
 	const output = requireThat(input, "input").getActual();
-	t.equal(output, input);
+	t.equals(output, input);
 	t.end();
 });

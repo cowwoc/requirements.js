@@ -18,7 +18,8 @@ function requireThat(actual, name)
 }
 
 /**
- * Same as {@link #requireThat(Object, String)} but does nothing if assertions are disabled.
+ * Same as {@link #requireThat(Object, String)} but does nothing if assertions are disabled. By default, assertions
+ * are disabled. See {@link GlobalConfiguration.assertionsAreEnabled} to change the default.
  *
  * @function
  * @param {Object} actual the actual value
@@ -26,6 +27,7 @@ function requireThat(actual, name)
  * @return {ObjectVerifier} a verifier
  * @throws {TypeError} if {@code name} is null
  * @throws {RangeError} if {@code name} is empty
+ * @see GlobalConfiguration#assertionsAreEnabled
  */
 function assertThat(actual, name)
 {
