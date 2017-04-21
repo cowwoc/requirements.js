@@ -1,6 +1,5 @@
 syntax: glob
 .idea
-nbproject
 node_modules
 build
 coverage

@@ -1,5 +1,5 @@
 import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
-import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 import NoOpSetVerifier from "./NoOpSetVerifier";
 
 /**

@@ -1,6 +1,6 @@
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "../ExceptionBuilder";
 import Sugar from "sugar";
-import Utilities from "./Utilities";
+import Utilities from "../Utilities";
 
 // DESIGN: See ObjectVerifier.js
 
@@ -56,9 +56,13 @@ class ObjectVerifier {
 	isEqualTo(expected, name)
 	{
 		// TODO: Add colored diff support using https://code.google.com/p/google-diff-match-patch/,
-		// https://github.com/marak/colors.js/ and https://github.com/adamschwartz/log/
+		// https://github.com/marak/colors.js/ and https://github.com/adamschwartz/log/ and
+		// https://github.com/icodeforlove/Console.js/blob/master/console.js#L4
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (Sugar.Object.isEqual(this.actual, expected))
 			return this;
 		if (name)
@@ -86,7 +90,10 @@ class ObjectVerifier {
 	isNotEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (!Sugar.Object.isEqual(this.actual, value))
 			return this;
 		if (name)
@@ -112,8 +119,27 @@ class ObjectVerifier {
 		this.config.internalVerifier.requireThat(array, "array").isInstanceOf(Array);
 		if (array.indexOf(this.actual) !== -1)
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be one of " +
-			Utilities.toString(array) + ".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be one of " + Utilities.toString(array) +
+			".").
+			addContext("Actual", this.actual).
+			build();
+	}
+
+	/**
+	 * Ensures that an array does not contain the actual value.
+	 *
+	 * @param {Array.<Array>} array an array
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError}  if <code>array</code> is not an <code>Array</code>
+	 * @throws {RangeError} if <code>array</code> contains the actual value
+	 */
+	isNotInArray(array)
+	{
+		this.config.internalVerifier.requireThat(array, "array").isInstanceOf(Array);
+		if (array.indexOf(this.actual) === -1)
+			return this;
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be one of " + Utilities.toString(array) +
+			".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -259,7 +285,8 @@ class ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the number's string representation
+	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation of the
+	 *   actual value
 	 * @return {ObjectVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -267,6 +294,81 @@ class ObjectVerifier {
 	{
 		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
 		consumer(this.asString());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link ArrayVerifier} for the actual value
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not an <code>Array</code>
+	 */
+	asArrayConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asArray());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Number</code>
+	 */
+	asNumberConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asNumber());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the actual value
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Set</code>
+	 */
+	asSetConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asSet());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link MapVerifier} for the actual value
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Map</code>
+	 */
+	asMapConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asMap());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet address
+	 * representation
+	 * @return {StringVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set
+	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
+	 */
+	asInetAddressConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asInetAddress());
+		return this;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of the actual
+	 *   value
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError} if <code>consumer</code> is not set
+	 */
+	asUriConsumer(consumer)
+	{
+		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		consumer(this.asUri());
 		return this;
 	}
 

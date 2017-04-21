@@ -1,7 +1,7 @@
 import ArrayVerifier from "./ArrayVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 import Utilities from "./Utilities";
 
 /**
@@ -105,7 +105,10 @@ class SetVerifier extends ObjectVerifier {
 	contains(expected, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (this.actual.has(expected))
 			return this;
 		if (name)
@@ -136,7 +139,10 @@ class SetVerifier extends ObjectVerifier {
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		const missing = new Set([...expectedAsSet].filter(x => !this.actual.has(x)));
 		const unwanted = new Set([...this.actual].filter(x => !expectedAsSet.has(x)));
 		if (missing.size === 0 && unwanted.size === 0)
@@ -174,7 +180,10 @@ class SetVerifier extends ObjectVerifier {
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (actualContainsAny(this.actual, expectedAsSet))
 			return this;
 		if (name)
@@ -205,7 +214,10 @@ class SetVerifier extends ObjectVerifier {
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (actualContainsAll(this.actual, expectedAsSet))
 			return this;
 		const missing = new Set([...expectedAsSet].filter(x => !this.actual.has(x)));
@@ -236,7 +248,10 @@ class SetVerifier extends ObjectVerifier {
 	doesNotContain(entry, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (!this.actual.has(entry))
 			return this;
 		if (name)
@@ -265,7 +280,10 @@ class SetVerifier extends ObjectVerifier {
 	{
 		const elementsAsSet = asSet(elements, "elements");
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (!actualContainsAny(this.actual, elementsAsSet))
 			return this;
 		if (name)
@@ -295,7 +313,10 @@ class SetVerifier extends ObjectVerifier {
 	{
 		const elementsAsSet = asSet(elements, "elements");
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (!actualContainsAll(this.actual, elementsAsSet))
 			return this;
 		const missing = new Set([...elementsAsSet].filter(x => !this.actual.has(x)));

@@ -1,3 +1,4 @@
+import cheerio from "cheerio";
 import test from "tape-catch";
 import Utilities from "../node/Utilities";
 
@@ -53,5 +54,16 @@ test("UtilitiesTest.instanceOf_Boolean", function(t)
 {
 	// eslint-disable-next-line no-new-wrappers
 	t.true(Utilities.instanceOf(new Boolean(true), Boolean));
+	t.end();
+});
+
+const $ = cheerio.load("<html></html>");
+// eslint-disable-next-line func-style
+const jquerySelector = $(".selector");
+
+test("UtilitiesTest.getTypeOf_anonymousFunction", function(t)
+{
+	// eslint-disable-next-line no-new-wrappers
+	t.equals(Utilities.getTypeOf(jquerySelector), "Object");
 	t.end();
 });

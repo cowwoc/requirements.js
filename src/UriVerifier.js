@@ -1,4 +1,4 @@
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 
 /**
  * Verifies a <code>URI</code>.

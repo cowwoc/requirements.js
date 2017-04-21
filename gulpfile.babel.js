@@ -17,8 +17,8 @@ gulp.task("lint", function()
 	return gulp.src(
 		[
 			"gulpfile.babel.js",
-			"src/**.js",
-			"test/**.js"
+			"src/**/*.js",
+			"test/**/*.js"
 		]).
 		pipe(eslint(
 			{
@@ -29,9 +29,9 @@ gulp.task("lint", function()
 		pipe(eslint.failOnError());
 });
 
-gulp.task("src-for-es5", function()
+gulp.task("bundle-es5", function()
 {
-	return gulp.src("src/*.js").
+	return gulp.src("src/**/*.js").
 		pipe(sourcemaps.init()).
 		pipe(rollup(
 			{
@@ -62,18 +62,22 @@ gulp.task("src-for-es5", function()
 		pipe(gulp.dest("build/es5"));
 });
 
-gulp.task("src-for-es6", function()
+gulp.task("bundle-es6", function()
 {
-	return gulp.src("src/*.js").
-		pipe(babel(
-			{
-				presets: ["latest"],
-				plugins: [
-					["babel-plugin-transform-builtin-extend", {
-						globals: ["Error", "Array"]
-					}]
-				]
-			})).
+	return gulp.src(
+		[
+			"src/**/*.js",
+			"!src/es5.js"
+		]
+	).
+		pipe(babel({
+			presets: ["latest"],
+			plugins: [
+				["babel-plugin-transform-builtin-extend", {
+					globals: ["Error", "Array"]
+				}]
+			]
+		})).
 		pipe(gulp.dest("build/node")).
 		pipe(istanbul()).
 		pipe(istanbul.hookRequire());
@@ -81,7 +85,7 @@ gulp.task("src-for-es6", function()
 
 gulp.task("test-es5", function()
 {
-	return gulp.src("test/*.js").
+	return gulp.src("test/**/*.js").
 		pipe(babel(
 			{
 				presets: ["latest"],
@@ -94,15 +98,26 @@ gulp.task("test-es5", function()
 		pipe(gulp.dest("build/test"));
 });
 
-gulp.task("test", ["src-for-es5", "test-es5"], function()
+gulp.task("test", ["bundle-es5", "test-es5"], function()
 {
-	return gulp.src("build/test/*.js").
-		pipe(tape({
-			reporter: tapeReporter()
-		})).
+	return gulp.src("build/test/**/*.js").
+		pipe(tape({reporter: tapeReporter()})).
 		pipe(istanbul.writeReports());
 });
 
-gulp.task("bundle", ["lint", "src-for-es5", "src-for-es6"]);
-gulp.task("build", ["bundle", "test"]);
+gulp.task("bundle-resources", function()
+{
+	return gulp.src(
+		[
+			".npmignore",
+			"changelog.md",
+			"license.md",
+			"package.json",
+			"readme.md"
+		]).
+		pipe(gulp.dest("build"));
+});
+
+gulp.task("bundle", ["bundle-es5", "bundle-es6", "bundle-resources"]);
+gulp.task("build", ["lint", "bundle", "test"]);
 gulp.task("default", ["build"]);

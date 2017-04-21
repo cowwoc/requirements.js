@@ -1,4 +1,4 @@
-import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>NumberVerifier</code> that does nothing.

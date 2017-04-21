@@ -2,7 +2,7 @@ import "babel-polyfill";
 // babel-polyfill needed for Set
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 import Pluralizer from "./Pluralizer";
 import SetVerifier from "./SetVerifier";
 import Sugar from "sugar";
@@ -125,7 +125,10 @@ class ArrayVerifier extends ObjectVerifier {
 	contains(element, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (actualContains(this.actual, element))
 			return this;
 		if (name)
@@ -153,7 +156,10 @@ class ArrayVerifier extends ObjectVerifier {
 	containsExactly(expected, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
 		const expectedAsSet = new Set(expected);
 		const actualAsSet = new Set(this.actual);
@@ -192,7 +198,10 @@ class ArrayVerifier extends ObjectVerifier {
 	containsAny(expected, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
 		if (actualContainsAny(this.actual, expected))
 			return this;
@@ -221,7 +230,10 @@ class ArrayVerifier extends ObjectVerifier {
 	containsAll(expected, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
 		if (actualContainsAll(this.actual, expected))
 			return this;
@@ -255,7 +267,10 @@ class ArrayVerifier extends ObjectVerifier {
 	doesNotContain(element, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		if (!actualContains(this.actual, element))
 			return this;
 		if (name)
@@ -283,7 +298,10 @@ class ArrayVerifier extends ObjectVerifier {
 	doesNotContainAny(elements, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
 		if (!actualContainsAny(this.actual, elements))
 			return this;
@@ -312,7 +330,10 @@ class ArrayVerifier extends ObjectVerifier {
 	doesNotContainAll(elements, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
 		if (!actualContainsAll(this.actual, elements))
 			return this;

@@ -127,6 +127,23 @@ test("ObjectTest.isInArray_False", function(t)
 	t.end();
 });
 
+test("ObjectTest.isNotInArray", function(t)
+{
+	const actual = {};
+	requireThat(actual, "actual").isNotInArray(["first", "second", "third"]);
+	t.end();
+});
+
+test("ObjectTest.isNotInArray_False", function(t)
+{
+	t.throws(function()
+	{
+		const actual = {};
+		requireThat(actual, "actual").isNotInArray(["first", actual, "third"]);
+	}, RangeError);
+	t.end();
+});
+
 test("ObjectTest.isInstanceOf", function(t)
 {
 	const actual = "value";
@@ -139,7 +156,7 @@ test("ObjectTest.isInstanceOf_actualIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = null;
-		requireThat(actual, "actual").isInstanceOf(String.class);
+		requireThat(actual, "actual").isInstanceOf(String);
 	}, RangeError);
 	t.end();
 });
@@ -305,6 +322,26 @@ test("ObjectTest.asStringConsumer", function(t)
 {
 	const actual = 1234;
 	requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
+	t.end();
+});
+
+test("ObjectTest.asInetAddressConsumer", function(t)
+{
+	const actual = "1.2.3.4";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6(actual));
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.asUriConsumer", function(t)
+{
+	const actual = "http://www.host.com/path/";
+	t.throws(function()
+	{
+		requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
+	}, RangeError);
 	t.end();
 });
 

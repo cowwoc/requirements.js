@@ -110,22 +110,28 @@ Utilities.getTypeOf = function(object)
  */
 function getObjectClass(object)
 {
-	const functionNamePattern = /^function ([^(]+)\(/;
-	const asFunction = object.constructor.toString().match(functionNamePattern);
-	let result;
-	if (asFunction === null)
+	const constructorString = object.constructor.toString();
+	// Named functions
+	const functionNamePattern = /^function ([^(]+)?\(/;
+	const functionName = constructorString.match(functionNamePattern);
+	if (functionName !== null)
 	{
-		const classNamePattern = /^class ([^{]+)\{/;
-		result = object.constructor.toString().match(classNamePattern)[1];
+		if (typeof(functionName[1]) === "undefined")
+		{
+			// Found an anonymous function: JQuery uses anonymous functions to construct selector objects
+			return "Object";
+		}
+		// Found a named function: equivalent to a class constructor
+		return functionName[1];
 	}
-	else
-		result = asFunction[1];
-	if (result === "Function")
+
+	const classNamePattern = /^class ([^{]+){/;
+	if (classNamePattern === null)
 	{
 		throw new TypeError("object must be an Object.\n" +
-			"Actual: " + object);
+			"Actual: " + toString(object));
 	}
-	return result.trim();
+	return constructorString.match(classNamePattern)[1].trim();
 }
 
 /**

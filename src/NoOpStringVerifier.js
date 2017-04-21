@@ -1,7 +1,5 @@
 import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
-import NoOpInetAddressVerifier from "./NoOpInetAddressVerifier";
-import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
-import NoOpUriVerifier from "./NoOpUriVerifier";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>String</code> that does nothing.
@@ -22,6 +20,22 @@ class NoOpStringVerifier extends NoOpObjectVerifier {
 	 * @return {NoOpStringVerifier} this
 	 */
 	doesNotStartWith()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpStringVerifier} this
+	 */
+	contains()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpStringVerifier} this
+	 */
+	doesNotContain()
 	{
 		return this;
 	}
@@ -107,33 +121,9 @@ class NoOpStringVerifier extends NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {NoOpInetAddressVerifier} a verifier for the value's Internet address representation
-	 */
-	asInetAddress()
-	{
-		return new NoOpInetAddressVerifier();
-	}
-
-	/**
 	 * @return {NoOpStringVerifier} this
 	 */
 	asInetAddressConsumer()
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NoOpUriVerifier} a verifier for the value's URI representation
-	 */
-	asUri()
-	{
-		return new NoOpUriVerifier();
-	}
-
-	/**
-	 * @return {NoOpStringVerifier} this
-	 */
-	asUriConsumer()
 	{
 		return this;
 	}

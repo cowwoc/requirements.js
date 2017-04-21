@@ -1,5 +1,5 @@
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 import Utilities from "./Utilities";
 
 /**
@@ -111,7 +111,10 @@ class NumberVerifier extends ObjectVerifier {
 	isGreaterThan(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual > value)
 			return this;
@@ -140,7 +143,10 @@ class NumberVerifier extends ObjectVerifier {
 	isGreaterThanOrEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual >= value)
 			return this;
@@ -170,7 +176,10 @@ class NumberVerifier extends ObjectVerifier {
 	isLessThan(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual < value)
 			return this;
@@ -199,7 +208,10 @@ class NumberVerifier extends ObjectVerifier {
 	isLessThanOrEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual <= value)
 			return this;
@@ -228,7 +240,7 @@ class NumberVerifier extends ObjectVerifier {
 	isBetween(min, max)
 	{
 		this.config.internalVerifier.requireThat(max, "max").isInstanceOf(Number);
-		this.config.internalVerifier.requireThat(min, "min").isInstanceOf(Number).isLessThan(max, "max");
+		this.config.internalVerifier.requireThat(min, "min").isInstanceOf(Number).asNumber().isLessThan(max, "max");
 		if (this.actual >= min && this.actual <= max)
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + min + ", " + max + "]").

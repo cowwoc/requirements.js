@@ -1,5 +1,5 @@
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 
 /**
  * @param {String} value a String

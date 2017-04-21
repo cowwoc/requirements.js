@@ -1,18 +1,6 @@
-import ArrayVerifier from "./ArrayVerifier";
 import Configuration from "./Configuration";
-import MapVerifier from "./MapVerifier";
-import NoOpArrayVerifier from "./NoOpArrayVerifier";
-import NoOpMapVerifier from "./NoOpMapVerifier";
-import NoOpNumberVerifier from "./NoOpNumberVerifier";
 import NoOpObjectVerifier from "./NoOpObjectVerifier";
-import NoOpSetVerifier from "./NoOpSetVerifier";
-import NoOpStringVerifier from "./NoOpStringVerifier";
-import NoOpUriVerifier from "./NoOpUriVerifier";
-import NumberVerifier from "./NumberVerifier";
 import ObjectVerifier from "./ObjectVerifier";
-import SetVerifier from "./SetVerifier";
-import StringVerifier from "./StringVerifier";
-import UriVerifier from "./UriVerifier";
 import Utilities from "./Utilities";
 
 /**
@@ -51,38 +39,20 @@ class Verifiers {
 	 * @function
 	 * @param {Object} actual the actual value
 	 * @param {String} name   the name of the value
-	 * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|SetVerifier|MapVerifier|UriVerifier} a verifier
+	 * @return {ObjectVerifier} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	requireThat(actual, name)
 	{
 		Utilities.verifyName(name, "name");
-		switch (Utilities.getTypeOf(actual))
-		{
-			case "String":
-				//noinspection JSCheckFunctionSignatures
-				return new StringVerifier(this.config, actual, name);
-			case "Array":
-				//noinspection JSCheckFunctionSignatures
-				return new ArrayVerifier(this.config, actual, name);
-			case "Number":
-				//noinspection JSCheckFunctionSignatures
-				return new NumberVerifier(this.config, actual, name);
-			case "Set":
-				//noinspection JSCheckFunctionSignatures
-				return new SetVerifier(this.config, actual, name);
-			case "Map":
-				//noinspection JSCheckFunctionSignatures
-				return new MapVerifier(this.config, actual, name);
-			case "URI":
-				//noinspection JSCheckFunctionSignatures
-				return new UriVerifier(this.config, actual, name);
-			case "Object":
-			default:
-				return new ObjectVerifier(this.config, actual, name);
-		}
-		// TODO: See https://github.com/dsheiko/bycontract and https://github.com/muroc/offensive.js for related projects
+		return new ObjectVerifier(this.config, actual, name);
+		// TODO: Related projects:
+		// * http://chaijs.com/
+		// * https://github.com/dsheiko/bycontract
+		// * https://github.com/muroc/offensive.js for related projects
+		//
+		// TODO: Respond to http://stackoverflow.com/questions/18785586/javascript-equivalent-to-guavas-preconditions
 	}
 
 	/**
@@ -91,7 +61,7 @@ class Verifiers {
 	 * @function
 	 * @param {Object} actual the actual value
 	 * @param {String} name   the name of the value
-	 * @return {ObjectVerifier|StringVerifier|ArrayVerifier|NumberVerifier|SetVerifier|MapVerifier|UriVerifier} a verifier
+	 * @return {ObjectVerifier} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -100,30 +70,7 @@ class Verifiers {
 		Utilities.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
-		switch (Utilities.getTypeOf(actual))
-		{
-			case "String":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpStringVerifier(this.config, actual, name);
-			case "Array":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpArrayVerifier(this.config, actual, name);
-			case "Number":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpNumberVerifier(this.config, actual, name);
-			case "Set":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpSetVerifier(this.config, actual, name);
-			case "Map":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpMapVerifier(this.config, actual, name);
-			case "URI":
-				//noinspection JSCheckFunctionSignatures
-				return new NoOpUriVerifier(this.config, actual, name);
-			case "Object":
-			default:
-				return new NoOpObjectVerifier(this.config, actual, name);
-		}
+		return new NoOpObjectVerifier(this.config, actual, name);
 	}
 
 	/**

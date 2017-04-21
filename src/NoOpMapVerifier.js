@@ -1,6 +1,6 @@
 import NoOpArrayVerifier from "./NoOpArrayVerifier";
 import NoOpNumberVerifier from "./NoOpNumberVerifier";
-import NoOpObjectVerifier from "./NoOpObjectVerifierSuperclass";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>Map</code> that does nothing.

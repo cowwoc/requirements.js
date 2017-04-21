@@ -1,7 +1,7 @@
 import ArrayVerifier from "./ArrayVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 import Pluralizer from "./Pluralizer";
 
 /**

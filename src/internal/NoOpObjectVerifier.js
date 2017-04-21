@@ -32,6 +32,14 @@ class NoOpObjectVerifier {
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
+	isNotInArray()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpObjectVerifier} this
+	 */
 	isInstanceOf()
 	{
 		return this;
@@ -56,7 +64,7 @@ class NoOpObjectVerifier {
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
-	isUndefined()
+	isDefined()
 	{
 		return this;
 	}
@@ -64,7 +72,7 @@ class NoOpObjectVerifier {
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
-	isNotUndefined()
+	isNotDefined()
 	{
 		return this;
 	}
@@ -89,6 +97,22 @@ class NoOpObjectVerifier {
 	 * @return {NoOpObjectVerifier} this
 	 */
 	asStringConsumer()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpObjectVerifier} this
+	 */
+	asInetAddressConsumer()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpObjectVerifier} this
+	 */
+	asUriConsumer()
 	{
 		return this;
 	}

@@ -53,7 +53,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isGreaterThanOrEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual >= value)
 			return this;
@@ -88,7 +91,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isGreaterThan(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual > value)
 			return this;
@@ -122,7 +128,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isLessThanOrEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual <= value)
 			return this;
@@ -157,7 +166,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isLessThan(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual < value)
 			return this;
@@ -270,7 +282,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	{
 		const verifier = this.config.internalVerifier;
 		verifier.requireThat(min, "min").isNotNull();
-		verifier.requireThat(max, "max").isNotNull().isGreaterThanOrEqualTo(min, "min");
+		verifier.requireThat(max, "max").isNotNull().asNumber().isGreaterThanOrEqualTo(min, "min");
 		if (this.actual >= min && this.actual <= max)
 			return this;
 
@@ -296,7 +308,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isEqualTo(expected, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Number);
 		if (this.actual === expected)
 			return this;
@@ -332,7 +347,10 @@ class ContainerSizeVerifier extends NumberVerifier {
 	isNotEqualTo(value, name)
 	{
 		if (typeof(name) !== "undefined")
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).trim().isNotEmpty();
+		{
+			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
+				isNotEmpty();
+		}
 		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
 		if (this.actual !== value)
 			return this;

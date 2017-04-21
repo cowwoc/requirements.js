@@ -1,10 +1,7 @@
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
-import InetAddress from "./InetAddressVerifier";
-import ObjectVerifier from "./ObjectVerifierSuperclass";
+import ObjectVerifier from "./internal/ObjectVerifier";
 import Pluralizer from "./Pluralizer";
-import URI from "urijs";
-import UriVerifier from "./UriVerifier";
 import Utilities from "./Utilities";
 
 /**
@@ -44,6 +41,41 @@ class StringVerifier extends ObjectVerifier {
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not start with \"" +
 			Utilities.toString(prefix) + "\".").
+			addContext("Actual", this.actual).
+			build();
+	}
+
+	/**
+	 * Ensures that the actual value contains a value.
+	 *
+	 * @param {String} expected the value that the string must contain
+	 * @return {StringVerifier} this
+	 * @throws {RangeError} if the actual value does not contain <code>expected</code>
+	 */
+	contains(expected)
+	{
+		if (this.actual.includes(expected))
+			return this;
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain \"" + Utilities.toString(expected) +
+			"\".").
+			addContext("Actual", this.actual).
+			build();
+	}
+
+	/**
+	 * Ensures that the actual value does not contain a value.
+	 *
+	 * @param {String} value the value that the string may not contain
+	 * @return {StringVerifier} this
+	 * @throws {RangeError} if the actual value does not contain <code>value</code>
+	 */
+	doesNotContain(value)
+	{
+		if (!this.actual.includes(value))
+			return this;
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain \"" + Utilities.toString(
+				value) +
+			"\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -176,50 +208,6 @@ class StringVerifier extends ObjectVerifier {
 	{
 		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
 		consumer(this);
-		return this;
-	}
-
-	/**
-	 * @return {InetAddressVerifier} a verifier for the value's Internet address representation
-	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
-	 */
-	asInetAddress()
-	{
-		return new InetAddress(this.config, this.actual, this.name);
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet address
-	 * representation
-	 * @return {StringVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
-	 */
-	asInetAddressConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asInetAddress());
-		return this;
-	}
-
-	/**
-	 * @return {UriVerifier} a verifier for the value's URI representation
-	 */
-	asUri()
-	{
-		return new UriVerifier(this.config, new URI(this.actual), this.name);
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link UriVerifier} for the value's Internet address
-	 * representation
-	 * @return {StringVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asUriConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asUri());
 		return this;
 	}
 }
