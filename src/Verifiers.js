@@ -4,16 +4,15 @@ import ObjectVerifier from "./ObjectVerifier";
 import Utilities from "./Utilities";
 
 /**
- * An entry point for verifying API requirements.
- * <p>
- * Unlike {@link Requirements}, instances of this class are configurable.
+ * Verifies the requirements of types from the Javascript core API.
  * <p>
  * This class is immutable.
  *
  * @class
  * @author Gili Tzabari
  */
-class Verifiers {
+class JavascriptVerifier
+{
 	/**
 	 * Verifies a value.
 	 * <p>
@@ -25,7 +24,7 @@ class Verifiers {
 	 */
 	constructor(configuration)
 	{
-		if (typeof(configuration) === "undefined")
+		if (typeof (configuration) === "undefined")
 			configuration = new Configuration(this);
 		Object.defineProperty(this, "config",
 			{
@@ -89,27 +88,27 @@ class Verifiers {
 	/**
 	 * Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return {Verifiers} a verifier with the updated configuration
+	 * @return {JavascriptVerifier} a verifier with the updated configuration
 	 */
 	withAssertionsEnabled()
 	{
 		const newConfig = this.config.withAssertionsEnabled();
 		if (newConfig === this.config)
 			return this;
-		return new Verifiers(newConfig);
+		return new JavascriptVerifier(newConfig);
 	}
 
 	/**
 	 * Indicates that <code>assertThat()</code> shouldn't do anything.
 	 *
-	 * @return {Verifiers} a verifier with the updated configuration
+	 * @return {JavascriptVerifier} a verifier with the updated configuration
 	 */
 	withAssertionsDisabled()
 	{
 		const newConfig = this.config.withAssertionsDisabled();
 		if (newConfig === this.config)
 			return this;
-		return new Verifiers(newConfig);
+		return new JavascriptVerifier(newConfig);
 	}
 
 	/**
@@ -132,7 +131,7 @@ class Verifiers {
 	 * <code><init>(message)</code>
 	 *
 	 * @param {ExceptionConstructor} exception the type of exception to throw
-	 * @return {Verifiers} a verifier with the updated configuration
+	 * @return {JavascriptVerifier} a verifier with the updated configuration
 	 * @throws {TypeError} if <code>exception</code> is not set
 	 * @see #getException()
 	 */
@@ -141,13 +140,13 @@ class Verifiers {
 		const newConfig = this.config.withException(exception);
 		if (newConfig === this.config)
 			return this;
-		return new Verifiers(newConfig);
+		return new JavascriptVerifier(newConfig);
 	}
 
 	/**
 	 * Throws the default exception type if a verification fails.
 	 *
-	 * @return {Verifiers} a verifier with the updated configuration
+	 * @return {JavascriptVerifier} a verifier with the updated configuration
 	 * @see #getException()
 	 */
 	withDefaultException()
@@ -155,7 +154,7 @@ class Verifiers {
 		const newConfig = this.config.withDefaultException();
 		if (newConfig === this.config)
 			return this;
-		return new Verifiers(newConfig);
+		return new JavascriptVerifier(newConfig);
 	}
 
 	/**
@@ -172,14 +171,16 @@ class Verifiers {
 	 *
 	 * @param {String} key   a key
 	 * @param {Object} value a value
-	 * @return {Verifiers} a verifier with the updated configuration
+	 * @return {JavascriptVerifier} a verifier with the updated configuration
 	 * @throws {TypeError} if <code>key</code> is not a String
 	 * @see #getContext()
 	 */
 	addContext(key, value)
 	{
-		return new Verifiers(this.config.addContext(key, value));
+		return new JavascriptVerifier(this.config.addContext(key, value));
 	}
 }
 
-export default Verifiers;
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+export {JavascriptVerifier as default};

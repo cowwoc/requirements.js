@@ -10,7 +10,8 @@ import Utilities from "./Utilities";
  * @class
  * @author Gili Tzabari
  */
-class StringVerifier extends ObjectVerifier {
+class StringVerifier extends ObjectVerifier
+{
 	/**
 	 * Ensures that the actual value starts with a value.
 	 *
@@ -73,8 +74,7 @@ class StringVerifier extends ObjectVerifier {
 	{
 		if (!this.actual.includes(value))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain \"" + Utilities.toString(
-				value) +
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain \"" + Utilities.toString(value) +
 			"\".").
 			addContext("Actual", this.actual).
 			build();
@@ -109,7 +109,7 @@ class StringVerifier extends ObjectVerifier {
 		if (!this.actual.endsWith(suffix))
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not end with \"" + Utilities.toString(
-				suffix) +
+			suffix) +
 			"\".").
 			addContext("Actual", this.actual).
 			build();
@@ -212,4 +212,6 @@ class StringVerifier extends ObjectVerifier {
 	}
 }
 
-export default StringVerifier;
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+export {StringVerifier as default};

@@ -9,7 +9,7 @@ const Utilities = {};
  */
 Utilities.instanceOf = function(value, type)
 {
-	if ((typeof(value) === "undefined" || value === null || typeof(type) === "undefined" || type === null) &&
+	if ((typeof (value) === "undefined" || value === null || typeof (type) === "undefined" || type === null) &&
 		value !== type)
 	{
 		return false;
@@ -60,7 +60,7 @@ Utilities.instanceOf = function(value, type)
  */
 Utilities.extends = function(child, parent)
 {
-	if (typeof(child) === "undefined" || child === null || typeof(parent) === "undefined" || parent === null)
+	if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" || parent === null)
 		return false;
 	return child.prototype instanceof parent;
 };
@@ -111,27 +111,28 @@ Utilities.getTypeOf = function(object)
 function getObjectClass(object)
 {
 	const constructorString = object.constructor.toString();
-	// Named functions
-	const functionNamePattern = /^function ([^(]+)?\(/;
+	// Anonymous and named functions
+	const functionNamePattern = /^function(\s+[^(]+)?\(/;
 	const functionName = constructorString.match(functionNamePattern);
 	if (functionName !== null)
 	{
-		if (typeof(functionName[1]) === "undefined")
+		if (typeof (functionName[1]) === "undefined")
 		{
 			// Found an anonymous function: JQuery uses anonymous functions to construct selector objects
 			return "Object";
 		}
 		// Found a named function: equivalent to a class constructor
-		return functionName[1];
+		return functionName[1].trim();
 	}
 
 	const classNamePattern = /^class ([^{]+){/;
-	if (classNamePattern === null)
+	const className = constructorString.match(classNamePattern);
+	if (className === null)
 	{
 		throw new TypeError("object must be an Object.\n" +
-			"Actual: " + toString(object));
+			"Actual: " + Utilities.toString(object));
 	}
-	return constructorString.match(classNamePattern)[1].trim();
+	return className[1].trim();
 }
 
 /**
@@ -140,7 +141,7 @@ function getObjectClass(object)
  */
 Utilities.toString = function(object)
 {
-	if (typeof(object) === "undefined")
+	if (typeof (object) === "undefined")
 		return "undefined";
 	if (object === null)
 		return "null";
@@ -195,7 +196,7 @@ Utilities.toString = function(object)
  */
 Utilities.verifyName = function(value, name)
 {
-	if (typeof(name) === "undefined" || name === null)
+	if (typeof (name) === "undefined" || name === null)
 	{
 		throw new TypeError(name + " must be set.\n" +
 			"Actual: " + value);
@@ -258,12 +259,12 @@ Utilities.verifyContext = function(context)
  */
 function verifyContextElement(element, name, index)
 {
-	if (typeof(element) !== "string")
+	if (typeof (element) !== "string")
 	{
 		throw new TypeError(name + " must be a String at index " + index + ".\n" +
 			"Actual: " + Utilities.getTypeOf(element));
 	}
-	if (typeof(element) === "undefined" || element === null)
+	if (typeof (element) === "undefined" || element === null)
 	{
 		throw new RangeError(name + " must be set at index " + index + ".\n" +
 			"Actual: " + Utilities.getTypeOf(element));
@@ -275,4 +276,6 @@ function verifyContextElement(element, name, index)
 	}
 }
 
-export default Utilities;
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+export {Utilities as default};

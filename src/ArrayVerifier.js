@@ -1,5 +1,3 @@
-import "babel-polyfill";
-// babel-polyfill needed for Set
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import ObjectVerifier from "./internal/ObjectVerifier";
@@ -60,7 +58,8 @@ function actualContainsAll(actual, expected)
  * @class
  * @author Gili Tzabari
  */
-class ArrayVerifier extends ObjectVerifier {
+class ArrayVerifier extends ObjectVerifier
+{
 	/**
 	 * Creates a new ObjectVerifier.
 	 *
@@ -76,7 +75,7 @@ class ArrayVerifier extends ObjectVerifier {
 	constructor(configuration, actual, name, pluralizer)
 	{
 		super(configuration, actual, name);
-		if (typeof(pluralizer) === "undefined")
+		if (typeof (pluralizer) === "undefined")
 			pluralizer = Pluralizer.ELEMENT;
 		Object.defineProperty(this, "pluralizer",
 			{
@@ -124,7 +123,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	contains(element, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -155,7 +154,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	containsExactly(expected, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -197,7 +196,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	containsAny(expected, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -229,7 +228,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	containsAll(expected, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -266,7 +265,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	doesNotContain(element, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -280,8 +279,7 @@ class ArrayVerifier extends ObjectVerifier {
 				addContext("Unwanted", element).
 				build();
 		}
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " + Utilities.toString(
-				element)).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " + Utilities.toString(element)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -297,7 +295,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	doesNotContainAny(elements, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -329,7 +327,7 @@ class ArrayVerifier extends ObjectVerifier {
 	 */
 	doesNotContainAll(elements, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -425,4 +423,6 @@ class ArrayVerifier extends ObjectVerifier {
 	}
 }
 
-export default ArrayVerifier;
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+export {ArrayVerifier as default};

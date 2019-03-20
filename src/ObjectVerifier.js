@@ -10,8 +10,8 @@ import UriVerifier from "./UriVerifier";
 import Utilities from "./Utilities";
 
 // DESIGN:
-// * ObjectVerifierSuperclass declares ObjectVerifier without any circular dependencies.
-// * First we load ObjectVerifierSuperclass.
+// * internal/ObjectVerifier declares ObjectVerifier without any circular dependencies.
+// * First we load internal/ObjectVerifier.
 // * Next we load the circular dependencies (classes that depend on ObjectVerifier and vice-versa).
 // * Finally, we add methods to ObjectVerifier that reference the circular dependencies.
 
@@ -92,4 +92,6 @@ ObjectVerifier.prototype.asUri = function()
 	return new UriVerifier(this.config, new URI(this.actual), this.name);
 };
 
-export default ObjectVerifier;
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+export {ObjectVerifier as default};
