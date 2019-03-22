@@ -1,12 +1,12 @@
+import ObjectVerifier from "./ObjectVerifier";
 import ArrayVerifier from "./ArrayVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./internal/ObjectVerifier";
 import Utilities from "./Utilities";
 
 /**
  * @param {Array|Set} value a value
- * @param {String} name the name of the value
+ * @param {string} name the name of the value
  * @return {Set} the value as a <code>Set</code>
  * @throws {TypeError} if <code>value</code> is not an <code>Array</code> or <code>Set</code>
  */
@@ -59,11 +59,9 @@ function actualContainsAll(actual, expected)
 
 /**
  * Verifies a <code>Set</code>.
- *
- * @class
- * @author Gili Tzabari
  */
-class SetVerifier extends ObjectVerifier {
+class SetVerifier extends ObjectVerifier
+{
 	/**
 	 * Ensures that value does not contain any elements.
 	 *
@@ -97,14 +95,14 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the actual value contains an entry.
 	 *
 	 * @param {Object} expected the expected value
-	 * @param {String} [name] the name of the expected value
+	 * @param {string} [name] the name of the expected value
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the Set does not contain <code>expected</code>
 	 */
 	contains(expected, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -128,7 +126,7 @@ class SetVerifier extends ObjectVerifier {
 	 * more.
 	 *
 	 * @param {Array|Set} expected the elements that must exist
-	 * @param {String} [name] the name of the expected elements
+	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
 	 *   <code>Set</code>
@@ -138,7 +136,7 @@ class SetVerifier extends ObjectVerifier {
 	containsExactly(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -169,7 +167,7 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the actual value contains any of the elements in the expected value.
 	 *
 	 * @param {Set} expected the Set of elements that must exist
-	 * @param {String} [name] the name of the expected elements
+	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
 	 *   <code>Set</code>
@@ -179,7 +177,7 @@ class SetVerifier extends ObjectVerifier {
 	containsAny(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -203,7 +201,7 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the actual value contains all of the elements in the expected value.
 	 *
 	 * @param {Set} expected the Set of elements that must exist
-	 * @param {String} [name] the name of the expected elements
+	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
 	 *   <code>Set</code>
@@ -213,7 +211,7 @@ class SetVerifier extends ObjectVerifier {
 	containsAll(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -240,14 +238,14 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the actual value does not contain an entry.
 	 *
 	 * @param {Object} entry an entry
-	 * @param {String} [name] the name of the entry
+	 * @param {string} [name] the name of the entry
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains <code>entry</code>
 	 */
 	doesNotContain(entry, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -270,7 +268,7 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the actual value does not contain any of the specified elements.
 	 *
 	 * @param {Array|Set} elements the elements that must not exist
-	 * @param {String} [name] the name of the elements
+	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
 	 *   Set}
@@ -279,7 +277,7 @@ class SetVerifier extends ObjectVerifier {
 	doesNotContainAny(elements, name)
 	{
 		const elementsAsSet = asSet(elements, "elements");
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -303,7 +301,7 @@ class SetVerifier extends ObjectVerifier {
 	 * Ensures that the array does not contain all of the specified elements.
 	 *
 	 * @param {Set} elements a Set of elements
-	 * @param {String} [name] the name of the elements
+	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
 	 *   Set}
@@ -312,7 +310,7 @@ class SetVerifier extends ObjectVerifier {
 	doesNotContainAll(elements, name)
 	{
 		const elementsAsSet = asSet(elements, "elements");
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();

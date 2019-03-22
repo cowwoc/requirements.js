@@ -1,25 +1,22 @@
 import GlobalConfiguration from "./GlobalConfiguration";
+import Requirements from "./Requirements";
 import Utilities from "./Utilities";
 
 /**
  * A verifier's configuration.
  * <p>
  * This class is immutable.
- *
- * @class
- * @author Gili Tzabari
  */
-
-class Configuration {
+class Configuration
+{
 	/**
 	 * Creates a new configuration without an empty context and without an exception override.
 	 *
-	 * @constructor
-	 * @param {Verifiers} internalVerifier the verifier that can be used to check a verifier's own parameters
-	 * @param {Error} [exception = null] the type of exception that will be thrown if a verification fails,
+	 * @param {Requirements} internalVerifier the verifier that can be used to check a verifier's own parameters
+	 * @param {Error} [exception=null] the type of exception that will be thrown if a verification fails,
 	 *   <code>null</code> to throw the default exception type
-	 * @param {Array.<Array>} [context = []] a list of key-value pairs to append to the exception message
-	 * @param {Boolean} [assertionsEnabled = false] true if <code>assertThat()</code> should invoke
+	 * @param {Array.<Array>} [context=[]] a list of key-value pairs to append to the exception message
+	 * @param {boolean} [assertionsEnabled=false] true if <code>assertThat()</code> should invoke
 	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
 	 * @throws {TypeError} if <code>internalVerifier</code> is undefined or null; <code>context</code> or one of its
 	 *   elements are not an array; if the nested array contains less or more than 2 elements; if the keys nested in the
@@ -28,7 +25,7 @@ class Configuration {
 	 */
 	constructor(internalVerifier, exception, context, assertionsEnabled)
 	{
-		if (typeof(internalVerifier) === "undefined")
+		if (typeof (internalVerifier) === "undefined")
 		{
 			throw new TypeError("internalVerifier must be set.\n" +
 				"Actual: " + internalVerifier);
@@ -38,13 +35,13 @@ class Configuration {
 				enumerable: true,
 				value: internalVerifier
 			});
-		if (typeof(exception) === "undefined")
+		if (typeof (exception) === "undefined")
 			exception = null;
 		Object.defineProperty(this, "exception",
 			{
 				value: exception
 			});
-		if (typeof(context) === "undefined")
+		if (typeof (context) === "undefined")
 			context = [];
 		else
 			Utilities.verifyContext(context);
@@ -52,7 +49,7 @@ class Configuration {
 			{
 				value: context
 			});
-		if (typeof(assertionsEnabled) === "undefined")
+		if (typeof (assertionsEnabled) === "undefined")
 			assertionsEnabled = GlobalConfiguration.assertionsAreEnabled;
 		Object.defineProperty(this, "assertionsEnabled",
 			{
@@ -63,7 +60,7 @@ class Configuration {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {Boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
+	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
 	 *         shouldn't do anything
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
@@ -100,7 +97,7 @@ class Configuration {
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {ExceptionConstructor} <code>null</code> if the default exception type will be thrown
+	 * @return {Error} <code>null</code> if the default exception type will be thrown
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
 	 */
@@ -116,7 +113,7 @@ class Configuration {
 	 * <p>
 	 * <code><init>(message)</code>
 	 *
-	 * @param {ExceptionConstructor} exception the type of exception to throw
+	 * @param {Error} exception the type of exception to throw
 	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if <code>exception</code> is not set
 	 * @see #getException()
@@ -169,7 +166,7 @@ class Configuration {
 	/**
 	 * Appends contextual information to the exception message.
 	 *
-	 * @param {String} key   a key
+	 * @param {string} key   a key
 	 * @param {Object} value a value
 	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if <code>key</code> is not a <code>String</code>
@@ -177,7 +174,7 @@ class Configuration {
 	 */
 	addContext(key, value)
 	{
-		if (typeof(key) !== "string")
+		if (typeof (key) !== "string")
 		{
 			throw new TypeError("key must be a String.\n" +
 				"Actual: " + Utilities.getTypeOf(key));

@@ -1,17 +1,28 @@
-import NoOpArrayVerifier from "./NoOpArrayVerifier";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+// internal/NoOpObjectVerifier must be loaded before all other imports to avoid circular dependencies
 import NoOpInetAddressVerifier from "./NoOpInetAddressVerifier";
 import NoOpMapVerifier from "./NoOpMapVerifier";
 import NoOpNumberVerifier from "./NoOpNumberVerifier";
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 import NoOpSetVerifier from "./NoOpSetVerifier";
 import NoOpStringVerifier from "./NoOpStringVerifier";
 import NoOpUriVerifier from "./NoOpUriVerifier";
+import NoOpArrayVerifier from "./NoOpArrayVerifier";
 
-// DESIGN:
-// * internal/NoOpObjectVerifier declares NoOpObjectVerifier without any circular dependencies.
-// * First we load internal/NoOpObjectVerifier.
-// * Next we load the circular dependencies (classes that depend on NoOpObjectVerifier and vice-versa).
-// * Finally, we add methods to ObjectVerifier that reference the circular dependencies.
+/**
+ * @return {NoOpArrayVerifier} a verifier for the <code>Array</code>
+ */
+NoOpObjectVerifier.prototype.asArray = function()
+{
+	return new NoOpArrayVerifier();
+};
+
+/**
+ * @return {NoOpObjectVerifier} this
+ */
+NoOpObjectVerifier.prototype.asArrayConsumer = function()
+{
+	return this;
+};
 
 /**
  * @return {NoOpStringVerifier} a verifier for the object's string representation
@@ -22,11 +33,11 @@ NoOpObjectVerifier.prototype.asString = function()
 };
 
 /**
- * @return {NoOpArrayVerifier} a verifier for the <code>Array</code>
+ * @return {NoOpObjectVerifier} this
  */
-NoOpObjectVerifier.prototype.asArray = function()
+NoOpObjectVerifier.prototype.asStringConsumer = function()
 {
-	return new NoOpArrayVerifier();
+	return this;
 };
 
 /**
@@ -38,11 +49,27 @@ NoOpObjectVerifier.prototype.asNumber = function()
 };
 
 /**
+ * @return {NoOpObjectVerifier} this
+ */
+NoOpObjectVerifier.prototype.asNumberConsumer = function()
+{
+	return this;
+};
+
+/**
  * @return {NoOpSetVerifier} a verifier for the <code>Set</code>
  */
 NoOpObjectVerifier.prototype.asSet = function()
 {
 	return new NoOpSetVerifier();
+};
+
+/**
+ * @return {NoOpObjectVerifier} a verifier for the <code>Set</code>
+ */
+NoOpObjectVerifier.prototype.asSetConsumer = function()
+{
+	return this;
 };
 
 /**
@@ -54,6 +81,14 @@ NoOpObjectVerifier.prototype.asMap = function()
 };
 
 /**
+ * @return {NoOpObjectVerifier} a verifier for the <code>Map</code>
+ */
+NoOpObjectVerifier.prototype.asMapConsumer = function()
+{
+	return this;
+};
+
+/**
  * @return {NoOpInetAddressVerifier} a verifier for the value's Internet address representation
  */
 NoOpObjectVerifier.prototype.asInetAddress = function()
@@ -62,11 +97,28 @@ NoOpObjectVerifier.prototype.asInetAddress = function()
 };
 
 /**
+ * @return {NoOpObjectVerifier} this
+ */
+NoOpObjectVerifier.prototype.asInetAddressConsumer = function()
+{
+	return this;
+};
+
+
+/**
  * @return {NoOpUriVerifier} a verifier for the <code>URI</code>
  */
 NoOpObjectVerifier.prototype.asUri = function()
 {
 	return new NoOpUriVerifier();
+};
+
+/**
+ * @return {NoOpObjectVerifier} this
+ */
+NoOpObjectVerifier.prototype.asUriConsumer = function()
+{
+	return this;
 };
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

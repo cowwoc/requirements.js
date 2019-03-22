@@ -1,16 +1,14 @@
 import ArrayVerifier from "./ArrayVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./internal/ObjectVerifier";
+import ObjectVerifier from "./ObjectVerifier";
 import Pluralizer from "./Pluralizer";
 
 /**
  * Verifies a <code>Map</code>.
- *
- * @class
- * @author Gili Tzabari
  */
-class MapVerifier extends ObjectVerifier {
+class MapVerifier extends ObjectVerifier
+{
 	/**
 	 * Ensures that value does not contain any entries
 	 *

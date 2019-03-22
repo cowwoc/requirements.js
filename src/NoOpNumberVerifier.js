@@ -1,12 +1,10 @@
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 
 /**
  * An implementation of <code>NumberVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpNumberVerifier extends NoOpObjectVerifier {
+class NoOpNumberVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpNumberVerifier} this
 	 */

@@ -1,15 +1,13 @@
 import babel from "gulp-babel";
-import buffer from "vinyl-buffer";
 import commonjs from "rollup-plugin-commonjs";
 import eslint from "gulp-eslint";
 import gulp from "gulp";
+import replace from "gulp-replace";
 import istanbul from "gulp-istanbul";
 import nodeResolve from "rollup-plugin-node-resolve";
 import rollupBabel from "rollup-plugin-babel";
-import rollupStream from "rollup-stream";
-import source from "vinyl-source-stream";
 import rename from "gulp-rename";
-import rollupJs from "rollup";
+import {rollup} from "rollup";
 import sourcemaps from "gulp-sourcemaps";
 import tape from "gulp-tape";
 import tapeReporter from "tap-diff";
@@ -40,62 +38,67 @@ gulp.task("lint", gulp.parallel(function()
 		pipe(eslint.failOnError());
 }));
 
-gulp.task("bundle-src-for-browser", gulp.parallel(function()
+gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 {
 	// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
-	let result = rollupStream(
+	const bundle = await rollup({
+		input: "src/index.js",
+		external: ["urijs", "sugar"],
+		plugins: [
+			nodeResolve(
+				{
+					jsnext: true,
+					browser: true
+				}
+			),
+			commonjs({include: "node_modules/**"}),
+			rollupBabel(
+				{
+					babelrc: false,
+					exclude: "node_modules/**",
+					presets: [
+						"@babel/preset-env"
+					]
+				})
+		],
+		// Assume that the top-level "this" is "window" since we are targeting a browser environment
+		context: "window",
+		onwarn(warning, warn)
 		{
-			rollup: rollupJs,
-			input: "src/index.js",
-			format: "iife",
-			external: ["urijs", "sugar"],
-			// On the browser, module exports need to be translated into global variables (properties of "window"):
-			// https://github.com/rollup/rollup/issues/494#issuecomment-268243574
-			name: "window",
-			// Assume that the top-level "this" is "window" since we are targeting a browser environment
-			context: "window",
-			globals: {
-				urijs: "URI",
-				sugar: "window"
-			},
-			// Assume that the top-level "this" is "window" since we are targeting a browser environment
-			//context: "window",
-			plugins: [
-				nodeResolve(
-					{
-						jsnext: true,
-						browser: true
-					}
-				),
-				commonjs({include: "node_modules/**"}),
-				rollupBabel(
-					{
-						babelrc: false,
-						exclude: "node_modules/**",
-						presets: [
-							"@babel/preset-env"
-						]
-					})
-			],
-			sourcemap: isReleaseMode
-		}).
-		pipe(source("index.js")).
-		pipe(buffer());
+			const ignoredCircular = [
+				"src/NoOpObjectVerifier.js",
+				"src/NoOpArrayVerifier.js",
+				"src/ObjectVerifier.js",
+				"src/ArrayVerifier.js",
+				"src/Configuration.js"
+			];
+			if (warning.code === "CIRCULAR_DEPENDENCY" && ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
+				return;
+			warn(warning);
+		}
+	});
+	await bundle.write({
+		// On the browser, module exports need to be translated into global variables (properties of "window"):
+		// https://github.com/rollup/rollup/issues/494#issuecomment-268243574
+		name: "window",
+		extend: true,
+		format: "iife",
+		globals: {
+			urijs: "URI",
+			sugar: "window"
+		},
+		sourcemap: isReleaseMode,
+		dir: "build/es5/browser"
+	});
 	if (isReleaseMode)
 	{
-		result = result.
-			pipe(sourcemaps.init({loadMaps: true}));
-	}
-	result = result.pipe(gulp.dest("build/es5/browser"));
-	if (isReleaseMode)
-	{
-		result = result.
+		await gulp.src("index.js").
+			pipe(sourcemaps.init({loadMaps: true})).
 			pipe(uglify()).
 			pipe(rename("index.min.js")).
 			pipe(sourcemaps.write(".")).
 			pipe(gulp.dest("build/es5/browser"));
 	}
-	return result;
 }));
 
 gulp.task("bundle-src-for-node", gulp.parallel(function()
@@ -119,6 +122,7 @@ gulp.task("bundle-src-for-node", gulp.parallel(function()
 gulp.task("bundle-test", gulp.parallel(function()
 {
 	return gulp.src("test/**/*.js").
+		pipe(replace("from \"../src/", "from \"../node/")).
 		pipe(babel(
 			{
 				presets: [
@@ -128,7 +132,7 @@ gulp.task("bundle-test", gulp.parallel(function()
 		pipe(gulp.dest("build/es5/test"));
 }));
 
-gulp.task("test", gulp.parallel("bundle-src-for-node", "bundle-test", function()
+gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node", "bundle-test"), function()
 {
 	return gulp.src("build/es5/test/**/*.js").
 		pipe(tape({reporter: tapeReporter()})).

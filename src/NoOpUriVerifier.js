@@ -1,12 +1,10 @@
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 
 /**
  * An implementation of <code>UriVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpUriVerifier extends NoOpObjectVerifier {
+class NoOpUriVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpUriVerifier} this
 	 */

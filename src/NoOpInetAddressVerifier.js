@@ -1,12 +1,10 @@
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 
 /**
  * An implementation of <code>InetAddressVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpInetAddressVerifier extends NoOpObjectVerifier {
+class NoOpInetAddressVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpInetAddressVerifier} this
 	 */

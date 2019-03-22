@@ -1,19 +1,14 @@
+import ObjectVerifier from "./internal/ObjectVerifier";
+// internal/ObjectVerifier must be loaded before all other imports to avoid circular dependencies
 import ArrayVerifier from "./ArrayVerifier";
 import InetAddressVerifier from "./InetAddressVerifier";
 import MapVerifier from "./MapVerifier";
 import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./internal/ObjectVerifier";
 import SetVerifier from "./SetVerifier";
 import StringVerifier from "./StringVerifier";
 import URI from "urijs";
 import UriVerifier from "./UriVerifier";
 import Utilities from "./Utilities";
-
-// DESIGN:
-// * internal/ObjectVerifier declares ObjectVerifier without any circular dependencies.
-// * First we load internal/ObjectVerifier.
-// * Next we load the circular dependencies (classes that depend on ObjectVerifier and vice-versa).
-// * Finally, we add methods to ObjectVerifier that reference the circular dependencies.
 
 /**
  * @return {StringVerifier} a verifier for the object's string representation
@@ -21,6 +16,19 @@ import Utilities from "./Utilities";
 ObjectVerifier.prototype.asString = function()
 {
 	return new StringVerifier(this.config, Utilities.toString(this.actual), this.name + ".asString()");
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation of the
+ *   actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set
+ */
+ObjectVerifier.prototype.asStringConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asString());
+	return this;
 };
 
 /**
@@ -37,6 +45,18 @@ ObjectVerifier.prototype.asArray = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@link ArrayVerifier} for the actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not an <code>Array</code>
+ */
+ObjectVerifier.prototype.asArrayConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asArray());
+	return this;
+};
+
+/**
  * @return {NumberVerifier} a verifier for the <code>Number</code>
  * @throws {TypeError} if the actual value is not a <code>Number</code>
  */
@@ -47,6 +67,18 @@ ObjectVerifier.prototype.asNumber = function()
 		return new NumberVerifier(this.config, this.actual, this.name);
 	throw new TypeError("actual must be a Number.\n" +
 		"Actual: " + actualType);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Number</code>
+ */
+ObjectVerifier.prototype.asNumberConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asNumber());
+	return this;
 };
 
 /**
@@ -63,6 +95,19 @@ ObjectVerifier.prototype.asSet = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@link SetVerifier} for the actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Set</code>
+ */
+ObjectVerifier.prototype.asSetConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asSet());
+	return this;
+};
+
+
+/**
  * @return {MapVerifier} a verifier for the <code>Map</code>
  * @throws {TypeError} if the actual value is not a <code>Map</code>
  */
@@ -76,6 +121,19 @@ ObjectVerifier.prototype.asMap = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts a {@link MapVerifier} for the actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Map</code>
+ */
+ObjectVerifier.prototype.asMapConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asMap());
+	return this;
+};
+
+
+/**
  * @return {InetAddressVerifier} a verifier for the value's Internet address representation
  * @throws {RangeError} if the actual value does not contain a valid Internet address format
  */
@@ -85,11 +143,38 @@ ObjectVerifier.prototype.asInetAddress = function()
 };
 
 /**
+ * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet
+ * address representation
+ * @return {StringVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set
+ * @throws {RangeError} if the actual value does not contain a valid Internet address format
+ */
+ObjectVerifier.prototype.asInetAddressConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asInetAddress());
+	return this;
+};
+
+/**
  * @return {UriVerifier} a verifier for the <code>URI</code>
  */
 ObjectVerifier.prototype.asUri = function()
 {
 	return new UriVerifier(this.config, new URI(this.actual), this.name);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of the actual
+ * value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set
+ */
+ObjectVerifier.prototype.asUriConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asUri());
+	return this;
 };
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

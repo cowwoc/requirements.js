@@ -1,4 +1,4 @@
-import {requireThat} from "../node/Requirements";
+import {requireThat} from "../src/DefaultRequirements";
 import test from "tape-catch";
 
 test("StringTest.isEmpty", function(t)

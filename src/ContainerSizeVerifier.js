@@ -1,23 +1,22 @@
+import Configuration from "./Configuration";
 import ExceptionBuilder from "./ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
+import Pluralizer from "./Pluralizer";
 import Utilities from "./Utilities";
 
 /**
  * Verifies the size of a container.
- *
- * @class
- * @author Gili Tzabari
  */
-class ContainerSizeVerifier extends NumberVerifier {
+class ContainerSizeVerifier extends NumberVerifier
+{
 	/**
 	 * Creates a new ContainerSizeVerifier.
 	 *
-	 * @constructor
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Object} container the container
-	 * @param {Number} size the size of the container
-	 * @param {String} containerName the name of the container
-	 * @param {String} sizeName the name of the container size
+	 * @param {number} size the size of the container
+	 * @param {string} containerName the name of the container
+	 * @param {string} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
 	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are undefined
 	 *   or null; if <code>containerName</code> or <code>sizeName</code> are not a String
@@ -44,15 +43,15 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is greater than or equal to a value.
 	 *
-	 * @param {Number} value the minimum value
-	 * @param {String} [name]  the name of the minimum value
+	 * @param {number} value the minimum value
+	 * @param {string} [name]  the name of the minimum value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}      if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than <code>value</code>; if <code>name</code> is empty
 	 */
 	isGreaterThanOrEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -81,8 +80,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is greater than a value.
 	 *
-	 * @param {Number} value the lower bound
-	 * @param {String} [name]  the name of the lower bound
+	 * @param {number} value the lower bound
+	 * @param {string} [name]  the name of the lower bound
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
@@ -90,7 +89,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 */
 	isGreaterThan(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -119,15 +118,15 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is less or equal to a value.
 	 *
-	 * @param {Number} value the maximum value
-	 * @param {String} [name]  the name of the maximum value
+	 * @param {number} value the maximum value
+	 * @param {string} [name]  the name of the maximum value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -156,8 +155,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is less than a value.
 	 *
-	 * @param {Number} value the upper bound
-	 * @param {String} [name]  the name of the upper bound
+	 * @param {number} value the upper bound
+	 * @param {string} [name]  the name of the upper bound
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
@@ -165,7 +164,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 */
 	isLessThan(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -260,8 +259,7 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is negative.
 	 *
-	 * @return {ContainerSizeVerifier} this
-	 * @throws {RangeError} if the actual value is not negative
+	 * @throws {RangeError} because the size is never negative
 	 */
 	isNegative()
 	{
@@ -272,8 +270,8 @@ class ContainerSizeVerifier extends NumberVerifier {
 	/**
 	 * Ensures that the actual value is within range.
 	 *
-	 * @param {Number} min the minimum value (inclusive)
-	 * @param {Number} max  the maximum value (inclusive)
+	 * @param {number} min the minimum value (inclusive)
+	 * @param {number} max  the maximum value (inclusive)
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}      if any of the arguments are null
 	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range
@@ -300,14 +298,14 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * Ensures that the actual value is equal to a value.
 	 *
 	 * @param {Object} expected the expected value
-	 * @param {String} [name] the name of the expected value
+	 * @param {string} [name] the name of the expected value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
 	 */
 	isEqualTo(expected, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -339,14 +337,14 @@ class ContainerSizeVerifier extends NumberVerifier {
 	 * Ensures that the actual value is not equal to a value.
 	 *
 	 * @param {Array} value the value to compare to
-	 * @param {String} [name] the name of the expected value
+	 * @param {string} [name] the name of the expected value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
 	 */
 	isNotEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();

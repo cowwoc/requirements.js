@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import test from "tape-catch";
-import Utilities from "../node/Utilities";
+import Utilities from "../src/Utilities";
 
 test("UtilitiesTest.getTypeOf_anonymousFunctionContainingArrow", function(t)
 {
@@ -19,7 +19,8 @@ test("UtilitiesTest.getTypeOf_anonymousFunctionContainingArrow", function(t)
 // 	t.end();
 // });
 
-class MyClass {
+class MyClass
+{
 }
 
 test("UtilitiesTest.getTypeOf_anonymousFunctionContainingArrow", function(t)

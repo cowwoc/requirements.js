@@ -1,14 +1,12 @@
+import ObjectVerifier from "./ObjectVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./internal/ObjectVerifier";
 import Utilities from "./Utilities";
 
 /**
  * Verifier for a <code>Number</code>.
- *
- * @class
- * @author Gili Tzabari
  */
-class NumberVerifier extends ObjectVerifier {
+class NumberVerifier extends ObjectVerifier
+{
 	/**
 	 * Ensures that the actual value is negative.
 	 *
@@ -101,8 +99,8 @@ class NumberVerifier extends ObjectVerifier {
 	/**
 	 * Ensures that the actual value is greater than a value.
 	 *
-	 * @param {Number} value the lower bound
-	 * @param {String} [name]  the name of the lower bound
+	 * @param {number} value the lower bound
+	 * @param {string} [name]  the name of the lower bound
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
@@ -110,7 +108,7 @@ class NumberVerifier extends ObjectVerifier {
 	 */
 	isGreaterThan(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -134,15 +132,15 @@ class NumberVerifier extends ObjectVerifier {
 	/**
 	 * Ensures that the actual value is greater than or equal to a value.
 	 *
-	 * @param {Number} value the minimum value
-	 * @param {String} [name]  the name of the minimum value
+	 * @param {number} value the minimum value
+	 * @param {string} [name]  the name of the minimum value
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than <code>value</code>; if <code>name</code> is empty
 	 */
 	isGreaterThanOrEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -166,8 +164,8 @@ class NumberVerifier extends ObjectVerifier {
 	/**
 	 * Ensures that the actual value is less than a value.
 	 *
-	 * @param {Number} value the upper bound
-	 * @param {String} [name]  the name of the upper bound
+	 * @param {number} value the upper bound
+	 * @param {string} [name]  the name of the upper bound
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
@@ -175,7 +173,7 @@ class NumberVerifier extends ObjectVerifier {
 	 */
 	isLessThan(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -199,15 +197,15 @@ class NumberVerifier extends ObjectVerifier {
 	/**
 	 * Ensures that the actual value is less or equal to a value.
 	 *
-	 * @param {Number} value the maximum value
-	 * @param {String} [name]  the name of the maximum value
+	 * @param {number} value the maximum value
+	 * @param {string} [name]  the name of the maximum value
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -231,8 +229,8 @@ class NumberVerifier extends ObjectVerifier {
 	/**
 	 * Ensures that the actual value is within range.
 	 *
-	 * @param {Number} min the minimum value (inclusive)
-	 * @param {Number} max  the maximum value (inclusive)
+	 * @param {number} min the minimum value (inclusive)
+	 * @param {number} max  the maximum value (inclusive)
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}      if any of the arguments are null
 	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range

@@ -1,9 +1,6 @@
 //noinspection SpellCheckingInspection
 /**
  * Generates the singular or plural form of an element type.
- *
- * @constructor
- * @author Gili Tzabari
  */
 function Pluralizer()
 {

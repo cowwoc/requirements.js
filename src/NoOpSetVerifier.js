@@ -1,14 +1,12 @@
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import NoOpArrayVerifier from "./NoOpArrayVerifier";
 import NoOpNumberVerifier from "./NoOpNumberVerifier";
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>SetVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpSetVerifier extends NoOpObjectVerifier {
+class NoOpSetVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpSetVerifier} this
 	 */

@@ -1,13 +1,11 @@
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>String</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpStringVerifier extends NoOpObjectVerifier {
+class NoOpStringVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpStringVerifier} this
 	 */
@@ -89,9 +87,9 @@ class NoOpStringVerifier extends NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {ContainerSizeVerifier} a verifier for the length of the string
+	 * @return {NoOpContainerSizeVerifier} a verifier for the length of the string
 	 */
-	length()
+	static length()
 	{
 		return new NoOpContainerSizeVerifier();
 	}

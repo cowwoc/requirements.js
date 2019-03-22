@@ -3,7 +3,7 @@ const Utilities = {};
 /**
  * @param {Object} value a value
  * @param {Object} type a type (e.g. <code>String</code> not "string")
- * @return {Boolean} true if <code>value</code> is of type <code>type</code>; false if <code>value</code> or
+ * @return {boolean} true if <code>value</code> is of type <code>type</code>; false if <code>value</code> or
  *   <code>type</code> are null, undefined or unequal
  * @throws {TypeError} if <code>type</code> is not a constructor
  */
@@ -55,7 +55,7 @@ Utilities.instanceOf = function(value, type)
 /**
  * @param {Object} child the child class
  * @param {Object} parent the parent class
- * @return {Boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code> or
+ * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code> or
  *   <code>child</code> are null or undefined; false if <code>child</code> does not extend <code>parent</code>
  */
 Utilities.extends = function(child, parent)
@@ -79,7 +79,7 @@ Utilities.extends = function(child, parent)
  * If the input is a class instance, returns the class name.
  *
  * @param {Object} object an object
- * @return {String} the name of the object's type
+ * @return {string} the name of the object's type
  * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
  */
 Utilities.getTypeOf = function(object)
@@ -104,7 +104,7 @@ Utilities.getTypeOf = function(object)
 
 /**
  * @param {Object} object an object
- * @return {String} the name of the object's class
+ * @return {string} the name of the object's class
  * @throws {TypeError} if <code>object</code> is not an Object
  * @see Utilities.getTypeOf
  */
@@ -137,7 +137,7 @@ function getObjectClass(object)
 
 /**
  * @param {Object} object an object
- * @return {String} the String representation of the object
+ * @return {string} the String representation of the object
  */
 Utilities.toString = function(object)
 {
@@ -188,8 +188,8 @@ Utilities.toString = function(object)
 };
 
 /**
- * @param {String} value a name
- * @param {String} name the name of the name
+ * @param {string} value a name
+ * @param {string} name the name of the name
  * @return {undefined}
  * @throws {TypeError} if name is undefined or null or not a String
  * @throws {RangeError} if name is empty
@@ -251,22 +251,22 @@ Utilities.verifyContext = function(context)
 
 /**
  * @param {Object} element an element in the array
- * @param {String} name the name of the element
- * @param {Number} index the index of the element in the array
+ * @param {string} name the name of the element
+ * @param {number} index the index of the element in the array
  * @return {undefined}
  * @throws {TypeError} if the element is not an array; if the element is not a string
  * @throws {RangeError} if the element is undefined, null, or empty
  */
 function verifyContextElement(element, name, index)
 {
-	if (typeof (element) !== "string")
-	{
-		throw new TypeError(name + " must be a String at index " + index + ".\n" +
-			"Actual: " + Utilities.getTypeOf(element));
-	}
 	if (typeof (element) === "undefined" || element === null)
 	{
 		throw new RangeError(name + " must be set at index " + index + ".\n" +
+			"Actual: " + Utilities.getTypeOf(element));
+	}
+	if (typeof (element) !== "string")
+	{
+		throw new TypeError(name + " must be a String at index " + index + ".\n" +
 			"Actual: " + Utilities.getTypeOf(element));
 	}
 	if (element.length === 0)

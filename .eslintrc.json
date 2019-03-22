@@ -1,8 +1,18 @@
 {
   "extends": "eslint:recommended",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2017,
     "sourceType": "module"
+  },
+  "plugins": [
+    "jsdoc"
+  ],
+  "settings": {
+    "jsdoc": {
+      "tagNamePreference": {
+        "returns": "return"
+      }
+    }
   },
   "rules": {
     "no-constant-condition": [
@@ -11,22 +21,22 @@
         "checkLoops": false
       }
     ],
-    "valid-jsdoc": [
-      "warn",
-      {
-        "prefer": {
-          "returns": "return"
-        },
-        "preferType": {
-          "object": "Object",
-          "string": "String",
-          "number": "Number"
-        },
-        "requireReturnType": true,
-        "requireParamDescription": true,
-        "requireReturnDescription": true
-      }
-    ],
+    //    "valid-jsdoc": [
+    //      "warn",
+    //      {
+    //        "prefer": {
+    //          "returns": "return"
+    //        },
+    //        "preferType": {
+    //          "object": "Object",
+    //          "string": "String",
+    //          "number": "Number"
+    //        },
+    //        "requireReturnType": true,
+    //        "requireParamDescription": true,
+    //        "requireReturnDescription": true
+    //      }
+    //    ],
     "block-scoped-var": "error",
     "consistent-return": [
       "error",
@@ -80,7 +90,7 @@
     "no-with": "error",
     "radix": "error",
     //"require-await": "error",
-    "vars-on-top": "error",
+    //"vars-on-top": "error", <-- needed by https://stackoverflow.com/a/42704874/14731
     "wrap-iife": "error",
     "yoda": "error",
     "strict": "error",
@@ -223,7 +233,7 @@
       "as-needed"
     ],
     "quotes": "error",
-    "require-jsdoc": "error",
+    //    "require-jsdoc": "error",
     "semi-spacing": "error",
     "semi": "error",
     "sort-keys": "off",
@@ -248,10 +258,15 @@
     "no-useless-computed-key": "error",
     "no-useless-constructor": "error",
     "no-useless-rename": "error",
-    "no-var": "error",
+    // "no-var": "error", <-- needed by https://stackoverflow.com/a/42704874/14731
     "object-shorthand": "error",
     "prefer-arrow-callback": "off",
-    "prefer-const": "error",
+    "prefer-const": [
+      "error",
+      {
+        "ignoreReadBeforeAssign": true
+      }
+    ],
     //"prefer-destructuring": "error",
     //"prefer-numeric-literals": "error",
     "prefer-rest-params": "error",
@@ -266,6 +281,25 @@
     //],
     "symbol-description": "error",
     "template-curly-spacing": "error",
-    "yield-star-spacing": "error"
+    "yield-star-spacing": "error",
+    "jsdoc/check-examples": "error",
+    "jsdoc/check-param-names": "error",
+    "jsdoc/check-tag-names": "error",
+    "jsdoc/check-types": "error",
+    "jsdoc/newline-after-description": "error",
+    "jsdoc/no-undefined-types": "error",
+    "jsdoc/require-description": "off",
+    "jsdoc/require-description-complete-sentence": "off",
+    "jsdoc/require-example": "off",
+    "jsdoc/require-hyphen-before-param-description": "off",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-description": "error",
+    "jsdoc/require-param-name": "error",
+    "jsdoc/require-param-type": "error",
+    "jsdoc/require-returns": "error",
+    "jsdoc/require-returns-check": "error",
+    "jsdoc/require-returns-description": "error",
+    "jsdoc/require-returns-type": "error",
+    "jsdoc/valid-types": "error"
   }
 }

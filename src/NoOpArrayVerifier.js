@@ -1,14 +1,12 @@
 import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import NoOpSetVerifier from "./NoOpSetVerifier";
 
 /**
  * An implementation of <code>ArrayVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpArrayVerifier extends NoOpObjectVerifier {
+class NoOpArrayVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpArrayVerifier} this
 	 */

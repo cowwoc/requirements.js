@@ -1,10 +1,13 @@
+// DESIGN:
+// * Declare the class without methods that trigger circular dependencies
+// * Load the dependencies
+// * Add the missing methods
+
 /**
  * An implementation of <code>ObjectVerifier</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpObjectVerifier {
+class NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
@@ -94,34 +97,8 @@ class NoOpObjectVerifier {
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
-	 */
-	asStringConsumer()
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NoOpObjectVerifier} this
-	 */
-	asInetAddressConsumer()
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NoOpObjectVerifier} this
-	 */
-	asUriConsumer()
-	{
-		return this;
-	}
-
-	/**
-	 * @return {Object} the actual value
-	 * @throws RangeError if if the verifier does not have access to the actual value (e.g. if {@link
-		*   Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to retain
-	 *   a reference to the actual value)
+	 * @throws RangeError because assertions are disabled and the verifier does not need to retain a reference to the
+	 *   actual value)
 	 * @see #getActualIfPresent()
 	 */
 	getActual()

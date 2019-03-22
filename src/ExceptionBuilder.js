@@ -1,18 +1,12 @@
+import Configuration from "./Configuration";
 import Utilities from "./Utilities";
-
-/**
- * Constructs an exception.
- * @constructs Error
- * @name ExceptionConstructor
- * @param {String} message the exception message
- */
 
 /**
  * Pads a string with space on the right to reach the desired length.
  *
- * @param {String} text a string
- * @param {Number} length the maximum length of the string
- * @return {String} the result
+ * @param {string} text a string
+ * @param {number} length the maximum length of the string
+ * @return {string} the result
  */
 function justifyLeft(text, length)
 {
@@ -27,8 +21,8 @@ function justifyLeft(text, length)
  * Checks if the configuration overrides the type of exception that should be thrown.
  *
  * @param {Configuration} configuration the verifier's configuration
- * @param {ExceptionConstructor} type the default type of exception to throw
- * @return {ExceptionConstructor} the type of exception to throw
+ * @param {Error} type the default type of exception to throw
+ * @return {Error} the type of exception to throw
  */
 function getExceptionType(configuration, type)
 {
@@ -40,23 +34,20 @@ function getExceptionType(configuration, type)
 
 /**
  * Builds an exception.
- *
- * @class
- * @author Gili Tzabari
  */
-class ExceptionBuilder {
+class ExceptionBuilder
+{
 	/**
 	 * Builds an exception.
 	 *
-	 * @constructor
 	 * @param {Configuration} configuration a verifier's configuration
-	 * @param {ExceptionConstructor} type a function that takes an exception message and returns an exception instance
-	 * @param {String} message the exception message
+	 * @param {Error} type a function that takes an exception message and returns an exception instance
+	 * @param {string} message the exception message
 	 * @throws {TypeError} if any of the arguments are not set
 	 */
 	constructor(configuration, type, message)
 	{
-		if (typeof(configuration) === "undefined" || configuration === null)
+		if (typeof (configuration) === "undefined" || configuration === null)
 		{
 			throw new TypeError("configuration must be set.\n" +
 				"Actual: " + Utilities.getTypeOf(configuration));
@@ -99,8 +90,7 @@ class ExceptionBuilder {
 	}
 
 	/**
-	 * @param {ExceptionConstructor} type a function that takes an exception message and returns an exception
-	 *   instance
+	 * @param {Error} type a function that takes an exception message and returns an exception instance
 	 * @return {ExceptionBuilder} this
 	 * @throws {TypeError} if <code>type</code> is not set
 	 */
@@ -119,14 +109,14 @@ class ExceptionBuilder {
 	/**
 	 * Adds contextual information to append to the exception message.
 	 *
-	 * @param {String} key   a key
+	 * @param {string} key   a key
 	 * @param {Object} value a value
 	 * @return {ExceptionBuilder} this
 	 * @throws {TypeError} if <code>key</code> is not a String
 	 */
 	addContext(key, value)
 	{
-		if (typeof(key) !== "string")
+		if (typeof (key) !== "string")
 		{
 			throw new TypeError("key must be a String.\n" +
 				"Actual: " + Utilities.getTypeOf(key));

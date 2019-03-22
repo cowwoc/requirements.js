@@ -1,29 +1,30 @@
-import ExceptionBuilder from "../ExceptionBuilder";
-import Sugar from "sugar";
+import Configuration from "../Configuration";
 import Utilities from "../Utilities";
+import Sugar from "sugar";
+import ExceptionBuilder from "../ExceptionBuilder";
 
-// DESIGN: See ObjectVerifier.js
+// DESIGN:
+// * Declare the class without methods that trigger circular dependencies
+// * Load the dependencies
+// * Add the missing methods
 
 /**
  * Verifies an object.
- *
- * @class
- * @author Gili Tzabari
  */
-class ObjectVerifier {
+class ObjectVerifier
+{
 	/**
 	 * Creates a new ObjectVerifier.
 	 *
-	 * @constructor
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Object} actual the actual value
-	 * @param {String} name   the name of the value
+	 * @param {string} name   the name of the value
 	 * @throws {TypeError}  if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	constructor(configuration, actual, name)
 	{
-		if (typeof(configuration) === "undefined" || configuration === null)
+		if (typeof (configuration) === "undefined" || configuration === null)
 		{
 			throw new TypeError("configuration must be set.\n" +
 				"Actual: " + Utilities.getTypeOf(configuration));
@@ -48,7 +49,7 @@ class ObjectVerifier {
 	 * Ensures that the actual value is equal to a value.
 	 *
 	 * @param {Object} expected the expected value
-	 * @param {String} [name] the name of the expected value
+	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
@@ -58,7 +59,7 @@ class ObjectVerifier {
 		// TODO: Add colored diff support using https://code.google.com/p/google-diff-match-patch/,
 		// https://github.com/marak/colors.js/ and https://github.com/adamschwartz/log/ and
 		// https://github.com/icodeforlove/Console.js/blob/master/console.js#L4
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -82,14 +83,14 @@ class ObjectVerifier {
 	 * Ensures that the actual value is not equal to a value.
 	 *
 	 * @param {Array} value the value to compare to
-	 * @param {String} [name] the name of the expected value
+	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
 	 */
 	isNotEqualTo(value, name)
 	{
-		if (typeof(name) !== "undefined")
+		if (typeof (name) !== "undefined")
 		{
 			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
 				isNotEmpty();
@@ -138,8 +139,8 @@ class ObjectVerifier {
 		this.config.internalVerifier.requireThat(array, "array").isInstanceOf(Array);
 		if (array.indexOf(this.actual) === -1)
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be one of " + Utilities.toString(array) +
-			".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be one of " +
+			Utilities.toString(array) + ".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -233,7 +234,7 @@ class ObjectVerifier {
 	 */
 	isDefined()
 	{
-		if (typeof(this.actual) !== "undefined")
+		if (typeof (this.actual) !== "undefined")
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be defined").
 			build();
@@ -247,7 +248,7 @@ class ObjectVerifier {
 	 */
 	isNotDefined()
 	{
-		if (typeof(this.actual) === "undefined")
+		if (typeof (this.actual) === "undefined")
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be undefined.").
 			addContext("Actual", this.actual).
@@ -262,7 +263,7 @@ class ObjectVerifier {
 	 */
 	isSet()
 	{
-		if (typeof(this.actual) !== "undefined" && this.actual !== null)
+		if (typeof (this.actual) !== "undefined" && this.actual !== null)
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be set.").
 			addContext("Actual", this.actual).
@@ -277,7 +278,7 @@ class ObjectVerifier {
 	 */
 	isNotSet()
 	{
-		if (typeof(this.actual) === "undefined" || this.actual === null)
+		if (typeof (this.actual) === "undefined" || this.actual === null)
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be set.").
 			addContext("Actual", this.actual).
@@ -285,98 +286,10 @@ class ObjectVerifier {
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation of the
-	 *   actual value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asStringConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asString());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link ArrayVerifier} for the actual value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not an <code>Array</code>
-	 */
-	asArrayConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asArray());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Number</code>
-	 */
-	asNumberConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asNumber());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the actual value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Set</code>
-	 */
-	asSetConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asSet());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link MapVerifier} for the actual value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Map</code>
-	 */
-	asMapConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asMap());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet address
-	 * representation
-	 * @return {StringVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
-	 */
-	asInetAddressConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asInetAddress());
-		return this;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of the actual
-	 *   value
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asUriConsumer(consumer)
-	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
-		consumer(this.asUri());
-		return this;
-	}
-
-	/**
 	 * @return {Object} the actual value
-	 * @throws RangeError if if the verifier does not have access to the actual value (e.g. if {@link
-		*   Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to retain
-	 *   a reference to the actual value)
+	 * @throws RangeError if the verifier does not have access to the actual value (e.g. if
+	 * {@link Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to
+	 * retain a reference to the actual value)
 	 * @see #getActualIfPresent()
 	 */
 	getActual()

@@ -1,12 +1,10 @@
-import ObjectVerifier from "./internal/ObjectVerifier";
+import ObjectVerifier from "./ObjectVerifier";
 
 /**
  * Verifies a <code>URI</code>.
- *
- * @class
- * @author Gili Tzabari
  */
-class UriVerifier extends ObjectVerifier {
+class UriVerifier extends ObjectVerifier
+{
 	/**
 	 * Ensures that the URI is absolute.
 	 *

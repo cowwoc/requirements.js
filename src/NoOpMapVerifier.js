@@ -1,14 +1,12 @@
+import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import NoOpArrayVerifier from "./NoOpArrayVerifier";
 import NoOpNumberVerifier from "./NoOpNumberVerifier";
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
 
 /**
  * An implementation of <code>Map</code> that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpMapVerifier extends NoOpObjectVerifier {
+class NoOpMapVerifier extends NoOpObjectVerifier
+{
 	/**
 	 * @return {NoOpMapVerifier} this
 	 */

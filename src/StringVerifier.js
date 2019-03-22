@@ -1,21 +1,18 @@
+import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./internal/ObjectVerifier";
 import Pluralizer from "./Pluralizer";
 import Utilities from "./Utilities";
 
 /**
  * Verifies a <code>String</code>.
- *
- * @class
- * @author Gili Tzabari
  */
 class StringVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the actual value starts with a value.
 	 *
-	 * @param {String} prefix the value that the string must start with
+	 * @param {string} prefix the value that the string must start with
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
@@ -32,7 +29,7 @@ class StringVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value does not start with a value.
 	 *
-	 * @param {String} prefix the value that the string may not start with
+	 * @param {string} prefix the value that the string may not start with
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
@@ -49,7 +46,7 @@ class StringVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value contains a value.
 	 *
-	 * @param {String} expected the value that the string must contain
+	 * @param {string} expected the value that the string must contain
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not contain <code>expected</code>
 	 */
@@ -66,7 +63,7 @@ class StringVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value does not contain a value.
 	 *
-	 * @param {String} value the value that the string may not contain
+	 * @param {string} value the value that the string may not contain
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not contain <code>value</code>
 	 */
@@ -83,7 +80,7 @@ class StringVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value ends with a value.
 	 *
-	 * @param {String} suffix the value that the string must end with
+	 * @param {string} suffix the value that the string must end with
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not end with <code>suffix</code>
 	 */
@@ -100,7 +97,7 @@ class StringVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value does not end with a value.
 	 *
-	 * @param {String} suffix the value that the string may not end with
+	 * @param {string} suffix the value that the string may not end with
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not start with <code>suffix</code>
 	 */

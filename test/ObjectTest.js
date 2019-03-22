@@ -1,5 +1,5 @@
-import {assertThat, requireThat} from "../node/Requirements";
-import ObjectVerifier from "../node/ObjectVerifier";
+import {assertThat, requireThat} from "../src/DefaultRequirements";
+import ObjectVerifier from "../src/ObjectVerifier";
 import test from "tape-catch";
 
 test("ObjectTest.constructor_configurationIsUndefined", function(t)
@@ -204,7 +204,8 @@ test("ObjectTest.isInstanceOf_ArrowFunction", function(t)
 	t.end();
 });
 
-class MyClass {
+class MyClass
+{
 }
 
 test("ObjectTest.isInstanceOf_Object", function(t)

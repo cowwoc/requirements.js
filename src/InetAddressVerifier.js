@@ -1,9 +1,10 @@
+import Configuration from "./Configuration";
 import ExceptionBuilder from "./ExceptionBuilder";
-import ObjectVerifier from "./internal/ObjectVerifier";
+import ObjectVerifier from "./ObjectVerifier";
 
 /**
- * @param {String} value a String
- * @return {Boolean} true if the String is a valid IPv4 address; false otherwise
+ * @param {string} value a String
+ * @return {boolean} true if the String is a valid IPv4 address; false otherwise
  */
 function isIpV4Impl(value)
 {
@@ -13,8 +14,8 @@ function isIpV4Impl(value)
 }
 
 /**
- * @param {String} value a String
- * @return {Boolean} true if the String is a valid IPv6 address; false otherwise
+ * @param {string} value a String
+ * @return {boolean} true if the String is a valid IPv6 address; false otherwise
  */
 function isIpV6Impl(value)
 {
@@ -65,8 +66,8 @@ function isIpV6Impl(value)
 }
 
 /**
- * @param {String} value a String
- * @return {Boolean} true if the String is a valid hostname; false otherwise
+ * @param {string} value a String
+ * @return {boolean} true if the String is a valid hostname; false otherwise
  */
 function isHostnameImpl(value)
 {
@@ -103,18 +104,15 @@ function isHostnameImpl(value)
 
 /**
  * Verifies an IP address or hostname.
- *
- * @class
- * @author Gili Tzabari
  */
-class InetAddressVerifier extends ObjectVerifier {
+class InetAddressVerifier extends ObjectVerifier
+{
 	/**
-	 * Creates a new ObjectVerifier.
+	 * Creates a new InetAddressVerifier.
 	 *
-	 * @constructor
 	 * @param {Configuration} configuration the instance configuration
-	 * @param {String} actual the actual value
-	 * @param {String} name   the name of the value
+	 * @param {string} actual the actual value
+	 * @param {string} name   the name of the value
 	 * @throws {TypeError} if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -122,11 +120,12 @@ class InetAddressVerifier extends ObjectVerifier {
 	{
 		super(configuration, actual, name);
 
-		if (isIpV4Impl(actual) || isIpV6Impl(actual) || isHostnameImpl(actual))
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain a valid IP address or hostname.").
-			addContext("Actual", this.actual).
-			build();
+		if (!isIpV4Impl(actual) && !isIpV6Impl(actual) && !isHostnameImpl(actual))
+		{
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain a valid IP address or hostname.").
+				addContext("Actual", this.actual).
+				build();
+		}
 	}
 
 	/**

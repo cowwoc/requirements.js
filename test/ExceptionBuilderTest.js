@@ -1,7 +1,7 @@
-import Configuration from "../node/Configuration";
-import ExceptionBuilder from "../node/ExceptionBuilder";
+import Configuration from "../src/Configuration";
+import ExceptionBuilder from "../src/ExceptionBuilder";
 import test from "tape-catch";
-import Verifiers from "../node/Verifiers";
+import Requirements from "../src/Requirements";
 
 test("ExceptionBuilderTest_configurationIsUndefined", function(t)
 {
@@ -17,8 +17,8 @@ test("ExceptionBuilderTest_typeIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config);
 	}, TypeError);
@@ -29,8 +29,8 @@ test("ExceptionBuilderTest_messageIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config, RangeError);
 	}, TypeError);
@@ -39,8 +39,8 @@ test("ExceptionBuilderTest_messageIsUndefined", function(t)
 
 test("ExceptionBuilderTest.type", function(t)
 {
-	const verifiers = new Verifiers();
-	const config = new Configuration(verifiers);
+	const requirements = new Requirements();
+	const config = new Configuration(requirements);
 	// eslint-disable-next-line no-new
 	new ExceptionBuilder(config, RangeError, "message").type(TypeError);
 	t.end();
@@ -50,8 +50,8 @@ test("ExceptionBuilderTest.type_False", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config, RangeError, "message").type(null);
 	}, TypeError);
@@ -60,9 +60,9 @@ test("ExceptionBuilderTest.type_False", function(t)
 
 test("ExceptionBuilderTest.addContext", function(t)
 {
-	const verifiers = new Verifiers();
+	const requirements = new Requirements();
 	const valueNotString = 12345;
-	const config = new Configuration(verifiers).addContext("key", valueNotString);
+	const config = new Configuration(requirements).addContext("key", valueNotString);
 	// eslint-disable-next-line no-new
 	new ExceptionBuilder(config, RangeError, "message").build();
 	t.end();
@@ -72,8 +72,8 @@ test("ExceptionBuilderTest.addContext_keyNotString", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config, RangeError, "message").addContext(null);
 	}, TypeError);
@@ -82,8 +82,8 @@ test("ExceptionBuilderTest.addContext_keyNotString", function(t)
 
 test("ExceptionBuilderTest.addContextArray", function(t)
 {
-	const verifiers = new Verifiers();
-	const config = new Configuration(verifiers);
+	const requirements = new Requirements();
+	const config = new Configuration(requirements);
 	// eslint-disable-next-line no-new
 	new ExceptionBuilder(config, RangeError, "message").addContextArray(
 		[
@@ -96,8 +96,8 @@ test("ExceptionBuilderTest.addContextArray_arrayIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config, RangeError, "message").addContextArray(null);
 	}, TypeError);
@@ -108,14 +108,14 @@ test("ExceptionBuilderTest.addContextArray_keyIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const verifiers = new Verifiers();
-		const config = new Configuration(verifiers);
+		const requirements = new Requirements();
+		const config = new Configuration(requirements);
 		let key;
 		// eslint-disable-next-line no-new
 		new ExceptionBuilder(config, RangeError, "message").addContextArray(
 			[
 				[key, "value"]
 			]);
-	}, TypeError);
+	}, RangeError);
 	t.end();
 });

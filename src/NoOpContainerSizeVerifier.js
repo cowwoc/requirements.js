@@ -2,11 +2,9 @@ import NoOpNumberVerifier from "./NoOpNumberVerifier";
 
 /**
  * An implementation of {@link ContainerSizeVerifier} that does nothing.
- *
- * @class
- * @author Gili Tzabari
  */
-class NoOpContainerSizeVerifier extends NoOpNumberVerifier {
+class NoOpContainerSizeVerifier extends NoOpNumberVerifier
+{
 	/**
 	 * @return {NoOpContainerSizeVerifier} this
 	 */
