@@ -96,6 +96,14 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	/**
 	 * @return {NoOpContainerSizeVerifier} this
 	 */
+	isBetweenClosed()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpContainerSizeVerifier} this
+	 */
 	isEqualTo()
 	{
 		return this;

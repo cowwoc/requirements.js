@@ -229,19 +229,45 @@ class NumberVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value is within range.
 	 *
-	 * @param {number} min the minimum value (inclusive)
-	 * @param {number} max  the maximum value (inclusive)
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endExclusive  the maximum value (exclusive)
 	 * @return {NumberVerifier} this
-	 * @throws {TypeError}      if any of the arguments are null
-	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range
+	 * @throws {TypeError}  if any of the arguments are null
+	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the actual value is
+	 * not in range
 	 */
-	isBetween(min, max)
+	isBetween(startInclusive, endExclusive)
 	{
-		this.config.internalVerifier.requireThat(max, "max").isInstanceOf(Number);
-		this.config.internalVerifier.requireThat(min, "min").isInstanceOf(Number).asNumber().isLessThan(max, "max");
-		if (this.actual >= min && this.actual <= max)
+		this.config.internalVerifier.requireThat(endExclusive, "max").isInstanceOf(Number);
+		this.config.internalVerifier.requireThat(startInclusive, "min").isInstanceOf(Number).asNumber().
+			isLessThan(endExclusive, "max");
+		if (this.actual >= startInclusive && this.actual < endExclusive)
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + min + ", " + max + "]").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive + ", " +
+			endExclusive + ")").
+			addContext("Actual", this.actual).
+			build();
+	}
+
+	/**
+	 * Ensures that the actual value is within range.
+	 *
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endInclusive  the maximum value (inclusive)
+	 * @return {NumberVerifier} this
+	 * @throws {TypeError}  if any of the arguments are null
+	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the actual value
+	 * is not in range
+	 */
+	isBetweenClosed(startInclusive, endInclusive)
+	{
+		this.config.internalVerifier.requireThat(endInclusive, "max").isInstanceOf(Number);
+		this.config.internalVerifier.requireThat(startInclusive, "min").isInstanceOf(Number).asNumber().
+			isLessThan(endInclusive, "max");
+		if (this.actual >= startInclusive && this.actual <= endInclusive)
+			return this;
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive + ", " +
+			endInclusive + "]").
 			addContext("Actual", this.actual).
 			build();
 	}

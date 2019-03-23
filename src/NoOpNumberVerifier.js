@@ -96,6 +96,14 @@ class NoOpNumberVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpNumberVerifier} this
 	 */
+	isBetweenClosed()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpNumberVerifier} this
+	 */
 	isNumber()
 	{
 		return this;

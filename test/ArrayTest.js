@@ -712,15 +712,18 @@ test("ArrayTest.isBetween_expectedIsInBounds", function(t)
 
 test("ArrayTest.isBetween_expectedIsUpperBound", function(t)
 {
-	const actual =
-		[
-			1,
-			2,
-			3,
-			4,
-			5
-		];
-	requireThat(actual, "actual").asArray().length().isBetween(3, 5);
+	t.throws(function()
+	{
+		const actual =
+			[
+				1,
+				2,
+				3,
+				4,
+				5
+			];
+		requireThat(actual, "actual").asArray().length().isBetween(3, 5);
+	}, RangeError);
 	t.end();
 });
 
@@ -735,6 +738,20 @@ test("ArrayTest.isBetween_expectedIsBelow", function(t)
 			];
 		requireThat(actual, "actual").asArray().length().isBetween(3, 5);
 	}, RangeError);
+	t.end();
+});
+
+test("ArrayTest.isBetweenClosed_expectedIsUpperBound", function(t)
+{
+	const actual =
+		[
+			1,
+			2,
+			3,
+			4,
+			5
+		];
+	requireThat(actual, "actual").asArray().length().isBetweenClosed(3, 5);
 	t.end();
 });
 

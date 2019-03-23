@@ -15,7 +15,10 @@ test("NumberTest.isBetween_actualIsInBounds", function(t)
 
 test("NumberTest.isBetween_actualIsUpperBound", function(t)
 {
-	requireThat(2, "actual").asNumber().isBetween(0, 2);
+	t.throws(function()
+	{
+		requireThat(2, "actual").asNumber().isBetween(0, 2);
+	}, RangeError);
 	t.end();
 });
 
@@ -25,6 +28,12 @@ test("NumberTest.isBetween_actualIsBelow", function(t)
 	{
 		requireThat(1, "actual").asNumber().isBetween(10, 20);
 	}, RangeError);
+	t.end();
+});
+
+test("NumberTest.isBetweenClosed_actualIsUpperBound", function(t)
+{
+	requireThat(2, "actual").asNumber().isBetweenClosed(0, 2);
 	t.end();
 });
 

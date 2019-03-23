@@ -270,22 +270,55 @@ class ContainerSizeVerifier extends NumberVerifier
 	/**
 	 * Ensures that the actual value is within range.
 	 *
-	 * @param {number} min the minimum value (inclusive)
-	 * @param {number} max  the maximum value (inclusive)
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endExclusive  the maximum value (exclusive)
 	 * @return {ContainerSizeVerifier} this
-	 * @throws {TypeError}      if any of the arguments are null
-	 * @throws {RangeError}  if <code>last</code> is less than <code>first</code>; if the actual value is not in range
+	 * @throws {TypeError}  if any of the arguments are null
+	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the actual value is
+	 * not in range
 	 */
-	isBetween(min, max)
+	isBetween(startInclusive, endExclusive)
 	{
 		const verifier = this.config.internalVerifier;
-		verifier.requireThat(min, "min").isNotNull();
-		verifier.requireThat(max, "max").isNotNull().asNumber().isGreaterThanOrEqualTo(min, "min");
-		if (this.actual >= min && this.actual <= max)
+		verifier.requireThat(startInclusive, "min").isNotNull();
+		verifier.requireThat(endExclusive, "max").isNotNull().asNumber().
+			isGreaterThanOrEqualTo(startInclusive, "min");
+		if (this.actual >= startInclusive && this.actual < endExclusive)
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.containerName + " must contain [" + min + ", " + max + "] " + this.pluralizer.nameOf(2) + ".").
+			this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " +
+			this.pluralizer.nameOf(2) + ".").
+			addContext("Actual", this.actual);
+
+		if (this.actual > 0)
+			eb.addContext(this.containerName, this.container);
+
+		throw eb.build();
+	}
+
+	/**
+	 * Ensures that the actual value is within range.
+	 *
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endInclusive  the maximum value (inclusive)
+	 * @return {ContainerSizeVerifier} this
+	 * @throws {TypeError}  if any of the arguments are null
+	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the actual value
+	 * is not in range
+	 */
+	isBetweenClosed(startInclusive, endInclusive)
+	{
+		const verifier = this.config.internalVerifier;
+		verifier.requireThat(startInclusive, "min").isNotNull();
+		verifier.requireThat(endInclusive, "max").isNotNull().asNumber().
+			isGreaterThanOrEqualTo(startInclusive, "min");
+		if (this.actual >= startInclusive && this.actual <= endInclusive)
+			return this;
+
+		const eb = new ExceptionBuilder(this.config, RangeError,
+			this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " +
+			this.pluralizer.nameOf(2) + ".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
