@@ -1,5 +1,5 @@
 {
-  "name": "local-requirements-js",
+  "name": "@cowwoc/requirements.js",
   "version": "1.0.0",
   "keywords": [
     "preconditions",

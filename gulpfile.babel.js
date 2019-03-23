@@ -86,7 +86,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		format: "iife",
 		globals: {
 			urijs: "URI",
-			sugar: "window"
+			sugar: "Sugar"
 		},
 		sourcemap: isReleaseMode,
 		dir: "build/es5/browser"
