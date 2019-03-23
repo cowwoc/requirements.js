@@ -240,13 +240,13 @@ class ArrayVerifier extends ObjectVerifier
 		{
 			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in " + name).
 				addContext("Actual", this.actual).
+				addContext("Expected", expected).
 				addContext("Missing", missing).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in: " +
 			Utilities.toString(expected)).
 			addContext("Actual", this.actual).
-			addContext("Expected", expected).
 			addContext("Missing", missing).
 			build();
 	}
