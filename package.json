@@ -22,12 +22,12 @@
   "browser": "es5/browser/index.js",
   "module": "es5/modules/DefaultRequirements.js",
   "dependencies": {
-    "@babel/plugin-external-helpers": "^7.2.0",
-    "@babel/runtime": "^7.4.0",
+    "@babel/plugin-external-helpers": "~7.2.0",
+    "@babel/runtime": "~7.4.0",
     "core-js": "3",
-    "eslint-plugin-jsdoc": "^4.4.3",
-    "sugar": "^2.0.4",
-    "urijs": "^1.18.4"
+    "eslint-plugin-jsdoc": "~4.4.3",
+    "sugar": "~2.0.4",
+    "urijs": "~1.18.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -41,6 +41,7 @@
     "gulp-cli": "^2.0.1",
     "gulp-eslint": "^5.0.0",
     "gulp-istanbul": "^1.1.1",
+    "gulp-jsdoc3": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^1.0.0",
     "gulp-sourcemaps": "^2.4.1",

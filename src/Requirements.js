@@ -1,3 +1,4 @@
+/** @module */
 import Configuration from "./Configuration";
 import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import ObjectVerifier from "./ObjectVerifier";
@@ -50,13 +51,15 @@ class Requirements
 		// TODO: Respond to http://stackoverflow.com/questions/18785586/javascript-equivalent-to-guavas-preconditions
 	}
 
+	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
 	/**
-	 * Same as {@link #requireThat(Object, String)} but does nothing if assertions are disabled.
+	 * Same as [requireThat]{@link module:Requirements~Requirements#requireThat} but does nothing if assertions are
+	 * disabled.
 	 *
 	 * @function
 	 * @param {Object} actual the actual value
 	 * @param {string} name   the name of the value
-	 * @return {ObjectVerifier} a verifier
+	 * @return {ObjectVerifier|NoOpObjectVerifier} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -65,7 +68,7 @@ class Requirements
 		Utilities.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
-		return new NoOpObjectVerifier(this.config, actual, name);
+		return NoOpObjectVerifier.INSTANCE;
 	}
 
 	/**

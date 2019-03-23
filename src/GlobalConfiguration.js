@@ -1,7 +1,8 @@
 /**
  * The configuration shared by all verifiers.
  */
-class GlobalConfiguration {
+class GlobalConfiguration
+{
 }
 
 /**

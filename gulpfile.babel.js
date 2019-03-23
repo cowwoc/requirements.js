@@ -13,6 +13,7 @@ import tape from "gulp-tape";
 import tapeReporter from "tap-diff";
 import uglify from "gulp-uglify";
 import util from "gulp-util";
+import jsdoc from "gulp-jsdoc3";
 
 let mode = util.env.mode;
 if (typeof (mode) === "undefined")
@@ -145,6 +146,18 @@ gulp.task("bundle-src", gulp.parallel(function()
 		pipe(gulp.dest("build/es5/modules"));
 }));
 
+gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
+{
+	return gulp.src(["README.md", "src/**/*.js"], {read: false}).
+		pipe(jsdoc(
+			{
+				opts:
+					{
+						destination: "./build/jsdoc"
+					}
+			}, cb));
+}));
+
 gulp.task("bundle-resources", gulp.parallel(function()
 {
 	return gulp.src(
@@ -158,6 +171,7 @@ gulp.task("bundle-resources", gulp.parallel(function()
 		pipe(gulp.dest("build"));
 }));
 
-gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node", "bundle-src", "bundle-resources"));
+gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node", "bundle-src", "bundle-jsdoc",
+	"bundle-resources"));
 gulp.task("build", gulp.parallel("lint", "bundle", "test"));
 gulp.task("default", gulp.parallel("build"));
