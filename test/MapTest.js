@@ -125,7 +125,7 @@ test("MapTest.isNotNull", function(t)
 test("MapTest.keysContain", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().keys().contains(2);
+	requireThat(actual, "actual").asMap().keys().includes(2);
 	t.end();
 });
 
@@ -134,7 +134,7 @@ test("MapTest.keysContain_False", function(t)
 	t.throws(function()
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requireThat(actual, "actual").asMap().keys().contains(5);
+		requireThat(actual, "actual").asMap().keys().includes(5);
 	}, RangeError);
 	t.end();
 });
@@ -159,7 +159,7 @@ test("MapTest.keysDoesNotContain_False", function(t)
 test("MapTest.keysConsumer", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().keysConsumer(k => k.contains(2)).size().isEqualTo(2);
+	requireThat(actual, "actual").asMap().keysConsumer(k => k.includes(2)).size().isEqualTo(2);
 	t.end();
 });
 
@@ -190,7 +190,7 @@ test("MapTest.keysConsumer_Fail", function(t)
 test("MapTest.valuesContain", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().values().contains(20);
+	requireThat(actual, "actual").asMap().values().includes(20);
 	t.end();
 });
 
@@ -199,7 +199,7 @@ test("MapTest.valuesContain_False", function(t)
 	t.throws(function()
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requireThat(actual, "actual").asMap().values().contains(50);
+		requireThat(actual, "actual").asMap().values().includes(50);
 	}, RangeError);
 	t.end();
 });
@@ -238,7 +238,7 @@ test("MapTest.valuesLength_False", function(t)
 test("MapTest.valuesConsumer", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().valuesConsumer(k => k.contains(20)).size().isEqualTo(2);
+	requireThat(actual, "actual").asMap().valuesConsumer(k => k.includes(20)).size().isEqualTo(2);
 	t.end();
 });
 
@@ -255,7 +255,7 @@ test("MapTest.valuesConsumer_Fail", function(t)
 test("MapTest.entriesContain", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().entries().contains([2, 20]);
+	requireThat(actual, "actual").asMap().entries().includes([2, 20]);
 	t.end();
 });
 
@@ -264,7 +264,7 @@ test("MapTest.entriesContain_False", function(t)
 	t.throws(function()
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requireThat(actual, "actual").asMap().entries().contains([5, 50]);
+		requireThat(actual, "actual").asMap().entries().includes([5, 50]);
 	}, RangeError);
 	t.end();
 });
@@ -303,7 +303,7 @@ test("MapTest.entriesLength_False", function(t)
 test("MapTest.entriesConsumer", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().entriesConsumer(k => k.contains([2, 20])).size().isEqualTo(2);
+	requireThat(actual, "actual").asMap().entriesConsumer(k => k.includes([2, 20])).size().isEqualTo(2);
 	t.end();
 });
 
@@ -354,7 +354,7 @@ test("MapTest.sizeIsNotEqualTo_False", function(t)
 test("MapTest.sizeConsumer", function(t)
 {
 	const actual = new Map([[1, 10], [2, 20]]);
-	requireThat(actual, "actual").asMap().sizeConsumer(s => s.isEqualTo(2)).entries().contains([2, 20]);
+	requireThat(actual, "actual").asMap().sizeConsumer(s => s.isEqualTo(2)).entries().includes([2, 20]);
 	t.end();
 });
 

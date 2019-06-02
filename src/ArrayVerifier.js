@@ -1,20 +1,22 @@
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
 import Configuration from "./Configuration";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import ObjectVerifier from "./ObjectVerifier";
 import Pluralizer from "./Pluralizer";
 import SetVerifier from "./SetVerifier";
+import Objects from "./internal/Objects";
 import Sugar from "sugar";
-import Utilities from "./Utilities";
 
 /**
- * @param {Array} array an array
- * @param {Object} element an element
+ * Indicates if an array contains at least one element of another array.
+ *
+ * @param {Array} array an array of arrays
+ * @param {object} element an element
  * @return {boolean} true if <code>arrays</code> contains the element
  */
-function actualContains(array, element)
+function arrayContainsElement(array, element)
 {
-	// indexOf() does not work on 2D arrays: http://stackoverflow.com/a/24943461/14731
+	// indexOf(), includes() do not work for multidimensional arrays: http://stackoverflow.com/a/24943461/14731
 	for (let i = 0; i < array.length; ++i)
 	{
 		if (Sugar.Array.isEqual(array[i], element))
@@ -24,30 +26,32 @@ function actualContains(array, element)
 }
 
 /**
- * @param {Array} actual an array
- * @param {Array} expected the expected elements
+ * @param {Array} array an array
+ * @param {Array} expected an array of expected values
  * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
  */
-function actualContainsAny(actual, expected)
+function arrayContainsAny(array, expected)
 {
 	for (const element of expected)
 	{
-		if (actualContains(actual, element))
+		if (arrayContainsElement(array, element))
 			return true;
 	}
 	return false;
 }
 
 /**
- * @param {Array} actual an array
+ * Indicates if an array contains all elements of another array.
+ *
+ * @param {Array} array an array
  * @param {Array} expected an array of expected elements
  * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
  */
-function actualContainsAll(actual, expected)
+function arrayContainsAll(array, expected)
 {
 	for (const element of expected)
 	{
-		if (!actualContains(actual, element))
+		if (!arrayContainsElement(array, element))
 			return false;
 	}
 	return true;
@@ -62,10 +66,10 @@ class ArrayVerifier extends ObjectVerifier
 	 * Creates a new ArrayVerifier.
 	 *
 	 * @param {Configuration} configuration the instance configuration
-	 * @param {Object} actual the actual value
+	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
 	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the container's element
-	 *   type
+	 * type
 	 * @throws {TypeError} if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -112,20 +116,17 @@ class ArrayVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the array contains an element.
 	 *
-	 * @param {Object} element the element that must exist
+	 * @param {object} element the element that must exist
 	 * @param {string} [name] the name of the element
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the array does not contain <code>element</code>
 	 */
-	contains(element, name)
+	includes(element, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		if (actualContains(this.actual, element))
+			Objects.requireThatStringNotEmpty(name, "name");
+		if (arrayContainsElement(this.actual, element))
 			return this;
 		if (name)
 		{
@@ -134,7 +135,8 @@ class ArrayVerifier extends ObjectVerifier
 				addContext("Expected", element).
 				build();
 		}
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain " + Utilities.toString(element)).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain " +
+			this.config.convertToString(element)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -147,16 +149,13 @@ class ArrayVerifier extends ObjectVerifier
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
-	 *   if the array contains elements not found in <code>expected</code>
+	 * if the array contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(expected, "expected").isTypeOf("Array");
 		const expectedAsSet = new Set(expected);
 		const actualAsSet = new Set(this.actual);
 		const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
@@ -165,8 +164,8 @@ class ArrayVerifier extends ObjectVerifier
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain exactly the same elements as " +
-				name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name +
+				" must contain exactly the same elements as " + name).
 				addContext("Actual", this.actual).
 				addContext("Expected", expected).
 				addContext("Missing", missing).
@@ -174,7 +173,7 @@ class ArrayVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError,
-			this.name + " must contain exactly: " + Utilities.toString(expected)).
+			this.name + " must contain exactly: " + this.config.convertToString(expected)).
 			addContext("Actual", this.actual).
 			addContext("Missing", missing).
 			addContext("Unwanted", unwanted).
@@ -189,17 +188,14 @@ class ArrayVerifier extends ObjectVerifier
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
-	 *   if the array contains elements not found in <code>expected</code>
+	 * if the array contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
-		if (actualContainsAny(this.actual, expected))
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(expected, "expected").isTypeOf("Array");
+		if (arrayContainsAny(this.actual, expected))
 			return this;
 		if (name)
 		{
@@ -209,7 +205,7 @@ class ArrayVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain any element in: " +
-			Utilities.toString(expected)).
+			this.config.convertToString(expected)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -226,26 +222,24 @@ class ArrayVerifier extends ObjectVerifier
 	containsAll(expected, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Array);
-		if (actualContainsAll(this.actual, expected))
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(expected, "expected").isTypeOf("Array");
+		if (arrayContainsAll(this.actual, expected))
 			return this;
 		const expectedAsSet = new Set(expected);
 		const actualAsSet = new Set(this.actual);
 		const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Expected", expected).
 				addContext("Missing", missing).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in: " +
-			Utilities.toString(expected)).
+			this.config.convertToString(expected)).
 			addContext("Actual", this.actual).
 			addContext("Missing", missing).
 			build();
@@ -254,7 +248,7 @@ class ArrayVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the array does not contain an element.
 	 *
-	 * @param {Object} element the element that must not exist
+	 * @param {object} element the element that must not exist
 	 * @param {string} [name] the name of the element
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
@@ -263,11 +257,8 @@ class ArrayVerifier extends ObjectVerifier
 	doesNotContain(element, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		if (!actualContains(this.actual, element))
+			Objects.requireThatStringNotEmpty(name, "name");
+		if (!arrayContainsElement(this.actual, element))
 			return this;
 		if (name)
 		{
@@ -276,7 +267,8 @@ class ArrayVerifier extends ObjectVerifier
 				addContext("Unwanted", element).
 				build();
 		}
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " + Utilities.toString(element)).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " +
+			this.config.convertToString(element)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -293,22 +285,20 @@ class ArrayVerifier extends ObjectVerifier
 	doesNotContainAny(elements, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
-		if (!actualContainsAny(this.actual, elements))
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(elements, "elements").isTypeOf("Array");
+		if (!arrayContainsAny(this.actual, elements))
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Unwanted", elements).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in: " +
-			Utilities.toString(elements)).
+			this.config.convertToString(elements)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -325,12 +315,9 @@ class ArrayVerifier extends ObjectVerifier
 	doesNotContainAll(elements, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(elements, "elements").isInstanceOf(Array);
-		if (!actualContainsAll(this.actual, elements))
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(elements, "elements").isTypeOf("Array");
+		if (!arrayContainsAll(this.actual, elements))
 			return this;
 		const elementsAsSet = new Set(elements);
 		const actualAsSet = new Set(this.actual);
@@ -343,7 +330,7 @@ class ArrayVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in: " +
-			Utilities.toString(elements)).
+			this.config.convertToString(elements)).
 			addContext("Actual", this.actual).
 			addContext("Unwanted", elements).
 			addContext("Missing", missing).

@@ -1,12 +1,25 @@
 import Configuration from "../Configuration";
-import Utilities from "../Utilities";
+import Objects from "./Objects";
 import Sugar from "sugar";
-import ExceptionBuilder from "../ExceptionBuilder";
+import ExceptionBuilder from "./ExceptionBuilder";
+import ContextGenerator from "./ContextGenerator";
+import GlobalRequirements from "../GlobalRequirements";
 
-// DESIGN:
+// Avoid circular dependencies by doing the following:
 // * Declare the class without methods that trigger circular dependencies
 // * Load the dependencies
 // * Add the missing methods
+
+/**
+ * @param {ObjectVerifier} objectVerifier an instance of ObjectVerifier
+ * @param {object} expected the expected value
+ * @return {Array<Array<string>>} the list of name-value pairs to append to the exception message
+ */
+function getContext(objectVerifier, expected)
+{
+	const contextGenerator = new ContextGenerator(objectVerifier.config, GlobalRequirements.diffGenerator);
+	return contextGenerator.getContext("Actual", objectVerifier.actual, "Expected", expected);
+}
 
 /**
  * Verifies an object.
@@ -17,19 +30,15 @@ class ObjectVerifier
 	 * Creates a new ObjectVerifier.
 	 *
 	 * @param {Configuration} configuration the instance configuration
-	 * @param {Object} actual the actual value
+	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
 	 * @throws {TypeError}  if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	constructor(configuration, actual, name)
 	{
-		if (typeof (configuration) === "undefined" || configuration === null)
-		{
-			throw new TypeError("configuration must be set.\n" +
-				"Actual: " + Utilities.getTypeOf(configuration));
-		}
-		Utilities.verifyName(name, "name");
+		Objects.assertThatTypeOf(configuration, "configuration", "Configuration");
+		Objects.verifyName(name, "name");
 		Object.defineProperty(this, "actual",
 			{
 				value: actual
@@ -48,7 +57,7 @@ class ObjectVerifier
 	/**
 	 * Ensures that the actual value is equal to a value.
 	 *
-	 * @param {Object} expected the expected value
+	 * @param {object} expected the expected value
 	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
 	 * @throws {TypeError}  if <code>name</code> is null
@@ -56,33 +65,26 @@ class ObjectVerifier
 	 */
 	isEqualTo(expected, name)
 	{
-		// TODO: Add colored diff support using https://code.google.com/p/google-diff-match-patch/,
-		// https://github.com/marak/colors.js/ and https://github.com/adamschwartz/log/ and
-		// https://github.com/icodeforlove/Console.js/blob/master/console.js#L4
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (Sugar.Object.isEqual(this.actual, expected))
 			return this;
+		const context = getContext(this, expected);
 		if (name)
 		{
 			throw new ExceptionBuilder(this.config, RangeError, this.name + " must be equal to " + name).
-				addContext("Actual", this.actual).
-				addContext("Expected", expected).
+				addContextList(context).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " had an unexpected value.").
-			addContext("Actual", this.actual).
-			addContext("Expected", expected).
+			addContextList(context).
 			build();
 	}
 
 	/**
 	 * Ensures that the actual value is not equal to a value.
 	 *
-	 * @param {Array} value the value to compare to
+	 * @param {object} value the value to compare to
 	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} this
 	 * @throws {TypeError}  if <code>name</code> is null
@@ -91,10 +93,7 @@ class ObjectVerifier
 	isNotEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (!Sugar.Object.isEqual(this.actual, value))
 			return this;
 		if (name)
@@ -104,69 +103,64 @@ class ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be equal to " +
-			Utilities.toString(value)).build();
+			this.config.convertToString(value)).build();
 	}
 
 	/**
-	 * Ensures that an array contains the actual value.
+	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
+	 * <code>isInstanceOf(Object)</code>.
 	 *
-	 * @param {Array.<Array>} array an array
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError}  if <code>array</code> is not an <code>Array</code>
-	 * @throws {RangeError} if <code>array</code> does not contain the actual value
+	 * @throws {RangeError} if the actual value is not a <code>string</code>, <code>number</code>,
+	 * <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or <code>symbol</code>)
 	 */
-	isInArray(array)
+	isPrimitive()
 	{
-		this.config.internalVerifier.requireThat(array, "array").isInstanceOf(Array);
-		if (array.indexOf(this.actual) !== -1)
+		if (Objects.isPrimitive(this.actual))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be one of " + Utilities.toString(array) +
-			".").
-			addContext("Actual", this.actual).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be a primitive").
+			addContext("Actual", Objects.getTypeOf(this.actual)).
 			build();
 	}
 
 	/**
-	 * Ensures that an array does not contain the actual value.
+	 * Ensures that the type of the actual value has the specified name.
 	 *
-	 * @param {Array.<Array>} array an array
+	 * If the actual value is undefined, the name is "undefined".
+	 * If the actual value is null, the name is "null".
+	 * If the actual value is a primitive boolean, the name is "boolean".
+	 * If the actual value is a boolean object, the name is "Boolean".
+	 * If the actual value is a primitive number, the name is "number".
+	 * If the actual value is a number object, the name is "Number".
+	 * If the actual value is a primitive bigint, the name is "bigint".
+	 * If the actual value is a bigint object, the name is "BigInt".
+	 * If the actual value is a primitive string, the name is "string".
+	 * If the actual value is a string object, the name is "String".
+	 * If the actual value is a primitive symbol, the name is "symbol".
+	 * If the actual value is a symbol object, the name is "Symbol".
+	 * If the actual value is an array, the name is "Array".
+	 * If the actual value is a named function or a class constructor, the name is "Function".
+	 * If the actual value is an anonymous function, the name is "AnonymousFunction".
+	 * If the actual value is an arrow function, the name is "ArrowFunction".
+	 * If the actual value is a class instance, the name is the class name.
+	 *
+	 * @param {string} type the name of the type to compare to
 	 * @return {ObjectVerifier} this
-	 * @throws {TypeError}  if <code>array</code> is not an <code>Array</code>
-	 * @throws {RangeError} if <code>array</code> contains the actual value
+	 * @throws {RangeError} if the actual value does not have the specified <code>type</code>
 	 */
-	isNotInArray(array)
+	isTypeOf(type)
 	{
-		this.config.internalVerifier.requireThat(array, "array").isInstanceOf(Array);
-		if (array.indexOf(this.actual) === -1)
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be one of " +
-			Utilities.toString(array) + ".").
-			addContext("Actual", this.actual).
-			build();
-	}
-
-	/**
-	 * Ensures that the actual value is an instance of a type.
-	 *
-	 * Primitive types are wrapped before evaluation. For example, "someValue" is treated as a String object.
-	 *
-	 * @param {Function} type the type to compare to
-	 * @return {ObjectVerifier} this
-	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function, arrow function or an object
-	 * @throws {RangeError} if the actual value is not an instance of <code>type</code>
-	 */
-	isInstanceOf(type)
-	{
-		if (Utilities.instanceOf(this.actual, type))
+		Objects.requireThatStringNotEmpty(type, "type");
+		const typeOfActual = Objects.getTypeOf(this.actual);
+		if (typeOfActual === type)
 			return this;
 		let message;
-		const typeName = Utilities.getTypeOf(type);
-		switch (typeName)
+		switch (type)
 		{
-			case "Undefined":
-			case "Null":
+			case "undefined":
+			case "null":
 			{
-				message = typeName.toLowerCase() + ".";
+				message = type + ".";
 				break;
 			}
 			case "AnonymousFunction":
@@ -179,21 +173,54 @@ class ObjectVerifier
 				message = "an arrow function.";
 				break;
 			}
-			case "Boolean":
-			case "Number":
-			case "String":
+			case "Array":
 			{
-				message = "a " + typeName + ".";
+				message = "an Array.";
 				break;
 			}
 			default:
 			{
-				message = "an instance of  " + typeName + ".";
+				message = "a " + type + ".";
 				break;
 			}
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be " + message).
-			addContext("Actual", Utilities.getTypeOf(this.actual)).
+			addContext("Actual", typeOfActual).
+			build();
+	}
+
+	/**
+	 * Ensures that the actual value is an object that is an instance of the specified type.
+	 *
+	 * @param {object} type the type to compare to
+	 * @return {ObjectVerifier} this
+	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function or an arrow function
+	 * @throws {RangeError} if the actual value is not an instance of <code>type</code>
+	 */
+	isInstanceOf(type)
+	{
+		if (this.actual instanceof type)
+			return this;
+		const typeOfType = Objects.getTypeOf(type);
+		switch (typeOfType)
+		{
+			case "undefined":
+			case "null":
+			case "AnonymousFunction":
+			case "ArrowFunction":
+			case "boolean":
+			case "number":
+			case "bigint":
+			case "string":
+			case "Array":
+			{
+				throw new ExceptionBuilder(this.config, TypeError, "type must be a class.").
+					addContext("Actual", typeOfType).
+					build();
+			}
+		}
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be an instance of " + typeOfType).
+			addContext("Actual", Objects.getTypeOf(this.actual)).
 			build();
 	}
 
@@ -286,7 +313,7 @@ class ObjectVerifier
 	}
 
 	/**
-	 * @return {Object} the actual value
+	 * @return {object} the actual value
 	 * @throws RangeError if the verifier does not have access to the actual value (e.g. if
 	 * {@link Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to
 	 * retain a reference to the actual value)
@@ -300,8 +327,8 @@ class ObjectVerifier
 	/**
 	 * Returns the actual value.
 	 *
-	 * @return {Object} <code>undefined</code> if the verifier does not have access to the actual value
-	 * @see #getActual()
+	 * @return {object} <code>undefined</code> if the verifier does not have access to the actual value
+	 * @see #getActualLines()
 	 */
 	getActualIfPresent()
 	{

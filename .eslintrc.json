@@ -21,22 +21,6 @@
         "checkLoops": false
       }
     ],
-    //    "valid-jsdoc": [
-    //      "warn",
-    //      {
-    //        "prefer": {
-    //          "returns": "return"
-    //        },
-    //        "preferType": {
-    //          "object": "Object",
-    //          "string": "String",
-    //          "number": "Number"
-    //        },
-    //        "requireReturnType": true,
-    //        "requireParamDescription": true,
-    //        "requireReturnDescription": true
-    //      }
-    //    ],
     "block-scoped-var": "error",
     "consistent-return": [
       "error",
@@ -50,7 +34,7 @@
     "no-caller": "error",
     "no-div-regex": "error",
     "no-else-return": "error",
-    "no-empty-function": "error",
+    //    "no-empty-function": "error",
     "no-eq-null": "error",
     "no-eval": "error",
     "no-extend-native": "error",
@@ -143,7 +127,10 @@
     //],
     "func-style": [
       "error",
-      "declaration"
+      "declaration",
+      {
+        "allowArrowFunctions": true
+      }
     ],
     "id-blacklist": "error",
     "id-length": "off",
@@ -282,24 +269,33 @@
     "symbol-description": "error",
     "template-curly-spacing": "error",
     "yield-star-spacing": "error",
-    "jsdoc/check-examples": "error",
+    "jsdoc/check-alignment": "error",
+    "jsdoc/check-indentation": "error",
     "jsdoc/check-param-names": "error",
+    "jsdoc/check-syntax": "error",
     "jsdoc/check-tag-names": "error",
     "jsdoc/check-types": "error",
+    "jsdoc/implements-on-classes": "error",
     "jsdoc/newline-after-description": "error",
     "jsdoc/no-undefined-types": "error",
-    "jsdoc/require-description": "off",
-    "jsdoc/require-description-complete-sentence": "off",
-    "jsdoc/require-example": "off",
-    "jsdoc/require-hyphen-before-param-description": "off",
-    "jsdoc/require-param": "error",
+    "jsdoc/require-jsdoc": "error",
     "jsdoc/require-param-description": "error",
     "jsdoc/require-param-name": "error",
     "jsdoc/require-param-type": "error",
-    "jsdoc/require-returns": "error",
+    "jsdoc/require-param": "error",
     "jsdoc/require-returns-check": "error",
     "jsdoc/require-returns-description": "error",
     "jsdoc/require-returns-type": "error",
-    "jsdoc/valid-types": "error"
+    "jsdoc/require-returns": "error",
+    "jsdoc/valid-types": "error",
+    "no-console": "off"
+    //    [
+    //      "error",
+    //      {
+    //        "allow": [
+    //          "assert"
+    //        ]
+    //      }
+    //    ]
   }
 }

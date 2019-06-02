@@ -1,8 +1,8 @@
 import Configuration from "./Configuration";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
 import Pluralizer from "./Pluralizer";
-import Utilities from "./Utilities";
+import Objects from "./internal/Objects";
 
 /**
  * Verifies the size of a container.
@@ -13,19 +13,19 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * Creates a new ContainerSizeVerifier.
 	 *
 	 * @param {Configuration} configuration the instance configuration
-	 * @param {Object} container the container
+	 * @param {object} container the container
 	 * @param {number} size the size of the container
 	 * @param {string} containerName the name of the container
 	 * @param {string} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
 	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are undefined
-	 *   or null; if <code>containerName</code> or <code>sizeName</code> are not a String
+	 * or null; if <code>containerName</code> or <code>sizeName</code> are not a string
 	 * @throws {RangeError} if <code>containerName</code> or <code>sizeName</code> are empty
 	 */
 	constructor(configuration, container, size, containerName, sizeName, pluralizer)
 	{
 		super(configuration, size, sizeName);
-		Utilities.verifyName(containerName, "containerName");
+		Objects.verifyName(containerName, "containerName");
 		Object.defineProperty(this, "container",
 			{
 				value: container
@@ -52,11 +52,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	isGreaterThanOrEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual >= value)
 			return this;
 
@@ -85,16 +82,13 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
-	 *   empty
+	 * empty
 	 */
 	isGreaterThan(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual > value)
 			return this;
 
@@ -119,7 +113,7 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * Ensures that the actual value is less or equal to a value.
 	 *
 	 * @param {number} value the maximum value
-	 * @param {string} [name]  the name of the maximum value
+	 * @param {string} [name] the name of the maximum value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
@@ -127,11 +121,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	isLessThanOrEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual <= value)
 			return this;
 
@@ -160,29 +151,26 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
-	 *   empty
+	 * empty
 	 */
 	isLessThan(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual < value)
 			return this;
 
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + name + " (" +
-				value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + name +
+				" (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + value + " " +
-				this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + value +
+				" " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -287,8 +275,8 @@ class ContainerSizeVerifier extends NumberVerifier
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " +
-			this.pluralizer.nameOf(2) + ".").
+			this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " + this.pluralizer.nameOf(2) +
+			".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
@@ -317,8 +305,8 @@ class ContainerSizeVerifier extends NumberVerifier
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " +
-			this.pluralizer.nameOf(2) + ".").
+			this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " + this.pluralizer.nameOf(2) +
+			".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
@@ -330,7 +318,7 @@ class ContainerSizeVerifier extends NumberVerifier
 	/**
 	 * Ensures that the actual value is equal to a value.
 	 *
-	 * @param {Object} expected the expected value
+	 * @param {object} expected the expected value
 	 * @param {string} [name] the name of the expected value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
@@ -339,11 +327,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	isEqualTo(expected, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(expected, "expected").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(expected, "expected").isTypeOf("number");
 		if (this.actual === expected)
 			return this;
 
@@ -378,11 +363,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	isNotEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual !== value)
 			return this;
 

@@ -3,7 +3,6 @@ import commonjs from "rollup-plugin-commonjs";
 import eslint from "gulp-eslint";
 import gulp from "gulp";
 import replace from "gulp-replace";
-import istanbul from "gulp-istanbul";
 import nodeResolve from "rollup-plugin-node-resolve";
 import rollupBabel from "rollup-plugin-babel";
 import rename from "gulp-rename";
@@ -12,14 +11,17 @@ import sourcemaps from "gulp-sourcemaps";
 import tape from "gulp-tape";
 import tapeReporter from "tap-diff";
 import uglify from "gulp-uglify";
-import util from "gulp-util";
+import log from "fancy-log";
+import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
+import nodeGlobals from "rollup-plugin-node-globals";
 
-let mode = util.env.mode;
+const env = parseArgs(process.argv.slice(2));
+let mode = env.mode;
 if (typeof (mode) === "undefined")
 	mode = "DEBUG";
 const isReleaseMode = mode === "RELEASE";
-util.log(mode + " mode detected");
+log.info(mode + " mode detected");
 
 /* eslint-disable func-style */
 gulp.task("lint", gulp.parallel(function()
@@ -48,11 +50,11 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		plugins: [
 			nodeResolve(
 				{
-					jsnext: true,
-					browser: true
+					mainFields: ["module", "main", "browser"]
 				}
 			),
 			commonjs({include: "node_modules/**"}),
+			nodeGlobals(),
 			rollupBabel(
 				{
 					babelrc: false,
@@ -115,9 +117,7 @@ gulp.task("bundle-src-for-node", gulp.parallel(function()
 				"@babel/preset-env"
 			]
 		})).
-		pipe(gulp.dest("build/es5/node")).
-		pipe(istanbul()).
-		pipe(istanbul.hookRequire());
+		pipe(gulp.dest("build/es5/node"));
 }));
 
 gulp.task("bundle-test", gulp.parallel(function()
@@ -136,8 +136,11 @@ gulp.task("bundle-test", gulp.parallel(function()
 gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node", "bundle-test"), function()
 {
 	return gulp.src("build/es5/test/**/*.js").
-		pipe(tape({reporter: tapeReporter()})).
-		pipe(istanbul.writeReports());
+		pipe(tape(
+			{
+				reporter: tapeReporter(),
+				nyc: true
+			}));
 }));
 
 gulp.task("bundle-src", gulp.parallel(function()

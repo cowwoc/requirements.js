@@ -18,16 +18,25 @@
   "files": [
     "es5/*"
   ],
+  "nyc": {
+    "include": [
+      "build/es5/node/**/*.js"
+    ]
+  },
   "main": "es5/node/DefaultRequirements.js",
   "browser": "es5/browser/index.js",
   "module": "es5/modules/DefaultRequirements.js",
   "dependencies": {
     "@babel/plugin-external-helpers": "~7.2.0",
     "@babel/runtime": "~7.4.0",
+    "chalk": "^2.4.2",
     "core-js": "3",
-    "eslint-plugin-jsdoc": "~4.4.3",
+    "diff-match-patch": "^1.0.4",
+    "eslint-plugin-jsdoc": "~7.2.3",
+    "minimist": "^1.2.0",
+    "rollup-plugin-node-globals": "^1.4.0",
     "sugar": "~2.0.4",
-    "urijs": "~1.18.4"
+    "urijs": "~1.19.1"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -36,23 +45,21 @@
     "@babel/register": "^7.4.0",
     "cheerio": "^1.0.0-rc.2",
     "eslint-config-recommended": "^4.0.0",
+    "fancy-log": "^1.3.3",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-cli": "^2.0.1",
     "gulp-eslint": "^5.0.0",
-    "gulp-istanbul": "^1.1.1",
     "gulp-jsdoc3": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^1.0.0",
     "gulp-sourcemaps": "^2.4.1",
     "gulp-tape": "^1.0.0",
     "gulp-uglify": "^3.0.2",
-    "gulp-util": "^3.0.8",
-    "istanbul": "^0.4.5",
     "rollup": "^1.6.0",
     "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-commonjs": "^9.2.1",
-    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
     "rollup-stream": "^1.19.0",
     "tap-diff": "^0.1.1",
     "tape": "^4.6.3",

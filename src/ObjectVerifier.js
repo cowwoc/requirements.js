@@ -8,19 +8,20 @@ import SetVerifier from "./SetVerifier";
 import StringVerifier from "./StringVerifier";
 import URI from "urijs";
 import UriVerifier from "./UriVerifier";
-import Utilities from "./Utilities";
+import ClassVerifier from "./ClassVerifier";
+import Objects from "./internal/Objects";
 
 /**
  * @return {StringVerifier} a verifier for the object's string representation
  */
 ObjectVerifier.prototype.asString = function()
 {
-	return new StringVerifier(this.config, Utilities.toString(this.actual), this.name + ".asString()");
+	return new StringVerifier(this.config, this.config.convertToString(this.actual), this.name + ".asString()");
 };
 
 /**
  * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation of the
- *   actual value
+ * actual value
  * @return {ObjectVerifier} this
  * @throws {TypeError} if <code>consumer</code> is not set
  */
@@ -37,11 +38,11 @@ ObjectVerifier.prototype.asStringConsumer = function(consumer)
  */
 ObjectVerifier.prototype.asArray = function()
 {
-	const actualType = Utilities.getTypeOf(this.actual);
-	if (actualType === "Array")
+	const typeOfActual = Objects.getTypeOf(this.actual);
+	if (typeOfActual === "Array")
 		return new ArrayVerifier(this.config, this.actual, this.name);
 	throw new TypeError("actual must be an Array.\n" +
-		"Actual: " + actualType);
+		"Actual: " + typeOfActual);
 };
 
 /**
@@ -62,11 +63,11 @@ ObjectVerifier.prototype.asArrayConsumer = function(consumer)
  */
 ObjectVerifier.prototype.asNumber = function()
 {
-	const actualType = Utilities.getTypeOf(this.actual);
-	if (actualType === "Number")
+	const typeOfActual = Objects.getTypeOf(this.actual);
+	if (typeOfActual === "number")
 		return new NumberVerifier(this.config, this.actual, this.name);
-	throw new TypeError("actual must be a Number.\n" +
-		"Actual: " + actualType);
+	throw new TypeError("actual must be a number.\n" +
+		"Actual: " + typeOfActual);
 };
 
 /**
@@ -87,11 +88,11 @@ ObjectVerifier.prototype.asNumberConsumer = function(consumer)
  */
 ObjectVerifier.prototype.asSet = function()
 {
-	const actualType = Utilities.getTypeOf(this.actual);
-	if (actualType === "Set")
+	const typeOfActual = Objects.getTypeOf(this.actual);
+	if (typeOfActual === "Set")
 		return new SetVerifier(this.config, this.actual, this.name);
 	throw new TypeError("actual must be a Set.\n" +
-		"Actual: " + actualType);
+		"Actual: " + typeOfActual);
 };
 
 /**
@@ -113,11 +114,11 @@ ObjectVerifier.prototype.asSetConsumer = function(consumer)
  */
 ObjectVerifier.prototype.asMap = function()
 {
-	const actualType = Utilities.getTypeOf(this.actual);
-	if (actualType === "Map")
+	const typeOfActual = Objects.getTypeOf(this.actual);
+	if (typeOfActual === "Map")
 		return new MapVerifier(this.config, this.actual, this.name);
 	throw new TypeError("actual must be a Map.\n" +
-		"Actual: " + actualType);
+		"Actual: " + typeOfActual);
 };
 
 /**
@@ -174,6 +175,31 @@ ObjectVerifier.prototype.asUriConsumer = function(consumer)
 {
 	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
 	consumer(this.asUri());
+	return this;
+};
+
+/**
+ * @return {ClassVerifier} a verifier for the object's class representation
+ */
+ObjectVerifier.prototype.asClass = function()
+{
+	const typeOfActual = Objects.getTypeOf(this.actual);
+	if (typeof (this.actual.prototype) !== "undefined")
+		return new ClassVerifier(this.config, this.actual, this.name);
+	throw new TypeError("actual must be a Class.\n" +
+		"Actual: " + typeOfActual);
+};
+
+/**
+ * @param {Function} consumer a function that accepts a {@link ClassVerifier} for the class representation of the
+ * actual value
+ * @return {ObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set
+ */
+ObjectVerifier.prototype.asClassConsumer = function(consumer)
+{
+	this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+	consumer(this.asClass());
 	return this;
 };
 

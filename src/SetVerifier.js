@@ -1,8 +1,8 @@
 import ObjectVerifier from "./ObjectVerifier";
 import ArrayVerifier from "./ArrayVerifier";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
-import Utilities from "./Utilities";
+import Objects from "./internal/Objects";
 
 /**
  * @param {Array|Set} value a value
@@ -12,8 +12,9 @@ import Utilities from "./Utilities";
  */
 function asSet(value, name)
 {
-	const typeOfExpected = Utilities.getTypeOf(value);
-	switch (typeOfExpected)
+	Objects.requireThatStringNotEmpty(name, "name");
+	const typeOfValue = Objects.getTypeOf(value);
+	switch (typeOfValue)
 	{
 		case "Set":
 			return value;
@@ -22,7 +23,8 @@ function asSet(value, name)
 		default:
 		{
 			throw new TypeError(name + " must be an Array or Set.\n" +
-				"Actual: " + typeOfExpected);
+				"Actual: " + value + "\n" +
+				"Type  : " + typeOfValue);
 		}
 	}
 }
@@ -94,19 +96,16 @@ class SetVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value contains an entry.
 	 *
-	 * @param {Object} expected the expected value
+	 * @param {object} expected the expected value
 	 * @param {string} [name] the name of the expected value
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the Set does not contain <code>expected</code>
 	 */
-	contains(expected, name)
+	includes(expected, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (this.actual.has(expected))
 			return this;
 		if (name)
@@ -116,7 +115,8 @@ class SetVerifier extends ObjectVerifier
 				addContext("Expected", expected).
 				build();
 		}
-		throw new ExceptionBuilder(this.config, RangeError, this.name + "  must contain " + Utilities.toString(expected)).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + "  must contain " +
+			this.config.convertToString(expected)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -129,26 +129,23 @@ class SetVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 *   <code>Set</code>
+	 * <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
-	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
+	 * <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		const missing = new Set([...expectedAsSet].filter(x => !this.actual.has(x)));
 		const unwanted = new Set([...this.actual].filter(x => !expectedAsSet.has(x)));
 		if (missing.size === 0 && unwanted.size === 0)
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain exactly the same elements as " +
-				name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name +
+				" must contain exactly the same elements as " + name).
 				addContext("Actual", this.actual).
 				addContext("Expected", expectedAsSet).
 				addContext("Missing", missing).
@@ -156,7 +153,7 @@ class SetVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain exactly: " +
-			Utilities.toString(expectedAsSet)).
+			this.config.convertToString(expectedAsSet)).
 			addContext("Actual", this.actual).
 			addContext("Missing", missing).
 			addContext("Unwanted", unwanted).
@@ -170,18 +167,15 @@ class SetVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 *   <code>Set</code>
+	 * <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
-	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
+	 * <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (actualContainsAny(this.actual, expectedAsSet))
 			return this;
 		if (name)
@@ -192,7 +186,7 @@ class SetVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain any entry in: " +
-			Utilities.toString(expectedAsSet)).
+			this.config.convertToString(expectedAsSet)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -204,30 +198,28 @@ class SetVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 *   <code>Set</code>
+	 * <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value does not contain all of
-	 *   <code>expected</code>
+	 * <code>expected</code>
 	 */
 	containsAll(expected, name)
 	{
 		const expectedAsSet = asSet(expected, "expected");
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (actualContainsAll(this.actual, expectedAsSet))
 			return this;
 		const missing = new Set([...expectedAsSet].filter(x => !this.actual.has(x)));
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Missing", missing).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain all elements in: " +
-			Utilities.toString(expectedAsSet)).
+			this.config.convertToString(expectedAsSet)).
 			addContext("Actual", this.actual).
 			addContext("Expected", expectedAsSet).
 			addContext("Missing", missing).
@@ -237,7 +229,7 @@ class SetVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value does not contain an entry.
 	 *
-	 * @param {Object} entry an entry
+	 * @param {object} entry an entry
 	 * @param {string} [name] the name of the entry
 	 * @return {SetVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null
@@ -246,10 +238,7 @@ class SetVerifier extends ObjectVerifier
 	doesNotContain(entry, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (!this.actual.has(entry))
 			return this;
 		if (name)
@@ -259,7 +248,8 @@ class SetVerifier extends ObjectVerifier
 				addContext("Unwanted", entry).
 				build();
 		}
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " + Utilities.toString(entry)).
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain " +
+			this.config.convertToString(entry)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -270,29 +260,27 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Array|Set} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
-	 *   Set}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or
+	 * [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty; if the array contains any of <code>elements</code>
 	 */
 	doesNotContainAny(elements, name)
 	{
 		const elementsAsSet = asSet(elements, "elements");
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (!actualContainsAny(this.actual, elementsAsSet))
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Unwanted", elementsAsSet).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must not contain any element in: " +
-			Utilities.toString(elementsAsSet)).
+			this.config.convertToString(elementsAsSet)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -303,30 +291,28 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Set} elements a Set of elements
 	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or [@code
-	 *   Set}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or
+	 * [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains all of <code>elements</code>
 	 */
 	doesNotContainAll(elements, name)
 	{
 		const elementsAsSet = asSet(elements, "elements");
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
+			Objects.requireThatStringNotEmpty(name, "name");
 		if (!actualContainsAll(this.actual, elementsAsSet))
 			return this;
 		const missing = new Set([...elementsAsSet].filter(x => !this.actual.has(x)));
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Missing", missing).
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in: " +
-			Utilities.toString(elementsAsSet)).
+			this.config.convertToString(elementsAsSet)).
 			addContext("Actual", this.actual).
 			addContext("Unwanted", elementsAsSet).
 			addContext("Missing", missing).

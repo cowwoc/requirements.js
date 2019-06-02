@@ -2,7 +2,7 @@
 import Configuration from "./Configuration";
 import NoOpObjectVerifier from "./NoOpObjectVerifier";
 import ObjectVerifier from "./ObjectVerifier";
-import Utilities from "./Utilities";
+import Objects from "./internal/Objects";
 
 /**
  * Verifies the requirements of types from the Javascript core API.
@@ -33,7 +33,7 @@ class Requirements
 	 * Verifies an object.
 	 *
 	 * @function
-	 * @param {Object} actual the actual value
+	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
 	 * @return {ObjectVerifier} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
@@ -41,7 +41,7 @@ class Requirements
 	 */
 	requireThat(actual, name)
 	{
-		Utilities.verifyName(name, "name");
+		Objects.verifyName(name, "name");
 		return new ObjectVerifier(this.config, actual, name);
 		// TODO: Related projects:
 		// * http://chaijs.com/
@@ -57,7 +57,7 @@ class Requirements
 	 * disabled.
 	 *
 	 * @function
-	 * @param {Object} actual the actual value
+	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
 	 * @return {ObjectVerifier|NoOpObjectVerifier} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
@@ -65,7 +65,7 @@ class Requirements
 	 */
 	assertThat(actual, name)
 	{
-		Utilities.verifyName(name, "name");
+		Objects.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
 		return NoOpObjectVerifier.INSTANCE;
@@ -75,7 +75,7 @@ class Requirements
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
-	 *         shouldn't do anything
+	 * shouldn't do anything
 	 * @see #withException(Class)
 	 * @see #withDefaultException()
 	 */
@@ -157,8 +157,8 @@ class Requirements
 	}
 
 	/**
-	 * @return {Array.<Array>} an array of key-value pairs to append to the exception message
-	 * @see #addContext(String, Object)
+	 * @return {Array<Array>} an array of key-value pairs to append to the exception message
+	 * @see #putContext(String, Object)
 	 */
 	getContext()
 	{
@@ -169,14 +169,14 @@ class Requirements
 	 * Appends contextual information to the exception message.
 	 *
 	 * @param {string} key   a key
-	 * @param {Object} value a value
+	 * @param {object} value a value
 	 * @return {Requirements} a verifier with the updated configuration
-	 * @throws {TypeError} if <code>key</code> is not a String
+	 * @throws {TypeError} if <code>key</code> is not a string
 	 * @see #getContext()
 	 */
-	addContext(key, value)
+	putContext(key, value)
 	{
-		return new Requirements(this.config.addContext(key, value));
+		return new Requirements(this.config.putContext(key, value));
 	}
 }
 

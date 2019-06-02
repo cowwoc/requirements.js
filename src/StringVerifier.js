@@ -1,11 +1,10 @@
 import ObjectVerifier from "./ObjectVerifier";
 import ContainerSizeVerifier from "./ContainerSizeVerifier";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import Pluralizer from "./Pluralizer";
-import Utilities from "./Utilities";
 
 /**
- * Verifies a <code>String</code>.
+ * Verifies a <code>string</code>.
  */
 class StringVerifier extends ObjectVerifier
 {
@@ -20,8 +19,8 @@ class StringVerifier extends ObjectVerifier
 	{
 		if (this.actual.startsWith(prefix))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must start with \"" + Utilities.toString(prefix) +
-			"\".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must start with \"" +
+			this.config.convertToString(prefix) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -38,7 +37,7 @@ class StringVerifier extends ObjectVerifier
 		if (!this.actual.startsWith(prefix))
 			return this;
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not start with \"" +
-			Utilities.toString(prefix) + "\".").
+			this.config.convertToString(prefix) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -50,12 +49,12 @@ class StringVerifier extends ObjectVerifier
 	 * @return {StringVerifier} this
 	 * @throws {RangeError} if the actual value does not contain <code>expected</code>
 	 */
-	contains(expected)
+	includes(expected)
 	{
 		if (this.actual.includes(expected))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain \"" + Utilities.toString(expected) +
-			"\".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain \"" +
+			this.config.convertToString(expected) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -71,8 +70,8 @@ class StringVerifier extends ObjectVerifier
 	{
 		if (!this.actual.includes(value))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain \"" + Utilities.toString(value) +
-			"\".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain \"" +
+			this.config.convertToString(value) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -88,8 +87,8 @@ class StringVerifier extends ObjectVerifier
 	{
 		if (this.actual.endsWith(suffix))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must end with \"" + Utilities.toString(suffix) +
-			"\".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must end with \"" +
+			this.config.convertToString(suffix) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -105,9 +104,8 @@ class StringVerifier extends ObjectVerifier
 	{
 		if (!this.actual.endsWith(suffix))
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not end with \"" + Utilities.toString(
-			suffix) +
-			"\".").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not end with \"" +
+			this.config.convertToString(suffix) + "\".").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -156,7 +154,7 @@ class StringVerifier extends ObjectVerifier
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the trimmed representation of the
-	 *   string
+	 * string
 	 * @return {StringVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */

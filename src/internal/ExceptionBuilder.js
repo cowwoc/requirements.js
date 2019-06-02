@@ -1,5 +1,5 @@
-import Configuration from "./Configuration";
-import Utilities from "./Utilities";
+import Configuration from "../Configuration";
+import Objects from "./Objects";
 
 /**
  * Pads a string with space on the right to reach the desired length.
@@ -33,6 +33,21 @@ function getExceptionType(configuration, type)
 }
 
 /**
+ * @param {Array<string>} entry a key-value pair
+ * @throws {TypeError} if <code>entry</code> was not an array of size 2
+ */
+function verifyEntry(entry)
+{
+	Objects.requireThatTypeOf(entry, "entry", "Array");
+	if (entry.length !== 2)
+	{
+		throw new TypeError("entry must contain 2 entries.\n" +
+			"Actual: " + entry + "\n" +
+			"Length: " + entry.length);
+	}
+}
+
+/**
  * Builds an exception.
  */
 class ExceptionBuilder
@@ -47,31 +62,24 @@ class ExceptionBuilder
 	 */
 	constructor(configuration, type, message)
 	{
-		if (typeof (configuration) === "undefined" || configuration === null)
+		Objects.assertThatTypeOf(configuration, "configuration", "Configuration");
+		if (!Objects.extends(type, Error))
 		{
-			throw new TypeError("configuration must be set.\n" +
-				"Actual: " + Utilities.getTypeOf(configuration));
+			throw new TypeError("type must extend Error.\n" +
+				"Actual: " + type + "\n" +
+				"Type  : " + Objects.getTypeOf(type));
 		}
-		if (!type)
-		{
-			throw new TypeError("type must be set.\n" +
-				"Actual: " + Utilities.getTypeOf(type));
-		}
-		if (!message)
-		{
-			throw new TypeError("message must be set.\n" +
-				"Actual: " + Utilities.getTypeOf(message));
-		}
+		Objects.assertThatStringNotEmpty(message, "message");
 
 		Object.defineProperty(this, "config",
 			{
 				value: configuration,
 				writable: true
 			});
-		const exceptionType = getExceptionType(this.config, type);
+		const typeOfException = getExceptionType(this.config, type);
 		Object.defineProperty(this, "constructor",
 			{
-				value: exceptionType,
+				value: typeOfException,
 				writable: true
 			});
 		Object.defineProperty(this, "message",
@@ -90,16 +98,17 @@ class ExceptionBuilder
 	}
 
 	/**
-	 * @param {Error} type a function that takes an exception message and returns an exception instance
+	 * @param {Error} type a function that takes an exception message and returns an <code>Error</code> instance
 	 * @return {ExceptionBuilder} this
 	 * @throws {TypeError} if <code>type</code> is not set
 	 */
 	type(type)
 	{
-		if (!type)
+		if (!Objects.extends(type, Error))
 		{
-			throw new TypeError("type must be set.\n" +
-				"Actual: " + Utilities.getTypeOf(type));
+			throw new TypeError("type must extend Error.\n" +
+				"Actual: " + type + "\n" +
+				"Type  : " + Objects.getTypeOf(type));
 		}
 
 		this.constructor = type;
@@ -110,17 +119,13 @@ class ExceptionBuilder
 	 * Adds contextual information to append to the exception message.
 	 *
 	 * @param {string} key   a key
-	 * @param {Object} value a value
+	 * @param {object} value a value
 	 * @return {ExceptionBuilder} this
-	 * @throws {TypeError} if <code>key</code> is not a String
+	 * @throws {TypeError} if <code>key</code> is not a string
 	 */
 	addContext(key, value)
 	{
-		if (typeof (key) !== "string")
-		{
-			throw new TypeError("key must be a String.\n" +
-				"Actual: " + Utilities.getTypeOf(key));
-		}
+		Objects.assertThatStringNotEmpty(key, "key");
 		const entry = {};
 		entry[key] = value;
 		this.context.push(entry);
@@ -130,14 +135,28 @@ class ExceptionBuilder
 	/**
 	 * Adds contextual information to append to the exception message.
 	 *
-	 * @param {Array.<Array>} context a list of key-value pairs to add
+	 * @param {Array<Array<string>>} context the list of name-value pairs to append to the exception message
 	 * @return {ExceptionBuilder} this
-	 * @throws {TypeError} if <code>context</code> is not set
+	 * @throws {TypeError} if <code>context</code> is not a <code>string[][]</code>
 	 */
-	addContextArray(context)
+	addContextList(context)
 	{
-		Utilities.verifyContext(context);
-		this.context.push([...context]);
+		Objects.assertThatTypeOf(context, "context", "Array");
+		for (const entry of context)
+		{
+			if (entry === null)
+			{
+				// empty lines between expected/actual pairs
+				this.context.push(null);
+				continue;
+			}
+			verifyEntry(entry);
+			const key = entry[0];
+			Objects.assertThatStringNotEmpty(key, "key");
+			const copyOfEntry = {};
+			copyOfEntry[key] = entry[1];
+			this.context.push(copyOfEntry);
+		}
 		return this;
 	}
 
@@ -157,16 +176,23 @@ class ExceptionBuilder
 		let maxKeyLength = 0;
 		for (let i = 0; i < mergedContext.length; ++i)
 		{
+			if (mergedContext[i] === null)
+				continue;
 			const keyLength = Object.keys(mergedContext[i])[0].length;
 			if (keyLength > maxKeyLength)
 				maxKeyLength = keyLength;
 		}
 		for (const entry of mergedContext)
 		{
+			if (entry === null)
+			{
+				contextToAdd.push("");
+				continue;
+			}
 			// We can't use Object.values() until it is well-supported: http://stackoverflow.com/a/40421941/14731
 			const key = Object.keys(entry)[0];
 			const value = entry[Object.keys(entry)[0]];
-			contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + Utilities.toString(value));
+			contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + this.config.convertToString(value));
 		}
 		const messageWithContext = contextToAdd.join("\n");
 

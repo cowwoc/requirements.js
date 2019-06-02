@@ -27,7 +27,7 @@ class NoOpObjectVerifier
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
-	isInArray()
+	isNotInArray()
 	{
 		return this;
 	}
@@ -35,7 +35,15 @@ class NoOpObjectVerifier
 	/**
 	 * @return {NoOpObjectVerifier} this
 	 */
-	isNotInArray()
+	isPrimitive()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NoOpObjectVerifier} this
+	 */
+	isTypeOf()
 	{
 		return this;
 	}
@@ -98,7 +106,7 @@ class NoOpObjectVerifier
 
 	/**
 	 * @throws RangeError because assertions are disabled and the verifier does not need to retain a reference to the
-	 *   actual value)
+	 * actual value)
 	 * @see #getActualIfPresent()
 	 */
 	getActual()
@@ -111,7 +119,7 @@ class NoOpObjectVerifier
 	 * Returns the actual value.
 	 *
 	 * @return {undefined} <code>undefined</code> if the verifier does not have access to the actual value
-	 * @see #getActual()
+	 * @see #getActualLines()
 	 */
 	getActualIfPresent()
 	{

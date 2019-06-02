@@ -6,6 +6,7 @@ test("SetTest.nameIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = new Set();
+		// noinspection JSCheckFunctionSignatures
 		requireThat(actual, null);
 	}, TypeError);
 	t.end();
@@ -125,7 +126,7 @@ test("SetTest.isNotNull", function(t)
 test("SetTest.contains", function(t)
 {
 	const actual = new Set([1, 2, 3]);
-	requireThat(actual, "actual").asSet().contains(2);
+	requireThat(actual, "actual").asSet().includes(2);
 	t.end();
 });
 
@@ -134,11 +135,11 @@ test("SetTest.contains_False", function(t)
 	const actual = new Set([1, 2, 3]);
 	t.throws(function()
 	{
-		requireThat(actual, "actual").asSet().contains(5);
+		requireThat(actual, "actual").asSet().includes(5);
 	}, RangeError);
 	t.throws(function()
 	{
-		requireThat(actual, "actual").asSet().contains(5, "expected");
+		requireThat(actual, "actual").asSet().includes(5, "expected");
 	}, RangeError);
 	t.end();
 });

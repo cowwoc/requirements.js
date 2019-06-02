@@ -25,7 +25,7 @@ class NoOpStringVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpStringVerifier} this
 	 */
-	contains()
+	includes()
 	{
 		return this;
 	}

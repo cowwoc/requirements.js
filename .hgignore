@@ -3,3 +3,4 @@ syntax: glob
 node_modules
 build
 coverage
+.nyc_output

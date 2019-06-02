@@ -26,7 +26,7 @@ class NoOpSetVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpSetVerifier} this
 	 */
-	contains()
+	includes()
 	{
 		return this;
 	}
@@ -82,7 +82,7 @@ class NoOpSetVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpNumberVerifier} a verifier for the Set's size
 	 */
-	size()
+	static size()
 	{
 		return new NoOpNumberVerifier();
 	}
@@ -98,7 +98,7 @@ class NoOpSetVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpArrayVerifier} a verifier for the Set's elements
 	 */
-	asArray()
+	static asArray()
 	{
 		return new NoOpArrayVerifier();
 	}

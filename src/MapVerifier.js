@@ -1,5 +1,5 @@
 import ArrayVerifier from "./ArrayVerifier";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import NumberVerifier from "./NumberVerifier";
 import ObjectVerifier from "./ObjectVerifier";
 import Pluralizer from "./Pluralizer";
@@ -80,7 +80,7 @@ class MapVerifier extends ObjectVerifier
 
 	/**
 	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element
-	 *   in the Map)
+	 * in the Map)
 	 */
 	entries()
 	{
@@ -90,7 +90,7 @@ class MapVerifier extends ObjectVerifier
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's entries (an array of
-	 *   <code>[key, value]</code> for each element in the Map)
+	 * <code>[key, value]</code> for each element in the Map)
 	 * @return {MapVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -111,7 +111,7 @@ class MapVerifier extends ObjectVerifier
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries this Map
-	 *   contains
+	 * contains
 	 * @return {MapVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */

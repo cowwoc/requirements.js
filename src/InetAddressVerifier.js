@@ -1,5 +1,5 @@
 import Configuration from "./Configuration";
-import ExceptionBuilder from "./ExceptionBuilder";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
 import ObjectVerifier from "./ObjectVerifier";
 
 /**

@@ -114,9 +114,9 @@ test("Verifiers.withDefaultException", function(t)
 	t.end();
 });
 
-test("Verifiers.addContext", function(t)
+test("Verifiers.putContext", function(t)
 {
-	const verifiers = new Requirements().addContext("key", "value");
-	t.deepEquals(verifiers.getContext(), [["key", "value"]]);
+	const verifiers = new Requirements().putContext("key", "value");
+	t.deepEquals(verifiers.getContext(), new Map([["key", "value"]]));
 	t.end();
 });

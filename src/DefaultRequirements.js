@@ -8,7 +8,7 @@ const delegate = new Requirements();
  * Verifies an object.
  *
  * @function
- * @param {Object} actual the actual value
+ * @param {object} actual the actual value
  * @param {string} name the name of the value
  * @return {ObjectVerifier} a verifier
  * @throws {TypeError}  if <code>name</code> is null
@@ -25,7 +25,7 @@ function requireThat(actual, name)
  * default, assertions are disabled. See {@link GlobalConfiguration.assertionsAreEnabled} to change the default.
  *
  * @function
- * @param {Object} actual the actual value
+ * @param {object} actual the actual value
  * @param {string} name the name of the value
  * @return {ObjectVerifier} a verifier
  * @throws {TypeError}  if <code>name</code> is null

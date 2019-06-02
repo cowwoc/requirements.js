@@ -14,7 +14,7 @@ class UriVerifier extends ObjectVerifier
 	isAbsolute()
 	{
 		if (!this.actual.is("absolute"))
-			throw new RangeError(this.name + " must be absolute: " + this.actual.toString());
+			throw new RangeError(this.name + " must be absolute: " + this.config.convertToString(this.actual));
 		return this;
 	}
 
@@ -27,7 +27,7 @@ class UriVerifier extends ObjectVerifier
 	isRelative()
 	{
 		if (!this.actual.is("relative"))
-			throw new RangeError(this.name + " must be relative: " + this.actual.toString());
+			throw new RangeError(this.name + " must be relative: " + this.config.convertToString(this.actual));
 		return this;
 	}
 }

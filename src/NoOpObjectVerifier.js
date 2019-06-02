@@ -7,6 +7,7 @@ import NoOpSetVerifier from "./NoOpSetVerifier";
 import NoOpStringVerifier from "./NoOpStringVerifier";
 import NoOpUriVerifier from "./NoOpUriVerifier";
 import NoOpArrayVerifier from "./NoOpArrayVerifier";
+import NoOpClassVerifier from "./NoOpClassVerifier";
 
 /**
  * @return {NoOpArrayVerifier} a verifier for the <code>Array</code>
@@ -120,6 +121,24 @@ NoOpObjectVerifier.prototype.asUriConsumer = function()
 {
 	return this;
 };
+
+/**
+ * @return {NoOpClassVerifier} a verifier for the object's class representation
+ */
+NoOpObjectVerifier.prototype.asClass = function()
+{
+	return new NoOpClassVerifier();
+};
+
+/**
+ * @return {NoOpObjectVerifier} this
+ * @throws {TypeError} if <code>consumer</code> is not set
+ */
+NoOpObjectVerifier.prototype.asClassConsumer = function()
+{
+	return this;
+};
+
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.

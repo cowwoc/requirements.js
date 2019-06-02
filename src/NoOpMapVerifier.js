@@ -26,7 +26,7 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpArrayVerifier} a verifier for the Map's keys
 	 */
-	keys()
+	static keys()
 	{
 		return new NoOpArrayVerifier();
 	}
@@ -42,7 +42,7 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpArrayVerifier} a verifier for the Map's values
 	 */
-	values()
+	static values()
 	{
 		return new NoOpArrayVerifier();
 	}
@@ -57,9 +57,9 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 
 	/**
 	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each
-	 *   element in the Map)
+	 * element in the Map)
 	 */
-	entries()
+	static entries()
 	{
 		return new NoOpArrayVerifier();
 	}
@@ -75,7 +75,7 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 	/**
 	 * @return {NoOpNumberVerifier} a verifier for the number of entries this Map contains
 	 */
-	size()
+	static size()
 	{
 		return new NoOpNumberVerifier();
 	}

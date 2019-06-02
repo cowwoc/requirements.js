@@ -106,35 +106,53 @@ test("Configuration.getContext", function(t)
 	t.end();
 });
 
-test("Configuration.addContext", function(t)
+test("Configuration.putContext", function(t)
 {
 	const requirements = new Requirements();
 	const config = new Configuration(requirements);
 	const valueNotString = 12345;
-	const newConfig = config.addContext("key", valueNotString);
+	const newConfig = config.putContext("key", valueNotString);
 	t.notEqual(config, newConfig);
-	t.deepEqual(newConfig.getContext(), [["key", valueNotString]]);
+	t.deepEqual(newConfig.getContext(), new Map([["key", valueNotString]]));
 	t.end();
 });
 
-test("Configuration.addContext(keyNotString)", function(t)
+test("Configuration.putContext(keyNotString)", function(t)
 {
 	const requirements = new Requirements();
 	const config = new Configuration(requirements);
 	t.throws(function()
 	{
-		config.addContext(5, "value");
+		config.putContext(5, "value");
 	}, TypeError);
 	t.end();
 });
 
-test("Configuration.addContext(keyNotSet)", function(t)
+test("Configuration.putContext(keyNotSet)", function(t)
 {
 	const requirements = new Requirements();
 	const config = new Configuration(requirements);
 	t.throws(function()
 	{
-		config.addContext(null, "value");
+		config.putContext(null, "value");
 	}, TypeError);
+	t.end();
+});
+
+test("Configuration.convertToString(undefined)", function(t)
+{
+	const requirements = new Requirements();
+	const config = new Configuration(requirements);
+	const actual = config.convertToString("undefined");
+	t.strictEqual(actual, "undefined");
+	t.end();
+});
+
+test("Configuration.convertToString(null)", function(t)
+{
+	const requirements = new Requirements();
+	const config = new Configuration(requirements);
+	const actual = config.convertToString("null");
+	t.strictEqual(actual, "null");
 	t.end();
 });

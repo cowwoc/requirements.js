@@ -1,6 +1,6 @@
 import ObjectVerifier from "./ObjectVerifier";
-import ExceptionBuilder from "./ExceptionBuilder";
-import Utilities from "./Utilities";
+import ExceptionBuilder from "./internal/ExceptionBuilder";
+import Objects from "./internal/Objects";
 
 /**
  * Verifier for a <code>Number</code>.
@@ -104,16 +104,13 @@ class NumberVerifier extends ObjectVerifier
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
-	 *   empty
+	 * empty
 	 */
 	isGreaterThan(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual > value)
 			return this;
 		if (name)
@@ -124,7 +121,7 @@ class NumberVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be greater than: " +
-			Utilities.toString(value)).
+			this.config.convertToString(value)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -141,11 +138,8 @@ class NumberVerifier extends ObjectVerifier
 	isGreaterThanOrEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual >= value)
 			return this;
 		if (name)
@@ -156,7 +150,7 @@ class NumberVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be greater than or equal to: " +
-			Utilities.toString(value)).
+			this.config.convertToString(value)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -169,16 +163,13 @@ class NumberVerifier extends ObjectVerifier
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
 	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
-	 *   empty
+	 * empty
 	 */
 	isLessThan(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual < value)
 			return this;
 		if (name)
@@ -189,7 +180,7 @@ class NumberVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be less than: " +
-			Utilities.toString(value)).
+			this.config.convertToString(value)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -206,11 +197,8 @@ class NumberVerifier extends ObjectVerifier
 	isLessThanOrEqualTo(value, name)
 	{
 		if (typeof (name) !== "undefined")
-		{
-			this.config.internalVerifier.requireThat(name, "name").isNotNull().isInstanceOf(String).asString().trim().
-				isNotEmpty();
-		}
-		this.config.internalVerifier.requireThat(value, "value").isInstanceOf(Number);
+			Objects.requireThatStringNotEmpty(name, "name");
+		this.config.internalVerifier.requireThat(value, "value").isTypeOf("number");
 		if (this.actual <= value)
 			return this;
 		if (name)
@@ -221,7 +209,7 @@ class NumberVerifier extends ObjectVerifier
 				build();
 		}
 		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be less than or equal to: " +
-			Utilities.toString(value)).
+			this.config.convertToString(value)).
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -238,8 +226,8 @@ class NumberVerifier extends ObjectVerifier
 	 */
 	isBetween(startInclusive, endExclusive)
 	{
-		this.config.internalVerifier.requireThat(endExclusive, "max").isInstanceOf(Number);
-		this.config.internalVerifier.requireThat(startInclusive, "min").isInstanceOf(Number).asNumber().
+		this.config.internalVerifier.requireThat(endExclusive, "max").isTypeOf("number");
+		this.config.internalVerifier.requireThat(startInclusive, "min").isTypeOf("number").asNumber().
 			isLessThan(endExclusive, "max");
 		if (this.actual >= startInclusive && this.actual < endExclusive)
 			return this;
@@ -261,8 +249,8 @@ class NumberVerifier extends ObjectVerifier
 	 */
 	isBetweenClosed(startInclusive, endInclusive)
 	{
-		this.config.internalVerifier.requireThat(endInclusive, "max").isInstanceOf(Number);
-		this.config.internalVerifier.requireThat(startInclusive, "min").isInstanceOf(Number).asNumber().
+		this.config.internalVerifier.requireThat(endInclusive, "max").isTypeOf("number");
+		this.config.internalVerifier.requireThat(startInclusive, "min").isTypeOf("number").asNumber().
 			isLessThan(endInclusive, "max");
 		if (this.actual >= startInclusive && this.actual <= endInclusive)
 			return this;

@@ -6,8 +6,10 @@ test("ObjectTest.constructor_configurationIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		// eslint-disable-next-line no-new
+		/* eslint-disable no-new */
+		// noinspection JSCheckFunctionSignatures
 		new ObjectVerifier();
+		/* eslint-enable no-new */
 	}, TypeError);
 	t.end();
 });
@@ -17,6 +19,7 @@ test("ObjectTest.nameIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = {};
+		// noinspection JSCheckFunctionSignatures
 		requireThat(actual, null);
 	}, TypeError);
 	t.end();
@@ -110,43 +113,50 @@ test("ObjectTest.isNotEqualTo_False", function(t)
 	t.end();
 });
 
-test("ObjectTest.isInArray", function(t)
+test("ObjectTest.isTypeOf", function(t)
 {
-	const actual = {};
-	requireThat(actual, "actual").isInArray(["first", actual, "third"]);
+	const actual = "value";
+	requireThat(actual, "actual").isTypeOf("string");
 	t.end();
 });
 
-test("ObjectTest.isInArray_False", function(t)
+test("ObjectTest.isTypeOf_actualIsNull", function(t)
 {
 	t.throws(function()
 	{
-		const actual = {};
-		requireThat(actual, "actual").isInArray(["first", "second", "third"]);
+		const actual = null;
+		requireThat(actual, "actual").isTypeOf("String");
 	}, RangeError);
 	t.end();
 });
 
-test("ObjectTest.isNotInArray", function(t)
-{
-	const actual = {};
-	requireThat(actual, "actual").isNotInArray(["first", "second", "third"]);
-	t.end();
-});
-
-test("ObjectTest.isNotInArray_False", function(t)
+test("ObjectTest.isTypeOf_expectedIsNull", function(t)
 {
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isNotInArray(["first", actual, "third"]);
+		requireThat(actual, "actual").isTypeOf("null");
+	}, RangeError);
+	t.end();
+});
+
+test("ObjectTest.isTypeOf_False", function(t)
+{
+	t.throws(function()
+	{
+		const actual = {};
+		requireThat(actual, "actual").isTypeOf("string");
 	}, RangeError);
 	t.end();
 });
 
 test("ObjectTest.isInstanceOf", function(t)
 {
-	const actual = "value";
+	/* eslint-disable no-new-wrappers */
+	// noinspection JSPrimitiveTypeWrapperUsage
+	const actual = new String("value");
+	/* eslint-enable no-new-wrappers */
+
 	requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
 	t.end();
 });
@@ -166,7 +176,7 @@ test("ObjectTest.isInstanceOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isInstanceOf(null);
+		requireThat(actual, "actual").isTypeOf("null");
 	}, RangeError);
 	t.end();
 });
@@ -181,28 +191,22 @@ test("ObjectTest.isInstanceOf_False", function(t)
 	t.end();
 });
 
-test("ObjectTest.isInstanceOf_AnonymousFunction", function(t)
+test("ObjectTest.isTypeOf_AnonymousFunction", function(t)
 {
-	t.throws(function()
+	requireThat(function()
 	{
-		const actual = {};
-		requireThat(actual, "actual").isInstanceOf(function()
-		{
-			return "anonymousFunction";
-		});
-	}, RangeError);
+		return "anonymousFunction";
+	}, "actual").isTypeOf("AnonymousFunction");
 	t.end();
 });
 
-test("ObjectTest.isInstanceOf_ArrowFunction", function(t)
-{
-	t.throws(function()
-	{
-		const actual = {};
-		requireThat(actual, "actual").isInstanceOf(input => input + " -> output");
-	}, RangeError);
-	t.end();
-});
+// TODO: this test cannot run under Babel because it converts arrow functions to anonymous functions.
+//
+// test("ObjectTest.isTypeOf_ArrowFunction", function(t)
+// {
+// 	requireThat(input => input + " -> output", "actual").isTypeOf("ArrowFunction");
+// 	t.end();
+// });
 
 class MyClass
 {
@@ -263,6 +267,7 @@ test("ObjectTest.isDefined_False", function(t)
 	t.throws(function()
 	{
 		let actual;
+		// noinspection JSUnusedAssignment
 		requireThat(actual, "actual").isDefined();
 	}, RangeError);
 	t.end();
@@ -271,6 +276,7 @@ test("ObjectTest.isDefined_False", function(t)
 test("ObjectTest.isNotDefined", function(t)
 {
 	let actual;
+	// noinspection JSUnusedAssignment
 	requireThat(actual, "actual").isNotDefined();
 	t.end();
 });
@@ -297,6 +303,7 @@ test("ObjectTest.isSet_False", function(t)
 	t.throws(function()
 	{
 		let actual;
+		// noinspection JSUnusedAssignment
 		requireThat(actual, "actual").isSet();
 	}, RangeError);
 	t.end();
@@ -305,6 +312,7 @@ test("ObjectTest.isSet_False", function(t)
 test("ObjectTest.isNotSet", function(t)
 {
 	let actual;
+	// noinspection JSUnusedAssignment
 	requireThat(actual, "actual").isNotSet();
 	t.end();
 });
@@ -367,6 +375,7 @@ test("ObjectTest.assertThat.getActualIfPresent", function(t)
 	const input = {};
 	let expected;
 	const output = assertThat(input, "input").getActualIfPresent();
+	// noinspection JSUnusedAssignment
 	t.equals(output, expected);
 	t.end();
 });
