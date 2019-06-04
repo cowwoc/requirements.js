@@ -167,7 +167,7 @@ gulp.task("bundle-src", gulp.parallel(function()
 
 gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
 {
-	return gulp.src(["README.md", "src/**/*.js"], {read: false}).
+	return gulp.src(["readme.md", "src/**/*.js"], {read: false}).
 		pipe(jsdoc(
 			{
 				opts:
