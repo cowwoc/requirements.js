@@ -1,8 +1,3 @@
-# This is a sample build configuration for Javascript.
-# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
-# Only use spaces to indent your .yml configuration.
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
 image: node:10.16.0
 
 pipelines:
@@ -13,5 +8,4 @@ pipelines:
           - npm --version
           - npm install
           - npm install -g gulp-cli
-          - ls -la
           - gulp default
