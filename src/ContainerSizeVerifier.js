@@ -1,8 +1,8 @@
-import Configuration from "./Configuration";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import NumberVerifier from "./NumberVerifier";
-import Pluralizer from "./Pluralizer";
-import Objects from "./internal/Objects";
+import Configuration from "./Configuration.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import NumberVerifier from "./NumberVerifier.js";
+import Pluralizer from "./Pluralizer.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * Verifies the size of a container.

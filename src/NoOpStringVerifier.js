@@ -1,5 +1,5 @@
-import NoOpObjectVerifier from "./NoOpObjectVerifier";
-import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
+import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier.js";
 
 /**
  * An implementation of <code>String</code> that does nothing.

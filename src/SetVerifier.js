@@ -1,8 +1,8 @@
-import ObjectVerifier from "./ObjectVerifier";
-import ArrayVerifier from "./ArrayVerifier";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import NumberVerifier from "./NumberVerifier";
-import Objects from "./internal/Objects";
+import ObjectVerifier from "./ObjectVerifier.js";
+import ArrayVerifier from "./ArrayVerifier.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import NumberVerifier from "./NumberVerifier.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * @param {Array|Set} value a value

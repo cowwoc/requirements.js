@@ -1,7 +1,7 @@
 /** @module */
 
-import TerminalEncoding from "./TerminalEncoding";
-import Terminal from "./internal/Terminal";
+import TerminalEncoding from "./TerminalEncoding.js";
+import Terminal from "./internal/Terminal.js";
 
 /**
  * The configuration shared by all verifiers.

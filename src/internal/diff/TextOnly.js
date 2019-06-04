@@ -3,7 +3,7 @@
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import AbstractDiffWriter from "./AbstractDiffWriter";
+import AbstractDiffWriter from "./AbstractDiffWriter.js";
 
 /**
  * A padding character used to align values vertically.
@@ -165,7 +165,7 @@ const DIFF_INSERT = "^";
  * <li>We need to delete line 1 and retain line 2 unchanged.</li>
  * </ul>
  */
-class BrowserEncoding extends AbstractDiffWriter
+class TextOnly extends AbstractDiffWriter
 {
 	constructor()
 	{
@@ -187,43 +187,22 @@ class BrowserEncoding extends AbstractDiffWriter
 			});
 	}
 
-	/**
-	 * Keeps a line of text in both <code>Actual</code> and <code>Expected</code>.
-	 *
-	 * @param {string} line the line
-	 */
-	keepLine(line)
+	writeUnchanged(text)
 	{
-		this.actualLineBuilder += line;
-		this.middleLineBuilder += DIFF_EQUAL.repeat(line.length);
-		this.expectedLineBuilder += line;
+		super.writeUnchanged(text);
+		this.middleLineBuilder += DIFF_EQUAL.repeat(text.length);
 	}
 
-	/**
-	 * Inserts a line that is present in <code>Expected</code> but not <code>Actual</code>.
-	 *
-	 * @param {string} line the text
-	 */
-	insertLine(line)
+	writeInserted(text)
 	{
-		const length = line.length;
-		this.actualLineBuilder += this.getPaddingMarker().repeat(length);
-		this.middleLineBuilder += DIFF_INSERT.repeat(length);
-		this.expectedLineBuilder += line;
+		super.writeInserted(text);
+		this.middleLineBuilder += DIFF_INSERT.repeat(text.length);
 	}
 
-	/**
-	 * Deletes a line that is present in <code>Actual</code> but not <code>Expected</code>.
-	 *
-	 * @param {string} line the text
-	 */
-	deleteLine(line)
+	writeDeleted(text)
 	{
-		this.actualLineBuilder += line;
-
-		const length = line.length;
-		this.middleLineBuilder += DIFF_DELETE.repeat(length);
-		this.expectedLineBuilder += this.getPaddingMarker().repeat(length);
+		super.writeDeleted(text);
+		this.middleLineBuilder += DIFF_DELETE.repeat(text.length);
 	}
 
 	writeNewline()
@@ -249,4 +228,4 @@ class BrowserEncoding extends AbstractDiffWriter
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
-export {BrowserEncoding as default};
+export {TextOnly as default};

@@ -1,8 +1,8 @@
-import ArrayVerifier from "./ArrayVerifier";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import NumberVerifier from "./NumberVerifier";
-import ObjectVerifier from "./ObjectVerifier";
-import Pluralizer from "./Pluralizer";
+import ArrayVerifier from "./ArrayVerifier.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import NumberVerifier from "./NumberVerifier.js";
+import ObjectVerifier from "./ObjectVerifier.js";
+import Pluralizer from "./Pluralizer.js";
 
 /**
  * Verifies a <code>Map</code>.

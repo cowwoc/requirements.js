@@ -15,6 +15,8 @@ import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
+import stripDebug from "gulp-strip-debug";
+import connect from "gulp-connect";
 
 const env = parseArgs(process.argv.slice(2));
 let mode = env.mode;
@@ -68,6 +70,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		context: "window",
 		onwarn(warning, warn)
 		{
+			// We only care about circular dependencies that affect top-level declarations
 			const ignoredCircular = [
 				"src/NoOpObjectVerifier.js",
 				"src/NoOpArrayVerifier.js",
@@ -95,7 +98,11 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 	});
 	if (isReleaseMode)
 	{
+		await gulp.src("build/es5/browser/**").
+			pipe(stripDebug()).
+			pipe(gulp.dest("build/es5/browser/**"));
 		await gulp.src("index.js").
+			pipe(stripDebug()).
 			pipe(sourcemaps.init({loadMaps: true})).
 			pipe(uglify()).
 			pipe(rename("index.min.js")).
@@ -106,12 +113,15 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 
 gulp.task("bundle-src-for-node", gulp.parallel(function()
 {
-	return gulp.src(
+	let result = gulp.src(
 		[
 			"src/**/*.js",
 			"!src/index.js"
 		]
-	).
+	);
+	if (isReleaseMode)
+		result = result.pipe(stripDebug());
+	return result.
 		pipe(babel({
 			presets: [
 				"@babel/preset-env"
@@ -122,14 +132,17 @@ gulp.task("bundle-src-for-node", gulp.parallel(function()
 
 gulp.task("bundle-test", gulp.parallel(function()
 {
-	return gulp.src("test/**/*.js").
+	let result = gulp.src("test/**/*.js").
 		pipe(replace("from \"../src/", "from \"../node/")).
 		pipe(babel(
 			{
 				presets: [
 					"@babel/preset-env"
 				]
-			})).
+			}));
+	if (isReleaseMode)
+		result = result.pipe(stripDebug());
+	return result.
 		pipe(gulp.dest("build/es5/test"));
 }));
 
@@ -145,7 +158,10 @@ gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node", "bundle-test"
 
 gulp.task("bundle-src", gulp.parallel(function()
 {
-	return gulp.src("src/**/*.js").
+	let result = gulp.src("src/**/*.js");
+	if (isReleaseMode)
+		result = result.pipe(stripDebug());
+	return result.
 		pipe(gulp.dest("build/es5/modules"));
 }));
 
@@ -172,6 +188,15 @@ gulp.task("bundle-resources", gulp.parallel(function()
 			"readme.md"
 		]).
 		pipe(gulp.dest("build"));
+}));
+
+gulp.task("server", gulp.parallel(function()
+{
+	connect.server(
+		{
+			livereload: true
+		}
+	);
 }));
 
 gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node", "bundle-src", "bundle-jsdoc",

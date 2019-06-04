@@ -1,4 +1,4 @@
-import NoOpObjectVerifier from "./NoOpObjectVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
 
 /**
  * An implementation of <code>ClassVerifier</code> that does nothing.

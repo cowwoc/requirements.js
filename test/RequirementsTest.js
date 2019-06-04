@@ -1,6 +1,6 @@
 import test from "tape-catch";
 import URI from "urijs";
-import Requirements from "../src/Requirements";
+import Requirements from "../src/Requirements.js";
 
 class IllegalArgumentException extends Error
 {

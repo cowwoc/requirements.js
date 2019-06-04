@@ -1,5 +1,5 @@
-import Configuration from "../Configuration";
-import Objects from "./Objects";
+import Configuration from "../Configuration.js";
+import Objects from "./Objects.js";
 
 /**
  * Pads a string with space on the right to reach the desired length.

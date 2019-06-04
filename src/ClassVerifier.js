@@ -1,6 +1,6 @@
-import ObjectVerifier from "./ObjectVerifier";
-import Objects from "./internal/Objects";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
+import ObjectVerifier from "./ObjectVerifier.js";
+import Objects from "./internal/Objects.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
 
 class ClassVerifier extends ObjectVerifier
 {

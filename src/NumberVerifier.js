@@ -1,6 +1,6 @@
-import ObjectVerifier from "./ObjectVerifier";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import Objects from "./internal/Objects";
+import ObjectVerifier from "./ObjectVerifier.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * Verifier for a <code>Number</code>.

@@ -1,6 +1,6 @@
-import Objects from "../Objects";
-import IllegalStateError from "../IllegalStateError";
-import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants";
+import Objects from "../Objects.js";
+import IllegalStateError from "../IllegalStateError.js";
+import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Base implementation for all diff writers.
@@ -10,11 +10,10 @@ class AbstractDiffWriter
 	/**
 	 * @param {string} paddingMarker a padding character used to align values vertically
 	 * @throws {TypeError}  if any of the arguments are null
-	 * @throws {RangeError} if <code>paddingMarker</code> is empty
 	 */
 	constructor(paddingMarker)
 	{
-		Objects.assertThatStringNotEmpty(paddingMarker, "paddingMarker");
+		Objects.assertThatTypeOf(paddingMarker, "paddingMarker", "string");
 		Object.defineProperty(this, "paddingMarker",
 			{
 				value: paddingMarker

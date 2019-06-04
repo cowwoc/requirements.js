@@ -33,9 +33,10 @@
     "core-js": "3",
     "diff-match-patch": "^1.0.4",
     "eslint-plugin-jsdoc": "~7.2.3",
+    "gulp-strip-debug": "^3.0.0",
     "minimist": "^1.2.0",
     "rollup-plugin-node-globals": "^1.4.0",
-    "sugar": "~2.0.4",
+    "sugar": "~2.0.6",
     "urijs": "~1.19.1"
   },
   "devDependencies": {
@@ -49,6 +50,7 @@
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-cli": "^2.0.1",
+    "gulp-connect": "^5.7.0",
     "gulp-eslint": "^5.0.0",
     "gulp-jsdoc3": "^2.0.0",
     "gulp-rename": "^1.2.2",

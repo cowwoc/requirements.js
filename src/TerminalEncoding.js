@@ -1,4 +1,4 @@
-import Objects from "./internal/Objects";
+import Objects from "./internal/Objects.js";
 
 /**
  * The ANSI escape codes supported by the terminal.
@@ -36,9 +36,9 @@ class TerminalEncoding
 
 let value = 0;
 /**
- * Terminal is a browser that does not support any colors.
+ * A terminal that does not support any colors.
  */
-TerminalEncoding.BROWSER = new TerminalEncoding(value++, "BROWSER");
+TerminalEncoding.NONE = new TerminalEncoding(value++, "NONE");
 
 /**
  * Node terminal supports a 16-color palette.

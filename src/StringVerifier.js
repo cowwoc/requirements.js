@@ -1,7 +1,7 @@
-import ObjectVerifier from "./ObjectVerifier";
-import ContainerSizeVerifier from "./ContainerSizeVerifier";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import Pluralizer from "./Pluralizer";
+import ObjectVerifier from "./ObjectVerifier.js";
+import ContainerSizeVerifier from "./ContainerSizeVerifier.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import Pluralizer from "./Pluralizer.js";
 
 /**
  * Verifies a <code>string</code>.

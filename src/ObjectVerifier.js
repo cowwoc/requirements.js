@@ -1,15 +1,15 @@
-import ObjectVerifier from "./internal/ObjectVerifier";
+import ObjectVerifier from "./internal/ObjectVerifier.js";
 // internal/ObjectVerifier must be loaded before all other imports to avoid circular dependencies
-import ArrayVerifier from "./ArrayVerifier";
-import InetAddressVerifier from "./InetAddressVerifier";
-import MapVerifier from "./MapVerifier";
-import NumberVerifier from "./NumberVerifier";
-import SetVerifier from "./SetVerifier";
-import StringVerifier from "./StringVerifier";
+import ArrayVerifier from "./ArrayVerifier.js";
+import InetAddressVerifier from "./InetAddressVerifier.js";
+import MapVerifier from "./MapVerifier.js";
+import NumberVerifier from "./NumberVerifier.js";
+import SetVerifier from "./SetVerifier.js";
+import StringVerifier from "./StringVerifier.js";
 import URI from "urijs";
-import UriVerifier from "./UriVerifier";
-import ClassVerifier from "./ClassVerifier";
-import Objects from "./internal/Objects";
+import UriVerifier from "./UriVerifier.js";
+import ClassVerifier from "./ClassVerifier.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * @return {StringVerifier} a verifier for the object's string representation

@@ -1,9 +1,9 @@
-import Configuration from "../Configuration";
-import Objects from "./Objects";
+import Configuration from "../Configuration.js";
+import Objects from "./Objects.js";
 import Sugar from "sugar";
-import ExceptionBuilder from "./ExceptionBuilder";
-import ContextGenerator from "./ContextGenerator";
-import GlobalRequirements from "../GlobalRequirements";
+import ExceptionBuilder from "./ExceptionBuilder.js";
+import ContextGenerator from "./ContextGenerator.js";
+import GlobalRequirements from "../GlobalRequirements.js";
 
 // Avoid circular dependencies by doing the following:
 // * Declare the class without methods that trigger circular dependencies

@@ -1,14 +1,14 @@
-import GlobalRequirements from "../../GlobalRequirements";
-import Objects from "../Objects";
+import GlobalRequirements from "../../GlobalRequirements.js";
+import Objects from "../Objects.js";
 import DiffMatchPatch from "diff-match-patch";
-import TerminalEncoding from "../../TerminalEncoding";
-import AbstractDiffWriter from "./AbstractDiffWriter";
-import BrowserEncoding from "./BrowserEncoding";
-import Node16Colors from "./Node16Colors";
-import Node256Colors from "./Node256Colors";
-import Node16MillionColors from "./Node16MillionColors";
-import DiffResult from "./DiffResult";
-import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants";
+import TerminalEncoding from "../../TerminalEncoding.js";
+import AbstractDiffWriter from "./AbstractDiffWriter.js";
+import TextOnly from "./TextOnly.js";
+import Node16Colors from "./Node16Colors.js";
+import Node256Colors from "./Node256Colors.js";
+import Node16MillionColors from "./Node16MillionColors.js";
+import DiffResult from "./DiffResult.js";
+import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Character denoting the end of string.
@@ -23,8 +23,8 @@ function createDiffWriter(terminalEncoding)
 {
 	switch (terminalEncoding)
 	{
-		case TerminalEncoding.BROWSER:
-			return new BrowserEncoding();
+		case TerminalEncoding.NONE:
+			return new TextOnly();
 		case TerminalEncoding.NODE_16_COLORS:
 			return new Node16Colors();
 		case TerminalEncoding.NODE_256_COLORS:

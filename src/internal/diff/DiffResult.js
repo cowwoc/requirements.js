@@ -1,4 +1,4 @@
-import Objects from "../Objects";
+import Objects from "../Objects.js";
 
 /**
  * The result of calculating the difference between two strings.
@@ -11,14 +11,13 @@ class DiffResult
 	 * @param {Array<string>} expectedLines      the lines of the expected string
 	 * @param {string} paddingMarker a padding character used to align values vertically
 	 * @throws {TypeError}     if any of the arguments are null
-	 * @throws {RangeError} if <code>paddingMarker</code> is empty
 	 */
 	constructor(actualLines, middleLines, expectedLines, paddingMarker)
 	{
 		Objects.assertThatTypeOf(actualLines, "actualLines", "Array");
 		Objects.assertThatTypeOf(middleLines, "middleLines", "Array");
 		Objects.assertThatTypeOf(expectedLines, "expectedLines", "Array");
-		Objects.requireThatStringNotEmpty(paddingMarker, "paddingMarker");
+		Objects.assertThatTypeOf(paddingMarker, "paddingMarker", "string");
 
 		Object.defineProperty(this, "actualLines",
 			{

@@ -1,4 +1,4 @@
-import AbstractColorWriter from "./AbstractColorWriter";
+import AbstractColorWriter from "./AbstractColorWriter.js";
 import chalk from "chalk";
 
 /**

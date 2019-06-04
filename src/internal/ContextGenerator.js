@@ -1,7 +1,7 @@
-import Objects from "./Objects";
-import Strings from "./Strings";
-import Configuration from "../Configuration";
-import DiffGenerator from "./diff/DiffGenerator";
+import Objects from "./Objects.js";
+import Strings from "./Strings.js";
+import Configuration from "../Configuration.js";
+import DiffGenerator from "./diff/DiffGenerator.js";
 
 /**
  * A regular expression that matches lines that are not equal.

@@ -1,10 +1,10 @@
-import ContainerSizeVerifier from "./ContainerSizeVerifier";
-import Configuration from "./Configuration";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import ObjectVerifier from "./ObjectVerifier";
-import Pluralizer from "./Pluralizer";
-import SetVerifier from "./SetVerifier";
-import Objects from "./internal/Objects";
+import ContainerSizeVerifier from "./ContainerSizeVerifier.js";
+import Configuration from "./Configuration.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import ObjectVerifier from "./ObjectVerifier.js";
+import Pluralizer from "./Pluralizer.js";
+import SetVerifier from "./SetVerifier.js";
+import Objects from "./internal/Objects.js";
 import Sugar from "sugar";
 
 /**

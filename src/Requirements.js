@@ -1,8 +1,8 @@
 /** @module */
-import Configuration from "./Configuration";
-import NoOpObjectVerifier from "./NoOpObjectVerifier";
-import ObjectVerifier from "./ObjectVerifier";
-import Objects from "./internal/Objects";
+import Configuration from "./Configuration.js";
+import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
+import ObjectVerifier from "./ObjectVerifier.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * Verifies the requirements of types from the Javascript core API.

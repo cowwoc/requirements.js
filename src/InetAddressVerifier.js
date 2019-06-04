@@ -1,6 +1,6 @@
-import Configuration from "./Configuration";
-import ExceptionBuilder from "./internal/ExceptionBuilder";
-import ObjectVerifier from "./ObjectVerifier";
+import Configuration from "./Configuration.js";
+import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import ObjectVerifier from "./ObjectVerifier.js";
 
 /**
  * @param {string} value a String

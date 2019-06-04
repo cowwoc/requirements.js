@@ -1,4 +1,4 @@
-import NoOpNumberVerifier from "./NoOpNumberVerifier";
+import NoOpNumberVerifier from "./NoOpNumberVerifier.js";
 
 /**
  * An implementation of {@link ContainerSizeVerifier} that does nothing.

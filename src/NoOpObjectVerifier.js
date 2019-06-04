@@ -1,13 +1,13 @@
-import NoOpObjectVerifier from "./internal/NoOpObjectVerifier";
+import NoOpObjectVerifier from "./internal/NoOpObjectVerifier.js";
 // internal/NoOpObjectVerifier must be loaded before all other imports to avoid circular dependencies
-import NoOpInetAddressVerifier from "./NoOpInetAddressVerifier";
-import NoOpMapVerifier from "./NoOpMapVerifier";
-import NoOpNumberVerifier from "./NoOpNumberVerifier";
-import NoOpSetVerifier from "./NoOpSetVerifier";
-import NoOpStringVerifier from "./NoOpStringVerifier";
-import NoOpUriVerifier from "./NoOpUriVerifier";
-import NoOpArrayVerifier from "./NoOpArrayVerifier";
-import NoOpClassVerifier from "./NoOpClassVerifier";
+import NoOpInetAddressVerifier from "./NoOpInetAddressVerifier.js";
+import NoOpMapVerifier from "./NoOpMapVerifier.js";
+import NoOpNumberVerifier from "./NoOpNumberVerifier.js";
+import NoOpSetVerifier from "./NoOpSetVerifier.js";
+import NoOpStringVerifier from "./NoOpStringVerifier.js";
+import NoOpUriVerifier from "./NoOpUriVerifier.js";
+import NoOpArrayVerifier from "./NoOpArrayVerifier.js";
+import NoOpClassVerifier from "./NoOpClassVerifier.js";
 
 /**
  * @return {NoOpArrayVerifier} a verifier for the <code>Array</code>

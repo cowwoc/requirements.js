@@ -1,6 +1,6 @@
-import NoOpObjectVerifier from "./NoOpObjectVerifier";
-import NoOpArrayVerifier from "./NoOpArrayVerifier";
-import NoOpNumberVerifier from "./NoOpNumberVerifier";
+import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
+import NoOpArrayVerifier from "./NoOpArrayVerifier.js";
+import NoOpNumberVerifier from "./NoOpNumberVerifier.js";
 
 /**
  * An implementation of <code>SetVerifier</code> that does nothing.

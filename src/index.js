@@ -1,2 +1,2 @@
-export {requireThat, assertThat} from "./DefaultRequirements";
-export {default as Requirements} from "./Requirements";
+export {requireThat, assertThat} from "./DefaultRequirements.js";
+export {default as Requirements} from "./Requirements.js";

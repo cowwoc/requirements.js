@@ -1,4 +1,4 @@
-import Objects from "./Objects";
+import Objects from "./Objects.js";
 
 /**
  * String helper functions.

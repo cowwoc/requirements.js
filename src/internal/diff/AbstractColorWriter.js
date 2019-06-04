@@ -1,4 +1,4 @@
-import AbstractDiffWriter from "./AbstractDiffWriter";
+import AbstractDiffWriter from "./AbstractDiffWriter.js";
 import chalk from "chalk";
 
 /**

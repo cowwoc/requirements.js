@@ -1,4 +1,4 @@
-import Node16MillionColors from "./Node16MillionColors";
+import Node16MillionColors from "./Node16MillionColors.js";
 
 /**
  * A node terminal that supports 256 colors.

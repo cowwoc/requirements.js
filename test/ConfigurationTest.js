@@ -1,6 +1,6 @@
-import Configuration from "../src/Configuration";
+import Configuration from "../src/Configuration.js";
 import test from "tape-catch";
-import Requirements from "../src/Requirements";
+import Requirements from "../src/Requirements.js";
 
 class IllegalArgumentException extends Error
 {

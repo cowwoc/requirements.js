@@ -1,14 +1,14 @@
 import chalk from "chalk";
-import TerminalEncoding from "../TerminalEncoding";
-import Objects from "./Objects";
+import TerminalEncoding from "../TerminalEncoding.js";
+import Objects from "./Objects.js";
 
 /**
  * @return {Array<TerminalEncoding>} the ANSI escape codes supported by the terminal
  */
 function getSupportedTypesImpl()
 {
+	const result = [TerminalEncoding.NONE];
 	// https://stackoverflow.com/a/4224668/14731
-	const result = [TerminalEncoding.BROWSER];
 	if (typeof (window) === "undefined")
 	{
 		// Node

@@ -1,6 +1,6 @@
-import GlobalConfiguration from "./GlobalRequirements";
-import Requirements from "./Requirements";
-import Objects from "./internal/Objects";
+import GlobalConfiguration from "./GlobalRequirements.js";
+import Requirements from "./Requirements.js";
+import Objects from "./internal/Objects.js";
 
 /**
  * A verifier's configuration.

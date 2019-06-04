@@ -1,6 +1,6 @@
-import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier";
-import NoOpObjectVerifier from "./NoOpObjectVerifier";
-import NoOpSetVerifier from "./NoOpSetVerifier";
+import NoOpContainerSizeVerifier from "./NoOpContainerSizeVerifier.js";
+import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
+import NoOpSetVerifier from "./NoOpSetVerifier.js";
 
 /**
  * An implementation of <code>ArrayVerifier</code> that does nothing.

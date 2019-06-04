@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import test from "tape-catch";
-import Objects from "../src/internal/Objects";
+import Objects from "../src/internal/Objects.js";
 
 test("ObjectsTest.getTypeOf_undefined", function(t)
 {

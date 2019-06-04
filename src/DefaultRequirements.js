@@ -1,6 +1,6 @@
 /** @module */
-import ObjectVerifier from "./ObjectVerifier";
-import Requirements from "./Requirements";
+import ObjectVerifier from "./ObjectVerifier.js";
+import Requirements from "./Requirements.js";
 
 const delegate = new Requirements();
 

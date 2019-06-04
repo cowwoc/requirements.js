@@ -1,4 +1,4 @@
-import ObjectVerifier from "./ObjectVerifier";
+import ObjectVerifier from "./ObjectVerifier.js";
 
 /**
  * Verifies a <code>URI</code>.
