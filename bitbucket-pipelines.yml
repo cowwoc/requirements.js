@@ -13,4 +13,5 @@ pipelines:
           - npm --version
           - npm install
           - npm install -g gulp-cli
+          - ls -la
           - gulp default
