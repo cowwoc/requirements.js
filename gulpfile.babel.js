@@ -172,6 +172,7 @@ gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
 			{
 				opts:
 					{
+						template: "node_modules/better-docs",
 						destination: "./build/jsdoc"
 					}
 			}, cb));

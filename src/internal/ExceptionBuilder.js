@@ -7,6 +7,7 @@ import Objects from "./Objects.js";
  * @param {string} text a string
  * @param {number} length the maximum length of the string
  * @return {string} the result
+ * @ignore
  */
 function justifyLeft(text, length)
 {
@@ -23,6 +24,7 @@ function justifyLeft(text, length)
  * @param {Configuration} configuration the verifier's configuration
  * @param {Error} type the default type of exception to throw
  * @return {Error} the type of exception to throw
+ * @ignore
  */
 function getExceptionType(configuration, type)
 {
@@ -35,6 +37,7 @@ function getExceptionType(configuration, type)
 /**
  * @param {Array<string>} entry a key-value pair
  * @throws {TypeError} if <code>entry</code> was not an array of size 2
+ * @ignore
  */
 function verifyEntry(entry)
 {
@@ -49,6 +52,7 @@ function verifyEntry(entry)
 
 /**
  * Builds an exception.
+ * @ignore
  */
 class ExceptionBuilder
 {

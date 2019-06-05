@@ -12,12 +12,14 @@ import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Character denoting the end of string.
+ * @ignore
  */
 const EOS_MARKER = "\\0";
 
 /**
  * @param {TerminalEncoding} terminalEncoding the encoding to use for the terminal
  * @return {AbstractDiffWriter} a writer that generates a diff
+ * @ignore
  */
 function createDiffWriter(terminalEncoding)
 {
@@ -39,6 +41,7 @@ function createDiffWriter(terminalEncoding)
 /**
  * @param {{0: number, 1: string}} component a diff component
  * @param {AbstractDiffWriter} writer the object to write into
+ * @ignore
  */
 function writeDiff(component, writer)
 {

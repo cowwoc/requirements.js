@@ -2,6 +2,7 @@ import Objects from "../Objects.js";
 
 /**
  * The result of calculating the difference between two strings.
+ * @ignore
  */
 class DiffResult
 {

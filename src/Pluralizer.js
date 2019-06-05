@@ -1,5 +1,7 @@
 /**
  * Generates the singular or plural form of an element type.
+ *
+ * @ignore
  */
 function Pluralizer()
 {

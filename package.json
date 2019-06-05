@@ -41,6 +41,7 @@
     "@babel/plugin-transform-runtime": "^7.4.0",
     "@babel/preset-env": "^7.4.1",
     "@babel/register": "^7.4.0",
+    "better-docs": "^1.1.6",
     "cheerio": "^1.0.0-rc.2",
     "eslint-config-recommended": "^4.0.0",
     "eslint-plugin-jsdoc": "~7.2.3",

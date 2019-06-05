@@ -2,6 +2,7 @@
  * @param {object} value a value
  * @return {boolean} true if <code>value</code> is a primitive type (<code>string</code>, <code>number</code>,
  * <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or <code>symbol</code>)
+ * @ignore
  */
 function isPrimitiveImpl(value)
 {
@@ -36,6 +37,7 @@ function isPrimitiveImpl(value)
  * @param {object} object an object
  * @return {string} the name of the object's type
  * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
+ * @ignore
  */
 function getTypeOfImpl(object)
 {
@@ -66,6 +68,7 @@ function getTypeOfImpl(object)
 /**
  * @param {object} object an object
  * @return {string} the string representation of the object
+ * @ignore
  */
 function toStringImpl(object)
 {
@@ -120,6 +123,7 @@ function toStringImpl(object)
  * @return {string} the name of the object's class
  * @throws {TypeError} if <code>object</code> is not an Object
  * @see Objects.getTypeOf
+ * @ignore
  */
 function getObjectClass(object)
 {
@@ -150,6 +154,7 @@ function getObjectClass(object)
 
 /**
  * Object helper functions.
+ * @ignore
  */
 class Objects
 {

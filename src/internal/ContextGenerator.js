@@ -5,6 +5,7 @@ import DiffGenerator from "./diff/DiffGenerator.js";
 
 /**
  * A regular expression that matches lines that are not equal.
+ * @ignore
  */
 const LINES_NOT_EQUAL = /[^=]+/;
 
@@ -12,6 +13,7 @@ const LINES_NOT_EQUAL = /[^=]+/;
  * Updates the last context entry to indicate that duplicate lines were skipped.
  *
  * @param {Array} entries the exception context
+ * @ignore
  */
 function skipDuplicateLines(entries)
 {
@@ -23,6 +25,7 @@ function skipDuplicateLines(entries)
 /**
  * @param {string} diff the textual diff of two lines
  * @return {boolean} true if the lines being compared are different from each other
+ * @ignore
  */
 function linesAreDifferent(diff)
 {
@@ -34,6 +37,7 @@ function linesAreDifferent(diff)
  * @param {Array<string>} expectedLines the lines of the expected value
  * @return {boolean} true
  * @throws {RangeError} if the number of lines does not match
+ * @ignore
  */
 function requireThatNumberOfLinesAreEqual(actualLines, expectedLines)
 {
@@ -56,6 +60,7 @@ function requireThatNumberOfLinesAreEqual(actualLines, expectedLines)
  * @param {string} expectedValue the expected value
  * @return {Array} the list of name-value pairs to append to the exception message
  * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are null
+ * @ignore
  */
 function getContextImpl(generator, actualName, actualValue, typeOfActual, expectedName, expectedValue)
 {
@@ -141,6 +146,7 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 
 /**
  * Returns the difference between two values as an exception context.
+ * @ignore
  */
 class ContextGenerator
 {

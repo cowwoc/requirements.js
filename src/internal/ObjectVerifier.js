@@ -14,6 +14,7 @@ import GlobalRequirements from "../GlobalRequirements.js";
  * @param {ObjectVerifier} objectVerifier an instance of ObjectVerifier
  * @param {object} expected the expected value
  * @return {Array<Array<string>>} the list of name-value pairs to append to the exception message
+ * @ignore
  */
 function getContext(objectVerifier, expected)
 {

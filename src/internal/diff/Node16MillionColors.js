@@ -8,6 +8,7 @@ const redBackground = chalk.bgRgb(175, 0, 0);
  * A node terminal that supports 16 million colors.
  *
  * @see <a href="https://gist.github.com/XVilka/8346728">https://gist.github.com/XVilka/8346728</a>
+ * @ignore
  */
 class Node16MillionColors extends AbstractColorWriter
 {

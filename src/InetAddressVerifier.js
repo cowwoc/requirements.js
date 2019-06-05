@@ -5,6 +5,7 @@ import ObjectVerifier from "./ObjectVerifier.js";
 /**
  * @param {string} value a String
  * @return {boolean} true if the String is a valid IPv4 address; false otherwise
+ * @ignore
  */
 function isIpV4Impl(value)
 {
@@ -16,6 +17,7 @@ function isIpV4Impl(value)
 /**
  * @param {string} value a String
  * @return {boolean} true if the String is a valid IPv6 address; false otherwise
+ * @ignore
  */
 function isIpV6Impl(value)
 {
@@ -68,6 +70,7 @@ function isIpV6Impl(value)
 /**
  * @param {string} value a String
  * @return {boolean} true if the String is a valid hostname; false otherwise
+ * @ignore
  */
 function isHostnameImpl(value)
 {

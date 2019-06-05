@@ -13,6 +13,7 @@ import Sugar from "sugar";
  * @param {Array} array an array of arrays
  * @param {object} element an element
  * @return {boolean} true if <code>arrays</code> contains the element
+ * @ignore
  */
 function arrayContainsElement(array, element)
 {
@@ -29,6 +30,7 @@ function arrayContainsElement(array, element)
  * @param {Array} array an array
  * @param {Array} expected an array of expected values
  * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
+ * @ignore
  */
 function arrayContainsAny(array, expected)
 {
@@ -46,6 +48,7 @@ function arrayContainsAny(array, expected)
  * @param {Array} array an array
  * @param {Array} expected an array of expected elements
  * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
+ * @ignore
  */
 function arrayContainsAll(array, expected)
 {

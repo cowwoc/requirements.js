@@ -3,11 +3,13 @@ import chalk from "chalk";
 
 /**
  * A padding character used to align values vertically.
+ * @ignore
  */
 const PADDING_MARKER = "/";
 
 /**
  * An node terminal that supports colors.
+ * @ignore
  */
 class AbstractColorWriter extends AbstractDiffWriter
 {

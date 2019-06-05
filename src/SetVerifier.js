@@ -9,6 +9,7 @@ import Objects from "./internal/Objects.js";
  * @param {string} name the name of the value
  * @return {Set} the value as a <code>Set</code>
  * @throws {TypeError} if <code>value</code> is not an <code>Array</code> or <code>Set</code>
+ * @ignore
  */
 function asSet(value, name)
 {
@@ -33,6 +34,7 @@ function asSet(value, name)
  * @param {Set} actual a Set
  * @param {Set} expected a set of expected elements
  * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
+ * @ignore
  */
 function actualContainsAny(actual, expected)
 {
@@ -48,6 +50,7 @@ function actualContainsAny(actual, expected)
  * @param {Set} actual a Set
  * @param {Set} expected a Set of expected values
  * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
+ * @ignore
  */
 function actualContainsAll(actual, expected)
 {

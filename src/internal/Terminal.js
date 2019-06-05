@@ -4,6 +4,7 @@ import Objects from "./Objects.js";
 
 /**
  * @return {Array<TerminalEncoding>} the ANSI escape codes supported by the terminal
+ * @ignore
  */
 function getSupportedTypesImpl()
 {
@@ -52,6 +53,7 @@ function getSupportedTypesImpl()
  * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>. If <code>force</code> is not a
  * <code>boolean</code>.
  * @see #useBestEncoding()
+ * @ignore
  */
 function setEncodingImpl(terminal, encoding, force)
 {

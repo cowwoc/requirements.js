@@ -2,6 +2,7 @@ import Objects from "./Objects.js";
 
 /**
  * String helper functions.
+ * @ignore
  */
 class Strings
 {
@@ -41,6 +42,7 @@ class Strings
 	 * @param {string} target the string to search for
 	 * @return {boolean} true if <code>source</code> only contains (potentially multiple) occurrences of
 	 * <code>target</code> or if <code>source</code> is empty
+	 * @ignore
 	 */
 	static containsOnly(source, target)
 	{

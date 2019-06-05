@@ -2,6 +2,7 @@ import Node16MillionColors from "./Node16MillionColors.js";
 
 /**
  * A node terminal that supports 256 colors.
+ * @ignore
  */
 class Node256Colors extends Node16MillionColors
 {
