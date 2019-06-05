@@ -9,11 +9,11 @@
     "design-by-contract"
   ],
   "description": "A fluent API for enforcing design contracts with automatic message generation.",
-  "author": "Gili Tzabari <cowwoc@bbs.darktech.org>",
+  "author": "Gili Tzabari <cowwoc2020@gmail.com>",
   "contributors": [],
   "repository": {
     "type": "hg",
-    "url": "https://cowwoc@bitbucket.org/cowwoc/requirements.js"
+    "url": "https://bitbucket.org/cowwoc/requirements.js"
   },
   "files": [
     "es5/*"
