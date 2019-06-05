@@ -13,12 +13,12 @@ class Node16MillionColors extends AbstractColorWriter
 {
 	decorateInsertedText(text)
 	{
-		return greenBackground(chalk.white(text));
+		return greenBackground(chalk.whiteBright(text));
 	}
 
 	decorateDeletedText(text)
 	{
-		return redBackground(chalk.white(text));
+		return redBackground(chalk.whiteBright(text));
 	}
 }
 

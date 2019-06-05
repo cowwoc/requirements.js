@@ -8,12 +8,12 @@ class Node16Colors extends AbstractColorWriter
 {
 	decorateInsertedText(text)
 	{
-		return chalk.bgGreenBright(chalk.whiteBright(text));
+		return chalk.bgGreen(chalk.whiteBright(text));
 	}
 
 	decorateDeletedText(text)
 	{
-		return chalk.bgRedBright(chalk.whiteBright(text));
+		return chalk.bgRed(chalk.whiteBright(text));
 	}
 }
 
