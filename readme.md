@@ -61,8 +61,8 @@ The API has three entry points:
 
 ## Breaking Changes ##
 
-This library does not follow the [semantic versioning spec](https://semver.org/). Be sure to check the
-[changelog](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/) for breaking changes. 
+This library does not follow the [semantic versioning spec](https://docs.npmjs.com/about-semantic-versioning).
+Be sure to check the [changelog](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/) for breaking changes. 
 
 ## 3rd-party libraries and tools ##
 

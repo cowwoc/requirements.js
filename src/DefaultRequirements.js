@@ -30,7 +30,7 @@ function requireThat(actual, name)
  * @return {ObjectVerifier} a verifier
  * @throws {TypeError}  if <code>name</code> is null
  * @throws {RangeError} if <code>name</code> is empty
- * @see GlobalConfiguration#assertionsAreEnabled
+ * @see [GlobalRequirements.assertionsAreEnabled]{@link module:GlobalRequirements~GlobalRequirements.assertionsAreEnabled}
  */
 function assertThat(actual, name)
 {
