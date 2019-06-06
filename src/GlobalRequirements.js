@@ -48,7 +48,7 @@ GlobalRequirements.getTerminalEncoding = function()
  * Indicates that the terminal encoding should be auto-detected.
  *
  * @return {GlobalRequirements} this
- * @see #withTerminalEncoding
+ * @see #.withTerminalEncoding
  */
 GlobalRequirements.withDefaultTerminalEncoding = function()
 {
@@ -63,8 +63,8 @@ GlobalRequirements.withDefaultTerminalEncoding = function()
  *
  * @param {TerminalEncoding} encoding the type of encoding that the terminal supports
  * @return {GlobalRequirements} this
- * @throws NullPointerException if <code>encoding</code> is null
- * @see #withDefaultTerminalEncoding
+ * @throws TypeError if <code>encoding</code> is null
+ * @see #.withDefaultTerminalEncoding
  */
 GlobalRequirements.withTerminalEncoding = function(encoding)
 {
@@ -76,8 +76,8 @@ GlobalRequirements.withTerminalEncoding = function(encoding)
  * Indicates if exceptions should show the difference between the actual and expected values.
  *
  * @return {boolean} <code>true</code> by default
- * @see #withDiff
- * @see #withoutDiff
+ * @see #.withDiff
+ * @see #.withoutDiff
  */
 GlobalRequirements.isDiffEnabled = function()
 {
@@ -88,7 +88,7 @@ GlobalRequirements.isDiffEnabled = function()
  * Indicates that exceptions should show the difference between the actual and expected values.
  *
  * @return {GlobalRequirements} this
- * @see #isDiffEnabled
+ * @see #.isDiffEnabled
  */
 GlobalRequirements.withDiff = function()
 {
@@ -100,7 +100,7 @@ GlobalRequirements.withDiff = function()
  * Indicates that exceptions should not show the difference between the actual and expected values.
  *
  * @return {GlobalRequirements} this
- * @see #isDiffEnabled
+ * @see #.isDiffEnabled
  */
 GlobalRequirements.withoutDiff = function()
 {
