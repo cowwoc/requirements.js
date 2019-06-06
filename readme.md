@@ -1,5 +1,5 @@
 # ![checklist.png](https://bitbucket.org/repo/qRAo8G/images/2273371789-checklist.png) Requirements #
-[![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.js.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements.js) [![build-status](https://img.shields.io/bitbucket/pipelines/cowwoc/requirements.js/default.svg)](https://bitbucket.org/cowwoc/requirements.js/addon/pipelines/home)  [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.bitbucket.io/requirements.js/jsdoc/latest/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/)
+[![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements) [![build-status](https://img.shields.io/bitbucket/pipelines/cowwoc/requirements.js/default.svg)](https://bitbucket.org/cowwoc/requirements.js/addon/pipelines/home)  [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.bitbucket.io/requirements.js/jsdoc/latest/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/)
 
 [![java](https://img.shields.io/badge/languages-java-457FD5.svg)](https://bitbucket.org/cowwoc/requirements.java/) ![js](https://img.shields.io/badge/js-black.svg)
 
