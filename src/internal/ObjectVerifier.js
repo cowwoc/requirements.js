@@ -318,7 +318,7 @@ class ObjectVerifier
 	 * @throws RangeError if the verifier does not have access to the actual value (e.g. if
 	 * {@link Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to
 	 * retain a reference to the actual value)
-	 * @see #getActualIfPresent()
+	 * @see #getActualIfPresent
 	 */
 	getActual()
 	{
@@ -329,7 +329,7 @@ class ObjectVerifier
 	 * Returns the actual value.
 	 *
 	 * @return {object} <code>undefined</code> if the verifier does not have access to the actual value
-	 * @see #getActualLines()
+	 * @see #getActualLines
 	 */
 	getActualIfPresent()
 	{

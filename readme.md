@@ -44,13 +44,13 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@1.0.1
+npm install --save @cowwoc/requirements@1.0.3
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@1.0.1
+yarn add @cowwoc/requirements@1.0.3
 ```
 
 The API has three entry points:

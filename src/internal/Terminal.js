@@ -52,7 +52,7 @@ function getSupportedTypesImpl()
  * @param {boolean} force true if the encoding should be forced regardless of what the system supports
  * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>. If <code>force</code> is not a
  * <code>boolean</code>.
- * @see #useBestEncoding()
+ * @see #useBestEncoding
  * @ignore
  */
 function setEncodingImpl(terminal, encoding, force)
@@ -107,7 +107,7 @@ class Terminal
 	 *
 	 * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
 	 * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>
-	 * @see #useBestEncoding()
+	 * @see #useBestEncoding
 	 */
 	setEncoding(encoding)
 	{
@@ -117,7 +117,7 @@ class Terminal
 	/**
 	 * Indicates that verifiers should output the best encoding supported by the terminal.
 	 *
-	 * @see #setEncoding(TerminalEncoding)
+	 * @see #setEncoding
 	 */
 	useBestEncoding()
 	{

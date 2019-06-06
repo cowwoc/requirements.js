@@ -21,8 +21,10 @@ function requireThat(actual, name)
 
 // WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
 /**
- * Same as [requireThat]{@link module:DefaultRequirements~requireThat} but does nothing if assertions are disabled. By
- * default, assertions are disabled. See {@link GlobalConfiguration.assertionsAreEnabled} to change the default.
+ * Same as [requireThat()]{@link module:DefaultRequirements~requireThat} but does nothing if assertions are disabled. By
+ * default, assertions are disabled. See
+ * {@link module:GlobalRequirements~GlobalRequirements.assertionsAreEnabled GlobalRequirements.assertionsAreEnabled} to
+ * change the default.
  *
  * @function
  * @param {object} actual the actual value
@@ -30,7 +32,8 @@ function requireThat(actual, name)
  * @return {ObjectVerifier} a verifier
  * @throws {TypeError}  if <code>name</code> is null
  * @throws {RangeError} if <code>name</code> is empty
- * @see [GlobalRequirements.assertionsAreEnabled]{@link module:GlobalRequirements~GlobalRequirements.assertionsAreEnabled}
+ * @see {@link module:GlobalRequirements~GlobalRequirements.assertionsAreEnabled
+ * GlobalRequirements.assertionsAreEnabled}
  */
 function assertThat(actual, name)
 {

@@ -85,6 +85,7 @@ function writeDiff(component, writer)
 
 /**
  * Generates a diff of two strings.
+ * @ignore
  */
 class DiffGenerator
 {

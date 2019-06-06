@@ -53,7 +53,7 @@ class Requirements
 
 	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
 	/**
-	 * Same as [requireThat]{@link module:Requirements~Requirements#requireThat} but does nothing if assertions are
+	 * Same as [requireThat()]{@link module:Requirements~Requirements#requireThat} but does nothing if assertions are
 	 * disabled.
 	 *
 	 * @function
@@ -76,8 +76,8 @@ class Requirements
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
 	 * shouldn't do anything
-	 * @see #withException(Class)
-	 * @see #withDefaultException()
+	 * @see #withException
+	 * @see #withDefaultException
 	 */
 	assertionsAreEnabled()
 	{
@@ -114,8 +114,8 @@ class Requirements
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
 	 * @return {Error} <code>null</code> if the default exception type will be thrown
-	 * @see #withException(Class)
-	 * @see #withDefaultException()
+	 * @see #withException
+	 * @see #withDefaultException
 	 */
 	getException()
 	{
@@ -132,7 +132,7 @@ class Requirements
 	 * @param {Error} exception the type of exception to throw
 	 * @return {Requirements} a verifier with the updated configuration
 	 * @throws {TypeError} if <code>exception</code> is not set
-	 * @see #getException()
+	 * @see #getException
 	 */
 	withException(exception)
 	{
@@ -146,7 +146,7 @@ class Requirements
 	 * Throws the default exception type if a verification fails.
 	 *
 	 * @return {Requirements} a verifier with the updated configuration
-	 * @see #getException()
+	 * @see #getException
 	 */
 	withDefaultException()
 	{
@@ -158,7 +158,7 @@ class Requirements
 
 	/**
 	 * @return {Array<Array>} an array of key-value pairs to append to the exception message
-	 * @see #putContext(String, Object)
+	 * @see #putContext
 	 */
 	getContext()
 	{
@@ -172,7 +172,7 @@ class Requirements
 	 * @param {object} value a value
 	 * @return {Requirements} a verifier with the updated configuration
 	 * @throws {TypeError} if <code>key</code> is not a string
-	 * @see #getContext()
+	 * @see #getContext
 	 */
 	putContext(key, value)
 	{

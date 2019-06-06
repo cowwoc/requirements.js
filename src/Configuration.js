@@ -76,8 +76,8 @@ class Configuration
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
 	 * shouldn't do anything
-	 * @see #withException(Class)
-	 * @see #withDefaultException()
+	 * @see #withException
+	 * @see #withDefaultException
 	 */
 	assertionsAreEnabled()
 	{
@@ -112,8 +112,8 @@ class Configuration
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
 	 * @return {Error} <code>null</code> if the default exception type will be thrown
-	 * @see #withException(Class)
-	 * @see #withDefaultException()
+	 * @see #withException
+	 * @see #withDefaultException
 	 */
 	getException()
 	{
@@ -130,7 +130,7 @@ class Configuration
 	 * @param {Error} exception the type of exception to throw
 	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if <code>exception</code> is not set
-	 * @see #getException()
+	 * @see #getException
 	 */
 	withException(exception)
 	{
@@ -149,7 +149,7 @@ class Configuration
 	 * Throws the default exception type if a verification fails.
 	 *
 	 * @return {Configuration} the updated configuration
-	 * @see #getException()
+	 * @see #getException
 	 */
 	withDefaultException()
 	{
@@ -197,7 +197,7 @@ class Configuration
 
 	/**
 	 * @return {Map<string, string>} an array of key-value pairs to append to the exception message
-	 * @see #putContext(String, Object)
+	 * @see #putContext
 	 */
 	getContext()
 	{
@@ -211,7 +211,7 @@ class Configuration
 	 * @param {object} value the value of the parameter
 	 * @return {Configuration} the updated configuration
 	 * @throws {TypeError} if <code>key</code> is not a <code>String</code>
-	 * @see #getContext()
+	 * @see #getContext
 	 */
 	putContext(name, value)
 	{
@@ -244,7 +244,7 @@ class Configuration
 	 *
 	 * @param {object} o an object
 	 * @return {string} the <code>String</code> representation of the object
-	 * @see #withStringConverter(Class, Function)
+	 * @see #withStringConverter
 	 */
 	convertToString(o)
 	{
