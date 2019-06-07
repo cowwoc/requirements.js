@@ -3,7 +3,7 @@ import Objects from "./Objects.js";
 import Sugar from "sugar";
 import ExceptionBuilder from "./ExceptionBuilder.js";
 import ContextGenerator from "./ContextGenerator.js";
-import GlobalRequirements from "../GlobalRequirements.js";
+import GlobalConfiguration from "../GlobalConfiguration.js";
 
 // Avoid circular dependencies by doing the following:
 // * Declare the class without methods that trigger circular dependencies
@@ -18,7 +18,7 @@ import GlobalRequirements from "../GlobalRequirements.js";
  */
 function getContext(objectVerifier, expected)
 {
-	const contextGenerator = new ContextGenerator(objectVerifier.config, GlobalRequirements.diffGenerator);
+	const contextGenerator = new ContextGenerator(objectVerifier.config, GlobalConfiguration.diffGenerator);
 	return contextGenerator.getContext("Actual", objectVerifier.actual, "Expected", expected);
 }
 

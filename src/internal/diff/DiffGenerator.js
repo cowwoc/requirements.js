@@ -1,4 +1,4 @@
-import GlobalRequirements from "../../GlobalRequirements.js";
+import GlobalConfiguration from "../../GlobalConfiguration.js";
 import Objects from "../Objects.js";
 import DiffMatchPatch from "diff-match-patch";
 import TerminalEncoding from "../../TerminalEncoding.js";
@@ -124,7 +124,7 @@ class DiffGenerator
 		const components = diffEngine.diff_main(actualWithEos, expectedWithEos);
 		diffEngine.diff_cleanupSemantic(components);
 
-		const writer = createDiffWriter(GlobalRequirements.getTerminalEncoding());
+		const writer = createDiffWriter(GlobalConfiguration.getTerminalEncoding());
 		for (const component of components)
 			writeDiff(component, writer);
 		writer.close();
@@ -136,7 +136,7 @@ class DiffGenerator
 /**
  * Internal property that should not be accessed by users.
  */
-GlobalRequirements.diffGenerator = new DiffGenerator();
+GlobalConfiguration.diffGenerator = new DiffGenerator();
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.

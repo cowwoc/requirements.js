@@ -6,7 +6,7 @@ import Terminal from "./internal/Terminal.js";
 /**
  * The configuration shared by all verifiers.
  */
-class GlobalRequirements
+class GlobalConfiguration
 {
 }
 
@@ -18,20 +18,20 @@ class GlobalRequirements
  * @property {boolean} assertionsAreEnabled=true true if new verifiers should start with assertions enabled
  * @see {@link module:DefaultRequirements~assertThat DefaultRequirements.assertThat}
  */
-GlobalRequirements.assertionsAreEnabled = false;
+GlobalConfiguration.assertionsAreEnabled = false;
 /**
  * Internal property that should not be accessed by users.
  */
-GlobalRequirements.terminal = new Terminal();
+GlobalConfiguration.terminal = new Terminal();
 
 /**
  * Returns the encodings supported by the terminal.
  *
  * @return {Array<TerminalEncoding>} the encodings supported by the terminal (defaults to the auto-detected encoding)
  */
-GlobalRequirements.getTerminalEncoding = function()
+GlobalConfiguration.getTerminalEncoding = function()
 {
-	return GlobalRequirements.terminal.getTerminalEncoding();
+	return GlobalConfiguration.terminal.getTerminalEncoding();
 };
 
 /**
@@ -39,20 +39,20 @@ GlobalRequirements.getTerminalEncoding = function()
  *
  * @return {TerminalEncoding} the current terminal encoding (defaults to the auto-detected encoding)
  */
-GlobalRequirements.getTerminalEncoding = function()
+GlobalConfiguration.getTerminalEncoding = function()
 {
-	return GlobalRequirements.terminal.getEncoding();
+	return GlobalConfiguration.terminal.getEncoding();
 };
 
 /**
  * Indicates that the terminal encoding should be auto-detected.
  *
- * @return {GlobalRequirements} this
+ * @return {GlobalConfiguration} this
  * @see #.withTerminalEncoding
  */
-GlobalRequirements.withDefaultTerminalEncoding = function()
+GlobalConfiguration.withDefaultTerminalEncoding = function()
 {
-	GlobalRequirements.terminal.useBestEncoding();
+	GlobalConfiguration.terminal.useBestEncoding();
 	return this;
 };
 
@@ -62,13 +62,13 @@ GlobalRequirements.withDefaultTerminalEncoding = function()
  * This feature can be used to force the use of colors even when their support is not detected.
  *
  * @param {TerminalEncoding} encoding the type of encoding that the terminal supports
- * @return {GlobalRequirements} this
+ * @return {GlobalConfiguration} this
  * @throws TypeError if <code>encoding</code> is null
  * @see #.withDefaultTerminalEncoding
  */
-GlobalRequirements.withTerminalEncoding = function(encoding)
+GlobalConfiguration.withTerminalEncoding = function(encoding)
 {
-	GlobalRequirements.terminal.setEncoding(encoding);
+	GlobalConfiguration.terminal.setEncoding(encoding);
 	return this;
 };
 
@@ -79,7 +79,7 @@ GlobalRequirements.withTerminalEncoding = function(encoding)
  * @see #.withDiff
  * @see #.withoutDiff
  */
-GlobalRequirements.isDiffEnabled = function()
+GlobalConfiguration.isDiffEnabled = function()
 {
 	return this.diffEnabled;
 };
@@ -87,10 +87,10 @@ GlobalRequirements.isDiffEnabled = function()
 /**
  * Indicates that exceptions should show the difference between the actual and expected values.
  *
- * @return {GlobalRequirements} this
+ * @return {GlobalConfiguration} this
  * @see #.isDiffEnabled
  */
-GlobalRequirements.withDiff = function()
+GlobalConfiguration.withDiff = function()
 {
 	this.diffEnabled = true;
 	return this;
@@ -99,19 +99,19 @@ GlobalRequirements.withDiff = function()
 /**
  * Indicates that exceptions should not show the difference between the actual and expected values.
  *
- * @return {GlobalRequirements} this
+ * @return {GlobalConfiguration} this
  * @see #.isDiffEnabled
  */
-GlobalRequirements.withoutDiff = function()
+GlobalConfiguration.withoutDiff = function()
 {
 	this.diffEnabled = false;
 	return this;
 };
 
 // Initialize the default values
-GlobalRequirements.withDefaultTerminalEncoding();
-GlobalRequirements.diffEnabled = true;
+GlobalConfiguration.withDefaultTerminalEncoding();
+GlobalConfiguration.diffEnabled = true;
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
-export {GlobalRequirements as default};
+export {GlobalConfiguration as default};

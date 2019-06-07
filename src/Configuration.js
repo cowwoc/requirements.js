@@ -1,4 +1,4 @@
-import GlobalConfiguration from "./GlobalRequirements.js";
+import GlobalConfiguration from "./GlobalConfiguration.js";
 import Requirements from "./Requirements.js";
 import Objects from "./internal/Objects.js";
 
