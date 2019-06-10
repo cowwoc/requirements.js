@@ -43,7 +43,8 @@ class MapVerifier extends ObjectVerifier
 	 */
 	keys()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.keys()), this.name + ".keys()", Pluralizer.KEY);
+		return new ArrayVerifier(this.config, Array.from(this.actual.keys()), this.name + ".keys()",
+			Pluralizer.KEY);
 	}
 
 	/**
@@ -63,7 +64,8 @@ class MapVerifier extends ObjectVerifier
 	 */
 	values()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.values()), this.name + ".values()", Pluralizer.VALUE);
+		return new ArrayVerifier(this.config, Array.from(this.actual.values()), this.name + ".values()",
+			Pluralizer.VALUE);
 	}
 
 	/**
@@ -79,8 +81,8 @@ class MapVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each element
-	 * in the Map)
+	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each
+	 *   element in the Map)
 	 */
 	entries()
 	{
@@ -89,8 +91,8 @@ class MapVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's entries (an array of
-	 * <code>[key, value]</code> for each element in the Map)
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's entries (an
+	 *   array of <code>[key, value]</code> for each element in the Map)
 	 * @return {MapVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -110,8 +112,8 @@ class MapVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries this Map
-	 * contains
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries
+	 *   this Map contains
 	 * @return {MapVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -124,5 +126,6 @@ class MapVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {MapVerifier as default};

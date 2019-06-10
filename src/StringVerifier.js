@@ -153,8 +153,8 @@ class StringVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the trimmed representation of the
-	 * string
+	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the trimmed
+	 *   representation of the string
 	 * @return {StringVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -170,12 +170,13 @@ class StringVerifier extends ObjectVerifier
 	 */
 	length()
 	{
-		return new ContainerSizeVerifier(this.config, this.actual, this.actual.length, this.name, this.name + ".length",
-			Pluralizer.CHARACTER);
+		return new ContainerSizeVerifier(this.config, this.actual, this.actual.length, this.name, this.name +
+			".length", Pluralizer.CHARACTER);
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the string
+	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the
+	 *   string
 	 * @return {StringVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -208,5 +209,6 @@ class StringVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {StringVerifier as default};

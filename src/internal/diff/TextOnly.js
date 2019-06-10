@@ -27,7 +27,7 @@ const DIFF_DELETE = " ";
 const DIFF_INSERT = "^";
 
 /**
- * A diff representation that does not use ANSI escape codes.
+ * A diff representation that does not use colors.
  * <h3>Basic Rules</h3>
  * <ul>
  * <li>Space (&nbsp;) indicates characters that needs to be deleted from Actual.</li>
@@ -232,5 +232,6 @@ class TextOnly extends AbstractDiffWriter
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {TextOnly as default};

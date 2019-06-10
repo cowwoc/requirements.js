@@ -5,7 +5,7 @@ import ObjectVerifier from "./ObjectVerifier.js";
 import Pluralizer from "./Pluralizer.js";
 import SetVerifier from "./SetVerifier.js";
 import Objects from "./internal/Objects.js";
-import Sugar from "sugar";
+import Sugar from "sugar-array";
 
 /**
  * Indicates if an array contains at least one element of another array.
@@ -71,8 +71,8 @@ class ArrayVerifier extends ObjectVerifier
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
-	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the container's element
-	 * type
+	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the
+	 *   container's element type
 	 * @throws {TypeError} if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -151,8 +151,8 @@ class ArrayVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
-	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
-	 * if the array contains elements not found in <code>expected</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in
+	 *   <code>expected</code>; if the array contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
@@ -190,8 +190,8 @@ class ArrayVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
-	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in <code>expected</code>;
-	 * if the array contains elements not found in <code>expected</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the array is missing any elements in
+	 *   <code>expected</code>; if the array contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
@@ -220,7 +220,8 @@ class ArrayVerifier extends ObjectVerifier
 	 * @param {string} [name] the name of the expected elements
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
-	 * @throws {RangeError} if <code>name</code> is empty; if the array does not contain all of <code>expected</code>
+	 * @throws {RangeError} if <code>name</code> is empty; if the array does not contain all of
+	 *   <code>expected</code>
 	 */
 	containsAll(expected, name)
 	{
@@ -327,7 +328,8 @@ class ArrayVerifier extends ObjectVerifier
 		const missing = new Set([...elementsAsSet].filter(x => !actualAsSet.has(x)));
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " may not contain all elements in " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Missing", missing).
 				build();
@@ -370,12 +372,13 @@ class ArrayVerifier extends ObjectVerifier
 	 */
 	length()
 	{
-		return new ContainerSizeVerifier(this.config, this.actual, this.actual.length, this.name, this.name + ".length",
-			this.pluralizer);
+		return new ContainerSizeVerifier(this.config, this.actual, this.actual.length, this.name, this.name +
+			".length", this.pluralizer);
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the array
+	 * @param {Function} consumer a function that accepts a {@link ContainerSizeVerifier} for the length of the
+	 *   array
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -398,7 +401,8 @@ class ArrayVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the Set representation of the array
+	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the Set representation of
+	 *   the array
 	 * @return {ArrayVerifier} this
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
@@ -411,5 +415,6 @@ class ArrayVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {ArrayVerifier as default};

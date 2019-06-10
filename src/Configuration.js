@@ -12,19 +12,20 @@ class Configuration
 	/**
 	 * Creates a new configuration without an empty context and without an exception override.
 	 *
-	 * @param {Requirements} internalVerifier the verifier that can be used to check a verifier's own parameters
+	 * @param {Requirements} internalVerifier the verifier that can be used to check a verifier's own
+	 *   parameters
 	 * @param {Error} [exception=null] the type of exception that will be thrown if a verification fails,
-	 * <code>null</code> to throw the default exception type
+	 *   <code>null</code> to throw the default exception type
 	 * @param {Map} [context=[]] a map of key-value pairs to append to the exception message
 	 * @param {boolean} [assertionsEnabled=false] true if <code>assertThat()</code> should invoke
-	 * <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
-	 * @param {boolean} [diffEnabled=true] true if exceptions should show the difference between the actual and expected
-	 * values
+	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
+	 * @param {boolean} [diffEnabled=true] true if exceptions should show the difference between the actual and
+	 *   expected values
 	 * @param {Map} [typeToStringConverter={}] a map from an object type (per {@link Objects#getTypeOf}) to a
-	 * function that converts the object to a String
-	 * @throws {TypeError} if <code>internalVerifier</code> is undefined or null; <code>context</code> or one of its
-	 * elements are not an array; if the nested array contains less or more than 2 elements; if the keys nested in the
-	 * context array are not strings
+	 *   function that converts the object to a String
+	 * @throws {TypeError} if <code>internalVerifier</code> is undefined or null; <code>context</code> or one
+	 *   of its elements are not an array; if the nested array contains less or more than 2 elements; if the
+	 *   keys nested in the context array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
 	constructor(internalVerifier, exception, context, assertionsEnabled, diffEnabled, typeToStringConverter)
@@ -74,8 +75,8 @@ class Configuration
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
-	 * shouldn't do anything
+	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
+	 *   if it shouldn't do anything
 	 * @see #withException
 	 * @see #withDefaultException
 	 */
@@ -177,8 +178,8 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled, true,
-			this.typeToStringConverter);
+		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
+			true, this.typeToStringConverter);
 	}
 
 	/**
@@ -191,8 +192,8 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled, false,
-			this.typeToStringConverter);
+		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
+			false, this.typeToStringConverter);
 	}
 
 	/**
@@ -258,7 +259,8 @@ class Configuration
 	/**
 	 * Indicates that a function should be used to convert an object to a String.
 	 * <p>
-	 * Please note that <code>type</code> must be an exact match, subclasses will not match the type of their superclass.
+	 * Please note that <code>type</code> must be an exact match, subclasses will not match the type of their
+	 * superclass.
 	 *
 	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
 	 * @param {Function} converter a function that converts an object of the specified type to a String
@@ -276,7 +278,8 @@ class Configuration
 	}
 
 	/**
-	 * Indicates that an object's <code>convertToString()</code> method should be used to convert it to a String.
+	 * Indicates that an object's <code>convertToString()</code> method should be used to convert it to a
+	 * String.
 	 *
 	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
 	 * @return {Configuration} the updated  configuration
@@ -294,5 +297,6 @@ class Configuration
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {Configuration as default};

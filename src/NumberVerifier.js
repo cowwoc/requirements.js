@@ -103,8 +103,8 @@ class NumberVerifier extends ObjectVerifier
 	 * @param {string} [name]  the name of the lower bound
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
-	 * empty
+	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if
+	 *   <code>name</code> is empty
 	 */
 	isGreaterThan(value, name)
 	{
@@ -144,7 +144,8 @@ class NumberVerifier extends ObjectVerifier
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must be greater than or equal to " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must be greater than or equal to " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Min", value).
 				build();
@@ -162,8 +163,8 @@ class NumberVerifier extends ObjectVerifier
 	 * @param {string} [name]  the name of the upper bound
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
-	 * empty
+	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if
+	 *   <code>name</code> is empty
 	 */
 	isLessThan(value, name)
 	{
@@ -192,7 +193,8 @@ class NumberVerifier extends ObjectVerifier
 	 * @param {string} [name]  the name of the maximum value
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
+	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
@@ -203,7 +205,8 @@ class NumberVerifier extends ObjectVerifier
 			return this;
 		if (name)
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must be less than or equal to " + name).
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must be less than or equal to " +
+				name).
 				addContext("Actual", this.actual).
 				addContext("Max", value).
 				build();
@@ -221,8 +224,8 @@ class NumberVerifier extends ObjectVerifier
 	 * @param {number} endExclusive  the maximum value (exclusive)
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}  if any of the arguments are null
-	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the actual value is
-	 * not in range
+	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the
+	 *   actual value is not in range
 	 */
 	isBetween(startInclusive, endExclusive)
 	{
@@ -231,8 +234,8 @@ class NumberVerifier extends ObjectVerifier
 			isLessThan(endExclusive, "max");
 		if (this.actual >= startInclusive && this.actual < endExclusive)
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive + ", " +
-			endExclusive + ")").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive +
+			", " + endExclusive + ")").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -244,8 +247,8 @@ class NumberVerifier extends ObjectVerifier
 	 * @param {number} endInclusive  the maximum value (inclusive)
 	 * @return {NumberVerifier} this
 	 * @throws {TypeError}  if any of the arguments are null
-	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the actual value
-	 * is not in range
+	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the
+	 *   actual value is not in range
 	 */
 	isBetweenClosed(startInclusive, endInclusive)
 	{
@@ -254,8 +257,8 @@ class NumberVerifier extends ObjectVerifier
 			isLessThan(endInclusive, "max");
 		if (this.actual >= startInclusive && this.actual <= endInclusive)
 			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive + ", " +
-			endInclusive + "]").
+		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be in range [" + startInclusive +
+			", " + endInclusive + "]").
 			addContext("Actual", this.actual).
 			build();
 	}
@@ -326,5 +329,6 @@ class NumberVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {NumberVerifier as default};

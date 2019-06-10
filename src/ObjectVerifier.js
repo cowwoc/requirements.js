@@ -20,8 +20,8 @@ ObjectVerifier.prototype.asString = function()
 };
 
 /**
- * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation of the
- * actual value
+ * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string representation
+ *   of the actual value
  * @return {ObjectVerifier} this
  * @throws {TypeError} if <code>consumer</code> is not set
  */
@@ -145,7 +145,7 @@ ObjectVerifier.prototype.asInetAddress = function()
 
 /**
  * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's Internet
- * address representation
+ *   address representation
  * @return {StringVerifier} this
  * @throws {TypeError} if <code>consumer</code> is not set
  * @throws {RangeError} if the actual value does not contain a valid Internet address format
@@ -166,8 +166,8 @@ ObjectVerifier.prototype.asUri = function()
 };
 
 /**
- * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of the actual
- * value
+ * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of the
+ *   actual value
  * @return {ObjectVerifier} this
  * @throws {TypeError} if <code>consumer</code> is not set
  */
@@ -191,8 +191,8 @@ ObjectVerifier.prototype.asClass = function()
 };
 
 /**
- * @param {Function} consumer a function that accepts a {@link ClassVerifier} for the class representation of the
- * actual value
+ * @param {Function} consumer a function that accepts a {@link ClassVerifier} for the class representation of
+ *   the actual value
  * @return {ObjectVerifier} this
  * @throws {TypeError} if <code>consumer</code> is not set
  */
@@ -204,5 +204,6 @@ ObjectVerifier.prototype.asClassConsumer = function(consumer)
 };
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {ObjectVerifier as default};

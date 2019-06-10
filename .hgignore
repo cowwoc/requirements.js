@@ -1,6 +1,6 @@
 syntax: glob
-.idea
-node_modules
-build
-coverage
-.nyc_output
+.idea/
+node_modules/
+build/
+coverage/
+.nyc_output/

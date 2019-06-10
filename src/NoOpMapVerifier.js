@@ -56,8 +56,8 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for each
-	 * element in the Map)
+	 * @return {NoOpArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for
+	 *   each element in the Map)
 	 */
 	static entries()
 	{
@@ -90,5 +90,6 @@ class NoOpMapVerifier extends NoOpObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {NoOpMapVerifier as default};

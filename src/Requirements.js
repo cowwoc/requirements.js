@@ -14,8 +14,8 @@ class Requirements
 	/**
 	 * Verifies a value.
 	 * <p>
-	 * Unlike {@link Requirements}, instances of this class can be configured prior to initiating
-	 * verification. Doing so causes the same configuration to get reused across runs.
+	 * Unlike {@link Requirements}, instances of this class can be configured prior to initiating verification.
+	 * Doing so causes the same configuration to get reused across runs.
 	 *
 	 * @param {Configuration} [configuration] the instance configuration
 	 */
@@ -48,13 +48,14 @@ class Requirements
 		// * https://github.com/dsheiko/bycontract
 		// * https://github.com/muroc/offensive.js for related projects
 		//
-		// TODO: Respond to http://stackoverflow.com/questions/18785586/javascript-equivalent-to-guavas-preconditions
+		// TODO: Respond to
+		// http://stackoverflow.com/questions/18785586/javascript-equivalent-to-guavas-preconditions
 	}
 
 	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
 	/**
-	 * Same as [requireThat()]{@link module:Requirements~Requirements#requireThat} but does nothing if assertions are
-	 * disabled.
+	 * Same as [requireThat()]{@link module:Requirements~Requirements#requireThat} but does nothing if
+	 * assertions are disabled.
 	 *
 	 * @function
 	 * @param {object} actual the actual value
@@ -74,8 +75,8 @@ class Requirements
 	/**
 	 * Returns the type of exception that will be thrown if a verification fails.
 	 *
-	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
-	 * shouldn't do anything
+	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
+	 *   if it shouldn't do anything
 	 * @see #withException
 	 * @see #withDefaultException
 	 */
@@ -181,5 +182,6 @@ class Requirements
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {Requirements as default};

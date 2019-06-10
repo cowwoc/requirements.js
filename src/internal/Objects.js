@@ -1,7 +1,8 @@
 /**
  * @param {object} value a value
  * @return {boolean} true if <code>value</code> is a primitive type (<code>string</code>, <code>number</code>,
- * <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or <code>symbol</code>)
+ *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
+ *   <code>symbol</code>)
  * @ignore
  */
 function isPrimitiveImpl(value)
@@ -171,12 +172,16 @@ class Objects
 	 * @param {object} child the child class
 	 * @param {object} parent the parent class
 	 * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code> or
-	 * <code>child</code> are null or undefined; false if <code>child</code> does not extend <code>parent</code>
+	 *   <code>child</code> are null or undefined; false if <code>child</code> does not extend
+	 *   <code>parent</code>
 	 */
 	static extends(child, parent)
 	{
-		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" || parent === null)
+		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" ||
+			parent === null)
+		{
 			return false;
+		}
 		// console.log("**** child: " + child + ", prototype: " + child.prototype);
 		// const prototype = child.prototype;
 		// if (prototype.constructor === parent)
@@ -318,5 +323,6 @@ class Objects
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {Objects as default};

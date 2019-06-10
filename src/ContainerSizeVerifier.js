@@ -18,8 +18,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {string} containerName the name of the container
 	 * @param {string} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
-	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are undefined
-	 * or null; if <code>containerName</code> or <code>sizeName</code> are not a string
+	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are
+	 *   undefined or null; if <code>containerName</code> or <code>sizeName</code> are not a string
 	 * @throws {RangeError} if <code>containerName</code> or <code>sizeName</code> are empty
 	 */
 	constructor(configuration, container, size, containerName, sizeName, pluralizer)
@@ -61,7 +61,8 @@ class ContainerSizeVerifier extends NumberVerifier
 		if (name)
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				this.containerName + " must contain at least " + name + " (" + value + ") " + this.pluralizer.nameOf(value));
+				this.containerName + " must contain at least " + name + " (" + value + ") " +
+				this.pluralizer.nameOf(value));
 		}
 		else
 		{
@@ -81,8 +82,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {string} [name]  the name of the lower bound
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if <code>name</code> is
-	 * empty
+	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if
+	 *   <code>name</code> is empty
 	 */
 	isGreaterThan(value, name)
 	{
@@ -95,13 +96,13 @@ class ContainerSizeVerifier extends NumberVerifier
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " + name +
-				" (" + value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " +
+				name + " (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " + value +
-				" " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain at more than " +
+				value + " " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -116,7 +117,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {string} [name] the name of the maximum value
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is empty
+	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is
+	 *   empty
 	 */
 	isLessThanOrEqualTo(value, name)
 	{
@@ -129,13 +131,13 @@ class ContainerSizeVerifier extends NumberVerifier
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " + name +
-				" (" + value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " +
+				name + " (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " + value +
-				" " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " may not contain more than " +
+				value + " " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -150,8 +152,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {string} [name]  the name of the upper bound
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}   if <code>value</code> or <code>name</code> are null
-	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if <code>name</code> is
-	 * empty
+	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if
+	 *   <code>name</code> is empty
 	 */
 	isLessThan(value, name)
 	{
@@ -164,13 +166,13 @@ class ContainerSizeVerifier extends NumberVerifier
 		let eb;
 		if (name)
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + name +
-				" (" + value + ") " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " +
+				name + " (" + value + ") " + this.pluralizer.nameOf(value));
 		}
 		else
 		{
-			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " + value +
-				" " + this.pluralizer.nameOf(value));
+			eb = new ExceptionBuilder(this.config, RangeError, this.containerName + " must contain less than " +
+				value + " " + this.pluralizer.nameOf(value));
 		}
 		eb.addContext("Actual", this.actual);
 		if (this.actual > 0)
@@ -262,8 +264,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {number} endExclusive  the maximum value (exclusive)
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}  if any of the arguments are null
-	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the actual value is
-	 * not in range
+	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the
+	 *   actual value is not in range
 	 */
 	isBetween(startInclusive, endExclusive)
 	{
@@ -275,8 +277,8 @@ class ContainerSizeVerifier extends NumberVerifier
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " + this.pluralizer.nameOf(2) +
-			".").
+			this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " +
+			this.pluralizer.nameOf(2) + ".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
@@ -292,8 +294,8 @@ class ContainerSizeVerifier extends NumberVerifier
 	 * @param {number} endInclusive  the maximum value (inclusive)
 	 * @return {ContainerSizeVerifier} this
 	 * @throws {TypeError}  if any of the arguments are null
-	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the actual value
-	 * is not in range
+	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the
+	 *   actual value is not in range
 	 */
 	isBetweenClosed(startInclusive, endInclusive)
 	{
@@ -305,8 +307,8 @@ class ContainerSizeVerifier extends NumberVerifier
 			return this;
 
 		const eb = new ExceptionBuilder(this.config, RangeError,
-			this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " + this.pluralizer.nameOf(2) +
-			".").
+			this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " +
+			this.pluralizer.nameOf(2) + ".").
 			addContext("Actual", this.actual);
 
 		if (this.actual > 0)
@@ -336,7 +338,8 @@ class ContainerSizeVerifier extends NumberVerifier
 		if (name)
 		{
 			eb = new ExceptionBuilder(this.config, RangeError,
-				this.containerName + " must contain " + name + "(" + expected + ") " + this.pluralizer.nameOf(expected) + ".");
+				this.containerName + " must contain " + name + "(" + expected + ") " +
+				this.pluralizer.nameOf(expected) + ".");
 		}
 		else
 		{
@@ -371,7 +374,8 @@ class ContainerSizeVerifier extends NumberVerifier
 		if (name)
 		{
 			throw new ExceptionBuilder(this.config, RangeError,
-				this.containerName + " may not contain " + name + " (" + value + ") " + this.pluralizer.nameOf(value) + ".").
+				this.containerName + " may not contain " + name + " (" + value + ") " +
+				this.pluralizer.nameOf(value) + ".").
 				addContext(this.containerName, this.container).
 				build();
 		}
@@ -383,5 +387,6 @@ class ContainerSizeVerifier extends NumberVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {ContainerSizeVerifier as default};

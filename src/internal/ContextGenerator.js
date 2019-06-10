@@ -188,7 +188,8 @@ class ContextGenerator
 			typeOfActual = "null";
 		else
 			typeOfActual = Objects.getTypeOf(actualValue);
-		const result = getContextImpl(this, actualName, actualAsString, typeOfActual, expectedName, expectedAsString);
+		const result = getContextImpl(this, actualName, actualAsString, typeOfActual, expectedName,
+			expectedAsString);
 		if (actualAsString === expectedAsString)
 		{
 			result.push(null);
@@ -215,5 +216,6 @@ class ContextGenerator
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {ContextGenerator as default};

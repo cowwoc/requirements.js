@@ -125,16 +125,16 @@ class SetVerifier extends ObjectVerifier
 	}
 
 	/**
-	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less, nothing
-	 * more.
+	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less,
+	 * nothing more.
 	 *
 	 * @param {Array|Set} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 * <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
+	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
-	 * <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
+	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsExactly(expected, name)
 	{
@@ -169,10 +169,10 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Set} expected the Set of elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 * <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
+	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
-	 * <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
+	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
 	containsAny(expected, name)
 	{
@@ -200,10 +200,10 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Set} expected the Set of elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code> or
-	 * <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
+	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value does not contain all of
-	 * <code>expected</code>
+	 *   <code>expected</code>
 	 */
 	containsAll(expected, name)
 	{
@@ -263,8 +263,8 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Array|Set} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or
-	 * [@code Set}
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
+	 *   or [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty; if the array contains any of <code>elements</code>
 	 */
 	doesNotContainAny(elements, name)
@@ -294,9 +294,10 @@ class SetVerifier extends ObjectVerifier
 	 * @param {Set} elements a Set of elements
 	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} this
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code> or
-	 * [@code Set}
-	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains all of <code>elements</code>
+	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
+	 *   or [@code Set}
+	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains all of
+	 *   <code>elements</code>
 	 */
 	doesNotContainAll(elements, name)
 	{
@@ -364,5 +365,6 @@ class SetVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {SetVerifier as default};

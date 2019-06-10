@@ -1,16 +1,16 @@
 import Objects from "./internal/Objects.js";
 
 /**
- * The ANSI escape codes supported by the terminal.
+ * The encodings supported by the terminal.
  *
- * @property {number} ordinal the position in an enum declaration, where the initial constant is assigned an ordinal of
- * zero
+ * @property {number} ordinal the position in an enum declaration, where the initial constant is assigned an
+ *   ordinal of zero
  */
 class TerminalEncoding
 {
 	/**
-	 * @param {number} ordinal the position in an enum declaration, where the initial constant is assigned an ordinal of
-	 * zero
+	 * @param {number} ordinal the position in an enum declaration, where the initial constant is assigned an
+	 *   ordinal of zero
 	 * @param {string} name the name of the enum
 	 * @throws {TypeError} if <code>ordinal</code> is not a number. If <code>name</code> is not a string.
 	 */
@@ -59,8 +59,8 @@ TerminalEncoding.NODE_16MILLION_COLORS = new TerminalEncoding(value++, "NODE_16M
  * @param {TerminalEncoding} first the first encoding
  * @param {TerminalEncoding} second the second encoding
  * @return {number} a negative number if <code>first</code> supports more colors than <code>second</code>.
- * <code>0</code> if the encodings support the same number of colors. A positive number if <code>first</code>
- * supports less colors than <code>second</code>.
+ *   <code>0</code> if the encodings support the same number of colors. A positive number if
+ *   <code>first</code> supports less colors than <code>second</code>.
  */
 TerminalEncoding.sortByDecreasingRank = (first, second) =>
 {
@@ -74,5 +74,6 @@ TerminalEncoding.sortByDecreasingRank = (first, second) =>
 Object.freeze(TerminalEncoding);
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {TerminalEncoding as default};

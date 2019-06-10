@@ -74,7 +74,8 @@ function isIpV6Impl(value)
  */
 function isHostnameImpl(value)
 {
-	// See http://serverfault.com/a/638270/15584 and https://blogs.msdn.microsoft.com/oldnewthing/20120412-00/?p=7873
+	// See http://serverfault.com/a/638270/15584 and
+	// https://blogs.msdn.microsoft.com/oldnewthing/20120412-00/?p=7873
 	const components = value.split(".");
 
 	// Top-level domain names may not be empty or all-numeric
@@ -86,7 +87,8 @@ function isHostnameImpl(value)
 	for (let i = 0; i < components.length; ++i)
 	{
 		const label = components[i];
-		// label may not be empty. It must consist of only the ASCII alphabetic and numeric characters, plus the hyphen.
+		// label may not be empty. It must consist of only the ASCII alphabetic and numeric characters, plus the
+		// hyphen.
 		if (label.match(/^[a-zA-Z0-9-]+$/) === null)
 			return false;
 		const length = label.length;
@@ -125,7 +127,8 @@ class InetAddressVerifier extends ObjectVerifier
 
 		if (!isIpV4Impl(actual) && !isIpV6Impl(actual) && !isHostnameImpl(actual))
 		{
-			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain a valid IP address or hostname.").
+			throw new ExceptionBuilder(this.config, RangeError, this.name + " must contain a valid IP address or " +
+				"hostname.").
 				addContext("Actual", this.actual).
 				build();
 		}
@@ -181,5 +184,6 @@ class InetAddressVerifier extends ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {InetAddressVerifier as default};

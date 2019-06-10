@@ -3,7 +3,7 @@ import TerminalEncoding from "../TerminalEncoding.js";
 import Objects from "./Objects.js";
 
 /**
- * @return {Array<TerminalEncoding>} the ANSI escape codes supported by the terminal
+ * @return {Array<TerminalEncoding>} the encodings supported by the terminal
  * @ignore
  */
 function getSupportedTypesImpl()
@@ -44,14 +44,13 @@ function getSupportedTypesImpl()
 /**
  * Indicates the type of encoding that the terminal should use.
  * <p>
- * This feature can be used to force the use of ANSI colors even when their support is not
- * detected.
+ * This feature can be used to force the use of an encoding even when its support is not detected.
  *
  * @param {Terminal} terminal an instance of the terminal
  * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
  * @param {boolean} force true if the encoding should be forced regardless of what the system supports
- * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>. If <code>force</code> is not a
- * <code>boolean</code>.
+ * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>. If <code>force</code>
+ *   is not a <code>boolean</code>.
  * @see #useBestEncoding
  * @ignore
  */
@@ -90,7 +89,7 @@ class Terminal
 	}
 
 	/**
-	 * @return {Array<TerminalEncoding>} the ANSI escape codes supported by the terminal
+	 * @return {Array<TerminalEncoding>} the encodings supported by the terminal
 	 */
 	getSupportedTypes()
 	{
@@ -102,8 +101,7 @@ class Terminal
 	/**
 	 * Indicates the type of encoding that the terminal should use.
 	 * <p>
-	 * This feature can be used to force the use of ANSI colors even when their support is not
-	 * detected.
+	 * This feature can be used to force the use of an encoding even when its support is not detected.
 	 *
 	 * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
 	 * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>
@@ -127,7 +125,8 @@ class Terminal
 	}
 
 	/**
-	 * @return {TerminalEncoding} the encoding that the terminal should use (defaults to the best available encoding)
+	 * @return {TerminalEncoding} the encoding that the terminal should use (defaults to the best available
+	 *   encoding)
 	 */
 	getEncoding()
 	{
@@ -142,5 +141,6 @@ class Terminal
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {Terminal as default};

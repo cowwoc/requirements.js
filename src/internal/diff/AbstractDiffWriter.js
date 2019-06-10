@@ -273,8 +273,8 @@ class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {Array<string>} the lines to optionally display after "actual" and before "expected" (the lines are
-	 *         empty if they should not be displayed)
+	 * @return {Array<string>} the lines to optionally display after "actual" and before "expected" (the lines
+	 *   are empty if they should not be displayed)
 	 * @throws {RangeError} if the writer is open
 	 */
 	getMiddleLines()
@@ -297,5 +297,6 @@ class AbstractDiffWriter
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {AbstractDiffWriter as default};

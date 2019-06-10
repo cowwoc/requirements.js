@@ -48,7 +48,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 	// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
 	const bundle = await rollup({
 		input: "src/index.js",
-		external: ["urijs", "sugar"],
+		external: ["urijs", "sugar-object", "sugar-array"],
 		plugins: [
 			nodeResolve(
 				{
@@ -78,8 +78,11 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 				"src/ArrayVerifier.js",
 				"src/Configuration.js"
 			];
-			if (warning.code === "CIRCULAR_DEPENDENCY" && ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
+			if (warning.code === "CIRCULAR_DEPENDENCY" &&
+				ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
+			{
 				return;
+			}
 			warn(warning);
 		}
 	});
@@ -91,7 +94,8 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		format: "iife",
 		globals: {
 			urijs: "URI",
-			sugar: "Sugar"
+			"sugar-array": "Sugar",
+			"sugar-object": "Sugar"
 		},
 		sourcemap: isReleaseMode,
 		dir: "build/es5/browser"
@@ -111,7 +115,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 	}
 }));
 
-gulp.task("bundle-src-for-node", gulp.parallel(function()
+gulp.task("bundle-src-for-es5-node", gulp.parallel(function()
 {
 	let result = gulp.src(
 		[
@@ -130,6 +134,20 @@ gulp.task("bundle-src-for-node", gulp.parallel(function()
 		pipe(gulp.dest("build/es5/node"));
 }));
 
+gulp.task("bundle-src-for-es6-node", gulp.parallel(function()
+{
+	let result = gulp.src(
+		[
+			"src/**/*.js",
+			"!src/index.js"
+		]
+	);
+	if (isReleaseMode)
+		result = result.pipe(stripDebug());
+	return result.
+		pipe(gulp.dest("build/es6/node"));
+}));
+
 gulp.task("bundle-test", gulp.parallel(function()
 {
 	let result = gulp.src("test/**/*.js").
@@ -146,7 +164,7 @@ gulp.task("bundle-test", gulp.parallel(function()
 		pipe(gulp.dest("build/es5/test"));
 }));
 
-gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node", "bundle-test"), function()
+gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-es5-node", "bundle-test"), function()
 {
 	return gulp.src("build/es5/test/**/*.js").
 		pipe(tape(
@@ -200,7 +218,7 @@ gulp.task("server", gulp.parallel(function()
 	);
 }));
 
-gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node", "bundle-src", "bundle-jsdoc",
-	"bundle-resources"));
+gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-es5-node",
+	"bundle-src-for-es6-node", "bundle-src", "bundle-jsdoc", "bundle-resources"));
 gulp.task("build", gulp.parallel("lint", "bundle", "test"));
 gulp.task("default", gulp.parallel("build"));

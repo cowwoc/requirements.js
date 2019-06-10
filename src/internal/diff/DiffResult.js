@@ -48,8 +48,8 @@ class DiffResult
 
 
 	/**
-	 * @return {Array<string>} the lines to display between "actual" and "expected". If the list is empty, no lines
-	 * should be displayed.
+	 * @return {Array<string>} the lines to display between "actual" and "expected". If the list is empty, no
+	 *   lines should be displayed.
 	 */
 	getMiddleLines()
 	{
@@ -74,5 +74,6 @@ class DiffResult
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {DiffResult as default};

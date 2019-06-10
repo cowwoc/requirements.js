@@ -1,6 +1,6 @@
 import Configuration from "../Configuration.js";
 import Objects from "./Objects.js";
-import Sugar from "sugar";
+import Sugar from "sugar-object";
 import ExceptionBuilder from "./ExceptionBuilder.js";
 import ContextGenerator from "./ContextGenerator.js";
 import GlobalConfiguration from "../GlobalConfiguration.js";
@@ -113,7 +113,8 @@ class ObjectVerifier
 	 *
 	 * @return {ObjectVerifier} this
 	 * @throws {RangeError} if the actual value is not a <code>string</code>, <code>number</code>,
-	 * <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or <code>symbol</code>)
+	 *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
+	 *   <code>symbol</code>)
 	 */
 	isPrimitive()
 	{
@@ -316,8 +317,8 @@ class ObjectVerifier
 	/**
 	 * @return {object} the actual value
 	 * @throws RangeError if the verifier does not have access to the actual value (e.g. if
-	 * {@link Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not need to
-	 * retain a reference to the actual value)
+	 * {@link Verifiers#assertThat() assertThat()} is used when assertions are disabled, the verifier does not
+	 *   need to retain a reference to the actual value)
 	 * @see #getActualIfPresent
 	 */
 	getActual()
@@ -338,5 +339,6 @@ class ObjectVerifier
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an explanation.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
 export {ObjectVerifier as default};
