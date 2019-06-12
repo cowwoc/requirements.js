@@ -201,7 +201,6 @@ gulp.task("bundle-resources", gulp.parallel(function()
 	return gulp.src(
 		[
 			".npmignore",
-			"changelog.md",
 			"license.md",
 			"package.json",
 			"readme.md"

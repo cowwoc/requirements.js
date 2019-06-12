@@ -8,7 +8,7 @@
 A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#markdown-header-usage).
 
 ```javascript
-import {requireThat} from "node_modules/@cowwoc/requirements/DefaultRequirements.js"
+import {requireThat} from "@cowwoc/requirements/es6/node/DefaultRequirements.js"
 
 class Player
 {
@@ -44,13 +44,13 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@1.0.6
+npm install --save @cowwoc/requirements@1.0.9
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@1.0.6
+yarn add @cowwoc/requirements@1.0.9
 ```
 
 The API has three entry points:
