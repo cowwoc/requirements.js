@@ -16,16 +16,17 @@
 		"url": "https://bitbucket.org/cowwoc/requirements.js"
 	},
 	"files": [
-		"/es5/*"
+		"es5/*",
+		"es6/*"
 	],
 	"nyc": {
 		"include": [
-			"build/es5/node/**/*.js"
+			"build/publish/es5/node/**/*.js"
 		]
 	},
-	"main": "es5/node/DefaultRequirements.js",
+	"main": "es5/node/index.js",
 	"browser": "es5/browser/index.js",
-	"module": "es5/modules/DefaultRequirements.js",
+	"module": "es6/node/index.js",
 	"dependencies": {
 		"@babel/plugin-external-helpers": "~7.2.0",
 		"@babel/runtime": "~7.4.0",
@@ -63,6 +64,7 @@
 		"rollup": "^1.6.0",
 		"rollup-plugin-babel": "^4.3.2",
 		"rollup-plugin-commonjs": "^10.0.0",
+		"rollup-plugin-node-builtins": "^2.1.2",
 		"rollup-plugin-node-resolve": "^5.0.1",
 		"rollup-stream": "^1.19.0",
 		"tap-diff": "^0.1.1",

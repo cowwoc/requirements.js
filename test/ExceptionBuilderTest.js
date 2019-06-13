@@ -1,6 +1,6 @@
+import test from "tape-catch";
 import Configuration from "../src/Configuration.js";
 import ExceptionBuilder from "../src/internal/ExceptionBuilder.js";
-import test from "tape-catch";
 import Requirements from "../src/Requirements.js";
 
 test("ExceptionBuilderTest_configurationIsUndefined", function(t)

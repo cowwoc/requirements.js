@@ -1,6 +1,6 @@
+import test from "tape-catch";
 import {assertThat, requireThat} from "../src/DefaultRequirements.js";
 import ObjectVerifier from "../src/ObjectVerifier.js";
-import test from "tape-catch";
 
 test("ObjectTest.constructor_configurationIsUndefined", function(t)
 {

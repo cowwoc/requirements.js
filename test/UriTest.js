@@ -1,6 +1,6 @@
-import {requireThat} from "../src/DefaultRequirements.js";
 import test from "tape-catch";
 import URI from "urijs";
+import {requireThat} from "../src/DefaultRequirements.js";
 
 test("UriTest.asUri", function(t)
 {

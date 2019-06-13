@@ -15,6 +15,7 @@ import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
+import nodeBuiltins from "rollup-plugin-node-builtins";
 import stripDebug from "gulp-strip-debug";
 import connect from "gulp-connect";
 
@@ -52,10 +53,11 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		plugins: [
 			nodeResolve(
 				{
-					mainFields: ["module", "main", "browser"]
+					mainFields: ["module"]
 				}
 			),
 			commonjs({include: "node_modules/**"}),
+			nodeBuiltins(),
 			nodeGlobals(),
 			rollupBabel(
 				{
@@ -98,31 +100,26 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 			"sugar-object": "Sugar"
 		},
 		sourcemap: isReleaseMode,
-		dir: "build/es5/browser"
+		dir: "build/publish/es5/browser"
 	});
 	if (isReleaseMode)
 	{
-		await gulp.src("build/es5/browser/**").
+		await gulp.src("build/publish/es5/browser/**").
 			pipe(stripDebug()).
-			pipe(gulp.dest("build/es5/browser/**"));
+			pipe(gulp.dest("build/publish/es5/browser/**"));
 		await gulp.src("index.js").
 			pipe(stripDebug()).
 			pipe(sourcemaps.init({loadMaps: true})).
 			pipe(uglify()).
 			pipe(rename("index.min.js")).
 			pipe(sourcemaps.write(".")).
-			pipe(gulp.dest("build/es5/browser"));
+			pipe(gulp.dest("build/publish/es5/browser"));
 	}
 }));
 
 gulp.task("bundle-src-for-es5-node", gulp.parallel(function()
 {
-	let result = gulp.src(
-		[
-			"src/**/*.js",
-			"!src/index.js"
-		]
-	);
+	let result = gulp.src("src/**/*.js");
 	if (isReleaseMode)
 		result = result.pipe(stripDebug());
 	return result.
@@ -131,27 +128,22 @@ gulp.task("bundle-src-for-es5-node", gulp.parallel(function()
 				"@babel/preset-env"
 			]
 		})).
-		pipe(gulp.dest("build/es5/node"));
+		pipe(gulp.dest("build/publish/es5/node"));
 }));
 
 gulp.task("bundle-src-for-es6-node", gulp.parallel(function()
 {
-	let result = gulp.src(
-		[
-			"src/**/*.js",
-			"!src/index.js"
-		]
-	);
+	let result = gulp.src("src/**/*.js");
 	if (isReleaseMode)
 		result = result.pipe(stripDebug());
 	return result.
-		pipe(gulp.dest("build/es6/node"));
+		pipe(gulp.dest("build/publish/es6/node"));
 }));
 
 gulp.task("bundle-test", gulp.parallel(function()
 {
 	let result = gulp.src("test/**/*.js").
-		pipe(replace("from \"../src/", "from \"../node/")).
+		pipe(replace("from \"../src/", "from \"../publish/es5/node/")).
 		pipe(babel(
 			{
 				presets: [
@@ -161,26 +153,17 @@ gulp.task("bundle-test", gulp.parallel(function()
 	if (isReleaseMode)
 		result = result.pipe(stripDebug());
 	return result.
-		pipe(gulp.dest("build/es5/test"));
+		pipe(gulp.dest("build/test"));
 }));
 
 gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-es5-node", "bundle-test"), function()
 {
-	return gulp.src("build/es5/test/**/*.js").
+	return gulp.src("build/test/**/*.js").
 		pipe(tape(
 			{
 				reporter: tapeReporter(),
 				nyc: true
 			}));
-}));
-
-gulp.task("bundle-src", gulp.parallel(function()
-{
-	let result = gulp.src("src/**/*.js");
-	if (isReleaseMode)
-		result = result.pipe(stripDebug());
-	return result.
-		pipe(gulp.dest("build/es5/modules"));
 }));
 
 gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
@@ -200,12 +183,11 @@ gulp.task("bundle-resources", gulp.parallel(function()
 {
 	return gulp.src(
 		[
-			".npmignore",
 			"license.md",
 			"package.json",
 			"readme.md"
 		]).
-		pipe(gulp.dest("build"));
+		pipe(gulp.dest("build/publish"));
 }));
 
 gulp.task("server", gulp.parallel(function()
@@ -218,6 +200,6 @@ gulp.task("server", gulp.parallel(function()
 }));
 
 gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-es5-node",
-	"bundle-src-for-es6-node", "bundle-src", "bundle-jsdoc", "bundle-resources"));
+	"bundle-src-for-es6-node", "bundle-jsdoc", "bundle-resources"));
 gulp.task("build", gulp.parallel("lint", "bundle", "test"));
 gulp.task("default", gulp.parallel("build"));

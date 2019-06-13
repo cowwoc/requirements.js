@@ -1,5 +1,5 @@
-import {requireThat} from "../src/DefaultRequirements.js";
 import test from "tape-catch";
+import {requireThat} from "../src/DefaultRequirements.js";
 
 test("ContainerSizeTest.isGreaterThanOrEqualTo", function(t)
 {
