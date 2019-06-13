@@ -1,6 +1,6 @@
 {
 	"name": "@cowwoc/requirements",
-	"version": "1.0.11",
+	"version": "1.0.18",
 	"keywords": [
 		"preconditions",
 		"postconditions",
@@ -15,10 +15,6 @@
 		"type": "hg",
 		"url": "https://bitbucket.org/cowwoc/requirements.js"
 	},
-	"files": [
-		"es5/*",
-		"es6/*"
-	],
 	"nyc": {
 		"include": [
 			"build/publish/es5/node/**/*.js"
