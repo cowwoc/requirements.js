@@ -4,6 +4,7 @@ import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Base implementation for all diff writers.
+ *
  * @ignore
  */
 class AbstractDiffWriter

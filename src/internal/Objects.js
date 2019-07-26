@@ -110,8 +110,8 @@ function toStringImpl(object)
 	}
 	while (true)
 	{
-		// See http://stackoverflow.com/a/22445303/14731
-		if (current.constructor.prototype.hasOwnProperty("toString"))
+		// See http://stackoverflow.com/a/22445303/14731, https://stackoverflow.com/q/57214613/14731
+		if (Object.prototype.hasOwnProperty.call(current.constructor.prototype, "toString"))
 			return current.constructor.prototype.toString.call(object);
 		current = Object.getPrototypeOf(current.constructor.prototype);
 		if (getTypeOfImpl(current) === "Object")
@@ -155,6 +155,7 @@ function getObjectClass(object)
 
 /**
  * Object helper functions.
+ *
  * @ignore
  */
 class Objects

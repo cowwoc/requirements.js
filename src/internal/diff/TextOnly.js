@@ -7,21 +7,25 @@ import AbstractDiffWriter from "./AbstractDiffWriter.js";
 
 /**
  * A padding character used to align values vertically.
+ *
  * @ignore
  */
 const PADDING_MARKER = " ";
 /**
  * Indicates a character is equal in the actual and expected values.
+ *
  * @ignore
  */
 const DIFF_EQUAL = "=";
 /**
  * Indicates a character to delete from the actual value.
+ *
  * @ignore
  */
 const DIFF_DELETE = " ";
 /**
  * Indicates a character to insert into the actual value.
+ *
  * @ignore
  */
 const DIFF_INSERT = "^";
@@ -168,6 +172,7 @@ const DIFF_INSERT = "^";
  * <li>Expected did not have a line that corresponded to Actual line 1.</li>
  * <li>We need to delete line 1 and retain line 2 unchanged.</li>
  * </ul>
+ *
  * @ignore
  */
 class TextOnly extends AbstractDiffWriter

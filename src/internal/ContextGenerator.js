@@ -5,6 +5,7 @@ import DiffGenerator from "./diff/DiffGenerator.js";
 
 /**
  * A regular expression that matches lines that are not equal.
+ *
  * @ignore
  */
 const LINES_NOT_EQUAL = /[^=]+/;
@@ -146,6 +147,7 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 
 /**
  * Returns the difference between two values as an exception context.
+ *
  * @ignore
  */
 class ContextGenerator

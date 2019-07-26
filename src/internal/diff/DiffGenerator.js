@@ -12,6 +12,7 @@ import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Character denoting the end of string.
+ *
  * @ignore
  */
 const EOS_MARKER = "\\0";
@@ -85,6 +86,7 @@ function writeDiff(component, writer)
 
 /**
  * Generates a diff of two strings.
+ *
  * @ignore
  */
 class DiffGenerator

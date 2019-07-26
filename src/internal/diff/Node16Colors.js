@@ -3,6 +3,7 @@ import chalk from "chalk";
 
 /**
  * An node terminal that supports 16 colors.
+ *
  * @ignore
  */
 class Node16Colors extends AbstractColorWriter

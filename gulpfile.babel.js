@@ -53,7 +53,8 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		plugins: [
 			nodeResolve(
 				{
-					mainFields: ["module"]
+					mainFields: ["module"],
+					preferBuiltins: true
 				}
 			),
 			commonjs({include: "node_modules/**"}),
