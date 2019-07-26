@@ -1,4 +1,5 @@
 import ArrayValidator from "./ArrayValidator.js";
+import ArrayValidatorNoOp from "./internal/ArrayValidatorNoOp.js";
 import SizeValidator from "./SizeValidator.js";
 import ObjectValidator from "./internal/circular_dependency/ObjectValidatorBase.js";
 import Pluralizer from "./Pluralizer.js";
@@ -60,7 +61,7 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's keys
+	 * @return {ArrayValidator|ArrayValidatorNoOp} a validator for the Map's keys
 	 */
 	keys()
 	{
@@ -69,7 +70,7 @@ class MapValidator extends ObjectValidator
 		{
 			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
-			return new MapValidatorNoOp(this.failures);
+			return new ArrayValidatorNoOp(this.failures);
 		}
 		return new ArrayValidator(this.config, Array.from(this.actual.keys()), this.name + ".keys()",
 			Pluralizer.KEY);
@@ -77,7 +78,7 @@ class MapValidator extends ObjectValidator
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's keys
-	 * @return {MapValidator} the updated validator
+	 * @return {MapValidator|MapValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	keysConsumer(consumer)
@@ -88,7 +89,7 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's values
+	 * @return {ArrayValidator|ArrayValidatorNoOp} a validator for the Map's values
 	 */
 	values()
 	{
@@ -97,7 +98,7 @@ class MapValidator extends ObjectValidator
 		{
 			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
-			return new MapValidatorNoOp(this.failures);
+			return new ArrayValidatorNoOp(this.failures);
 		}
 		return new ArrayValidator(this.config, Array.from(this.actual.values()), this.name + ".values()",
 			Pluralizer.VALUE);
@@ -116,8 +117,8 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's entries (an array of <code>[key, value]</code> for
-	 *   each element in the Map)
+	 * @return {ArrayValidator|ArrayValidatorNoOp} a validator for the Map's entries (an array of <code>[key,
+	 *   value]</code> for each element in the Map)
 	 */
 	entries()
 	{
@@ -126,7 +127,7 @@ class MapValidator extends ObjectValidator
 		{
 			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
-			return new MapValidatorNoOp(this.failures);
+			return new ArrayValidatorNoOp(this.failures);
 		}
 		return new ArrayValidator(this.config, Array.from(this.actual.entries()), this.name + ".entries()",
 			Pluralizer.ENTRY);

@@ -102,7 +102,7 @@ ObjectValidator.prototype.isNotEqualTo = function(value, name)
  * Ensures that the actual value is a primitive. To check if the actual value is an object, use
  * <code>isInstanceOf(Object)</code>.
  *
- * @return {ObjectValidator} the updated validator
+ * @return {ObjectValidator|ObjectValidatorNoOp} the updated validator
  * @throws {RangeError} if the actual value is not a <code>string</code>, <code>number</code>,
  *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
  *   <code>symbol</code>)

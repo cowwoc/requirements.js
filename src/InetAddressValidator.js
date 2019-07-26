@@ -35,7 +35,7 @@ class InetAddressValidator extends ObjectValidator
 		/**
 		 * Ensures that the actual value is an IP v4 address.
 		 *
-		 * @return {InetAddressValidator} the updated validator
+		 * @return {InetAddressValidator|InetAddressValidatorNoOp} the updated validator
 		 */
 		this.isIpV4 = function()
 		{

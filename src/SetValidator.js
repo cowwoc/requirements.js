@@ -1,9 +1,11 @@
 import ObjectValidator from "./internal/circular_dependency/ObjectValidatorBase.js";
 import ArrayValidator from "./internal/circular_dependency/ArrayValidatorBase.js";
-import NumberValidator from "./NumberValidator.js";
+import SizeValidator from "./SizeValidator.js";
+import SizeValidatorNoOp from "./internal/SizeValidatorNoOp.js";
 import Objects from "./internal/Objects.js";
 import ValidationFailure from "./ValidationFailure.js";
 import SetValidatorNoOp from "./internal/SetValidatorNoOp.js";
+import Pluralizer from "./Pluralizer.js";
 
 /**
  * @param {Array|Set} value a value
@@ -432,7 +434,7 @@ class SetValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {NumberValidator} a validator for the Set's size
+	 * @return {SizeValidator|SizeValidatorNoOp} a validator for the Set's size
 	 */
 	size()
 	{
@@ -441,9 +443,10 @@ class SetValidator extends ObjectValidator
 		{
 			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
-			return new SetValidatorNoOp(this.failures);
+			return new SizeValidatorNoOp(this.failures);
 		}
-		return new NumberValidator(this.config, this.actual.size, this.name + ".size");
+		return new SizeValidator(this.config, this.actual, this.name, this.actual.size, this.name + ".size",
+			Pluralizer.ELEMENT);
 	}
 
 	/**
