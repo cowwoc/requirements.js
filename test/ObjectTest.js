@@ -354,28 +354,32 @@ test("ObjectTest.asUriConsumer", function(t)
 	t.end();
 });
 
-test("ObjectTest.getActual", function(t)
+test("ObjectTest.requireThat.getActual", function(t)
 {
-	const input = {};
+	const input = 12345;
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
 	t.end();
 });
 
-test("ObjectTest.requireThat.getActualIfPresent", function(t)
+test("ObjectTest.assertThat.getActual", function(t)
 {
 	const input = 12345;
-	const output = requireThat(input, "input").asString().getActualIfPresent();
-	t.equals(output, "12345");
+	let expected;
+	const verifier = assertThat(input, "input");
+	t.equals(verifier.isActualAvailable(), false);
+	// noinspection JSUnusedAssignment
+	t.equals(verifier.getActual(), expected);
 	t.end();
 });
 
-test("ObjectTest.assertThat.getActualIfPresent", function(t)
+test("ObjectTest.assertThat.getActual", function(t)
 {
-	const input = {};
+	const input = 12345;
 	let expected;
-	const output = assertThat(input, "input").getActualIfPresent();
+	const verifier = assertThat(input, "input");
+	t.equals(verifier.isActualAvailable(), false);
 	// noinspection JSUnusedAssignment
-	t.equals(output, expected);
+	t.equals(verifier.getActual(), expected);
 	t.end();
 });

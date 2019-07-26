@@ -2,20 +2,6 @@ import test from "tape-catch";
 import URI from "urijs";
 import Requirements from "../src/Requirements.js";
 
-class IllegalArgumentException extends Error
-{
-}
-
-test("Verifiers.withException", function(t)
-{
-	t.throws(function()
-	{
-		const actual = null;
-		new Requirements().withException(IllegalArgumentException).requireThat(actual, "actual").isNotNull();
-	}, IllegalArgumentException);
-	t.end();
-});
-
 test("Verifiers.assertThatString", function(t)
 {
 	const actual = "actual";
@@ -83,34 +69,36 @@ test("Verifiers.withAssertionsEnabled.withAssertionsEnabled", function(t)
 	t.end();
 });
 
-test("Verifiers.withAssertionsEnabled.withAssertionsEnabled", function(t)
+test("Verifiers.withAssertionsDisabled.withAssertionsDisabled", function(t)
 {
-	const verifiers = new Requirements().withAssertionsEnabled().withAssertionsDisabled();
+	const verifiers = new Requirements().withAssertionsDisabled();
 	t.equals(verifiers.withAssertionsDisabled(), verifiers);
+	t.end();
+});
+
+test("Verifiers.withAssertionsEnabled.isActualAvailable", function(t)
+{
+	const input = 12345;
+	const verifier = new Requirements().withAssertionsEnabled().assertThat(input, "input");
+	t.equals(verifier.isActualAvailable(), true);
+	t.equals(verifier.getActual(), input);
+	t.end();
+});
+
+test("Verifiers.withAssertionsDisabled.isActualAvailable", function(t)
+{
+	const input = 12345;
+	let expected;
+	const verifier = new Requirements().withAssertionsDisabled().assertThat(input, "input");
+	t.equals(verifier.isActualAvailable(), false);
+	// noinspection JSUnusedAssignment
+	t.equals(verifier.getActual(), expected);
 	t.end();
 });
 
 test("Verifiers.assertionsAreEnabled", function(t)
 {
 	t.equals(new Requirements().assertionsAreEnabled(), false);
-	t.end();
-});
-
-test("Verifiers.withException", function(t)
-{
-	const verifiers = new Requirements().withException(IllegalArgumentException);
-	const verifiers2 = verifiers.withException(IllegalArgumentException);
-	t.equals(verifiers, verifiers2);
-	t.equals(verifiers.getException(), IllegalArgumentException);
-	t.end();
-});
-
-test("Verifiers.withDefaultException", function(t)
-{
-	const verifiers = new Requirements().withException(IllegalArgumentException).withDefaultException();
-	const verifiers2 = verifiers.withDefaultException();
-	t.equals(verifiers, verifiers2);
-	t.equals(verifiers.getException(), null);
 	t.end();
 });
 

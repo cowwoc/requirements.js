@@ -182,16 +182,6 @@ class Objects
 		{
 			return false;
 		}
-		// console.log("**** child: " + child + ", prototype: " + child.prototype);
-		// const prototype = child.prototype;
-		// if (prototype.constructor === parent)
-		// {
-		// 	// child is the same class as parent
-		// 	return true;
-		// }
-		// // child is a subclass of parent
-		// return prototype instanceof parent;
-
 		// https://stackoverflow.com/a/14486171/14731
 		return child.prototype instanceof parent;
 	}
@@ -221,13 +211,39 @@ class Objects
 	}
 
 	/**
+	 * Requires that an object is set.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @return {boolean} true
+	 * @throws {TypeError} if <code>value</code> is <code>undefined</code> or <code>null</code>. If
+	 * <code>name</code> is not a string
+	 */
+	static requireThatIsSet(value, name)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual: " + Objects.toString(name) + "\n" +
+				"Type  : " + typeOfName);
+		}
+		if (typeof (value) === "undefined")
+			throw new TypeError(name + " must be set");
+		if (value === null)
+			throw new TypeError(name + " may not be null");
+		return true;
+	}
+
+	/**
 	 * Requires that an object has the expected type.
 	 *
 	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the paramter
+	 * @param {string} name the name of the parameter
 	 * @param {string} type the expected type of the object
 	 * @return {boolean} true
-	 * @throws {TypeError} if <code>object</code> is not of type <code>type</code>
+	 * @throws {TypeError} if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
+	 * a string
 	 */
 	static requireThatTypeOf(value, name, type)
 	{
@@ -235,15 +251,69 @@ class Objects
 		if (typeOfName !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
-				"Actual: " + name + "\n" +
+				"Actual: " + Objects.toString(name) + "\n" +
 				"Type  : " + typeOfName);
 		}
 		const typeOfValue = Objects.getTypeOf(value);
 		if (typeOfValue !== type)
 		{
 			throw new TypeError(name + " must be a " + type + ".\n" +
-				"Actual: " + value + "\n" +
+				"Actual: " + Objects.toString(value) + "\n" +
 				"Type  : " + typeOfValue);
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that an object is an instance of the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {object} type the class the value is expected to be an instance of
+	 * @return {boolean} true
+	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
+	 * is not a string
+	 */
+	static requireThatInstanceOf(value, name, type)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual     : " + Objects.toString(name) + "\n" +
+				"Actual.type: " + typeOfName);
+		}
+		if (!(value instanceof type))
+		{
+			throw new TypeError(name + " must be an instance of " + Objects.getTypeOf(type) + ".\n" +
+				"Actual.type: " + Objects.getTypeOf(value));
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that a class extends the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {object} type the class the value is expected to extend
+	 * @return {boolean} true
+	 * @throws {TypeError} if <code>value</code> does not extend <code>type</code>. If <code>name</code> is not
+	 * a string
+	 */
+	static requireThatExtends(value, name, type)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual     : " + Objects.toString(name) + "\n" +
+				"Actual.type: " + typeOfName);
+		}
+		if (!Objects.extends(value, type))
+		{
+			throw new TypeError(name + " must extend " + Objects.getTypeOf(type) + ".\n" +
+				"Actual.type: " + Objects.getTypeOf(value));
 		}
 		return true;
 	}
@@ -253,9 +323,10 @@ class Objects
 	 * <code>console.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
 	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the paramter
+	 * @param {string} name the name of the parameter
 	 * @param {string} type the expected type of the object
-	 * @throws {TypeError} if <code>object</code> is not of type <code>type</code>
+	 * @throws {TypeError} if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
+	 * a string
 	 */
 	static assertThatTypeOf(value, name, type)
 	{
@@ -268,7 +339,8 @@ class Objects
 	 * @param {string} value the value of the parameter
 	 * @param {string} name the name of the parameter
 	 * @return {boolean} true
-	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty
+	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
+	 * string
 	 */
 	static requireThatStringNotEmpty(value, name)
 	{
@@ -289,7 +361,8 @@ class Objects
 	 *
 	 * @param {string} value the value of the parameter
 	 * @param {string} name the name of the parameter
-	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty
+	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
+	 * string
 	 */
 	static assertThatStringNotEmpty(value, name)
 	{
@@ -308,8 +381,8 @@ class Objects
 	/**
 	 * @param {string} value a name
 	 * @param {string} name the name of the name
-	 * @throws {TypeError} if name is undefined or null or not a String
-	 * @throws {RangeError} if name is empty
+	 * @throws {TypeError} if <code>name</code> or <code>value</code> are not a String
+	 * @throws {RangeError} if <code>value</code> is empty
 	 */
 	static verifyName(value, name)
 	{
@@ -319,6 +392,23 @@ class Objects
 		const trimmed = value.trim();
 		if (trimmed.length === 0)
 			throw new RangeError(name + " may not be empty");
+	}
+
+	/**
+	 * Returns an error message if <code>value</code> is not set.
+	 *
+	 * @param {object} value the name of the parameter
+	 * @param {string} name the name of the parameter
+	 * @return {string|null} an error message or null if the value is set
+	 */
+	static validateThatValueIsSet(value, name)
+	{
+		this.assertThatStringNotEmpty(name, "name");
+		if (typeof (value) === "undefined")
+			return name + " must be set";
+		if (value === null)
+			return name + " may not be null";
+		return null;
 	}
 }
 

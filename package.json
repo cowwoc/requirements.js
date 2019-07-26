@@ -64,7 +64,7 @@
 		"rollup-plugin-node-resolve": "^5.0.1",
 		"rollup-stream": "^1.19.0",
 		"tap-diff": "^0.1.1",
-		"tape": "^4.6.3",
+		"tape": "^4.11.0",
 		"tape-catch": "^1.0.6",
 		"vinyl-buffer": "^1.0.0",
 		"vinyl-source-stream": "^2.0.0"

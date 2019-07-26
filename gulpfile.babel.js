@@ -69,24 +69,19 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 				})
 		],
 		// Assume that the top-level "this" is "window" since we are targeting a browser environment
-		context: "window",
-		onwarn(warning, warn)
-		{
-			// We only care about circular dependencies that affect top-level declarations
-			const ignoredCircular = [
-				"src/NoOpObjectVerifier.js",
-				"src/NoOpArrayVerifier.js",
-				"src/ObjectVerifier.js",
-				"src/ArrayVerifier.js",
-				"src/Configuration.js"
-			];
-			if (warning.code === "CIRCULAR_DEPENDENCY" &&
-				ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
-			{
-				return;
-			}
-			warn(warning);
-		}
+		context: "window"
+		// onwarn(warning, warn)
+		// {
+		// 	const ignoredCircular = [
+		// 		"src/ArrayValidator.js",
+		// 	];
+		// 	if (warning.code === "CIRCULAR_DEPENDENCY" &&
+		// 		ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
+		// 	{
+		// 		return;
+		// 	}
+		// 	warn(warning);
+		// }
 	});
 	await bundle.write({
 		// On the browser, module exports need to be translated into global variables (properties of "window"):

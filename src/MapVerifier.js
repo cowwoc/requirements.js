@@ -1,41 +1,37 @@
 import ArrayVerifier from "./ArrayVerifier.js";
-import ExceptionBuilder from "./internal/ExceptionBuilder.js";
 import NumberVerifier from "./NumberVerifier.js";
-import ObjectVerifier from "./ObjectVerifier.js";
-import Pluralizer from "./Pluralizer.js";
+import ObjectVerifier from "./internal/circular_dependency/ObjectVerifierBase.js";
+import Objects from "./internal/Objects.js";
 
 /**
- * Verifies a <code>Map</code>.
+ * Verifies the requirements of a <code>Map</code>.
+ * <p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */
 class MapVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that value does not contain any entries
 	 *
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if the value contains any entries
 	 */
 	isEmpty()
 	{
-		if (this.actual.size === 0)
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be empty.").
-			addContext("Actual", this.actual).
-			build();
+		this.validator.isEmpty();
+		return this.validationResult();
 	}
 
 	/**
 	 * Ensures that value contains at least one entry.
 	 *
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if the value does not contain any entries
 	 */
 	isNotEmpty()
 	{
-		if (this.actual.size !== 0)
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " may not be empty").
-			build();
+		this.validator.isNotEmpty();
+		return this.validationResult();
 	}
 
 	/**
@@ -43,18 +39,18 @@ class MapVerifier extends ObjectVerifier
 	 */
 	keys()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.keys()), this.name + ".keys()",
-			Pluralizer.KEY);
+		const newValidator = this.validator.keys();
+		return this.validationResult(() => new ArrayVerifier(newValidator));
 	}
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's keys
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	keysConsumer(consumer)
 	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.keys());
 		return this;
 	}
@@ -64,18 +60,18 @@ class MapVerifier extends ObjectVerifier
 	 */
 	values()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.values()), this.name + ".values()",
-			Pluralizer.VALUE);
+		const newValidator = this.validator.values();
+		return this.validationResult(() => new ArrayVerifier(newValidator));
 	}
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's values
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	valuesConsumer(consumer)
 	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.values());
 		return this;
 	}
@@ -86,19 +82,19 @@ class MapVerifier extends ObjectVerifier
 	 */
 	entries()
 	{
-		return new ArrayVerifier(this.config, Array.from(this.actual.entries()), this.name + ".entries()",
-			Pluralizer.ENTRY);
+		const newValidator = this.validator.entries();
+		return this.validationResult(() => new ArrayVerifier(newValidator));
 	}
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Map's entries (an
 	 *   array of <code>[key, value]</code> for each element in the Map)
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	entriesConsumer(consumer)
 	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.entries());
 		return this;
 	}
@@ -108,18 +104,19 @@ class MapVerifier extends ObjectVerifier
 	 */
 	size()
 	{
-		return new NumberVerifier(this.config, this.actual.size, this.name + ".size");
+		const newValidator = this.validator.size();
+		return this.validationResult(() => new NumberVerifier(newValidator));
 	}
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries
 	 *   this Map contains
-	 * @return {MapVerifier} this
+	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer)
 	{
-		this.config.internalVerifier.requireThat(consumer, "consumer").isSet();
+		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());
 		return this;
 	}

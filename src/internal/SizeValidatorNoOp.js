@@ -1,12 +1,12 @@
-import NoOpNumberVerifier from "./NoOpNumberVerifier.js";
+import NumberValidatorNoOp from "./NumberValidatorNoOp.js";
 
 /**
- * An implementation of {@link ContainerSizeVerifier} that does nothing.
+ * An implementation of {@link SizeValidator} that does nothing.
  */
-class NoOpContainerSizeVerifier extends NoOpNumberVerifier
+class SizeValidatorNoOp extends NumberValidatorNoOp
 {
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isGreaterThanOrEqualTo()
 	{
@@ -14,7 +14,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isGreaterThan()
 	{
@@ -22,7 +22,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isLessThanOrEqualTo()
 	{
@@ -30,7 +30,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isLessThan()
 	{
@@ -38,7 +38,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isNotPositive()
 	{
@@ -46,7 +46,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isPositive()
 	{
@@ -54,7 +54,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isNotZero()
 	{
@@ -62,7 +62,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isZero()
 	{
@@ -70,7 +70,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isNotNegative()
 	{
@@ -78,7 +78,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isNegative()
 	{
@@ -86,7 +86,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isBetween()
 	{
@@ -94,7 +94,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isBetweenClosed()
 	{
@@ -102,7 +102,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isEqualTo()
 	{
@@ -110,7 +110,7 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 	}
 
 	/**
-	 * @return {NoOpContainerSizeVerifier} this
+	 * @return {SizeValidatorNoOp} the updated validator
 	 */
 	isNotEqualTo()
 	{
@@ -121,4 +121,4 @@ class NoOpContainerSizeVerifier extends NoOpNumberVerifier
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {NoOpContainerSizeVerifier as default};
+export {SizeValidatorNoOp as default};

@@ -1,34 +1,34 @@
-import ObjectVerifier from "./ObjectVerifier.js";
+import ObjectVerifier from "./internal/circular_dependency/ObjectVerifierBase.js";
 
 /**
- * Verifies a <code>URI</code>.
+ * Verifies the requirements of a <code>URI</code>.
+ * <p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */
 class UriVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the URI is absolute.
 	 *
-	 * @return {UriVerifier} this
+	 * @return {UriVerifier} the updated verifier
 	 * @throws {RangeError} if the path is not absolute
 	 */
 	isAbsolute()
 	{
-		if (!this.actual.is("absolute"))
-			throw new RangeError(this.name + " must be absolute: " + this.config.convertToString(this.actual));
-		return this;
+		this.validator.isAbsolute();
+		return this.validationResult();
 	}
 
 	/**
 	 * Ensures that the URI is relative.
 	 *
-	 * @return {UriVerifier} this
+	 * @return {UriVerifier} the updated verifier
 	 * @throws {RangeError} if the path is not a relative
 	 */
 	isRelative()
 	{
-		if (!this.actual.is("relative"))
-			throw new RangeError(this.name + " must be relative: " + this.config.convertToString(this.actual));
-		return this;
+		this.validator.isRelative();
+		return this.validationResult();
 	}
 }
 

@@ -1,12 +1,12 @@
-import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
+import ObjectVerifierNoOp from "./circular_dependency/ObjectVerifierNoOpBase";
 
 /**
  * An implementation of <code>InetAddressVerifier</code> that does nothing.
  */
-class NoOpInetAddressVerifier extends NoOpObjectVerifier
+class InetAddressVerifierNoOp extends ObjectVerifierNoOp
 {
 	/**
-	 * @return {NoOpInetAddressVerifier} this
+	 * @return {InetAddressVerifierNoOp} the updated verifier
 	 */
 	isIpV4()
 	{
@@ -14,7 +14,7 @@ class NoOpInetAddressVerifier extends NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpInetAddressVerifier} this
+	 * @return {InetAddressVerifierNoOp} the updated verifier
 	 */
 	isIpV6()
 	{
@@ -22,7 +22,7 @@ class NoOpInetAddressVerifier extends NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpInetAddressVerifier} this
+	 * @return {InetAddressVerifierNoOp} the updated verifier
 	 */
 	isHostname()
 	{
@@ -30,7 +30,9 @@ class NoOpInetAddressVerifier extends NoOpObjectVerifier
 	}
 }
 
+InetAddressVerifierNoOp.INSTANCE = new InetAddressVerifierNoOp();
+
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {NoOpInetAddressVerifier as default};
+export {InetAddressVerifierNoOp as default};

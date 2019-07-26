@@ -1,13 +1,29 @@
 /** @module */
 import Configuration from "./Configuration.js";
-import NoOpObjectVerifier from "./NoOpObjectVerifier.js";
-import ObjectVerifier from "./ObjectVerifier.js";
 import Objects from "./internal/Objects.js";
+import ObjectVerifier from "./ObjectVerifier.js";
+import ObjectValidator from "./ObjectValidator.js";
+import ObjectVerifierNoOp from "./internal/ObjectVerifierNoOp.js";
+import ObjectValidatorNoOp from "./internal/ObjectValidatorNoOp.js";
+import ArrayVerifier from "./ArrayVerifier.js";
+import ArrayValidator from "./ArrayValidator.js";
+import ArrayVerifierNoOp from "./internal/ArrayVerifierNoOp.js";
+import ArrayValidatorNoOp from "./internal/ArrayValidatorNoOp.js";
+
+// Add methods that were stripped to avoid circular dependencies
+
+/* eslint-disable no-unused-vars */
+const initObjectValidatorNoOp = ObjectValidatorNoOp;
+const initObjectValidator = ObjectValidator;
+const initArrayVerifier = ArrayVerifier;
+const initArrayValidator = ArrayValidator;
+const initArrayVerifierNoOp = ArrayVerifierNoOp;
+const initArrayValidatorNoOp = ArrayValidatorNoOp;
+
+/* eslint-enable no-unused-vars */
 
 /**
  * Verifies the requirements of types from the Javascript core API.
- * <p>
- * This class is immutable.
  */
 class Requirements
 {
@@ -22,7 +38,7 @@ class Requirements
 	constructor(configuration)
 	{
 		if (typeof (configuration) === "undefined")
-			configuration = new Configuration(this);
+			configuration = new Configuration();
 		Object.defineProperty(this, "config",
 			{
 				value: configuration
@@ -30,7 +46,7 @@ class Requirements
 	}
 
 	/**
-	 * Verifies an object.
+	 * Verifies the requirements of an object.
 	 *
 	 * @function
 	 * @param {object} actual the actual value
@@ -41,8 +57,7 @@ class Requirements
 	 */
 	requireThat(actual, name)
 	{
-		Objects.verifyName(name, "name");
-		return new ObjectVerifier(this.config, actual, name);
+		return new ObjectVerifier(this.validateThat(actual, name));
 		// TODO: Related projects:
 		// * http://chaijs.com/
 		// * https://github.com/dsheiko/bycontract
@@ -60,7 +75,7 @@ class Requirements
 	 * @function
 	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
-	 * @return {ObjectVerifier|NoOpObjectVerifier} a verifier
+	 * @return {ObjectVerifier|ObjectVerifierNoOp} a verifier
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
@@ -69,7 +84,23 @@ class Requirements
 		Objects.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
-		return NoOpObjectVerifier.INSTANCE;
+		return ObjectVerifierNoOp.INSTANCE;
+	}
+
+	/**
+	 * Validates the requirements of an object.
+	 *
+	 * @function
+	 * @param {object} actual the actual value
+	 * @param {string} name   the name of the value
+	 * @return {ObjectValidator} a validator for the value
+	 * @throws {TypeError}  if <code>name</code> is null
+	 * @throws {RangeError} if <code>name</code> is empty
+	 */
+	validateThat(actual, name)
+	{
+		Objects.verifyName(name, "name");
+		return new ObjectValidator(this.config, actual, name);
 	}
 
 	/**
@@ -77,8 +108,6 @@ class Requirements
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
 	 *   if it shouldn't do anything
-	 * @see #withException
-	 * @see #withDefaultException
 	 */
 	assertionsAreEnabled()
 	{
@@ -112,52 +141,6 @@ class Requirements
 	}
 
 	/**
-	 * Returns the type of exception that will be thrown if a verification fails.
-	 *
-	 * @return {Error} <code>null</code> if the default exception type will be thrown
-	 * @see #withException
-	 * @see #withDefaultException
-	 */
-	getException()
-	{
-		return this.config.getException();
-	}
-
-	/**
-	 * Overrides the type of exception that will get thrown if a verification fails.
-	 * <p>
-	 * The exception class must define the following constructor:
-	 * <p>
-	 * <code><init>(message)</code>
-	 *
-	 * @param {Error} exception the type of exception to throw
-	 * @return {Requirements} a verifier with the updated configuration
-	 * @throws {TypeError} if <code>exception</code> is not set
-	 * @see #getException
-	 */
-	withException(exception)
-	{
-		const newConfig = this.config.withException(exception);
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
-	}
-
-	/**
-	 * Throws the default exception type if a verification fails.
-	 *
-	 * @return {Requirements} a verifier with the updated configuration
-	 * @see #getException
-	 */
-	withDefaultException()
-	{
-		const newConfig = this.config.withDefaultException();
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
-	}
-
-	/**
 	 * @return {Array<Array>} an array of key-value pairs to append to the exception message
 	 * @see #putContext
 	 */
@@ -171,7 +154,7 @@ class Requirements
 	 *
 	 * @param {string} key   a key
 	 * @param {object} value a value
-	 * @return {Requirements} a verifier with the updated configuration
+	 * @return {Requirements} the updated configuration
 	 * @throws {TypeError} if <code>key</code> is not a string
 	 * @see #getContext
 	 */

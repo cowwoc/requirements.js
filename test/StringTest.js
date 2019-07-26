@@ -103,7 +103,7 @@ test("StringTest.contains", function(t)
 {
 	const expected = "cat";
 	const actual = "my " + expected + " is the best";
-	requireThat(actual, "actual").asString().includes(expected);
+	requireThat(actual, "actual").asString().contains(expected);
 	t.end();
 });
 
@@ -113,7 +113,7 @@ test("StringTest.contains_False", function(t)
 	{
 		const expected = "cat";
 		const actual = "my dog is the best";
-		requireThat(actual, "actual").asString().includes(expected);
+		requireThat(actual, "actual").asString().contains(expected);
 	}, RangeError);
 	t.end();
 });

@@ -1,14 +1,14 @@
 import test from "tape-catch";
 import {requireThat} from "../src/DefaultRequirements.js";
 
-test("ContainerSizeTest.isGreaterThanOrEqualTo", function(t)
+test("SizeTest.isGreaterThanOrEqualTo", function(t)
 {
 	const actual = [];
 	requireThat(actual, "actual").asArray().length().isGreaterThanOrEqualTo(0);
 	t.end();
 });
 
-test("ContainerSizeTest.isGreaterThanOrEqualTo_False", function(t)
+test("SizeTest.isGreaterThanOrEqualTo_False", function(t)
 {
 	const actual = [];
 	t.throws(function()
@@ -22,14 +22,14 @@ test("ContainerSizeTest.isGreaterThanOrEqualTo_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isGreaterThan", function(t)
+test("SizeTest.isGreaterThan", function(t)
 {
 	const actual = [1];
 	requireThat(actual, "actual").asArray().length().isGreaterThan(0);
 	t.end();
 });
 
-test("ContainerSizeTest.isGreaterThan_False", function(t)
+test("SizeTest.isGreaterThan_False", function(t)
 {
 	const actual = [];
 	t.throws(function()
@@ -43,14 +43,14 @@ test("ContainerSizeTest.isGreaterThan_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isLessThanOrEqualTo", function(t)
+test("SizeTest.isLessThanOrEqualTo", function(t)
 {
 	const actual = [1];
 	requireThat(actual, "actual").asArray().length().isLessThanOrEqualTo(2);
 	t.end();
 });
 
-test("ContainerSizeTest.isLessThanOrEqualTo_False", function(t)
+test("SizeTest.isLessThanOrEqualTo_False", function(t)
 {
 	const actual = [];
 	t.throws(function()
@@ -64,14 +64,14 @@ test("ContainerSizeTest.isLessThanOrEqualTo_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isLessThan", function(t)
+test("SizeTest.isLessThan", function(t)
 {
 	const actual = [1];
 	requireThat(actual, "actual").asArray().length().isLessThan(2);
 	t.end();
 });
 
-test("ContainerSizeTest.isLessThan_False", function(t)
+test("SizeTest.isLessThan_False", function(t)
 {
 	const actual = [];
 	t.throws(function()
@@ -85,14 +85,14 @@ test("ContainerSizeTest.isLessThan_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isNotPositive", function(t)
+test("SizeTest.isNotPositive", function(t)
 {
 	const actual = [];
 	requireThat(actual, "actual").asArray().length().isNotPositive();
 	t.end();
 });
 
-test("ContainerSizeTest.isNotPositive_False", function(t)
+test("SizeTest.isNotPositive_False", function(t)
 {
 	t.throws(function()
 	{
@@ -102,14 +102,14 @@ test("ContainerSizeTest.isNotPositive_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isPositive", function(t)
+test("SizeTest.isPositive", function(t)
 {
 	const actual = [1, 2, 3];
 	requireThat(actual, "actual").asArray().length().isPositive();
 	t.end();
 });
 
-test("ContainerSizeTest.isPositive_False", function(t)
+test("SizeTest.isPositive_False", function(t)
 {
 	t.throws(function()
 	{
@@ -119,14 +119,14 @@ test("ContainerSizeTest.isPositive_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isNotZero", function(t)
+test("SizeTest.isNotZero", function(t)
 {
 	const actual = [1, 2, 3];
 	requireThat(actual, "actual").asArray().length().isNotZero();
 	t.end();
 });
 
-test("ContainerSizeTest.isNotZero_False", function(t)
+test("SizeTest.isNotZero_False", function(t)
 {
 	t.throws(function()
 	{
@@ -136,21 +136,21 @@ test("ContainerSizeTest.isNotZero_False", function(t)
 	t.end();
 });
 
-test("ContainerSizeTest.isZero", function(t)
+test("SizeTest.isZero", function(t)
 {
 	const actual = [];
 	requireThat(actual, "actual").asArray().length().isZero();
 	t.end();
 });
 
-test("ContainerSizeTest.isNotNegative", function(t)
+test("SizeTest.isNotNegative", function(t)
 {
 	const actual = [];
 	requireThat(actual, "actual").asArray().length().isNotNegative();
 	t.end();
 });
 
-test("ContainerSizeTest.isNegative", function(t)
+test("SizeTest.isNegative", function(t)
 {
 	t.throws(function()
 	{

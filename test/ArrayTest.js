@@ -38,7 +38,7 @@ test("ArrayTest.isNotEmpty_False", function(t)
 test("ArrayTest.contains", function(t)
 {
 	const actual = ["element"];
-	requireThat(actual, "actual").asArray().includes("element");
+	requireThat(actual, "actual").asArray().contains("element");
 	t.end();
 });
 
@@ -47,7 +47,7 @@ test("ArrayTest.contains_False", function(t)
 	t.throws(function()
 	{
 		const actual = ["notElement"];
-		requireThat(actual, "actual").asArray().includes("element");
+		requireThat(actual, "actual").asArray().contains("element");
 	}, RangeError);
 	t.end();
 });
@@ -55,7 +55,7 @@ test("ArrayTest.contains_False", function(t)
 test("ArrayTest.containsVariable", function(t)
 {
 	const actual = ["element"];
-	requireThat(actual, "actual").asArray().includes("element", "nameOfExpected");
+	requireThat(actual, "actual").asArray().contains("element", "nameOfExpected");
 	t.end();
 });
 
@@ -64,7 +64,7 @@ test("ArrayTest.containsVariable_False", function(t)
 	t.throws(function()
 	{
 		const actual = ["notElement"];
-		requireThat(actual, "actual").asArray().includes("element", "nameOfExpected");
+		requireThat(actual, "actual").asArray().contains("element", "nameOfExpected");
 	}, RangeError);
 	t.end();
 });
@@ -74,7 +74,7 @@ test("ArrayTest.contains_expectedEmptyName", function(t)
 	t.throws(function()
 	{
 		const actual = ["element"];
-		requireThat(actual, "actual").asArray().includes(" ");
+		requireThat(actual, "actual").asArray().contains(" ");
 	}, RangeError);
 	t.end();
 });

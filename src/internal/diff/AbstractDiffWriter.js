@@ -109,7 +109,7 @@ class AbstractDiffWriter
 	}
 
 	/**
-	 * Inserts a line that is present in <code>expected</code> but not <code>actual</code>.
+	 * Adds text that is present in <code>expected</code> but not <code>actual</code>.
 	 *
 	 * @param {string} text the text
 	 * @throws {IllegalStateError} if the writer is closed
@@ -123,7 +123,7 @@ class AbstractDiffWriter
 	}
 
 	/**
-	 * Deletes a line that is present in <code>actual</code> but not <code>expected</code>.
+	 * Deletes text that is present in <code>actual</code> but not <code>expected</code>.
 	 *
 	 * @param {string} text the text
 	 * @throws {IllegalStateError} if the writer is closed
@@ -273,8 +273,8 @@ class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {Array<string>} the lines to optionally display after "actual" and before "expected" (the lines
-	 *   are empty if they should not be displayed)
+	 * @return {Array<string>} the lines to display after "actual" and before "expected" (empty lines should not
+	 *   be displayed)
 	 * @throws {RangeError} if the writer is open
 	 */
 	getMiddleLines()

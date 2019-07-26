@@ -6,7 +6,7 @@ class IllegalStateError extends Error
 	constructor(message)
 	{
 		super(message);
-		this.name = "IllegalStateError";
+		this.name = this.constructor.name;
 	}
 }
 

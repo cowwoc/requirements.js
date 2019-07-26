@@ -1,23 +1,23 @@
-import ObjectVerifier from "./ObjectVerifier.js";
-import Objects from "./internal/Objects.js";
-import ExceptionBuilder from "./internal/ExceptionBuilder.js";
+import ObjectVerifier from "./internal/circular_dependency/ObjectVerifierBase.js";
 
+/**
+ * Verifies the requirements of a class.
+ * <p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ */
 class ClassVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
 	 *
 	 * @param {object} type the type to compare to
-	 * @return {ClassVerifier} this
+	 * @return {ClassVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not have the specified <code>type</code>
 	 */
 	isSubTypeOf(type)
 	{
-		if (Objects.extends(this.actual, type))
-			return this;
-		throw new ExceptionBuilder(this.config, RangeError, this.name + " must be a sub-type of " + type).
-			addContext("Actual", Objects.getTypeOf(this.actual)).
-			build();
+		this.validator.isSubTypeOf(type);
+		return this.validationResult();
 	}
 }
 

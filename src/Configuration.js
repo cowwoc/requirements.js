@@ -1,21 +1,14 @@
 import GlobalConfiguration from "./GlobalConfiguration.js";
-import Requirements from "./Requirements.js";
 import Objects from "./internal/Objects.js";
 
 /**
  * A verifier's configuration.
- * <p>
- * This class is immutable.
  */
 class Configuration
 {
 	/**
 	 * Creates a new configuration without an empty context and without an exception override.
 	 *
-	 * @param {Requirements} internalVerifier the verifier that can be used to check a verifier's own
-	 *   parameters
-	 * @param {Error} [exception=null] the type of exception that will be thrown if a verification fails,
-	 *   <code>null</code> to throw the default exception type
 	 * @param {Map} [context=[]] a map of key-value pairs to append to the exception message
 	 * @param {boolean} [assertionsEnabled=false] true if <code>assertThat()</code> should invoke
 	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
@@ -23,25 +16,12 @@ class Configuration
 	 *   expected values
 	 * @param {Map} [typeToStringConverter={}] a map from an object type (per {@link Objects#getTypeOf}) to a
 	 *   function that converts the object to a String
-	 * @throws {TypeError} if <code>internalVerifier</code> is undefined or null; <code>context</code> or one
-	 *   of its elements are not an array; if the nested array contains less or more than 2 elements; if the
-	 *   keys nested in the context array are not strings
+	 * @throws {TypeError} if <code>context</code> or one of its elements are not an array; if the nested array
+	 *   contains less or more than 2 elements; if the keys nested in the context array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
-	constructor(internalVerifier, exception, context, assertionsEnabled, diffEnabled, typeToStringConverter)
+	constructor(context, assertionsEnabled, diffEnabled, typeToStringConverter)
 	{
-		Objects.assertThatTypeOf(internalVerifier, "internalVerifier", "Requirements");
-		Object.defineProperty(this, "internalVerifier",
-			{
-				enumerable: true,
-				value: internalVerifier
-			});
-		if (typeof (exception) === "undefined")
-			exception = null;
-		Object.defineProperty(this, "exception",
-			{
-				value: exception
-			});
 		if (typeof (context) === "undefined")
 			context = new Map();
 		else
@@ -77,8 +57,6 @@ class Configuration
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
 	 *   if it shouldn't do anything
-	 * @see #withException
-	 * @see #withDefaultException
 	 */
 	assertionsAreEnabled()
 	{
@@ -94,7 +72,7 @@ class Configuration
 	{
 		if (this.assertionsEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, true);
+		return new Configuration(this.context, true, this.diffEnabled, this.typeToStringConverter);
 	}
 
 	/**
@@ -106,57 +84,7 @@ class Configuration
 	{
 		if (!this.assertionsEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, false);
-	}
-
-	/**
-	 * Returns the type of exception that will be thrown if a verification fails.
-	 *
-	 * @return {Error} <code>null</code> if the default exception type will be thrown
-	 * @see #withException
-	 * @see #withDefaultException
-	 */
-	getException()
-	{
-		return this.exception;
-	}
-
-	/**
-	 * Overrides the type of exception that will get thrown if a verification fails.
-	 * <p>
-	 * The exception class must define the following constructor:
-	 * <p>
-	 * <code><init>(message)</code>
-	 *
-	 * @param {Error} exception the type of exception to throw
-	 * @return {Configuration} the updated configuration
-	 * @throws {TypeError} if <code>exception</code> is not set
-	 * @see #getException
-	 */
-	withException(exception)
-	{
-		if (!Objects.extends(exception, Error))
-		{
-			throw new TypeError("exception must extend Error.\n" +
-				"Actual: " + exception + "\n" +
-				"Type  : " + Objects.getTypeOf(exception));
-		}
-		if (exception === this.exception)
-			return this;
-		return new Configuration(this.internalVerifier, exception, this.context);
-	}
-
-	/**
-	 * Throws the default exception type if a verification fails.
-	 *
-	 * @return {Configuration} the updated configuration
-	 * @see #getException
-	 */
-	withDefaultException()
-	{
-		if (this.exception === null)
-			return this;
-		return new Configuration(this.internalVerifier, null, this.context);
+		return new Configuration(this.context, false, this.diffEnabled, this.typeToStringConverter);
 	}
 
 	/**
@@ -178,8 +106,8 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
-			true, this.typeToStringConverter);
+		return new Configuration(this.context, this.assertionsEnabled, true,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -192,8 +120,8 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
-			false, this.typeToStringConverter);
+		return new Configuration(this.context, this.assertionsEnabled, false,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -219,8 +147,8 @@ class Configuration
 		Objects.requireThatStringNotEmpty(name, "name");
 		const newContext = new Map(this.context);
 		newContext.set(name, value);
-		return new Configuration(this.internalVerifier, this.exception, newContext, this.assertionsEnabled,
-			this.diffEnabled, this.typeToStringConverter);
+		return new Configuration(newContext, this.assertionsEnabled, this.diffEnabled,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -236,7 +164,8 @@ class Configuration
 		const newContext = new Map(this.context);
 		if (!newContext.delete(name))
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, newContext);
+		return new Configuration(newContext, this.assertionsEnabled, this.diffEnabled,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -273,8 +202,8 @@ class Configuration
 		Objects.assertThatTypeOf(converter, "converter", "Function");
 		const newTypeToStringConverter = new Map(this.typeToStringConverter);
 		newTypeToStringConverter.set(type, converter);
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
-			this.diffEnabled, newTypeToStringConverter);
+		return new Configuration(this.context, this.assertionsEnabled, this.diffEnabled,
+			newTypeToStringConverter);
 	}
 
 	/**
@@ -291,8 +220,8 @@ class Configuration
 		const newTypeToStringConverter = new Map(this.typeToStringConverter);
 		if (!newTypeToStringConverter.delete(type))
 			return this;
-		return new Configuration(this.internalVerifier, this.exception, this.context, this.assertionsEnabled,
-			this.diffEnabled, newTypeToStringConverter);
+		return new Configuration(this.context, this.assertionsEnabled, this.diffEnabled,
+			newTypeToStringConverter);
 	}
 }
 

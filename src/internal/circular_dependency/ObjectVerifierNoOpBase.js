@@ -6,10 +6,10 @@
 /**
  * An implementation of <code>ObjectVerifier</code> that does nothing.
  */
-class NoOpObjectVerifier
+class ObjectVerifierNoOp
 {
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isEqualTo()
 	{
@@ -17,7 +17,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNotEqualTo()
 	{
@@ -25,7 +25,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNotInArray()
 	{
@@ -33,7 +33,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isPrimitive()
 	{
@@ -41,7 +41,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isTypeOf()
 	{
@@ -49,7 +49,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isInstanceOf()
 	{
@@ -57,7 +57,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNull()
 	{
@@ -65,7 +65,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNotNull()
 	{
@@ -73,7 +73,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isDefined()
 	{
@@ -81,7 +81,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNotDefined()
 	{
@@ -89,7 +89,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isSet()
 	{
@@ -97,7 +97,7 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @return {NoOpObjectVerifier} this
+	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	isNotSet()
 	{
@@ -105,32 +105,29 @@ class NoOpObjectVerifier
 	}
 
 	/**
-	 * @throws RangeError because assertions are disabled and the verifier does not need to retain a reference
-	 *   to the actual value)
-	 * @see #getActualIfPresent()
+	 * Indicates if the actual value is available.
+	 *
+	 * @return {boolean} <code>false</code>
+	 */
+	isActualAvailable()
+	{
+		return false;
+	}
+
+	/**
+	 * Returns the actual value. The return value is undefined if {@link #isActualAvailable()} is
+	 * <code>false</code>.
+	 *
+	 * @return {undefined}
 	 */
 	getActual()
 	{
-		throw new RangeError("Assertions are disabled");
-	}
-
-
-	/**
-	 * Returns the actual value.
-	 *
-	 * @return {undefined} <code>undefined</code> if the verifier does not have access to the actual value
-	 * @see #getActualLines()
-	 */
-	getActualIfPresent()
-	{
-		// eslint-disable-next-line no-undefined
-		return undefined;
 	}
 }
 
-NoOpObjectVerifier.INSTANCE = new NoOpObjectVerifier();
+ObjectVerifierNoOp.INSTANCE = new ObjectVerifierNoOp();
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {NoOpObjectVerifier as default};
+export {ObjectVerifierNoOp as default};
