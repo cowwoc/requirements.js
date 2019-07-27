@@ -41,7 +41,7 @@ class ValidationFailure
 	 * Creates a new validation failure.
 	 *
 	 * @param {Configuration} configuration the instance configuration
-	 * @param {Error} exceptionType the type of exception associated with the failure
+	 * @param {Error.prototype.constructor} exceptionType the type of exception associated with the failure
 	 * @param {string} message the exception message associated with the failure
 	 * @throws {TypeError} if <code>exceptionType</code> or <code>message</code> are null
 	 * @throws {RangeError} if <code>message</code> is empty
@@ -170,7 +170,7 @@ class ValidationFailure
 	 */
 	createException()
 	{
-		throw this.exceptionType.constructor(this.getMessage());
+		throw this.exceptionType(this.getMessage());
 	}
 }
 

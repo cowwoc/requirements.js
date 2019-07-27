@@ -174,11 +174,10 @@ class Objects
 	 * <code>prototype</code> such as <code>Error.prototype</code>. To convert an object to a type, use
 	 * <code>constructor</code> such as <code>instance.constructor</code>.
 	 *
-	 * @param {object} child an object
-	 * @param {object} parent a class
+	 * @param {object} child the child class
+	 * @param {object} parent the parent class
 	 * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code>
-	 *   or
-	 *   <code>child</code> are null or undefined; false if <code>child</code> does not extend
+	 *   or <code>child</code> are null or undefined; false if <code>child</code> does not extend
 	 *   <code>parent</code>
 	 */
 	static extends(child, parent)
@@ -189,7 +188,7 @@ class Objects
 			return false;
 		}
 		// https://stackoverflow.com/a/14486171/14731
-		return child instanceof parent;
+		return child.prototype instanceof parent;
 	}
 
 	/**

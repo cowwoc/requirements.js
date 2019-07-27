@@ -32,7 +32,7 @@ test("ValidationFailureTest_messageIsUndefined", function(t)
 		const requirements = new Requirements();
 		const config = requirements.config;
 		// eslint-disable-next-line no-new
-		new ValidationFailure(config, RangeError.prototype);
+		new ValidationFailure(config, RangeError);
 	}, TypeError);
 	t.end();
 });
@@ -43,7 +43,7 @@ test("ValidationFailureTest.addContext", function(t)
 	const valueNotString = 12345;
 	const config = requirements.config;
 	// eslint-disable-next-line no-new
-	new ValidationFailure(config, RangeError.prototype, "message").
+	new ValidationFailure(config, RangeError, "message").
 		addContext("key", valueNotString);
 	t.end();
 });
@@ -55,7 +55,7 @@ test("ValidationFailureTest.addContext_keyNotString", function(t)
 		const requirements = new Requirements();
 		const config = requirements.config;
 		// eslint-disable-next-line no-new
-		new ValidationFailure(config, RangeError.prototype, "message").addContext(null);
+		new ValidationFailure(config, RangeError, "message").addContext(null);
 	}, TypeError);
 	t.end();
 });

@@ -20,13 +20,13 @@ class UriValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new UriValidatorNoOp(this.failures);
 		}
 		if (!this.actual.is("absolute"))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be absolute: " + this.config.convertToString(this.actual));
 			this.failures.push(failure);
 		}
@@ -43,13 +43,13 @@ class UriValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new UriValidatorNoOp(this.failures);
 		}
 		if (!this.actual.is("relative"))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be relative: " + this.config.convertToString(this.actual));
 			this.failures.push(failure);
 		}

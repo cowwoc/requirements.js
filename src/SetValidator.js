@@ -82,13 +82,13 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
 		if (this.actual.size !== 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be empty.").
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
@@ -105,13 +105,13 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
 		if (this.actual.size === 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be empty");
 			this.failures.push(failure);
 		}
@@ -135,7 +135,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -144,14 +144,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain " + name).
 					addContext("Actual", this.actual).
 					addContext("Expected", expected);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype, this.name + "  must contain " +
+				failure = new ValidationFailure(this.config, RangeError, this.name + "  must contain " +
 					this.config.convertToString(expected)).
 					addContext("Actual", this.actual);
 			}
@@ -180,7 +180,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -191,7 +191,7 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype, this.name +
+				failure = new ValidationFailure(this.config, RangeError, this.name +
 					" must contain exactly the same elements as " + name).
 					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet).
@@ -200,7 +200,7 @@ class SetValidator extends ObjectValidator
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain exactly: " + this.config.convertToString(expectedAsSet)).
 					addContext("Actual", this.actual).
 					addContext("Missing", missing).
@@ -230,7 +230,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -239,14 +239,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain any entry in " + name).
 					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain any entry in: " + this.config.convertToString(expectedAsSet)).
 					addContext("Actual", this.actual);
 			}
@@ -274,7 +274,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -284,14 +284,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain all elements in " + name).
 					addContext("Actual", this.actual).
 					addContext("Missing", missing);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain all elements in: " + this.config.convertToString(expectedAsSet)).
 					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet).
@@ -319,7 +319,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -328,14 +328,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain " + name + ".").
 					addContext("Actual", this.actual).
 					addContext("Unwanted", entry);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain " + this.config.convertToString(entry)).
 					addContext("Actual", this.actual);
 			}
@@ -363,7 +363,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -372,14 +372,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must not contain any element in " + name).
 					addContext("Actual", this.actual).
 					addContext("Unwanted", elementsAsSet);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must not contain any element in: " + this.config.convertToString(elementsAsSet)).
 					addContext("Actual", this.actual);
 			}
@@ -407,7 +407,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}
@@ -417,14 +417,14 @@ class SetValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain all elements in " + name).
 					addContext("Actual", this.actual).
 					addContext("Missing", missing);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain all elements in: " + this.config.convertToString(elementsAsSet)).
 					addContext("Actual", this.actual).
 					addContext("Unwanted", elementsAsSet).
@@ -443,7 +443,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SizeValidatorNoOp(this.failures);
 		}
@@ -471,7 +471,7 @@ class SetValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new SetValidatorNoOp(this.failures);
 		}

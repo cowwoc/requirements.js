@@ -20,13 +20,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, Number, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual >= 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be negative.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -44,13 +44,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual < 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be negative.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -68,13 +68,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual !== 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be zero.").
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be zero.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
@@ -91,13 +91,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual === 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be zero");
 			this.failures.push(failure);
 		}
@@ -114,13 +114,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual <= 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be positive.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -138,13 +138,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual > 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be positive.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -170,7 +170,7 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
@@ -179,14 +179,14 @@ class NumberValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be greater than " + name).
 					addContext("Actual", this.actual).
 					addContext("Min", value);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be greater than: " + this.config.convertToString(value)).
 					addContext("Actual", this.actual);
 			}
@@ -213,7 +213,7 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
@@ -222,14 +222,14 @@ class NumberValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be greater than or equal to " + name + ".").
 					addContext("Actual", this.actual).
 					addContext("Min", value);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be greater than or equal to: " + this.config.convertToString(value)).
 					addContext("Actual", this.actual);
 			}
@@ -256,7 +256,7 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
@@ -265,14 +265,14 @@ class NumberValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be less than " + name).
 					addContext("Actual", this.actual).
 					addContext("Max", value);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be less than: " + this.config.convertToString(value)).
 					addContext("Actual", this.actual);
 			}
@@ -299,7 +299,7 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
@@ -308,14 +308,14 @@ class NumberValidator extends ObjectValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be less than or equal to " + name).
 					addContext("Actual", this.actual).
 					addContext("Max", value);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError.prototype,
+				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must be less than or equal to: " + this.config.convertToString(value)).
 					addContext("Actual", this.actual);
 			}
@@ -346,13 +346,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual < startInclusive || this.actual >= endExclusive)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.containerName + " must be in range [" + startInclusive + ", " + endExclusive + ").").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -383,13 +383,13 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		if (this.actual < startInclusive || this.actual > endInclusive)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.containerName + " must be in range [" + startInclusive + ", " + endInclusive + "].").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -407,14 +407,14 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		// See http://stackoverflow.com/a/1830844/14731
 		if (Number.isNaN(parseFloat(this.actual)))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be a number.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -432,14 +432,14 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		// See http://stackoverflow.com/a/1830844/14731
 		if (!Number.isNaN(parseFloat(this.actual)))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be a number.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -457,14 +457,14 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		// See http://stackoverflow.com/a/1830844/14731
 		if (!Number.isFinite(this.actual))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be finite.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -482,14 +482,14 @@ class NumberValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new NumberValidatorNoOp(this.failures);
 		}
 		// See http://stackoverflow.com/a/1830844/14731
 		if (Number.isFinite(this.actual))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be finite.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);

@@ -24,13 +24,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (!this.actual.startsWith(prefix))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must start with \"" + this.config.convertToString(prefix) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -49,13 +49,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (this.actual.startsWith(prefix))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not start with \"" + this.config.convertToString(prefix) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -74,13 +74,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (!this.actual.includes(expected))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must contain \"" + this.config.convertToString(expected) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -99,13 +99,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (this.actual.includes(value))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not contain \"" + this.config.convertToString(value) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -124,13 +124,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (!this.actual.endsWith(suffix))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must end with \"" + this.config.convertToString(suffix) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -149,13 +149,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (this.actual.endsWith(suffix))
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not end with \"" + this.config.convertToString(suffix) + "\".").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
@@ -173,13 +173,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (this.actual.length !== 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be empty.").
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
@@ -196,13 +196,13 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
 		if (this.actual.length <= 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError.prototype,
+			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be empty");
 			this.failures.push(failure);
 		}
@@ -219,7 +219,7 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
@@ -248,7 +248,7 @@ class StringValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
 			this.failures.push(failure);
 			return new StringValidatorNoOp(this.failures);
 		}
