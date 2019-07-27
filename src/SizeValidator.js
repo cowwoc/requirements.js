@@ -60,7 +60,8 @@ class SizeValidator extends NumberValidator
 	 */
 	isNegative()
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be negative");
+		const failure = new ValidationFailure(this.config, RangeError.prototype,
+			this.name + " may not be negative");
 		this.failures.push(failure);
 		return this;
 	}
@@ -84,13 +85,13 @@ class SizeValidator extends NumberValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError,
+				failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.containerName + " must contain " + name + "(" + expected + ") " +
 					this.pluralizer.nameOf(expected) + ".");
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError,
+				failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.containerName + " must contain " + expected + " " + this.pluralizer.nameOf(expected) + ".");
 			}
 			failure.addContext("Actual", this.actual);
@@ -121,14 +122,14 @@ class SizeValidator extends NumberValidator
 			let failure;
 			if (name)
 			{
-				failure = new ValidationFailure(this.config, RangeError,
+				failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.containerName + " may not contain " + name + " (" + value + ") " +
 					this.pluralizer.nameOf(value) + ".").
 					addContext(this.containerName, this.container);
 			}
 			else
 			{
-				failure = new ValidationFailure(this.config, RangeError,
+				failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.containerName + " may not contain " + value + " " + this.pluralizer.nameOf(value)).
 					addContext(this.containerName, this.container);
 			}
@@ -158,7 +159,7 @@ class SizeValidator extends NumberValidator
 
 		if (this.actual < startInclusive || this.actual >= endExclusive)
 		{
-			const failure = new ValidationFailure(this.config, RangeError,
+			const failure = new ValidationFailure(this.config, RangeError.prototype,
 				this.containerName + " must contain [" + startInclusive + ", " + endExclusive + ") " +
 				this.pluralizer.nameOf(2) + ".").
 				addContext("Actual", this.actual);
@@ -192,7 +193,7 @@ class SizeValidator extends NumberValidator
 
 		if (this.actual < startInclusive || this.actual > endInclusive)
 		{
-			const failure = new ValidationFailure(this.config, RangeError,
+			const failure = new ValidationFailure(this.config, RangeError.prototype,
 				this.containerName + " must contain [" + startInclusive + ", " + endInclusive + "] " +
 				this.pluralizer.nameOf(2) + ".").
 				addContext("Actual", this.actual);

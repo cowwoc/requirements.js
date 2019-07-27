@@ -42,13 +42,13 @@ class InetAddressValidator extends ObjectValidator
 			const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 			if (failureMessage !== null)
 			{
-				const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+				const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 				this.failures.push(failure);
 				return new InetAddressValidatorNoOp(this.failures);
 			}
 			if (!isIpV4)
 			{
-				const failure = new ValidationFailure(this.config, RangeError,
+				const failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.name + " must be an IP v4 address.").
 					addContext("Actual", this.actual);
 				this.failures.push(failure);
@@ -66,13 +66,13 @@ class InetAddressValidator extends ObjectValidator
 			const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 			if (failureMessage !== null)
 			{
-				const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+				const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 				this.failures.push(failure);
 				return new InetAddressValidatorNoOp(this.failures);
 			}
 			if (!isIpV6)
 			{
-				const failure = new ValidationFailure(this.config, RangeError,
+				const failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.name + " must be an IP v6 address.").
 					addContext("Actual", this.actual);
 				this.failures.push(failure);
@@ -91,13 +91,14 @@ class InetAddressValidator extends ObjectValidator
 			const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 			if (failureMessage !== null)
 			{
-				const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+				const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 				this.failures.push(failure);
 				return new InetAddressValidatorNoOp(this.failures);
 			}
 			if (!isHostname)
 			{
-				const failure = new ValidationFailure(this.config, RangeError, this.name + " must be a hostname.").
+				const failure = new ValidationFailure(this.config, RangeError.prototype,
+					this.name + " must be a hostname.").
 					addContext("Actual", this.actual);
 				this.failures.push(failure);
 			}

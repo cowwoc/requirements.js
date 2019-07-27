@@ -170,9 +170,14 @@ class Objects
 	}
 
 	/**
-	 * @param {object} child the child class
-	 * @param {object} parent the parent class
-	 * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code> or
+	 * Indicates if an object is an instance of a type. To convert a type to an object, use
+	 * <code>prototype</code> such as <code>Error.prototype</code>. To convert an object to a type, use
+	 * <code>constructor</code> such as <code>instance.constructor</code>.
+	 *
+	 * @param {object} child an object
+	 * @param {object} parent a class
+	 * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code>
+	 *   or
 	 *   <code>child</code> are null or undefined; false if <code>child</code> does not extend
 	 *   <code>parent</code>
 	 */
@@ -184,7 +189,7 @@ class Objects
 			return false;
 		}
 		// https://stackoverflow.com/a/14486171/14731
-		return child.prototype instanceof parent;
+		return child instanceof parent;
 	}
 
 	/**
@@ -293,11 +298,11 @@ class Objects
 	}
 
 	/**
-	 * Requires that a class extends the expected type.
+	 * Requires that the <code>value</code> extends the <code>expected</code> type.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {object} type the class the value is expected to extend
+	 * @param {object} value a type
+	 * @param {string} name the name of the type
+	 * @param {object} type the supertype that <code>value</code> must extend
 	 * @return {boolean} true
 	 * @throws {TypeError} if <code>value</code> does not extend <code>type</code>. If <code>name</code> is not
 	 * a string

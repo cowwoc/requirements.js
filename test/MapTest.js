@@ -6,6 +6,7 @@ test("MapTest.nameIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = new Map();
+		// noinspection JSCheckFunctionSignatures
 		requireThat(actual, null);
 	}, TypeError);
 	t.end();

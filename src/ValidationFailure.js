@@ -170,7 +170,7 @@ class ValidationFailure
 	 */
 	createException()
 	{
-		throw this.exceptionType(this.getMessage());
+		throw this.exceptionType.constructor(this.getMessage());
 	}
 }
 

@@ -53,12 +53,14 @@ ObjectValidator.prototype.isEqualTo = function(expected, name)
 		let failure;
 		if (name)
 		{
-			failure = new ValidationFailure(this.config, RangeError, this.name + " must be equal to " + name).
+			failure = new ValidationFailure(this.config, RangeError.prototype,
+				this.name + " must be equal to " + name).
 				addContextList(context);
 		}
 		else
 		{
-			failure = new ValidationFailure(this.config, RangeError, this.name + " had an unexpected value.").
+			failure = new ValidationFailure(this.config, RangeError.prototype,
+				this.name + " had an unexpected value.").
 				addContextList(context);
 		}
 		this.failures.push(failure);
@@ -84,13 +86,13 @@ ObjectValidator.prototype.isNotEqualTo = function(value, name)
 		let failure;
 		if (name)
 		{
-			failure = new ValidationFailure(this.config, RangeError,
+			failure = new ValidationFailure(this.config, RangeError.prototype,
 				this.name + " may not be equal to " + name).
 				addContext("Actual", this.actual);
 		}
 		else
 		{
-			failure = new ValidationFailure(this.config, RangeError,
+			failure = new ValidationFailure(this.config, RangeError.prototype,
 				this.name + " may not be equal to " + this.config.convertToString(value));
 		}
 		this.failures.push(failure);
@@ -111,13 +113,14 @@ ObjectValidator.prototype.isPrimitive = function()
 {
 	if (this.actual === null)
 	{
-		const failure = new ValidationFailure(this.config, TypeError, this.name + " may not be null");
+		const failure = new ValidationFailure(this.config, TypeError.prototype, this.name + " may not be null");
 		this.failures.push(failure);
 		return new ObjectValidatorNoOp(this.failures);
 	}
 	if (!Objects.isPrimitive(this.actual))
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be a primitive").
+		const failure = new ValidationFailure(this.config, RangeError.prototype,
+			this.name + " must be a primitive").
 			addContext("Actual", Objects.getTypeOf(this.actual));
 		this.failures.push(failure);
 	}
@@ -185,7 +188,8 @@ ObjectValidator.prototype.isTypeOf = function(type)
 				break;
 			}
 		}
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be " + message).
+		const failure = new ValidationFailure(this.config, RangeError.prototype,
+			this.name + " must be " + message).
 			addContext("Actual", typeOfActual);
 		this.failures.push(failure);
 	}
@@ -218,13 +222,13 @@ ObjectValidator.prototype.isInstanceOf = function(type)
 			case "string":
 			case "Array":
 			{
-				failure = new ValidationFailure(this.config, TypeError, "type must be a class.").
+				failure = new ValidationFailure(this.config, TypeError.prototype, "type must be a class.").
 					addContext("Actual", typeOfType);
 				break;
 			}
 			default:
 			{
-				failure = new ValidationFailure(this.config, RangeError,
+				failure = new ValidationFailure(this.config, RangeError.prototype,
 					this.name + " must be an instance of " + typeOfType).
 					addContext("Actual", Objects.getTypeOf(this.actual));
 				break;
@@ -245,7 +249,7 @@ ObjectValidator.prototype.isNull = function()
 {
 	if (this.actual !== null)
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be null.").
+		const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be null.").
 			addContext("Actual", this.actual);
 		this.failures.push(failure);
 	}
@@ -262,7 +266,7 @@ ObjectValidator.prototype.isNotNull = function()
 {
 	if (this.actual === null)
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be null");
+		const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " may not be null");
 		this.failures.push(failure);
 	}
 	return this;
@@ -278,7 +282,7 @@ ObjectValidator.prototype.isDefined = function()
 {
 	if (typeof (this.actual) === "undefined")
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be defined");
+		const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be defined");
 		this.failures.push(failure);
 	}
 	return this;
@@ -294,7 +298,8 @@ ObjectValidator.prototype.isNotDefined = function()
 {
 	if (typeof (this.actual) !== "undefined")
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be undefined.").
+		const failure = new ValidationFailure(this.config, RangeError.prototype,
+			this.name + " must be undefined.").
 			addContext("Actual", this.actual);
 		this.failures.push(failure);
 	}
@@ -311,7 +316,7 @@ ObjectValidator.prototype.isSet = function()
 {
 	if (typeof (this.actual) === "undefined" || this.actual === null)
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be set.").
+		const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be set.").
 			addContext("Actual", this.actual);
 		this.failures.push(failure);
 	}
@@ -328,7 +333,7 @@ ObjectValidator.prototype.isNotSet = function()
 {
 	if (typeof (this.actual) !== "undefined" && this.actual !== null)
 	{
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be set.").
+		const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " may not be set.").
 			addContext("Actual", this.actual);
 		this.failures.push(failure);
 	}
@@ -385,7 +390,8 @@ ObjectValidator.prototype.asArray = function()
 			return new ArrayValidator(this.config, this.actual, this.name);
 		default:
 		{
-			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be an Array.").
+			const failure = new ValidationFailure(this.config, TypeError.prototype,
+				this.name + " must be an Array.").
 				addContext("Actual", this.actual).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
@@ -418,7 +424,8 @@ ObjectValidator.prototype.asNumber = function()
 			return new NumberValidator(this.config, this.actual, this.name);
 		default:
 		{
-			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Number.").
+			const failure = new ValidationFailure(this.config, TypeError.prototype,
+				this.name + " must be a Number.").
 				addContext("Actual", this.actual).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
@@ -451,7 +458,7 @@ ObjectValidator.prototype.asSet = function()
 			return new SetValidator(this.config, this.actual, this.name);
 		default:
 		{
-			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
+			const failure = new ValidationFailure(this.config, TypeError.prototype, this.name + " must be a Set.").
 				addContext("Actual", this.actual).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
@@ -485,7 +492,7 @@ ObjectValidator.prototype.asMap = function()
 			return new MapValidator(this.config, this.actual, this.name);
 		default:
 		{
-			const failure = new ValidationFailure(this.config, TypeError,
+			const failure = new ValidationFailure(this.config, TypeError.prototype,
 				this.name + " must be a Map.").
 				addContext("Actual", this.actual).
 				addContext("Type", typeOfActual);
@@ -635,7 +642,7 @@ ObjectValidator.prototype.asInetAddress = function()
 			break;
 		}
 	}
-	const failure = new ValidationFailure(this.config, RangeError,
+	const failure = new ValidationFailure(this.config, RangeError.prototype,
 		this.name + " must contain a valid IP address or hostname.").
 		addContext("Actual", this.actual).
 		addContext("Type", typeOfActual);
@@ -675,7 +682,8 @@ ObjectValidator.prototype.asUri = function()
 				return new UriValidator(this.config, actualAsUri, this.name);
 		}
 	}
-	const failure = new ValidationFailure(this.config, TypeError, this.name + " must contain a valid URI.").
+	const failure = new ValidationFailure(this.config, TypeError.prototype,
+		this.name + " must contain a valid URI.").
 		addContext("Actual", this.actual).
 		addContext("Type", typeOfActual);
 	this.failures.push(failure);
@@ -714,7 +722,8 @@ ObjectValidator.prototype.asClass = function()
 			break;
 		}
 	}
-	const failure = new ValidationFailure(this.config, TypeError, this.name + " must contain a class.").
+	const failure = new ValidationFailure(this.config, TypeError.prototype,
+		this.name + " must contain a class.").
 		addContext("Actual", this.actual).
 		addContext("Type", typeOfActual);
 	this.failures.push(failure);

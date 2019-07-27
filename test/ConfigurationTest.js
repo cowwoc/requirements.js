@@ -52,6 +52,7 @@ test("Configuration.putContext(keyNotString)", function(t)
 	const requirements = new Requirements();
 	t.throws(function()
 	{
+		// noinspection JSCheckFunctionSignatures
 		requirements.putContext(5, "value");
 	}, TypeError);
 	t.end();

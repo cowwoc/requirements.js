@@ -25,13 +25,13 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new MapValidatorNoOp(this.failures);
 		}
 		if (this.actual.size !== 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
+			const failure = new ValidationFailure(this.config, RangeError.prototype, this.name + " must be empty.").
 				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
@@ -48,13 +48,14 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new MapValidatorNoOp(this.failures);
 		}
 		if (this.actual.size === 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be empty");
+			const failure = new ValidationFailure(this.config, RangeError.prototype,
+				this.name + " may not be empty");
 			this.failures.push(failure);
 		}
 		return this;
@@ -68,7 +69,7 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new ArrayValidatorNoOp(this.failures);
 		}
@@ -96,7 +97,7 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new ArrayValidatorNoOp(this.failures);
 		}
@@ -125,7 +126,7 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new ArrayValidatorNoOp(this.failures);
 		}
@@ -154,7 +155,7 @@ class MapValidator extends ObjectValidator
 		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 		if (failureMessage !== null)
 		{
-			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 			this.failures.push(failure);
 			return new SizeValidatorNoOp(this.failures);
 		}

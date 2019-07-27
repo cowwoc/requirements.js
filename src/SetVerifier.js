@@ -70,7 +70,7 @@ class SetVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value contains any of the elements in the expected value.
 	 *
-	 * @param {Set} expected the Set of elements that must exist
+	 * @param {Array|Set} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
@@ -87,7 +87,7 @@ class SetVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the actual value contains all of the elements in the expected value.
 	 *
-	 * @param {Set} expected the Set of elements that must exist
+	 * @param {Array|Set} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
@@ -135,7 +135,7 @@ class SetVerifier extends ObjectVerifier
 	/**
 	 * Ensures that the array does not contain all of the specified elements.
 	 *
-	 * @param {Set} elements a Set of elements
+	 * @param {Array|Set} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>

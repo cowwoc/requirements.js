@@ -19,7 +19,7 @@ class ClassValidator extends ObjectValidator
 	{
 		if (!Objects.extends(this.actual, type))
 		{
-			const failure = new ValidationFailure(this.config, RangeError,
+			const failure = new ValidationFailure(this.config, RangeError.prototype,
 				this.name + " must be a sub-type of " + type).
 				addContext("Actual", Objects.getTypeOf(this.actual));
 			this.failures.push(failure);

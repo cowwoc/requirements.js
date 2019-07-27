@@ -37,7 +37,7 @@ class Configuration
 				value: assertionsEnabled
 			});
 		if (typeof (diffEnabled) === "undefined")
-			diffEnabled = true;
+			diffEnabled = GlobalConfiguration.isDiffEnabled();
 		Object.defineProperty(this, "diffEnabled",
 			{
 				value: diffEnabled

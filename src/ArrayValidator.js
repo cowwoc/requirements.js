@@ -15,7 +15,7 @@ ArrayValidator.prototype.length = function()
 	const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 	if (failureMessage !== null)
 	{
-		const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+		const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 		this.failures.push(failure);
 		return new SizeValidatorNoOp(this.failures);
 	}
@@ -46,7 +46,7 @@ ArrayValidator.prototype.asSet = function()
 	const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
 	if (failureMessage !== null)
 	{
-		const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+		const failure = new ValidationFailure(this.config, TypeError.prototype, failureMessage);
 		this.failures.push(failure);
 		return new SetValidatorNoOp(this.failures);
 	}
