@@ -93,11 +93,11 @@ class ValidationFailure
 				mergedContext = [...this.context, ...this.config.context];
 
 			let maxKeyLength = 0;
-			for (let i = 0; i < mergedContext.length; ++i)
+			for (const entry of mergedContext)
 			{
-				if (mergedContext[i] === null)
+				if (entry === null)
 					continue;
-				const keyLength = Object.keys(mergedContext[i])[0].length;
+				const keyLength = entry[0].length;
 				if (keyLength > maxKeyLength)
 					maxKeyLength = keyLength;
 			}
@@ -108,9 +108,9 @@ class ValidationFailure
 					contextToAdd.push("");
 					continue;
 				}
-				// We can't use Object.values() until it is well-supported: http://stackoverflow.com/a/40421941/14731
-				const key = Object.keys(entry)[0];
-				const value = entry[Object.keys(entry)[0]];
+
+				const key = entry[0];
+				const value = entry[1];
 				contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + this.config.convertToString(value));
 			}
 			this.messageWithContext = contextToAdd.join("\n");
@@ -155,8 +155,9 @@ class ValidationFailure
 			verifyEntry(entry);
 			const key = entry[0];
 			Objects.assertThatStringNotEmpty(key, "key");
-			const copyOfEntry = {};
-			copyOfEntry[key] = entry[1];
+			const copyOfEntry = [];
+			copyOfEntry[0] = entry[0];
+			copyOfEntry[1] = entry[1];
 			this.context.push(copyOfEntry);
 		}
 		this.messageWithContext = null;
@@ -171,6 +172,16 @@ class ValidationFailure
 	createException()
 	{
 		throw this.exceptionType(this.getMessage());
+	}
+
+	/**
+	 * Returns the String representation of the failure.
+	 *
+	 * @return {string} the String representation of the failure
+	 */
+	toString()
+	{
+		return this.getMessage();
 	}
 }
 

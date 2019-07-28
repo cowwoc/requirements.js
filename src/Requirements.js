@@ -9,6 +9,7 @@ import ArrayVerifier from "./ArrayVerifier.js";
 import ArrayValidator from "./ArrayValidator.js";
 import ArrayVerifierNoOp from "./internal/ArrayVerifierNoOp.js";
 import ArrayValidatorNoOp from "./internal/ArrayValidatorNoOp.js";
+import MainGlobalConfiguration from "./internal/MainGlobalConfiguration.js";
 
 // Add methods that were stripped to avoid circular dependencies
 
@@ -38,7 +39,7 @@ class Requirements
 	constructor(configuration)
 	{
 		if (typeof (configuration) === "undefined")
-			configuration = new Configuration();
+			configuration = new Configuration(MainGlobalConfiguration.INSTANCE);
 		Object.defineProperty(this, "config",
 			{
 				value: configuration
@@ -104,7 +105,7 @@ class Requirements
 	}
 
 	/**
-	 * Returns the type of exception that will be thrown if a verification fails.
+	 * Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
 	 *   if it shouldn't do anything

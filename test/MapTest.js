@@ -1,5 +1,6 @@
 import test from "tape-catch";
 import {requireThat} from "../src/DefaultRequirements.js";
+import {validateThat} from "../src/DefaultRequirements";
 
 test("MapTest.nameIsNull", function(t)
 {
@@ -384,5 +385,17 @@ test("MapTest.getActual", function(t)
 	const input = new Map([[1, 10], [2, 20]]);
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("MapTest.validateThatNullAsMap", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must be a Map.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asMap().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

@@ -110,7 +110,8 @@ class ArrayValidator extends ObjectValidator
 		if (this.actual.length !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not be empty");
+				this.name + " must be empty").
+				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
 		return this;
@@ -132,8 +133,7 @@ class ArrayValidator extends ObjectValidator
 		}
 		if (this.actual.length === 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
-				addContext("Actual", this.actual);
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be empty.");
 			this.failures.push(failure);
 		}
 		return this;

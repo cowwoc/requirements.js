@@ -7,6 +7,7 @@ import SetValidatorNoOp from "./SetValidatorNoOp.js";
 import StringValidatorNoOp from "./StringValidatorNoOp.js";
 import UriValidatorNoOp from "./UriValidatorNoOp.js";
 import ClassValidatorNoOp from "./ClassValidatorNoOp.js";
+import ValidationFailure from "../ValidationFailure.js";
 
 /**
  * @return {ArrayValidatorNoOp} a validator for the <code>Array</code>
@@ -138,6 +139,15 @@ ObjectValidatorNoOp.prototype.asClassConsumer = function()
 	return this;
 };
 
+/**
+ * Returns the list of failed validations. Modifying the returned list results in undefined behavior.
+ *
+ * @return {Array<ValidationFailure>} the list of failed validations
+ */
+ObjectValidatorNoOp.prototype.getFailures = function()
+{
+	return this.failures;
+};
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an

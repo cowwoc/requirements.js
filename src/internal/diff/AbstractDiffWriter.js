@@ -1,6 +1,5 @@
 import Objects from "../Objects.js";
 import IllegalStateError from "../IllegalStateError.js";
-import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 
 /**
  * Base implementation for all diff writers.
@@ -153,30 +152,6 @@ class AbstractDiffWriter
 	}
 
 	/**
-	 * @param {string} text the text to keep in <code>Actual</code>
-	 * @throws {IllegalStateError} if the writer was closed
-	 */
-	keep(text)
-	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		const lines = text.split(NEWLINE_PATTERN, -1);
-		for (let i = 0, size = lines.length; i < size; ++i)
-		{
-			let line = lines[i];
-			if (i < size - 1)
-				line += NEWLINE_MARKER;
-			this.writeUnchanged(line);
-
-			if (i < size - 1)
-			{
-				// (i == size - 1) does not necessarily indicate the end of a line
-				this.writeNewline();
-			}
-		}
-	}
-
-	/**
 	 * Ends the current line.
 	 */
 	writeNewline()
@@ -186,60 +161,6 @@ class AbstractDiffWriter
 
 		this.expectedLinesBuilder.push(this.expectedLineBuilder);
 		this.expectedLineBuilder = "";
-	}
-
-	/**
-	 * @param {string} text the text that needs to be inserted into <code>Actual</code>
-	 * @throws {IllegalStateError} if the writer was closed
-	 */
-	insert(text)
-	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		const lines = text.split(NEWLINE_PATTERN, -1);
-
-		for (let i = 0, size = lines.length; i < size; ++i)
-		{
-			let line = lines[i];
-
-			if (i < size - 1)
-				line += NEWLINE_MARKER;
-			if (line.length > 0)
-				this.writeInserted(line);
-
-			if (i < size - 1)
-			{
-				// (i == size - 1) does not necessarily indicate the end of a line
-				this.writeNewline();
-			}
-		}
-	}
-
-	/**
-	 * @param {string} text the text that needs to be deleted from <code>Actual</code>
-	 * @throws {IllegalStateError} if the writer was closed
-	 */
-	delete(text)
-	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		const lines = text.split(NEWLINE_PATTERN, -1);
-
-		for (let i = 0, size = lines.length; i < size; ++i)
-		{
-			let line = lines[i];
-			if (i < size - 1)
-				line += NEWLINE_MARKER;
-
-			if (line.length > 0)
-				this.writeDeleted(line);
-
-			if (i < size - 1)
-			{
-				// (i == size - 1) does not necessarily indicate the end of a line
-				this.writeNewline();
-			}
-		}
 	}
 
 	/**

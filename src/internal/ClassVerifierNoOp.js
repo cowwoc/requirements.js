@@ -8,7 +8,15 @@ class ClassVerifierNoOp extends ObjectVerifierNoOp
 	/**
 	 * @return {ClassVerifierNoOp} the updated verifier
 	 */
-	isSubTypeOf()
+	isSupertypeOf()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {ClassVerifierNoOp} the updated verifier
+	 */
+	isSubtypeOf()
 	{
 		return this;
 	}

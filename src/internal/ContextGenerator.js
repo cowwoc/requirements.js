@@ -2,13 +2,21 @@ import Objects from "./Objects.js";
 import Strings from "./Strings.js";
 import Configuration from "../Configuration.js";
 import DiffGenerator from "./diff/DiffGenerator.js";
+import {DIFF_EQUAL} from "./diff/TextOnly.js";
 
 /**
  * A regular expression that matches lines that are not equal.
  *
  * @ignore
  */
-const LINES_NOT_EQUAL = /[^=]+/;
+const LINES_NOT_EQUAL = new RegExp("[^" + DIFF_EQUAL + "]+");
+
+/**
+ * A pattern matching the end of a line or stream.
+ *
+ * @ignore
+ */
+const EOL_PATTERN = /\\n|\\0$/;
 
 /**
  * Updates the last context entry to indicate that duplicate lines were skipped.
@@ -19,8 +27,8 @@ const LINES_NOT_EQUAL = /[^=]+/;
 function skipDuplicateLines(entries)
 {
 	const lastEntry = entries[entries.length - 1];
-	const newValue = lastEntry + "\n[...]\n";
-	entries.splice(entries.length - 1, 0, [lastEntry[0], newValue]);
+	const newValue = lastEntry[1] + "\n[...]\n";
+	entries.splice(entries.length - 1, 1, [lastEntry[0], newValue]);
 }
 
 /**
@@ -79,7 +87,7 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 			[expectedName, expectedValue]
 		];
 	}
-	const diff = DiffGenerator.diff(actualValue, expectedValue);
+	const diff = generator.diffGenerator.diff(actualValue, expectedValue);
 	const actualLines = diff.getActualLines();
 	const middleLines = diff.getMiddleLines();
 	const expectedLines = diff.getExpectedLines();
@@ -116,7 +124,8 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 		else
 		{
 			actualNameForLine = actualName + "@" + actualLineNumber;
-			++actualLineNumber;
+			if (EOL_PATTERN.test(actualLine))
+				++actualLineNumber;
 		}
 		if (skippedDuplicates)
 		{
@@ -132,7 +141,8 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 		else
 		{
 			expectedNameForLine = expectedName + "@" + expectedLineNumber;
-			++expectedLineNumber;
+			if (EOL_PATTERN.test(expectedLine))
+				++expectedLineNumber;
 		}
 		if (i < lines - 1)
 			expectedLine += "\n";

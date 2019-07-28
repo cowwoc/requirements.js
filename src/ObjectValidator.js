@@ -19,7 +19,6 @@ import ClassValidatorNoOp from "./internal/ClassValidatorNoOp.js";
 import Objects from "./internal/Objects.js";
 import Sugar from "sugar-object";
 import ContextGenerator from "./internal/ContextGenerator.js";
-import GlobalConfiguration from "./GlobalConfiguration.js";
 import ValidationFailure from "./ValidationFailure.js";
 
 /**
@@ -30,7 +29,8 @@ import ValidationFailure from "./ValidationFailure.js";
  */
 function getContext(objectValidator, expected)
 {
-	const contextGenerator = new ContextGenerator(objectValidator.config, GlobalConfiguration.diffGenerator);
+	const contextGenerator = new ContextGenerator(objectValidator.config,
+		objectValidator.config.getGlobalConfiguration().diffGenerator);
 	return contextGenerator.getContext("Actual", objectValidator.actual, "Expected", expected);
 }
 
@@ -716,9 +716,8 @@ ObjectValidator.prototype.asClass = function()
 			break;
 		default:
 		{
-			const actualAsUri = new URI(this.actual);
-			if (actualAsUri.is("url") || actualAsUri.is("urn"))
-				return new ClassValidator(this.config, actualAsUri, this.name);
+			if (typeof (this.actual.prototype) === "object")
+				return new ClassValidator(this.config, this.actual, this.name);
 			break;
 		}
 	}
@@ -741,6 +740,17 @@ ObjectValidator.prototype.asClassConsumer = function(consumer)
 	Objects.requireThatIsSet(consumer, "consumer");
 	consumer(this.asClass());
 	return this;
+};
+
+
+/**
+ * Returns the list of failed validations. Modifying the returned list results in undefined behavior.
+ *
+ * @return {Array<ValidationFailure>} the list of failed validations
+ */
+ObjectValidator.prototype.getFailures = function()
+{
+	return this.failures;
 };
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

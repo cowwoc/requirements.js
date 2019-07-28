@@ -8,7 +8,15 @@ class ClassValidatorNoOp extends ObjectValidatorNoOp
 	/**
 	 * @return {ClassValidatorNoOp} the updated validator
 	 */
-	isSubTypeOf()
+	isSupertypeOf()
+	{
+		return this;
+	}
+
+	/**
+	 * @return {ClassValidatorNoOp} the updated validator
+	 */
+	isSubtypeOf()
 	{
 		return this;
 	}

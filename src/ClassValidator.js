@@ -15,7 +15,25 @@ class ClassValidator extends ObjectValidator
 	 * @param {object} type the type to compare to
 	 * @return {ClassValidator} the updated validator
 	 */
-	isSubTypeOf(type)
+	isSupertypeOf(type)
+	{
+		if (!Objects.extends(type, this.actual))
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be a super-type of " + type).
+				addContext("Actual", Objects.getTypeOf(this.actual));
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is the specified type, or a sub-type.
+	 *
+	 * @param {object} type the type to compare to
+	 * @return {ClassValidator} the updated validator
+	 */
+	isSubtypeOf(type)
 	{
 		if (!Objects.extends(this.actual, type))
 		{

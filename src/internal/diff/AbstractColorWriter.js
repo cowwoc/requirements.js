@@ -6,7 +6,7 @@ import chalk from "chalk";
  *
  * @ignore
  */
-const PADDING_MARKER = "/";
+const DIFF_PADDING = "/";
 
 /**
  * An node terminal that supports colors.
@@ -17,7 +17,7 @@ class AbstractColorWriter extends AbstractDiffWriter
 {
 	constructor()
 	{
-		super(PADDING_MARKER);
+		super(DIFF_PADDING);
 	}
 
 	/**
@@ -33,4 +33,4 @@ class AbstractColorWriter extends AbstractDiffWriter
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {AbstractColorWriter as default};
+export {AbstractColorWriter as default, DIFF_PADDING};

@@ -1,5 +1,6 @@
 import test from "tape-catch";
 import {requireThat} from "../src/DefaultRequirements.js";
+import {validateThat} from "../src/DefaultRequirements";
 
 test("NumberTest.isBetween_actualIsLowerBound", function(t)
 {
@@ -386,5 +387,17 @@ test("NumberTest.getActual", function(t)
 	const input = 5;
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("NumberTest.validateThatNullAsNumber", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must be a Number.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asNumber().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

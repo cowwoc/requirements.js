@@ -6,7 +6,7 @@ import Objects from "./Objects.js";
  * @return {Array<TerminalEncoding>} the encodings supported by the terminal
  * @ignore
  */
-function getSupportedTypesImpl()
+function listSupportedTypesImpl()
 {
 	const result = [TerminalEncoding.NONE];
 	// https://stackoverflow.com/a/4224668/14731
@@ -61,7 +61,7 @@ function setEncodingImpl(terminal, encoding, force)
 	Objects.assertThatTypeOf(force, "force", "boolean");
 	console.debug("setEncodingImpl(%s, %s)", encoding, force);
 
-	if (!terminal.getSupportedTypes().includes(encoding))
+	if (!terminal.listSupportedTypes().includes(encoding))
 	{
 		console.debug("User forced the use of an unsupported encoding: %s", encoding);
 		terminal.encoding = encoding;
@@ -80,10 +80,12 @@ class Terminal
 	{
 		Object.defineProperty(this, "supportedTypes",
 			{
+				value: null,
 				writable: true
 			});
 		Object.defineProperty(this, "encoding",
 			{
+				value: null,
 				writable: true
 			});
 	}
@@ -91,10 +93,10 @@ class Terminal
 	/**
 	 * @return {Array<TerminalEncoding>} the encodings supported by the terminal
 	 */
-	getSupportedTypes()
+	listSupportedTypes()
 	{
-		if (!this.supportedTypes)
-			this.supportedTypes = getSupportedTypesImpl();
+		if (this.supportedTypes === null)
+			this.supportedTypes = listSupportedTypesImpl();
 		return this.supportedTypes;
 	}
 
@@ -119,7 +121,7 @@ class Terminal
 	 */
 	useBestEncoding()
 	{
-		const supportedTypes = this.getSupportedTypes();
+		const supportedTypes = this.listSupportedTypes();
 		const sortedTypes = supportedTypes.sort(TerminalEncoding.sortByDecreasingRank);
 		setEncodingImpl(this, sortedTypes[0], false);
 	}

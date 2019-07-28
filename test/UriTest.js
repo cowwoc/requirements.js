@@ -1,6 +1,7 @@
 import test from "tape-catch";
 import URI from "urijs";
 import {requireThat} from "../src/DefaultRequirements.js";
+import {validateThat} from "../src/DefaultRequirements";
 
 test("UriTest.asUri", function(t)
 {
@@ -51,5 +52,17 @@ test("UriTest.getActual", function(t)
 	const input = new URI("http://www.test.com/");
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("UriTest.validateThatNullAsUri", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must contain a valid URI.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asUri().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

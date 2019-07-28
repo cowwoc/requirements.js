@@ -1,4 +1,4 @@
-import GlobalConfiguration from "./GlobalConfiguration.js";
+import AbstractGlobalConfiguration from "./internal/AbstractGlobalConfiguration.js";
 import Objects from "./internal/Objects.js";
 
 /**
@@ -9,6 +9,8 @@ class Configuration
 	/**
 	 * Creates a new configuration without an empty context and without an exception override.
 	 *
+	 * @param {AbstractGlobalConfiguration} globalConfiguration the global configuration inherited by all
+	 *   verifiers
 	 * @param {Map} [context=[]] a map of key-value pairs to append to the exception message
 	 * @param {boolean} [assertionsEnabled=false] true if <code>assertThat()</code> should invoke
 	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
@@ -20,8 +22,12 @@ class Configuration
 	 *   contains less or more than 2 elements; if the keys nested in the context array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
-	constructor(context, assertionsEnabled, diffEnabled, typeToStringConverter)
+	constructor(globalConfiguration, context, assertionsEnabled, diffEnabled, typeToStringConverter)
 	{
+		Object.defineProperty(this, "globalConfiguration",
+			{
+				value: globalConfiguration
+			});
 		if (typeof (context) === "undefined")
 			context = new Map();
 		else
@@ -31,13 +37,13 @@ class Configuration
 				value: context
 			});
 		if (typeof (assertionsEnabled) === "undefined")
-			assertionsEnabled = GlobalConfiguration.assertionsAreEnabled;
+			assertionsEnabled = globalConfiguration.assertionsAreEnabled();
 		Object.defineProperty(this, "assertionsEnabled",
 			{
 				value: assertionsEnabled
 			});
 		if (typeof (diffEnabled) === "undefined")
-			diffEnabled = GlobalConfiguration.isDiffEnabled();
+			diffEnabled = globalConfiguration.isDiffEnabled();
 		Object.defineProperty(this, "diffEnabled",
 			{
 				value: diffEnabled
@@ -53,7 +59,7 @@ class Configuration
 	}
 
 	/**
-	 * Returns the type of exception that will be thrown if a verification fails.
+	 * Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
 	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
 	 *   if it shouldn't do anything
@@ -72,7 +78,8 @@ class Configuration
 	{
 		if (this.assertionsEnabled)
 			return this;
-		return new Configuration(this.context, true, this.diffEnabled, this.typeToStringConverter);
+		return new Configuration(this.globalConfiguration, this.context, true, this.diffEnabled,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -84,7 +91,8 @@ class Configuration
 	{
 		if (!this.assertionsEnabled)
 			return this;
-		return new Configuration(this.context, false, this.diffEnabled, this.typeToStringConverter);
+		return new Configuration(this.globalConfiguration, this.context, false, this.diffEnabled,
+			this.typeToStringConverter);
 	}
 
 	/**
@@ -106,7 +114,7 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.context, this.assertionsEnabled, true,
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, true,
 			this.typeToStringConverter);
 	}
 
@@ -120,7 +128,7 @@ class Configuration
 	{
 		if (this.diffEnabled)
 			return this;
-		return new Configuration(this.context, this.assertionsEnabled, false,
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, false,
 			this.typeToStringConverter);
 	}
 
@@ -147,7 +155,7 @@ class Configuration
 		Objects.requireThatStringNotEmpty(name, "name");
 		const newContext = new Map(this.context);
 		newContext.set(name, value);
-		return new Configuration(newContext, this.assertionsEnabled, this.diffEnabled,
+		return new Configuration(this.globalConfiguration, newContext, this.assertionsEnabled, this.diffEnabled,
 			this.typeToStringConverter);
 	}
 
@@ -164,7 +172,7 @@ class Configuration
 		const newContext = new Map(this.context);
 		if (!newContext.delete(name))
 			return this;
-		return new Configuration(newContext, this.assertionsEnabled, this.diffEnabled,
+		return new Configuration(this.globalConfiguration, newContext, this.assertionsEnabled, this.diffEnabled,
 			this.typeToStringConverter);
 	}
 
@@ -202,7 +210,7 @@ class Configuration
 		Objects.assertThatTypeOf(converter, "converter", "Function");
 		const newTypeToStringConverter = new Map(this.typeToStringConverter);
 		newTypeToStringConverter.set(type, converter);
-		return new Configuration(this.context, this.assertionsEnabled, this.diffEnabled,
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, this.diffEnabled,
 			newTypeToStringConverter);
 	}
 
@@ -220,8 +228,18 @@ class Configuration
 		const newTypeToStringConverter = new Map(this.typeToStringConverter);
 		if (!newTypeToStringConverter.delete(type))
 			return this;
-		return new Configuration(this.context, this.assertionsEnabled, this.diffEnabled,
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, this.diffEnabled,
 			newTypeToStringConverter);
+	}
+
+	/**
+	 * Returns the global configuration.
+	 *
+	 * @return {AbstractGlobalConfiguration} the global configuration associated with this object
+	 */
+	getGlobalConfiguration()
+	{
+		return this.globalConfiguration;
 	}
 }
 

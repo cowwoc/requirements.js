@@ -1,5 +1,5 @@
 import test from "tape-catch";
-import {requireThat} from "../src/DefaultRequirements.js";
+import {requireThat, validateThat} from "../src/DefaultRequirements.js";
 
 test("InetAddressTest.asIpAddress_actualIsIpV4", function(t)
 {
@@ -240,5 +240,17 @@ test("InetAddressTest.getActual", function(t)
 	const input = "::0:2F3B:2AA:FF:FE28:9C5A";
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("InetAddressTest.validateThatNullAsInetAddress", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must contain a valid IP address or hostname.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asInetAddress().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

@@ -8,15 +8,28 @@ import ObjectVerifier from "./internal/circular_dependency/ObjectVerifierBase.js
 class ClassVerifier extends ObjectVerifier
 {
 	/**
+	 * Ensures that the actual value is the specified type, or a super-type.
+	 *
+	 * @param {object} type the type to compare to
+	 * @return {ClassVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not a supertype of <code>type</code>
+	 */
+	isSupertypeOf(type)
+	{
+		this.validator.isSupertypeOf(type);
+		return this.validationResult();
+	}
+
+	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
 	 *
 	 * @param {object} type the type to compare to
 	 * @return {ClassVerifier} the updated verifier
-	 * @throws {RangeError} if the actual value does not have the specified <code>type</code>
+	 * @throws {RangeError} if the actual value is not a subtype of <code>type</code>
 	 */
-	isSubTypeOf(type)
+	isSubtypeOf(type)
 	{
-		this.validator.isSubTypeOf(type);
+		this.validator.isSubtypeOf(type);
 		return this.validationResult();
 	}
 }

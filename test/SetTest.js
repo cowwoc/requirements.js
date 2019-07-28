@@ -1,5 +1,6 @@
 import test from "tape-catch";
 import {requireThat} from "../src/DefaultRequirements.js";
+import {validateThat} from "../src/DefaultRequirements";
 
 test("SetTest.nameIsNull", function(t)
 {
@@ -345,5 +346,17 @@ test("SetTest.getActual", function(t)
 	const input = new Set([1, 2, 3]);
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("SetTest.validateThatNullAsSet", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must be a Set.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asSet().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

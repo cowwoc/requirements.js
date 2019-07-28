@@ -1,5 +1,6 @@
 import test from "tape-catch";
 import {requireThat} from "../src/DefaultRequirements.js";
+import {validateThat} from "../src/DefaultRequirements";
 
 test("StringTest.isEmpty", function(t)
 {
@@ -262,5 +263,13 @@ test("StringTest.getActual", function(t)
 	const input = "value";
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("StringTest.validateThatNullAsString", function(t)
+{
+	const actual = null;
+	const actualFailures = validateThat(actual, "actual").asString().getFailures();
+	requireThat(actualFailures, "actualFailures").asArray().isEmpty();
 	t.end();
 });

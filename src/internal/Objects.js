@@ -339,6 +339,20 @@ class Objects
 	}
 
 	/**
+	 * Requires that an object is an instance of the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {object} type the class the value is expected to be an instance of
+	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
+	 * is not a string
+	 */
+	static assertThatInstanceOf(value, name, type)
+	{
+		console.assert(this.requireThatInstanceOf(value, name, type));
+	}
+
+	/**
 	 * Requires that a string is not empty.
 	 *
 	 * @param {string} value the value of the parameter

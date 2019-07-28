@@ -1,6 +1,8 @@
 import test from "tape-catch";
 import Configuration from "../src/Configuration.js";
 import Requirements from "../src/Requirements.js";
+import TestGlobalConfiguration from "../src/internal/TestGlobalConfiguration.js";
+import TerminalEncoding from "../src/TerminalEncoding.js";
 
 test("Configuration.withAssertionsDisabled", function(t)
 {
@@ -70,7 +72,7 @@ test("Configuration.putContext(keyNotSet)", function(t)
 
 test("Configuration.convertToString(undefined)", function(t)
 {
-	const config = new Configuration();
+	const config = new Configuration(new TestGlobalConfiguration(TerminalEncoding.NONE));
 	const actual = config.convertToString("undefined");
 	t.strictEqual(actual, "undefined");
 	t.end();
@@ -78,7 +80,7 @@ test("Configuration.convertToString(undefined)", function(t)
 
 test("Configuration.convertToString(null)", function(t)
 {
-	const config = new Configuration();
+	const config = new Configuration(new TestGlobalConfiguration(TerminalEncoding.NONE));
 	const actual = config.convertToString("null");
 	t.strictEqual(actual, "null");
 	t.end();

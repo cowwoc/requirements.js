@@ -1,5 +1,5 @@
 import test from "tape-catch";
-import {requireThat} from "../src/DefaultRequirements.js";
+import {requireThat, validateThat} from "../src/DefaultRequirements.js";
 
 test("ArrayTest.isEmpty", function(t)
 {
@@ -801,5 +801,32 @@ test("ArrayTest.getActual", function(t)
 		];
 	const output = requireThat(input, "input").getActual();
 	t.equals(output, input);
+	t.end();
+});
+
+test("ArrayTest.getActual", function(t)
+{
+	const input =
+		[
+			1,
+			2,
+			3,
+			4,
+			5
+		];
+	const output = requireThat(input, "input").getActual();
+	t.equals(output, input);
+	t.end();
+});
+
+test("ArrayTest.validateThatNullLength", function(t)
+{
+	const actual = null;
+	const expectedMessages = ["actual must be an Array.\n" +
+	"Actual: null\n" +
+	"Type  : null"];
+	const actualFailures = validateThat(actual, "actual").asArray().length().getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });
