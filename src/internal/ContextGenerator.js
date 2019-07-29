@@ -32,13 +32,18 @@ function skipDuplicateLines(entries)
 }
 
 /**
- * @param {string} diff the textual diff of two lines
- * @return {boolean} true if the lines being compared are different from each other
+ * @param {Array<string>} actualLines   the actual lines
+ * @param {Array<string>} middleLines   the middle lines
+ * @param {Array<string>} expectedLines the expected lines
+ * @param {number} line the current line number (0-based)
+ * @return {boolean} true if the lines being compared are equal to each other
  * @ignore
  */
-function linesAreDifferent(diff)
+function linesAreEqual(actualLines, middleLines, expectedLines, line)
 {
-	return LINES_NOT_EQUAL.test(diff);
+	if (middleLines.length !== 0)
+		return !LINES_NOT_EQUAL.test(middleLines[line]);
+	return actualLines[line] === expectedLines[line];
 }
 
 /**
@@ -67,25 +72,30 @@ function requireThatNumberOfLinesAreEqual(actualLines, expectedLines)
  * @param {string} typeOfActual    the type of the actual value
  * @param {string} expectedName  the name of the expected value
  * @param {string} expectedValue the expected value
+ * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
  * @return {Array} the list of name-value pairs to append to the exception message
- * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are null
+ * @throws {TypeError} if <code>actualName</code> or <code>expectedName</code> are not a string
+ * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are empty; if
+ * <code>expectedInMessage</code> is not a boolean
  * @ignore
  */
-function getContextImpl(generator, actualName, actualValue, typeOfActual, expectedName, expectedValue)
+function getContextImpl(generator, actualName, actualValue, typeOfActual, expectedName, expectedValue,
+                        expectedInMessage)
 {
 	Objects.assertThatTypeOf(generator, "generator", "ContextGenerator");
 	Objects.assertThatStringNotEmpty(actualName, "actualName");
 	Objects.assertThatStringNotEmpty(typeOfActual, "typeOfActual");
 	Objects.assertThatStringNotEmpty(expectedName, "expectedName");
+	Objects.assertThatTypeOf(expectedInMessage, "expectedInMessage", "boolean");
 
 	// Don't diff booleans
 	const typeIsDiffable = (typeOfActual !== "boolean");
 	if (!typeIsDiffable || !generator.config.isDiffEnabled())
 	{
-		return [
-			[actualName, actualValue],
-			[expectedName, expectedValue]
-		];
+		const result = [[actualName, actualValue]];
+		if (!expectedInMessage)
+			result.push([expectedName, expectedValue]);
+		return result;
 	}
 	const diff = generator.diffGenerator.diff(actualValue, expectedValue);
 	const actualLines = diff.getActualLines();
@@ -96,7 +106,7 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 	if (lines === 1)
 	{
 		result.push([actualName, actualLines[0]]);
-		if (middleLines.length > 0 && linesAreDifferent(middleLines[0]))
+		if (middleLines.length !== 0 && !linesAreEqual(actualLines, middleLines, expectedLines, 0))
 			result.push(["Diff", middleLines[0]]);
 		result.push([expectedName, expectedLines[0]]);
 		return result;
@@ -110,7 +120,8 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 	{
 		const actualLine = actualLines[i];
 		let expectedLine = expectedLines[i];
-		if (i !== 0 && i !== lines - 1 && actualLine === expectedLine)
+		const currentLineIsEqual = linesAreEqual(actualLines, middleLines, expectedLines, i);
+		if (i !== 0 && i !== lines - 1 && currentLineIsEqual)
 		{
 			// Skip identical lines, unless they are the first or last line.
 			skippedDuplicates = true;
@@ -133,7 +144,7 @@ function getContextImpl(generator, actualName, actualValue, typeOfActual, expect
 			skipDuplicateLines(result);
 		}
 		result.push([actualNameForLine, actualLine]);
-		if (middleLines.length > 0 && linesAreDifferent(middleLines[i]))
+		if (middleLines.length !== 0 && !currentLineIsEqual)
 			result.push(["Diff", middleLines[i]]);
 		let expectedNameForLine;
 		if (Strings.containsOnly(expectedLine, diff.getPaddingMarker()))
@@ -187,9 +198,10 @@ class ContextGenerator
 	 * @param {object} actualValue   the actual value
 	 * @param {string} expectedName  the name of the expected value
 	 * @param {object} expectedValue the expected value
+	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
 	 * @return {Array<Array<string>>} the list of name-value pairs to append to the exception message
 	 */
-	getContext(actualName, actualValue, expectedName, expectedValue)
+	getContext(actualName, actualValue, expectedName, expectedValue, expectedInMessage)
 	{
 		// This class outputs the String representation of the values. If those are equal, it also
 		// outputs the first of getClass(), hashCode(), or System.identityHashCode()] that differs.
@@ -201,7 +213,7 @@ class ContextGenerator
 		else
 			typeOfActual = Objects.getTypeOf(actualValue);
 		const result = getContextImpl(this, actualName, actualAsString, typeOfActual, expectedName,
-			expectedAsString);
+			expectedAsString, expectedInMessage);
 		if (actualAsString === expectedAsString)
 		{
 			result.push(null);
@@ -219,7 +231,7 @@ class ContextGenerator
 			if (actualClassName !== expectedClassName)
 			{
 				result.push(...getContextImpl(this, actualName + ".class", actualClassName, typeOfActual,
-					expectedName + ".class", expectedClassName));
+					expectedName + ".class", expectedClassName, false));
 				return result;
 			}
 		}

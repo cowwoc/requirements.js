@@ -3,7 +3,7 @@
  *
  * @ignore
  */
-const DIFF_NEWLINE = "\\n";
+const NEWLINE_MARKER = "\\n";
 /**
  * A pattern matching newline characters anywhere in a string.
  *
@@ -11,4 +11,4 @@ const DIFF_NEWLINE = "\\n";
  */
 const NEWLINE_PATTERN = /\r?\n/;
 
-export {DIFF_NEWLINE, NEWLINE_PATTERN};
+export {NEWLINE_MARKER, NEWLINE_PATTERN};

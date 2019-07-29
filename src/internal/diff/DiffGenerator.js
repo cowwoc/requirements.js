@@ -7,7 +7,7 @@ import Node16Colors from "./Node16Colors.js";
 import Node256Colors from "./Node256Colors.js";
 import Node16MillionColors from "./Node16MillionColors.js";
 import DiffResult from "./DiffResult.js";
-import {DIFF_NEWLINE, NEWLINE_PATTERN} from "./DiffConstants.js";
+import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants.js";
 import AbstractGlobalConfiguration from "../AbstractGlobalConfiguration.js";
 
 /**
@@ -51,7 +51,7 @@ function writeDiff(component, writer)
 	{
 		let text = lines[i];
 		if (i < size - 1)
-			text += DIFF_NEWLINE;
+			text += NEWLINE_MARKER;
 		if (text !== "")
 		{
 			switch (component[0])

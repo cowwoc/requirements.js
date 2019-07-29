@@ -18,6 +18,82 @@ function justifyLeft(text, length)
 	return text + " ".repeat(needed);
 }
 
+/**
+ * Returns the failure message with contextual information.
+ *
+ * @param {ValidationFailure} validationFailure the validation failure
+ * @return {string} the failure message with contextual information
+ */
+function createMessageWithContext(validationFailure)
+{
+	const mergedContext = mergeContext(validationFailure);
+
+	let maxKeyLength = 0;
+	for (const entry of mergedContext)
+	{
+		if (entry === null)
+			continue;
+		const keyLength = entry[0].length;
+		if (keyLength > maxKeyLength)
+			maxKeyLength = keyLength;
+	}
+
+	const contextToAdd = [validationFailure.message];
+	for (const entry of mergedContext)
+	{
+		if (entry === null)
+		{
+			contextToAdd.push("");
+			continue;
+		}
+
+		const key = entry[0];
+		const value = entry[1];
+		contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " +
+			validationFailure.config.convertToString(value));
+	}
+	return contextToAdd.join("\n");
+}
+
+/**
+ * Merges the failure context from the <code>ValidationFailure</code> and <code>Configuration</code> object,
+ * where the former may override values set by the latter.
+ *
+ * @param {ValidationFailure} validationFailure the validation failure
+ * @return {Array<Array<string>>} the merged failure context
+ */
+function mergeContext(validationFailure)
+{
+	const mergedContext = [];
+	const existingKeys = new Set();
+	for (const entry of validationFailure.context)
+	{
+		if (entry === null)
+		{
+			// empty lines between expected/actual pairs
+			mergedContext.push(null);
+			continue;
+		}
+		verifyEntry(entry);
+		const key = entry[0];
+		Objects.assertThatStringNotEmpty(key, "key");
+		const copyOfLine = [];
+		copyOfLine[0] = key;
+		copyOfLine[1] = entry[1];
+		mergedContext.push(copyOfLine);
+		existingKeys.add(key);
+	}
+
+	for (const entry of validationFailure.config.context)
+	{
+		if (!existingKeys.has(entry[0]))
+		{
+			existingKeys.add(entry[0]);
+			mergedContext.push(entry);
+		}
+	}
+	return mergedContext;
+}
 
 /**
  * @param {Array<string>} entry a key-value pair
@@ -42,7 +118,7 @@ class ValidationFailure
 	 *
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Error.prototype.constructor} exceptionType the type of exception associated with the failure
-	 * @param {string} message the exception message associated with the failure
+	 * @param {string} message the message associated with the failure
 	 * @throws {TypeError} if <code>exceptionType</code> or <code>message</code> are null
 	 * @throws {RangeError} if <code>message</code> is empty
 	 */
@@ -83,38 +159,7 @@ class ValidationFailure
 	getMessage()
 	{
 		if (this.messageWithContext === null)
-		{
-			const contextToAdd = [this.message];
-
-			let mergedContext;
-			if (this.config.context.length === 0)
-				mergedContext = this.context;
-			else
-				mergedContext = [...this.context, ...this.config.context];
-
-			let maxKeyLength = 0;
-			for (const entry of mergedContext)
-			{
-				if (entry === null)
-					continue;
-				const keyLength = entry[0].length;
-				if (keyLength > maxKeyLength)
-					maxKeyLength = keyLength;
-			}
-			for (const entry of mergedContext)
-			{
-				if (entry === null)
-				{
-					contextToAdd.push("");
-					continue;
-				}
-
-				const key = entry[0];
-				const value = entry[1];
-				contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " + this.config.convertToString(value));
-			}
-			this.messageWithContext = contextToAdd.join("\n");
-		}
+			this.messageWithContext = createMessageWithContext(this);
 		return this.messageWithContext;
 	}
 
@@ -139,27 +184,13 @@ class ValidationFailure
 	 *
 	 * @param {Array<Array<string>>} context the list of name-value pairs to append to the exception message
 	 * @return {ValidationFailure} this
-	 * @throws NullPointerException if {@code context} is null
+	 * @throws NullPointerException if {@code context} is not an Array
+	 * @see ConsumerToContext
 	 */
 	addContextList(context)
 	{
 		Objects.requireThatTypeOf(context, "context", "Array");
-		for (const entry of context)
-		{
-			if (entry === null)
-			{
-				// empty lines between expected/actual pairs
-				this.context.push(null);
-				continue;
-			}
-			verifyEntry(entry);
-			const key = entry[0];
-			Objects.assertThatStringNotEmpty(key, "key");
-			const copyOfEntry = [];
-			copyOfEntry[0] = entry[0];
-			copyOfEntry[1] = entry[1];
-			this.context.push(copyOfEntry);
-		}
+		this.context.push(...context);
 		this.messageWithContext = null;
 		return this;
 	}

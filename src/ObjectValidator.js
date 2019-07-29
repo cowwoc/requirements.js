@@ -24,14 +24,16 @@ import ValidationFailure from "./ValidationFailure.js";
 /**
  * @param {ObjectValidator} objectValidator an instance of ObjectValidator
  * @param {object} expected the expected value
+ * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
  * @return {Array<Array<string>>} the list of name-value pairs to append to the exception message
  * @ignore
  */
-function getContext(objectValidator, expected)
+function getContext(objectValidator, expected, expectedInMessage)
 {
 	const contextGenerator = new ContextGenerator(objectValidator.config,
 		objectValidator.config.getGlobalConfiguration().diffGenerator);
-	return contextGenerator.getContext("Actual", objectValidator.actual, "Expected", expected);
+	return contextGenerator.getContext("Actual", objectValidator.actual, "Expected", expected,
+		expectedInMessage);
 }
 
 /**
@@ -49,19 +51,18 @@ ObjectValidator.prototype.isEqualTo = function(expected, name)
 		Objects.requireThatStringNotEmpty(name, "name");
 	if (!Sugar.Object.isEqual(this.actual, expected))
 	{
-		const context = getContext(this, expected);
 		let failure;
 		if (name)
 		{
 			failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be equal to " + name).
-				addContextList(context);
+				addContextList(getContext(this, expected, false));
 		}
 		else
 		{
 			failure = new ValidationFailure(this.config, RangeError,
-				this.name + " had an unexpected value.").
-				addContextList(context);
+				this.name + " must be equal to " + this.config.convertToString(expected) + ".").
+				addContextList(getContext(this, expected, true));
 		}
 		this.failures.push(failure);
 	}
@@ -250,7 +251,7 @@ ObjectValidator.prototype.isNull = function()
 	if (this.actual !== null)
 	{
 		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be null.").
-			addContext("Actual", this.actual);
+			addContextList(getContext(this, null, true));
 		this.failures.push(failure);
 	}
 	return this;

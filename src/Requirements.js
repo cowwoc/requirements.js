@@ -142,6 +142,43 @@ class Requirements
 	}
 
 	/**
+	 * Indicates if exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {boolean} true by default
+	 */
+	isDiffEnabled()
+	{
+		return this.config.isDiffEnabled();
+	}
+
+	/**
+	 * Indicates that exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {Requirements} a verifier with the updated configuration
+	 */
+	withDiff()
+	{
+		const newConfig = this.config.withDiff();
+		if (newConfig === this.config)
+			return this;
+		return new Requirements(newConfig);
+	}
+
+	/**
+	 * Indicates that exceptions should not show the difference between the actual and expected
+	 * values.
+	 *
+	 * @return {Requirements} a verifier with the updated configuration
+	 */
+	withoutDiff()
+	{
+		const newConfig = this.config.withoutDiff();
+		if (newConfig === this.config)
+			return this;
+		return new Requirements(newConfig);
+	}
+
+	/**
 	 * @return {Array<Array>} an array of key-value pairs to append to the exception message
 	 * @see #putContext
 	 */

@@ -126,7 +126,7 @@ class Configuration
 	 */
 	withoutDiff()
 	{
-		if (this.diffEnabled)
+		if (!this.diffEnabled)
 			return this;
 		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, false,
 			this.typeToStringConverter);

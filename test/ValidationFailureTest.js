@@ -1,6 +1,10 @@
 import test from "tape-catch";
 import ValidationFailure from "../src/ValidationFailure.js";
 import Requirements from "../src/Requirements.js";
+import TestGlobalConfiguration from "../src/internal/TestGlobalConfiguration.js";
+import TerminalEncoding from "../src/TerminalEncoding.js";
+import Configuration from "../src/Configuration.js";
+import {requireThat} from "../src/DefaultRequirements.js";
 
 test("ValidationFailureTest_configurationIsUndefined", function(t)
 {
@@ -57,5 +61,25 @@ test("ValidationFailureTest.addContext_keyNotString", function(t)
 		// eslint-disable-next-line no-new
 		new ValidationFailure(config, RangeError, "message").addContext(null);
 	}, TypeError);
+	t.end();
+});
+
+test("ValidationFailureTest.messageWithoutFormatting", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "int[6]";
+	const expected = "int[5]";
+	const expectedMessage = "actual must be equal to int[5].\n" +
+		"Actual: int[6]";
+	const expectedMessages = [expectedMessage];
+
+	const actualFailures = requirements.withoutDiff().
+		validateThat(actual, "actual").
+		isEqualTo(expected).getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

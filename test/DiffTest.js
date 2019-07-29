@@ -1,6 +1,6 @@
 import test from "tape-catch";
 import {EOS_MARKER} from "../src/internal/diff/DiffGenerator.js";
-import {DIFF_NEWLINE} from "../src/internal/diff/DiffConstants.js";
+import {NEWLINE_MARKER} from "../src/internal/diff/DiffConstants.js";
 import {
 	default as TextOnly,
 	DIFF_DELETE,
@@ -120,9 +120,9 @@ test("DiffTest.diffNewlinePrefix", function(t)
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : " + DIFF_NEWLINE + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(DIFF_NEWLINE.length) + "\n" +
-			"Expected  : " + DIFF_PADDING.repeat(DIFF_NEWLINE.length) + "\n" +
+		const expectedMessage = "Actual@1  : " + NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
 			"\n" +
 			"Actual@2  : actual" + DIFF_PADDING.repeat("expected".length) +
 			EOS_MARKER + "\n" +
@@ -155,10 +155,10 @@ test("DiffTest.diffNewlinePostfix", function(t)
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : actual" + DIFF_NEWLINE + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat("actual".length + DIFF_NEWLINE.length) +
+		const expectedMessage = "Actual@1  : actual" + NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat("actual".length + NEWLINE_MARKER.length) +
 			"\n" +
-			"Expected  : " + DIFF_PADDING.repeat("actual".length + DIFF_NEWLINE.length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat("actual".length + NEWLINE_MARKER.length) + "\n" +
 			"\n" +
 			"Actual@2  : " + DIFF_PADDING.repeat("expected".length) + EOS_MARKER +
 			"\n" +
@@ -189,13 +189,13 @@ test("DiffTest.matchAcrossLines", function(t)
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : " + DIFF_NEWLINE + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(DIFF_NEWLINE.length) + "\n" +
-			"Expected  : " + DIFF_PADDING.repeat(DIFF_NEWLINE.length) + "\n" +
+		const expectedMessage = "Actual@1  : " + NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
 			"\n" +
-			"Actual@2  : " + DIFF_NEWLINE + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(DIFF_NEWLINE.length) + "\n" +
-			"Expected  : " + DIFF_PADDING.repeat(DIFF_NEWLINE.length) + "\n" +
+			"Actual@2  : " + NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
 			"\n" +
 			"Actual@3  : value" + EOS_MARKER + "\n" +
 			"Expected@1: value" + EOS_MARKER;
@@ -223,15 +223,15 @@ test("DiffTest.skipDuplicateLinesTest", function(t)
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : 1" + DIFF_NEWLINE + "\n" +
-			"Expected@1: 1" + DIFF_NEWLINE + "\n" +
+		const expectedMessage = "Actual@1  : 1" + NEWLINE_MARKER + "\n" +
+			"Expected@1: 1" + NEWLINE_MARKER + "\n" +
 			"\n" +
 			"[...]\n" +
 			"\n" +
-			"Actual@3  : 3" + DIFF_PADDING + DIFF_NEWLINE + "\n" +
+			"Actual@3  : 3" + DIFF_PADDING + NEWLINE_MARKER + "\n" +
 			"Diff      : " + DIFF_DELETE + DIFF_INSERT +
-			DIFF_EQUAL.repeat(DIFF_NEWLINE.length) + "\n" +
-			"Expected@3: " + DIFF_PADDING + "9" + DIFF_NEWLINE + "\n" +
+			DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected@3: " + DIFF_PADDING + "9" + NEWLINE_MARKER + "\n" +
 			"\n" +
 			"[...]\n" +
 			"\n" +
@@ -268,6 +268,44 @@ test("DiffTest.charlesTest", function(t)
 			DIFF_EQUAL.repeat(3 + EOS_MARKER.length) + "\n" +
 			"Expected: The " + DIFF_PADDING.repeat("dog".length) + "fox is " +
 			DIFF_PADDING.repeat("br".length) + "down" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensure that DIFF notices when non-terminal lines are different even if they only contain whitespace.
+ */
+test("DiffTest.charlesTest", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "one\n" +
+		"\n" +
+		"three";
+	const expected = "one\n" +
+		"   \n" +
+		"three";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "actual must be equal to " + expected + ".\n" +
+			"Actual@1  : one" + NEWLINE_MARKER + "\n" +
+			"Expected@1: one" + NEWLINE_MARKER + "\n" +
+			"\n" +
+			"Actual@2  : " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_INSERT.repeat(3) + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected@2: " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
+			"\n" +
+			"Actual@3  : three" + EOS_MARKER + "\n" +
+			"Expected@3: three" + EOS_MARKER;
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
 			"\n\nActual:\n" + actualMessage);
 	}
