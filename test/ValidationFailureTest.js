@@ -72,7 +72,7 @@ test("ValidationFailureTest.messageWithoutFormatting", function(t)
 
 	const actual = "int[6]";
 	const expected = "int[5]";
-	const expectedMessage = "actual must be equal to int[5].\n" +
+	const expectedMessage = "actual must be equal to " + expected + ".\n" +
 		"Actual: int[6]";
 	const expectedMessages = [expectedMessage];
 

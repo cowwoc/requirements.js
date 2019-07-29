@@ -1,6 +1,7 @@
 import test from "tape-catch";
-import {requireThat} from "../src/DefaultRequirements.js";
-import {validateThat} from "../src/DefaultRequirements";
+import {requireThat, validateThat} from "../src/DefaultRequirements.js";
+import {EOS_MARKER} from "../src/internal/diff/DiffGenerator.js";
+import {DIFF_DELETE, DIFF_INSERT, DIFF_PADDING} from "../src/internal/diff/TextOnly.js";
 
 test("StringTest.isEmpty", function(t)
 {
@@ -269,7 +270,16 @@ test("StringTest.getActual", function(t)
 test("StringTest.validateThatNullAsString", function(t)
 {
 	const actual = null;
-	const actualFailures = validateThat(actual, "actual").asString().getFailures();
-	requireThat(actualFailures, "actualFailures").asArray().isEmpty();
+	const expected = 5;
+	const expectedMessage = "actual.asString() must be equal to " + expected + ".\n" +
+		"Actual  : null " + EOS_MARKER + "\n" +
+		"Diff    : " + DIFF_DELETE.repeat(4) + DIFF_INSERT + DIFF_PADDING.repeat(EOS_MARKER.length) +
+		"\n" +
+		"Expected:     5" + EOS_MARKER;
+	const expectedMessages = [expectedMessage];
+
+	const actualFailures = validateThat(actual, "actual").asString().isEqualTo(expected).getFailures();
+	const actualMessages = actualFailures.map(failure => failure.getMessage());
+	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });
