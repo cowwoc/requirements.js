@@ -55,11 +55,11 @@ yarn add @cowwoc/requirements@1.1.0
 
 The best way to learn about the API is using your IDE's auto-complete engine. There are five entry points you can navigate from:
 
-* [requireThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/org.bitbucket.cowwoc.requirements/org/bitbucket/cowwoc/requirements/DefaultRequirements.html#requireThat(T,java.lang.String))
-* [assertThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/org.bitbucket.cowwoc.requirements/org/bitbucket/cowwoc/requirements/DefaultRequirements.html#assertThat(T,java.lang.String))
-* [validateThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/org.bitbucket.cowwoc.requirements/org/bitbucket/cowwoc/requirements/DefaultRequirements.html#validateThat(T,java.lang.String))
-* [Requirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/org.bitbucket.cowwoc.requirements/org/bitbucket/cowwoc/requirements/Requirements.html)
-* [GlobalRequirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/org.bitbucket.cowwoc.requirements/org/bitbucket/cowwoc/requirements/GlobalRequirements.html)
+* [requireThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~requireThat)
+* [assertThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~assertThat)
+* [validateThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~validateThat)
+* [Requirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-Requirements-Requirements.html)
+* [GlobalRequirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
 
 ## Breaking Changes ##
 
