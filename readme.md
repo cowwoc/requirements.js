@@ -1,5 +1,5 @@
 # ![checklist.png](https://bitbucket.org/repo/qRAo8G/images/2273371789-checklist.png) Requirements #
-[![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements) [![build-status](https://img.shields.io/bitbucket/pipelines/cowwoc/requirements.js/default.svg)](https://bitbucket.org/cowwoc/requirements.js/addon/pipelines/home)  [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/)
+[![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements) [![build-status](https://img.shields.io/bitbucket/pipelines/cowwoc/requirements.js/default.svg)](https://bitbucket.org/cowwoc/requirements.js/addon/pipelines/home)  [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/) [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](https://bitbucket.org/cowwoc/requirements.js/wiki/Changelog/)
 
 [![java](https://img.shields.io/badge/languages-java-457FD5.svg)](https://bitbucket.org/cowwoc/requirements.java/) ![js](https://img.shields.io/badge/js-black.svg)
 
@@ -44,22 +44,22 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@1.1.0
+npm install --save @cowwoc/requirements@1.1.1
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@1.1.0
+yarn add @cowwoc/requirements@1.1.1
 ```
 
 The best way to learn about the API is using your IDE's auto-complete engine. There are five entry points you can navigate from:
 
-* [requireThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~requireThat)
-* [assertThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~assertThat)
-* [validateThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-DefaultRequirements.html#~validateThat)
-* [Requirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-Requirements-Requirements.html)
-* [GlobalRequirements](https://cowwoc.bitbucket.io/requirements.js/1.1.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
+* [requireThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/module-DefaultRequirements.html#~requireThat)
+* [assertThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/module-DefaultRequirements.html#~assertThat)
+* [validateThat(value, name)](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/module-DefaultRequirements.html#~validateThat)
+* [Requirements](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/module-Requirements-Requirements.html)
+* [GlobalRequirements](https://cowwoc.bitbucket.io/requirements.js/1.1.1/docs/api/module-GlobalRequirements-GlobalRequirements.html)
 
 ## Breaking Changes ##
 
