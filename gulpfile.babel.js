@@ -49,7 +49,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 	// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
 	const bundle = await rollup({
 		input: "src/index.js",
-		external: ["urijs", "sugar-object", "sugar-array"],
+		external: ["urijs", "lodash"],
 		plugins: [
 			nodeResolve(
 				{
@@ -92,8 +92,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		format: "iife",
 		globals: {
 			urijs: "URI",
-			"sugar-array": "Sugar",
-			"sugar-object": "Sugar"
+			lodash: "_"
 		},
 		sourcemap: isReleaseMode,
 		dir: "build/publish/es5/browser"

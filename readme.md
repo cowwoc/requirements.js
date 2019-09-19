@@ -72,6 +72,13 @@ Enhanced support is available for the following 3rd-party libraries and tools:
 
 * [IntelliJ IDEA](https://bitbucket.org/cowwoc/requirements.js/wiki/Supported%20Tools)
 
+## Related Projects ##
+---
+
+* http://chaijs.com/
+* https://github.com/dsheiko/bycontract
+* https://github.com/muroc/offensive.js
+
 ## License ##
 
 Code licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0

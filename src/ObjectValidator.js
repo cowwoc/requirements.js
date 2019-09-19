@@ -17,7 +17,7 @@ import InetAddressValidatorNoOp from "./internal/InetAddressValidatorNoOp.js";
 import UriValidatorNoOp from "./internal/UriValidatorNoOp.js";
 import ClassValidatorNoOp from "./internal/ClassValidatorNoOp.js";
 import Objects from "./internal/Objects.js";
-import Sugar from "sugar-object";
+import {isEqual} from "lodash";
 import ContextGenerator from "./internal/ContextGenerator.js";
 import ValidationFailure from "./ValidationFailure.js";
 
@@ -49,7 +49,7 @@ ObjectValidator.prototype.isEqualTo = function(expected, name)
 {
 	if (typeof (name) !== "undefined")
 		Objects.requireThatStringNotEmpty(name, "name");
-	if (!Sugar.Object.isEqual(this.actual, expected))
+	if (!isEqual(this.actual, expected))
 	{
 		let failure;
 		if (name)
@@ -82,7 +82,7 @@ ObjectValidator.prototype.isNotEqualTo = function(value, name)
 {
 	if (typeof (name) !== "undefined")
 		Objects.requireThatStringNotEmpty(name, "name");
-	if (Sugar.Object.isEqual(this.actual, value))
+	if (isEqual(this.actual, value))
 	{
 		let failure;
 		if (name)
@@ -678,7 +678,15 @@ ObjectValidator.prototype.asUri = function()
 			break;
 		default:
 		{
-			const actualAsUri = new URI(this.actual);
+			let actualAsUri;
+			try
+			{
+				actualAsUri = new URI(this.actual);
+			}
+			catch (ignored)
+			{
+				break;
+			}
 			if (actualAsUri.is("url") || actualAsUri.is("urn"))
 				return new UriValidator(this.config, actualAsUri, this.name);
 		}

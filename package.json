@@ -23,15 +23,16 @@
 	"main": "es5/node/index.js",
 	"browser": "es5/browser/index.js",
 	"module": "es6/node/index.js",
+	"sideEffects": false,
 	"dependencies": {
 		"@babel/plugin-external-helpers": "~7.2.0",
 		"@babel/runtime": "~7.5.5",
+		"babel-plugin-lodash": "^3.3.4",
 		"chalk": "^2.4.2",
 		"core-js": "3.1.4",
 		"diff-match-patch": "^1.0.4",
+		"lodash": "^4.17.15",
 		"rollup-plugin-node-globals": "^1.4.0",
-		"sugar-array": "~2.0.6",
-		"sugar-object": "~2.0.6",
 		"urijs": "~1.19.1"
 	},
 	"devDependencies": {

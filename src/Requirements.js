@@ -59,13 +59,6 @@ class Requirements
 	requireThat(actual, name)
 	{
 		return new ObjectVerifier(this.validateThat(actual, name));
-		// TODO: Related projects:
-		// * http://chaijs.com/
-		// * https://github.com/dsheiko/bycontract
-		// * https://github.com/muroc/offensive.js for related projects
-		//
-		// TODO: Respond to
-		// http://stackoverflow.com/questions/18785586/javascript-equivalent-to-guavas-preconditions
 	}
 
 	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533

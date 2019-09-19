@@ -4,7 +4,7 @@ import ValidationFailure from "../../ValidationFailure.js";
 import ArrayValidatorNoOp from "../ArrayValidatorNoOp.js";
 import Configuration from "../../Configuration.js";
 import Pluralizer from "../../Pluralizer.js";
-import Sugar from "sugar-array";
+import {isEqual} from "lodash";
 
 // DESIGN:
 // * Declare the class without methods that trigger circular dependencies
@@ -24,7 +24,7 @@ function arrayContainsElement(array, element)
 	// indexOf(), includes() do not work for multidimensional arrays: http://stackoverflow.com/a/24943461/14731
 	for (let i = 0; i < array.length; ++i)
 	{
-		if (Sugar.Array.isEqual(array[i], element))
+		if (isEqual(array[i], element))
 			return true;
 	}
 	return false;
