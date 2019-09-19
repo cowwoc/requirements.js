@@ -44,13 +44,13 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@1.1.1
+npm install --save @cowwoc/requirements@1.1.2
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@1.1.1
+yarn add @cowwoc/requirements@1.1.2
 ```
 
 The best way to learn about the API is using your IDE's auto-complete engine. There are five entry points you can navigate from:
