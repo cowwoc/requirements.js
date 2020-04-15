@@ -15,7 +15,7 @@ import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
-import nodeBuiltins from "rollup-plugin-node-builtins";
+import nodeBuiltins from "@stream-io/rollup-plugin-node-builtins";
 import stripDebug from "gulp-strip-debug";
 import connect from "gulp-connect";
 
