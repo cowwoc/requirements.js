@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run: |
-        node --version
-        yarn --version
-        yarn install
-        yarn global add gulp-cli
-        gulp default
+          node --version
+          yarn --version
+          yarn install
+          yarn global add gulp-cli
+          gulp default
