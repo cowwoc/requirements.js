@@ -97,11 +97,11 @@ test("DiffTest.diffNewlinePrefix", function(t)
 		const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
 			DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
 			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
-			DIFF_INSERT.repeat(("expected" + EOS_MARKER).length) + "\n" +
+			DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
 			"Expected@0: " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "expected" + EOS_MARKER + "\n" +
 			"\n" +
 			"Actual@1  : actual" + EOS_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(("actual" + EOS_MARKER).length) + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat("actual".length) + DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
 			"Expected  : " + DIFF_PADDING.repeat(("actual" + EOS_MARKER).length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
 			"\n****************\nActual:\n" + actualMessage);
@@ -131,12 +131,11 @@ test("DiffTest.diffNewlinePostfix", function(t)
 		const expectedMessage = "Actual@0  : actual" + NEWLINE_MARKER +
 			DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
 			"Diff      : " + DIFF_DELETE.repeat(("actual" + NEWLINE_MARKER).length) +
-			DIFF_INSERT.repeat(("expected" + NEWLINE_MARKER).length) + "\n" +
+			DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
 			"Expected@0: " + DIFF_PADDING.repeat(("actual" + NEWLINE_MARKER).length) + "expected" + EOS_MARKER +
 			"\n" +
 			"\n" +
 			"Actual@1  : " + EOS_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(EOS_MARKER.length) + "\n" +
 			"Expected  : " + DIFF_PADDING.repeat(EOS_MARKER.length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
 			"\n****************\nActual:\n" + actualMessage);
@@ -166,7 +165,7 @@ test("DiffTest.matchAcrossLines", function(t)
 		const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
 			DIFF_PADDING.repeat(("value" + EOS_MARKER).length) + "\n" +
 			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
-			DIFF_INSERT.repeat(("value" + EOS_MARKER).length) + "\n" +
+			DIFF_EQUAL.repeat(("value" + EOS_MARKER).length) + "\n" +
 			"Expected@0: " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "value" + EOS_MARKER + "\n" +
 			"\n" +
 			"Actual@1  : " + NEWLINE_MARKER + "\n" +
@@ -174,7 +173,6 @@ test("DiffTest.matchAcrossLines", function(t)
 			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
 			"\n" +
 			"Actual@2  : value" + EOS_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(("value" + EOS_MARKER).length) + "\n" +
 			"Expected  : " + DIFF_PADDING.repeat(("value" + EOS_MARKER).length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
 			"\n****************\nActual:\n" + actualMessage);
@@ -456,12 +454,12 @@ test("DiffTest.arrayOfStrings", function(t)
 			"Actual[1]@0  : " + DIFF_PADDING.repeat(("bar" + NEWLINE_MARKER).length) + "foo" + NEWLINE_MARKER +
 			"\n" +
 			"Diff         : " + DIFF_INSERT.repeat(("bar" + NEWLINE_MARKER).length) +
-			DIFF_DELETE.repeat(("foo" + NEWLINE_MARKER).length) + "\n" +
+			DIFF_EQUAL.repeat("foo".length) + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
 			"Expected[1]@0: bar" + NEWLINE_MARKER + DIFF_PADDING.repeat(("foo" + NEWLINE_MARKER).length) +
 			"\n" +
 			"\n" +
 			"Actual[1]@1  : " + DIFF_PADDING.repeat("foo".length) + "bar" + EOS_MARKER + "\n" +
-			"Diff         : " + DIFF_INSERT.repeat("foo".length) + DIFF_DELETE.repeat("bar".length) +
+			"Diff         : " + DIFF_EQUAL.repeat("foo".length) + DIFF_DELETE.repeat("bar".length) +
 			DIFF_EQUAL.repeat(EOS_MARKER.length) +
 			"\n" +
 			"Expected[1]@1: foo" + DIFF_PADDING.repeat("bar".length) + EOS_MARKER + "\n" +

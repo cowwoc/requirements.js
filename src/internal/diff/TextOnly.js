@@ -230,10 +230,10 @@ class TextOnly extends AbstractDiffWriter
 			{
 				const paddingMarker = this.getPaddingMarker();
 				Maps.appendToValue(this.lineToExpectedLine, this.actualLineNumber, paddingMarker.repeat(length));
-				Maps.appendToValue(this.lineToDiffLine, this.actualLineNumber, DIFF_DELETE.repeat(length));
+				Maps.appendToValue(this.lineToDiffLine, this.actualLineNumber, DIFF_EQUAL.repeat(length));
 
 				Maps.appendToValue(this.lineToActualLine, this.expectedLineNumber, paddingMarker.repeat(length));
-				Maps.appendToValue(this.lineToDiffLine, this.expectedLineNumber, DIFF_INSERT.repeat(length));
+				Maps.appendToValue(this.lineToDiffLine, this.expectedLineNumber, DIFF_EQUAL.repeat(length));
 			}
 			Maps.appendToValue(this.lineToExpectedLine, this.expectedLineNumber, line);
 		}, () =>
