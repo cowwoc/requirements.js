@@ -67,7 +67,6 @@ The best way to learn about the API is using your IDE's auto-complete engine. Th
 
 ## Breaking Changes
 
-This library does not follow the [semantic versioning spec](https://docs.npmjs.com/about-semantic-versioning).
 Be sure to check the [changelog](wiki/Changelog.md) for breaking changes. 
 
 ## Related Projects
