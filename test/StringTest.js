@@ -272,6 +272,7 @@ test("StringTest.validateThatNullAsString", function(t)
 	const actual = null;
 	const expected = 5;
 	const expectedMessage = "actual.asString() must be equal to " + expected + ".\n" +
+		"\n" +
 		"Actual  : null " + EOS_MARKER + "\n" +
 		"Diff    : " + DIFF_DELETE.repeat(4) + DIFF_INSERT + DIFF_PADDING.repeat(EOS_MARKER.length) +
 		"\n" +

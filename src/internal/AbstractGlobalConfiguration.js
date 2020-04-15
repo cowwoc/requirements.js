@@ -1,3 +1,5 @@
+import TerminalEncoding from "../TerminalEncoding.js";
+
 /**
  * The global configuration inherited by all verifiers.
  * <p>
@@ -92,6 +94,59 @@ class AbstractGlobalConfiguration
 		this.diffEnabled = false;
 		return this;
 	}
+
+	/* eslint-disable jsdoc/require-returns-check */
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Returns the encodings supported by the terminal.
+	 *
+	 * @return {Array<TerminalEncoding>} the encodings supported by the terminal (defaults to the auto-detected
+	 *   encoding)
+	 * @see #withTerminalEncoding(TerminalEncoding)
+	 * @see #withDefaultTerminalEncoding()
+	 */
+	listTerminalEncodings()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Returns the current terminal encoding.
+	 *
+	 * @return {TerminalEncoding} the current terminal encoding (defaults to the auto-detected encoding)
+	 */
+	getTerminalEncoding()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates that the terminal encoding should be auto-detected.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #.withTerminalEncoding
+	 */
+	withDefaultTerminalEncoding()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates the type of encoding that the terminal supports.
+	 * <p>
+	 * This feature can be used to force the use of colors even when their support is not detected.
+	 *
+	 * @param {TerminalEncoding} encoding the type of encoding that the terminal supports
+	 * @return {AbstractGlobalConfiguration} this
+	 * @throws TypeError if <code>encoding</code> is null
+	 * @see #.withDefaultTerminalEncoding
+	 */
+	withTerminalEncoding(encoding)
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+	/* eslint-enable no-unused-vars */
+	/* eslint-enable jsdoc/require-returns-check */
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

@@ -12,38 +12,9 @@ import Requirements from "../src/Requirements.js";
 import TerminalEncoding from "../src/TerminalEncoding.js";
 import TestGlobalConfiguration from "../src/internal/TestGlobalConfiguration.js";
 import Configuration from "../src/Configuration.js";
-
-/**
- * Ensure that text-mode diffs generate the expected value.
- */
-test("DiffTest.diffArraySize", function(t)
-{
-	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-	const configuration = new Configuration(globalConfiguration);
-	const requirements = new Requirements(configuration);
-
-	const actual = "int[6]";
-	const expected = "int[5]";
-	try
-	{
-		requirements.requireThat(actual, "actual").isEqualTo(expected);
-	}
-	catch (e)
-	{
-		const scheme = new TextOnly();
-
-		const actualMessage = e.message;
-		const expectedMessage = "Actual  : int[6" + scheme.decoratePadding(1) + "]" + EOS_MARKER + "\n" +
-			"Diff    : " + DIFF_EQUAL.repeat(4) + DIFF_DELETE + DIFF_INSERT +
-			DIFF_EQUAL.repeat(1 + EOS_MARKER.length) + "\n" +
-			"Expected: int[" + scheme.decoratePadding(1) + "5]" + EOS_MARKER;
-		t.assert(actualMessage.includes(expectedMessage),
-			"Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
-	}
-	t.end();
-});
-
+import Node16Colors from "../src/internal/diff/Node16Colors";
+import Node256Colors from "../src/internal/diff/Node256Colors";
+import Node16MillionColors from "../src/internal/diff/Node16MillionColors";
 
 /**
  * Ensure that diffs delete before inserting.
@@ -59,6 +30,7 @@ test("DiffTest.diffDeleteThenInsert", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
@@ -69,7 +41,7 @@ test("DiffTest.diffDeleteThenInsert", function(t)
 			DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
 			"Expected: " + " ".repeat("actual".length) + "expected" + EOS_MARKER;
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -88,6 +60,7 @@ test("DiffTest.diffMissingWhitespace", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
@@ -97,7 +70,7 @@ test("DiffTest.diffMissingWhitespace", function(t)
 			DIFF_EQUAL.repeat(1 + EOS_MARKER.length) + "\n" +
 			"Expected: \"key\": \"value \"" + EOS_MARKER;
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -116,23 +89,22 @@ test("DiffTest.diffNewlinePrefix", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : " + NEWLINE_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
-			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
+		const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
+			DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
+			DIFF_INSERT.repeat(("expected" + EOS_MARKER).length) + "\n" +
+			"Expected@0: " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "expected" + EOS_MARKER + "\n" +
 			"\n" +
-			"Actual@2  : actual" + DIFF_PADDING.repeat("expected".length) +
-			EOS_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat("actual".length) +
-			DIFF_INSERT.repeat("expected".length) +
-			DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-			"Expected@1: " + DIFF_PADDING.repeat("actual".length) + "expected" +
-			EOS_MARKER;
+			"Actual@1  : actual" + EOS_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(("actual" + EOS_MARKER).length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(("actual" + EOS_MARKER).length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -151,22 +123,23 @@ test("DiffTest.diffNewlinePostfix", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : actual" + NEWLINE_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat("actual".length + NEWLINE_MARKER.length) +
+		const expectedMessage = "Actual@0  : actual" + NEWLINE_MARKER +
+			DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(("actual" + NEWLINE_MARKER).length) +
+			DIFF_INSERT.repeat(("expected" + NEWLINE_MARKER).length) + "\n" +
+			"Expected@0: " + DIFF_PADDING.repeat(("actual" + NEWLINE_MARKER).length) + "expected" + EOS_MARKER +
 			"\n" +
-			"Expected  : " + DIFF_PADDING.repeat("actual".length + NEWLINE_MARKER.length) + "\n" +
 			"\n" +
-			"Actual@2  : " + DIFF_PADDING.repeat("expected".length) + EOS_MARKER +
-			"\n" +
-			"Diff      : " + DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL.repeat(EOS_MARKER.length) +
-			"\n" +
-			"Expected@1: expected" + EOS_MARKER;
+			"Actual@1  : " + EOS_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(EOS_MARKER.length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(EOS_MARKER.length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -185,22 +158,26 @@ test("DiffTest.matchAcrossLines", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : " + NEWLINE_MARKER + "\n" +
+		const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
+			DIFF_PADDING.repeat(("value" + EOS_MARKER).length) + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
+			DIFF_INSERT.repeat(("value" + EOS_MARKER).length) + "\n" +
+			"Expected@0: " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "value" + EOS_MARKER + "\n" +
+			"\n" +
+			"Actual@1  : " + NEWLINE_MARKER + "\n" +
 			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
 			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
 			"\n" +
-			"Actual@2  : " + NEWLINE_MARKER + "\n" +
-			"Diff      : " + DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
-			"Expected  : " + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
-			"\n" +
-			"Actual@3  : value" + EOS_MARKER + "\n" +
-			"Expected@1: value" + EOS_MARKER;
+			"Actual@2  : value" + EOS_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat(("value" + EOS_MARKER).length) + "\n" +
+			"Expected  : " + DIFF_PADDING.repeat(("value" + EOS_MARKER).length);
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -219,26 +196,27 @@ test("DiffTest.skipDuplicateLinesTest", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
 		const actualMessage = e.message;
-		const expectedMessage = "Actual@1  : 1" + NEWLINE_MARKER + "\n" +
-			"Expected@1: 1" + NEWLINE_MARKER + "\n" +
+		const expectedMessage = "Actual@0  : 1" + NEWLINE_MARKER + "\n" +
+			"Expected@0: 1" + NEWLINE_MARKER + "\n" +
 			"\n" +
 			"[...]\n" +
 			"\n" +
-			"Actual@3  : 3" + DIFF_PADDING + NEWLINE_MARKER + "\n" +
+			"Actual@2  : 3" + DIFF_PADDING + NEWLINE_MARKER + "\n" +
 			"Diff      : " + DIFF_DELETE + DIFF_INSERT +
 			DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
-			"Expected@3: " + DIFF_PADDING + "9" + NEWLINE_MARKER + "\n" +
+			"Expected@2: " + DIFF_PADDING + "9" + NEWLINE_MARKER + "\n" +
 			"\n" +
 			"[...]\n" +
 			"\n" +
-			"Actual@5  : 5\\0\n" +
-			"Expected@5: 5\\0";
+			"Actual@4  : 5\\0\n" +
+			"Expected@4: 5\\0";
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
@@ -257,6 +235,7 @@ test("DiffTest.charlesTest", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
@@ -269,15 +248,122 @@ test("DiffTest.charlesTest", function(t)
 			"Expected: The " + DIFF_PADDING.repeat("dog".length) + "fox is " +
 			DIFF_PADDING.repeat("br".length) + "down" + EOS_MARKER;
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.smallChangeBeforeWord", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "you like me?";
+	const expected = "Don't you like me?";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : " + DIFF_PADDING.repeat("Don't ".length) + "you like me?" +
+			EOS_MARKER + "\n" +
+			"Diff    : " + DIFF_INSERT.repeat("Don't ".length) +
+			DIFF_EQUAL.repeat("you like me?".length + EOS_MARKER.length) + "\n" +
+			"Expected: Don't you like me?" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.smallChangeInMiddle", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "I lice dogs";
+	const expected = "I like dogs";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : I lic" + DIFF_PADDING + "e dogs" + EOS_MARKER + "\n" +
+			"Diff    : " + DIFF_EQUAL.repeat("I li".length) + DIFF_DELETE + DIFF_INSERT +
+			DIFF_EQUAL.repeat("e dogs".length + EOS_MARKER.length) + "\n" +
+			"Expected: I li" + DIFF_PADDING + "ke dogs" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.smallChangeAfterWord", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "I like dog";
+	const expected = "I like dogs";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : I like dog" + DIFF_PADDING + EOS_MARKER + "\n" +
+			"Diff    : " + DIFF_EQUAL.repeat("I like dog".length) + DIFF_INSERT +
+			DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
+			"Expected: I like dogs" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.largeChangeInMiddle", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "I lices dogs";
+	const expected = "I like dogs";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : I lices" + DIFF_PADDING.repeat("like".length) + " dogs" +
+			EOS_MARKER + "\n" +
+			"Diff    : " + DIFF_EQUAL.repeat("I ".length) + DIFF_DELETE.repeat("lices".length) +
+			DIFF_INSERT.repeat("like".length) + DIFF_EQUAL.repeat(" dogs".length + EOS_MARKER.length) +
+			"\n" +
+			"Expected: I " + DIFF_PADDING.repeat("lices".length) + "like dogs" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });
 
 /**
- * Ensure that DIFF notices when non-terminal lines are different even if they only contain whitespace.
+ * Ensure that DIFF notices that non-terminal lines are different when they only contain whitespace.
  */
-test("DiffTest.charlesTest", function(t)
+test("DiffTest.diffMiddleWhitespace", function(t)
 {
 	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 	const configuration = new Configuration(globalConfiguration);
@@ -292,22 +378,363 @@ test("DiffTest.charlesTest", function(t)
 	try
 	{
 		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
 	}
 	catch (e)
 	{
 		const actualMessage = e.message;
 		const expectedMessage = "actual must be equal to " + expected + ".\n" +
-			"Actual@1  : one" + NEWLINE_MARKER + "\n" +
-			"Expected@1: one" + NEWLINE_MARKER + "\n" +
 			"\n" +
-			"Actual@2  : " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
+			"Actual@0  : one" + NEWLINE_MARKER + "\n" +
+			"Expected@0: one" + NEWLINE_MARKER + "\n" +
+			"\n" +
+			"Actual@1  : " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
 			"Diff      : " + DIFF_INSERT.repeat(3) + DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
-			"Expected@2: " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
+			"Expected@1: " + DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
 			"\n" +
-			"Actual@3  : three" + EOS_MARKER + "\n" +
-			"Expected@3: three" + EOS_MARKER;
+			"Actual@2  : three" + EOS_MARKER + "\n" +
+			"Expected@2: three" + EOS_MARKER;
 		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-			"\n\nActual:\n" + actualMessage);
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.arrayOfIntegers", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	try
+	{
+		const actual = [1, 2, 3, 4, 5];
+		const expected = [1, 2, 9, 4, 5];
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual[0]  : 1" + EOS_MARKER + "\n" +
+			"Expected[0]: 1" + EOS_MARKER + "\n" +
+			"\n" +
+			"[...]\n" +
+			"\n" +
+			"Actual[2]  : 3" + DIFF_PADDING.repeat(1) + EOS_MARKER + "\n" +
+			"Diff       : " + DIFF_DELETE + DIFF_INSERT + DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected[2]: " + DIFF_PADDING + "9" + EOS_MARKER + "\n" +
+			"\n" +
+			"[...]\n" +
+			"\n" +
+			"Actual[4]  : 5" + EOS_MARKER + "\n" +
+			"Expected[4]: 5" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+test("DiffTest.arrayOfStrings", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+	try
+	{
+		const actual = ["1", "foo\nbar", "3"];
+		const expected = ["1", "bar\nfoo", "3"];
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual[0]    : 1" + EOS_MARKER + "\n" +
+			"Expected[0]  : 1" + EOS_MARKER + "\n" +
+			"\n" +
+			"Actual[1]@0  : " + DIFF_PADDING.repeat(("bar" + NEWLINE_MARKER).length) + "foo" + NEWLINE_MARKER +
+			"\n" +
+			"Diff         : " + DIFF_INSERT.repeat(("bar" + NEWLINE_MARKER).length) +
+			DIFF_DELETE.repeat(("foo" + NEWLINE_MARKER).length) + "\n" +
+			"Expected[1]@0: bar" + NEWLINE_MARKER + DIFF_PADDING.repeat(("foo" + NEWLINE_MARKER).length) +
+			"\n" +
+			"\n" +
+			"Actual[1]@1  : " + DIFF_PADDING.repeat("foo".length) + "bar" + EOS_MARKER + "\n" +
+			"Diff         : " + DIFF_INSERT.repeat("foo".length) + DIFF_DELETE.repeat("bar".length) +
+			DIFF_EQUAL.repeat(EOS_MARKER.length) +
+			"\n" +
+			"Expected[1]@1: foo" + DIFF_PADDING.repeat("bar".length) + EOS_MARKER + "\n" +
+			"\n" +
+			"Actual[2]    : 3" + EOS_MARKER + "\n" +
+			"Expected[2]  : 3" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensure that text-mode diffs generate the expected value.
+ */
+test("DiffTest.diffArraySize", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "int[6]";
+	const expected = "int[5]";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const scheme = new TextOnly();
+
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : int[6" + scheme.decoratePadding(1) + "]" + EOS_MARKER + "\n" +
+			"Diff    : " + DIFF_EQUAL.repeat(4) + DIFF_DELETE + DIFF_INSERT +
+			DIFF_EQUAL.repeat(1 + EOS_MARKER.length) + "\n" +
+			"Expected: int[" + scheme.decoratePadding(1) + "5]" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensures that DiffGenerator.ReduceDeltasPerWord does not modify EQUAL deltas between matches. Meaning,
+ * it should not collapse "-same-" into the [DELETE, INSERT] pair associated with "different"/"maybe".
+ */
+test("DiffTest.equalDeltaAfterReduceDeltasPerWord", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "different-same-different";
+	const expected = "maybe-same-maybe";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : different" + DIFF_PADDING.repeat("maybe".length) +
+			"-same-different" + DIFF_PADDING.repeat("maybe".length) + EOS_MARKER +
+			"\n" +
+			"Diff    : " + DIFF_DELETE.repeat("different".length) + DIFF_INSERT.repeat("maybe".length) +
+			DIFF_EQUAL.repeat("-same-".length) + DIFF_DELETE.repeat("different".length) +
+			DIFF_INSERT.repeat("maybe".length) + DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected: " + DIFF_PADDING.repeat("different".length) + "maybe-same-" +
+			DIFF_PADDING.repeat("different".length) + "maybe" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * When processing DELETE "same\nactual" followed by INSERT "same\nexpected", ensure that actual and
+ * expected keep track of different "diff" line numbers. Otherwise, the DELETE advances to the next line
+ * and INSERT updates the diff of the wrong line number. We end up with:
+ *
+ * <pre><code>
+ * Actual@1  : same\n
+ * Diff      : ------
+ * Expected  :
+ *
+ * Actual@2  : actual
+ * Diff      : ------++++++
+ * Expected@1:       same\n
+ * </code></pre>
+ * <p>
+ * instead of:
+ *
+ * <pre><code>
+ * Actual    : same\n
+ * Expected  : same\n
+ * </code></pre>
+ */
+test("DiffTest.independentDiffLineNumbers", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "actual\nsame\nactual actual";
+	const expected = "expected\nsame\nexpected expected";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		const expectedMessage = "Actual@0  : actual" + DIFF_PADDING.repeat("expected".length) +
+			NEWLINE_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat("actual".length) + DIFF_INSERT.repeat("expected".length) +
+			DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
+			"Expected@0: " + DIFF_PADDING.repeat("actual".length) + "expected" + NEWLINE_MARKER + "\n" +
+			"\n" +
+			"[...]\n" +
+			"\n" +
+			"Actual@2  : actual " + DIFF_PADDING.repeat("expected".length) + "actual" +
+			DIFF_PADDING.repeat("expected".length) + EOS_MARKER + "\n" +
+			"Diff      : " + DIFF_DELETE.repeat("actual".length) +
+			DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL + DIFF_DELETE.repeat("actual".length) +
+			DIFF_INSERT.repeat("expected".length) + DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
+			"Expected@2: " + DIFF_PADDING.repeat("actual".length) + "expected " +
+			DIFF_PADDING.repeat("actual".length) + "expected" + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensure that NODE_16_COLORS diffs generate the expected value.
+ */
+test("DiffTest.diffArraySize_16Colors", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "int[6]";
+	const expected = "int[5]";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const scheme = new Node16Colors();
+
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
+			scheme.decorateDeletedText("6") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
+			"Expected: " + scheme.decorateEqualText("int[") +
+			scheme.decoratePadding(scheme.getPaddingMarker()) + scheme.decorateInsertedText("5") +
+			scheme.decorateEqualText("]") + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensure that NODE_256_COLORS diffs generate the expected value.
+ */
+test("DiffTest.diffArraySize_256Colors", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_256_COLORS);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "int[6]";
+	const expected = "int[5]";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const scheme = new Node256Colors();
+
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
+			scheme.decorateDeletedText("6") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
+			"Expected: " + scheme.decorateEqualText("int[") +
+			scheme.decoratePadding(scheme.getPaddingMarker()) + scheme.decorateInsertedText("5") +
+			scheme.decorateEqualText("]") + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensure that NODE_16MILLION_COLORS diffs generate the expected value.
+ */
+test("DiffTest.diffArraySize_16MillionColors", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16MILLION_COLORS);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "int[6]";
+	const expected = "int[5]";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const scheme = new Node16MillionColors();
+
+		const actualMessage = e.message;
+		const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
+			scheme.decorateDeletedText("6") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
+			"Expected: " + scheme.decorateEqualText("int[") +
+			scheme.decoratePadding(scheme.getPaddingMarker()) + scheme.decorateInsertedText("5") +
+			scheme.decorateEqualText("]") + EOS_MARKER;
+		t.assert(actualMessage.includes(expectedMessage),
+			"Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Make sure that we skip duplicate lines even when the diff contains colors.
+ */
+test("DiffTest.emptyLineNumber_16Colors", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	try
+	{
+		const actual = "foo\nbar";
+		const expected = "bar";
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const scheme = new Node16Colors();
+
+		const actualMessage = e.message;
+		const paddingMarker = scheme.getPaddingMarker();
+		const expectedMessage = "Actual@0  : " + scheme.decorateDeletedText("foo" + NEWLINE_MARKER) +
+			scheme.decoratePadding((scheme.getPaddingMarker().repeat(("bar" + EOS_MARKER).length))) +
+			"\n" +
+			"Expected@0: " + scheme.decoratePadding(paddingMarker.repeat(("foo" + NEWLINE_MARKER).length)) +
+			scheme.decorateEqualText("bar" + EOS_MARKER) + "\n" +
+			"\n" +
+			"Actual@1  : " + scheme.decorateEqualText("bar" + EOS_MARKER) + "\n" +
+			"Expected  : " + scheme.decoratePadding(paddingMarker.repeat(("bar" + EOS_MARKER).length));
+		t.assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
+			"\n****************\nActual:\n" + actualMessage);
 	}
 	t.end();
 });

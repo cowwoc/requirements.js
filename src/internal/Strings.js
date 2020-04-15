@@ -39,6 +39,40 @@ class Strings
 		return result;
 	}
 
+
+	/**
+	 * Returns the last match returned by a regular expression.
+	 *
+	 * @param {string} source the string to search within
+	 * @param {RegExp} target the regular expression to search for
+	 * @return {{start: number, end: number}|null} the start (inclusive), end (exclusive) indexes of the last
+	 * occurrence of {@code target} in <code>source</code>. <code>null</code> if no match was found.
+	 */
+	static lastIndexOf(source, target)
+	{
+		Objects.assertThatTypeOf(source, "source", "string");
+		Objects.assertThatTypeOf(target, "target", "RegExp");
+
+		// RegExp is stateful: https://stackoverflow.com/a/11477448/14731
+		let flags = target.flags;
+		if (!flags.includes("g"))
+			flags += "g";
+		const matcher = new RegExp(target.source, flags);
+		let match;
+		const result = {};
+		while (true)
+		{
+			match = matcher.exec(source);
+			if (!match)
+				break;
+			result.start = match.index;
+			result.end = match.index + match[0].length;
+		}
+		if (typeof (result.start) === "undefined")
+			return null;
+		return result;
+	}
+
 	/**
 	 * @param {string} source the string to search within
 	 * @param {string} target the string to search for
@@ -48,7 +82,7 @@ class Strings
 	 */
 	static containsOnly(source, target)
 	{
-		return this.lastConsecutiveIndexOf(source, target) === 0;
+		return source.length === 0 || this.lastConsecutiveIndexOf(source, target) === 0;
 	}
 }
 

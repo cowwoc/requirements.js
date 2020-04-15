@@ -1,5 +1,6 @@
 import Objects from "../Objects.js";
 import IllegalStateError from "../IllegalStateError.js";
+import {NEWLINE_MARKER, NEWLINE_PATTERN} from "./DiffConstants";
 
 /**
  * Base implementation for all diff writers.
@@ -15,29 +16,29 @@ class AbstractDiffWriter
 	constructor(paddingMarker)
 	{
 		Objects.assertThatTypeOf(paddingMarker, "paddingMarker", "string");
+		Object.defineProperty(this, "lineToActualLine",
+			{
+				value: new Map(),
+				writable: true
+			});
+		Object.defineProperty(this, "lineToExpectedLine",
+			{
+				value: new Map(),
+				writable: true
+			});
+		Object.defineProperty(this, "actualLineNumber",
+			{
+				value: 0,
+				writable: true
+			});
+		Object.defineProperty(this, "expectedLineNumber",
+			{
+				value: 0,
+				writable: true
+			});
 		Object.defineProperty(this, "paddingMarker",
 			{
 				value: paddingMarker
-			});
-		Object.defineProperty(this, "actualLineBuilder",
-			{
-				value: "",
-				writable: true
-			});
-		Object.defineProperty(this, "actualLinesBuilder",
-			{
-				value: [],
-				writable: true
-			});
-		Object.defineProperty(this, "expectedLineBuilder",
-			{
-				value: "",
-				writable: true
-			});
-		Object.defineProperty(this, "expectedLinesBuilder",
-			{
-				value: [],
-				writable: true
 			});
 		Object.defineProperty(this, "actualLines",
 			{
@@ -55,21 +56,45 @@ class AbstractDiffWriter
 			});
 	}
 
-	/* eslint-disable */
 	/**
-	 * @param {number} length the number of characters to pad
+	 * Splits text into one or more lines, invoking {@link #writeNewline()} in place of each newline character.
+	 *
+	 * @param {string} text           some text
+	 * @param {Function} lineConsumer consumes one line at a time
+	 * @param {Function} writeNewLine ends the current line
+	 */
+	splitLines(text, lineConsumer, writeNewLine)
+	{
+		const lines = text.split(NEWLINE_PATTERN);
+		let line;
+		for (let i = 0; i < lines.length; ++i)
+		{
+			const isLastLine = i === lines.length - 1;
+			line = "";
+			line += lines[i];
+			if (!isLastLine)
+				line += NEWLINE_MARKER;
+			if (line.length > 0)
+				lineConsumer(line);
+			if (!isLastLine)
+				writeNewLine();
+		}
+	}
+
+	/**
+	 * @param {string} text the padding
 	 * @return {string} the (possibly decorated) text
 	 */
-	decoratePadding(length)
+	decoratePadding(text)
 	{
-		return this.paddingMarker.repeat(length);
+		return this.paddingMarker.repeat(text);
 	}
 
 	/**
 	 * @param {string} text the text that did not change
 	 * @return {string} the (possibly decorated) text
 	 */
-	decorateUnchangedText(text)
+	decorateEqualText(text)
 	{
 		return text;
 	}
@@ -92,48 +117,11 @@ class AbstractDiffWriter
 		return text;
 	}
 
-	/* eslint-enable require-returns */
-
 	/**
-	 * Adds text that did not change.
-	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
+	 * Invoked before closing the writer.
 	 */
-	writeUnchanged(text)
+	beforeClose()
 	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		this.actualLineBuilder += this.decorateUnchangedText(text);
-		this.expectedLineBuilder += this.decorateUnchangedText(text);
-	}
-
-	/**
-	 * Adds text that is present in <code>expected</code> but not <code>actual</code>.
-	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
-	 */
-	writeInserted(text)
-	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		this.actualLineBuilder += this.decoratePadding(text.length);
-		this.expectedLineBuilder += this.decorateInsertedText(text);
-	}
-
-	/**
-	 * Deletes text that is present in <code>actual</code> but not <code>expected</code>.
-	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
-	 */
-	writeDeleted(text)
-	{
-		if (this.closed)
-			throw new IllegalStateError("Writer must be open");
-		this.actualLineBuilder += this.decorateDeletedText(text);
-		this.expectedLineBuilder += this.decoratePadding(text.length);
 	}
 
 	/**
@@ -152,16 +140,84 @@ class AbstractDiffWriter
 	}
 
 	/**
+	 * Populates the state of lineTo* variables for a new actual line.
+	 *
+	 * @param {number} number the line number to initialize
+	 */
+	initActualLine(number)
+	{
+		if (!this.lineToActualLine.get(number))
+			this.lineToActualLine.set(number, "");
+	}
+
+	/**
+	 * Populates the state of lineTo* variables for a new expected line.
+	 *
+	 * @param {number} number the line number to initialize
+	 */
+	initExpectedLine(number)
+	{
+		if (!this.lineToExpectedLine.get(number))
+			this.lineToExpectedLine.set(number, "");
+	}
+
+	/**
 	 * Ends the current line.
 	 */
-	writeNewline()
+	writeActualNewline()
 	{
-		this.actualLinesBuilder.push(this.actualLineBuilder);
-		this.actualLineBuilder = "";
-
-		this.expectedLinesBuilder.push(this.expectedLineBuilder);
-		this.expectedLineBuilder = "";
+		++this.actualLineNumber;
+		this.initActualLine(this.actualLineNumber);
+		if (!this.lineToExpectedLine.get(this.actualLineNumber))
+			this.initExpectedLine(this.actualLineNumber);
 	}
+
+	/**
+	 * Ends the current line.
+	 */
+	writeExpectedNewline()
+	{
+		++this.expectedLineNumber;
+		this.initExpectedLine(this.expectedLineNumber);
+		if (!this.lineToActualLine.get(this.expectedLineNumber))
+			this.initActualLine(this.expectedLineNumber);
+	}
+
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Adds text that did not change.
+	 *
+	 * @param {string} text the text
+	 * @throws {IllegalStateError} if the writer is closed
+	 */
+	writeEqual(text)
+	{
+		throw new Error("Method must be overridden by subclass");
+	}
+
+	/**
+	 * Deletes text that is present in <code>actual</code> but not <code>expected</code>.
+	 *
+	 * @param {string} text the text
+	 * @throws {IllegalStateError} if the writer is closed
+	 */
+	writeDeleted(text)
+	{
+		throw new Error("Method must be overridden by subclass");
+	}
+
+	/**
+	 * Adds text that is present in <code>expected</code> but not <code>actual</code>.
+	 *
+	 * @param {string} text the text
+	 * @throws {IllegalStateError} if the writer is closed
+	 */
+	writeInserted(text)
+	{
+		throw new Error("Method must be overridden by subclass");
+	}
+
+	/* eslint-enable no-unused-vars */
 
 	/**
 	 * Releases any resources associated with this object.
@@ -173,12 +229,18 @@ class AbstractDiffWriter
 		if (this.closed)
 			return;
 		this.closed = true;
-		this.writeNewline();
+		this.beforeClose();
 
-		this.actualLines = this.actualLinesBuilder;
+		let lineNumbers = Array.from(this.lineToActualLine.keys());
+		lineNumbers.sort();
+		for (const lineNumber of lineNumbers)
+			this.actualLines.push(this.lineToActualLine.get(lineNumber));
 		Object.freeze(this.actualLines);
 
-		this.expectedLines = this.expectedLinesBuilder;
+		lineNumbers = Array.from(this.lineToExpectedLine.keys());
+		lineNumbers.sort();
+		for (const lineNumber of lineNumbers)
+			this.expectedLines.push(this.lineToExpectedLine.get(lineNumber));
 		Object.freeze(this.expectedLines);
 		this.afterClose();
 	}
@@ -199,7 +261,7 @@ class AbstractDiffWriter
 	 *   be displayed)
 	 * @throws {RangeError} if the writer is open
 	 */
-	getMiddleLines()
+	getDiffLines()
 	{
 		if (!this.closed)
 			throw new RangeError("Writer must be closed");

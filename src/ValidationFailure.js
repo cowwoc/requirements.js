@@ -1,5 +1,6 @@
 import Objects from "./internal/Objects.js";
 import Configuration from "./Configuration.js";
+import ContextLine from "./internal/diff/ContextLine";
 
 /**
  * Pads a string with space on the right to reach the desired length.
@@ -31,9 +32,9 @@ function createMessageWithContext(validationFailure)
 	let maxKeyLength = 0;
 	for (const entry of mergedContext)
 	{
-		if (entry === null)
+		if (entry.key === "")
 			continue;
-		const keyLength = entry[0].length;
+		const keyLength = entry.key.length;
 		if (keyLength > maxKeyLength)
 			maxKeyLength = keyLength;
 	}
@@ -41,16 +42,15 @@ function createMessageWithContext(validationFailure)
 	const contextToAdd = [validationFailure.message];
 	for (const entry of mergedContext)
 	{
-		if (entry === null)
+		const key = entry.key;
+		const value = entry.value;
+		if (key === "")
+			contextToAdd.push(validationFailure.config.convertToString(value));
+		else
 		{
-			contextToAdd.push("");
-			continue;
+			contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " +
+				validationFailure.config.convertToString(value));
 		}
-
-		const key = entry[0];
-		const value = entry[1];
-		contextToAdd.push(justifyLeft(key, maxKeyLength) + ": " +
-			validationFailure.config.convertToString(value));
 	}
 	return contextToAdd.join("\n");
 }
@@ -60,7 +60,7 @@ function createMessageWithContext(validationFailure)
  * where the former may override values set by the latter.
  *
  * @param {ValidationFailure} validationFailure the validation failure
- * @return {Array<Array<string>>} the merged failure context
+ * @return {Array<ContextLine>} the merged failure context
  */
 function mergeContext(validationFailure)
 {
@@ -68,47 +68,21 @@ function mergeContext(validationFailure)
 	const existingKeys = new Set();
 	for (const entry of validationFailure.context)
 	{
-		if (entry === null)
-		{
-			// empty lines between expected/actual pairs
-			mergedContext.push(null);
-			continue;
-		}
-		verifyEntry(entry);
-		const key = entry[0];
-		Objects.assertThatStringNotEmpty(key, "key");
-		const copyOfLine = [];
-		copyOfLine[0] = key;
-		copyOfLine[1] = entry[1];
-		mergedContext.push(copyOfLine);
-		existingKeys.add(key);
+		Objects.requireThatTypeOf(entry, "entry", "ContextLine");
+		mergedContext.push(entry);
+		if (entry.key !== "")
+			existingKeys.add(entry.key);
 	}
 
 	for (const entry of validationFailure.config.context)
 	{
-		if (!existingKeys.has(entry[0]))
+		if (!existingKeys.has(entry.key))
 		{
-			existingKeys.add(entry[0]);
+			existingKeys.add(entry.key);
 			mergedContext.push(entry);
 		}
 	}
 	return mergedContext;
-}
-
-/**
- * @param {Array<string>} entry a key-value pair
- * @throws {TypeError} if <code>entry</code> was not an array of size 2
- * @ignore
- */
-function verifyEntry(entry)
-{
-	Objects.requireThatTypeOf(entry, "entry", "Array");
-	if (entry.length !== 2)
-	{
-		throw new TypeError("entry must contain 2 entries.\n" +
-			"Actual: " + entry + "\n" +
-			"Length: " + entry.length);
-	}
 }
 
 class ValidationFailure
@@ -174,7 +148,7 @@ class ValidationFailure
 	addContext(name, value)
 	{
 		Objects.requireThatStringNotEmpty(name, "name");
-		this.context.push([name, value]);
+		this.context.push(new ContextLine(name, value));
 		this.messageWithContext = null;
 		return this;
 	}
@@ -182,9 +156,9 @@ class ValidationFailure
 	/**
 	 * Adds contextual information to append to the exception message.
 	 *
-	 * @param {Array<Array<string>>} context the list of name-value pairs to append to the exception message
+	 * @param {Array<ContextLine>} context the list of name-value pairs to append to the exception message
 	 * @return {ValidationFailure} this
-	 * @throws NullPointerException if {@code context} is not an Array
+	 * @throws NullPointerException if <code>context</code> is not an Array
 	 * @see ConsumerToContext
 	 */
 	addContextList(context)

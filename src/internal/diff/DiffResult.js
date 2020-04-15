@@ -9,15 +9,16 @@ class DiffResult
 {
 	/**
 	 * @param {Array<string>} actualLines        the lines of the actual string
-	 * @param {Array<string>} middleLines        the optional lines to display between "actual" and "expected"
+	 * @param {Array<string>} diffLines          optional lines denoting the difference between "actual" and
+	 *   "expected"
 	 * @param {Array<string>} expectedLines      the lines of the expected string
 	 * @param {string} paddingMarker a padding character used to align values vertically
 	 * @throws {TypeError}     if any of the arguments are null
 	 */
-	constructor(actualLines, middleLines, expectedLines, paddingMarker)
+	constructor(actualLines, diffLines, expectedLines, paddingMarker)
 	{
 		Objects.assertThatTypeOf(actualLines, "actualLines", "Array");
-		Objects.assertThatTypeOf(middleLines, "middleLines", "Array");
+		Objects.assertThatTypeOf(diffLines, "diffLines", "Array");
 		Objects.assertThatTypeOf(expectedLines, "expectedLines", "Array");
 		Objects.assertThatTypeOf(paddingMarker, "paddingMarker", "string");
 
@@ -25,9 +26,9 @@ class DiffResult
 			{
 				value: actualLines
 			});
-		Object.defineProperty(this, "middleLines",
+		Object.defineProperty(this, "diffLines",
 			{
-				value: middleLines
+				value: diffLines
 			});
 		Object.defineProperty(this, "expectedLines",
 			{
@@ -52,9 +53,9 @@ class DiffResult
 	 * @return {Array<string>} the lines to display between "actual" and "expected". If the list is empty, no
 	 *   lines should be displayed.
 	 */
-	getMiddleLines()
+	getDiffLines()
 	{
-		return this.middleLines;
+		return this.diffLines;
 	}
 
 	/**

@@ -1,0 +1,17 @@
+syntax: glob
+
+# IntelliJ IDEA
+.idea/
+
+# Files generated as part of the build
+node_modules/
+build/
+coverage/
+.nyc_output/
+
+# Release scripts
+*.bat
+
+# Manual tests
+circular.js
+index.html

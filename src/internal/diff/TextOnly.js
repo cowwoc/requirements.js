@@ -4,6 +4,8 @@
  */
 
 import AbstractDiffWriter from "./AbstractDiffWriter.js";
+import IllegalStateError from "../IllegalStateError";
+import Maps from "../Maps";
 
 /**
  * A padding character used to align values vertically.
@@ -183,59 +185,110 @@ class TextOnly extends AbstractDiffWriter
 	constructor()
 	{
 		super(DIFF_PADDING);
-		Object.defineProperty(this, "middleLineBuilder",
+		Object.defineProperty(this, "lineToDiffLine",
 			{
 				writable: true,
-				value: ""
+				value: new Map()
 			});
-		Object.defineProperty(this, "middleLinesBuilder",
-			{
-				writable: true,
-				value: []
-			});
-		Object.defineProperty(this, "middleLines",
+		Object.defineProperty(this, "diffLines",
 			{
 				writable: true,
 				value: []
 			});
+		this.initActualLine(0);
+		this.initExpectedLine(0);
 	}
 
-	writeUnchanged(text)
+	initActualLine(number)
 	{
-		super.writeUnchanged(text);
-		this.middleLineBuilder += DIFF_EQUAL.repeat(text.length);
+		super.initActualLine(number);
+		if (!this.lineToDiffLine.get(number))
+			this.lineToDiffLine.set(number, "");
 	}
 
-	writeInserted(text)
+	initExpectedLine(number)
 	{
-		super.writeInserted(text);
-		this.middleLineBuilder += DIFF_INSERT.repeat(text.length);
+		super.initExpectedLine(number);
+		if (!this.lineToDiffLine.get(number))
+			this.lineToDiffLine.set(number, "");
+	}
+
+	writeEqual(text)
+	{
+		if (this.closed)
+			throw new IllegalStateError("Writer must be open");
+		if (text.length === 0)
+			return;
+		this.splitLines(text, line =>
+		{
+			Maps.appendToValue(this.lineToActualLine, this.actualLineNumber, line);
+
+			const length = line.length;
+			if (this.expectedLineNumber === this.actualLineNumber)
+				Maps.appendToValue(this.lineToDiffLine, this.actualLineNumber, DIFF_EQUAL.repeat(length));
+			else
+			{
+				const paddingMarker = this.getPaddingMarker();
+				Maps.appendToValue(this.lineToExpectedLine, this.actualLineNumber, paddingMarker.repeat(length));
+				Maps.appendToValue(this.lineToDiffLine, this.actualLineNumber, DIFF_DELETE.repeat(length));
+
+				Maps.appendToValue(this.lineToActualLine, this.expectedLineNumber, paddingMarker.repeat(length));
+				Maps.appendToValue(this.lineToDiffLine, this.expectedLineNumber, DIFF_INSERT.repeat(length));
+			}
+			Maps.appendToValue(this.lineToExpectedLine, this.expectedLineNumber, line);
+		}, () =>
+		{
+			this.writeActualNewline();
+			this.writeExpectedNewline();
+		});
 	}
 
 	writeDeleted(text)
 	{
-		super.writeDeleted(text);
-		this.middleLineBuilder += DIFF_DELETE.repeat(text.length);
+		if (this.closed)
+			throw new IllegalStateError("Writer must be open");
+		if (text.length === 0)
+			return;
+		this.splitLines(text, line =>
+		{
+			Maps.appendToValue(this.lineToActualLine, this.actualLineNumber, line);
+			const length = line.length;
+			Maps.appendToValue(this.lineToDiffLine, this.actualLineNumber, DIFF_DELETE.repeat(length));
+			Maps.appendToValue(this.lineToExpectedLine, this.actualLineNumber,
+				this.getPaddingMarker().repeat(length));
+		}, this.writeActualNewline.bind(this));
 	}
 
-	writeNewline()
+	writeInserted(text)
 	{
-		super.writeNewline();
-		this.middleLinesBuilder.push(this.middleLineBuilder);
-		this.middleLineBuilder = "";
+		if (this.closed)
+			throw new IllegalStateError("Writer must be open");
+		if (text.length === 0)
+			return;
+		this.splitLines(text, line =>
+		{
+			const length = line.length;
+			Maps.appendToValue(this.lineToActualLine, this.expectedLineNumber,
+				this.getPaddingMarker().repeat(length));
+			Maps.appendToValue(this.lineToDiffLine, this.expectedLineNumber, DIFF_INSERT.repeat(length));
+			Maps.appendToValue(this.lineToExpectedLine, this.expectedLineNumber, line);
+		}, this.writeExpectedNewline.bind(this));
 	}
 
 	afterClose()
 	{
-		this.middleLines = this.middleLinesBuilder;
-		Object.freeze(this.middleLines);
+		const lineNumbers = Array.from(this.lineToDiffLine.keys());
+		lineNumbers.sort();
+		for (const lineNumber of lineNumbers)
+			this.diffLines.push(this.lineToDiffLine.get(lineNumber));
+		Object.freeze(this.diffLines);
 	}
 
-	getMiddleLines()
+	getDiffLines()
 	{
 		if (!this.closed)
 			throw new RangeError("Writer must be closed");
-		return this.middleLines;
+		return this.diffLines;
 	}
 }
 

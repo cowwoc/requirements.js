@@ -18,7 +18,7 @@ import UriValidatorNoOp from "./internal/UriValidatorNoOp.js";
 import ClassValidatorNoOp from "./internal/ClassValidatorNoOp.js";
 import Objects from "./internal/Objects.js";
 import {isEqual} from "lodash";
-import ContextGenerator from "./internal/ContextGenerator.js";
+import ContextGenerator from "./internal/diff/ContextGenerator.js";
 import ValidationFailure from "./ValidationFailure.js";
 
 /**

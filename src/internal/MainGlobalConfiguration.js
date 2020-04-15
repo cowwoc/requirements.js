@@ -1,7 +1,7 @@
 import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration.js";
 import Terminal from "./Terminal";
-import TerminalEncoding from "../TerminalEncoding.js";
-import DiffGenerator from "./diff/DiffGenerator.js";
+
+const terminal = new Terminal();
 
 class MainGlobalConfiguration extends AbstractGlobalConfiguration
 {
@@ -9,64 +9,31 @@ class MainGlobalConfiguration extends AbstractGlobalConfiguration
 	{
 		super();
 
-		Object.defineProperty(this, "terminal",
+		Object.defineProperty(this, "terminalEncoding",
 			{
-				value: new Terminal()
-			});
-		Object.defineProperty(this, "diffGenerator",
-			{
-				value: new DiffGenerator(this)
+				value: terminal.getEncoding()
 			});
 	}
 
-	/**
-	 * Returns the encodings supported by the terminal.
-	 *
-	 * @return {Array<TerminalEncoding>} the encodings supported by the terminal (defaults to the auto-detected
-	 *   encoding)
-	 * @see #withTerminalEncoding(TerminalEncoding)
-	 * @see #withDefaultTerminalEncoding()
-	 */
 	listTerminalEncodings()
 	{
-		return this.terminal.listSupportedTypes();
+		return terminal.listSupportedTypes();
 	}
 
-	/**
-	 * Returns the current terminal encoding.
-	 *
-	 * @return {TerminalEncoding} the current terminal encoding (defaults to the auto-detected encoding)
-	 */
 	getTerminalEncoding()
 	{
-		return this.terminal.getEncoding();
+		return terminal.getEncoding();
 	}
 
-	/**
-	 * Indicates that the terminal encoding should be auto-detected.
-	 *
-	 * @return {MainGlobalConfiguration} this
-	 * @see #.withTerminalEncoding
-	 */
 	withDefaultTerminalEncoding()
 	{
-		this.terminal.useBestEncoding();
+		terminal.useBestEncoding();
 		return this;
 	}
 
-	/**
-	 * Indicates the type of encoding that the terminal supports.
-	 * <p>
-	 * This feature can be used to force the use of colors even when their support is not detected.
-	 *
-	 * @param {TerminalEncoding} encoding the type of encoding that the terminal supports
-	 * @return {MainGlobalConfiguration} this
-	 * @throws TypeError if <code>encoding</code> is null
-	 * @see #.withDefaultTerminalEncoding
-	 */
 	withTerminalEncoding(encoding)
 	{
-		this.terminal.setEncoding(encoding);
+		terminal.setEncoding(encoding);
 		return this;
 	}
 }

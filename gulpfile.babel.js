@@ -163,7 +163,7 @@ gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-es5-node", "bundle-t
 
 gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
 {
-	return gulp.src(["readme.md", "src/**/*.js"], {read: false}).
+	return gulp.src(["README.md", "src/**/*.js"], {read: false}).
 		pipe(jsdoc(
 			{
 				opts:
@@ -180,7 +180,7 @@ gulp.task("bundle-resources", gulp.parallel(function()
 		[
 			"license.md",
 			"package.json",
-			"readme.md"
+			"README.md"
 		]).
 		pipe(gulp.dest("build/publish"));
 }));

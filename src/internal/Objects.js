@@ -51,13 +51,22 @@ function getTypeOfImpl(object)
 	const objectToString = Object.prototype.toString.call(object).slice(8, -1);
 	if (objectToString === "Function")
 	{
-		if (object.name !== null && object.name !== "")
-			return object.name;
+		// A function or a constructor
+		if (object.key instanceof String && object.key !== "")
+			return object.key;
 		const instanceToString = object.toString();
 		const indexOfArrow = instanceToString.indexOf("=>");
 		const indexOfBody = instanceToString.indexOf("{");
 		if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 			return "ArrowFunction";
+		// Anonymous and named functions
+		const functionNamePattern = /^function(\s+[^(]+)?\(/;
+		const functionName = object.toString().match(functionNamePattern);
+		if (functionName !== null && typeof (functionName[1]) !== "undefined")
+		{
+			// Found a named function: equivalent to a class constructor
+			return "Function";
+		}
 		return "AnonymousFunction";
 	}
 	// Built-in types (e.g. String) or class instances
@@ -194,16 +203,16 @@ class Objects
 	/**
 	 * Returns the name of an object's type.
 	 *
-	 * If the input is undefined, returns "undefined".
-	 * If the input is null, returns "null".
-	 * If the input is a boolean, returns "boolean".
-	 * If the input is a number, returns "number".
-	 * If the input is a string, returns "string".
-	 * If the input is an array, returns "Array".
-	 * If the input is a named function or a class constructor, returns "Function".
-	 * If the input is an anonymous function, returns "AnonymousFunction".
-	 * If the input is an arrow function, returns "ArrowFunction".
-	 * If the input is a class instance, returns the class name.
+	 * * If the input is undefined, returns "undefined".
+	 * * If the input is null, returns "null".
+	 * * If the input is a boolean, returns "boolean".
+	 * * If the input is a number, returns "number".
+	 * * If the input is a string, returns "string".
+	 * * If the input is an array, returns "Array".
+	 * * If the input is a named function or a class constructor, returns "Function".
+	 * * If the input is an anonymous function, returns "AnonymousFunction".
+	 * * If the input is an arrow function, returns "ArrowFunction".
+	 * * If the input is a class instance, returns the class name.
 	 *
 	 * @param {object} object an object
 	 * @return {string} the name of the object's type
@@ -287,6 +296,13 @@ class Objects
 			throw new TypeError("name must be a string.\n" +
 				"Actual     : " + Objects.toString(name) + "\n" +
 				"Actual.type: " + typeOfName);
+		}
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType !== "Function")
+		{
+			throw new TypeError("\"type\" must be a type.\n" +
+				"Actual     : " + Objects.toString(type) + "\n" +
+				"Actual.type: " + typeOfType);
 		}
 		if (!(value instanceof type))
 		{
