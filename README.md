@@ -3,7 +3,7 @@
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/2.0.0/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 
-[![java](https://img.shields.io/badge/languages-java-457FD5.svg)](../../requirements.java/)
+[![java](https://img.shields.io/badge/languages-java-457FD5.svg)](../../../requirements.java/)
 ![js](https://img.shields.io/badge/js-black.svg)
 
 # <img src="wiki/checklist.svg" width=64 height=64 alt="checklist"> Requirements: Fluent Design by Contract for Javascript
