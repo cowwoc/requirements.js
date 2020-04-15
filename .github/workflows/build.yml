@@ -20,9 +20,9 @@ jobs:
             ${{ runner.OS }}-
       - name: Install dependencies
         run: yarn --frozen-lockfile
-      - run:
-          - node --version
-          - yarn --version
-          - yarn install
-          - yarn global add gulp-cli
-          - gulp default
+      - run: |
+        node --version
+        yarn --version
+        yarn install
+        yarn global add gulp-cli
+        gulp default
