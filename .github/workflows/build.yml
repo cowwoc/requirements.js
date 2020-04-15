@@ -18,15 +18,13 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
       - name: Show versions
         run: |
           node --version
           yarn --version
       - name: Install dependencies
         run: |
-          yarn install
+          yarn --frozen-lockfile
           yarn global add gulp-cli
       - name: lint
         run: gulp lint
