@@ -11,13 +11,13 @@ jobs:
         with:
           node-version: 12.16.1
       - name: Cache Node.js modules
-          uses: actions/cache@v1
-          with:
-            path: ~/.npm
-            key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.OS }}-node-
-              ${{ runner.OS }}-
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            ${{ runner.OS }}-
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - run:
