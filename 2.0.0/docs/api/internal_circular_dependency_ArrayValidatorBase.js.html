@@ -1,0 +1,583 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: internal/circular_dependency/ArrayValidatorBase.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>internal/circular_dependency/ArrayValidatorBase.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import ObjectValidator from "./ObjectValidatorBase.js";
+import Objects from "../Objects.js";
+import ValidationFailure from "../../ValidationFailure.js";
+import ArrayValidatorNoOp from "../ArrayValidatorNoOp.js";
+import Configuration from "../../Configuration.js";
+import Pluralizer from "../../Pluralizer.js";
+import {isEqual} from "lodash";
+
+// DESIGN:
+// * Declare the class without methods that trigger circular dependencies
+// * Load the dependencies
+// * Add the missing methods
+
+/**
+ * Indicates if an array contains at least one element of another array.
+ *
+ * @param {Array} array an array of arrays
+ * @param {object} element an element
+ * @return {boolean} true if &lt;code>arrays&lt;/code> contains the element
+ * @ignore
+ */
+function arrayContainsElement(array, element)
+{
+	// indexOf(), includes() do not work for multidimensional arrays: http://stackoverflow.com/a/24943461/14731
+	for (let i = 0; i &lt; array.length; ++i)
+	{
+		if (isEqual(array[i], element))
+			return true;
+	}
+	return false;
+}
+
+/**
+ * @param {Array} array an array
+ * @param {Array} expected an array of expected values
+ * @return {boolean} true if &lt;code>actual&lt;/code> contains any of the &lt;code>expected&lt;/code> elements
+ * @ignore
+ */
+function arrayContainsAny(array, expected)
+{
+	for (const element of expected)
+	{
+		if (arrayContainsElement(array, element))
+			return true;
+	}
+	return false;
+}
+
+/**
+ * Indicates if an array contains all elements of another array.
+ *
+ * @param {Array} array an array
+ * @param {Array} expected an array of expected elements
+ * @return {boolean} true if &lt;code>actual&lt;/code> contains all of the &lt;code>expected&lt;/code> elements
+ * @ignore
+ */
+function arrayContainsAll(array, expected)
+{
+	for (const element of expected)
+	{
+		if (!arrayContainsElement(array, element))
+			return false;
+	}
+	return true;
+}
+
+/**
+ * Validates the requirements of an array.
+ * &lt;p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ */
+class ArrayValidator extends ObjectValidator
+{
+	/**
+	 * Creates a new ArrayValidator.
+	 *
+	 * @param {Configuration} configuration the instance configuration
+	 * @param {object} actual the actual value
+	 * @param {string} name   the name of the value
+	 * @param {Pluralizer} [pluralizer=Pluralizer.ELEMENT] returns the singular or plural form of the
+	 *   container's element type
+	 * @throws {TypeError} if &lt;code>name&lt;/code> or &lt;code>config&lt;/code> are null or undefined
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	constructor(configuration, actual, name, pluralizer)
+	{
+		super(configuration, actual, name);
+		if (typeof (pluralizer) === "undefined")
+			pluralizer = Pluralizer.ELEMENT;
+		Object.defineProperty(this, "pluralizer",
+			{
+				value: pluralizer
+			});
+	}
+
+	/**
+	 * Ensures that the actual value is empty.
+	 *
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 */
+	isEmpty()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (this.actual.length !== 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be empty").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not empty.
+	 *
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 */
+	isNotEmpty()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (this.actual.length === 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be empty.");
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array contains an element.
+	 *
+	 * @param {object} element the element that must exist
+	 * @param {string} [name] the name of the element
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	contains(element, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (!arrayContainsElement(this.actual, element))
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain " + name + ".").
+					addContext("Actual", this.actual).
+					addContext("Expected", element);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError, this.name + " must contain " +
+					this.config.convertToString(element)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array contains exactly the specified elements; nothing less, nothing more.
+	 *
+	 * @param {Array} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an Array
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	containsExactly(expected, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(expected, "expected", "Array");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		const expectedAsSet = new Set(expected);
+		const actualAsSet = new Set(this.actual);
+		const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
+		const unwanted = new Set([...actualAsSet].filter(x => !expectedAsSet.has(x)));
+		if (missing.size !== 0 || unwanted.size !== 0)
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError, this.name +
+					" must contain exactly the same elements as " + name).
+					addContext("Actual", this.actual).
+					addContext("Expected", expected).
+					addContext("Missing", missing).
+					addContext("Unwanted", unwanted);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain exactly: " + this.config.convertToString(expected)).
+					addContext("Actual", this.actual).
+					addContext("Missing", missing).
+					addContext("Unwanted", unwanted);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array contains any of the specified elements.
+	 *
+	 * @param {Array} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an Array
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	containsAny(expected, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(expected, "expected", "Array");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (!arrayContainsAny(this.actual, expected))
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain any element in " + name).
+					addContext("Actual", this.actual).
+					addContext("Expected", expected);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain any element in: " + this.config.convertToString(expected)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array contains all of the specified elements.
+	 *
+	 * @param {Array} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an Array
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	containsAll(expected, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(expected, "expected", "Array");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (!arrayContainsAll(this.actual, expected))
+		{
+			const expectedAsSet = new Set(expected);
+			const actualAsSet = new Set(this.actual);
+			const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain all elements in " + name).
+					addContext("Actual", this.actual).
+					addContext("Expected", expected).
+					addContext("Missing", missing);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must contain all elements in: " + this.config.convertToString(expected)).
+					addContext("Actual", this.actual).
+					addContext("Missing", missing);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array does not contain an element.
+	 *
+	 * @param {object} element the element that must not exist
+	 * @param {string} [name] the name of the element
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	doesNotContain(element, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (arrayContainsElement(this.actual, element))
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " may not contain " + name + ".").
+					addContext("Actual", this.actual).
+					addContext("Unwanted", element);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " may not contain " + this.config.convertToString(element)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array does not contain any of the specified elements.
+	 *
+	 * @param {Array} elements the elements that must not exist
+	 * @param {string} [name] the name of the elements
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>elements&lt;/code> is not an Array
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	doesNotContainAny(elements, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(elements, "elements", "Array");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (arrayContainsAny(this.actual, elements))
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must not contain any element in " + name).
+					addContext("Actual", this.actual).
+					addContext("Unwanted", elements);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must not contain any element in: " + this.config.convertToString(elements)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array does not contain all of the specified elements.
+	 *
+	 * @param {Array} elements the elements that must not exist
+	 * @param {string} [name] the name of the elements
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>elements&lt;/code> is not an Array
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty
+	 */
+	doesNotContainAll(elements, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(elements, "elements", "Array");
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		if (arrayContainsAll(this.actual, elements))
+		{
+			const elementsAsSet = new Set(elements);
+			const actualAsSet = new Set(this.actual);
+			const missing = new Set([...elementsAsSet].filter(x => !actualAsSet.has(x)));
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " may not contain all elements in " + name).
+					addContext("Actual", this.actual).
+					addContext("Missing", missing);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " may not contain all elements in: " + this.config.convertToString(elements)).
+					addContext("Actual", this.actual).
+					addContext("Unwanted", elements).
+					addContext("Missing", missing);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the array does not contain any duplicate elements.
+	 *
+	 * @return {ArrayValidator|ArrayValidatorNoOp} the updated validator
+	 */
+	doesNotContainDuplicates()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new ArrayValidatorNoOp(this.failures);
+		}
+		const unique = new Set();
+		const duplicates = new Set();
+		for (const element of this.actual)
+		{
+			if (unique.has(element))
+				duplicates.add(element);
+			else
+				unique.add(element);
+		}
+		if (duplicates.size !== 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not contain duplicate elements").
+				addContext("Actual", this.actual).
+				addContext("Duplicates", duplicates);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {ArrayValidator as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Wed Apr 15 2020 18:52:48 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
