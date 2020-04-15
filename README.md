@@ -1,6 +1,6 @@
 # ![checklist.png](wiki/checklist.png) Requirements #
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
-[![build-status](workflows/.github/workflows/build.yml/badge.svg)](workflows/build)
+[![build-status](../../workflows/.github/workflows/build.yml/badge.svg)](../../actions?query=workflow%3A.github%2Fworkflows%2Fbuild.yml)
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/1.2.0/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 
