@@ -65,10 +65,6 @@ The best way to learn about the API is using your IDE's auto-complete engine. Th
 * [Requirements](https://cowwoc.github.io/requirements.js/2.0.0/docs/api/module-Requirements-Requirements.html)
 * [GlobalRequirements](https://cowwoc.github.io/requirements.js/2.0.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
 
-## Breaking Changes
-
-Be sure to check the [changelog](wiki/Changelog.md) for breaking changes. 
-
 ## Related Projects
 
 * http://chaijs.com/
