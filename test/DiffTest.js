@@ -600,6 +600,84 @@ test("DiffTest.independentDiffLineNumbers", function(t)
 });
 
 /**
+ * Ensures that "expected" is included in the error message when it is shorter than the terminal width.
+ */
+test("DiffTest.expectedShorterThanTerminalWidth", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
+		"actual must be equal to expected.".length + 1);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "actual";
+	const expected = "expected";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		t.assert(actualMessage.includes("must be equal to " + expected),
+			"Actual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensures that "expected" is excluded from the error message when it is equal to the terminal width.
+ */
+test("DiffTest.expectedEqualToTerminalWidth", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
+		"actual must be equal to expected.".length);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "actual";
+	const expected = "expected";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		t.assert(!actualMessage.includes("must be equal to " + expected),
+			"Actual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
+ * Ensures that "expected" is excluded from the error message when it is equal to the terminal width.
+ */
+test("DiffTest.expectedLongerThanTerminalWidth", function(t)
+{
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
+		"actual must be equal to expected.".length - 1);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
+	const actual = "actual";
+	const expected = "expected";
+	try
+	{
+		requirements.requireThat(actual, "actual").isEqualTo(expected);
+		t.fail("Expected method to throw exception");
+	}
+	catch (e)
+	{
+		const actualMessage = e.message;
+		t.assert(!actualMessage.includes("must be equal to " + expected),
+			"Actual:\n" + actualMessage);
+	}
+	t.end();
+});
+
+/**
  * Ensure that NODE_16_COLORS diffs generate the expected value.
  */
 test("DiffTest.diffArraySize_16Colors", function(t)

@@ -3,48 +3,9 @@ import TerminalEncoding from "../TerminalEncoding.js";
 import Objects from "./Objects.js";
 
 /**
- * @return {Array<TerminalEncoding>} the encodings supported by the terminal
- * @ignore
- */
-function listSupportedTypesImpl()
-{
-	const result = [TerminalEncoding.NONE];
-	// https://stackoverflow.com/a/4224668/14731
-	if (typeof (window) === "undefined")
-	{
-		// Node
-		switch (chalk.level)
-		{
-			case 3:
-				result.push(TerminalEncoding.NODE_16MILLION_COLORS);
-			// fallthrough
-			case 2:
-				result.push(TerminalEncoding.NODE_256_COLORS);
-			// fallthrough
-			case 1:
-				result.push(TerminalEncoding.NODE_16_COLORS);
-			// fallthrough
-			case 0:
-				break;
-			default:
-			{
-				throw new RangeError("chalk.level had an unexpected value.\n" +
-					"Actual: " + chalk.level);
-			}
-		}
-	}
-	else
-	{
-		// Browsers support colors using console.log() but exception messages do not support any colors.
-	}
-	result.sort(TerminalEncoding.sortByDecreasingRank);
-	return result;
-}
-
-/**
  * Indicates the type of encoding that the terminal should use.
  * <p>
- * This feature can be used to force the use of an encoding even when its support is not detected.
+ * This feature can be used to force the use of colors even when their support is not detected.
  *
  * @param {Terminal} terminal an instance of the terminal
  * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
@@ -96,14 +57,45 @@ class Terminal
 	listSupportedTypes()
 	{
 		if (this.supportedTypes === null)
-			this.supportedTypes = listSupportedTypesImpl();
+		{
+			this.supportedTypes = [TerminalEncoding.NONE];
+			// https://stackoverflow.com/a/4224668/14731
+			if (typeof (window) === "undefined")
+			{
+				// Node
+				switch (chalk.level)
+				{
+					case 3:
+						this.supportedTypes.push(TerminalEncoding.NODE_16MILLION_COLORS);
+					// fallthrough
+					case 2:
+						this.supportedTypes.push(TerminalEncoding.NODE_256_COLORS);
+					// fallthrough
+					case 1:
+						this.supportedTypes.push(TerminalEncoding.NODE_16_COLORS);
+					// fallthrough
+					case 0:
+						break;
+					default:
+					{
+						throw new RangeError("chalk.level had an unexpected value.\n" +
+							"Actual: " + chalk.level);
+					}
+				}
+			}
+			else
+			{
+				// Browsers support colors using console.log() but exception messages do not support any colors.
+			}
+			this.supportedTypes.sort(TerminalEncoding.sortByDecreasingRank);
+		}
 		return this.supportedTypes;
 	}
 
 	/**
 	 * Indicates the type of encoding that the terminal should use.
 	 * <p>
-	 * This feature can be used to force the use of an encoding even when its support is not detected.
+	 * This feature can be used to force the use of colors even when their support is not detected.
 	 *
 	 * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
 	 * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>
@@ -139,6 +131,46 @@ class Terminal
 			result = this.encoding;
 		}
 		return result;
+	}
+
+	/**
+	 * Indicates the width that the terminal should use.
+	 * <p>
+	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
+	 *
+	 * @param {number} width the width that the terminal should use
+	 * @throws {TypeError} if {@code width} is not a number
+	 * @throws {RangeError} if {@code width} is zero or negative
+	 * @see #useBestWidth
+	 */
+	setWidth(width)
+	{
+		Objects.assertThatTypeOf(width, "width", "number");
+		if (width <= 0)
+			throw new RangeError("width must be positive");
+		this.width = width;
+	}
+
+	/**
+	 * Indicates that verifiers should use the best width supported by the terminal. If the width cannot be
+	 * auto-detected, a value of {@code 80} is used.
+	 *
+	 * @see #setWidth(int)
+	 */
+	useBestWidth()
+	{
+		// Node: https://stackoverflow.com/a/30335724/14731
+		this.width = process.stdout.columns || 80;
+	}
+
+	/**
+	 * @return {number} the width of the terminal in characters (defaults to the auto-detected width)
+	 */
+	getWidth()
+	{
+		if (typeof (this.width) === "undefined")
+			this.useBestWidth();
+		return this.width;
 	}
 }
 

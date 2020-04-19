@@ -1,6 +1,14 @@
 import test from "tape-catch";
-import {assertThat, requireThat} from "../src/DefaultRequirements.js";
+import {assertThat} from "../src/DefaultRequirements.js";
 import ObjectVerifier from "../src/ObjectVerifier.js";
+import TestGlobalConfiguration from "../src/internal/TestGlobalConfiguration";
+import TerminalEncoding from "../src/TerminalEncoding";
+import Configuration from "../src/Configuration";
+import Requirements from "../src/Requirements";
+
+const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+const configuration = new Configuration(globalConfiguration);
+const requirements = new Requirements(configuration);
 
 test("ObjectTest.constructor_configurationIsUndefined", function(t)
 {
@@ -20,7 +28,7 @@ test("ObjectTest.nameIsNull", function(t)
 	{
 		const actual = {};
 		// noinspection JSCheckFunctionSignatures
-		requireThat(actual, null);
+		requirements.requireThat(actual, null);
 	}, TypeError);
 	t.end();
 });
@@ -30,7 +38,7 @@ test("ObjectTest.nameIsEmpty", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "");
+		requirements.requireThat(actual, "");
 	}, RangeError);
 	t.end();
 });
@@ -38,7 +46,7 @@ test("ObjectTest.nameIsEmpty", function(t)
 test("ObjectTest.isEqualTo", function(t)
 {
 	const actual = "actual";
-	requireThat(actual, "actual").isEqualTo(actual);
+	requirements.requireThat(actual, "actual").isEqualTo(actual);
 	t.end();
 });
 
@@ -47,11 +55,11 @@ test("ObjectTest.isEqual_False", function(t)
 	const actual = {};
 	t.throws(function()
 	{
-		requireThat(actual, "actual").isEqualTo("expected");
+		requirements.requireThat(actual, "actual").isEqualTo("expected");
 	}, RangeError);
 	t.throws(function()
 	{
-		requireThat(actual, "actual").isEqualTo("expected", "expected");
+		requirements.requireThat(actual, "actual").isEqualTo("expected", "expected");
 	}, RangeError);
 	t.end();
 });
@@ -61,7 +69,7 @@ test("ObjectTest.isEqual_sameToStringDifferentTypes", function(t)
 	t.throws(function()
 	{
 		const actual = "null";
-		requireThat(actual, "actual").isEqualTo(null);
+		requirements.requireThat(actual, "actual").isEqualTo(null);
 	}, RangeError);
 	t.end();
 });
@@ -69,7 +77,7 @@ test("ObjectTest.isEqual_sameToStringDifferentTypes", function(t)
 test("ObjectTest.isEqual_nullToNull", function(t)
 {
 	const actual = null;
-	requireThat(actual, "actual").isEqualTo(actual);
+	requirements.requireThat(actual, "actual").isEqualTo(actual);
 	t.end();
 });
 
@@ -78,7 +86,7 @@ test("ObjectTest.isEqualTo_nullToNotNull", function(t)
 	t.throws(function()
 	{
 		const actual = null;
-		requireThat(actual, "actual").isEqualTo("expected");
+		requirements.requireThat(actual, "actual").isEqualTo("expected");
 	}, RangeError);
 	t.end();
 });
@@ -88,14 +96,14 @@ test("ObjectTest.isEqualTo_notNullToNull", function(t)
 	t.throws(function()
 	{
 		const actual = "actual";
-		requireThat(actual, "actual").isEqualTo(null);
+		requirements.requireThat(actual, "actual").isEqualTo(null);
 	}, RangeError);
 	t.end();
 });
 
 test("ObjectTest.isNotEqualTo", function(t)
 {
-	requireThat("actualValue", "actual").isNotEqualTo("expectedValue");
+	requirements.requireThat("actualValue", "actual").isNotEqualTo("expectedValue");
 	t.end();
 });
 
@@ -104,11 +112,11 @@ test("ObjectTest.isNotEqualTo_False", function(t)
 	const actual = {};
 	t.throws(function()
 	{
-		requireThat(actual, "actual").isNotEqualTo(actual);
+		requirements.requireThat(actual, "actual").isNotEqualTo(actual);
 	}, RangeError);
 	t.throws(function()
 	{
-		requireThat(actual, "actual").isNotEqualTo(actual, "actual");
+		requirements.requireThat(actual, "actual").isNotEqualTo(actual, "actual");
 	}, RangeError);
 	t.end();
 });
@@ -116,7 +124,7 @@ test("ObjectTest.isNotEqualTo_False", function(t)
 test("ObjectTest.isTypeOf", function(t)
 {
 	const actual = "value";
-	requireThat(actual, "actual").isTypeOf("string");
+	requirements.requireThat(actual, "actual").isTypeOf("string");
 	t.end();
 });
 
@@ -125,7 +133,7 @@ test("ObjectTest.isTypeOf_actualIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = null;
-		requireThat(actual, "actual").isTypeOf("String");
+		requirements.requireThat(actual, "actual").isTypeOf("String");
 	}, RangeError);
 	t.end();
 });
@@ -135,7 +143,7 @@ test("ObjectTest.isTypeOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isTypeOf("null");
+		requirements.requireThat(actual, "actual").isTypeOf("null");
 	}, RangeError);
 	t.end();
 });
@@ -145,7 +153,7 @@ test("ObjectTest.isTypeOf_False", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isTypeOf("string");
+		requirements.requireThat(actual, "actual").isTypeOf("string");
 	}, RangeError);
 	t.end();
 });
@@ -157,7 +165,7 @@ test("ObjectTest.isInstanceOf", function(t)
 	const actual = new String("value");
 	/* eslint-enable no-new-wrappers */
 
-	requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
+	requirements.requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
 	t.end();
 });
 
@@ -166,7 +174,7 @@ test("ObjectTest.isInstanceOf_actualIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = null;
-		requireThat(actual, "actual").isInstanceOf(String);
+		requirements.requireThat(actual, "actual").isInstanceOf(String);
 	}, RangeError);
 	t.end();
 });
@@ -176,7 +184,7 @@ test("ObjectTest.isInstanceOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isTypeOf("null");
+		requirements.requireThat(actual, "actual").isTypeOf("null");
 	}, RangeError);
 	t.end();
 });
@@ -186,14 +194,14 @@ test("ObjectTest.isInstanceOf_False", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isInstanceOf(String);
+		requirements.requireThat(actual, "actual").isInstanceOf(String);
 	}, RangeError);
 	t.end();
 });
 
 test("ObjectTest.isTypeOf_AnonymousFunction", function(t)
 {
-	requireThat(function()
+	requirements.requireThat(function()
 	{
 		return "anonymousFunction";
 	}, "actual").isTypeOf("AnonymousFunction");
@@ -204,7 +212,7 @@ test("ObjectTest.isTypeOf_AnonymousFunction", function(t)
 //
 // test("ObjectTest.isTypeOf_ArrowFunction", function(t)
 // {
-// 	requireThat(input => input + " -> output", "actual").isTypeOf("ArrowFunction");
+// 	requirements.requireThat(input => input + " -> output", "actual").isTypeOf("ArrowFunction");
 // 	t.end();
 // });
 
@@ -217,14 +225,14 @@ test("ObjectTest.isInstanceOf_Object", function(t)
 	t.throws(function()
 	{
 		const actual = 5;
-		requireThat(actual, "actual").isInstanceOf(MyClass);
+		requirements.requireThat(actual, "actual").isInstanceOf(MyClass);
 	}, RangeError);
 	t.end();
 });
 
 test("ObjectTest.isNull", function(t)
 {
-	requireThat(null, "actual").isNull();
+	requirements.requireThat(null, "actual").isNull();
 	t.end();
 });
 
@@ -233,7 +241,7 @@ test("ObjectTest.isNull_False", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requireThat(actual, "actual").isNull();
+		requirements.requireThat(actual, "actual").isNull();
 	}, RangeError);
 	t.end();
 });
@@ -241,7 +249,7 @@ test("ObjectTest.isNull_False", function(t)
 test("ObjectTest.isNotNull", function(t)
 {
 	const actual = {};
-	requireThat(actual, "actual").isNotNull();
+	requirements.requireThat(actual, "actual").isNotNull();
 	t.end();
 });
 
@@ -250,7 +258,7 @@ test("ObjectTest.isNotNull_False", function(t)
 	t.throws(function()
 	{
 		const actual = null;
-		requireThat(actual, "actual").isNotNull();
+		requirements.requireThat(actual, "actual").isNotNull();
 	}, RangeError);
 	t.end();
 });
@@ -258,7 +266,7 @@ test("ObjectTest.isNotNull_False", function(t)
 test("ObjectTest.isDefined", function(t)
 {
 	const actual = 5;
-	requireThat(actual, "actual").isDefined();
+	requirements.requireThat(actual, "actual").isDefined();
 	t.end();
 });
 
@@ -268,7 +276,7 @@ test("ObjectTest.isDefined_False", function(t)
 	{
 		let actual;
 		// noinspection JSUnusedAssignment
-		requireThat(actual, "actual").isDefined();
+		requirements.requireThat(actual, "actual").isDefined();
 	}, RangeError);
 	t.end();
 });
@@ -277,7 +285,7 @@ test("ObjectTest.isNotDefined", function(t)
 {
 	let actual;
 	// noinspection JSUnusedAssignment
-	requireThat(actual, "actual").isNotDefined();
+	requirements.requireThat(actual, "actual").isNotDefined();
 	t.end();
 });
 
@@ -286,7 +294,7 @@ test("ObjectTest.isNotDefined_False", function(t)
 	t.throws(function()
 	{
 		const actual = 5;
-		requireThat(actual, "actual").isNotDefined();
+		requirements.requireThat(actual, "actual").isNotDefined();
 	}, RangeError);
 	t.end();
 });
@@ -294,7 +302,7 @@ test("ObjectTest.isNotDefined_False", function(t)
 test("ObjectTest.isSet", function(t)
 {
 	const actual = 5;
-	requireThat(actual, "actual").isSet();
+	requirements.requireThat(actual, "actual").isSet();
 	t.end();
 });
 
@@ -304,7 +312,7 @@ test("ObjectTest.isSet_False", function(t)
 	{
 		let actual;
 		// noinspection JSUnusedAssignment
-		requireThat(actual, "actual").isSet();
+		requirements.requireThat(actual, "actual").isSet();
 	}, RangeError);
 	t.end();
 });
@@ -313,7 +321,7 @@ test("ObjectTest.isNotSet", function(t)
 {
 	let actual;
 	// noinspection JSUnusedAssignment
-	requireThat(actual, "actual").isNotSet();
+	requirements.requireThat(actual, "actual").isNotSet();
 	t.end();
 });
 
@@ -322,7 +330,7 @@ test("ObjectTest.isNotSet_False", function(t)
 	t.throws(function()
 	{
 		const actual = 5;
-		requireThat(actual, "actual").isNotSet();
+		requirements.requireThat(actual, "actual").isNotSet();
 	}, RangeError);
 	t.end();
 });
@@ -330,7 +338,7 @@ test("ObjectTest.isNotSet_False", function(t)
 test("ObjectTest.asStringConsumer", function(t)
 {
 	const actual = 1234;
-	requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
+	requirements.requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
 	t.end();
 });
 
@@ -339,7 +347,7 @@ test("ObjectTest.asInetAddressConsumer", function(t)
 	const actual = "1.2.3.4";
 	t.throws(function()
 	{
-		requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6(actual));
+		requirements.requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6(actual));
 	}, RangeError);
 	t.end();
 });
@@ -349,15 +357,15 @@ test("ObjectTest.asUriConsumer", function(t)
 	const actual = "http://www.host.com/path/";
 	t.throws(function()
 	{
-		requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
+		requirements.requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
 	}, RangeError);
 	t.end();
 });
 
-test("ObjectTest.requireThat.getActual", function(t)
+test("ObjectTest.requirements.requireThat.getActual", function(t)
 {
 	const input = 12345;
-	const output = requireThat(input, "input").getActual();
+	const output = requirements.requireThat(input, "input").getActual();
 	t.equals(output, input);
 	t.end();
 });

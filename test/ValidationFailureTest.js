@@ -4,7 +4,6 @@ import Requirements from "../src/Requirements.js";
 import TestGlobalConfiguration from "../src/internal/TestGlobalConfiguration.js";
 import TerminalEncoding from "../src/TerminalEncoding.js";
 import Configuration from "../src/Configuration.js";
-import {requireThat} from "../src/DefaultRequirements.js";
 
 test("ValidationFailureTest_configurationIsUndefined", function(t)
 {
@@ -20,7 +19,10 @@ test("ValidationFailureTest_typeIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const requirements = new Requirements();
+		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+		const configuration = new Configuration(globalConfiguration);
+		const requirements = new Requirements(configuration);
+
 		const config = requirements.config;
 		let type;
 		// eslint-disable-next-line no-new
@@ -33,7 +35,10 @@ test("ValidationFailureTest_messageIsUndefined", function(t)
 {
 	t.throws(function()
 	{
-		const requirements = new Requirements();
+		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+		const configuration = new Configuration(globalConfiguration);
+		const requirements = new Requirements(configuration);
+
 		const config = requirements.config;
 		// eslint-disable-next-line no-new
 		new ValidationFailure(config, RangeError);
@@ -43,7 +48,10 @@ test("ValidationFailureTest_messageIsUndefined", function(t)
 
 test("ValidationFailureTest.addContext", function(t)
 {
-	const requirements = new Requirements();
+	const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+	const configuration = new Configuration(globalConfiguration);
+	const requirements = new Requirements(configuration);
+
 	const valueNotString = 12345;
 	const config = requirements.config;
 	// eslint-disable-next-line no-new
@@ -56,10 +64,13 @@ test("ValidationFailureTest.addContext_keyNotString", function(t)
 {
 	t.throws(function()
 	{
-		const requirements = new Requirements();
+		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
+		const configuration = new Configuration(globalConfiguration);
+		const requirements = new Requirements(configuration);
+
 		const config = requirements.config;
 		// eslint-disable-next-line no-new
-		new ValidationFailure(config, RangeError, "message").addContext(null);
+		new ValidationFailure(config, RangeError, "message").addContext(null, null);
 	}, TypeError);
 	t.end();
 });
@@ -80,6 +91,6 @@ test("ValidationFailureTest.messageWithoutFormatting", function(t)
 		validateThat(actual, "actual").
 		isEqualTo(expected).getFailures();
 	const actualMessages = actualFailures.map(failure => failure.getMessage());
-	requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
+	requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	t.end();
 });

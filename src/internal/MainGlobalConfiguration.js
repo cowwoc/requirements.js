@@ -36,6 +36,23 @@ class MainGlobalConfiguration extends AbstractGlobalConfiguration
 		terminal.setEncoding(encoding);
 		return this;
 	}
+
+	getTerminalWidth()
+	{
+		return terminal.getWidth();
+	}
+
+	withDefaultTerminalWidth()
+	{
+		terminal.useBestWidth();
+		return this;
+	}
+
+	withTerminalWidth(width)
+	{
+		terminal.setWidth(width);
+		return this;
+	}
 }
 
 MainGlobalConfiguration.INSTANCE = new MainGlobalConfiguration();

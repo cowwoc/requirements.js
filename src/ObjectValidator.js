@@ -20,12 +20,13 @@ import Objects from "./internal/Objects.js";
 import {isEqual} from "lodash";
 import ContextGenerator from "./internal/diff/ContextGenerator.js";
 import ValidationFailure from "./ValidationFailure.js";
+import ContextLine from "./internal/diff/ContextLine.js";
 
 /**
  * @param {ObjectValidator} objectValidator an instance of ObjectValidator
  * @param {object} expected the expected value
  * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
- * @return {Array<Array<string>>} the list of name-value pairs to append to the exception message
+ * @return {Array<ContextLine>} the list of name-value pairs to append to the exception message
  * @ignore
  */
 function getContext(objectValidator, expected, expectedInMessage)
@@ -60,9 +61,20 @@ ObjectValidator.prototype.isEqualTo = function(expected, name)
 		}
 		else
 		{
-			failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must be equal to " + this.config.convertToString(expected) + ".").
-				addContextList(getContext(this, expected, true));
+			const expectedAsString = this.config.convertToString(expected);
+			const terminalWidth = this.config.getGlobalConfiguration().getTerminalWidth();
+			const message = this.name + " must be equal to " + expectedAsString + ".";
+			if (message.length < terminalWidth)
+			{
+				failure = new ValidationFailure(this.config, RangeError, message).
+					addContextList(getContext(this, expected, true));
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " had an unexpected value.").
+					addContextList(getContext(this, expected, false));
+			}
 		}
 		this.failures.push(failure);
 	}

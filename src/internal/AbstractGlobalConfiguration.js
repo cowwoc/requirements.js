@@ -145,6 +145,44 @@ class AbstractGlobalConfiguration
 	{
 		throw new Error("Method must be overridden by subclasses");
 	}
+
+	/**
+	 * Returns the current terminal width.
+	 *
+	 * @return {number} the terminal width in characters (defaults to the auto-detected width)
+	 */
+	getTerminalWidth()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates that the terminal width should be auto-detected.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #.withTerminalWidth
+	 */
+	withDefaultTerminalWidth()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates the width that the terminal should use.
+	 * <p>
+	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
+	 *
+	 * @param {number} width the terminal width in characters
+	 * @return {AbstractGlobalConfiguration} this
+	 * @throws TypeError if <code>width</code> is null
+	 * @throws RangeError if <code>width</code> is zero or negative
+	 * @see #.withDefaultTerminalWidth
+	 */
+	withTerminalWidth(width)
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
 	/* eslint-enable no-unused-vars */
 	/* eslint-enable jsdoc/require-returns-check */
 }

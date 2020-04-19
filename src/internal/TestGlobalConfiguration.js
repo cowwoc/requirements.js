@@ -2,13 +2,17 @@ import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration.js";
 
 class TestGlobalConfiguration extends AbstractGlobalConfiguration
 {
-	constructor(terminalEncoding)
+	constructor(terminalEncoding, terminalWidth)
 	{
 		super();
 
 		Object.defineProperty(this, "terminalEncoding",
 			{
 				value: terminalEncoding
+			});
+		Object.defineProperty(this, "terminalWidth",
+			{
+				value: terminalWidth || 80
 			});
 	}
 
@@ -33,6 +37,26 @@ class TestGlobalConfiguration extends AbstractGlobalConfiguration
 		{
 			throw new RangeError("Test only supports one encoding: " + this.terminalEncoding + ".\n" +
 				"Actual: " + encoding);
+		}
+		return this;
+	}
+
+	getTerminalWidth()
+	{
+		return this.terminalWidth;
+	}
+
+	withDefaultTerminalWidth()
+	{
+		return this;
+	}
+
+	withTerminalWidth(width)
+	{
+		if (width !== this.terminalWidth)
+		{
+			throw new RangeError("Test only supports one width: " + this.terminalWidth + ".\n" +
+				"Actual: " + width);
 		}
 		return this;
 	}
