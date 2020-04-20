@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: internal/circular_dependency/ObjectVerifierBase.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>internal/circular_dependency/ObjectVerifierBase.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Objects from "../Objects.js";
+import ObjectValidator from "./ObjectValidatorBase.js";
+
+// Avoid circular dependencies by doing the following:
+// * Declare the class without methods that trigger circular dependencies
+// * Load the dependencies
+// * Add the missing methods
+
+/**
+ * Verifies the requirements of an object.
+ */
+class ObjectVerifier
+{
+	/**
+	 * Creates a new ObjectVerifier.
+	 *
+	 * @param {ObjectValidator} validator the validator to delegate to
+	 * @throws {TypeError} if &lt;code>validator&lt;/code> is null or undefined
+	 */
+	constructor(validator)
+	{
+		Objects.requireThatInstanceOf(validator, "validator", ObjectValidator);
+		Object.defineProperty(this, "validator",
+			{
+				value: validator
+			});
+	}
+
+	/**
+	 * Ensures that the actual value is equal to a value.
+	 *
+	 * @param {object} expected the expected value
+	 * @param {string} [name] the name of the expected value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is not equal to value
+	 */
+	isEqualTo(expected, name)
+	{
+		this.validator.isEqualTo(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Throws an exception if the validation failed.
+	 *
+	 * @param {Function} [result] a no-arg function that returns the value to return on success. By default,
+	 * this function returns "this".
+	 * @return {object} the updated verifier
+	 * @throws {RangeError} if the validation failed
+	 */
+	validationResult(result)
+	{
+		if (result === null)
+			throw new TypeError("result may not be null");
+		if (typeof (result) === "undefined")
+			result = () => this;
+
+		if (this.validator.failures.length === 0)
+			return result.apply(result);
+		const failure = this.validator.failures[0];
+		throw failure.createException();
+	}
+
+	/**
+	 * Ensures that the actual value is not equal to a value.
+	 *
+	 * @param {object} value the value to compare to
+	 * @param {string} [name] the name of the expected value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is equal to &lt;code>value&lt;/code>
+	 */
+	isNotEqualTo(value, name)
+	{
+		this.validator.isNotEqualTo(value, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
+	 * &lt;code>isInstanceOf(Object)&lt;/code>.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not a &lt;code>string&lt;/code>, &lt;code>number&lt;/code>,
+	 *   &lt;code>bigint&lt;/code>, &lt;code>boolean&lt;/code>, &lt;code>null&lt;/code>, &lt;code>undefined&lt;/code>, or
+	 *   &lt;code>symbol&lt;/code>)
+	 */
+	isPrimitive()
+	{
+		this.validator.isPrimitive();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the type of the actual value has the specified name.
+	 *
+	 * If the actual value is undefined, the name is "undefined".
+	 * If the actual value is null, the name is "null".
+	 * If the actual value is a primitive boolean, the name is "boolean".
+	 * If the actual value is a boolean object, the name is "Boolean".
+	 * If the actual value is a primitive number, the name is "number".
+	 * If the actual value is a number object, the name is "Number".
+	 * If the actual value is a primitive bigint, the name is "bigint".
+	 * If the actual value is a bigint object, the name is "BigInt".
+	 * If the actual value is a primitive string, the name is "string".
+	 * If the actual value is a string object, the name is "String".
+	 * If the actual value is a primitive symbol, the name is "symbol".
+	 * If the actual value is a symbol object, the name is "Symbol".
+	 * If the actual value is an array, the name is "Array".
+	 * If the actual value is a named function or a class constructor, the name is "Function".
+	 * If the actual value is an anonymous function, the name is "AnonymousFunction".
+	 * If the actual value is an arrow function, the name is "ArrowFunction".
+	 * If the actual value is a class instance, the name is the class name.
+	 *
+	 * @param {string} type the name of the type to compare to
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value does not have the specified &lt;code>type&lt;/code>
+	 */
+	isTypeOf(type)
+	{
+		this.validator.isTypeOf(type);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is an object that is an instance of the specified type.
+	 *
+	 * @param {object} type the type to compare to
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>type&lt;/code> is undefined, null, anonymous function or an arrow function
+	 * @throws {RangeError} if the actual value is not an instance of &lt;code>type&lt;/code>
+	 */
+	isInstanceOf(type)
+	{
+		this.validator.isInstanceOf(type);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not null
+	 */
+	isNull()
+	{
+		this.validator.isNull();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is not null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is null
+	 */
+	isNotNull()
+	{
+		this.validator.isNotNull();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is defined.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is undefined
+	 */
+	isDefined()
+	{
+		this.validator.isDefined();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is undefined.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not undefined
+	 */
+	isNotDefined()
+	{
+		this.validator.isNotDefined();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that value is not undefined or null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if the value is undefined or null
+	 */
+	isSet()
+	{
+		this.validator.isSet();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that value is not undefined or null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if the value is not undefined or null
+	 */
+	isNotSet()
+	{
+		this.validator.isNotSet();
+		return this.validationResult();
+	}
+
+	/**
+	 * Indicates if the actual value is available.
+	 *
+	 * @return {boolean} &lt;code>true&lt;/code>
+	 */
+	isActualAvailable()
+	{
+		return true;
+	}
+
+	/**
+	 * Returns the actual value. The return value is undefined if {@link #isActualAvailable()} is
+	 * &lt;code>false&lt;/code>.
+	 *
+	 * @return {object} the actual value
+	 */
+	getActual()
+	{
+		return this.validator.actual;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {ObjectVerifier as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon Apr 20 2020 16:58:37 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

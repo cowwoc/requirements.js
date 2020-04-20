@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: internal/Objects.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>internal/Objects.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @param {object} value a value
+ * @return {boolean} true if &lt;code>value&lt;/code> is a primitive type (&lt;code>string&lt;/code>, &lt;code>number&lt;/code>,
+ *   &lt;code>bigint&lt;/code>, &lt;code>boolean&lt;/code>, &lt;code>null&lt;/code>, &lt;code>undefined&lt;/code>, or
+ *   &lt;code>symbol&lt;/code>)
+ * @ignore
+ */
+function isPrimitiveImpl(value)
+{
+	// Per https://jsperf.com/testing-value-is-primitive/7 the following is the fastest
+	if (value === null)
+		return true;
+	const type = typeof (value);
+	return type !== "function" &amp;&amp; type !== "object";
+}
+
+/**
+ * Returns the name of an object's type.
+ *
+ * &lt;ul>
+ * &lt;li>If the input is undefined, returns "undefined".&lt;/li>
+ * &lt;li>If the input is null, returns "null".&lt;/li>
+ * &lt;li>If the input is a primitive boolean, returns "boolean".&lt;/li>
+ * &lt;li>If the input is a boolean object, returns "Boolean".&lt;/li>
+ * &lt;li>If the input is a primitive number, returns "number".&lt;/li>
+ * &lt;li>If the input is a number object, returns "Number".&lt;/li>
+ * &lt;li>If the input is a primitive bigint, returns "bigint".&lt;/li>
+ * &lt;li>If the input is a bigint object, returns "BigInt".&lt;/li>
+ * &lt;li>If the input is a primitive string, returns "string".&lt;/li>
+ * &lt;li>If the input is a string object, returns "String".&lt;/li>
+ * &lt;li>If the input is a primitive symbol, returns "symbol".&lt;/li>
+ * &lt;li>If the input is a symbol object, returns "Symbol".&lt;/li>
+ * &lt;li>If the input is an array, returns "Array".&lt;/li>
+ * &lt;li>If the input is a named function or a class constructor, returns "Function" (in which case the
+ * &lt;code>name&lt;/code> property contains its name)}.&lt;/li>
+ * &lt;li>If the input is an anonymous function, returns "AnonymousFunction".&lt;/li>
+ * &lt;li>If the input is an arrow function, returns "ArrowFunction".&lt;/li>
+ * &lt;li>If the input is a class instance, returns the class name.&lt;/li>
+ * &lt;/ul>
+ *
+ * @param {object} object an object
+ * @return {string} the name of the object's type
+ * @see &lt;a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731&lt;/a>
+ * @ignore
+ */
+function getTypeOfImpl(object)
+{
+	if (object === null)
+		return "null";
+	const typeOfObject = typeof (object);
+	const isPrimitive = typeOfObject !== "function" &amp;&amp; typeOfObject !== "object";
+	if (isPrimitive)
+		return typeOfObject;
+	const objectToString = Object.prototype.toString.call(object).slice(8, -1);
+	if (objectToString === "Function")
+	{
+		// A function or a constructor
+		const instanceToString = object.toString();
+		const indexOfArrow = instanceToString.indexOf("=>");
+		const indexOfBody = instanceToString.indexOf("{");
+		if (indexOfArrow !== -1 &amp;&amp; (indexOfBody === -1 || indexOfArrow &lt; indexOfBody))
+			return "ArrowFunction";
+		// Anonymous and named functions
+		const functionNamePattern = /^function(\s+[^(]+)?\(/;
+		const functionName = object.toString().match(functionNamePattern);
+		if (functionName !== null &amp;&amp; typeof (functionName[1]) !== "undefined")
+		{
+			// Found a named function: equivalent to a class constructor
+			return "Function";
+		}
+		return "AnonymousFunction";
+	}
+	// Built-in types (e.g. String) or class instances
+	if (objectToString === "Object")
+		return getObjectClass(object);
+	return objectToString;
+}
+
+/**
+ * @param {object} object an object
+ * @return {string} the string representation of the object
+ * @ignore
+ */
+function toStringImpl(object)
+{
+	if (typeof (object) === "undefined")
+		return "undefined";
+	if (object === null)
+		return "null";
+	// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
+	let current = object;
+	switch (getTypeOfImpl(current))
+	{
+		case "Set":
+			current = Array.from(current.values());
+		// fallthrough
+		case "Array":
+		{
+			let result = "[";
+			// Can't use Array.join() because it doesn't handle nested arrays well
+			const size = current.length;
+			for (let i = 0; i &lt; size; ++i)
+			{
+				result += toStringImpl(current[i]);
+				if (i &lt; size - 1)
+					result += ", ";
+			}
+			result += "]";
+			return result;
+		}
+		case "Map":
+		{
+			const result = {};
+			for (const entry of object.entries())
+				result[entry[0]] = entry[1];
+			return JSON.stringify(result, null, 2);
+		}
+		case "Object":
+			return JSON.stringify(current, null, 2);
+	}
+	while (true)
+	{
+		// See http://stackoverflow.com/a/22445303/14731, https://stackoverflow.com/q/57214613/14731
+		if (Object.prototype.hasOwnProperty.call(current.constructor.prototype, "toString"))
+			return current.constructor.prototype.toString.call(object);
+		current = Object.getPrototypeOf(current.constructor.prototype);
+		if (getTypeOfImpl(current) === "Object")
+			return JSON.stringify(current, null, 2);
+	}
+}
+
+/**
+ * @param {object} object an object
+ * @return {string} the name of the object's class
+ * @throws {TypeError} if &lt;code>object&lt;/code> is not an Object
+ * @see Objects.getTypeOf
+ * @ignore
+ */
+function getObjectClass(object)
+{
+	const constructorString = object.constructor.toString();
+	// Anonymous and named functions
+	const functionNamePattern = /^function(\s+[^(]+)?\(/;
+	const functionName = constructorString.match(functionNamePattern);
+	if (functionName !== null)
+	{
+		if (typeof (functionName[1]) === "undefined")
+		{
+			// Found an anonymous function: JQuery uses anonymous functions to construct selector objects
+			return "Object";
+		}
+		// Found a named function: equivalent to a class constructor
+		return functionName[1].trim();
+	}
+
+	const classNamePattern = /^class ([^{]+){/;
+	const className = constructorString.match(classNamePattern);
+	if (className === null)
+	{
+		throw new TypeError("object must be an Object.\n" +
+			"Actual: " + toStringImpl(object));
+	}
+	return className[1].trim();
+}
+
+/**
+ * Object helper functions.
+ *
+ * @ignore
+ */
+class Objects
+{
+	/**
+	 * @param {object} value a value
+	 * @return {boolean} true if &lt;code>value&lt;/code> is a primitive type
+	 */
+	static isPrimitive(value)
+	{
+		return isPrimitiveImpl(value);
+	}
+
+	/**
+	 * Indicates if an object is an instance of a type. To convert a type to an object, use
+	 * &lt;code>prototype&lt;/code> such as &lt;code>Error.prototype&lt;/code>. To convert an object to a type, use
+	 * &lt;code>constructor&lt;/code> such as &lt;code>instance.constructor&lt;/code>.
+	 *
+	 * @param {object} child the child class
+	 * @param {object} parent the parent class
+	 * @return {boolean} true if &lt;code>child&lt;/code> extends &lt;code>parent&lt;/code>; false if &lt;code>parent&lt;/code>
+	 *   or &lt;code>child&lt;/code> are null or undefined; false if &lt;code>child&lt;/code> does not extend
+	 *   &lt;code>parent&lt;/code>
+	 */
+	static extends(child, parent)
+	{
+		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" ||
+			parent === null)
+		{
+			return false;
+		}
+		// https://stackoverflow.com/a/14486171/14731
+		return child.prototype instanceof parent;
+	}
+
+	/**
+	 * Returns the name of an object's type.
+	 *
+	 * * If the input is undefined, returns "undefined".
+	 * * If the input is null, returns "null".
+	 * * If the input is a boolean, returns "boolean".
+	 * * If the input is a number, returns "number".
+	 * * If the input is a string, returns "string".
+	 * * If the input is an array, returns "Array".
+	 * * If the input is a named function or a class constructor, returns "Function".
+	 * * If the input is an anonymous function, returns "AnonymousFunction".
+	 * * If the input is an arrow function, returns "ArrowFunction".
+	 * * If the input is a class instance, returns the class name.
+	 *
+	 * @param {object} object an object
+	 * @return {string} the name of the object's type
+	 * @see &lt;a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731&lt;/a>
+	 * @see isPrimitive
+	 */
+	static getTypeOf(object)
+	{
+		return getTypeOfImpl(object);
+	}
+
+	/**
+	 * Requires that an object is set.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @return {boolean} true
+	 * @throws {TypeError} if &lt;code>value&lt;/code> is &lt;code>undefined&lt;/code> or &lt;code>null&lt;/code>. If
+	 * &lt;code>name&lt;/code> is not a string
+	 */
+	static requireThatIsSet(value, name)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual: " + Objects.toString(name) + "\n" +
+				"Type  : " + typeOfName);
+		}
+		if (typeof (value) === "undefined")
+			throw new TypeError(name + " must be set");
+		if (value === null)
+			throw new TypeError(name + " may not be null");
+		return true;
+	}
+
+	/**
+	 * Requires that an object has the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {string} type the expected type of the object
+	 * @return {boolean} true
+	 * @throws {TypeError} if &lt;code>value&lt;/code> is not of type &lt;code>type&lt;/code>. If &lt;code>name&lt;/code> is not
+	 * a string
+	 */
+	static requireThatTypeOf(value, name, type)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual: " + Objects.toString(name) + "\n" +
+				"Type  : " + typeOfName);
+		}
+		const typeOfValue = Objects.getTypeOf(value);
+		if (typeOfValue !== type)
+		{
+			throw new TypeError(name + " must be a " + type + ".\n" +
+				"Actual: " + Objects.toString(value) + "\n" +
+				"Type  : " + typeOfValue);
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that an object is an instance of the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {object} type the class the value is expected to be an instance of
+	 * @return {boolean} true
+	 * @throws {TypeError} if &lt;code>value&lt;/code> is not an instance of &lt;code>type&lt;/code>. If &lt;code>name&lt;/code>
+	 * is not a string
+	 */
+	static requireThatInstanceOf(value, name, type)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual     : " + Objects.toString(name) + "\n" +
+				"Actual.type: " + typeOfName);
+		}
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType !== "Function")
+		{
+			throw new TypeError("\"type\" must be a Function.\n" +
+				"Actual     : " + Objects.toString(type) + "\n" +
+				"Actual.type: " + typeOfType);
+		}
+		if (!(value instanceof type))
+		{
+			throw new TypeError(name + " must be an instance of " + Objects.getTypeOf(type) + ".\n" +
+				"Actual.type: " + Objects.getTypeOf(value));
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that the &lt;code>value&lt;/code> extends the &lt;code>expected&lt;/code> type.
+	 *
+	 * @param {object} value a type
+	 * @param {string} name the name of the type
+	 * @param {object} type the supertype that &lt;code>value&lt;/code> must extend
+	 * @return {boolean} true
+	 * @throws {TypeError} if &lt;code>value&lt;/code> does not extend &lt;code>type&lt;/code>. If &lt;code>name&lt;/code> is not
+	 * a string
+	 */
+	static requireThatExtends(value, name, type)
+	{
+		const typeOfName = Objects.getTypeOf(name);
+		if (typeOfName !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual     : " + Objects.toString(name) + "\n" +
+				"Actual.type: " + typeOfName);
+		}
+		if (!Objects.extends(value, type))
+		{
+			throw new TypeError(name + " must extend " + Objects.getTypeOf(type) + ".\n" +
+				"Actual.type: " + Objects.getTypeOf(value));
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that an object has the expected type if assertions are enabled. We assume that
+	 * &lt;code>console.assert()&lt;/code> will be stripped out at build-time if assertions are disabled.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {string} type the expected type of the object
+	 * @throws {TypeError} if &lt;code>value&lt;/code> is not of type &lt;code>type&lt;/code>. If &lt;code>name&lt;/code> is not
+	 * a string
+	 */
+	static assertThatTypeOf(value, name, type)
+	{
+		console.assert(this.requireThatTypeOf(value, name, type));
+	}
+
+	/**
+	 * Requires that an object is an instance of the expected type.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {object} type the class the value is expected to be an instance of
+	 * @throws {TypeError} if &lt;code>value&lt;/code> is not an instance of &lt;code>type&lt;/code>. If &lt;code>name&lt;/code>
+	 * is not a string
+	 */
+	static assertThatInstanceOf(value, name, type)
+	{
+		console.assert(this.requireThatInstanceOf(value, name, type));
+	}
+
+	/**
+	 * Requires that a string is not empty.
+	 *
+	 * @param {string} value the value of the parameter
+	 * @param {string} name the name of the parameter
+	 * @return {boolean} true
+	 * @throws {TypeError} if &lt;code>name&lt;/code> or &lt;code>value&lt;/code> are empty. If &lt;code>name&lt;/code> is not a
+	 * string
+	 */
+	static requireThatStringNotEmpty(value, name)
+	{
+		this.requireThatTypeOf(name, "name", "string");
+		name = name.trim();
+		if (name.length === 0)
+			throw new RangeError("name may not be empty");
+		this.requireThatTypeOf(value, "value", "string");
+		value = value.trim();
+		if (value.length === 0)
+			throw new RangeError(name + " may not be empty");
+		return true;
+	}
+
+	/**
+	 * Requires that a string is not empty if assertions are enabled. We assume that
+	 * &lt;code>console.assert()&lt;/code> will be stripped out at build-time if assertions are disabled.
+	 *
+	 * @param {string} value the value of the parameter
+	 * @param {string} name the name of the parameter
+	 * @throws {TypeError} if &lt;code>name&lt;/code> or &lt;code>value&lt;/code> are empty. If &lt;code>name&lt;/code> is not a
+	 * string
+	 */
+	static assertThatStringNotEmpty(value, name)
+	{
+		console.assert(this.requireThatStringNotEmpty(value, name));
+	}
+
+	/**
+	 * @param {object} object an object
+	 * @return {string} the String representation of the object
+	 */
+	static toString(object)
+	{
+		return toStringImpl(object);
+	}
+
+	/**
+	 * @param {string} value a name
+	 * @param {string} name the name of the name
+	 * @throws {TypeError} if &lt;code>name&lt;/code> or &lt;code>value&lt;/code> are not a String
+	 * @throws {RangeError} if &lt;code>value&lt;/code> is empty
+	 */
+	static verifyName(value, name)
+	{
+		if (typeof (name) !== "undefined")
+			this.requireThatTypeOf(name, "name", "string");
+		this.requireThatTypeOf(value, "value", "string");
+		const trimmed = value.trim();
+		if (trimmed.length === 0)
+			throw new RangeError(name + " may not be empty");
+	}
+
+	/**
+	 * Returns an error message if &lt;code>value&lt;/code> is not set.
+	 *
+	 * @param {object} value the name of the parameter
+	 * @param {string} name the name of the parameter
+	 * @return {string|null} an error message or null if the value is set
+	 */
+	static validateThatValueIsSet(value, name)
+	{
+		this.assertThatStringNotEmpty(name, "name");
+		if (typeof (value) === "undefined")
+			return name + " must be set";
+		if (value === null)
+			return name + " may not be null";
+		return null;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {Objects as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon Apr 20 2020 16:58:37 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

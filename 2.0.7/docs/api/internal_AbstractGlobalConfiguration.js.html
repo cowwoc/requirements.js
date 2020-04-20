@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>JSDoc: internal/AbstractGlobalConfiguration.js</title>
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="./build/entry.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Muli:100,400,700|Oswald:300|Inconsolata,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+</head>
+
+<body>
+    <div id="stickyNavbarOverlay"></div>
+    <div class="top-navbar">
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    
+                    
+                        <h1 class="navbar-item">Documentation</h1>
+                    
+                    <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-3" id="sidebarNav">
+                <div class="sidebar">
+                    <nav>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                    </nav>
+                </div>
+            </div>
+            <div class="column is-9-desktop">
+                <div class="content" id="main-content-wrapper">
+                    <header class="page-title">
+                        <p>Source</p>
+                        <h1>internal/AbstractGlobalConfiguration.js</h1>
+                    </header>
+                    
+                    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import TerminalEncoding from "../TerminalEncoding.js";
+
+/**
+ * The global configuration inherited by all verifiers.
+ * &lt;p>
+ * &lt;b>Note&lt;/b>: Verifiers inherit from the global configuration at instantiation time. Their
+ * {@link Configuration configuration} is not affected by subsequent changes to the global configuration.
+ * &lt;p>
+ * However, updating settings not found in {@link Configuration} (such as
+ * {@link #withTerminalEncoding(TerminalEncoding)}) will impact the behavior of existing verifiers.
+ *
+ * By default, {@link #assertionsAreEnabled} is &lt;code>false&lt;/code> and {@link #isDiffEnabled} is
+ * &lt;code>true&lt;/code>.
+ */
+class AbstractGlobalConfiguration
+{
+	constructor()
+	{
+		Object.defineProperty(this, "assertionsEnabled",
+			{
+				value: false
+			});
+		Object.defineProperty(this, "diffEnabled",
+			{
+				value: true
+			});
+	}
+
+	/**
+	 * Indicates whether &lt;code>assertThat()&lt;/code> should invoke &lt;code>requireThat()&lt;/code>.
+	 *
+	 * @return {boolean} true if &lt;code>assertThat()&lt;/code> should delegate to &lt;code>requireThat()&lt;/code>; false
+	 *   if it shouldn't do anything
+	 */
+	assertionsAreEnabled()
+	{
+		return this.assertionsEnabled;
+	}
+
+	/**
+	 * Indicates that &lt;code>assertThat()&lt;/code> should invoke &lt;code>requireThat()&lt;/code>.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 */
+	withAssertionsEnabled()
+	{
+		this.assertionsEnabled = true;
+		return this;
+	}
+
+	/**
+	 * Indicates that &lt;code>assertThat()&lt;/code> shouldn't do anything.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 */
+	withAssertionsDisabled()
+	{
+		this.assertionsEnabled = false;
+		return this;
+	}
+
+	/**
+	 * Indicates if exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {boolean} &lt;code>true&lt;/code> by default
+	 * @see #withDiff()
+	 * @see #withoutDiff()
+	 */
+	isDiffEnabled()
+	{
+		return this.diffEnabled;
+	}
+
+	/**
+	 * Indicates that exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #isDiffEnabled()
+	 */
+	withDiff()
+	{
+		this.diffEnabled = true;
+		return this;
+	}
+
+	/**
+	 * Indicates that exceptions should not show the difference between the actual and expected values.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #isDiffEnabled()
+	 */
+	withoutDiff()
+	{
+		this.diffEnabled = false;
+		return this;
+	}
+
+	/* eslint-disable jsdoc/require-returns-check */
+	/* eslint-disable no-unused-vars */
+	/**
+	 * Returns the encodings supported by the terminal.
+	 *
+	 * @return {Array&lt;TerminalEncoding>} the encodings supported by the terminal (defaults to the auto-detected
+	 *   encoding)
+	 * @see #withTerminalEncoding(TerminalEncoding)
+	 * @see #withDefaultTerminalEncoding()
+	 */
+	listTerminalEncodings()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Returns the current terminal encoding.
+	 *
+	 * @return {TerminalEncoding} the current terminal encoding (defaults to the auto-detected encoding)
+	 */
+	getTerminalEncoding()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates that the terminal encoding should be auto-detected.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #.withTerminalEncoding
+	 */
+	withDefaultTerminalEncoding()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates the type of encoding that the terminal supports.
+	 * &lt;p>
+	 * This feature can be used to force the use of colors even when their support is not detected.
+	 *
+	 * @param {TerminalEncoding} encoding the type of encoding that the terminal supports
+	 * @return {AbstractGlobalConfiguration} this
+	 * @throws TypeError if &lt;code>encoding&lt;/code> is null
+	 * @see #.withDefaultTerminalEncoding
+	 */
+	withTerminalEncoding(encoding)
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Returns the current terminal width.
+	 *
+	 * @return {number} the terminal width in characters (defaults to the auto-detected width)
+	 */
+	getTerminalWidth()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates that the terminal width should be auto-detected.
+	 *
+	 * @return {AbstractGlobalConfiguration} this
+	 * @see #.withTerminalWidth
+	 */
+	withDefaultTerminalWidth()
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/**
+	 * Indicates the width that the terminal should use.
+	 * &lt;p>
+	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
+	 *
+	 * @param {number} width the terminal width in characters
+	 * @return {AbstractGlobalConfiguration} this
+	 * @throws TypeError if &lt;code>width&lt;/code> is null
+	 * @throws RangeError if &lt;code>width&lt;/code> is zero or negative
+	 * @see #.withDefaultTerminalWidth
+	 */
+	withTerminalWidth(width)
+	{
+		throw new Error("Method must be overridden by subclasses");
+	}
+
+	/* eslint-enable no-unused-vars */
+	/* eslint-enable jsdoc/require-returns-check */
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {AbstractGlobalConfiguration as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a> on Mon Apr 20 2020 16:58:37 GMT-0400 (Eastern Daylight Time)</p>
+        <p class="sidebar-created-by">
+            <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+            <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+        </p>
+    </div>
+</footer>
+
+
+<script src="scripts/app.min.js"></script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
