@@ -1,6 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 2.0.7 - 2020/04/20
+
+* Bugfixes
+    * requireThatInstanceOf() failed with: "type" must be a type 
+
 ## Version 2.0.5 - 2020/04/19
 
 * Improvements

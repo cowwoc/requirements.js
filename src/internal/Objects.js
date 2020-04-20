@@ -17,23 +17,26 @@ function isPrimitiveImpl(value)
 /**
  * Returns the name of an object's type.
  *
- * If the input is undefined, returns "undefined".
- * If the input is null, returns "null".
- * If the input is a primitive boolean, returns "boolean".
- * If the input is a boolean object, returns "Boolean".
- * If the input is a primitive number, returns "number".
- * If the input is a number object, returns "Number".
- * If the input is a primitive bigint, returns "bigint".
- * If the input is a bigint object, returns "BigInt".
- * If the input is a primitive string, returns "string".
- * If the input is a string object, returns "String".
- * If the input is a primitive symbol, returns "symbol".
- * If the input is a symbol object, returns "Symbol".
- * If the input is an array, returns "Array".
- * If the input is a named function or a class constructor, returns "Function".
- * If the input is an anonymous function, returns "AnonymousFunction".
- * If the input is an arrow function, returns "ArrowFunction".
- * If the input is a class instance, returns the class name.
+ * <ul>
+ * <li>If the input is undefined, returns "undefined".</li>
+ * <li>If the input is null, returns "null".</li>
+ * <li>If the input is a primitive boolean, returns "boolean".</li>
+ * <li>If the input is a boolean object, returns "Boolean".</li>
+ * <li>If the input is a primitive number, returns "number".</li>
+ * <li>If the input is a number object, returns "Number".</li>
+ * <li>If the input is a primitive bigint, returns "bigint".</li>
+ * <li>If the input is a bigint object, returns "BigInt".</li>
+ * <li>If the input is a primitive string, returns "string".</li>
+ * <li>If the input is a string object, returns "String".</li>
+ * <li>If the input is a primitive symbol, returns "symbol".</li>
+ * <li>If the input is a symbol object, returns "Symbol".</li>
+ * <li>If the input is an array, returns "Array".</li>
+ * <li>If the input is a named function or a class constructor, returns "Function" (in which case the
+ * <code>name</code> property contains its name)}.</li>
+ * <li>If the input is an anonymous function, returns "AnonymousFunction".</li>
+ * <li>If the input is an arrow function, returns "ArrowFunction".</li>
+ * <li>If the input is a class instance, returns the class name.</li>
+ * </ul>
  *
  * @param {object} object an object
  * @return {string} the name of the object's type
@@ -52,8 +55,6 @@ function getTypeOfImpl(object)
 	if (objectToString === "Function")
 	{
 		// A function or a constructor
-		if (object.key instanceof String && object.key !== "")
-			return object.key;
 		const instanceToString = object.toString();
 		const indexOfArrow = instanceToString.indexOf("=>");
 		const indexOfBody = instanceToString.indexOf("{");
@@ -300,7 +301,7 @@ class Objects
 		const typeOfType = Objects.getTypeOf(type);
 		if (typeOfType !== "Function")
 		{
-			throw new TypeError("\"type\" must be a type.\n" +
+			throw new TypeError("\"type\" must be a Function.\n" +
 				"Actual     : " + Objects.toString(type) + "\n" +
 				"Actual.type: " + typeOfType);
 		}
