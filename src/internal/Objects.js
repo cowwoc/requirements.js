@@ -65,7 +65,14 @@ function getTypeOfImpl(object)
 		const functionName = object.toString().match(functionNamePattern);
 		if (functionName !== null && typeof (functionName[1]) !== "undefined")
 		{
-			// Found a named function: equivalent to a class constructor
+			// Found a named function: equivalent to a class constructor under ES5-
+			return "Function";
+		}
+		const classNamePattern = /^class(\s+[^{]+)?{/;
+		const className = object.toString().match(classNamePattern);
+		if (className !== null && typeof (className[1]) !== "undefined")
+		{
+			// When running under ES6+
 			return "Function";
 		}
 		return "AnonymousFunction";
