@@ -76,10 +76,12 @@ function mergeContext(validationFailure)
 
 	for (const entry of validationFailure.config.context)
 	{
-		if (!existingKeys.has(entry.key))
+		const key = entry[0];
+		if (!existingKeys.has(key))
 		{
-			existingKeys.add(entry.key);
-			mergedContext.push(entry);
+			existingKeys.add(key);
+			const value = entry[1];
+			mergedContext.push(new ContextLine(key, value));
 		}
 	}
 	return mergedContext;

@@ -1,6 +1,12 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 2.0.8 - 
+
+* Bugfixes
+    * ValidationFailure.mergeContext() was throwing an exception if the global configuration contained a failure
+    context. 
+
 ## Version 2.0.7 - 2020/04/20
 
 * Bugfixes
