@@ -34,7 +34,7 @@ test("Configuration.withAssertionsEnabled().alreadyEnabled", function(t)
 
 test("Configuration.getContext", function(t)
 {
-	t.deepEqual(requirements.getContext(), []);
+	t.deepEqual(requirements.getContext(), new Map());
 	t.end();
 });
 

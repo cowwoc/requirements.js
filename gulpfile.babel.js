@@ -95,20 +95,20 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 			lodash: "_"
 		},
 		sourcemap: isReleaseMode,
-		dir: "build/publish/es5/browser"
+		dir: "target/publish/es5/browser"
 	});
 	if (isReleaseMode)
 	{
-		await gulp.src("build/publish/es5/browser/**").
+		await gulp.src("target/publish/es5/browser/**").
 			pipe(stripDebug()).
-			pipe(gulp.dest("build/publish/es5/browser/**"));
+			pipe(gulp.dest("target/publish/es5/browser/**"));
 		await gulp.src("index.js").
 			pipe(stripDebug()).
 			pipe(sourcemaps.init({loadMaps: true})).
 			pipe(uglify()).
 			pipe(rename("index.min.js")).
 			pipe(sourcemaps.write(".")).
-			pipe(gulp.dest("build/publish/es5/browser"));
+			pipe(gulp.dest("target/publish/es5/browser"));
 	}
 }));
 
@@ -123,7 +123,7 @@ gulp.task("bundle-src-for-es5-node", gulp.parallel(function()
 				"@babel/preset-env"
 			]
 		})).
-		pipe(gulp.dest("build/publish/es5/node"));
+		pipe(gulp.dest("target/publish/es5/node"));
 }));
 
 gulp.task("bundle-src-for-es6-node", gulp.parallel(function()
@@ -132,7 +132,7 @@ gulp.task("bundle-src-for-es6-node", gulp.parallel(function()
 	if (isReleaseMode)
 		result = result.pipe(stripDebug());
 	return result.
-		pipe(gulp.dest("build/publish/es6/node"));
+		pipe(gulp.dest("target/publish/es6/node"));
 }));
 
 gulp.task("bundle-test", gulp.parallel(function()
@@ -148,12 +148,12 @@ gulp.task("bundle-test", gulp.parallel(function()
 	if (isReleaseMode)
 		result = result.pipe(stripDebug());
 	return result.
-		pipe(gulp.dest("build/test"));
+		pipe(gulp.dest("target/test"));
 }));
 
 gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-es5-node", "bundle-test"), function()
 {
-	return gulp.src("build/test/**/*.js").
+	return gulp.src("target/test/**/*.js").
 		pipe(tape(
 			{
 				reporter: tapeReporter(),
@@ -169,7 +169,7 @@ gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
 				opts:
 					{
 						template: "node_modules/better-docs",
-						destination: "./build/apidocs"
+						destination: "./target/apidocs"
 					}
 			}, cb));
 }));
@@ -182,7 +182,7 @@ gulp.task("bundle-resources", gulp.parallel(function()
 			"package.json",
 			"README.md"
 		]).
-		pipe(gulp.dest("build/publish"));
+		pipe(gulp.dest("target/publish"));
 }));
 
 gulp.task("server", gulp.parallel(function()
@@ -196,5 +196,5 @@ gulp.task("server", gulp.parallel(function()
 
 gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-es5-node",
 	"bundle-src-for-es6-node", "bundle-jsdoc", "bundle-resources"));
-gulp.task("build", gulp.parallel("lint", "bundle", "test"));
-gulp.task("default", gulp.parallel("build"));
+gulp.task("target", gulp.parallel("lint", "bundle", "test"));
+gulp.task("default", gulp.parallel("target"));

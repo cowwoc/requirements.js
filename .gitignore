@@ -5,7 +5,7 @@ syntax: glob
 
 # Files generated as part of the build
 node_modules/
-build/
+target/
 coverage/
 .nyc_output/
 

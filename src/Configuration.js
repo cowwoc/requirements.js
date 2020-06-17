@@ -11,13 +11,13 @@ class Configuration
 	 *
 	 * @param {AbstractGlobalConfiguration} globalConfiguration the global configuration inherited by all
 	 *   verifiers
-	 * @param {Map} [context=[]] a map of key-value pairs to append to the exception message
+	 * @param {Map<string, string>} [context={}] a map of key-value pairs to append to the exception message
 	 * @param {boolean} [assertionsEnabled=false] true if <code>assertThat()</code> should invoke
 	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing
 	 * @param {boolean} [diffEnabled=true] true if exceptions should show the difference between the actual and
 	 *   expected values
-	 * @param {Map} [typeToStringConverter={}] a map from an object type (per {@link Objects#getTypeOf}) to a
-	 *   function that converts the object to a String
+	 * @param {Map<string, Function>} [typeToStringConverter={}] a map from an object type (per
+	 *   {@link Objects#getTypeOf}) to a function that converts the object to a String
 	 * @throws {TypeError} if <code>context</code> or one of its elements are not an array; if the nested array
 	 *   contains less or more than 2 elements; if the keys nested in the context array are not strings
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
@@ -133,7 +133,7 @@ class Configuration
 	}
 
 	/**
-	 * @return {Map<string, string>} an array of key-value pairs to append to the exception message
+	 * @return {Map<string, string>} a map of key-value pairs to append to the exception message
 	 * @see #putContext
 	 */
 	getContext()

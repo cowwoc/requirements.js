@@ -172,7 +172,7 @@ class Requirements
 	}
 
 	/**
-	 * @return {Array<Array>} an array of key-value pairs to append to the exception message
+	 * @return {Map<string, string>} a map of key-value pairs to append to the exception message
 	 * @see #putContext
 	 */
 	getContext()

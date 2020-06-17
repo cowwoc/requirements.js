@@ -1,6 +1,6 @@
 {
 	"name": "@cowwoc/requirements",
-	"version": "2.0.8",
+	"version": "2.0.9",
 	"keywords": [
 		"preconditions",
 		"postconditions",
@@ -17,15 +17,15 @@
 	},
 	"nyc": {
 		"include": [
-			"build/publish/es5/node/**/*.js"
+			"target/publish/es5/node/**/*.js"
 		]
 	},
 	"main": "es5/node/index.js",
 	"browser": "es5/browser/index.js",
 	"module": "es6/node/index.js",
 	"dependencies": {
-		"@babel/plugin-external-helpers": "~7.8.3",
-		"@babel/runtime": "~7.9.2",
+		"@babel/plugin-external-helpers": "~7.10.1",
+		"@babel/runtime": "~7.10.2",
 		"babel-plugin-lodash": "^3.3.4",
 		"chalk": "^4.0.0",
 		"core-js": "3.6.5",
@@ -40,14 +40,14 @@
 		"@babel/plugin-transform-runtime": "^7.9.0",
 		"@babel/preset-env": "^7.9.5",
 		"@babel/register": "^7.9.0",
-		"@rollup/plugin-commonjs": "^11.1.0",
-		"@rollup/plugin-node-resolve": "^7.1.3",
-		"@rollup/stream": "^0.1.0",
+		"@rollup/plugin-commonjs": "^13.0.0",
+		"@rollup/plugin-node-resolve": "^8.0.1",
+		"@rollup/stream": "^1.0.0",
 		"@stream-io/rollup-plugin-node-builtins": "^2.1.5",
-		"better-docs": "^1.4.7",
+		"better-docs": "^2.0.1",
 		"cheerio": "^1.0.0-rc.3",
 		"eslint-config-recommended": "^4.0.0",
-		"eslint-plugin-jsdoc": "^23.0.0",
+		"eslint-plugin-jsdoc": "^27.1.1",
 		"fancy-log": "^1.3.3",
 		"gulp": "^4.0.2",
 		"gulp-babel": "^8.0.0",
@@ -65,7 +65,7 @@
 		"rollup": "^2.6.1",
 		"rollup-plugin-babel": "^4.4.0",
 		"tap-diff": "^0.1.1",
-		"tape": "^4.13.2",
+		"tape": "^5.0.1",
 		"tape-catch": "^1.0.6",
 		"vinyl-buffer": "^1.0.1",
 		"vinyl-source-stream": "^2.0.0"
