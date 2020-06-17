@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> SetVerifier.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>SetVerifier.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import ObjectVerifier from "./internal/circular_dependency/ObjectVerifierBase.js";
+import ArrayVerifier from "./internal/circular_dependency/ArrayVerifierBase.js";
+import NumberVerifier from "./NumberVerifier.js";
+import Objects from "./internal/Objects.js";
+
+/**
+ * Verifies the requirements of a &lt;code>Set&lt;/code>.
+ * &lt;p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ */
+class SetVerifier extends ObjectVerifier
+{
+	/**
+	 * Ensures that value does not contain any elements.
+	 *
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if the value contains at least one element
+	 */
+	isEmpty()
+	{
+		this.validator.isEmpty();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that value contains at least one element.
+	 *
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if the value does not contain any elements
+	 */
+	isNotEmpty()
+	{
+		this.validator.isNotEmpty();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value contains an entry.
+	 *
+	 * @param {object} expected the expected value
+	 * @param {string} [name] the name of the expected value
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the Set does not contain &lt;code>expected&lt;/code>
+	 */
+	contains(expected, name)
+	{
+		this.validator.contains(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less,
+	 * nothing more.
+	 *
+	 * @param {Array|Set} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an &lt;code>Array&lt;/code>
+	 *   or &lt;code>Set&lt;/code>
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is missing any elements in
+	 *   &lt;code>expected&lt;/code>; if the actual value contains elements not found in &lt;code>expected&lt;/code>
+	 */
+	containsExactly(expected, name)
+	{
+		this.validator.containsExactly(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value contains any of the elements in the expected value.
+	 *
+	 * @param {Array|Set} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an &lt;code>Array&lt;/code>
+	 *   or &lt;code>Set&lt;/code>
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is missing any elements in
+	 *   &lt;code>expected&lt;/code>; if the actual value contains elements not found in &lt;code>expected&lt;/code>
+	 */
+	containsAny(expected, name)
+	{
+		this.validator.containsAny(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value contains all of the elements in the expected value.
+	 *
+	 * @param {Array|Set} expected the elements that must exist
+	 * @param {string} [name] the name of the expected elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>expected&lt;/code> is not an &lt;code>Array&lt;/code>
+	 *   or &lt;code>Set&lt;/code>
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value does not contain all of
+	 *   &lt;code>expected&lt;/code>
+	 */
+	containsAll(expected, name)
+	{
+		this.validator.containsAll(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value does not contain an entry.
+	 *
+	 * @param {object} entry an entry
+	 * @param {string} [name] the name of the entry
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value contains &lt;code>entry&lt;/code>
+	 */
+	doesNotContain(entry, name)
+	{
+		this.validator.doesNotContain(entry, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value does not contain any of the specified elements.
+	 *
+	 * @param {Array|Set} elements the elements that must not exist
+	 * @param {string} [name] the name of the elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>elements&lt;/code> is not an &lt;code>Array&lt;/code>
+	 *   or [@code Set}
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the array contains any of &lt;code>elements&lt;/code>
+	 */
+	doesNotContainAny(elements, name)
+	{
+		this.validator.doesNotContainAny(elements, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the array does not contain all of the specified elements.
+	 *
+	 * @param {Array|Set} elements the elements that must not exist
+	 * @param {string} [name] the name of the elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null; if &lt;code>elements&lt;/code> is not an &lt;code>Array&lt;/code>
+	 *   or [@code Set}
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value contains all of
+	 *   &lt;code>elements&lt;/code>
+	 */
+	doesNotContainAll(elements, name)
+	{
+		this.validator.doesNotContainAll(elements, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * @return {NumberVerifier} a verifier for the Set's size
+	 */
+	size()
+	{
+		const newValidator = this.validator.size();
+		return this.validationResult(() => new NumberVerifier(newValidator));
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the Set's size
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	sizeConsumer(consumer)
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.size());
+		return this;
+	}
+
+	/**
+	 * @return {ArrayVerifier} a verifier for the Set's elements
+	 */
+	asArray()
+	{
+		const newValidator = this.validator.asArray();
+		return this.validationResult(() => new ArrayVerifier(newValidator));
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Set's elements
+	 * @return {SetVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	asArrayConsumer(consumer)
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asArray());
+		return this;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {SetVerifier as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

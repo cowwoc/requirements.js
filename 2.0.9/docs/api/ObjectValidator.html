@@ -1,0 +1,5088 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ObjectValidator</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Class</p>
+                    <h1>ObjectValidator</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>ObjectValidator<span class="signature">(configuration, actual, name)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span></h2>
+        
+            <div class="class-description">Validates the requirements of an object.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
+
+
+    
+    <h4 class="name" id="ObjectValidator">
+        <a class="href-link" href="#ObjectValidator">#</a>
+        
+        <span class="code-name">
+            
+                new ObjectValidator<span class="signature">(configuration, actual, name)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Creates a new ObjectValidator.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>configuration</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type"><a href="Configuration.html">Configuration</a></span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the instance configuration</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>actual</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the actual value</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the name of the value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="internal_circular_dependency_ObjectValidatorBase.js.html" class="button">View Source</a>
+            <span>
+                <a href="internal_circular_dependency_ObjectValidatorBase.js.html">internal/circular_dependency/ObjectValidatorBase.js</a>, <a href="internal_circular_dependency_ObjectValidatorBase.js.html#line24">line 24</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> or <code>config</code> are null or undefined</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> is empty</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a new validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asArray">
+        <a class="href-link" href="#asArray">#</a>
+        
+        <span class="code-name">
+            
+                asArray<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ArrayValidator.html">ArrayValidator</a>|<a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line397">line 397</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the <code>Array</code></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ArrayValidator.html">ArrayValidator</a></span>
+|
+
+<span class="param-type"><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asArrayConsumer">
+        <a class="href-link" href="#asArrayConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asArrayConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="ArrayValidator.html">ArrayValidator</a> for the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line421">line 421</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asClass">
+        <a class="href-link" href="#asClass">#</a>
+        
+        <span class="code-name">
+            
+                asClass<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ClassValidator.html">ClassValidator</a>|<a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line730">line 730</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the object's class representation</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ClassValidator.html">ClassValidator</a></span>
+|
+
+<span class="param-type"><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asClassConsumer">
+        <a class="href-link" href="#asClassConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asClassConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="ClassValidator.html">ClassValidator</a> for the class representation of  the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line759">line 759</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asInetAddress">
+        <a class="href-link" href="#asInetAddress">#</a>
+        
+        <span class="code-name">
+            
+                asInetAddress<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="InetAddressValidator.html">InetAddressValidator</a>|<a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line639">line 639</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the value's Internet address  representation</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="InetAddressValidator.html">InetAddressValidator</a></span>
+|
+
+<span class="param-type"><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asInetAddressConsumer">
+        <a class="href-link" href="#asInetAddressConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asInetAddressConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="StringValidator.html">StringValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts an <a href="InetAddressValidator.html">InetAddressValidator</a> for the value's Internet  address representation</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line673">line 673</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value does not contain a valid Internet address format</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="StringValidator.html">StringValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asMap">
+        <a class="href-link" href="#asMap">#</a>
+        
+        <span class="code-name">
+            
+                asMap<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="MapValidator.html">MapValidator</a>|<a href="MapValidatorNoOp.html">MapValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line499">line 499</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the <code>Map</code></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="MapValidator.html">MapValidator</a></span>
+|
+
+<span class="param-type"><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asMapConsumer">
+        <a class="href-link" href="#asMapConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asMapConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="MapValidator.html">MapValidator</a> for the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line523">line 523</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set; if the actual value is not a <code>Map</code></div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asNumber">
+        <a class="href-link" href="#asNumber">#</a>
+        
+        <span class="code-name">
+            
+                asNumber<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberValidator.html">NumberValidator</a>|<a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line431">line 431</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the <code>Number</code></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberValidator.html">NumberValidator</a></span>
+|
+
+<span class="param-type"><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asNumberConsumer">
+        <a class="href-link" href="#asNumberConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asNumberConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="NumberValidator.html">NumberValidator</a> for the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line455">line 455</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asSet">
+        <a class="href-link" href="#asSet">#</a>
+        
+        <span class="code-name">
+            
+                asSet<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="SetValidator.html">SetValidator</a>|<a href="SetValidatorNoOp.html">SetValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line465">line 465</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the <code>Set</code></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="SetValidator.html">SetValidator</a></span>
+|
+
+<span class="param-type"><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asSetConsumer">
+        <a class="href-link" href="#asSetConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asSetConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="SetValidator.html">SetValidator</a> for the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line488">line 488</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asString">
+        <a class="href-link" href="#asString">#</a>
+        
+        <span class="code-name">
+            
+                asString<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="StringValidator.html">StringValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line371">line 371</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the object's string representation</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="StringValidator.html">StringValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asStringConsumer">
+        <a class="href-link" href="#asStringConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asStringConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="StringValidator.html">StringValidator</a> for the string representation  of the actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line387">line 387</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asUri">
+        <a class="href-link" href="#asUri">#</a>
+        
+        <span class="code-name">
+            
+                asUri<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="UriValidator.html">UriValidator</a>|<a href="UriValidatorNoOp.html">UriValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line683">line 683</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>a validator for the <code>URI</code></div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="UriValidator.html">UriValidator</a></span>
+|
+
+<span class="param-type"><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="asUriConsumer">
+        <a class="href-link" href="#asUriConsumer">#</a>
+        
+        <span class="code-name">
+            
+                asUriConsumer<span class="signature">(consumer)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>consumer</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">function</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">a function that accepts a <a href="UriValidator.html">UriValidator</a> for the URI representation of the  actual value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line720">line 720</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>consumer</code> is not set</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getActual">
+        <a class="href-link" href="#getActual">#</a>
+        
+        <span class="code-name">
+            
+                getActual<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Returns the actual value. The return value is <code>undefined</code> ifString) assertThat() was invoked and assertions are disabled(in which case the value is discarded) is <code>false</code>.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line363">line 363</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the actual value</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">object</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="getFailures">
+        <a class="href-link" href="#getFailures">#</a>
+        
+        <span class="code-name">
+            
+                getFailures<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="ValidationFailure.html">ValidationFailure</a>>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Returns the list of failed validations. Modifying the returned list results in undefined behavior.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line772">line 772</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the list of failed validations</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type">Array.&lt;<a href="ValidationFailure.html">ValidationFailure</a>></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isDefined">
+        <a class="href-link" href="#isDefined">#</a>
+        
+        <span class="code-name">
+            
+                isDefined<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is defined.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line294">line 294</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is undefined</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isEqualTo">
+        <a class="href-link" href="#isEqualTo">#</a>
+        
+        <span class="code-name">
+            
+                isEqualTo<span class="signature">(expected, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is equal to a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>expected</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">object</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the expected value</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the expected value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line49">line 49</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> is null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> is empty; if the actual value is not equal to value</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isInstanceOf">
+        <a class="href-link" href="#isInstanceOf">#</a>
+        
+        <span class="code-name">
+            
+                isInstanceOf<span class="signature">(type)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is an object that is an instance of the specified type.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the type to compare to</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line220">line 220</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>type</code> is undefined, null, anonymous function or an arrow function</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not an instance of <code>type</code></div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotDefined">
+        <a class="href-link" href="#isNotDefined">#</a>
+        
+        <span class="code-name">
+            
+                isNotDefined<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is undefined.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line310">line 310</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not undefined</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotEqualTo">
+        <a class="href-link" href="#isNotEqualTo">#</a>
+        
+        <span class="code-name">
+            
+                isNotEqualTo<span class="signature">(value, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not equal to a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">object</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the value to compare to</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the expected value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line93">line 93</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> is null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>name</code> is empty; if the actual value is equal to <code>value</code></div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotNull">
+        <a class="href-link" href="#isNotNull">#</a>
+        
+        <span class="code-name">
+            
+                isNotNull<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not null.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line278">line 278</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotSet">
+        <a class="href-link" href="#isNotSet">#</a>
+        
+        <span class="code-name">
+            
+                isNotSet<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that value is not undefined or null.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line345">line 345</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the value is not undefined or null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNull">
+        <a class="href-link" href="#isNull">#</a>
+        
+        <span class="code-name">
+            
+                isNull<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is null.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line261">line 261</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isPrimitive">
+        <a class="href-link" href="#isPrimitive">#</a>
+        
+        <span class="code-name">
+            
+                isPrimitive<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>|<a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is a primitive. To check if the actual value is an object, use<code>isInstanceOf(Object)</code>.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line125">line 125</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not a <code>string</code>, <code>number</code>,  <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or  <code>symbol</code>)</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+|
+
+<span class="param-type"><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isSet">
+        <a class="href-link" href="#isSet">#</a>
+        
+        <span class="code-name">
+            
+                isSet<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that value is not undefined or null.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line328">line 328</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the value is undefined or null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isTypeOf">
+        <a class="href-link" href="#isTypeOf">#</a>
+        
+        <span class="code-name">
+            
+                isTypeOf<span class="signature">(type)</span><span class="type-signature"> &rarr; {<a href="ObjectValidator.html">ObjectValidator</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the type of the actual value has the specified name.If the actual value is undefined, the name is "undefined".If the actual value is null, the name is "null".If the actual value is a primitive boolean, the name is "boolean".If the actual value is a boolean object, the name is "Boolean".If the actual value is a primitive number, the name is "number".If the actual value is a number object, the name is "Number".If the actual value is a primitive bigint, the name is "bigint".If the actual value is a bigint object, the name is "BigInt".If the actual value is a primitive string, the name is "string".If the actual value is a string object, the name is "String".If the actual value is a primitive symbol, the name is "symbol".If the actual value is a symbol object, the name is "Symbol".If the actual value is an array, the name is "Array".If the actual value is a named function or a class constructor, the name is "Function".If the actual value is an anonymous function, the name is "AnonymousFunction".If the actual value is an arrow function, the name is "ArrowFunction".If the actual value is a class instance, the name is the class name.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>type</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the name of the type to compare to</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ObjectValidator.js.html" class="button">View Source</a>
+            <span>
+                <a href="ObjectValidator.js.html">ObjectValidator.js</a>, <a href="ObjectValidator.js.html#line168">line 168</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value does not have the specified <code>type</code></div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated validator</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="ObjectValidator.html">ObjectValidator</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

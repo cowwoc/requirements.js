@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> NumberValidator.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>NumberValidator.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import ObjectValidator from "./internal/circular_dependency/ObjectValidatorBase.js";
+import Objects from "./internal/Objects.js";
+import ValidationFailure from "./ValidationFailure.js";
+import NumberValidatorNoOp from "./internal/NumberValidatorNoOp.js";
+
+/**
+ * Validates the requirements of a &lt;code>Number&lt;/code>.
+ * &lt;p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ */
+class NumberValidator extends ObjectValidator
+{
+	/**
+	 * Ensures that the actual value is negative.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNegative()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, Number, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual >= 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be negative.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not negative.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNotNegative()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt; 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not be negative.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is zero.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isZero()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual !== 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be zero.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not zero.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNotZero()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual === 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not be zero");
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is positive.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isPositive()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt;= 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be positive.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not positive.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNotPositive()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual > 0)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not be positive.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is greater than a value.
+	 *
+	 * @param {number} value the lower bound
+	 * @param {string} [name]  the name of the lower bound
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}   if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError}  if &lt;code>name&lt;/code> is empty
+	 */
+	isGreaterThan(value, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(value, "value", "number");
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt;= value)
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be greater than " + name).
+					addContext("Actual", this.actual).
+					addContext("Min", value);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be greater than: " + this.config.convertToString(value)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is greater than or equal to a value.
+	 *
+	 * @param {number} value the minimum value
+	 * @param {string} [name]  the name of the minimum value
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}   if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError}  if &lt;code>name&lt;/code> is empty
+	 */
+	isGreaterThanOrEqualTo(value, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(value, "value", "number");
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt; value)
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be greater than or equal to " + name + ".").
+					addContext("Actual", this.actual).
+					addContext("Min", value);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be greater than or equal to: " + this.config.convertToString(value)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is less than a value.
+	 *
+	 * @param {number} value the upper bound
+	 * @param {string} [name]  the name of the upper bound
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}   if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError}  if &lt;code>name&lt;/code> is empty
+	 */
+	isLessThan(value, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(value, "value", "number");
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual >= value)
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be less than " + name).
+					addContext("Actual", this.actual).
+					addContext("Max", value);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be less than: " + this.config.convertToString(value)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is less or equal to a value.
+	 *
+	 * @param {number} value the maximum value
+	 * @param {string} [name]  the name of the maximum value
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}   if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError}  if &lt;code>name&lt;/code> is empty
+	 */
+	isLessThanOrEqualTo(value, name)
+	{
+		if (typeof (name) !== "undefined")
+			Objects.requireThatStringNotEmpty(name, "name");
+		Objects.requireThatTypeOf(value, "value", "number");
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual > value)
+		{
+			let failure;
+			if (name)
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be less than or equal to " + name).
+					addContext("Actual", this.actual).
+					addContext("Max", value);
+			}
+			else
+			{
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be less than or equal to: " + this.config.convertToString(value)).
+					addContext("Actual", this.actual);
+			}
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is within range.
+	 *
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endExclusive  the maximum value (exclusive)
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}  if any of the arguments are null or not a number
+	 */
+	isBetween(startInclusive, endExclusive)
+	{
+		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
+		Objects.requireThatTypeOf(endExclusive, "endExclusive", "number");
+		if (endExclusive &lt; startInclusive)
+		{
+			throw new RangeError("endExclusive must be greater than or equal to startInclusive.\n" +
+				"Actual: " + endExclusive + "\n" +
+				"Min   : " + startInclusive);
+		}
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt; startInclusive || this.actual >= endExclusive)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.containerName + " must be in range [" + startInclusive + ", " + endExclusive + ").").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+
+	/**
+	 * Ensures that the actual value is within range.
+	 *
+	 * @param {number} startInclusive the minimum value (inclusive)
+	 * @param {number} endInclusive  the maximum value (inclusive)
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 * @throws {TypeError}  if any of the arguments are null or not a number
+	 */
+	isBetweenClosed(startInclusive, endInclusive)
+	{
+		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
+		Objects.requireThatTypeOf(endInclusive, "endInclusive", "number");
+		if (endInclusive &lt; startInclusive)
+		{
+			throw new RangeError("endInclusive must be greater than or equal to startInclusive.\n" +
+				"Actual: " + endInclusive + "\n" +
+				"Min   : " + startInclusive);
+		}
+
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		if (this.actual &lt; startInclusive || this.actual > endInclusive)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.containerName + " must be in range [" + startInclusive + ", " + endInclusive + "].").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is a number.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNumber()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		// See http://stackoverflow.com/a/1830844/14731
+		if (Number.isNaN(parseFloat(this.actual)))
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be a number.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not a number.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNotNumber()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		// See http://stackoverflow.com/a/1830844/14731
+		if (!Number.isNaN(parseFloat(this.actual)))
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not be a number.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is a finite number.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isFinite()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		// See http://stackoverflow.com/a/1830844/14731
+		if (!Number.isFinite(this.actual))
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be finite.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is not a finite number.
+	 *
+	 * @return {NumberValidator|NumberValidatorNoOp} the updated validator
+	 */
+	isNotFinite()
+	{
+		const failureMessage = Objects.validateThatValueIsSet(this.actual, this.name);
+		if (failureMessage !== null)
+		{
+			const failure = new ValidationFailure(this.config, TypeError, failureMessage);
+			this.failures.push(failure);
+			return new NumberValidatorNoOp(this.failures);
+		}
+		// See http://stackoverflow.com/a/1830844/14731
+		if (Number.isFinite(this.actual))
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not be finite.").
+				addContext("Actual", this.actual);
+			this.failures.push(failure);
+		}
+		return this;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {NumberValidator as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

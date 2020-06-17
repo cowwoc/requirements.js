@@ -1,0 +1,3176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> NumberVerifier</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Class</p>
+                    <h1>NumberVerifier</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>NumberVerifier<span class="signature">()</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Verifies the requirements of a <code>Number</code>.<p>All methods (except those found in <a href="ObjectValidator.html">ObjectValidator</a>) imply #isNotNull().</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <div class="members">
+                    <div class="member">
+                        <div class=name>
+                            <span class="tag">Constructor</span>
+                        </div>
+                        
+
+
+    
+    <h4 class="name" id="NumberVerifier">
+        <a class="href-link" href="#NumberVerifier">#</a>
+        
+        <span class="code-name">
+            
+                new NumberVerifier<span class="signature">()</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line8">line 8</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Methods</h1>
+            <div class="members">
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isBetween">
+        <a class="href-link" href="#isBetween">#</a>
+        
+        <span class="code-name">
+            
+                isBetween<span class="signature">(startInclusive, endExclusive)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is within range.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>startInclusive</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the minimum value (inclusive)</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>endExclusive</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the maximum value (exclusive)</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line155">line 155</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if any of the arguments are null or not a number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>endExclusive</code> is less than <code>startInclusive</code>; if the  actual value is not in range</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isBetweenClosed">
+        <a class="href-link" href="#isBetweenClosed">#</a>
+        
+        <span class="code-name">
+            
+                isBetweenClosed<span class="signature">(startInclusive, endInclusive)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is within range.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>startInclusive</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the minimum value (inclusive)</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>endInclusive</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">the maximum value (inclusive)</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line171">line 171</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if any of the arguments are null or not a number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>endInclusive</code> is less than <code>startInclusive</code>; if the  actual value is not in range</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isFinite">
+        <a class="href-link" href="#isFinite">#</a>
+        
+        <span class="code-name">
+            
+                isFinite<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is a finite number.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line207">line 207</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if actual value is not a finite number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isGreaterThan">
+        <a class="href-link" href="#isGreaterThan">#</a>
+        
+        <span class="code-name">
+            
+                isGreaterThan<span class="signature">(value, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is greater than a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the lower bound</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the lower bound</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line92">line 92</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>value</code> or <code>name</code> are null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is less than or equal to <code>value</code>; if  <code>name</code> is empty</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isGreaterThanOrEqualTo">
+        <a class="href-link" href="#isGreaterThanOrEqualTo">#</a>
+        
+        <span class="code-name">
+            
+                isGreaterThanOrEqualTo<span class="signature">(value, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is greater than or equal to a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the minimum value</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the minimum value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line107">line 107</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>value</code> or <code>name</code> are null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is less than <code>value</code>; if <code>name</code> is empty</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isLessThan">
+        <a class="href-link" href="#isLessThan">#</a>
+        
+        <span class="code-name">
+            
+                isLessThan<span class="signature">(value, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is less than a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the upper bound</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the upper bound</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line123">line 123</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>value</code> or <code>name</code> are null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is greater than or equal to <code>value</code>; if  <code>name</code> is empty</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isLessThanOrEqualTo">
+        <a class="href-link" href="#isLessThanOrEqualTo">#</a>
+        
+        <span class="code-name">
+            
+                isLessThanOrEqualTo<span class="signature">(value, name<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is less or equal to a value.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+<div class="table-container">
+    <table class="params table">
+        <thead>
+        <tr>
+            
+            <th>Name</th>
+            
+
+            <th>Type</th>
+
+            
+            <th>Attributes</th>
+            
+
+            
+
+            <th class="last">Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>value</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the maximum value</td>
+</tr>
+
+
+        
+
+            
+<tr class="deep-level-0">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+      <td class="attributes">
+      
+          &lt;optional><br>
+      
+
+      
+
+      
+      </td>
+  
+
+  
+
+  <td class="description last">the name of the maximum value</td>
+</tr>
+
+
+        
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line139">line 139</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if <code>value</code> or <code>name</code> are null</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">TypeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is greater than <code>value</code>; if <code>name</code> is  empty</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNegative">
+        <a class="href-link" href="#isNegative">#</a>
+        
+        <span class="code-name">
+            
+                isNegative<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is negative.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line16">line 16</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not negative</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotFinite">
+        <a class="href-link" href="#isNotFinite">#</a>
+        
+        <span class="code-name">
+            
+                isNotFinite<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not a finite number.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line219">line 219</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if actual value is a finite number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotNegative">
+        <a class="href-link" href="#isNotNegative">#</a>
+        
+        <span class="code-name">
+            
+                isNotNegative<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not negative.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line28">line 28</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is negative</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotNumber">
+        <a class="href-link" href="#isNotNumber">#</a>
+        
+        <span class="code-name">
+            
+                isNotNumber<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not a number.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line195">line 195</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if actual value is a number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotPositive">
+        <a class="href-link" href="#isNotPositive">#</a>
+        
+        <span class="code-name">
+            
+                isNotPositive<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not positive.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line76">line 76</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is positive</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNotZero">
+        <a class="href-link" href="#isNotZero">#</a>
+        
+        <span class="code-name">
+            
+                isNotZero<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is not zero.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line52">line 52</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is zero</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isNumber">
+        <a class="href-link" href="#isNumber">#</a>
+        
+        <span class="code-name">
+            
+                isNumber<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is a number.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line183">line 183</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if actual value is not a number</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isPositive">
+        <a class="href-link" href="#isPositive">#</a>
+        
+        <span class="code-name">
+            
+                isPositive<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is positive.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line64">line 64</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not positive</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+                <div class="member">
+
+
+    
+    <h4 class="name" id="isZero">
+        <a class="href-link" href="#isZero">#</a>
+        
+        <span class="code-name">
+            
+                isZero<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="NumberVerifier.html">NumberVerifier</a>}</span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Ensures that the actual value is zero.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="NumberVerifier.js.html" class="button">View Source</a>
+            <span>
+                <a href="NumberVerifier.js.html">NumberVerifier.js</a>, <a href="NumberVerifier.js.html#line40">line 40</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'>if the actual value is not zero</div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<span class="param-type">RangeError</span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Returns:</label></div>
+        <div class="column is-10">
+            
+                    
+
+<div class="columns">
+    
+    <div class='param-desc column is-7'>the updated verifier</div>
+    
+    
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

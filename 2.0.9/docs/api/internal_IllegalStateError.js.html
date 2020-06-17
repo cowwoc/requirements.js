@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> internal/IllegalStateError.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                <div class="dropdown is-hoverable is-right">
+                    <a class="dropdown-trigger link">
+                        Tutorials
+                        <i class="fas fa-chevron-down fa-xs"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-content">
+                        
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="AbstractGlobalConfiguration.html">AbstractGlobalConfiguration</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayValidatorNoOp.html">ArrayValidatorNoOp</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ArrayVerifierNoOp.html">ArrayVerifierNoOp</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassValidatorNoOp.html">ClassValidatorNoOp</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ClassVerifierNoOp.html">ClassVerifierNoOp</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="DecorationType.html">DecorationType</a></li><li><a href="IllegalStateError.html">IllegalStateError</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressValidatorNoOp.html">InetAddressValidatorNoOp</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="InetAddressVerifierNoOp.html">InetAddressVerifierNoOp</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapValidatorNoOp.html">MapValidatorNoOp</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="MapVerifierNoOp.html">MapVerifierNoOp</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberValidatorNoOp.html">NumberValidatorNoOp</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="NumberVerifierNoOp.html">NumberVerifierNoOp</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectValidatorNoOp.html">ObjectValidatorNoOp</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="ObjectVerifierNoOp.html">ObjectVerifierNoOp</a></li><li><a href="ReduceDeltasPerWord.html">ReduceDeltasPerWord</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetValidatorNoOp.html">SetValidatorNoOp</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SetVerifierNoOp.html">SetVerifierNoOp</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeValidatorNoOp.html">SizeValidatorNoOp</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="SizeVerifierNoOp.html">SizeVerifierNoOp</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringValidatorNoOp.html">StringValidatorNoOp</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="StringVerifierNoOp.html">StringVerifierNoOp</a></li><li><a href="Terminal.html">Terminal</a></li><li><a href="TerminalEncoding.html">TerminalEncoding</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriValidatorNoOp.html">UriValidatorNoOp</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="UriVerifierNoOp.html">UriVerifierNoOp</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Global</h3><ul><li><a href="global.html#compareTypes">compareTypes</a></li><li><a href="global.html#createMessageWithContext">createMessageWithContext</a></li><li><a href="global.html#mergeContext">mergeContext</a></li><li><a href="global.html#writeDelta">writeDelta</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>internal/IllegalStateError.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Thrown when a method is invoked at an illegal or inappropriate time.
+ */
+class IllegalStateError extends Error
+{
+	constructor(message)
+	{
+		super(message);
+		this.name = this.constructor.name;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {IllegalStateError as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
