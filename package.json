@@ -15,16 +15,12 @@
 		"type": "git",
 		"url": "https://github.com/cowwoc/requirements.js/"
 	},
-	"nyc": {
-		"include": [
-			"target/publish/node/**/*.js"
-		]
-	},
 	"main": "node/index.js",
 	"browser": "browser/index.js",
 	"module": "node/index.js",
 	"types": "ts/index.d.ts",
 	"prepublish": "tsc",
+	"sideEffects": false,
 	"dependencies": {
 		"@babel/plugin-external-helpers": "~7.12.1",
 		"@babel/runtime": "~7.12.1",
@@ -83,5 +79,10 @@
 		"vinyl-buffer": "^1.0.1",
 		"vinyl-source-stream": "^2.0.0"
 	},
-	"license": "Apache-2.0"
+	"license": "Apache-2.0",
+	"nyc": {
+		"include": [
+			"target/publish/node/**/*.js"
+		]
+	}
 }
