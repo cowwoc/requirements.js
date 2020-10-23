@@ -1,8 +1,7 @@
 {
 	"presets": [
-		[
-			"@babel/preset-env"
-		]
+		"@babel/preset-env",
+		"@babel/preset-typescript"
 	],
 	"plugins": [
 		[
@@ -11,6 +10,11 @@
 				"regenerator": true
 			},
 			"lodash"
-		]
+		],
+		"@babel/plugin-transform-typescript",
+		"@babel/proposal-class-properties"
+	],
+	"ignore": [
+		"node_modules/**"
 	]
 }

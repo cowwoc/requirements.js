@@ -11,7 +11,7 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
 
 ```javascript
-import {requireThat} from "@cowwoc/requirements/es6/node/DefaultRequirements.js"
+import {requireThat} from "@cowwoc/requirements/es6/node/DefaultRequirements.ts"
 
 class Player
 {

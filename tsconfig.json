@@ -1,0 +1,27 @@
+{
+	// Based on https://stackoverflow.com/a/61305579/14731 and @tsconfig/node14/tsconfig.json
+	"compilerOptions": {
+		"preserveConstEnums": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "ESNext",
+		"lib": [
+			"DOM",
+			"ESNext"
+		],
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": [
+		"src/**/*.ts",
+		"test/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	],
+	"declaration": true
+}
