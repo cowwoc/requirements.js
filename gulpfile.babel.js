@@ -19,6 +19,7 @@ import nodeGlobals from "rollup-plugin-node-globals";
 import nodeBuiltins from "@stream-io/rollup-plugin-node-builtins";
 import stripDebug from "gulp-strip-debug";
 import connect from "gulp-connect";
+import typescript from "gulp-typescript";
 
 const env = parseArgs(process.argv.slice(2));
 let mode = env.mode;
@@ -173,6 +174,20 @@ gulp.task("bundle-src-for-node-with-modules", gulp.parallel(function()
 		pipe(gulp.dest("target/publish/node/mjs"));
 }));
 
+gulp.task("bundle-typescript-declarations", gulp.parallel(function()
+{
+	let result = gulp.src("src/**/*.ts");
+	if (isReleaseMode)
+		result = result.pipe(stripDebug());
+	const compileTypescript = typescript.createProject("tsconfig.json", {
+		declaration: true,
+		emitDeclarationOnly: true
+	});
+	return result.
+		pipe(compileTypescript()).
+		pipe(gulp.dest("target/publish/node/ts"));
+}));
+
 const babelConfigurationForCommonjs =
 	{
 		presets:
@@ -265,6 +280,7 @@ gulp.task("server", gulp.parallel(function()
 }));
 
 gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node-with-modules",
-	"bundle-src-for-node-without-modules", "bundle-jsdoc", "bundle-resources"));
+	"bundle-src-for-node-without-modules", "bundle-typescript-declarations", "bundle-jsdoc",
+	"bundle-resources"));
 gulp.task("target", gulp.parallel("lint", "bundle", "test"));
 gulp.task("default", gulp.parallel("target"));

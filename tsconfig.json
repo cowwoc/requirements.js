@@ -1,5 +1,6 @@
 {
-	// Based on https://stackoverflow.com/a/61305579/14731 and @tsconfig/node14/tsconfig.json
+	// Based on https://stackoverflow.com/a/61305579/14731, @tsconfig/node14/tsconfig.json and
+	// https://iamturns.com/typescript-babel/
 	"compilerOptions": {
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
@@ -10,10 +11,11 @@
 		],
 		"module": "ESNext",
 		"moduleResolution": "node",
-		"strict": true,
+		// Import non-ES modules as default imports.
 		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"downlevelIteration": true
 	},
 	"include": [
 		"src/**/*.ts",
