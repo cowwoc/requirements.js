@@ -1,11 +1,12 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
+
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-2.0.9/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements.js
+Fluent Design by Contract for Javascript
+
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
-
 [![js](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
-
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-2.0.9/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements: Fluent Design by Contract for Javascript
 
 A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
