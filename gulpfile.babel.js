@@ -11,13 +11,12 @@ import {rollup} from "rollup";
 import sourcemaps from "gulp-sourcemaps";
 import tape from "gulp-tape";
 import tapeReporter from "tap-diff";
-import uglify from "gulp-uglify";
+import terser from "gulp-terser";
 import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
 import nodeBuiltins from "@stream-io/rollup-plugin-node-builtins";
-import stripDebug from "gulp-strip-debug";
 import connect from "gulp-connect";
 import typescript from "gulp-typescript";
 
@@ -69,6 +68,29 @@ gulp.task("lint.ts", gulp.parallel(function()
 // Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
 // separate configurations for JS and TS files separately
 gulp.task("lint", gulp.parallel("lint.js", "lint.ts"));
+
+// Remove console.log, alert, debugger statements
+const stripDebug =
+	{
+		compress:
+			{
+				defaults: false,
+				ecma: 2020,
+				/* eslint-disable camelcase */
+				drop_console: true,
+				drop_debugger: true,
+				global_defs:
+					{
+						"@alert": "console.log"
+					}
+				/* eslint-enable camelcase */
+			},
+		mangle: false,
+		format:
+			{
+				beautify: true
+			}
+	};
 
 gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 {
@@ -141,13 +163,23 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 		});
 	if (isReleaseMode)
 	{
-		await gulp.src("target/publish/browser/**").
-			pipe(stripDebug()).
-			pipe(gulp.dest("target/publish/browser/**"));
-		await gulp.src("index.ts").
-			pipe(stripDebug()).
+		await gulp.src("target/publish/browser/**/*.js").
 			pipe(sourcemaps.init({loadMaps: true})).
-			pipe(uglify()).
+			pipe(terser(
+				{
+					ecma: 2020,
+					compress:
+						{
+							/* eslint-disable camelcase */
+							drop_console: true,
+							global_defs:
+								{
+									"@alert": "console.log"
+								}
+							/* eslint-enable camelcase */
+						}
+				}
+			)).
 			pipe(rename("index.min.js")).
 			pipe(sourcemaps.write(".")).
 			pipe(gulp.dest("target/publish/browser"));
@@ -156,10 +188,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 
 gulp.task("bundle-src-for-node-with-modules", gulp.parallel(function()
 {
-	let result = gulp.src("src/**/*.ts");
-	if (isReleaseMode)
-		result = result.pipe(stripDebug());
-	return result.
+	let result = gulp.src("src/**/*.ts").
 		pipe(babel({
 			presets:
 				[
@@ -171,19 +200,23 @@ gulp.task("bundle-src-for-node-with-modules", gulp.parallel(function()
 					]
 				]
 		})).
+		pipe(rename(path =>
+		{
+			path.extname = ".mjs";
+		}));
+	if (isReleaseMode)
+		result = result.pipe(terser(stripDebug));
+	return result.
 		pipe(gulp.dest("target/publish/node/mjs"));
 }));
 
 gulp.task("bundle-typescript-declarations", gulp.parallel(function()
 {
-	let result = gulp.src("src/**/*.ts");
-	if (isReleaseMode)
-		result = result.pipe(stripDebug());
 	const compileTypescript = typescript.createProject("tsconfig.json", {
 		declaration: true,
 		emitDeclarationOnly: true
 	});
-	return result.
+	return gulp.src("src/**/*.ts").
 		pipe(compileTypescript()).
 		pipe(gulp.dest("target/publish/node/ts"));
 }));
@@ -204,22 +237,22 @@ const babelConfigurationForCommonjs =
 
 gulp.task("bundle-src-for-node-without-modules", gulp.parallel(function()
 {
-	let result = gulp.src("src/**/*.ts");
+	let result = gulp.src("src/**/*.ts").
+		pipe(babel(babelConfigurationForCommonjs));
 	if (isReleaseMode)
-		result = result.pipe(stripDebug());
+		result = result.pipe(terser(stripDebug));
 	return result.
-		pipe(babel(babelConfigurationForCommonjs)).
 		pipe(gulp.dest("target/publish/node/cjs"));
 }));
 
 gulp.task("bundle-test", gulp.parallel(function()
 {
-	let result = gulp.src("test/**/*.ts");
-	if (isReleaseMode)
-		result = result.pipe(stripDebug());
-	return result.
+	let result = gulp.src("test/**/*.ts").
 		pipe(replace("from \"../src/", "from \"../publish/node/cjs/")).
-		pipe(babel(babelConfigurationForCommonjs)).
+		pipe(babel(babelConfigurationForCommonjs));
+	if (isReleaseMode)
+		result = result.pipe(terser(stripDebug));
+	return result.
 		pipe(gulp.dest("target/test"));
 }));
 
