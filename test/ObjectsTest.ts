@@ -43,19 +43,19 @@ test("ObjectsTest.getTypeOf_Number", function(t)
 	t.end();
 });
 
-// TODO: Enable once bigint is supported
-// test("ObjectsTest.getTypeOf_bigint", function(t)
-// {
-// 	t.equals(Objects.getTypeOf(5n), "number");
-// 	t.end();
-// });
-//
-// test("ObjectsTest.getTypeOf_BigInt", function(t)
-// {
-//  // eslint-disable-next-line no-new-wrappers
-// 	t.equals(Objects.getTypeOf(new BigInt(5)), "Number");
-// 	t.end();
-// });
+test("ObjectsTest.getTypeOf_bigint", function(t)
+{
+	t.equals(Objects.getTypeOf(5n), "bigint");
+	t.end();
+});
+
+test("ObjectsTest.getTypeOf_BigInt", function(t)
+{
+	// eslint-disable-next-line no-new-wrappers
+	const input = BigInt(5);
+	t.equals(Objects.getTypeOf(input), "bigint");
+	t.end();
+});
 
 test("ObjectsTest.getTypeOf_string", function(t)
 {
