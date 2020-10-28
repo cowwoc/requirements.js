@@ -18,7 +18,8 @@ class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
 	 * @return {ClassVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not a supertype of <code>type</code>
 	 */
-	isSupertypeOf(type: new (...args: never[]) => unknown): this
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSupertypeOf(type: Function): this
 	{
 		this.validator.isSupertypeOf(type);
 		return this.validationResult();
@@ -31,7 +32,8 @@ class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
 	 * @return {ClassVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not a subtype of <code>type</code>
 	 */
-	isSubtypeOf(type: new (...args: never[]) => unknown): this
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSubtypeOf(type: Function): this
 	{
 		this.validator.isSubtypeOf(type);
 		return this.validationResult();

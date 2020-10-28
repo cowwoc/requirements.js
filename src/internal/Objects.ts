@@ -29,10 +29,9 @@ class Objects
 	 *   or <code>child</code> are null or undefined; false if <code>child</code> does not extend
 	 *   <code>parent</code>
 	 */
-	static extends(child: new (...args: never[]) => unknown, parent: new (...args: never[]) => unknown):
-		boolean
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	static extends(child: Function, parent: Function): boolean
 	{
-		// https://stackoverflow.com/a/39393087 explains the "new (...args: never[])" syntax
 		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" ||
 			parent === null)
 		{
@@ -76,7 +75,8 @@ class Objects
 		const valueToString = Object.prototype.toString.call(value).slice(8, -1);
 		if (valueToString === "Function")
 		{
-			const valueAsFunction = value as new (...args: never[]) => unknown;
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			const valueAsFunction = value as Function;
 			// A function or a constructor
 			const instanceToString = valueAsFunction.toString();
 			const indexOfArrow = instanceToString.indexOf("=>");
@@ -207,8 +207,8 @@ class Objects
 	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
 	 * is not a string
 	 */
-	static requireThatInstanceOf(value: unknown, name: string, type: new (...args: never[]) => unknown):
-		boolean
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	static requireThatInstanceOf(value: unknown, name: string, type: Function): boolean
 	{
 		const typeOfName = Objects.getTypeOf(name);
 		if (typeOfName !== "string")
@@ -235,15 +235,15 @@ class Objects
 	/**
 	 * Requires that the <code>value</code> extends the <code>expected</code> type.
 	 *
-	 * @param {object} value a type
+	 * @param {Function} child the child class
 	 * @param {string} name the name of the type
-	 * @param {Function} type the supertype that <code>value</code> must extend
+	 * @param {Function} parent the parent class
 	 * @return {boolean} true
 	 * @throws {TypeError} if <code>value</code> does not extend <code>type</code>. If <code>name</code> is not
 	 * a string
 	 */
-	static requireThatExtends(value: new (...args: never[]) => unknown, name: string,
-		type: new (...args: never[]) => unknown): boolean
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	static requireThatExtends(child: Function, name: string, parent: Function): boolean
 	{
 		const typeOfName = Objects.getTypeOf(name);
 		if (typeOfName !== "string")
@@ -252,10 +252,10 @@ class Objects
 				"Actual     : " + Objects.toString(name) + "\n" +
 				"Actual.type: " + typeOfName);
 		}
-		if (!Objects.extends(value, type))
+		if (!Objects.extends(child, parent))
 		{
-			throw new TypeError(name + " must extend " + Objects.getTypeOf(type) + ".\n" +
-				"Actual.type: " + Objects.getTypeOf(value));
+			throw new TypeError(name + " must extend " + Objects.getTypeOf(parent) + ".\n" +
+				"Actual.type: " + Objects.getTypeOf(child));
 		}
 		return true;
 	}
@@ -284,7 +284,8 @@ class Objects
 	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
 	 * is not a string
 	 */
-	static assertThatInstanceOf(value: unknown, name: string, type: new (...args: never[]) => unknown): void
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	static assertThatInstanceOf(value: unknown, name: string, type: Function): void
 	{
 		console.assert(this.requireThatInstanceOf(value, name, type));
 	}
@@ -375,8 +376,8 @@ class Objects
 		}
 		while (true)
 		{
-			const safeTypes = current as string | number | bigint | boolean | symbol |
-				(new (...args: never[]) => unknown);
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			const safeTypes = current as string | number | bigint | boolean | symbol | Function;
 			// See http://stackoverflow.com/a/22445303/14731, https://stackoverflow.com/q/57214613/14731
 			if (Object.prototype.hasOwnProperty.call(safeTypes.constructor.prototype, "toString"))
 				return safeTypes.toString();

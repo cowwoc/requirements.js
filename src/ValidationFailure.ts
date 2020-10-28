@@ -18,13 +18,14 @@ class ValidationFailure
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Function} exceptionType the type of exception associated with the failure
 	 * @param {string} message the message associated with the failure
-	 * @throws {TypeError} if <code>exceptionType</code> or <code>message</code> are null
+	 * @throws {TypeError} if <code>exceptionType</code> is not a <code>Function</code> or <code>message</code>
+	 *   is not a <code>string</code>
 	 * @throws {RangeError} if <code>message</code> is empty
 	 */
 	constructor(configuration: Configuration, exceptionType: new (message: string) => Error, message: string)
 	{
 		Objects.assertThatTypeOf(configuration, "configuration", "Configuration");
-		Objects.requireThatExtends(exceptionType, "exceptionType", Error);
+		Objects.requireThatInstanceOf(exceptionType, "exceptionType", Function);
 		Objects.requireThatStringNotEmpty(message, "message");
 
 		this.config = configuration;

@@ -236,7 +236,8 @@ class ObjectValidator
 	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function or an arrow function
 	 * @throws {RangeError} if the actual value is not an instance of <code>type</code>
 	 */
-	isInstanceOf(type: new (...args: never[]) => unknown): this
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isInstanceOf(type: Function): this
 	{
 		if (!(this.actual instanceof type))
 		{

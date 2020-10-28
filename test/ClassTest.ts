@@ -31,8 +31,8 @@ test("ClassTest.isSupertypeOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = ["element"];
-		requirements.requireThat(actual, "actual").asClass().isSupertypeOf(null as unknown as
-			new (...args: never[]) => unknown);
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		requirements.requireThat(actual, "actual").asClass().isSupertypeOf(null as unknown as Function);
 	}, TypeError);
 	t.end();
 });
@@ -68,8 +68,8 @@ test("ClassTest.isSubtypeOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = ["element"];
-		requirements.requireThat(actual, "actual").asClass().isSubtypeOf(null as unknown as
-			new (...args: never[]) => unknown);
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		requirements.requireThat(actual, "actual").asClass().isSubtypeOf(null as unknown as Function);
 	}, TypeError);
 	t.end();
 });

@@ -1,4 +1,5 @@
 import {
+	Configuration,
 	Objects,
 	ObjectValidator,
 	ValidationFailure
@@ -11,24 +12,35 @@ import {
  */
 class ClassValidator extends ObjectValidator
 {
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	private readonly actualClass: Function;
+
+	constructor(configuration: Configuration, actual: unknown, name: string)
+	{
+		super(configuration, actual, name);
+
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		this.actualClass = actual as Function;
+	}
+
 	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
 	 *
 	 * @param {Function} type the type to compare to
 	 * @return {ClassValidator} the updated validator
 	 */
-	isSupertypeOf(type: new (...args: never[]) => unknown): this
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSupertypeOf(type: Function): this
 	{
-		const nameOfType = Objects.getTypeOf(type);
-		if (nameOfType === "Function")
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType === "Function")
 		{
-			const actualClass = this.actual as new (...args: never[]) => unknown;
-			if (Objects.extends(type, actualClass))
+			if (Objects.extends(type, this.actualClass))
 				return this;
 		}
 		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a super-type of " + nameOfType).
-			addContext("Actual", nameOfType);
+			this.name + " must be a super-type of " + typeOfType).
+			addContext("Actual", typeOfType);
 		this.failures.push(failure);
 		return this;
 	}
@@ -39,17 +51,17 @@ class ClassValidator extends ObjectValidator
 	 * @param {Function} type the type to compare to
 	 * @return {ClassValidator} the updated validator
 	 */
-	isSubtypeOf(type: new (...args: never[]) => unknown): this
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSubtypeOf(type: Function): this
 	{
-		const nameOfType = Objects.getTypeOf(type);
-		if (nameOfType === "Function")
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType === "Function")
 		{
-			const actualClass = this.actual as new (...args: never[]) => unknown;
-			if (Objects.extends(actualClass, type))
+			if (Objects.extends(this.actualClass, type))
 				return this;
 		}
 		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a sub-type of " + nameOfType).
+			this.name + " must be a sub-type of " + typeOfType).
 			addContext("Actual", Objects.getTypeOf(this.actual));
 		this.failures.push(failure);
 		return this;
