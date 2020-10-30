@@ -396,6 +396,11 @@ class NumberValidator extends ObjectValidator
 		}
 		return this;
 	}
+
+	getActual(): number
+	{
+		return super.getActual() as number;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

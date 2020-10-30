@@ -142,6 +142,11 @@ class MapValidator extends ObjectValidator
 		consumer(this.size());
 		return this;
 	}
+
+	getActual(): Map<unknown, unknown>
+	{
+		return this.actualMap;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

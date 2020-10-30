@@ -66,6 +66,12 @@ class ClassValidator extends ObjectValidator
 		this.failures.push(failure);
 		return this;
 	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	getActual(): Function
+	{
+		return this.actualClass;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

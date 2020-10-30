@@ -458,6 +458,11 @@ class ArrayValidator extends ObjectValidator
 		consumer(this.asSet());
 		return this;
 	}
+
+	getActual(): unknown[]
+	{
+		return this.actualArray;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

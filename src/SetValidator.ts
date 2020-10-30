@@ -102,7 +102,7 @@ class SetValidator extends ObjectValidator
 	{
 		const expectedValidator = new ObjectValidator(this.config, value, name);
 		const expectedVerifier = new ObjectVerifier(expectedValidator);
-		return expectedVerifier.asSet().getActual() as Set<unknown>;
+		return expectedVerifier.asSet().getActual();
 	}
 
 	/**
@@ -410,6 +410,11 @@ class SetValidator extends ObjectValidator
 				return false;
 		}
 		return true;
+	}
+
+	getActual(): Set<unknown>
+	{
+		return this.actualSet;
 	}
 }
 

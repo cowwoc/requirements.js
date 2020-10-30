@@ -47,6 +47,11 @@ class InetAddressVerifier extends ObjectVerifier<InetAddressValidator | InetAddr
 		this.validator.isHostname();
 		return this.validationResult();
 	}
+
+	getActual(): string
+	{
+		return super.getActual() as string;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

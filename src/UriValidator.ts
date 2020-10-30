@@ -51,6 +51,11 @@ class UriValidator extends ObjectValidator
 		}
 		return this;
 	}
+
+	getActual(): URI
+	{
+		return this.actualUri;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

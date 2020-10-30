@@ -225,6 +225,11 @@ class NumberVerifier<V extends NumberValidator | NumberValidatorNoOp> extends Ob
 		this.validator.isNotFinite();
 		return this.validationResult();
 	}
+
+	getActual(): number
+	{
+		return super.getActual() as number;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

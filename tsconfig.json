@@ -11,7 +11,7 @@
 		],
 		"module": "ESNext",
 		"moduleResolution": "node",
-		// Import non-ES modules as default imports.
+		// Import non-ES modules as default imports
 		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,

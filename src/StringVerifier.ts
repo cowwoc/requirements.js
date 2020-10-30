@@ -180,6 +180,11 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 		consumer(this);
 		return this;
 	}
+
+	getActual(): string
+	{
+		return super.getActual() as string;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

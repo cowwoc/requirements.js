@@ -126,6 +126,11 @@ class MapVerifier extends ObjectVerifier<MapValidator | MapValidatorNoOp>
 		consumer(this.size());
 		return this;
 	}
+
+	getActual(): Map<unknown, unknown>
+	{
+		return super.getActual() as Map<unknown, unknown>;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

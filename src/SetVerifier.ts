@@ -196,6 +196,11 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 		consumer(this.asArray());
 		return this;
 	}
+
+	getActual(): Set<unknown>
+	{
+		return super.getActual() as Set<unknown>;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

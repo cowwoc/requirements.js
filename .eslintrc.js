@@ -28,7 +28,6 @@ module.exports = {
 				"src/**/*.js",
 				"test/**/*.js"
 			],
-			parser: "@typescript-eslint/parser",
 			rules: {
 				"brace-style": [
 					"error",

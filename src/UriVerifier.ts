@@ -3,6 +3,7 @@ import {
 	UriValidator,
 	UriValidatorNoOp
 } from "./internal/internal";
+import URI from "urijs";
 
 /**
  * Verifies the requirements of a <code>URI</code>.
@@ -33,6 +34,11 @@ class UriVerifier extends ObjectVerifier<UriValidator | UriValidatorNoOp>
 	{
 		this.validator.isRelative();
 		return this.validationResult();
+	}
+
+	getActual(): URI
+	{
+		return super.getActual() as URI;
 	}
 }
 

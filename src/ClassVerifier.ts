@@ -38,6 +38,13 @@ class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
 		this.validator.isSubtypeOf(type);
 		return this.validationResult();
 	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	getActual(): Function
+	{
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		return super.getActual() as Function;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

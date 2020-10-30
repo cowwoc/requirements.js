@@ -213,6 +213,11 @@ class SizeValidator extends NumberValidator
 		}
 		return this;
 	}
+
+	getActual(): number
+	{
+		return this.size;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

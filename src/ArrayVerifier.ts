@@ -202,6 +202,11 @@ class ArrayVerifier extends ObjectVerifier<ArrayValidator | ArrayValidatorNoOp>
 		consumer(this.asSet());
 		return this;
 	}
+
+	getActual(): unknown[]
+	{
+		return super.getActual() as unknown[];
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

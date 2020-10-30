@@ -18,7 +18,7 @@ interface GlobalConfiguration
 	/**
 	 * Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
+	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
 	 *   if it shouldn't do anything
 	 */
 	assertionsAreEnabled(): boolean;
@@ -26,21 +26,21 @@ interface GlobalConfiguration
 	/**
 	 * Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 */
 	withAssertionsEnabled(): GlobalConfiguration;
 
 	/**
 	 * Indicates that <code>assertThat()</code> shouldn't do anything.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 */
 	withAssertionsDisabled(): GlobalConfiguration;
 
 	/**
 	 * Indicates if exceptions should show the difference between the actual and expected values.
 	 *
-	 * @return <code>true</code> by default
+	 * @return {boolean} <code>true</code> by default
 	 * @see #withDiff()
 	 * @see #withoutDiff()
 	 */
@@ -49,7 +49,7 @@ interface GlobalConfiguration
 	/**
 	 * Indicates that exceptions should show the difference between the actual and expected values.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @see #isDiffEnabled()
 	 */
 	withDiff(): GlobalConfiguration;
@@ -57,7 +57,7 @@ interface GlobalConfiguration
 	/**
 	 * Indicates that exceptions should not show the difference between the actual and expected values.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @see #isDiffEnabled()
 	 */
 	withoutDiff(): GlobalConfiguration;
@@ -65,7 +65,8 @@ interface GlobalConfiguration
 	/**
 	 * Returns the encodings supported by the terminal.
 	 *
-	 * @return the encodings supported by the terminal (defaults to the auto-detected encoding)
+	 * @return {TerminalEncoding[]} the encodings supported by the terminal (defaults to the auto-detected
+	 *   encoding)
 	 * @see #withTerminalEncoding(TerminalEncoding)
 	 * @see #withDefaultTerminalEncoding()
 	 */
@@ -74,14 +75,14 @@ interface GlobalConfiguration
 	/**
 	 * Returns the current terminal encoding.
 	 *
-	 * @return the current terminal encoding (defaults to the auto-detected encoding)
+	 * @return {TerminalEncoding} the current terminal encoding (defaults to the auto-detected encoding)
 	 */
 	getTerminalEncoding(): TerminalEncoding;
 
 	/**
 	 * Indicates that the terminal encoding should be auto-detected.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @see #.withTerminalEncoding
 	 */
 	withDefaultTerminalEncoding(): GlobalConfiguration;
@@ -92,7 +93,7 @@ interface GlobalConfiguration
 	 * This feature can be used to force the use of colors even when their support is not detected.
 	 *
 	 * @param  encoding the type of encoding that the terminal supports
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @throws {TypeError} if <code>encoding</code> is null
 	 * @see #.withDefaultTerminalEncoding
 	 */
@@ -101,14 +102,14 @@ interface GlobalConfiguration
 	/**
 	 * Returns the current terminal width.
 	 *
-	 * @return the terminal width in characters (defaults to the auto-detected width)
+	 * @return {number} the terminal width in characters (defaults to the auto-detected width)
 	 */
 	getTerminalWidth(): number;
 
 	/**
 	 * Indicates that the terminal width should be auto-detected.
 	 *
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @see #.withTerminalWidth
 	 */
 	withDefaultTerminalWidth(): GlobalConfiguration;
@@ -119,7 +120,7 @@ interface GlobalConfiguration
 	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
 	 *
 	 * @param width the terminal width in characters
-	 * @return this
+	 * @return {GlobalConfiguration} this
 	 * @throws {TypeError} if <code>width</code> is null
 	 * @throws {RangeError} if <code>width</code> is zero or negative
 	 * @see #.withDefaultTerminalWidth

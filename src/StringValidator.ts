@@ -232,6 +232,11 @@ class StringValidator extends ObjectValidator
 		consumer(this);
 		return this;
 	}
+
+	getActual(): string
+	{
+		return this.actualString;
+	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
