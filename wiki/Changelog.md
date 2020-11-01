@@ -1,6 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 2.1.0 - 2020/10/27 
+
+* Converted code to typescript.
+* Bundle now includes typescript definition files.
+
 ## Version 2.0.9 - 2020/06/17 
 
 * Bugfixes

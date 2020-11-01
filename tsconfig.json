@@ -1,0 +1,29 @@
+{
+	// Based on https://stackoverflow.com/a/61305579/14731, @tsconfig/node14/tsconfig.json and
+	// https://iamturns.com/typescript-babel/
+	"compilerOptions": {
+		"preserveConstEnums": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "ESNext",
+		"lib": [
+			"DOM",
+			"ESNext"
+		],
+		"module": "ESNext",
+		"moduleResolution": "node",
+		// Import non-ES modules as default imports
+		"esModuleInterop": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"importsNotUsedAsValues": "error"
+	},
+	"include": [
+		"src/**/*.ts",
+		"test/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	],
+	"declaration": true
+}

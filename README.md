@@ -1,18 +1,18 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
-[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/)
+
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-2.1.0/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements.js
+Fluent Design by Contract for Javascript
+
+[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
-
-[![java](https://img.shields.io/badge/languages-java-457FD5.svg)](https://github.com/cowwoc/requirements.java/)
-![js](https://img.shields.io/badge/js-black.svg)
-
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-2.0.9/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements: Fluent Design by Contract for Javascript
+[![js](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
 
 A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
 
 ```javascript
-import {requireThat} from "@cowwoc/requirements/es6/node/DefaultRequirements.js"
+import {requireThat} from "@cowwoc/requirements"
 
 class Player
 {
@@ -48,22 +48,22 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@2.0.9
+npm install --save @cowwoc/requirements@2.1.0
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@2.0.9
+yarn add @cowwoc/requirements@2.1.0
 ```
 
 The best way to learn about the API is using your IDE's auto-complete engine. There are five entry points you can navigate from:
 
-* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/module-DefaultRequirements.html#~requireThat)
-* [assertThat(value, name)](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/module-DefaultRequirements.html#~assertThat)
-* [validateThat(value, name)](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/module-DefaultRequirements.html#~validateThat)
-* [Requirements](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/module-Requirements-Requirements.html)
-* [GlobalRequirements](https://cowwoc.github.io/requirements.js/2.0.9/docs/api/module-GlobalRequirements-GlobalRequirements.html)
+* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/module-DefaultRequirements.html#~requireThat)
+* [assertThat(value, name)](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/module-DefaultRequirements.html#~assertThat)
+* [validateThat(value, name)](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/module-DefaultRequirements.html#~validateThat)
+* [Requirements](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/module-Requirements-Requirements.html)
+* [GlobalRequirements](https://cowwoc.github.io/requirements.js/2.1.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
 
 ## Related Projects
 
