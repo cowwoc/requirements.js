@@ -140,10 +140,10 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 					[
 						"src/internal/internal.ts"
 					];
-				if (warning.code === "CIRCULAR_DEPENDENCY" &&
+				if (warning.code === "CIRCULAR_DEPENDENCY" && warning.importer &&
 					ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
 					return;
-				warn(warning.toString());
+				warn(warning);
 			}
 		});
 	await bundle.write(

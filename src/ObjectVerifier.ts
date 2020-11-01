@@ -373,6 +373,7 @@ class ObjectVerifier<V extends ObjectValidator | ObjectValidatorNoOp>
 
 	/**
 	 * @return {UriVerifier} a verifier for the <code>URI</code>
+	 * @throws {TypeError} if the actual value is not a <code>URI</code>
 	 */
 	asUri(): UriVerifier
 	{
@@ -395,6 +396,7 @@ class ObjectVerifier<V extends ObjectValidator | ObjectValidatorNoOp>
 
 	/**
 	 * @return {ClassVerifier} a verifier for the object's class representation
+	 * @throws {TypeError} if the actual value is not a <code>Function</code>
 	 */
 	asClass(): ClassVerifier
 	{
