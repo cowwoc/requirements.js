@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ObjectVerifier.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>ObjectVerifier.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+	ArrayVerifier,
+	ClassVerifier,
+	InetAddressVerifier,
+	MapVerifier,
+	NumberValidator,
+	NumberVerifier,
+	Objects,
+	ObjectValidator,
+	ObjectValidatorNoOp,
+	SetVerifier,
+	StringVerifier,
+	UriVerifier
+} from "./internal/internal";
+
+/**
+ * Verifies the requirements of an object.
+ */
+class ObjectVerifier&lt;V extends ObjectValidator | ObjectValidatorNoOp>
+{
+	protected readonly validator: V;
+
+	/**
+	 * Creates a new ObjectVerifier.
+	 *
+	 * @param {object} validator the validator to delegate to
+	 * @throws {TypeError} if &lt;code>validator&lt;/code> is null or undefined
+	 */
+	constructor(validator: V)
+	{
+		Objects.requireThatIsSet(validator, "validator");
+		this.validator = validator;
+	}
+
+	/**
+	 * Ensures that the actual value is equal to a value.
+	 *
+	 * @param {object} expected the expected value
+	 * @param {string} [name] the name of the expected value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is not equal to value
+	 */
+	isEqualTo(expected: unknown, name?: string): this
+	{
+		this.validator.isEqualTo(expected, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Throws an exception if the validation failed.
+	 *
+	 * @param {Function} [result] a no-arg function that returns the value to return on success. By default,
+	 *   this function returns "this".
+	 * @return {object} the updated verifier
+	 * @throws {RangeError} if the validation failed
+	 */
+	validationResult&lt;R>(result: () => R | this = () => this): R | this
+	{
+		if (result === null)
+			throw new TypeError("result may not be null");
+
+		const failures = this.validator.getFailures();
+		if (failures.length === 0)
+		{
+			// eslint-disable-next-line no-undefined
+			return result.apply(undefined);
+		}
+		const failure = failures[0];
+		throw failure.createException();
+	}
+
+	/**
+	 * Ensures that the actual value is not equal to a value.
+	 *
+	 * @param {object} value the value to compare to
+	 * @param {string} [name] the name of the expected value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>name&lt;/code> is null
+	 * @throws {RangeError} if &lt;code>name&lt;/code> is empty; if the actual value is equal to &lt;code>value&lt;/code>
+	 */
+	isNotEqualTo(value: unknown, name?: string): this
+	{
+		this.validator.isNotEqualTo(value, name);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
+	 * &lt;code>isInstanceOf(Object)&lt;/code>.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not a &lt;code>string&lt;/code>, &lt;code>number&lt;/code>,
+	 *   &lt;code>bigint&lt;/code>, &lt;code>boolean&lt;/code>, &lt;code>null&lt;/code>, &lt;code>undefined&lt;/code>, or
+	 *   &lt;code>symbol&lt;/code>)
+	 */
+	isPrimitive(): this
+	{
+		this.validator.isPrimitive();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the type of the actual value has the specified name.
+	 *
+	 * &lt;ul>
+	 * &lt;li>If the actual value is undefined, the name is "undefined".&lt;/li>
+	 * &lt;li>If the actual value is null, the name is "null".&lt;/li>
+	 * &lt;li>If the actual value is a primitive boolean, the name is "boolean".&lt;/li>
+	 * &lt;li>If the actual value is a primitive number, the name is "number".&lt;/li>
+	 * &lt;li>If the actual value is a primitive bigint, the name is "bigint".&lt;/li>
+	 * &lt;li>If the actual value is a primitive string, the name is "string".&lt;/li>
+	 * &lt;li>If the actual value is a primitive symbol, the name is "symbol".&lt;/li>
+	 * &lt;li>If the actual value is an array, the name is "Array".&lt;/li>
+	 * &lt;li>If the actual value is a named function or a class constructor, the name is "Function".&lt;/li>
+	 * &lt;li>If the actual value is an anonymous function, the name is "AnonymousFunction".&lt;/li>
+	 * &lt;li>If the actual value is an arrow function, the name is "ArrowFunction".&lt;/li>
+	 * &lt;li>If the actual value is a class instance, returns the class name.&lt;/li>
+	 * &lt;/ul>
+	 *
+	 * @param {string} type the name of the type to compare to
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value does not have the specified &lt;code>type&lt;/code>
+	 */
+	isTypeOf(type: string): this
+	{
+		this.validator.isTypeOf(type);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is an object that is an instance of the specified type.
+	 *
+	 * @param {Function} type the type to compare to
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError}  if &lt;code>type&lt;/code> is undefined, null, anonymous function or an arrow function
+	 * @throws {RangeError} if the actual value is not an instance of &lt;code>type&lt;/code>
+	 */
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isInstanceOf(type: Function): this
+	{
+		this.validator.isInstanceOf(type);
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not null
+	 */
+	isNull(): this
+	{
+		this.validator.isNull();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is not null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is null
+	 */
+	isNotNull(): this
+	{
+		this.validator.isNotNull();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is defined.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is undefined
+	 */
+	isDefined(): this
+	{
+		this.validator.isDefined();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that the actual value is undefined.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {RangeError} if the actual value is not undefined
+	 */
+	isNotDefined(): this
+	{
+		this.validator.isNotDefined();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that value is not undefined or null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if the value is undefined or null
+	 */
+	isSet(): this
+	{
+		this.validator.isSet();
+		return this.validationResult();
+	}
+
+	/**
+	 * Ensures that value is not undefined or null.
+	 *
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if the value is not undefined or null
+	 */
+	isNotSet(): this
+	{
+		this.validator.isNotSet();
+		return this.validationResult();
+	}
+
+	/**
+	 * Indicates if the actual value is available.
+	 *
+	 * @return {boolean} &lt;code>true&lt;/code>
+	 */
+	isActualAvailable(): boolean
+	{
+		return true;
+	}
+
+	/**
+	 * Returns the actual value. The return value is undefined if {@link #isActualAvailable()} is
+	 * &lt;code>false&lt;/code>.
+	 *
+	 * @return {object} the actual value
+	 */
+	getActual(): unknown
+	{
+		return this.validator.getActual();
+	}
+
+	/**
+	 * @return {StringVerifier} a verifier for the object's string representation
+	 */
+	asString(): StringVerifier
+	{
+		const newValidator = this.validator.asString();
+		return this.validationResult(() => new StringVerifier(newValidator)) as StringVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the string
+	 *   representation of the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	asStringConsumer(consumer: (actual: StringVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asString());
+		return this;
+	}
+
+	/**
+	 * @return {ArrayVerifier} a verifier for the &lt;code>Array&lt;/code>
+	 * @throws {TypeError} if the actual value is not an &lt;code>Array&lt;/code>
+	 */
+	asArray(): ArrayVerifier
+	{
+		const newValidator = this.validator.asArray();
+		return this.validationResult(() => new ArrayVerifier(newValidator)) as ArrayVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link ArrayVerifier} for the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set; if the actual value is not an &lt;code>Array&lt;/code>
+	 */
+	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asArray());
+		return this;
+	}
+
+	/**
+	 * @return {NumberVerifier} a verifier for the &lt;code>Number&lt;/code>
+	 * @throws {TypeError} if the actual value is not a &lt;code>Number&lt;/code>
+	 */
+	asNumber(): NumberVerifier&lt;NumberValidator>
+	{
+		const newValidator = this.validator.asNumber();
+		return this.validationResult(() => new NumberVerifier(newValidator)) as
+			NumberVerifier&lt;NumberValidator>;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set; if the actual value is not a &lt;code>Number&lt;/code>
+	 */
+	asNumberConsumer(consumer: (actual: NumberVerifier&lt;NumberValidator>) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asNumber());
+		return this;
+	}
+
+	/**
+	 * @return {SetVerifier} a verifier for the &lt;code>Set&lt;/code>
+	 * @throws {TypeError} if the actual value is not a &lt;code>Set&lt;/code>
+	 */
+	asSet(): SetVerifier
+	{
+		const newValidator = this.validator.asSet();
+		return this.validationResult(() => new SetVerifier(newValidator)) as SetVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set; if the actual value is not a &lt;code>Set&lt;/code>
+	 */
+	asSetConsumer(consumer: (actual: SetVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asSet());
+		return this;
+	}
+
+	/**
+	 * @return {MapVerifier} a verifier for the &lt;code>Map&lt;/code>
+	 * @throws {TypeError} if the actual value is not a &lt;code>Map&lt;/code>
+	 */
+	asMap(): MapVerifier
+	{
+		const newValidator = this.validator.asMap();
+		return this.validationResult(() => new MapVerifier(newValidator)) as MapVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link MapVerifier} for the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set; if the actual value is not a &lt;code>Map&lt;/code>
+	 */
+	asMapConsumer(consumer: (actual: MapVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asMap());
+		return this;
+	}
+
+	/**
+	 * @return {InetAddressVerifier} a verifier for the value's Internet address representation
+	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
+	 */
+	asInetAddress(): InetAddressVerifier
+	{
+		const newValidator = this.validator.asInetAddress();
+		return this.validationResult(() => new InetAddressVerifier(newValidator)) as InetAddressVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link InetAddressVerifier} for the value's
+	 *   Internet address representation
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 * @throws {RangeError} if the actual value does not contain a valid Internet address format
+	 */
+	asInetAddressConsumer(consumer: (input: InetAddressVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asInetAddress());
+		return this;
+	}
+
+	/**
+	 * @return {UriVerifier} a verifier for the &lt;code>URI&lt;/code>
+	 * @throws {TypeError} if the actual value is not a &lt;code>URI&lt;/code>
+	 */
+	asUri(): UriVerifier
+	{
+		const newValidator = this.validator.asUri();
+		return this.validationResult(() => new UriVerifier(newValidator)) as UriVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link UriVerifier} for the URI representation of
+	 *   the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	asUriConsumer(consumer: (actual: UriVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asUri());
+		return this;
+	}
+
+	/**
+	 * @return {ClassVerifier} a verifier for the object's class representation
+	 * @throws {TypeError} if the actual value is not a &lt;code>Function&lt;/code>
+	 */
+	asClass(): ClassVerifier
+	{
+		const newValidator = this.validator.asClass();
+		return this.validationResult(() => new ClassVerifier(newValidator)) as ClassVerifier;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link ClassVerifier} for the class representation
+	 *   of the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	asClassConsumer(consumer: (actual: ClassVerifier) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asClass());
+		return this;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {ObjectVerifier as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

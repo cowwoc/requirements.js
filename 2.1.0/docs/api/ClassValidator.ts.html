@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ClassValidator.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>ClassValidator.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+	Configuration,
+	Objects,
+	ObjectValidator,
+	ValidationFailure
+} from "./internal/internal";
+
+/**
+ * Validates the requirements of a type.
+ * &lt;p>
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ */
+class ClassValidator extends ObjectValidator
+{
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	private readonly actualClass: Function;
+
+	constructor(configuration: Configuration, actual: unknown, name: string)
+	{
+		super(configuration, actual, name);
+
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		this.actualClass = actual as Function;
+	}
+
+	/**
+	 * Ensures that the actual value is the specified type, or a sub-type.
+	 *
+	 * @param {Function} type the type to compare to
+	 * @return {ClassValidator} the updated validator
+	 */
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSupertypeOf(type: Function): this
+	{
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType === "Function")
+		{
+			if (Objects.extends(type, this.actualClass))
+				return this;
+		}
+		const failure = new ValidationFailure(this.config, RangeError,
+			this.name + " must be a super-type of " + typeOfType).
+			addContext("Actual", typeOfType);
+		this.failures.push(failure);
+		return this;
+	}
+
+	/**
+	 * Ensures that the actual value is the specified type, or a sub-type.
+	 *
+	 * @param {Function} type the type to compare to
+	 * @return {ClassValidator} the updated validator
+	 */
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	isSubtypeOf(type: Function): this
+	{
+		const typeOfType = Objects.getTypeOf(type);
+		if (typeOfType === "Function")
+		{
+			if (Objects.extends(this.actualClass, type))
+				return this;
+		}
+		const failure = new ValidationFailure(this.config, RangeError,
+			this.name + " must be a sub-type of " + typeOfType).
+			addContext("Actual", Objects.getTypeOf(this.actual));
+		this.failures.push(failure);
+		return this;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	getActual(): Function
+	{
+		return this.actualClass;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {ClassValidator as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

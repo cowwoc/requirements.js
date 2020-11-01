@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> Configuration.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>Configuration.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+	GlobalConfiguration,
+	Objects
+} from "./internal/internal";
+
+/**
+ * A verifier's configuration.
+ */
+class Configuration
+{
+	private readonly globalConfiguration: GlobalConfiguration;
+	private readonly context: Map&lt;string, unknown>;
+	private readonly assertionsEnabled: boolean;
+	private readonly diffEnabled: boolean;
+	private readonly typeToStringConverter: Map&lt;string, (input: unknown) => string>;
+
+	/**
+	 * Creates a new configuration without an empty context and without an exception override.
+	 *
+	 * @param {GlobalConfiguration} globalConfiguration the global configuration inherited by all verifiers
+	 * @param {Map&lt;string, string>} [context] a map of key-value pairs to append to the exception message
+	 * @param {boolean} [assertionsEnabled] true if &lt;code>assertThat()&lt;/code> should invoke
+	 *   &lt;code>requireThat()&lt;/code>; false if &lt;code>assertThat()&lt;/code> should do nothing. If
+	 *   &lt;code>undefined&lt;/code> defaults to &lt;code>globalConfiguration.assertionsAreEnabled()&lt;/code>.
+	 * @param {boolean} [diffEnabled] true if exceptions should show the difference between the actual and
+	 *   expected values. If &lt;code>undefined&lt;/code> defaults to &lt;code>globalConfiguration.diffEnabled()&lt;/code>.
+	 * @param {Map&lt;string, Function>} [typeToStringConverter] a map from an object type (per
+	 *   {@link Objects#getTypeOf}) to a function that converts the object to a String
+	 * @throws {TypeError} if &lt;code>context&lt;/code> or one of its elements are not an array; if the nested array
+	 *   contains less or more than 2 elements; if the keys nested in the context array are not strings
+	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
+	 */
+	constructor(globalConfiguration: GlobalConfiguration,
+		context: Map&lt;string, unknown> = new Map&lt;string, unknown>(),
+		assertionsEnabled?: boolean, diffEnabled = true,
+		typeToStringConverter: Map&lt;string, (input: unknown) => string> =
+			new Map&lt;string, (input: unknown) => string>())
+	{
+		this.globalConfiguration = globalConfiguration;
+		Objects.assertThatTypeOf(context, "context", "Map");
+		this.context = context;
+		if (typeof (assertionsEnabled) === "undefined")
+			assertionsEnabled = globalConfiguration.assertionsAreEnabled();
+		this.assertionsEnabled = assertionsEnabled;
+		if (typeof (diffEnabled) === "undefined")
+			diffEnabled = globalConfiguration.isDiffEnabled();
+		this.diffEnabled = diffEnabled;
+		this.typeToStringConverter = typeToStringConverter;
+	}
+
+	/**
+	 * Indicates whether &lt;code>assertThat()&lt;/code> should invoke &lt;code>requireThat()&lt;/code>.
+	 *
+	 * @return {boolean} true if &lt;code>assertThat()&lt;/code> should delegate to &lt;code>requireThat()&lt;/code>; false
+	 *   if it shouldn't do anything
+	 */
+	assertionsAreEnabled(): boolean
+	{
+		return this.assertionsEnabled;
+	}
+
+	/**
+	 * Indicates that &lt;code>assertThat()&lt;/code> should invoke &lt;code>requireThat()&lt;/code>.
+	 *
+	 * @return {Configuration} the updated configuration
+	 */
+	withAssertionsEnabled(): Configuration
+	{
+		if (this.assertionsEnabled)
+			return this;
+		return new Configuration(this.globalConfiguration, this.context, true, this.diffEnabled,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * Indicates that &lt;code>assertThat()&lt;/code> shouldn't do anything.
+	 *
+	 * @return {Configuration} the updated configuration
+	 */
+	withAssertionsDisabled(): Configuration
+	{
+		if (!this.assertionsEnabled)
+			return this;
+		return new Configuration(this.globalConfiguration, this.context, false, this.diffEnabled,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * Indicates if exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {boolean} true by default
+	 */
+	isDiffEnabled(): boolean
+	{
+		return this.diffEnabled;
+	}
+
+	/**
+	 * Indicates that exceptions should show the difference between the actual and expected values.
+	 *
+	 * @return {Configuration} the updated configuration
+	 */
+	withDiff(): Configuration
+	{
+		if (this.diffEnabled)
+			return this;
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, true,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * Indicates that exceptions should not show the difference between the actual and expected
+	 * values.
+	 *
+	 * @return {Configuration} the updated configuration
+	 */
+	withoutDiff(): Configuration
+	{
+		if (!this.diffEnabled)
+			return this;
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, false,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * @return {Map&lt;string, object>} a map of key-value pairs to append to the exception message
+	 * @see #putContext
+	 */
+	getContext(): Map&lt;string, unknown>
+	{
+		return this.context;
+	}
+
+	/**
+	 * Adds or updates contextual information associated with the exception message.
+	 *
+	 * @param {string} name the name of the parameter
+	 * @param {object} value the value of the parameter
+	 * @return {Configuration} the updated configuration
+	 * @throws {TypeError} if &lt;code>key&lt;/code> is not a &lt;code>String&lt;/code>
+	 * @see #getContext
+	 */
+	putContext(name: string, value: unknown): Configuration
+	{
+		Objects.requireThatStringNotEmpty(name, "name");
+		const newContext = new Map&lt;string, unknown>(this.context);
+		newContext.set(name, value);
+		return new Configuration(this.globalConfiguration, newContext, this.assertionsEnabled, this.diffEnabled,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * Removes contextual information associated with the exception message.
+	 *
+	 * @param {string} name the name of the parameter
+	 * @return {Configuration} the updated configuration
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 */
+	removeContext(name: string): Configuration
+	{
+		Objects.requireThatStringNotEmpty(name, "name");
+		const newContext = new Map(this.context);
+		if (!newContext.delete(name))
+			return this;
+		return new Configuration(this.globalConfiguration, newContext, this.assertionsEnabled, this.diffEnabled,
+			this.typeToStringConverter);
+	}
+
+	/**
+	 * Returns the &lt;code>String&lt;/code> representation of an object. By default, custom handlers are provided for
+	 * arrays, &lt;code>Number&lt;/code> and &lt;code>Set&lt;/code>.
+	 *
+	 * @param {object} value a value
+	 * @return {string} the &lt;code>String&lt;/code> representation of the value
+	 * @see #withStringConverter
+	 */
+	convertToString(value: unknown): string
+	{
+		const type = Objects.getTypeOf(value);
+		let converter = this.typeToStringConverter.get(type);
+		if (!converter)
+			converter = (value2: unknown) => Objects.toString(value2);
+		return converter(value);
+	}
+
+	/**
+	 * Indicates that a function should be used to convert an object to a String.
+	 * &lt;p>
+	 * Please note that &lt;code>type&lt;/code> must be an exact match, subclasses will not match the type of their
+	 * superclass.
+	 *
+	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
+	 * @param {Function} converter a function that converts an object of the specified type to a String
+	 * @return {Configuration} the updated configuration
+	 * @throws {RangeError} if any of the parameters are null
+	 */
+	withStringConverter(type: string, converter: (input: unknown) => string): Configuration
+	{
+		Objects.assertThatTypeOf(type, "type", "string");
+		Objects.assertThatTypeOf(converter, "converter", "Function");
+		const newTypeToStringConverter = new Map&lt;string, (input: unknown) => string>(this.typeToStringConverter);
+		newTypeToStringConverter.set(type, converter);
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, this.diffEnabled,
+			newTypeToStringConverter);
+	}
+
+	/**
+	 * Indicates that an object's &lt;code>convertToString()&lt;/code> method should be used to convert it to a
+	 * String.
+	 *
+	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
+	 * @return {Configuration} the updated configuration
+	 * @throws {RangeError} if &lt;code>type&lt;/code> is null
+	 */
+	withoutStringConverter(type: string): Configuration
+	{
+		Objects.assertThatTypeOf(type, "type", "string");
+		const newTypeToStringConverter = new Map(this.typeToStringConverter);
+		if (!newTypeToStringConverter.delete(type))
+			return this;
+		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, this.diffEnabled,
+			newTypeToStringConverter);
+	}
+
+	/**
+	 * Returns the global configuration.
+	 *
+	 * @return {GlobalConfiguration} the global configuration associated with this object
+	 */
+	getGlobalConfiguration(): GlobalConfiguration
+	{
+		return this.globalConfiguration;
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {Configuration as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

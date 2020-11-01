@@ -1,0 +1,218 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> TerminalEncoding.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="Configuration.html">Configuration</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="SizeValidator.html">SizeValidator</a></li><li><a href="SizeVerifier.html">SizeVerifier</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="UriValidator.html">UriValidator</a></li><li><a href="UriVerifier.html">UriVerifier</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>TerminalEncoding.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+	AbstractColorWriter,
+	Node16Colors,
+	Node16MillionColors,
+	Node256Colors,
+	Objects,
+	TextOnly
+} from "./internal/internal";
+
+/**
+ * The encodings supported by the terminal.
+ */
+enum TerminalEncoding
+{
+	/**
+	 * A terminal that does not support any colors.
+	 */
+	NONE,
+	/**
+	 * Node terminal supports a 16-color palette.
+	 */
+	NODE_16_COLORS,
+	/**
+	 * Node terminal supports a 256-color palette.
+	 */
+	NODE_256_COLORS,
+	/**
+	 * Node terminal supports a 24-bit color palette.
+	 */
+	NODE_16MILLION_COLORS
+}
+
+/**
+ * Helper functions for TerminalEncodings.
+ */
+class TerminalEncodings
+{
+	/**
+	 * @param {TerminalEncoding} first the first encoding
+	 * @param {TerminalEncoding} second the second encoding
+	 * @return {number} a negative number if &lt;code>first&lt;/code> supports more colors than &lt;code>second&lt;/code>.
+	 *   &lt;code>0&lt;/code> if the encodings support the same number of colors. A positive number if
+	 *   &lt;code>first&lt;/code> supports less colors than &lt;code>second&lt;/code>.
+	 */
+	static readonly sortByDecreasingRank = (first: TerminalEncoding, second: TerminalEncoding): number =>
+	{
+		if (first &lt; second)
+			return 1;
+		if (first > second)
+			return -1;
+		return 0;
+	};
+
+	/**
+	 * @param {TerminalEncoding} terminalEncoding the encoding to use for the terminal
+	 * @return {TextOnly | Node16Colors | Node256Colors | Node16MillionColors} a writer that generates a diff
+	 */
+	static createDiffWriter(terminalEncoding: TerminalEncoding):
+		TextOnly | Node16Colors | Node256Colors | Node16MillionColors
+	{
+		switch (terminalEncoding)
+		{
+			case TerminalEncoding.NONE:
+				return new TextOnly();
+			case TerminalEncoding.NODE_16_COLORS:
+				return new Node16Colors();
+			case TerminalEncoding.NODE_256_COLORS:
+				return new Node256Colors();
+			case TerminalEncoding.NODE_16MILLION_COLORS:
+				return new Node16MillionColors();
+			default:
+				throw new RangeError(Objects.toString(terminalEncoding));
+		}
+	}
+
+	/**
+	 * @param {TerminalEncoding} terminalEncoding the encoding to use for the terminal
+	 * @return {string} the padding character used to align values vertically
+	 * @ignore
+	 */
+	static getPaddingMarker(terminalEncoding: TerminalEncoding): string
+	{
+		switch (terminalEncoding)
+		{
+			case TerminalEncoding.NONE:
+				return TextOnly.DIFF_PADDING;
+			case TerminalEncoding.NODE_16_COLORS:
+			case TerminalEncoding.NODE_256_COLORS:
+			case TerminalEncoding.NODE_16MILLION_COLORS:
+				return AbstractColorWriter.DIFF_PADDING;
+			default:
+				throw new RangeError(Objects.toString(terminalEncoding));
+		}
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {
+	TerminalEncoding,
+	TerminalEncodings
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
