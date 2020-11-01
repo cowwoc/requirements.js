@@ -43,7 +43,7 @@ class ObjectValidator
 	 * @throws {TypeError}  if <code>name</code> or <code>config</code> are null or undefined
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	public constructor(configuration: Configuration, actual: unknown, name: string)
+	constructor(configuration: Configuration, actual: unknown, name: string)
 	{
 		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
 		Objects.verifyName(name, "name");
