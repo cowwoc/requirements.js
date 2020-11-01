@@ -8,9 +8,9 @@ import {
 	Configuration,
 	Node16Colors,
 	Node256Colors,
-	Node16MillionColors
+	Node16MillionColors,
+	Requirements
 } from "../src/internal/internal";
-import Requirements from "../src/Requirements";
 
 /**
  * Ensure that diffs delete before inserting.

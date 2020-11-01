@@ -3,7 +3,5 @@ export {
 	assertThat,
 	validateThat
 } from "./DefaultRequirements";
-export {
-	GlobalRequirements,
-	Requirements
-} from "./internal/internal";
+export {Requirements} from "./internal/internal";
+export type {GlobalRequirements} from "./internal/internal";

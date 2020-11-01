@@ -1,6 +1,6 @@
 import test from "tape-catch";
-import Requirements from "../src/Requirements";
 import {
+	Requirements,
 	TestGlobalConfiguration,
 	TerminalEncoding,
 	Configuration

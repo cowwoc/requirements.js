@@ -65,7 +65,7 @@ import GlobalRequirements from "../GlobalRequirements";
 import Node16Colors from "./diff/Node16Colors";
 import Node16MillionColors from "./diff/Node16MillionColors";
 import Node256Colors from "./diff/Node256Colors";
-import GlobalConfiguration from "../GlobalConfiguration";
+import type GlobalConfiguration from "../GlobalConfiguration";
 import IllegalStateError from "./IllegalStateError";
 import InetAddressValidatorNoOp from "./InetAddressValidatorNoOp";
 import InetAddressVerifierNoOp from "./InetAddressVerifierNoOp";
@@ -118,7 +118,6 @@ export {
 	DiffResult,
 	GlobalRequirements,
 	IllegalStateError,
-	GlobalConfiguration,
 	InetAddressValidator,
 	InetAddressVerifier,
 	InetAddressValidatorNoOp,
@@ -157,3 +156,4 @@ export {
 	UriValidatorNoOp,
 	UriVerifierNoOp
 };
+export type {GlobalConfiguration};

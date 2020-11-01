@@ -15,7 +15,7 @@
 		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"downlevelIteration": true
+		"importsNotUsedAsValues": "error"
 	},
 	"include": [
 		"src/**/*.ts",

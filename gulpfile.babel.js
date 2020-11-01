@@ -143,6 +143,7 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 				if (warning.code === "CIRCULAR_DEPENDENCY" && warning.importer &&
 					ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
 					return;
+				// Reminder: Use warning.toString() to find out which file/line is at fault
 				warn(warning);
 			}
 		});

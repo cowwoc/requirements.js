@@ -1,4 +1,4 @@
-import URI from "urijs";
+import type URI from "urijs";
 import {
 	Configuration,
 	ObjectValidator,

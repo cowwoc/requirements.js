@@ -1,9 +1,9 @@
+import type URI from "urijs";
 import {
 	ObjectVerifier,
 	UriValidator,
 	UriValidatorNoOp
 } from "./internal/internal";
-import URI from "urijs";
 
 /**
  * Verifies the requirements of a <code>URI</code>.

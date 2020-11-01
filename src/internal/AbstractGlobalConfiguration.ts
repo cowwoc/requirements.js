@@ -1,4 +1,4 @@
-import {
+import type {
 	GlobalConfiguration,
 	TerminalEncoding
 } from "./internal";

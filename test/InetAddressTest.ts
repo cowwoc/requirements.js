@@ -1,9 +1,9 @@
 import test from "tape-catch";
-import Requirements from "../src/Requirements";
 import {
-	TestGlobalConfiguration,
+	Configuration,
+	Requirements,
 	TerminalEncoding,
-	Configuration
+	TestGlobalConfiguration
 } from "../src/internal/internal";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
