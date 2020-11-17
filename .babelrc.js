@@ -1,18 +1,22 @@
 const presets =
 	[
-		"@babel/preset-env",
-		"@babel/preset-typescript"
+		"@babel/preset-typescript",
+		[
+			"@babel/preset-env",
+			{
+				useBuiltIns: "usage",
+				corejs:
+					{
+						version: 3,
+						proposals: true
+					}
+				// debug: true
+			}
+		]
 	];
 
 const plugins =
 	[
-		[
-			"@babel/plugin-transform-runtime",
-			{
-				"regenerator": true
-			},
-			"lodash"
-		],
 		"@babel/plugin-transform-typescript",
 		"@babel/proposal-class-properties",
 		"@babel/proposal-object-rest-spread"

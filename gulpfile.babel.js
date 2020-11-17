@@ -1,4 +1,5 @@
 import babel from "gulp-babel";
+import babelConfig from "./.babelrc.js";
 import eslint from "gulp-eslint7";
 import gulp from "gulp";
 import replace from "gulp-replace";
@@ -28,7 +29,7 @@ const isReleaseMode = mode === "RELEASE";
 log.info(mode + " mode detected");
 
 /* eslint-disable func-style */
-gulp.task("lint.js", gulp.parallel(function()
+gulp.task("lint.js", function()
 {
 	return gulp.src(
 		[
@@ -45,9 +46,9 @@ gulp.task("lint.js", gulp.parallel(function()
 			})).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
-}));
+});
 
-gulp.task("lint.ts", gulp.parallel(function()
+gulp.task("lint.ts", function()
 {
 	return gulp.src(
 		[
@@ -63,7 +64,7 @@ gulp.task("lint.ts", gulp.parallel(function()
 			})).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
-}));
+});
 
 // Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
 // separate configurations for JS and TS files separately
@@ -92,7 +93,7 @@ const stripDebug =
 			}
 	};
 
-gulp.task("bundle-src-for-browser", gulp.parallel(async function()
+gulp.task("bundle-src-for-browser", async function()
 {
 	// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
 	const bundle = await rollup(
@@ -129,7 +130,8 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 											useESModules: true
 										}
 									]
-								]
+								],
+							ignore: babelConfig.ignore
 						})
 				],
 			// Assume that the top-level "this" is "window" since we are targeting a browser environment
@@ -185,21 +187,31 @@ gulp.task("bundle-src-for-browser", gulp.parallel(async function()
 			pipe(sourcemaps.write(".")).
 			pipe(gulp.dest("target/publish/browser"));
 	}
-}));
+});
 
-gulp.task("bundle-src-for-node-with-modules", gulp.parallel(function()
+gulp.task("bundle-src-for-node-with-modules", function()
 {
 	let result = gulp.src("src/**/*.ts").
 		pipe(babel({
 			presets:
 				[
+					"@babel/preset-typescript",
 					[
 						"@babel/preset-env",
 						{
-							targets: ["node 14"]
+							modules: false,
+							targets: ["node 15"]
 						}
 					]
-				]
+				],
+			plugins:
+				[
+					"@babel/plugin-transform-typescript",
+					"@babel/proposal-class-properties",
+					"@babel/proposal-object-rest-spread",
+					["babel-plugin-add-import-extension", {extension: "mjs"}]
+				],
+			ignore: babelConfig.ignore
 		})).
 		pipe(rename(path =>
 		{
@@ -209,9 +221,9 @@ gulp.task("bundle-src-for-node-with-modules", gulp.parallel(function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/publish/node/mjs"));
-}));
+});
 
-gulp.task("bundle-typescript-declarations", gulp.parallel(function()
+gulp.task("bundle-typescript-declarations", function()
 {
 	const compileTypescript = typescript.createProject("tsconfig.json", {
 		declaration: true,
@@ -220,7 +232,7 @@ gulp.task("bundle-typescript-declarations", gulp.parallel(function()
 	return gulp.src("src/**/*.ts").
 		pipe(compileTypescript()).
 		pipe(gulp.dest("target/publish/node/ts"));
-}));
+});
 
 const babelConfigurationForCommonjs =
 	{
@@ -233,10 +245,11 @@ const babelConfigurationForCommonjs =
 						modules: "cjs"
 					}
 				]
-			]
+			],
+		ignore: babelConfig.ignore
 	};
 
-gulp.task("bundle-src-for-node-without-modules", gulp.parallel(function()
+gulp.task("bundle-src-for-node-without-modules", function()
 {
 	let result = gulp.src("src/**/*.ts").
 		pipe(babel(babelConfigurationForCommonjs));
@@ -244,9 +257,9 @@ gulp.task("bundle-src-for-node-without-modules", gulp.parallel(function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/publish/node/cjs"));
-}));
+});
 
-gulp.task("bundle-test", gulp.parallel(function()
+gulp.task("bundle-test", function()
 {
 	let result = gulp.src("test/**/*.ts").
 		pipe(replace("from \"../src/", "from \"../publish/node/cjs/")).
@@ -255,7 +268,7 @@ gulp.task("bundle-test", gulp.parallel(function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/test"));
-}));
+});
 
 gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node-without-modules", "bundle-test"), function()
 {
@@ -267,9 +280,9 @@ gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node-without-modules
 			}));
 }));
 
-gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
+gulp.task("bundle-jsdoc", function(cb)
 {
-	return gulp.src(["README.md", "src/**/*.ts"], {read: false}).
+	return gulp.src(["src/**/*.ts"], {read: false}).
 		pipe(jsdoc(
 			{
 				tags:
@@ -292,9 +305,9 @@ gulp.task("bundle-jsdoc", gulp.parallel(function(cb)
 						destination: "./target/apidocs"
 					}
 			}, cb));
-}));
+});
 
-gulp.task("bundle-resources", gulp.parallel(function()
+gulp.task("bundle-resources", function()
 {
 	return gulp.src(
 		[
@@ -303,15 +316,15 @@ gulp.task("bundle-resources", gulp.parallel(function()
 			"README.md"
 		]).
 		pipe(gulp.dest("target/publish"));
-}));
+});
 
-gulp.task("server", gulp.parallel(function()
+gulp.task("server", function()
 {
 	connect.server(
 		{
 			livereload: true
 		});
-}));
+});
 
 gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node-with-modules",
 	"bundle-src-for-node-without-modules", "bundle-typescript-declarations", "bundle-jsdoc",

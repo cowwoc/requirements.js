@@ -15,12 +15,16 @@
 		"type": "git",
 		"url": "https://github.com/cowwoc/requirements.js/"
 	},
+	"scripts": {
+		"build.debug": "gulp default --mode=DEBUG",
+		"build.release": "gulp default --mode=RELEASE",
+		"test": "gulp test --mode=DEBUG"
+	},
 	"main": "node/cjs/index.js",
 	"browser": "browser/cjs/index.js",
 	"module": "node/mjs/index.mjs",
 	"types": "node/ts/index.d.ts",
 	"prepublish": "gulp default --mode=DEBUG",
-	"sideEffects": false,
 	"dependencies": {
 		"@babel/plugin-external-helpers": "~7.12.1",
 		"@babel/runtime": "~7.12.1",
@@ -52,6 +56,7 @@
 		"@types/urijs": "^1.19.12",
 		"@typescript-eslint/eslint-plugin": "^4.6.0",
 		"@typescript-eslint/parser": "^4.6.0",
+		"babel-plugin-add-import-extension": "^1.4.3",
 		"better-docs": "^2.3.2",
 		"cheerio": "^1.0.0-rc.3",
 		"eslint": "^7.12.1",
