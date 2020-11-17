@@ -27,6 +27,7 @@ let mode = env.mode;
 if (typeof (mode) === "undefined")
 	mode = "DEBUG";
 const isReleaseMode = mode === "RELEASE";
+const targets = ["node 15"];
 log.info(mode + " mode detected");
 
 function lintJs()
@@ -64,10 +65,6 @@ function lintTs()
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
 }
-
-// Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
-// separate configurations for JS and TS files separately
-gulp.task("lint", gulp.parallel(lintJs, lintTs));
 
 // Remove console.log, alert, debugger statements
 const stripDebug =
@@ -199,7 +196,7 @@ function bundleSrcForNodeWithModules()
 						"@babel/preset-env",
 						{
 							modules: false,
-							targets: ["node 15"]
+							targets
 						}
 					]
 				],
@@ -240,7 +237,7 @@ const babelConfigurationForCommonjs =
 				[
 					"@babel/preset-env",
 					{
-						targets: ["node 14"],
+						targets,
 						modules: "cjs"
 					}
 				]
@@ -278,8 +275,6 @@ function test()
 				nyc: true
 			}));
 }
-
-gulp.task("test", gulp.series(gulp.parallel(bundleSrcForNodeWithModules, bundleTest, test)));
 
 function bundleJsDoc(cb)
 {
@@ -325,13 +320,18 @@ function server()
 }
 
 const lint = gulp.parallel(lintJs, lintTs);
-const bundle = gulp.parallel(bundleSrcForBrowser, bundleSrcForNodeWithModules,
-	bundleSrcForNodeWithoutModules, bundleTypescriptDeclarations, bundleJsDoc, bundleResources);
+const bundleAll = gulp.series(lint,
+	gulp.parallel(bundleSrcForBrowser, bundleSrcForNodeWithModules, bundleSrcForNodeWithoutModules,
+		bundleTypescriptDeclarations, bundleJsDoc, bundleResources));
 
+// Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
+// separate configurations for JS and TS files
+gulp.task("lint", lint);
 gulp.task("server", server);
-gulp.task("test", gulp.series(gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
-gulp.task("bundle", gulp.series(lint, bundle));
-gulp.task("target", gulp.series(lint, bundle, test));
+gulp.task("test", gulp.series(lint,
+	gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
+gulp.task("bundle", bundleAll);
+gulp.task("target", gulp.series(bundleAll, test));
 gulp.task("watch", function()
 {
 	gulp.watch(["gulpfile.babel.js", ".eslintrc.js"], {delay: 500}, lintJs);
