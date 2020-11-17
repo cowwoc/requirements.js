@@ -18,7 +18,8 @@
 	"scripts": {
 		"build.debug": "gulp default --mode=DEBUG",
 		"build.release": "gulp default --mode=RELEASE",
-		"test": "gulp test --mode=DEBUG"
+		"test": "gulp test --mode=DEBUG",
+		"watch": "gulp watch --mode=DEBUG"
 	},
 	"main": "node/cjs/index.js",
 	"browser": "browser/cjs/index.js",
@@ -75,6 +76,7 @@
 		"gulp-tape": "^1.0.0",
 		"gulp-terser": "^1.4.0",
 		"gulp-typescript": "^6.0.0-alpha.1",
+		"gulp-watch": "^5.0.1",
 		"minimist": "^1.2.5",
 		"rollup": "2.32.1",
 		"tap-diff": "^0.1.1",

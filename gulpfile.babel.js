@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import babel from "gulp-babel";
 import babelConfig from "./.babelrc.js";
 import eslint from "gulp-eslint7";
@@ -28,15 +29,9 @@ if (typeof (mode) === "undefined")
 const isReleaseMode = mode === "RELEASE";
 log.info(mode + " mode detected");
 
-/* eslint-disable func-style */
-gulp.task("lint.js", function()
+function lintJs()
 {
-	return gulp.src(
-		[
-			"gulpfile.babel.js",
-			"src/**/*.js",
-			"test/**/*.js"
-		]).
+	return gulp.src(["gulpfile.babel.js", ".eslintrc.js"]).
 		pipe(eslint(
 			{
 				parserOptions:
@@ -46,15 +41,19 @@ gulp.task("lint.js", function()
 			})).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
-});
+}
 
-gulp.task("lint.ts", function()
+function lintTs()
 {
+	const checkTypescript = typescript.createProject("tsconfig.json", {
+		noEmit: true
+	});
 	return gulp.src(
 		[
 			"src/**/*.ts",
 			"test/**/*.ts"
 		]).
+		pipe(checkTypescript()).
 		pipe(eslint(
 			{
 				parserOptions:
@@ -64,11 +63,11 @@ gulp.task("lint.ts", function()
 			})).
 		pipe(eslint.format()).
 		pipe(eslint.failOnError());
-});
+}
 
 // Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
 // separate configurations for JS and TS files separately
-gulp.task("lint", gulp.parallel("lint.js", "lint.ts"));
+gulp.task("lint", gulp.parallel(lintJs, lintTs));
 
 // Remove console.log, alert, debugger statements
 const stripDebug =
@@ -93,7 +92,7 @@ const stripDebug =
 			}
 	};
 
-gulp.task("bundle-src-for-browser", async function()
+async function bundleSrcForBrowser()
 {
 	// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
 	const bundle = await rollup(
@@ -187,9 +186,9 @@ gulp.task("bundle-src-for-browser", async function()
 			pipe(sourcemaps.write(".")).
 			pipe(gulp.dest("target/publish/browser"));
 	}
-});
+}
 
-gulp.task("bundle-src-for-node-with-modules", function()
+function bundleSrcForNodeWithModules()
 {
 	let result = gulp.src("src/**/*.ts").
 		pipe(babel({
@@ -221,9 +220,9 @@ gulp.task("bundle-src-for-node-with-modules", function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/publish/node/mjs"));
-});
+}
 
-gulp.task("bundle-typescript-declarations", function()
+function bundleTypescriptDeclarations()
 {
 	const compileTypescript = typescript.createProject("tsconfig.json", {
 		declaration: true,
@@ -232,7 +231,7 @@ gulp.task("bundle-typescript-declarations", function()
 	return gulp.src("src/**/*.ts").
 		pipe(compileTypescript()).
 		pipe(gulp.dest("target/publish/node/ts"));
-});
+}
 
 const babelConfigurationForCommonjs =
 	{
@@ -249,7 +248,7 @@ const babelConfigurationForCommonjs =
 		ignore: babelConfig.ignore
 	};
 
-gulp.task("bundle-src-for-node-without-modules", function()
+function bundleSrcForNodeWithoutModules()
 {
 	let result = gulp.src("src/**/*.ts").
 		pipe(babel(babelConfigurationForCommonjs));
@@ -257,9 +256,9 @@ gulp.task("bundle-src-for-node-without-modules", function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/publish/node/cjs"));
-});
+}
 
-gulp.task("bundle-test", function()
+function bundleTest()
 {
 	let result = gulp.src("test/**/*.ts").
 		pipe(replace("from \"../src/", "from \"../publish/node/cjs/")).
@@ -268,9 +267,9 @@ gulp.task("bundle-test", function()
 		result = result.pipe(terser(stripDebug));
 	return result.
 		pipe(gulp.dest("target/test"));
-});
+}
 
-gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node-without-modules", "bundle-test"), function()
+function test()
 {
 	return gulp.src("target/test/**/*.js").
 		pipe(tape(
@@ -278,9 +277,11 @@ gulp.task("test", gulp.series(gulp.parallel("bundle-src-for-node-without-modules
 				reporter: tapeReporter(),
 				nyc: true
 			}));
-}));
+}
 
-gulp.task("bundle-jsdoc", function(cb)
+gulp.task("test", gulp.series(gulp.parallel(bundleSrcForNodeWithModules, bundleTest, test)));
+
+function bundleJsDoc(cb)
 {
 	return gulp.src(["src/**/*.ts"], {read: false}).
 		pipe(jsdoc(
@@ -289,10 +290,7 @@ gulp.task("bundle-jsdoc", function(cb)
 					{
 						allowUnknownTags: true
 					},
-				plugins:
-					[
-						"node_modules/better-docs/typescript"
-					],
+				plugins: ["node_modules/better-docs/typescript"],
 				source:
 					{
 						include: ["."],
@@ -305,9 +303,9 @@ gulp.task("bundle-jsdoc", function(cb)
 						destination: "./target/apidocs"
 					}
 			}, cb));
-});
+}
 
-gulp.task("bundle-resources", function()
+function bundleResources()
 {
 	return gulp.src(
 		[
@@ -316,18 +314,28 @@ gulp.task("bundle-resources", function()
 			"README.md"
 		]).
 		pipe(gulp.dest("target/publish"));
-});
+}
 
-gulp.task("server", function()
+function server()
 {
 	connect.server(
 		{
 			livereload: true
 		});
-});
+}
 
-gulp.task("bundle", gulp.parallel("bundle-src-for-browser", "bundle-src-for-node-with-modules",
-	"bundle-src-for-node-without-modules", "bundle-typescript-declarations", "bundle-jsdoc",
-	"bundle-resources"));
-gulp.task("target", gulp.parallel("lint", "bundle", "test"));
+const lint = gulp.parallel(lintJs, lintTs);
+const bundle = gulp.parallel(bundleSrcForBrowser, bundleSrcForNodeWithModules,
+	bundleSrcForNodeWithoutModules, bundleTypescriptDeclarations, bundleJsDoc, bundleResources);
+
+gulp.task("server", server);
+gulp.task("test", gulp.series(gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
+gulp.task("bundle", gulp.series(lint, bundle));
+gulp.task("target", gulp.series(lint, bundle, test));
+gulp.task("watch", function()
+{
+	gulp.watch(["gulpfile.babel.js", ".eslintrc.js"], {delay: 500}, lintJs);
+	gulp.watch(["src/**/*.ts", "test/**/*.ts"], {delay: 500},
+		gulp.series(lintTs, bundleSrcForNodeWithoutModules, test));
+});
 gulp.task("default", gulp.parallel("target"));
