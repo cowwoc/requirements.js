@@ -36,8 +36,8 @@ import {
 	TerminalEncoding,
 	TerminalEncodings
 } from "../TerminalEncoding";
-import UriValidator from "../UriValidator";
-import UriVerifier from "../UriVerifier";
+import UrlValidator from "../UrlValidator";
+import UrlVerifier from "../UrlVerifier";
 import ValidationFailure from "../ValidationFailure";
 import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration";
 import ArrayValidatorNoOp from "./ArrayValidatorNoOp";
@@ -83,8 +83,8 @@ import SizeVerifierNoOp from "./SizeVerifierNoOp";
 import Strings from "./Strings";
 import StringValidatorNoOp from "./StringValidatorNoOp";
 import StringVerifierNoOp from "./StringVerifierNoOp";
-import UriValidatorNoOp from "./UriValidatorNoOp";
-import UriVerifierNoOp from "./UriVerifierNoOp";
+import UrlValidatorNoOp from "./UrlValidatorNoOp";
+import UrlVerifierNoOp from "./UrlVerifierNoOp";
 
 export {
 	ArrayValidator,
@@ -149,11 +149,11 @@ export {
 	Strings,
 	StringValidatorNoOp,
 	StringVerifierNoOp,
-	UriValidator,
-	UriVerifier,
+	UrlValidator,
+	UrlVerifier,
 	TextOnly,
 	Terminal,
-	UriValidatorNoOp,
-	UriVerifierNoOp
+	UrlValidatorNoOp,
+	UrlVerifierNoOp
 };
 export type {GlobalConfiguration};

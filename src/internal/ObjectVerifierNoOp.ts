@@ -6,7 +6,7 @@ import {
 	NumberVerifierNoOp,
 	SetVerifierNoOp,
 	StringVerifierNoOp,
-	UriVerifierNoOp
+	UrlVerifierNoOp
 } from "./internal";
 
 /**
@@ -229,17 +229,17 @@ class ObjectVerifierNoOp
 
 
 	/**
-	 * @return {UriVerifierNoOp} a verifier for the <code>URI</code>
+	 * @return {UrlVerifierNoOp} a verifier for the <code>URL</code>
 	 */
-	asUri(): UriVerifierNoOp
+	asUrl(): UrlVerifierNoOp
 	{
-		return UriVerifierNoOp.INSTANCE;
+		return UrlVerifierNoOp.INSTANCE;
 	}
 
 	/**
 	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
-	asUriConsumer(): this
+	asUrlConsumer(): this
 	{
 		return this;
 	}

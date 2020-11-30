@@ -1,14 +1,14 @@
 import {ObjectVerifierNoOp} from "./internal";
 
 /**
- * An implementation of <code>UriVerifier</code> that does nothing.
+ * An implementation of <code>UrlVerifier</code> that does nothing.
  */
-class UriVerifierNoOp extends ObjectVerifierNoOp
+class UrlVerifierNoOp extends ObjectVerifierNoOp
 {
-	static readonly INSTANCE = new UriVerifierNoOp();
+	static readonly INSTANCE = new UrlVerifierNoOp();
 
 	/**
-	 * @return {UriVerifierNoOp} the updated verifier
+	 * @return {UrlVerifierNoOp} the updated verifier
 	 */
 	isAbsolute(): this
 	{
@@ -16,7 +16,7 @@ class UriVerifierNoOp extends ObjectVerifierNoOp
 	}
 
 	/**
-	 * @return {UriVerifierNoOp} the updated verifier
+	 * @return {UrlVerifierNoOp} the updated verifier
 	 */
 	isRelative(): this
 	{
@@ -27,4 +27,4 @@ class UriVerifierNoOp extends ObjectVerifierNoOp
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {UriVerifierNoOp as default};
+export {UrlVerifierNoOp as default};

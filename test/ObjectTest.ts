@@ -356,12 +356,12 @@ test("ObjectTest.asInetAddressConsumer", function(t)
 	t.end();
 });
 
-test("ObjectTest.asUriConsumer", function(t)
+test("ObjectTest.asUrlConsumer", function(t)
 {
 	const actual = "http://www.host.com/path/";
 	t.throws(function()
 	{
-		requirements.requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
+		requirements.requireThat(actual, "actual").asUrlConsumer(u => u.isRelative());
 	}, RangeError);
 	t.end();
 });

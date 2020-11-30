@@ -1,5 +1,4 @@
 import test from "tape-catch";
-import URI from "urijs";
 import {Requirements} from "../src/index";
 import {
 	Configuration,
@@ -46,9 +45,9 @@ test("Verifiers.assertThatMap", function(t)
 	t.end();
 });
 
-test("Verifiers.assertThatUri", function(t)
+test("Verifiers.assertThatUrl", function(t)
 {
-	const actual = new URI("http://www.google.com/");
+	const actual = new URL("http://www.google.com/");
 	requirements.assertThat(actual, "actual").isEqualTo("expected");
 	t.end();
 });

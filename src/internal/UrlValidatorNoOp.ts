@@ -1,12 +1,12 @@
 import {ObjectValidatorNoOp} from "./internal";
 
 /**
- * An implementation of <code>UriValidator</code> that does nothing.
+ * An implementation of <code>UrlValidator</code> that does nothing.
  */
-class UriValidatorNoOp extends ObjectValidatorNoOp
+class UrlValidatorNoOp extends ObjectValidatorNoOp
 {
 	/**
-	 * @return {UriValidatorNoOp} the updated validator
+	 * @return {UrlValidatorNoOp} the updated validator
 	 */
 	isAbsolute(): this
 	{
@@ -14,7 +14,7 @@ class UriValidatorNoOp extends ObjectValidatorNoOp
 	}
 
 	/**
-	 * @return {UriValidatorNoOp} the updated validator
+	 * @return {UrlValidatorNoOp} the updated validator
 	 */
 	isRelative(): this
 	{
@@ -25,4 +25,4 @@ class UriValidatorNoOp extends ObjectValidatorNoOp
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {UriValidatorNoOp as default};
+export {UrlValidatorNoOp as default};

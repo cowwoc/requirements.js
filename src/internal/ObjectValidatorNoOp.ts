@@ -7,7 +7,7 @@ import {
 	Objects,
 	SetValidatorNoOp,
 	StringValidatorNoOp,
-	UriValidatorNoOp,
+	UrlValidatorNoOp,
 	ValidationFailure
 } from "./internal";
 
@@ -245,17 +245,17 @@ class ObjectValidatorNoOp
 
 
 	/**
-	 * @return {UriValidatorNoOp} a validator for the <code>URI</code>
+	 * @return {UrlValidatorNoOp} a validator for the <code>URL</code>
 	 */
-	asUri(): UriValidatorNoOp
+	asUrl(): UrlValidatorNoOp
 	{
-		return new UriValidatorNoOp(this.failures);
+		return new UrlValidatorNoOp(this.failures);
 	}
 
 	/**
 	 * @return {ObjectValidatorNoOp} the updated validator
 	 */
-	asUriConsumer(): this
+	asUrlConsumer(): this
 	{
 		return this;
 	}

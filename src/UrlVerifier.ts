@@ -1,21 +1,20 @@
-import type URI from "urijs";
 import {
 	ObjectVerifier,
-	UriValidator,
-	UriValidatorNoOp
+	UrlValidator,
+	UrlValidatorNoOp
 } from "./internal/internal";
 
 /**
- * Verifies the requirements of a <code>URI</code>.
+ * Verifies the requirements of a <code>URL</code>.
  * <p>
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */
-class UriVerifier extends ObjectVerifier<UriValidator | UriValidatorNoOp>
+class UrlVerifier extends ObjectVerifier<UrlValidator | UrlValidatorNoOp>
 {
 	/**
-	 * Ensures that the URI is absolute.
+	 * Ensures that the URL is absolute.
 	 *
-	 * @return {UriVerifier} the updated verifier
+	 * @return {UrlVerifier} the updated verifier
 	 * @throws {RangeError} if the path is not absolute
 	 */
 	isAbsolute(): this
@@ -25,9 +24,9 @@ class UriVerifier extends ObjectVerifier<UriValidator | UriValidatorNoOp>
 	}
 
 	/**
-	 * Ensures that the URI is relative.
+	 * Ensures that the URL is relative.
 	 *
-	 * @return {UriVerifier} the updated verifier
+	 * @return {UrlVerifier} the updated verifier
 	 * @throws {RangeError} if the path is not a relative
 	 */
 	isRelative(): this
@@ -36,13 +35,13 @@ class UriVerifier extends ObjectVerifier<UriValidator | UriValidatorNoOp>
 		return this.validationResult();
 	}
 
-	getActual(): URI
+	getActual(): URL
 	{
-		return super.getActual() as URI;
+		return super.getActual() as URL;
 	}
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {UriVerifier as default};
+export {UrlVerifier as default};

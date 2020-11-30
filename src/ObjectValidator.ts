@@ -1,5 +1,4 @@
 import {isEqual} from "lodash";
-import URI from "urijs";
 import {
 	ArrayValidatorNoOp,
 	ArrayValidator,
@@ -8,13 +7,13 @@ import {
 	NumberValidator,
 	SetValidator,
 	StringValidator,
-	UriValidator,
+	UrlValidator,
 	ClassValidator,
 	NumberValidatorNoOp,
 	SetValidatorNoOp,
 	MapValidatorNoOp,
 	InetAddressValidatorNoOp,
-	UriValidatorNoOp,
+	UrlValidatorNoOp,
 	ClassValidatorNoOp,
 	Objects,
 	ContextGenerator,
@@ -713,9 +712,9 @@ class ObjectValidator
 	}
 
 	/**
-	 * @return {UriValidator | UriValidatorNoOp} a validator for the <code>URI</code>
+	 * @return {UrlValidator | UrlValidatorNoOp} a validator for the <code>URL</code>
 	 */
-	asUri(): UriValidator | UriValidatorNoOp
+	asUrl(): UrlValidator | UrlValidatorNoOp
 	{
 		const typeOfActual = Objects.getTypeOf(this.actual);
 		switch (typeOfActual)
@@ -724,38 +723,37 @@ class ObjectValidator
 			case "null":
 				break;
 			case "string":
-			case "URI":
+			case "URL":
 			{
-				let actualAsUri;
+				let actualAsUrl;
 				try
 				{
-					actualAsUri = new URI(this.actual as string | URI);
+					actualAsUrl = new URL((this.actual as string | URL).toString());
 				}
 				catch (ignored)
 				{
 					break;
 				}
-				if (actualAsUri.is("url") || actualAsUri.is("urn"))
-					return new UriValidator(this.config, actualAsUri, this.name);
+				return new UrlValidator(this.config, actualAsUrl, this.name);
 			}
 		}
 		const failure = new ValidationFailure(this.config, TypeError,
-			this.name + " must contain a valid URI.").addContext("Actual", this.actual).
+			this.name + " must contain a valid URL.").addContext("Actual", this.actual).
 			addContext("Type", typeOfActual);
 		this.failures.push(failure);
-		return new UriValidatorNoOp(this.failures);
+		return new UrlValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link UriValidator} for the URI representation of
+	 * @param {Function} consumer a function that accepts a {@link UrlValidator} for the URL representation of
 	 *   the actual value
 	 * @return {ObjectValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asUriConsumer(consumer: (input: UriValidator | UriValidatorNoOp) => void): this
+	asUrlConsumer(consumer: (input: UrlValidator | UrlValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asUri());
+		consumer(this.asUrl());
 		return this;
 	}
 
