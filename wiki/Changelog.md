@@ -3,8 +3,9 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
 ## Version 3.0.0 - 2020/12/05
 
-* Improvements
-    * Replaced URI (https://medialize.github.io/URI.js/) with built-in type URL.
+* Breaking changes
+    * Removed URI (https://medialize.github.io/URI.js/) in favor of built-in URL.
+    * Because built-in URL is always absolute, all corresponding validators were removed.
 
 ## Version 2.1.0 - 2020/10/27
 
