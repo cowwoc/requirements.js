@@ -7,7 +7,6 @@ import {
 	Objects,
 	SetValidatorNoOp,
 	StringValidatorNoOp,
-	UriValidatorNoOp,
 	ValidationFailure
 } from "./internal";
 
@@ -239,23 +238,6 @@ class ObjectValidatorNoOp
 	 * @return {ObjectValidatorNoOp} the updated validator
 	 */
 	asInetAddressConsumer(): this
-	{
-		return this;
-	}
-
-
-	/**
-	 * @return {UriValidatorNoOp} a validator for the <code>URI</code>
-	 */
-	asUri(): UriValidatorNoOp
-	{
-		return new UriValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asUriConsumer(): this
 	{
 		return this;
 	}

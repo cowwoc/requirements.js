@@ -356,16 +356,6 @@ test("ObjectTest.asInetAddressConsumer", function(t)
 	t.end();
 });
 
-test("ObjectTest.asUriConsumer", function(t)
-{
-	const actual = "http://www.host.com/path/";
-	t.throws(function()
-	{
-		requirements.requireThat(actual, "actual").asUriConsumer(u => u.isRelative());
-	}, RangeError);
-	t.end();
-});
-
 test("ObjectTest.requirements.requireThat.getActual", function(t)
 {
 	const input = 12345;

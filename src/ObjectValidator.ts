@@ -1,27 +1,24 @@
 import {isEqual} from "lodash";
-import URI from "urijs";
 import {
-	ArrayValidatorNoOp,
 	ArrayValidator,
-	InetAddressValidator,
-	MapValidator,
-	NumberValidator,
-	SetValidator,
-	StringValidator,
-	UriValidator,
+	ArrayValidatorNoOp,
 	ClassValidator,
-	NumberValidatorNoOp,
-	SetValidatorNoOp,
-	MapValidatorNoOp,
-	InetAddressValidatorNoOp,
-	UriValidatorNoOp,
 	ClassValidatorNoOp,
-	Objects,
-	ContextGenerator,
-	ValidationFailure,
-	ContextLine,
 	Configuration,
-	Pluralizer
+	ContextGenerator,
+	ContextLine,
+	InetAddressValidator,
+	InetAddressValidatorNoOp,
+	MapValidator,
+	MapValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
+	Objects,
+	Pluralizer,
+	SetValidator,
+	SetValidatorNoOp,
+	StringValidator,
+	ValidationFailure
 } from "./internal/internal";
 
 /**
@@ -709,53 +706,6 @@ class ObjectValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asInetAddress());
-		return this;
-	}
-
-	/**
-	 * @return {UriValidator | UriValidatorNoOp} a validator for the <code>URI</code>
-	 */
-	asUri(): UriValidator | UriValidatorNoOp
-	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
-		{
-			case "undefined":
-			case "null":
-				break;
-			case "string":
-			case "URI":
-			{
-				let actualAsUri;
-				try
-				{
-					actualAsUri = new URI(this.actual as string | URI);
-				}
-				catch (ignored)
-				{
-					break;
-				}
-				if (actualAsUri.is("url") || actualAsUri.is("urn"))
-					return new UriValidator(this.config, actualAsUri, this.name);
-			}
-		}
-		const failure = new ValidationFailure(this.config, TypeError,
-			this.name + " must contain a valid URI.").addContext("Actual", this.actual).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new UriValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link UriValidator} for the URI representation of
-	 *   the actual value
-	 * @return {ObjectValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asUriConsumer(consumer: (input: UriValidator | UriValidatorNoOp) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asUri());
 		return this;
 	}
 

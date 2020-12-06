@@ -5,8 +5,7 @@ import {
 	MapVerifierNoOp,
 	NumberVerifierNoOp,
 	SetVerifierNoOp,
-	StringVerifierNoOp,
-	UriVerifierNoOp
+	StringVerifierNoOp
 } from "./internal";
 
 /**
@@ -223,23 +222,6 @@ class ObjectVerifierNoOp
 	 * @return {ObjectVerifierNoOp} the updated verifier
 	 */
 	asInetAddressConsumer(): this
-	{
-		return this;
-	}
-
-
-	/**
-	 * @return {UriVerifierNoOp} a verifier for the <code>URI</code>
-	 */
-	asUri(): UriVerifierNoOp
-	{
-		return UriVerifierNoOp.INSTANCE;
-	}
-
-	/**
-	 * @return {ObjectVerifierNoOp} the updated verifier
-	 */
-	asUriConsumer(): this
 	{
 		return this;
 	}

@@ -95,7 +95,7 @@ async function bundleSrcForBrowser()
 	const bundle = await rollup(
 		{
 			input: "src/index.ts",
-			external: ["urijs", "lodash"],
+			external: ["lodash"],
 			plugins:
 				[
 					rollupTypescript(),
@@ -154,7 +154,6 @@ async function bundleSrcForBrowser()
 			format: "iife",
 			globals:
 				{
-					urijs: "URI",
 					lodash: "_"
 				},
 			sourcemap: isReleaseMode,
