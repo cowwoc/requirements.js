@@ -9,8 +9,7 @@ import {
 	ObjectValidator,
 	ObjectValidatorNoOp,
 	SetVerifier,
-	StringVerifier,
-	UrlVerifier
+	StringVerifier
 } from "./internal/internal";
 
 /**
@@ -368,29 +367,6 @@ class ObjectVerifier<V extends ObjectValidator | ObjectValidatorNoOp>
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asInetAddress());
-		return this;
-	}
-
-	/**
-	 * @return {UrlVerifier} a verifier for the <code>URL</code>
-	 * @throws {TypeError} if the actual value is not a <code>URL</code>
-	 */
-	asUrl(): UrlVerifier
-	{
-		const newValidator = this.validator.asUrl();
-		return this.validationResult(() => new UrlVerifier(newValidator)) as UrlVerifier;
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link UrlVerifier} for the URL representation of
-	 *   the actual value
-	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asUrlConsumer(consumer: (actual: UrlVerifier) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asUrl());
 		return this;
 	}
 

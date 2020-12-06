@@ -1,26 +1,24 @@
 import {isEqual} from "lodash";
 import {
-	ArrayValidatorNoOp,
 	ArrayValidator,
-	InetAddressValidator,
-	MapValidator,
-	NumberValidator,
-	SetValidator,
-	StringValidator,
-	UrlValidator,
+	ArrayValidatorNoOp,
 	ClassValidator,
-	NumberValidatorNoOp,
-	SetValidatorNoOp,
-	MapValidatorNoOp,
-	InetAddressValidatorNoOp,
-	UrlValidatorNoOp,
 	ClassValidatorNoOp,
-	Objects,
-	ContextGenerator,
-	ValidationFailure,
-	ContextLine,
 	Configuration,
-	Pluralizer
+	ContextGenerator,
+	ContextLine,
+	InetAddressValidator,
+	InetAddressValidatorNoOp,
+	MapValidator,
+	MapValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
+	Objects,
+	Pluralizer,
+	SetValidator,
+	SetValidatorNoOp,
+	StringValidator,
+	ValidationFailure
 } from "./internal/internal";
 
 /**
@@ -708,52 +706,6 @@ class ObjectValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asInetAddress());
-		return this;
-	}
-
-	/**
-	 * @return {UrlValidator | UrlValidatorNoOp} a validator for the <code>URL</code>
-	 */
-	asUrl(): UrlValidator | UrlValidatorNoOp
-	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
-		{
-			case "undefined":
-			case "null":
-				break;
-			case "string":
-			case "URL":
-			{
-				let actualAsUrl;
-				try
-				{
-					actualAsUrl = new URL((this.actual as string | URL).toString());
-				}
-				catch (ignored)
-				{
-					break;
-				}
-				return new UrlValidator(this.config, actualAsUrl, this.name);
-			}
-		}
-		const failure = new ValidationFailure(this.config, TypeError,
-			this.name + " must contain a valid URL.").addContext("Actual", this.actual).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new UrlValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @param {Function} consumer a function that accepts a {@link UrlValidator} for the URL representation of
-	 *   the actual value
-	 * @return {ObjectValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asUrlConsumer(consumer: (input: UrlValidator | UrlValidatorNoOp) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asUrl());
 		return this;
 	}
 
