@@ -1,5 +1,7 @@
 import {
 	ArrayVerifier,
+	BooleanValidator,
+	BooleanVerifier,
 	ClassVerifier,
 	InetAddressVerifier,
 	MapVerifier,
@@ -280,8 +282,32 @@ class ObjectVerifier<V extends ObjectValidator | ObjectValidatorNoOp>
 	}
 
 	/**
-	 * @return {NumberVerifier} a verifier for the <code>Number</code>
-	 * @throws {TypeError} if the actual value is not a <code>Number</code>
+	 * @return {BooleanVerifier} a verifier for the <code>boolean</code>
+	 * @throws {TypeError} if the actual value is not a <code>boolean</code>
+	 */
+	asBoolean(): BooleanVerifier<BooleanValidator>
+	{
+		const newValidator = this.validator.asBoolean();
+		return this.validationResult(() => new BooleanVerifier(newValidator)) as
+			BooleanVerifier<BooleanValidator>;
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link BooleanVerifier} for the actual value
+	 * @return {ObjectVerifier} the updated verifier
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a
+	 * <code>boolean</code>
+	 */
+	asBooleanConsumer(consumer: (actual: BooleanVerifier<BooleanValidator>) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asBoolean());
+		return this;
+	}
+
+	/**
+	 * @return {NumberVerifier} a verifier for the <code>number</code>
+	 * @throws {TypeError} if the actual value is not a <code>number</code>
 	 */
 	asNumber(): NumberVerifier<NumberValidator>
 	{
@@ -293,7 +319,7 @@ class ObjectVerifier<V extends ObjectValidator | ObjectValidatorNoOp>
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Number</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>number</code>
 	 */
 	asNumberConsumer(consumer: (actual: NumberVerifier<NumberValidator>) => void): this
 	{

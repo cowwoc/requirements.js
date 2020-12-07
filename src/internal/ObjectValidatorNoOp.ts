@@ -4,6 +4,7 @@ import {
 	InetAddressValidatorNoOp,
 	MapValidatorNoOp,
 	NumberValidatorNoOp,
+	BooleanValidatorNoOp,
 	Objects,
 	SetValidatorNoOp,
 	StringValidatorNoOp,
@@ -179,7 +180,23 @@ class ObjectValidatorNoOp
 	}
 
 	/**
-	 * @return {NumberValidatorNoOp} a validator for the <code>Number</code>
+	 * @return {BooleanValidatorNoOp} a validator for the <code>boolean</code>
+	 */
+	asBoolean(): BooleanValidatorNoOp
+	{
+		return new BooleanValidatorNoOp(this.failures);
+	}
+
+	/**
+	 * @return {ObjectValidatorNoOp} the updated validator
+	 */
+	asBooleanConsumer(): this
+	{
+		return this;
+	}
+
+	/**
+	 * @return {BooleanValidatorNoOp} a validator for the <code>number</code>
 	 */
 	asNumber(): NumberValidatorNoOp
 	{

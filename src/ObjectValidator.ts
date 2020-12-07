@@ -2,6 +2,8 @@ import {isEqual} from "lodash";
 import {
 	ArrayValidator,
 	ArrayValidatorNoOp,
+	BooleanValidator,
+	BooleanValidatorNoOp,
 	ClassValidator,
 	ClassValidatorNoOp,
 	Configuration,
@@ -440,6 +442,39 @@ class ObjectValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asArray());
+		return this;
+	}
+
+	/**
+	 * @return {BooleanValidator | BooleanValidatorNoOp} a validator for the <code>boolean</code>
+	 */
+	asBoolean(): BooleanValidator | BooleanValidatorNoOp
+	{
+		try
+		{
+			const actualBoolean = Boolean(this.actual);
+			return new BooleanValidator(this.config, actualBoolean.valueOf(), this.name);
+		}
+		catch (e)
+		{
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must be convertible to a boolean.").
+				addContext("Actual", this.actual).
+				addContext("Type", Objects.getTypeOf(this.actual));
+			this.failures.push(failure);
+			return new BooleanValidatorNoOp(this.failures);
+		}
+	}
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link BooleanValidator} for the actual value
+	 * @return {ObjectValidator} the updated validator
+	 * @throws {TypeError} if <code>consumer</code> is not set
+	 */
+	asBooleanConsumer(consumer: (input: BooleanValidator | BooleanValidatorNoOp) => void): this
+	{
+		Objects.requireThatIsSet(consumer, "consumer");
+		consumer(this.asBoolean());
 		return this;
 	}
 

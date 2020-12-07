@@ -163,7 +163,7 @@ class ObjectVerifierNoOp
 	}
 
 	/**
-	 * @return {NumberVerifierNoOp} a verifier for the <code>Number</code>
+	 * @return {NumberVerifierNoOp} a verifier for the <code>number</code>
 	 */
 	asNumber(): NumberVerifierNoOp
 	{

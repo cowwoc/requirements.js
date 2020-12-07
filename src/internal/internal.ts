@@ -25,6 +25,8 @@ import MapValidator from "../MapValidator";
 import MapVerifier from "../MapVerifier";
 import NumberValidator from "../NumberValidator";
 import NumberVerifier from "../NumberVerifier";
+import BooleanValidator from "../BooleanValidator";
+import BooleanVerifier from "../BooleanVerifier";
 import Requirements from "../Requirements";
 import SetValidator from "../SetValidator";
 import SetVerifier from "../SetVerifier";
@@ -73,6 +75,8 @@ import MapValidatorNoOp from "./MapValidatorNoOp";
 import MapVerifierNoOp from "./MapVerifierNoOp";
 import NumberValidatorNoOp from "./NumberValidatorNoOp";
 import NumberVerifierNoOp from "./NumberVerifierNoOp";
+import BooleanValidatorNoOp from "./BooleanValidatorNoOp";
+import BooleanVerifierNoOp from "./BooleanVerifierNoOp";
 import Pluralizer from "./Pluralizer";
 import SetValidatorNoOp from "./SetValidatorNoOp";
 import SetVerifierNoOp from "./SetVerifierNoOp";
@@ -126,12 +130,16 @@ export {
 	MapVerifier,
 	NumberValidator,
 	NumberVerifier,
+	BooleanValidator,
+	BooleanVerifier,
 	MapVerifierNoOp,
 	Node16Colors,
 	Node256Colors,
 	Node16MillionColors,
 	NumberValidatorNoOp,
 	NumberVerifierNoOp,
+	BooleanValidatorNoOp,
+	BooleanVerifierNoOp,
 	Objects,
 	ObjectValidator,
 	ObjectVerifier,

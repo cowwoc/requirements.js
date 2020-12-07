@@ -330,11 +330,11 @@ gulp.task("server", server);
 gulp.task("test", gulp.series(lint,
 	gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
 gulp.task("bundle", bundleAll);
-gulp.task("target", gulp.series(bundleAll, test));
+gulp.task("target", gulp.series(bundleAll, bundleTest, test));
 gulp.task("watch", function()
 {
 	gulp.watch(["gulpfile.babel.js", ".eslintrc.js"], {delay: 500}, lintJs);
 	gulp.watch(["src/**/*.ts", "test/**/*.ts"], {delay: 500},
-		gulp.series(lintTs, bundleSrcForNodeWithoutModules, test));
+		gulp.series(lintTs, bundleSrcForNodeWithoutModules, bundleTest, test));
 });
 gulp.task("default", gulp.parallel("target"));

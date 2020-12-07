@@ -6,7 +6,7 @@ import {
 } from "./internal/internal";
 
 /**
- * Validates the requirements of a <code>Number</code>.
+ * Validates the requirements of a <code>number</code>.
  * <p>
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */

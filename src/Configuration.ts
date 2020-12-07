@@ -137,7 +137,7 @@ class Configuration
 	 * @param {string} name the name of the parameter
 	 * @param {object} value the value of the parameter
 	 * @return {Configuration} the updated configuration
-	 * @throws {TypeError} if <code>key</code> is not a <code>String</code>
+	 * @throws {TypeError} if <code>key</code> is not a <code>string</code>
 	 * @see #getContext
 	 */
 	putContext(name: string, value: unknown): Configuration
@@ -168,7 +168,7 @@ class Configuration
 
 	/**
 	 * Returns the <code>String</code> representation of an object. By default, custom handlers are provided for
-	 * arrays, <code>Number</code> and <code>Set</code>.
+	 * arrays, <code>number</code> and <code>Set</code>.
 	 *
 	 * @param {object} value a value
 	 * @return {string} the <code>String</code> representation of the value
