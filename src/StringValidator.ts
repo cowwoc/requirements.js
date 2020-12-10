@@ -4,6 +4,8 @@ import {
 	ObjectValidator,
 	Pluralizer,
 	SizeValidator,
+	SizeValidatorNoOp,
+	StringValidatorNoOp,
 	ValidationFailure
 } from "./internal/internal";
 
@@ -23,14 +25,21 @@ class StringValidator extends ObjectValidator
 		this.actualString = actual as string;
 	}
 
+	protected getNoOp(): StringValidatorNoOp
+	{
+		return new StringValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value starts with a value.
 	 *
 	 * @param {string} prefix the value that the string must start with
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	startsWith(prefix: string): this
+	startsWith(prefix: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.actualString.startsWith(prefix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -45,10 +54,12 @@ class StringValidator extends ObjectValidator
 	 * Ensures that the actual value does not start with a value.
 	 *
 	 * @param {string} prefix the value that the string may not start with
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	doesNotStartWith(prefix: string): this
+	doesNotStartWith(prefix: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualString.startsWith(prefix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -63,10 +74,12 @@ class StringValidator extends ObjectValidator
 	 * Ensures that the actual value contains a value.
 	 *
 	 * @param {string} expected the value that the string must contain
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	contains(expected: string): this
+	contains(expected: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.actualString.includes(expected))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -81,10 +94,12 @@ class StringValidator extends ObjectValidator
 	 * Ensures that the actual value does not contain a value.
 	 *
 	 * @param {string} value the value that the string may not contain
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	doesNotContain(value: string): this
+	doesNotContain(value: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualString.includes(value))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -99,10 +114,12 @@ class StringValidator extends ObjectValidator
 	 * Ensures that the actual value ends with a value.
 	 *
 	 * @param {string} suffix the value that the string must end with
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	endsWith(suffix: string): this
+	endsWith(suffix: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.actualString.endsWith(suffix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -117,10 +134,12 @@ class StringValidator extends ObjectValidator
 	 * Ensures that the actual value does not end with a value.
 	 *
 	 * @param {string} suffix the value that the string may not end with
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	doesNotEndWith(suffix: string): this
+	doesNotEndWith(suffix: string): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualString.endsWith(suffix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -134,10 +153,12 @@ class StringValidator extends ObjectValidator
 	/**
 	 * Ensures that the value is an empty string.
 	 *
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	isEmpty(): this
+	isEmpty(): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualString.length !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
@@ -150,10 +171,12 @@ class StringValidator extends ObjectValidator
 	/**
 	 * Ensures that the value is not an empty string.
 	 *
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualString.length <= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -166,10 +189,12 @@ class StringValidator extends ObjectValidator
 	/**
 	 * Trims whitespace at the beginning and end of the actual value.
 	 *
-	 * @return {StringValidator} the updated validator
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
 	 */
-	trim(): this
+	trim(): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		this.actualString = this.actualString.trim();
 		return this;
 	}
@@ -180,7 +205,7 @@ class StringValidator extends ObjectValidator
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	trimConsumer(consumer: (actual: StringValidator) => void): this
+	trimConsumer(consumer: (actual: StringValidator | StringValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.trim());
@@ -188,10 +213,34 @@ class StringValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the string
+	 * Ensures that the actual value does not contain leading or trailing whitespace.
+	 *
+	 * @return {StringValidator | StringValidatorNoOp} the updated validator
+	 * @see #trim
 	 */
-	length(): SizeValidator
+	isTrimmed(): this | StringValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
+		const trimmed = this.actualString.trim();
+		if (trimmed !== this.actualString)
+		{
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " may not contain leading or trailing whitespace").
+				addContext("Actual", this.actualString);
+			this.failures.push(failure);
+			return new StringValidatorNoOp(this.failures);
+		}
+		return this;
+	}
+
+	/**
+	 * @return {SizeValidator | SizeValidatorNoOp} a validator for the length of the string
+	 */
+	length(): SizeValidator | SizeValidatorNoOp
+	{
+		if (!this.actualIsSet())
+			return new SizeValidatorNoOp(this.failures);
 		return new SizeValidator(this.config, this.actualString, this.name, this.actualString.length,
 			this.name + ".length", Pluralizer.CHARACTER);
 	}
@@ -202,7 +251,7 @@ class StringValidator extends ObjectValidator
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeValidator) => void): this
+	lengthConsumer(consumer: (actual: SizeValidator | SizeValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.length());

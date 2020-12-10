@@ -10,6 +10,7 @@
 // Further, the loading order matters. You have to load internal.js and reorder dependencies repeatedly until
 // all circular dependencies are resolved.
 
+import AbstractObjectValidator from "./AbstractObjectValidator";
 import ObjectValidator from "../ObjectValidator";
 import ObjectVerifier from "../ObjectVerifier";
 import ObjectValidatorNoOp from "./ObjectValidatorNoOp";
@@ -141,6 +142,7 @@ export {
 	BooleanValidatorNoOp,
 	BooleanVerifierNoOp,
 	Objects,
+	AbstractObjectValidator,
 	ObjectValidator,
 	ObjectVerifier,
 	ObjectValidatorNoOp,

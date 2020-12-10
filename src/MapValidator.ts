@@ -1,11 +1,13 @@
 import {
 	ArrayValidator,
+	ArrayValidatorNoOp,
 	Configuration,
-	NumberValidator,
+	MapValidatorNoOp,
 	Objects,
 	ObjectValidator,
 	Pluralizer,
 	SizeValidator,
+	SizeValidatorNoOp,
 	ValidationFailure
 } from "./internal/internal";
 
@@ -24,13 +26,20 @@ class MapValidator extends ObjectValidator
 		this.actualMap = this.actual as Map<unknown, unknown>;
 	}
 
+	protected getNoOp(): MapValidatorNoOp
+	{
+		return new MapValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that value does not contain any entries
 	 *
-	 * @return {MapValidator} the updated validator
+	 * @return {MapValidator | MapValidatorNoOp} the updated validator
 	 */
-	isEmpty(): this
+	isEmpty(): this | MapValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualMap.size !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
@@ -43,10 +52,12 @@ class MapValidator extends ObjectValidator
 	/**
 	 * Ensures that value contains at least one entry.
 	 *
-	 * @return {MapValidator} the updated validator
+	 * @return {MapValidator | MapValidatorNoOp} the updated validator
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): this | MapValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualMap.size === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -57,10 +68,12 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's keys
+	 * @return {ArrayValidator | ArrayValidatorNoOp} a validator for the Map's keys
 	 */
-	keys(): ArrayValidator
+	keys(): ArrayValidator | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new ArrayValidatorNoOp(this.failures);
 		return new ArrayValidator(this.config, Array.from(this.actualMap.keys()), this.name + ".keys()",
 			Pluralizer.KEY);
 	}
@@ -70,7 +83,7 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	keysConsumer(consumer: (actual: ArrayValidator) => void): MapValidator
+	keysConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): MapValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.keys());
@@ -78,10 +91,12 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's values
+	 * @return {ArrayValidator | ArrayValidatorNoOp} a validator for the Map's values
 	 */
-	values(): ArrayValidator
+	values(): ArrayValidator | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new ArrayValidatorNoOp(this.failures);
 		return new ArrayValidator(this.config, Array.from(this.actualMap.values()), this.name + ".values()",
 			Pluralizer.VALUE);
 	}
@@ -91,7 +106,7 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	valuesConsumer(consumer: (actual: ArrayValidator) => void): this
+	valuesConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.values());
@@ -99,11 +114,13 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} validator for the Map's entries (an array of <code>[key, value]</code> for
-	 *   each element in the Map)
+	 * @return {ArrayValidator | ArrayValidatorNoOp} validator for the Map's entries (an array of
+	 *   <code>[key, value]</code> for each element in the Map)
 	 */
-	entries(): ArrayValidator
+	entries(): ArrayValidator | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new ArrayValidatorNoOp(this.failures);
 		return new ArrayValidator(this.config, Array.from(this.actualMap.entries()), this.name + ".entries()",
 			Pluralizer.ENTRY);
 	}
@@ -114,7 +131,7 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	entriesConsumer(consumer: (actual: ArrayValidator) => void): this
+	entriesConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.entries());
@@ -122,10 +139,12 @@ class MapValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the number of entries this Map contains
+	 * @return {SizeValidator | SizeValidatorNoOp} a validator for the number of entries this Map contains
 	 */
-	size(): SizeValidator
+	size(): SizeValidator | SizeValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new SizeValidatorNoOp(this.failures);
 		return new SizeValidator(this.config, this.actualMap, this.name, this.actualMap.size,
 			this.name + ".size", Pluralizer.ENTRY);
 	}
@@ -136,7 +155,7 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberValidator) => void): this
+	sizeConsumer(consumer: (actual: SizeValidator | SizeValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());

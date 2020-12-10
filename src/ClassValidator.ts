@@ -1,4 +1,5 @@
 import {
+	ClassValidatorNoOp,
 	Configuration,
 	Objects,
 	ObjectValidator,
@@ -23,15 +24,22 @@ class ClassValidator extends ObjectValidator
 		this.actualClass = actual as Function;
 	}
 
+	protected getNoOp(): ClassValidatorNoOp
+	{
+		return new ClassValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
 	 *
 	 * @param {Function} type the type to compare to
-	 * @return {ClassValidator} the updated validator
+	 * @return {ClassValidator | ClassValidatorNoOp} the updated validator
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): this
+	isSupertypeOf(type: Function): this | ClassValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		const typeOfType = Objects.getTypeOf(type);
 		if (typeOfType === "Function")
 		{
@@ -49,11 +57,13 @@ class ClassValidator extends ObjectValidator
 	 * Ensures that the actual value is the specified type, or a sub-type.
 	 *
 	 * @param {Function} type the type to compare to
-	 * @return {ClassValidator} the updated validator
+	 * @return {ClassValidator | ClassValidatorNoOp} the updated validator
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): this
+	isSubtypeOf(type: Function): this | ClassValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		const typeOfType = Objects.getTypeOf(type);
 		if (typeOfType === "Function")
 		{

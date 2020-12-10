@@ -1,5 +1,6 @@
 import {
 	Configuration,
+	InetAddressValidatorNoOp,
 	Objects,
 	ObjectValidator,
 	ValidationFailure
@@ -42,13 +43,20 @@ class InetAddressValidator extends ObjectValidator
 		this.addressIsHostname = isHostname;
 	}
 
+	protected getNoOp(): InetAddressValidatorNoOp
+	{
+		return new InetAddressValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is an IP v4 address.
 	 *
-	 * @return {InetAddressValidator} the updated validator
+	 * @return {InetAddressValidator | InetAddressValidatorNoOp} the updated validator
 	 */
-	isIpV4(): this
+	isIpV4(): this | InetAddressValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.addressIsIpV4)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -62,10 +70,12 @@ class InetAddressValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is an IP v6 address.
 	 *
-	 * @return {InetAddressValidator} the updated validator
+	 * @return {InetAddressValidator | InetAddressValidatorNoOp} the updated validator
 	 */
-	isIpV6(): InetAddressValidator
+	isIpV6(): this | InetAddressValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.addressIsIpV6)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -79,11 +89,13 @@ class InetAddressValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is an IP v6 address.
 	 *
-	 * @return {InetAddressValidator} the updated validator
+	 * @return {InetAddressValidator | InetAddressValidatorNoOp} the updated validator
 	 * @see <a href="https://tools.ietf.org/html/rfc3696#section-2">rfc3696</a>
 	 */
-	isHostname(): this
+	isHostname(): this | InetAddressValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.addressIsHostname)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,

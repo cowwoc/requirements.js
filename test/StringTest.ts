@@ -1,10 +1,10 @@
 import test from "tape-catch";
 import {Requirements} from "../src/index";
 import {
-	TestGlobalConfiguration,
-	TerminalEncoding,
 	Configuration,
 	EOS_MARKER,
+	TerminalEncoding,
+	TestGlobalConfiguration,
 	TextOnly
 } from "../src/internal/internal";
 
@@ -38,6 +38,30 @@ test("StringTest.trimIsEmpty_False", function(t)
 	t.throws(function()
 	{
 		requirements.requireThat("value", "actual").asString().trim().isEmpty();
+	}, RangeError);
+	t.end();
+});
+
+test("StringTest.isTrimmed", function(t)
+{
+	requirements.requireThat("", "actual").asString().isTrimmed();
+	t.end();
+});
+
+test("StringTest.isTrimmed_LeftSpace", function(t)
+{
+	t.throws(function()
+	{
+		requirements.requireThat("  value", "actual").asString().isTrimmed();
+	}, RangeError);
+	t.end();
+});
+
+test("StringTest.isTrimmed_RightSpace", function(t)
+{
+	t.throws(function()
+	{
+		requirements.requireThat("value  ", "actual").asString().isTrimmed();
 	}, RangeError);
 	t.end();
 });

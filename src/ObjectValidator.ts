@@ -1,5 +1,6 @@
 import {isEqual} from "lodash";
 import {
+	AbstractObjectValidator,
 	ArrayValidator,
 	ArrayValidatorNoOp,
 	BooleanValidator,
@@ -7,8 +8,6 @@ import {
 	ClassValidator,
 	ClassValidatorNoOp,
 	Configuration,
-	ContextGenerator,
-	ContextLine,
 	InetAddressValidator,
 	InetAddressValidatorNoOp,
 	MapValidator,
@@ -16,6 +15,7 @@ import {
 	NumberValidator,
 	NumberValidatorNoOp,
 	Objects,
+	ObjectValidatorNoOp,
 	Pluralizer,
 	SetValidator,
 	SetValidatorNoOp,
@@ -26,13 +26,8 @@ import {
 /**
  * Validates the requirements of an object.
  */
-class ObjectValidator
+class ObjectValidator extends AbstractObjectValidator
 {
-	protected readonly config: Configuration;
-	protected actual: unknown;
-	protected readonly name: string;
-	readonly failures: ValidationFailure[] = [];
-
 	/**
 	 * Creates a new ObjectValidator.
 	 *
@@ -44,24 +39,12 @@ class ObjectValidator
 	 */
 	constructor(configuration: Configuration, actual: unknown, name: string)
 	{
-		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
-		Objects.verifyName(name, "name");
-		this.config = configuration;
-		this.actual = actual;
-		this.name = name;
+		super(configuration, actual, name);
 	}
 
-	/**
-	 * @param {object} expected the expected value
-	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 * @private
-	 */
-	private getContext(expected: unknown, expectedInMessage: boolean): ContextLine[]
+	protected getNoOp(): ObjectValidatorNoOp
 	{
-		const contextGenerator = new ContextGenerator(this.config);
-		return contextGenerator.getContext("Actual", this.actual, "Expected", expected,
-			expectedInMessage);
+		return new ObjectValidatorNoOp(this.failures);
 	}
 
 	/**
@@ -144,13 +127,15 @@ class ObjectValidator
 	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
 	 * <code>isInstanceOf(Object)</code>.
 	 *
-	 * @return {ObjectValidator} the updated validator
+	 * @return {ObjectValidator | ObjectValidatorNoOp} the updated validator
 	 * @throws {RangeError} if the actual value is not a <code>string</code>, <code>number</code>,
 	 *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
 	 *   <code>symbol</code>)
 	 */
-	isPrimitive(): this
+	isPrimitive(): this | ObjectValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!Objects.isPrimitive(this.actual))
 		{
 			const typeOfActual = Objects.getTypeOf(this.actual);

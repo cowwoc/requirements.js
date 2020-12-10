@@ -1,12 +1,15 @@
 import {isEqual} from "lodash";
 import {
+	ArrayValidatorNoOp,
+	Configuration,
 	Objects,
-	SetValidator,
-	SizeValidator,
-	ValidationFailure,
-	Pluralizer,
 	ObjectValidator,
-	Configuration
+	Pluralizer,
+	SetValidator,
+	SetValidatorNoOp,
+	SizeValidator,
+	SizeValidatorNoOp,
+	ValidationFailure
 } from "./internal/internal";
 
 /**
@@ -36,13 +39,21 @@ class ArrayValidator extends ObjectValidator
 		this.pluralizer = pluralizer;
 	}
 
+	protected getNoOp(): ArrayValidatorNoOp
+	{
+		return new ArrayValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is empty.
 	 *
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 */
-	isEmpty(): this
+	isEmpty(): this | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
+
 		if (this.actualArray.length !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -56,10 +67,13 @@ class ArrayValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not empty.
 	 *
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): this | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
+
 		if (this.actualArray.length === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be empty.");
@@ -126,14 +140,17 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {object} element the element that must exist
 	 * @param {string} [name] the name of the element
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	contains(element: unknown, name?: string): this
+	contains(element: unknown, name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
+
 		if (!ArrayValidator.arrayContainsElement(this.actualArray, element))
 		{
 			let failure;
@@ -160,15 +177,18 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsExactly(expected: unknown[], name?: string): this
+	containsExactly(expected: unknown[], name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(expected, "expected", "Array");
+		if (!this.actualIsSet())
+			return this.getNoOp();
+
 		const expectedAsSet = new Set(expected);
 		const actualAsSet = new Set(this.actualArray);
 		const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
@@ -203,15 +223,17 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsAny(expected: unknown[], name?: string): this
+	containsAny(expected: unknown[], name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(expected, "expected", "Array");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (!ArrayValidator.arrayContainsAny(this.actualArray, expected))
 		{
@@ -239,15 +261,17 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsAll(expected: unknown[], name?: string): this
+	containsAll(expected: unknown[], name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(expected, "expected", "Array");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (!ArrayValidator.arrayContainsAll(this.actualArray, expected))
 		{
@@ -280,14 +304,16 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {object} element the element that must not exist
 	 * @param {string} [name] the name of the element
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContain(element: unknown, name?: string): this
+	doesNotContain(element: unknown, name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (ArrayValidator.arrayContainsElement(this.actualArray, element))
 		{
@@ -315,15 +341,17 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContainAny(elements: unknown[], name?: string): this
+	doesNotContainAny(elements: unknown[], name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(elements, "elements", "Array");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (ArrayValidator.arrayContainsAny(this.actualArray, elements))
 		{
@@ -351,15 +379,17 @@ class ArrayValidator extends ObjectValidator
 	 *
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an Array
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContainAll(elements: unknown[], name?: string): this
+	doesNotContainAll(elements: unknown[], name?: string): this | ArrayValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(elements, "elements", "Array");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (ArrayValidator.arrayContainsAll(this.actualArray, elements))
 		{
@@ -390,10 +420,13 @@ class ArrayValidator extends ObjectValidator
 	/**
 	 * Ensures that the array does not contain any duplicate elements.
 	 *
-	 * @return {ArrayValidator} the updated validator
+	 * @return {ArrayValidator | ArrayValidatorNoOp} the updated validator
 	 */
-	doesNotContainDuplicates(): this
+	doesNotContainDuplicates(): this | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
+
 		const unique = new Set();
 		const duplicates = new Set();
 		for (const element of this.actualArray)
@@ -415,21 +448,22 @@ class ArrayValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the array
+	 * @return {SizeValidator | SizeValidatorNoOp} a validator for the length of the array
 	 */
-	length(): SizeValidator
+	length(): SizeValidator | SizeValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new SizeValidatorNoOp(this.failures);
 		return new SizeValidator(this.config, this.actualArray, this.name, this.actualArray.length,
 			this.name + ".length", this.pluralizer);
 	}
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeValidator} for the length of the
-	 *   array
+	 * @param {Function} consumer a function that accepts a {@link SizeValidator} for the length of the array
 	 * @return {ArrayValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (length: SizeValidator) => void): this
+	lengthConsumer(consumer: (length: SizeValidator | SizeValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.length());
@@ -439,10 +473,12 @@ class ArrayValidator extends ObjectValidator
 	/**
 	 * Verifies the Set representation of the array.
 	 *
-	 * @return {SetValidator} a <code>Set</code> validator
+	 * @return {SetValidator | SetValidatorNoOp} a <code>Set</code> validator
 	 */
-	asSet(): SetValidator
+	asSet(): SetValidator | SetValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new SetValidatorNoOp(this.failures);
 		return new SetValidator(this.config, new Set(this.actualArray), this.name + ".asSet()");
 	}
 
@@ -452,7 +488,7 @@ class ArrayValidator extends ObjectValidator
 	 * @return {ArrayValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asSetConsumer(consumer: (actual: SetValidator) => void): this
+	asSetConsumer(consumer: (actual: SetValidator | SetValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asSet());

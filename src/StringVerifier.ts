@@ -141,6 +141,18 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	}
 
 	/**
+	 * Ensures that the actual value does not contain leading or trailing whitespace.
+	 *
+	 * @return {StringVerifier} a verifier for the trimmed representation of the actual value
+	 * @see #trim
+	 */
+	isTrimmed(): this
+	{
+		this.validator.isTrimmed();
+		return this.validationResult();
+	}
+
+	/**
 	 * @return {SizeVerifier} a verifier for the length of the string
 	 */
 	length(): SizeVerifier

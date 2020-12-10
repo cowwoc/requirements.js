@@ -1,13 +1,15 @@
 import {
-	ObjectValidator,
 	ArrayValidator,
-	SizeValidator,
-	Objects,
-	ValidationFailure,
-	Pluralizer,
+	ArrayValidatorNoOp,
 	Configuration,
-	NumberValidator,
-	ObjectVerifier
+	Objects,
+	ObjectValidator,
+	ObjectVerifier,
+	Pluralizer,
+	SetValidatorNoOp,
+	SizeValidator,
+	SizeValidatorNoOp,
+	ValidationFailure
 } from "./internal/internal";
 
 /**
@@ -25,13 +27,20 @@ class SetValidator extends ObjectValidator
 		this.actualSet = actual as Set<unknown>;
 	}
 
+	protected getNoOp(): SetValidatorNoOp
+	{
+		return new SetValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that value does not contain any elements.
 	 *
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 */
-	isEmpty(): this
+	isEmpty(): this | SetValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualSet.size !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
@@ -44,10 +53,12 @@ class SetValidator extends ObjectValidator
 	/**
 	 * Ensures that value contains at least one element.
 	 *
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): this | SetValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualSet.size === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -62,14 +73,16 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {object} expected the expected value
 	 * @param {string} [name] the name of the expected value
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	contains(expected: unknown, name?: string): this
+	contains(expected: unknown, name?: string): this | SetValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (!this.actualSet.has(expected))
 		{
@@ -111,16 +124,18 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
 	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsExactly(expected: unknown[] | Set<unknown>, name?: string): this
+	containsExactly(expected: unknown[] | Set<unknown>, name?: string): this | SetValidatorNoOp
 	{
 		const expectedAsSet = this.convertToSet(expected, "expected");
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		const missing = new Set([...expectedAsSet].filter(x => !this.actualSet.has(x)));
 		const unwanted = new Set([...this.actualSet].filter(x => !expectedAsSet.has(x)));
@@ -154,16 +169,18 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
 	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsAny(expected: unknown[] | Set<unknown>, name?: string): this
+	containsAny(expected: unknown[] | Set<unknown>, name?: string): this | SetValidatorNoOp
 	{
 		const expectedAsSet = this.convertToSet(expected, "expected");
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (!SetValidator.actualContainsAny(this.actualSet, expectedAsSet))
 		{
@@ -191,16 +208,18 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
 	 *   or <code>Set</code>
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	containsAll(expected: unknown[] | Set<unknown>, name?: string): this
+	containsAll(expected: unknown[] | Set<unknown>, name?: string): this | SetValidatorNoOp
 	{
 		const expectedAsSet = this.convertToSet(expected, "expected");
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (!SetValidator.actualContainsAll(this.actualSet, expectedAsSet))
 		{
@@ -231,14 +250,16 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {object} entry an entry
 	 * @param {string} [name] the name of the entry
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContain(entry: unknown, name?: string): this
+	doesNotContain(entry: unknown, name?: string): this | SetValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualSet.has(entry))
 		{
@@ -266,16 +287,18 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
 	 *   or [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): this
+	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): this | SetValidatorNoOp
 	{
 		const elementsAsSet = this.convertToSet(elements, "elements");
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (SetValidator.actualContainsAny(this.actualSet, elementsAsSet))
 		{
@@ -303,16 +326,18 @@ class SetValidator extends ObjectValidator
 	 *
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
-	 * @return {SetValidator} the updated validator
+	 * @return {SetValidator | SetValidatorNoOp} the updated validator
 	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
 	 *   or [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): this
+	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): this | SetValidatorNoOp
 	{
 		const elementsAsSet = this.convertToSet(elements, "elements");
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (SetValidator.actualContainsAll(this.actualSet, elementsAsSet))
 		{
@@ -339,10 +364,12 @@ class SetValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the Set's size
+	 * @return {SizeValidator | SizeValidatorNoOp} a validator for the Set's size
 	 */
-	size(): SizeValidator
+	size(): SizeValidator | SizeValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new SizeValidatorNoOp(this.failures);
 		return new SizeValidator(this.config, this.actualSet, this.name, this.actualSet.size,
 			this.name + ".size", Pluralizer.ELEMENT);
 	}
@@ -352,7 +379,7 @@ class SetValidator extends ObjectValidator
 	 * @return {SetValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberValidator) => void): SetValidator
+	sizeConsumer(consumer: (actual: SizeValidator | SizeValidatorNoOp) => void): SetValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());
@@ -360,10 +387,12 @@ class SetValidator extends ObjectValidator
 	}
 
 	/**
-	 * @return {ArrayValidator} a validator for the Set's elements
+	 * @return {ArrayValidator | ArrayValidatorNoOp} a validator for the Set's elements
 	 */
-	asArray(): ArrayValidator
+	asArray(): ArrayValidator | ArrayValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return new ArrayValidatorNoOp(this.failures);
 		return new ArrayValidator(this.config, Array.from(this.actualSet.values()), this.name + ".asArray()",
 			Pluralizer.ELEMENT);
 	}
@@ -373,7 +402,7 @@ class SetValidator extends ObjectValidator
 	 * @return {SetValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asArrayConsumer(consumer: (actual: ArrayValidator) => void): this
+	asArrayConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): this
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.asArray());

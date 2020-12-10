@@ -1,4 +1,5 @@
 import {
+	BooleanValidatorNoOp,
 	Configuration,
 	ObjectValidator,
 	ValidationFailure
@@ -19,13 +20,20 @@ class BooleanValidator extends ObjectValidator
 		this.actualBoolean = actual as boolean;
 	}
 
+	protected getNoOp(): BooleanValidatorNoOp
+	{
+		return new BooleanValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is true.
 	 *
-	 * @return {BooleanValidator} the updated validator
+	 * @return {BooleanValidator | BooleanValidatorNoOp} the updated validator
 	 */
-	isTrue(): this
+	isTrue(): this | BooleanValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!this.actualBoolean)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be true.").
@@ -38,10 +46,12 @@ class BooleanValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is false.
 	 *
-	 * @return {BooleanValidator} the updated validator
+	 * @return {BooleanValidator | BooleanValidatorNoOp} the updated validator
 	 */
-	isFalse(): this
+	isFalse(): this | BooleanValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualBoolean)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be false.").

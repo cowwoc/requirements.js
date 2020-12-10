@@ -1,8 +1,9 @@
 import {
-	ObjectValidator,
+	Configuration,
+	NumberValidatorNoOp,
 	Objects,
-	ValidationFailure,
-	Configuration
+	ObjectValidator,
+	ValidationFailure
 } from "./internal/internal";
 
 /**
@@ -20,13 +21,20 @@ class NumberValidator extends ObjectValidator
 		this.actualNumber = actual as number;
 	}
 
+	protected getNoOp(): NumberValidatorNoOp
+	{
+		return new NumberValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is negative.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNegative(): this
+	isNegative(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber >= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -40,10 +48,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not negative.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNotNegative(): this
+	isNotNegative(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber < 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -57,10 +67,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is zero.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isZero(): this
+	isZero(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be zero.").
@@ -73,10 +85,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not zero.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNotZero(): this
+	isNotZero(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -89,10 +103,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is positive.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isPositive(): this
+	isPositive(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber <= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -106,10 +122,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not positive.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNotPositive(): this
+	isNotPositive(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (this.actualNumber > 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -125,15 +143,17 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} value the lower bound
 	 * @param {string} [name]  the name of the lower bound
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}   if <code>name</code> is null
 	 * @throws {RangeError}  if <code>name</code> is empty
 	 */
-	isGreaterThan(value: number, name?: string): this
+	isGreaterThan(value: number, name?: string): this | NumberValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber <= value)
 		{
@@ -161,15 +181,17 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} value the minimum value
 	 * @param {string} [name]  the name of the minimum value
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}   if <code>name</code> is null
 	 * @throws {RangeError}  if <code>name</code> is empty
 	 */
-	isGreaterThanOrEqualTo(value: number, name?: string): this
+	isGreaterThanOrEqualTo(value: number, name?: string): this | NumberValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber < value)
 		{
@@ -197,15 +219,17 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} value the upper bound
 	 * @param {string} [name]  the name of the upper bound
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}   if <code>name</code> is null
 	 * @throws {RangeError}  if <code>name</code> is empty
 	 */
-	isLessThan(value: number, name?: string): this
+	isLessThan(value: number, name?: string): this | NumberValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber >= value)
 		{
@@ -233,15 +257,17 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} value the maximum value
 	 * @param {string} [name]  the name of the maximum value
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}   if <code>name</code> is null
 	 * @throws {RangeError}  if <code>name</code> is empty
 	 */
-	isLessThanOrEqualTo(value: number, name?: string): this
+	isLessThanOrEqualTo(value: number, name?: string): this | NumberValidatorNoOp
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber > value)
 		{
@@ -269,10 +295,10 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} startInclusive the minimum value (inclusive)
 	 * @param {number} endExclusive  the maximum value (exclusive)
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}  if any of the arguments are null or not a number
 	 */
-	isBetween(startInclusive: number, endExclusive: number): this
+	isBetween(startInclusive: number, endExclusive: number): this | NumberValidatorNoOp
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endExclusive, "endExclusive", "number");
@@ -282,6 +308,8 @@ class NumberValidator extends ObjectValidator
 				"Actual: " + endExclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber < startInclusive || this.actualNumber >= endExclusive)
 		{
@@ -299,10 +327,10 @@ class NumberValidator extends ObjectValidator
 	 *
 	 * @param {number} startInclusive the minimum value (inclusive)
 	 * @param {number} endInclusive  the maximum value (inclusive)
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 * @throws {TypeError}  if any of the arguments are null or not a number
 	 */
-	isBetweenClosed(startInclusive: number, endInclusive: number): this
+	isBetweenClosed(startInclusive: number, endInclusive: number): this | NumberValidatorNoOp
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endInclusive, "endInclusive", "number");
@@ -312,6 +340,8 @@ class NumberValidator extends ObjectValidator
 				"Actual: " + endInclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.actualNumber < startInclusive || this.actualNumber > endInclusive)
 		{
@@ -326,10 +356,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is a number.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNumber(): this
+	isNumber(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (isNaN(this.actualNumber))
 		{
 			const typeOfActual = Objects.getTypeOf(this.actual);
@@ -345,10 +377,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not a number.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNotNumber(): this
+	isNotNumber(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		if (!isNaN(this.actualNumber))
 		{
 			const typeOfActual = Objects.getTypeOf(this.actual);
@@ -364,10 +398,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is a finite number.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isFinite(): this
+	isFinite(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		// See http://stackoverflow.com/a/1830844/14731
 		if (!Number.isFinite(this.actualNumber))
 		{
@@ -382,10 +418,12 @@ class NumberValidator extends ObjectValidator
 	/**
 	 * Ensures that the actual value is not a finite number.
 	 *
-	 * @return {NumberValidator} the updated validator
+	 * @return {NumberValidator | NumberValidatorNoOp} the updated validator
 	 */
-	isNotFinite(): this
+	isNotFinite(): this | NumberValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		// See http://stackoverflow.com/a/1830844/14731
 		if (Number.isFinite(this.actualNumber))
 		{

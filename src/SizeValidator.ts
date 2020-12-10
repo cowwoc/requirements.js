@@ -3,6 +3,7 @@ import {
 	NumberValidator,
 	Objects,
 	Pluralizer,
+	SizeValidatorNoOp,
 	ValidationFailure
 } from "./internal/internal";
 
@@ -45,13 +46,20 @@ class SizeValidator extends NumberValidator
 		this.pluralizer = pluralizer;
 	}
 
+	protected getNoOp(): SizeValidatorNoOp
+	{
+		return new SizeValidatorNoOp(this.failures);
+	}
+
 	/**
 	 * Ensures that the actual value is not negative.
 	 *
-	 * @return {SizeValidator} the updated validator
+	 * @return {SizeValidator | SizeValidatorNoOp} the updated validator
 	 */
-	isNotNegative(): this
+	isNotNegative(): this | SizeValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		// Always true
 		return this;
 	}
@@ -59,10 +67,12 @@ class SizeValidator extends NumberValidator
 	/**
 	 * Ensures that the actual value is negative.
 	 *
-	 * @return {SizeValidator} the updated validator
+	 * @return {SizeValidator | SizeValidatorNoOp} the updated validator
 	 */
-	isNegative(): this
+	isNegative(): this | SizeValidatorNoOp
 	{
+		if (!this.actualIsSet())
+			return this.getNoOp();
 		const failure = new ValidationFailure(this.config, RangeError,
 			this.name + " may not be negative");
 		this.failures.push(failure);
@@ -152,10 +162,10 @@ class SizeValidator extends NumberValidator
 	 *
 	 * @param {number} startInclusive the minimum value (inclusive)
 	 * @param {number} endExclusive  the maximum value (exclusive)
-	 * @return {SizeValidator} the updated validator
+	 * @return {SizeValidator | SizeValidatorNoOp} the updated validator
 	 * @throws {TypeError}  if any of the arguments are null or not a number
 	 */
-	isBetween(startInclusive: number, endExclusive: number): this
+	isBetween(startInclusive: number, endExclusive: number): this | SizeValidatorNoOp
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endExclusive, "endExclusive", "number");
@@ -165,6 +175,8 @@ class SizeValidator extends NumberValidator
 				"Actual: " + endExclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.size < startInclusive || this.size >= endExclusive)
 		{
@@ -180,16 +192,15 @@ class SizeValidator extends NumberValidator
 		return this;
 	}
 
-
 	/**
 	 * Ensures that the actual value is within range.
 	 *
 	 * @param {number} startInclusive the minimum value (inclusive)
 	 * @param {number} endInclusive  the maximum value (inclusive)
-	 * @return {SizeValidator} the updated validator
+	 * @return {SizeValidator | SizeValidatorNoOp} the updated validator
 	 * @throws {TypeError}  if any of the arguments are null or not a number
 	 */
-	isBetweenClosed(startInclusive: number, endInclusive: number): this
+	isBetweenClosed(startInclusive: number, endInclusive: number): this | SizeValidatorNoOp
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endInclusive, "endInclusive", "number");
@@ -199,6 +210,8 @@ class SizeValidator extends NumberValidator
 				"Actual: " + endInclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.actualIsSet())
+			return this.getNoOp();
 
 		if (this.size < startInclusive || this.size > endInclusive)
 		{

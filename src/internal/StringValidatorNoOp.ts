@@ -89,6 +89,14 @@ class StringValidatorNoOp extends ObjectValidatorNoOp
 	}
 
 	/**
+	 * @return {StringValidatorNoOp} the updated validator
+	 */
+	isTrimmed(): this
+	{
+		return this;
+	}
+
+	/**
 	 * @return {SizeValidatorNoOp} a validator for the length of the string
 	 */
 	length(): SizeValidatorNoOp
