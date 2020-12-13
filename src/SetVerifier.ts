@@ -1,7 +1,7 @@
 import type {
 	ArrayVerifier,
-	ObjectVerifier,
-	SizeVerifier
+	NumberVerifier,
+	ObjectVerifier
 } from "./internal/internal";
 
 /**
@@ -115,16 +115,16 @@ interface SetVerifier extends ObjectVerifier
 	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
-	 * @return {SizeVerifier} a verifier for the Set's size
+	 * @return {NumberVerifier} a verifier for the Set's size
 	 */
-	size(): SizeVerifier;
+	size(): NumberVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the Set's size
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: SizeVerifier) => void): SetVerifier;
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier;
 
 	/**
 	 * @return {ArrayVerifier} a verifier for the Set's elements

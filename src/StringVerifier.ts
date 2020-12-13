@@ -1,6 +1,6 @@
 import type {
-	ObjectVerifier,
-	SizeVerifier
+	NumberVerifier,
+	ObjectVerifier
 } from "./internal/internal";
 
 /**
@@ -105,16 +105,16 @@ interface StringVerifier extends ObjectVerifier
 	isTrimmed(): StringVerifier;
 
 	/**
-	 * @return {SizeVerifier} a verifier for the length of the string
+	 * @return {NumberVerifier} a verifier for the length of the string
 	 */
-	length(): SizeVerifier;
+	length(): NumberVerifier;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeVerifier} for the length of the string
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the length of the string
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeVerifier) => void): StringVerifier;
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): StringVerifier;
 
 	/**
 	 * @return {StringVerifier} the updated verifier

@@ -1,7 +1,7 @@
 import type {
 	ExtensibleObjectValidator,
-	SetValidator,
-	SizeValidator
+	NumberValidator,
+	SetValidator
 } from "./internal/internal";
 
 /**
@@ -110,16 +110,16 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	doesNotContainDuplicates(): ArrayValidator;
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the array
+	 * @return {NumberValidator} a validator for the length of the array
 	 */
-	length(): SizeValidator;
+	length(): NumberValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link SizeValidator} for the length of the array
 	 * @return {ArrayValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (length: SizeValidator) => void): ArrayValidator;
+	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator;
 
 	/**
 	 * Verifies the Set representation of the array.

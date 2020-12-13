@@ -3,16 +3,16 @@ import {
 	NumberValidatorImpl,
 	Objects,
 	Pluralizer,
-	SizeValidator,
-	SizeValidatorNoOp,
 	ValidationFailure
 } from "./internal";
+import NumberValidatorNoOp from "./NumberValidatorNoOp";
+import type NumberValidator from "../NumberValidator";
 
 /**
  * Default implementation of <code>SetVerifier</code>.
  */
 class SizeValidatorImpl extends NumberValidatorImpl
-	implements SizeValidator
+	implements NumberValidator
 {
 	private readonly collection: unknown[] | Set<unknown> | Map<unknown, unknown> | string;
 	private readonly collectionName: string;
@@ -21,7 +21,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 	private readonly pluralizer: Pluralizer;
 
 	/**
-	 * Creates a new SizeValidator.
+	 * Creates a new SizeValidatorImpl.
 	 *
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Array | Set | Map | string} collection the collection
@@ -46,12 +46,12 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		this.pluralizer = pluralizer;
 	}
 
-	protected getNoOp(): SizeValidator
+	protected getNoOp(): NumberValidator
 	{
-		return new SizeValidatorNoOp(this.failures);
+		return new NumberValidatorNoOp(this.failures);
 	}
 
-	isNotNegative(): SizeValidator
+	isNotNegative(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
@@ -59,7 +59,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		return this;
 	}
 
-	isNegative(): SizeValidator
+	isNegative(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
@@ -69,7 +69,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		return this;
 	}
 
-	isEqualTo(expected: unknown, name?: string): SizeValidator
+	isEqualTo(expected: unknown, name?: string): NumberValidator
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
@@ -100,7 +100,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		return this;
 	}
 
-	isNotEqualTo(value: unknown, name?: string): SizeValidator
+	isNotEqualTo(value: unknown, name?: string): NumberValidator
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
@@ -129,7 +129,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		return this;
 	}
 
-	isBetween(startInclusive: number, endExclusive: number): SizeValidator
+	isBetween(startInclusive: number, endExclusive: number): NumberValidator
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endExclusive, "endExclusive", "number");
@@ -156,7 +156,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		return this;
 	}
 
-	isBetweenClosed(startInclusive: number, endInclusive: number): SizeValidator
+	isBetweenClosed(startInclusive: number, endInclusive: number): NumberValidator
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endInclusive, "endInclusive", "number");

@@ -1,19 +1,19 @@
+import {isEqual} from "lodash";
 import {
 	AbstractObjectValidator,
 	ArrayValidator,
 	ArrayValidatorNoOp,
 	Configuration,
+	NumberValidator,
 	Objects,
 	Pluralizer,
 	SetValidator,
 	SetValidatorImpl,
 	SetValidatorNoOp,
-	SizeValidator,
 	SizeValidatorImpl,
-	SizeValidatorNoOp,
-	ValidationFailure
+	ValidationFailure,
+	NumberValidatorNoOp
 } from "./internal";
-import {isEqual} from "lodash";
 
 /**
  * Default implementation of <code>ArrayValidator</code>.
@@ -376,15 +376,15 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 		return this.getThis();
 	}
 
-	length(): SizeValidator
+	length(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
-			return new SizeValidatorNoOp(this.failures);
+			return new NumberValidatorNoOp(this.failures);
 		return new SizeValidatorImpl(this.config, this.actualArray, this.name, this.actualArray.length,
 			this.name + ".length", this.pluralizer);
 	}
 
-	lengthConsumer(consumer: (length: SizeValidator) => void): ArrayValidator
+	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.length());

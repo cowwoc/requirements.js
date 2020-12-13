@@ -6,12 +6,12 @@ import {
 	Configuration,
 	MapValidator,
 	MapValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
 	Objects,
 	Pluralizer,
-	SizeValidator,
-	SizeValidatorImpl,
-	SizeValidatorNoOp,
-	ValidationFailure
+	ValidationFailure,
+	SizeValidatorImpl
 } from "./internal";
 
 /**
@@ -118,15 +118,15 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 		return this;
 	}
 
-	size(): SizeValidator
+	size(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
-			return new SizeValidatorNoOp(this.failures);
+			return new NumberValidatorNoOp(this.failures);
 		return new SizeValidatorImpl(this.config, this.actualMap, this.name, this.actualMap.size,
 			this.name + ".size", Pluralizer.ENTRY);
 	}
 
-	sizeConsumer(consumer: (actual: SizeValidator) => void): MapValidator
+	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());

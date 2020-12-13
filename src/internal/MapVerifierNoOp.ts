@@ -2,9 +2,9 @@ import {
 	ArrayVerifier,
 	ArrayVerifierNoOp,
 	MapVerifier,
-	ObjectVerifierNoOp,
-	SizeVerifier,
-	SizeVerifierNoOp
+	NumberVerifier,
+	NumberVerifierNoOp,
+	ObjectVerifierNoOp
 } from "./internal";
 
 /**
@@ -81,11 +81,11 @@ class MapVerifierNoOp extends ObjectVerifierNoOp
 	}
 
 	/**
-	 * @return {SizeVerifier} a verifier for the number of entries this Map contains
+	 * @return {NumberVerifier} a verifier for the number of entries this Map contains
 	 */
-	size(): SizeVerifier
+	size(): NumberVerifier
 	{
-		return SizeVerifierNoOp.INSTANCE;
+		return NumberVerifierNoOp.INSTANCE;
 	}
 
 	/**

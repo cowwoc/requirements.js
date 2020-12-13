@@ -2,11 +2,11 @@ import {
 	AbstractObjectVerifier,
 	ArrayVerifier,
 	ArrayVerifierImpl,
+	NumberVerifier,
+	NumberVerifierImpl,
 	Objects,
 	SetValidator,
-	SetVerifier,
-	SizeVerifier,
-	SizeVerifierImpl
+	SetVerifier
 } from "./internal";
 
 /**
@@ -85,13 +85,13 @@ class SetVerifierImpl extends AbstractObjectVerifier<SetVerifier, SetValidator>
 		return this.validationResult();
 	}
 
-	size(): SizeVerifier
+	size(): NumberVerifier
 	{
 		const newValidator = this.validator.size();
-		return this.validationResult(() => new SizeVerifierImpl(newValidator)) as SizeVerifier;
+		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	sizeConsumer(consumer: (actual: SizeVerifier) => void): SetVerifier
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());

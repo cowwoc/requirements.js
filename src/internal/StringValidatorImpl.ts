@@ -1,11 +1,11 @@
 import {
 	AbstractObjectValidator,
 	Configuration,
+	NumberValidator,
+	NumberValidatorNoOp,
 	Objects,
 	Pluralizer,
-	SizeValidator,
 	SizeValidatorImpl,
-	SizeValidatorNoOp,
 	StringValidator,
 	StringValidatorNoOp,
 	ValidationFailure
@@ -185,15 +185,15 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 		return this;
 	}
 
-	length(): SizeValidator
+	length(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
-			return new SizeValidatorNoOp(this.failures);
+			return new NumberValidatorNoOp(this.failures);
 		return new SizeValidatorImpl(this.config, this.actualString, this.name, this.actualString.length,
 			this.name + ".length", Pluralizer.CHARACTER);
 	}
 
-	lengthConsumer(consumer: (actual: SizeValidator) => void): StringValidator
+	lengthConsumer(consumer: (actual: NumberValidator) => void): StringValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.length());

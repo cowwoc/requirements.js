@@ -1,7 +1,7 @@
 import type {
 	ExtensibleObjectVerifier,
 	SetVerifier,
-	SizeVerifier
+	NumberVerifier
 } from "./internal/internal";
 
 /**
@@ -116,16 +116,16 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	doesNotContainDuplicates(): ArrayVerifier;
 
 	/**
-	 * @return {SizeVerifier} a verifier for the length of the array
+	 * @return {NumberVerifier} a verifier for the length of the array
 	 */
-	length(): SizeVerifier;
+	length(): NumberVerifier;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeVerifier} for the length of the array
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the length of the array
 	 * @return {ArrayVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeVerifier) => void): ArrayVerifier;
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier;
 
 	/**
 	 * Verifies the Set representation of the array.

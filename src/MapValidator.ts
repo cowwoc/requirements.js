@@ -1,7 +1,7 @@
 import type {
 	ArrayValidator,
 	ExtensibleObjectValidator,
-	SizeValidator
+	NumberValidator
 } from "./internal/internal";
 
 /**
@@ -64,9 +64,9 @@ interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {SizeValidator} a validator for the number of entries this Map contains
+	 * @return {NumberValidator} a validator for the number of entries this Map contains
 	 */
-	size(): SizeValidator;
+	size(): NumberValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the number of entries
@@ -74,7 +74,7 @@ interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: SizeValidator) => void): MapValidator;
+	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator;
 
 	getActual(): Map<unknown, unknown> | void;
 }

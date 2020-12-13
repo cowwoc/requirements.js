@@ -1,7 +1,7 @@
 import {
 	AbstractObjectValidatorNoOp,
-	SizeValidator,
-	SizeValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
 	StringValidator,
 	ValidationFailure
 } from "./internal";
@@ -119,11 +119,11 @@ class StringValidatorNoOp extends AbstractObjectValidatorNoOp<StringValidator>
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the string
+	 * @return {NumberValidator} a validator for the length of the string
 	 */
-	length(): SizeValidator
+	length(): NumberValidator
 	{
-		return new SizeValidatorNoOp(this.failures);
+		return new NumberValidatorNoOp(this.failures);
 	}
 
 	/**

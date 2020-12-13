@@ -1,10 +1,10 @@
 import {
 	ArrayVerifier,
 	ArrayVerifierNoOp,
+	NumberVerifier,
+	NumberVerifierNoOp,
 	ObjectVerifierNoOp,
-	SetVerifier,
-	SizeVerifier,
-	SizeVerifierNoOp
+	SetVerifier
 } from "./internal";
 
 /**
@@ -90,11 +90,11 @@ class SetVerifierNoOp extends ObjectVerifierNoOp
 	}
 
 	/**
-	 * @return {SizeVerifier} a verifier for the Set's size
+	 * @return {NumberVerifier} a verifier for the Set's size
 	 */
-	size(): SizeVerifier
+	size(): NumberVerifier
 	{
-		return SizeVerifierNoOp.INSTANCE;
+		return NumberVerifierNoOp.INSTANCE;
 	}
 
 	/**

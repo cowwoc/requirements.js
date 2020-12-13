@@ -1,10 +1,10 @@
 import {
 	AbstractObjectVerifierNoOp,
 	ArrayVerifier,
+	NumberVerifier,
+	NumberVerifierNoOp,
 	SetVerifier,
-	SetVerifierNoOp,
-	SizeVerifier,
-	SizeVerifierNoOp
+	SetVerifierNoOp
 } from "./internal";
 
 /**
@@ -117,11 +117,11 @@ class ArrayVerifierNoOp extends AbstractObjectVerifierNoOp<ArrayVerifier>
 	}
 
 	/**
-	 * @return {SizeVerifier} a verifier for the length of the array
+	 * @return {NumberVerifier} a verifier for the length of the array
 	 */
-	length(): SizeVerifier
+	length(): NumberVerifier
 	{
-		return SizeVerifierNoOp.INSTANCE;
+		return NumberVerifierNoOp.INSTANCE;
 	}
 
 	/**

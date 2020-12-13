@@ -1,7 +1,7 @@
 import {
+	NumberVerifier,
+	NumberVerifierNoOp,
 	ObjectVerifierNoOp,
-	SizeVerifier,
-	SizeVerifierNoOp,
 	StringVerifier
 } from "./internal";
 
@@ -104,11 +104,11 @@ class StringVerifierNoOp extends ObjectVerifierNoOp
 	}
 
 	/**
-	 * @return {SizeVerifier} a verifier for the length of the string
+	 * @return {NumberVerifier} a verifier for the length of the string
 	 */
-	length(): SizeVerifier
+	length(): NumberVerifier
 	{
-		return SizeVerifierNoOp.INSTANCE;
+		return NumberVerifierNoOp.INSTANCE;
 	}
 
 	/**

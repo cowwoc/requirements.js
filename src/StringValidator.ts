@@ -1,6 +1,6 @@
 import type {
 	ExtensibleObjectValidator,
-	SizeValidator
+	NumberValidator
 } from "./internal/internal";
 
 /**
@@ -97,17 +97,17 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator>
 	isTrimmed(): StringValidator;
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the string
+	 * @return {NumberValidator} a validator for the length of the string
 	 */
-	length(): SizeValidator;
+	length(): NumberValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeValidator} for the length of the
+	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the length of the
 	 *   string
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeValidator) => void): StringValidator;
+	lengthConsumer(consumer: (actual: NumberValidator) => void): StringValidator;
 
 	/**
 	 * @return {StringValidator} the updated validator

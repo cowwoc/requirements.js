@@ -4,15 +4,15 @@ import {
 	ArrayValidatorImpl,
 	ArrayValidatorNoOp,
 	Configuration,
+	NumberValidator,
+	NumberValidatorNoOp,
 	Objects,
 	ObjectValidatorImpl,
 	ObjectVerifierImpl,
 	Pluralizer,
 	SetValidator,
 	SetValidatorNoOp,
-	SizeValidator,
 	SizeValidatorImpl,
-	SizeValidatorNoOp,
 	ValidationFailure
 } from "./internal";
 
@@ -301,15 +301,15 @@ class SetValidatorImpl extends AbstractObjectValidator<SetValidator>
 		return this;
 	}
 
-	size(): SizeValidator
+	size(): NumberValidator
 	{
 		if (!this.requireThatActualIsSet())
-			return new SizeValidatorNoOp(this.failures);
+			return new NumberValidatorNoOp(this.failures);
 		return new SizeValidatorImpl(this.config, this.actualSet, this.name, this.actualSet.size,
 			this.name + ".size", Pluralizer.ELEMENT);
 	}
 
-	sizeConsumer(consumer: (actual: SizeValidator) => void): SetValidator
+	sizeConsumer(consumer: (actual: NumberValidator) => void): SetValidator
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());

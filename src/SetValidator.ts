@@ -1,7 +1,7 @@
 import type {
 	ArrayValidator,
 	ExtensibleObjectValidator,
-	SizeValidator
+	NumberValidator
 } from "./internal/internal";
 
 /**
@@ -109,16 +109,16 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetValidator;
 
 	/**
-	 * @return {SizeValidator} a validator for the Set's size
+	 * @return {NumberValidator} a validator for the Set's size
 	 */
-	size(): SizeValidator;
+	size(): NumberValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the Set's size
 	 * @return {SetValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: SizeValidator) => void): SetValidator;
+	sizeConsumer(consumer: (actual: NumberValidator) => void): SetValidator;
 
 	/**
 	 * @return {ArrayValidator} a validator for the Set's elements

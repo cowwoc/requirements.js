@@ -4,9 +4,9 @@ import {
 	ArrayVerifierImpl,
 	MapValidator,
 	MapVerifier,
-	Objects,
-	SizeVerifier,
-	SizeVerifierImpl
+	NumberVerifier,
+	NumberVerifierImpl,
+	Objects
 } from "./internal";
 
 /**
@@ -82,13 +82,13 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 		return this;
 	}
 
-	size(): SizeVerifier
+	size(): NumberVerifier
 	{
 		const newValidator = this.validator.size();
-		return this.validationResult(() => new SizeVerifierImpl(newValidator)) as SizeVerifier;
+		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	sizeConsumer(consumer: (actual: SizeVerifier) => void): MapVerifier
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.size());

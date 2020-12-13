@@ -1,10 +1,10 @@
 import {
 	AbstractObjectValidatorNoOp,
 	ArrayValidator,
+	NumberValidator,
+	NumberValidatorNoOp,
 	SetValidator,
 	SetValidatorNoOp,
-	SizeValidator,
-	SizeValidatorNoOp,
 	ValidationFailure
 } from "./internal";
 
@@ -127,11 +127,11 @@ class ArrayValidatorNoOp extends AbstractObjectValidatorNoOp<ArrayValidator>
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the array
+	 * @return {NumberValidator} a validator for the length of the array
 	 */
-	length(): SizeValidator
+	length(): NumberValidator
 	{
-		return new SizeValidatorNoOp(this.failures);
+		return new NumberValidatorNoOp(this.failures);
 	}
 
 	/**

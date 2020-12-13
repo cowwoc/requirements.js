@@ -1,7 +1,7 @@
 import type {
 	ArrayVerifier,
-	ObjectVerifier,
-	SizeVerifier
+	NumberVerifier,
+	ObjectVerifier
 } from "./internal/internal";
 
 /**
@@ -66,9 +66,9 @@ interface MapVerifier extends ObjectVerifier
 	entriesConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier;
 
 	/**
-	 * @return {SizeVerifier} a verifier for the number of entries this Map contains
+	 * @return {NumberVerifier} a verifier for the number of entries this Map contains
 	 */
-	size(): SizeVerifier;
+	size(): NumberVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the number of entries
@@ -76,7 +76,7 @@ interface MapVerifier extends ObjectVerifier
 	 * @return {MapVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: SizeVerifier) => void): MapVerifier;
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier;
 
 	getActual(): Map<unknown, unknown> | void;
 }

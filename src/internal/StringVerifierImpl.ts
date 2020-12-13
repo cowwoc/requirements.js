@@ -1,10 +1,10 @@
 import {
 	AbstractObjectVerifier,
 	Objects,
-	SizeVerifier,
-	SizeVerifierImpl,
 	StringValidator,
-	StringVerifier
+	StringVerifier,
+	NumberVerifier,
+	NumberVerifierImpl
 } from "./internal";
 
 /**
@@ -96,13 +96,13 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 		return this.validationResult();
 	}
 
-	length(): SizeVerifier
+	length(): NumberVerifier
 	{
 		const newValidator = this.validator.length();
-		return this.validationResult(() => new SizeVerifierImpl(newValidator)) as SizeVerifier;
+		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	lengthConsumer(consumer: (actual: SizeVerifier) => void): StringVerifier
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): StringVerifier
 	{
 		Objects.requireThatIsSet(consumer, "consumer");
 		consumer(this.length());

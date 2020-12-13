@@ -3,8 +3,8 @@ import {
 	ArrayValidator,
 	ArrayValidatorNoOp,
 	MapValidator,
-	SizeValidator,
-	SizeValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
 	ValidationFailure
 } from "./internal";
 
@@ -96,11 +96,11 @@ class MapValidatorNoOp extends AbstractObjectValidatorNoOp<MapValidator>
 	}
 
 	/**
-	 * @return {SizeValidator} a validator for the number of entries this Map contains
+	 * @return {NumberValidator} a validator for the number of entries this Map contains
 	 */
-	size(): SizeValidator
+	size(): NumberValidator
 	{
-		return new SizeValidatorNoOp(this.failures);
+		return new NumberValidatorNoOp(this.failures);
 	}
 
 	/**

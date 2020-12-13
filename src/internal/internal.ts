@@ -55,10 +55,6 @@ import type SetValidator from "../SetValidator";
 import type SetVerifier from "../SetVerifier";
 import SetValidatorImpl from "./SetValidatorImpl";
 import SetVerifierImpl from "./SetVerifierImpl";
-import type SizeValidator from "../SizeValidator";
-import type SizeVerifier from "../SizeVerifier";
-import SizeValidatorImpl from "./SizeValidatorImpl";
-import SizeVerifierImpl from "./SizeVerifierImpl";
 import type StringValidator from "../StringValidator";
 import type StringVerifier from "../StringVerifier";
 import StringValidatorImpl from "./StringValidatorImpl";
@@ -107,13 +103,12 @@ import AbstractNumberValidatorNoOp from "./extension/AbstractNumberValidatorNoOp
 import NumberValidatorNoOp from "./NumberValidatorNoOp";
 import AbstractNumberVerifierNoOp from "./extension/AbstractNumberVerifierNoOp";
 import NumberVerifierNoOp from "./NumberVerifierNoOp";
+import SizeValidatorImpl from "./SizeValidatorImpl";
 import BooleanValidatorNoOp from "./BooleanValidatorNoOp";
 import BooleanVerifierNoOp from "./BooleanVerifierNoOp";
 import Pluralizer from "./Pluralizer";
 import SetValidatorNoOp from "./SetValidatorNoOp";
 import SetVerifierNoOp from "./SetVerifierNoOp";
-import SizeValidatorNoOp from "./SizeValidatorNoOp";
-import SizeVerifierNoOp from "./SizeVerifierNoOp";
 import Strings from "./Strings";
 import StringValidatorNoOp from "./StringValidatorNoOp";
 import StringVerifierNoOp from "./StringVerifierNoOp";
@@ -126,8 +121,6 @@ export {
 	SetValidatorImpl,
 	SetVerifierImpl,
 	SetVerifierNoOp,
-	SizeValidatorImpl,
-	SizeVerifierImpl,
 	StringValidatorImpl,
 	StringVerifierImpl,
 	TerminalEncoding,
@@ -174,6 +167,7 @@ export {
 	NumberValidatorNoOp,
 	AbstractNumberVerifierNoOp,
 	NumberVerifierNoOp,
+	SizeValidatorImpl,
 	BooleanValidatorNoOp,
 	BooleanVerifierNoOp,
 	Objects,
@@ -188,8 +182,6 @@ export {
 	Pluralizer,
 	Requirements,
 	SetValidatorNoOp,
-	SizeValidatorNoOp,
-	SizeVerifierNoOp,
 	Strings,
 	StringValidatorNoOp,
 	StringVerifierNoOp,
@@ -204,8 +196,6 @@ export type {
 	ClassVerifier,
 	SetValidator,
 	SetVerifier,
-	SizeValidator,
-	SizeVerifier,
 	StringValidator,
 	StringVerifier,
 	InetAddressValidator,
