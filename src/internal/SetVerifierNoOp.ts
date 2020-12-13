@@ -1,116 +1,122 @@
 import {
+	ArrayVerifier,
 	ArrayVerifierNoOp,
-	NumberVerifierNoOp,
-	ObjectVerifierNoOp
+	ObjectVerifierNoOp,
+	SetVerifier,
+	SizeVerifier,
+	SizeVerifierNoOp
 } from "./internal";
 
 /**
- * An implementation of <code>SetVerifier</code> that does nothing.
+ * An implementation of <code>SetVerifier</code> that does nothing. A verifier that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
 class SetVerifierNoOp extends ObjectVerifierNoOp
+	implements SetVerifier
 {
 	static readonly INSTANCE = new SetVerifierNoOp();
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	isEmpty(): this
+	isEmpty(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	contains(): this
+	contains(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	containsExactly(): this
+	containsExactly(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	containsAny(): this
+	containsAny(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	containsAll(): this
+	containsAll(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	doesNotContain(): this
+	doesNotContain(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	doesNotContainAny(): this
+	doesNotContainAny(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	doesNotContainAll(): this
+	doesNotContainAll(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {NumberVerifierNoOp} a verifier for the Set's size
+	 * @return {SizeVerifier} a verifier for the Set's size
 	 */
-	static size(): NumberVerifierNoOp
+	size(): SizeVerifier
 	{
-		return NumberVerifierNoOp.INSTANCE;
+		return SizeVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	sizeConsumer(): this
+	sizeConsumer(): SetVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayVerifierNoOp} a verifier for the Set's elements
+	 * @return {ArrayVerifier} a verifier for the Set's elements
 	 */
-	static asArray(): ArrayVerifierNoOp
+	static asArray(): ArrayVerifier
 	{
 		return ArrayVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} the updated verifier
+	 * @return {SetVerifier} the updated verifier
 	 */
-	asArrayConsumer(): this
+	asArrayConsumer(): SetVerifier
 	{
 		return this;
 	}

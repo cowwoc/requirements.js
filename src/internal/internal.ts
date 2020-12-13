@@ -10,31 +10,60 @@
 // Further, the loading order matters. You have to load internal.js and reorder dependencies repeatedly until
 // all circular dependencies are resolved.
 
-import AbstractObjectValidator from "./AbstractObjectValidator";
-import ObjectValidator from "../ObjectValidator";
-import ObjectVerifier from "../ObjectVerifier";
+import type ExtensibleObjectValidator from "../extension/ExtensibleObjectValidator";
+import AbstractObjectValidator from "./extension/AbstractObjectValidator";
+import type ObjectValidator from "../ObjectValidator";
+import ObjectValidatorImpl from "./ObjectValidatorImpl";
+import type ExtensibleObjectVerifier from "../extension/ExtensibleObjectVerifier";
+import AbstractObjectVerifier from "./extension/AbstractObjectVerifier";
+import type ObjectVerifier from "../ObjectVerifier";
+import ObjectVerifierImpl from "./ObjectVerifierImpl";
+import AbstractObjectValidatorNoOp from "./extension/AbstractObjectValidatorNoOp";
 import ObjectValidatorNoOp from "./ObjectValidatorNoOp";
+import AbstractObjectVerifierNoOp from "./extension/AbstractObjectVerifierNoOp";
 import ObjectVerifierNoOp from "./ObjectVerifierNoOp";
-import ArrayValidator from "../ArrayValidator";
-import ArrayVerifier from "../ArrayVerifier";
-import ClassValidator from "../ClassValidator";
-import ClassVerifier from "../ClassVerifier";
+import type ArrayValidator from "../ArrayValidator";
+import ArrayValidatorImpl from "./ArrayValidatorImpl";
+import type ArrayVerifier from "../ArrayVerifier";
+import ArrayVerifierImpl from "./ArrayVerifierImpl";
+import type ClassValidator from "../ClassValidator";
+import ClassValidatorImpl from "./ClassValidatorImpl";
+import type ClassVerifier from "../ClassVerifier";
+import ClassVerifierImpl from "./ClassVerifierImpl";
 import Configuration from "../Configuration";
-import InetAddressValidator from "../InetAddressValidator";
-import InetAddressVerifier from "../InetAddressVerifier";
-import MapValidator from "../MapValidator";
-import MapVerifier from "../MapVerifier";
-import NumberValidator from "../NumberValidator";
-import NumberVerifier from "../NumberVerifier";
-import BooleanValidator from "../BooleanValidator";
-import BooleanVerifier from "../BooleanVerifier";
+import type InetAddressValidator from "../InetAddressValidator";
+import InetAddressValidatorImpl from "./InetAddressValidatorImpl";
+import type InetAddressVerifier from "../InetAddressVerifier";
+import InetAddressVerifierImpl from "./InetAddressVerifierImpl";
+import type MapValidator from "../MapValidator";
+import MapValidatorImpl from "./MapValidatorImpl";
+import type MapVerifier from "../MapVerifier";
+import MapVerifierImpl from "./MapVerifierImpl";
+import type ExtensibleNumberValidator from "../extension/ExtensibleNumberValidator";
+import AbstractNumberValidator from "./extension/AbstractNumberValidator";
+import type NumberValidator from "../NumberValidator";
+import NumberValidatorImpl from "./NumberValidatorImpl";
+import type ExtensibleNumberVerifier from "../extension/ExtensibleNumberVerifier";
+import AbstractNumberVerifier from "./extension/AbstractNumberVerifier";
+import type NumberVerifier from "../NumberVerifier";
+import NumberVerifierImpl from "./NumberVerifierImpl";
+import type BooleanValidator from "../BooleanValidator";
+import BooleanValidatorImpl from "./BooleanValidatorImpl";
+import type BooleanVerifier from "../BooleanVerifier";
+import BooleanVerifierImpl from "./BooleanVerifierImpl";
 import Requirements from "../Requirements";
-import SetValidator from "../SetValidator";
-import SetVerifier from "../SetVerifier";
-import SizeValidator from "../SizeValidator";
-import SizeVerifier from "../SizeVerifier";
-import StringValidator from "../StringValidator";
-import StringVerifier from "../StringVerifier";
+import type SetValidator from "../SetValidator";
+import SetValidatorImpl from "./SetValidatorImpl";
+import type SetVerifier from "../SetVerifier";
+import SetVerifierImpl from "./SetVerifierImpl";
+import type SizeValidator from "../SizeValidator";
+import SizeValidatorImpl from "./SizeValidatorImpl";
+import type SizeVerifier from "../SizeVerifier";
+import SizeVerifierImpl from "./SizeVerifierImpl";
+import type StringValidator from "../StringValidator";
+import StringValidatorImpl from "./StringValidatorImpl";
+import type StringVerifier from "../StringVerifier";
+import StringVerifierImpl from "./StringVerifierImpl";
 import {
 	TerminalEncoding,
 	TerminalEncodings
@@ -74,7 +103,9 @@ import TestGlobalConfiguration from "./TestGlobalConfiguration";
 import Maps from "./Maps";
 import MapValidatorNoOp from "./MapValidatorNoOp";
 import MapVerifierNoOp from "./MapVerifierNoOp";
+import AbstractNumberValidatorNoOp from "./extension/AbstractNumberValidatorNoOp";
 import NumberValidatorNoOp from "./NumberValidatorNoOp";
+import AbstractNumberVerifierNoOp from "./extension/AbstractNumberVerifierNoOp";
 import NumberVerifierNoOp from "./NumberVerifierNoOp";
 import BooleanValidatorNoOp from "./BooleanValidatorNoOp";
 import BooleanVerifierNoOp from "./BooleanVerifierNoOp";
@@ -89,16 +120,26 @@ import StringVerifierNoOp from "./StringVerifierNoOp";
 
 export {
 	ArrayValidator,
+	ArrayValidatorImpl,
 	ArrayVerifier,
+	ArrayVerifierImpl,
 	ClassValidator,
+	ClassValidatorImpl,
 	ClassVerifier,
+	ClassVerifierImpl,
 	SetValidator,
+	SetValidatorImpl,
 	SetVerifier,
+	SetVerifierImpl,
 	SetVerifierNoOp,
 	SizeValidator,
+	SizeValidatorImpl,
 	SizeVerifier,
+	SizeVerifierImpl,
 	StringValidator,
+	StringValidatorImpl,
 	StringVerifier,
+	StringVerifierImpl,
 	TerminalEncoding,
 	TerminalEncodings,
 	ValidationFailure,
@@ -120,7 +161,9 @@ export {
 	GlobalRequirements,
 	IllegalStateError,
 	InetAddressValidator,
+	InetAddressValidatorImpl,
 	InetAddressVerifier,
+	InetAddressVerifierImpl,
 	InetAddressValidatorNoOp,
 	InetAddressVerifierNoOp,
 	MainGlobalConfiguration,
@@ -128,24 +171,43 @@ export {
 	Maps,
 	MapValidatorNoOp,
 	MapValidator,
+	MapValidatorImpl,
 	MapVerifier,
+	MapVerifierImpl,
+	ExtensibleNumberValidator,
+	AbstractNumberValidator,
 	NumberValidator,
+	NumberValidatorImpl,
+	ExtensibleNumberVerifier,
+	AbstractNumberVerifier,
 	NumberVerifier,
+	NumberVerifierImpl,
 	BooleanValidator,
+	BooleanValidatorImpl,
 	BooleanVerifier,
+	BooleanVerifierImpl,
 	MapVerifierNoOp,
 	Node16Colors,
 	Node256Colors,
 	Node16MillionColors,
+	AbstractNumberValidatorNoOp,
 	NumberValidatorNoOp,
+	AbstractNumberVerifierNoOp,
 	NumberVerifierNoOp,
 	BooleanValidatorNoOp,
 	BooleanVerifierNoOp,
 	Objects,
+	ExtensibleObjectValidator,
 	AbstractObjectValidator,
 	ObjectValidator,
+	ObjectValidatorImpl,
+	ExtensibleObjectVerifier,
+	AbstractObjectVerifier,
 	ObjectVerifier,
+	ObjectVerifierImpl,
+	AbstractObjectValidatorNoOp,
 	ObjectValidatorNoOp,
+	AbstractObjectVerifierNoOp,
 	ObjectVerifierNoOp,
 	Pluralizer,
 	Requirements,

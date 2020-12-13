@@ -1,93 +1,97 @@
 import {
+	ArrayVerifier,
 	ArrayVerifierNoOp,
-	NumberVerifierNoOp,
-	ObjectVerifierNoOp
+	MapVerifier,
+	ObjectVerifierNoOp,
+	SizeVerifier,
+	SizeVerifierNoOp
 } from "./internal";
 
 /**
  * An implementation of <code>Map</code> that does nothing.
  */
 class MapVerifierNoOp extends ObjectVerifierNoOp
+	implements MapVerifier
 {
 	static readonly INSTANCE = new MapVerifierNoOp();
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	isEmpty(): this
+	isEmpty(): MapVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): MapVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayVerifierNoOp} a verifier for the Map's keys
+	 * @return {ArrayVerifier} a verifier for the Map's keys
 	 */
-	static keys(): ArrayVerifierNoOp
+	keys(): ArrayVerifier
 	{
 		return ArrayVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	keysConsumer(): this
+	keysConsumer(): MapVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayVerifierNoOp} a verifier for the Map's values
+	 * @return {ArrayVerifier} a verifier for the Map's values
 	 */
-	static values(): ArrayVerifierNoOp
+	values(): ArrayVerifier
 	{
 		return ArrayVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	valuesConsumer(): this
+	valuesConsumer(): MapVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayVerifierNoOp} a verifier for the Map's entries (an array of <code>[key, value]</code> for
+	 * @return {ArrayVerifier} a verifier for the Map's entries (an array of <code>[key, value]</code> for
 	 *   each element in the Map)
 	 */
-	static entries(): ArrayVerifierNoOp
+	entries(): ArrayVerifier
 	{
 		return ArrayVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	entriesConsumer(): this
+	entriesConsumer(): MapVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {NumberVerifierNoOp} a verifier for the number of entries this Map contains
+	 * @return {SizeVerifier} a verifier for the number of entries this Map contains
 	 */
-	static size(): NumberVerifierNoOp
+	size(): SizeVerifier
 	{
-		return NumberVerifierNoOp.INSTANCE;
+		return SizeVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {MapVerifierNoOp} the updated verifier
+	 * @return {MapVerifier} the updated verifier
 	 */
-	sizeConsumer(): this
+	sizeConsumer(): MapVerifier
 	{
 		return this;
 	}

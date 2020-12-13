@@ -1,22 +1,43 @@
-import {ObjectValidatorNoOp} from "./internal";
+import {
+	AbstractObjectValidatorNoOp,
+	BooleanValidator,
+	ValidationFailure
+} from "./internal";
 
 /**
  * An implementation of <code>BooleanValidator</code> that does nothing.
  */
-class BooleanValidatorNoOp extends ObjectValidatorNoOp
+class BooleanValidatorNoOp extends AbstractObjectValidatorNoOp<BooleanValidator>
+	implements BooleanValidator
 {
 	/**
-	 * @return {BooleanValidatorNoOp} the updated validator
+	 * Creates a new BooleanValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isTrue(): BooleanValidatorNoOp
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): BooleanValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {BooleanValidatorNoOp} the updated validator
+	 * @return {BooleanValidator} the updated validator
 	 */
-	isFalse(): BooleanValidatorNoOp
+	isTrue(): BooleanValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {BooleanValidator} the updated validator
+	 */
+	isFalse(): BooleanValidator
 	{
 		return this;
 	}

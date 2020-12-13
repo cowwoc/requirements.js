@@ -1,70 +1,27 @@
-import {
-	BooleanValidatorNoOp,
-	Configuration,
-	ObjectValidator,
-	ValidationFailure
-} from "./internal/internal";
+import type {ExtensibleObjectValidator} from "./internal/internal";
 
 /**
  * Validates the requirements of a <code>boolean</code>.
  * <p>
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */
-class BooleanValidator extends ObjectValidator
+interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator>
 {
-	private readonly actualBoolean: boolean;
-
-	constructor(configuration: Configuration, actual: unknown, name: string)
-	{
-		super(configuration, actual, name);
-		this.actualBoolean = actual as boolean;
-	}
-
-	protected getNoOp(): BooleanValidatorNoOp
-	{
-		return new BooleanValidatorNoOp(this.failures);
-	}
-
 	/**
 	 * Ensures that the actual value is true.
 	 *
-	 * @return {BooleanValidator | BooleanValidatorNoOp} the updated validator
+	 * @return {BooleanValidator} the updated validator
 	 */
-	isTrue(): this | BooleanValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return this.getNoOp();
-		if (!this.actualBoolean)
-		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be true.").
-				addContext("Actual", this.actualBoolean);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isTrue(): BooleanValidator;
 
 	/**
 	 * Ensures that the actual value is false.
 	 *
-	 * @return {BooleanValidator | BooleanValidatorNoOp} the updated validator
+	 * @return {BooleanValidator} the updated validator
 	 */
-	isFalse(): this | BooleanValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return this.getNoOp();
-		if (this.actualBoolean)
-		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be false.").
-				addContext("Actual", this.actualBoolean);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isFalse(): BooleanValidator;
 
-	getActual(): boolean
-	{
-		return super.getActual() as boolean;
-	}
+	getActual(): boolean | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

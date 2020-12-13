@@ -1,15 +1,11 @@
-import {
-	ClassValidator,
-	ClassValidatorNoOp,
-	ObjectVerifier
-} from "./internal/internal";
+import type {ObjectVerifier} from "./internal/internal";
 
 /**
  * Verifies the requirements of a class.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * All methods (except those found in {@link ObjectVerifier}) imply {@link #isNotNull()}.
  */
-class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
+interface ClassVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a super-type.
@@ -19,11 +15,7 @@ class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
 	 * @throws {RangeError} if the actual value is not a supertype of <code>type</code>
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): this
-	{
-		this.validator.isSupertypeOf(type);
-		return this.validationResult();
-	}
+	isSupertypeOf(type: Function): ClassVerifier;
 
 	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
@@ -33,18 +25,10 @@ class ClassVerifier extends ObjectVerifier<ClassValidator | ClassValidatorNoOp>
 	 * @throws {RangeError} if the actual value is not a subtype of <code>type</code>
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): this
-	{
-		this.validator.isSubtypeOf(type);
-		return this.validationResult();
-	}
+	isSubtypeOf(type: Function): ClassVerifier;
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function
-	{
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		return super.getActual() as Function;
-	}
+	getActual(): Function | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

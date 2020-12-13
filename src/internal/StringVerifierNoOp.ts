@@ -1,131 +1,144 @@
 import {
 	ObjectVerifierNoOp,
-	SizeVerifierNoOp
+	SizeVerifier,
+	SizeVerifierNoOp,
+	StringVerifier
 } from "./internal";
 
 /**
- * An implementation of <code>String</code> that does nothing.
+ * An implementation of <code>StringVerifier</code> that does nothing. A verifier that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
 class StringVerifierNoOp extends ObjectVerifierNoOp
+	implements StringVerifier
 {
 	static readonly INSTANCE = new StringVerifierNoOp();
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	startsWith(): this
+	startsWith(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	doesNotStartWith(): this
+	doesNotStartWith(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	contains(): this
+	contains(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	doesNotContain(): this
+	doesNotContain(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	endsWith(): this
+	endsWith(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	doesNotEndWith(): this
+	doesNotEndWith(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	isEmpty(): this
+	isEmpty(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	isNotEmpty(): this
+	isNotEmpty(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} a verifier for the trimmed representation of the actual value
+	 * @return {StringVerifier} a verifier for the trimmed representation of the actual value
 	 */
-	trim(): this
+	trim(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	trimConsumer(): this
+	trimConsumer(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} a verifier for the length of the string
+	 * @return {StringVerifier} the updated verifier
 	 */
-	length(): SizeVerifierNoOp
+	isTrimmed(): StringVerifier
+	{
+		return this;
+	}
+
+	/**
+	 * @return {SizeVerifier} a verifier for the length of the string
+	 */
+	length(): SizeVerifier
 	{
 		return SizeVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	lengthConsumer(): this
+	lengthConsumer(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	asString(): this
+	asString(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	asStringConsumer(): this
+	asStringConsumer(): StringVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringVerifierNoOp} the updated verifier
+	 * @return {StringVerifier} the updated verifier
 	 */
-	asInetAddressConsumer(): this
+	asInetAddressConsumer(): StringVerifier
 	{
 		return this;
 	}

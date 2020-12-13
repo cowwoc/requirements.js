@@ -1,15 +1,11 @@
-import {
-	BooleanValidator,
-	BooleanValidatorNoOp,
-	ObjectVerifier
-} from "./internal/internal";
+import type {ExtensibleObjectVerifier} from "./internal/internal";
 
 /**
  * Verifies the requirements of a <code>boolean</code>.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * All methods (except those found in {@link ObjectVerifier}) imply {@link #isNotNull()}.
  */
-class BooleanVerifier<V extends BooleanValidator | BooleanValidatorNoOp> extends ObjectVerifier<V>
+interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier>
 {
 	/**
 	 * Ensures that the actual value is true.
@@ -17,11 +13,7 @@ class BooleanVerifier<V extends BooleanValidator | BooleanValidatorNoOp> extends
 	 * @return {BooleanVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not true
 	 */
-	isTrue(): this
-	{
-		this.validator.isTrue();
-		return this.validationResult();
-	}
+	isTrue(): BooleanVerifier;
 
 	/**
 	 * Ensures that the actual value is false.
@@ -29,16 +21,9 @@ class BooleanVerifier<V extends BooleanValidator | BooleanValidatorNoOp> extends
 	 * @return {BooleanVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not false
 	 */
-	isFalse(): this
-	{
-		this.validator.isFalse();
-		return this.validationResult();
-	}
+	isFalse(): BooleanVerifier;
 
-	getActual(): boolean
-	{
-		return super.getActual() as boolean;
-	}
+	getActual(): boolean | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

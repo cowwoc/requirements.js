@@ -1,136 +1,19 @@
-import {ObjectVerifierNoOp} from "./internal";
+import {
+	AbstractNumberVerifierNoOp,
+	NumberVerifier
+} from "./internal";
 
 /**
- * An implementation of <code>NumberVerifier</code> that does nothing.
+ * An implementation of <code>NumberVerifier</code> that does nothing. A verifier that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
-class NumberVerifierNoOp extends ObjectVerifierNoOp
+class NumberVerifierNoOp extends AbstractNumberVerifierNoOp<NumberVerifier>
+	implements NumberVerifier
 {
 	static readonly INSTANCE = new NumberVerifierNoOp();
 
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNegative(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNotNegative(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isZero(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNotZero(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isPositive(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNotPositive(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isGreaterThan(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isGreaterThanOrEqualTo(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isLessThan(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isLessThanOrEqualTo(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isBetween(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isBetweenClosed(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNumber(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNotNumber(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isFinite(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberVerifierNoOp} the updated verifier
-	 */
-	isNotFinite(): this
+	protected getThis(): NumberVerifier
 	{
 		return this;
 	}

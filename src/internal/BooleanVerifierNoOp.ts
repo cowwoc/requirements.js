@@ -1,24 +1,33 @@
-import {ObjectVerifierNoOp} from "./internal";
+import {
+	AbstractObjectVerifierNoOp,
+	BooleanVerifier
+} from "./internal";
 
 /**
  * An implementation of <code>BooleanVerifier</code> that does nothing.
  */
-class BooleanVerifierNoOp extends ObjectVerifierNoOp
+class BooleanVerifierNoOp extends AbstractObjectVerifierNoOp<BooleanVerifier>
+	implements BooleanVerifier
 {
 	static readonly INSTANCE = new BooleanVerifierNoOp();
 
-	/**
-	 * @return {BooleanVerifierNoOp} the updated verifier
-	 */
-	isTrue(): this
+	protected getThis(): BooleanVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {BooleanVerifierNoOp} the updated verifier
+	 * @return {BooleanVerifier} the updated verifier
 	 */
-	isFalse(): this
+	isTrue(): BooleanVerifier
+	{
+		return this;
+	}
+
+	/**
+	 * @return {BooleanVerifier} the updated verifier
+	 */
+	isFalse(): BooleanVerifier
 	{
 		return this;
 	}

@@ -1,21 +1,12 @@
-import {
-	NumberVerifier,
-	SizeValidator,
-	SizeValidatorNoOp
-} from "./internal/internal";
+import type {ExtensibleNumberVerifier} from "./internal/internal";
 
 /**
  * Verifies the requirements of the size of a container.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * All methods (except those found in {@link ObjectVerifier}) imply {@link #isNotNull()}.
  */
-class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
+interface SizeVerifier extends ExtensibleNumberVerifier<SizeVerifier>
 {
-	constructor(validator: SizeValidator | SizeValidatorNoOp)
-	{
-		super(validator);
-	}
-
 	/**
 	 * Ensures that the actual value is greater than or equal to a value.
 	 *
@@ -26,11 +17,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 *   a number
 	 * @throws {RangeError}  if the actual value is less than <code>value</code>; if <code>name</code> is empty
 	 */
-	isGreaterThanOrEqualTo(value: number, name?: string): this
-	{
-		this.validator.isGreaterThanOrEqualTo(value, name);
-		return this.validationResult();
-	}
+	isGreaterThanOrEqualTo(value: number, name?: string): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is greater than a value.
@@ -43,11 +30,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {RangeError}  if the actual value is less than or equal to <code>value</code>; if
 	 *   <code>name</code> is empty
 	 */
-	isGreaterThan(value: number, name?: string): this
-	{
-		this.validator.isGreaterThan(value, name);
-		return this.validationResult();
-	}
+	isGreaterThan(value: number, name?: string): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is less or equal to a value.
@@ -60,11 +43,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {RangeError}  if the actual value is greater than <code>value</code>; if <code>name</code> is
 	 *   empty
 	 */
-	isLessThanOrEqualTo(value: number, name?: string): this
-	{
-		this.validator.isLessThanOrEqualTo(value, name);
-		return this.validationResult();
-	}
+	isLessThanOrEqualTo(value: number, name?: string): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is less than a value.
@@ -77,11 +56,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {RangeError}  if the actual value is greater than or equal to <code>value</code>; if
 	 *   <code>name</code> is empty
 	 */
-	isLessThan(value: number, name?: string): this
-	{
-		this.validator.isLessThan(value, name);
-		return this.validationResult();
-	}
+	isLessThan(value: number, name?: string): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is not positive.
@@ -89,11 +64,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is positive
 	 */
-	isNotPositive(): this
-	{
-		this.validator.isNotPositive();
-		return this.validationResult();
-	}
+	isNotPositive(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is positive.
@@ -101,11 +72,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not positive
 	 */
-	isPositive(): this
-	{
-		this.validator.isPositive();
-		return this.validationResult();
-	}
+	isPositive(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is not zero.
@@ -113,11 +80,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is zero
 	 */
-	isNotZero(): this
-	{
-		this.validator.isNotZero();
-		return this.validationResult();
-	}
+	isNotZero(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is zero.
@@ -125,11 +88,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is not zero
 	 */
-	isZero(): this
-	{
-		this.validator.isZero();
-		return this.validationResult();
-	}
+	isZero(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is not negative.
@@ -137,11 +96,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value is negative
 	 */
-	isNotNegative(): this
-	{
-		this.validator.isNotNegative();
-		return this.validationResult();
-	}
+	isNotNegative(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is negative.
@@ -149,11 +104,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @return {SizeVerifier} the updated verifier
 	 * @throws {RangeError} because the size is never negative
 	 */
-	isNegative(): this
-	{
-		this.validator.isNegative();
-		return this.validationResult();
-	}
+	isNegative(): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is within range.
@@ -166,11 +117,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {RangeError} if <code>endExclusive</code> is less than <code>startInclusive</code>; if the
 	 *   actual value is not in range
 	 */
-	isBetween(startInclusive: number, endExclusive: number): this
-	{
-		this.validator.isBetween(startInclusive, endExclusive);
-		return this.validationResult();
-	}
+	isBetween(startInclusive: number, endExclusive: number): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is within range.
@@ -183,11 +130,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {RangeError} if <code>endInclusive</code> is less than <code>startInclusive</code>; if the
 	 *   actual value is not in range
 	 */
-	isBetweenClosed(startInclusive: number, endInclusive: number): this
-	{
-		this.validator.isBetweenClosed(startInclusive, endInclusive);
-		return this.validationResult();
-	}
+	isBetweenClosed(startInclusive: number, endInclusive: number): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is equal to a value.
@@ -198,11 +141,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
 	 */
-	isEqualTo(expected: unknown, name?: string): this
-	{
-		this.validator.isEqualTo(expected, name);
-		return this.validationResult();
-	}
+	isEqualTo(expected: unknown, name?: string): SizeVerifier;
 
 	/**
 	 * Ensures that the actual value is not equal to a value.
@@ -213,11 +152,7 @@ class SizeVerifier extends NumberVerifier<SizeValidator | SizeValidatorNoOp>
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
 	 */
-	isNotEqualTo(value: unknown, name?: string): this
-	{
-		this.validator.isNotEqualTo(value, name);
-		return this.validationResult();
-	}
+	isNotEqualTo(value: unknown, name?: string): SizeVerifier;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

@@ -1,118 +1,141 @@
-import {NumberValidatorNoOp} from "./internal";
+import {
+	AbstractNumberValidatorNoOp,
+	SizeValidator,
+	ValidationFailure
+} from "./internal";
 
 /**
- * An implementation of {@link SizeValidator} that does nothing.
+ * An implementation of <code>SizeValidator</code> that does nothing. A validator that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
-class SizeValidatorNoOp extends NumberValidatorNoOp
+class SizeValidatorNoOp extends AbstractNumberValidatorNoOp<SizeValidator>
+	implements SizeValidator
 {
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * Creates a new SizeValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isGreaterThanOrEqualTo(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isGreaterThan(): this
+	isGreaterThanOrEqualTo(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isLessThanOrEqualTo(): this
+	isGreaterThan(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isLessThan(): this
+	isLessThanOrEqualTo(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isNotPositive(): this
+	isLessThan(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isPositive(): this
+	isNotPositive(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isNotZero(): this
+	isPositive(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isZero(): this
+	isNotZero(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isNotNegative(): this
+	isZero(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isNegative(): this
+	isNotNegative(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isBetween(): this
+	isNegative(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isBetweenClosed(): this
+	isBetween(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isEqualTo(): this
+	isBetweenClosed(): SizeValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} the updated validator
+	 * @return {SizeValidator} the updated validator
 	 */
-	isNotEqualTo(): this
+	isEqualTo(): SizeValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {SizeValidator} the updated validator
+	 */
+	isNotEqualTo(): SizeValidator
 	{
 		return this;
 	}

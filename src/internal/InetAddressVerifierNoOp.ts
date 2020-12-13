@@ -1,32 +1,36 @@
-import {ObjectVerifierNoOp} from "./internal";
+import {
+	InetAddressVerifier,
+	ObjectVerifierNoOp
+} from "./internal";
 
 /**
  * An implementation of <code>InetAddressVerifier</code> that does nothing.
  */
 class InetAddressVerifierNoOp extends ObjectVerifierNoOp
+	implements InetAddressVerifier
 {
 	static readonly INSTANCE = new InetAddressVerifierNoOp();
 
 	/**
-	 * @return {InetAddressVerifierNoOp} the updated verifier
+	 * @return {InetAddressVerifier} the updated verifier
 	 */
-	isIpV4(): this
+	isIpV4(): InetAddressVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {InetAddressVerifierNoOp} the updated verifier
+	 * @return {InetAddressVerifier} the updated verifier
 	 */
-	isIpV6(): this
+	isIpV6(): InetAddressVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {InetAddressVerifierNoOp} the updated verifier
+	 * @return {InetAddressVerifier} the updated verifier
 	 */
-	isHostname(): this
+	isHostname(): InetAddressVerifier
 	{
 		return this;
 	}

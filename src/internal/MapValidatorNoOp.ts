@@ -1,91 +1,112 @@
 import {
+	AbstractObjectValidatorNoOp,
+	ArrayValidator,
 	ArrayValidatorNoOp,
-	NumberValidatorNoOp,
-	ObjectValidatorNoOp
+	MapValidator,
+	SizeValidator,
+	SizeValidatorNoOp,
+	ValidationFailure
 } from "./internal";
 
 /**
- * An implementation of <code>Map</code> that does nothing.
+ * An implementation of <code>MapValidator</code> that does nothing.
  */
-class MapValidatorNoOp extends ObjectValidatorNoOp
+class MapValidatorNoOp extends AbstractObjectValidatorNoOp<MapValidator>
+	implements MapValidator
 {
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * Creates a new MapValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isEmpty(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): MapValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	isNotEmpty(): this
+	isEmpty(): MapValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} a validator for the Map's keys
+	 * @return {MapValidator} the updated validator
 	 */
-	keys(): ArrayValidatorNoOp
+	isNotEmpty(): MapValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {ArrayValidator} a validator for the Map's keys
+	 */
+	keys(): ArrayValidator
 	{
 		return new ArrayValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	keysConsumer(): this
+	keysConsumer(): MapValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} a validator for the Map's values
+	 * @return {ArrayValidator} a validator for the Map's values
 	 */
-	values(): ArrayValidatorNoOp
+	values(): ArrayValidator
 	{
 		return new ArrayValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	valuesConsumer(): this
+	valuesConsumer(): MapValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} a validator for the Map's entries (an array of <code>[key, value]</code>
+	 * @return {ArrayValidator} a validator for the Map's entries (an array of <code>[key, value]</code>
 	 *   for each element in the Map)
 	 */
-	entries(): ArrayValidatorNoOp
+	entries(): ArrayValidator
 	{
 		return new ArrayValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	entriesConsumer(): this
+	entriesConsumer(): MapValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {NumberValidatorNoOp} a validator for the number of entries this Map contains
+	 * @return {SizeValidator} a validator for the number of entries this Map contains
 	 */
-	size(): NumberValidatorNoOp
+	size(): SizeValidator
 	{
-		return new NumberValidatorNoOp(this.failures);
+		return new SizeValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	sizeConsumer(): this
+	sizeConsumer(): MapValidator
 	{
 		return this;
 	}

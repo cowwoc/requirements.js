@@ -1,15 +1,11 @@
-import {
-	InetAddressValidator,
-	InetAddressValidatorNoOp,
-	ObjectVerifier
-} from "./internal/internal";
+import type {ObjectVerifier} from "./internal/internal";
 
 /**
  * Verifies the requirements of an IP address or hostname.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * All methods (except those found in {@link ObjectVerifier}) imply {@link #isNotNull()}.
  */
-class InetAddressVerifier extends ObjectVerifier<InetAddressValidator | InetAddressValidatorNoOp>
+interface InetAddressVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the actual value is an IP v4 address.
@@ -17,11 +13,7 @@ class InetAddressVerifier extends ObjectVerifier<InetAddressValidator | InetAddr
 	 * @return {InetAddressVerifier} the updated verifier
 	 * @throws {RangeError}  if actual value is not a IP v4 address
 	 */
-	isIpV4(): this
-	{
-		this.validator.isIpV4();
-		return this.validationResult();
-	}
+	isIpV4(): InetAddressVerifier;
 
 	/**
 	 * Ensures that the actual value is an IP v6 address.
@@ -29,11 +21,7 @@ class InetAddressVerifier extends ObjectVerifier<InetAddressValidator | InetAddr
 	 * @return {InetAddressVerifier} the updated verifier
 	 * @throws {RangeError}  if actual value is not a IP v6 address
 	 */
-	isIpV6(): this
-	{
-		this.validator.isIpV6();
-		return this.validationResult();
-	}
+	isIpV6(): InetAddressVerifier;
 
 	/**
 	 * Ensures that the actual value is an IP v6 address.
@@ -42,16 +30,9 @@ class InetAddressVerifier extends ObjectVerifier<InetAddressValidator | InetAddr
 	 * @throws {RangeError}  if actual value is not a hostname
 	 * @see <a href="https://tools.ietf.org/html/rfc3696#section-2">rfc3696</a>
 	 */
-	isHostname(): this
-	{
-		this.validator.isHostname();
-		return this.validationResult();
-	}
+	isHostname(): InetAddressVerifier;
 
-	getActual(): string
-	{
-		return super.getActual() as string;
-	}
+	getActual(): string | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

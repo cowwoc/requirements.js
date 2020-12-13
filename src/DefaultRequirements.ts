@@ -2,7 +2,6 @@
 import {
 	ObjectValidator,
 	ObjectVerifier,
-	ObjectVerifierNoOp,
 	Requirements
 } from "./internal/internal";
 
@@ -18,7 +17,7 @@ const delegate = new Requirements();
  * @throws {TypeError}  if <code>name</code> is null
  * @throws {RangeError} if <code>name</code> is empty
  */
-function requireThat(actual: unknown, name: string): ObjectVerifier<ObjectValidator>
+function requireThat(actual: unknown, name: string): ObjectVerifier
 {
 	return delegate.requireThat(actual, name);
 }
@@ -33,12 +32,12 @@ function requireThat(actual: unknown, name: string): ObjectVerifier<ObjectValida
  * @function
  * @param {object} actual the actual value
  * @param {string} name the name of the value
- * @return {ObjectVerifier | ObjectVerifierNoOp} a verifier
+ * @return {ObjectVerifier} a verifier
  * @throws {TypeError}  if <code>name</code> is null
  * @throws {RangeError} if <code>name</code> is empty
  * @see {@link GlobalConfiguration#assertionsAreEnabled GlobalConfiguration.assertionsAreEnabled}
  */
-function assertThat(actual: unknown, name: string): ObjectVerifier<ObjectValidator> | ObjectVerifierNoOp
+function assertThat(actual: unknown, name: string): ObjectVerifier
 {
 	return delegate.assertThat(actual, name);
 }

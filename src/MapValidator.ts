@@ -1,14 +1,7 @@
-import {
+import type {
 	ArrayValidator,
-	ArrayValidatorNoOp,
-	Configuration,
-	MapValidatorNoOp,
-	Objects,
-	ObjectValidator,
-	Pluralizer,
-	SizeValidator,
-	SizeValidatorNoOp,
-	ValidationFailure
+	ExtensibleObjectValidator,
+	SizeValidator
 } from "./internal/internal";
 
 /**
@@ -16,114 +9,51 @@ import {
  * <p>
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
  */
-class MapValidator extends ObjectValidator
+interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 {
-	private readonly actualMap: Map<unknown, unknown>;
-
-	constructor(configuration: Configuration, actual: unknown, name: string)
-	{
-		super(configuration, actual, name);
-		this.actualMap = this.actual as Map<unknown, unknown>;
-	}
-
-	protected getNoOp(): MapValidatorNoOp
-	{
-		return new MapValidatorNoOp(this.failures);
-	}
-
 	/**
 	 * Ensures that value does not contain any entries
 	 *
-	 * @return {MapValidator | MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	isEmpty(): this | MapValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return this.getNoOp();
-		if (this.actualMap.size !== 0)
-		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
-				addContext("Actual", this.actual);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isEmpty(): MapValidator;
 
 	/**
 	 * Ensures that value contains at least one entry.
 	 *
-	 * @return {MapValidator | MapValidatorNoOp} the updated validator
+	 * @return {MapValidator} the updated validator
 	 */
-	isNotEmpty(): this | MapValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return this.getNoOp();
-		if (this.actualMap.size === 0)
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not be empty");
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isNotEmpty(): MapValidator;
 
 	/**
-	 * @return {ArrayValidator | ArrayValidatorNoOp} a validator for the Map's keys
+	 * @return {ArrayValidator} a validator for the Map's keys
 	 */
-	keys(): ArrayValidator | ArrayValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidator(this.config, Array.from(this.actualMap.keys()), this.name + ".keys()",
-			Pluralizer.KEY);
-	}
+	keys(): ArrayValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's keys
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	keysConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): MapValidator
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.keys());
-		return this;
-	}
+	keysConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {ArrayValidator | ArrayValidatorNoOp} a validator for the Map's values
+	 * @return {ArrayValidator} a validator for the Map's values
 	 */
-	values(): ArrayValidator | ArrayValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidator(this.config, Array.from(this.actualMap.values()), this.name + ".values()",
-			Pluralizer.VALUE);
-	}
+	values(): ArrayValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's values
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	valuesConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.values());
-		return this;
-	}
+	valuesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {ArrayValidator | ArrayValidatorNoOp} validator for the Map's entries (an array of
+	 * @return {ArrayValidator} validator for the Map's entries (an array of
 	 *   <code>[key, value]</code> for each element in the Map)
 	 */
-	entries(): ArrayValidator | ArrayValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidator(this.config, Array.from(this.actualMap.entries()), this.name + ".entries()",
-			Pluralizer.ENTRY);
-	}
+	entries(): ArrayValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's entries (an
@@ -131,23 +61,12 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	entriesConsumer(consumer: (actual: ArrayValidator | ArrayValidatorNoOp) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.entries());
-		return this;
-	}
+	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {SizeValidator | SizeValidatorNoOp} a validator for the number of entries this Map contains
+	 * @return {SizeValidator} a validator for the number of entries this Map contains
 	 */
-	size(): SizeValidator | SizeValidatorNoOp
-	{
-		if (!this.actualIsSet())
-			return new SizeValidatorNoOp(this.failures);
-		return new SizeValidator(this.config, this.actualMap, this.name, this.actualMap.size,
-			this.name + ".size", Pluralizer.ENTRY);
-	}
+	size(): SizeValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the number of entries
@@ -155,17 +74,9 @@ class MapValidator extends ObjectValidator
 	 * @return {MapValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: SizeValidator | SizeValidatorNoOp) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.size());
-		return this;
-	}
+	sizeConsumer(consumer: (actual: SizeValidator) => void): MapValidator;
 
-	getActual(): Map<unknown, unknown>
-	{
-		return this.actualMap;
-	}
+	getActual(): Map<unknown, unknown> | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

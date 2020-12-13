@@ -1,24 +1,28 @@
-import {ObjectVerifierNoOp} from "./internal";
+import {
+	ClassVerifier,
+	ObjectVerifierNoOp
+} from "./internal";
 
 /**
  * An implementation of <code>ClassVerifier</code> that does nothing.
  */
 class ClassVerifierNoOp extends ObjectVerifierNoOp
+	implements ClassVerifier
 {
 	static readonly INSTANCE = new ClassVerifierNoOp();
 
 	/**
-	 * @return {ClassVerifierNoOp} the updated verifier
+	 * @return {ClassVerifier} the updated verifier
 	 */
-	isSupertypeOf(): this
+	isSupertypeOf(): ClassVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ClassVerifierNoOp} the updated verifier
+	 * @return {ClassVerifier} the updated verifier
 	 */
-	isSubtypeOf(): this
+	isSubtypeOf(): ClassVerifier
 	{
 		return this;
 	}

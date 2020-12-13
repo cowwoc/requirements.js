@@ -1,120 +1,126 @@
-import {NumberVerifierNoOp} from "./internal";
+import {
+	NumberVerifierNoOp,
+	SizeVerifier
+} from "./internal";
 
 /**
- * An implementation of {@link SizeVerifier} that does nothing.
+ * An implementation of <code>SizeVerifier</code> that does nothing. A verifier that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
 class SizeVerifierNoOp extends NumberVerifierNoOp
+	implements SizeVerifier
 {
 	static readonly INSTANCE = new SizeVerifierNoOp();
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isGreaterThanOrEqualTo(): this
+	isGreaterThanOrEqualTo(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isGreaterThan(): this
+	isGreaterThan(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isLessThanOrEqualTo(): this
+	isLessThanOrEqualTo(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isLessThan(): this
+	isLessThan(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isNotPositive(): this
+	isNotPositive(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isPositive(): this
+	isPositive(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isNotZero(): this
+	isNotZero(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isZero(): this
+	isZero(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isNotNegative(): this
+	isNotNegative(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isNegative(): this
+	isNegative(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isBetween(): this
+	isBetween(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isBetweenClosed(): this
+	isBetweenClosed(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isEqualTo(): this
+	isEqualTo(): SizeVerifier
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeVerifierNoOp} the updated verifier
+	 * @return {SizeVerifier} the updated verifier
 	 */
-	isNotEqualTo(): this
+	isNotEqualTo(): SizeVerifier
 	{
 		return this;
 	}

@@ -1,25 +1,17 @@
 import {
-	ArrayValidatorNoOp,
-	ClassValidatorNoOp,
-	InetAddressValidatorNoOp,
-	MapValidatorNoOp,
-	NumberValidatorNoOp,
-	BooleanValidatorNoOp,
-	Objects,
-	SetValidatorNoOp,
-	StringValidatorNoOp,
+	AbstractObjectValidatorNoOp,
+	ObjectValidator,
 	ValidationFailure
 } from "./internal";
 
 /**
  * An implementation of <code>ObjectValidator</code> that does nothing. A validator that ignores all
- * subsequent failures because they are guaranteed to fail and would add any value to the end-user. For
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
  * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
-class ObjectValidatorNoOp
+class ObjectValidatorNoOp extends AbstractObjectValidatorNoOp<ObjectValidator>
+	implements ObjectValidator
 {
-	protected readonly failures: ValidationFailure[];
-
 	/**
 	 * Creates a new ObjectValidatorNoOp.
 	 *
@@ -28,262 +20,12 @@ class ObjectValidatorNoOp
 	 */
 	constructor(failures: ValidationFailure[])
 	{
-		Objects.assertThatTypeOf(failures, "failures", "Array");
-		this.failures = failures;
+		super(failures);
 	}
 
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isEqualTo(): this
+	protected getThis(): ObjectValidator
 	{
 		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNotEqualTo(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNotInArray(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isPrimitive(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isTypeOf(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isInstanceOf(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNull(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNotNull(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isDefined(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNotDefined(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isSet(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	isNotSet(): this
-	{
-		return this;
-	}
-
-	/**
-	 * Indicates if the actual value is available.
-	 *
-	 * @return {boolean} <code>false</code>
-	 */
-	isActualAvailable(): boolean
-	{
-		return false;
-	}
-
-	/**
-	 * Returns the actual value. The return value is undefined if {@link #isActualAvailable()} is
-	 * <code>false</code>.
-	 */
-	getActual(): void
-	{
-		// Value not available
-	}
-
-	/**
-	 * @return {ArrayValidatorNoOp} a validator for the <code>Array</code>
-	 */
-	asArray(): ArrayValidatorNoOp
-	{
-		return new ArrayValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asArrayConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {StringValidatorNoOp} a validator for the object's string representation
-	 */
-	asString(): StringValidatorNoOp
-	{
-		return new StringValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asStringConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {BooleanValidatorNoOp} a validator for the <code>boolean</code>
-	 */
-	asBoolean(): BooleanValidatorNoOp
-	{
-		return new BooleanValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asBooleanConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {BooleanValidatorNoOp} a validator for the <code>number</code>
-	 */
-	asNumber(): NumberValidatorNoOp
-	{
-		return new NumberValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asNumberConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {SetValidatorNoOp} a validator for the <code>Set</code>
-	 */
-	asSet(): SetValidatorNoOp
-	{
-		return new SetValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} a validator for the <code>Set</code>
-	 */
-	asSetConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {MapValidatorNoOp} a validator for the <code>Map</code>
-	 */
-	asMap(): MapValidatorNoOp
-	{
-		return new MapValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} a validator for the <code>Map</code>
-	 */
-	asMapConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {InetAddressValidatorNoOp} a validator for the value's Internet address representation
-	 */
-	asInetAddress(): InetAddressValidatorNoOp
-	{
-		return new InetAddressValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 */
-	asInetAddressConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * @return {ClassValidatorNoOp} a validator for the object's class representation
-	 */
-	asClass(): ClassValidatorNoOp
-	{
-		return new ClassValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {ObjectValidatorNoOp} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
-	 */
-	asClassConsumer(): this
-	{
-		return this;
-	}
-
-	/**
-	 * Returns the list of failed validations. Modifying the returned list results in undefined behavior.
-	 *
-	 * @return {ValidationFailure[]} the list of failed validations
-	 */
-	getFailures(): ValidationFailure[]
-	{
-		return this.failures;
 	}
 }
 

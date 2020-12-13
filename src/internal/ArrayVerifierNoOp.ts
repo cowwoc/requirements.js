@@ -1,20 +1,21 @@
 import {
-	ObjectVerifierNoOp,
+	AbstractObjectVerifierNoOp,
+	ArrayVerifier,
+	SetVerifier,
 	SetVerifierNoOp,
+	SizeVerifier,
 	SizeVerifierNoOp
 } from "./internal";
 
 /**
  * An implementation of <code>ArrayVerifier</code> that does nothing.
  */
-class ArrayVerifierNoOp extends ObjectVerifierNoOp
+class ArrayVerifierNoOp extends AbstractObjectVerifierNoOp<ArrayVerifier>
+	implements ArrayVerifier
 {
 	static readonly INSTANCE = new ArrayVerifierNoOp();
 
-	/**
-	 * @return {ArrayVerifierNoOp} the updated verifier
-	 */
-	isEmpty(): this
+	protected getThis(): ArrayVerifier
 	{
 		return this;
 	}
@@ -22,105 +23,111 @@ class ArrayVerifierNoOp extends ObjectVerifierNoOp
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	isNotEmpty(): this
+	isEmpty(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	contains(): this
+	isNotEmpty(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	containsExactly(): this
+	contains(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	containsAny(): this
+	containsExactly(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	containsAll(): this
+	containsAny(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	doesNotContain(): this
+	containsAll(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	doesNotContainAny(): this
+	doesNotContain(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	doesNotContainAll(): this
+	doesNotContainAny(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	doesNotContainDuplicates(): this
+	doesNotContainAll(): ArrayVerifier
 	{
-		return this;
-	}
-
-
-	/**
-	 * @return {ArrayVerifierNoOp} the updated verifier
-	 */
-	lengthConsumer(): this
-	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
 	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	asSetConsumer(): this
+	doesNotContainDuplicates(): ArrayVerifier
 	{
-		return this;
+		return this.getThis();
 	}
 
+	/**
+	 * @return {ArrayVerifierNoOp} the updated verifier
+	 */
+	lengthConsumer(): ArrayVerifier
+	{
+		return this.getThis();
+	}
 
 	/**
-	 * @return {SizeVerifierNoOp} a verifier for the length of the array
+	 * @return {ArrayVerifierNoOp} the updated verifier
 	 */
-	length(): SizeVerifierNoOp
+	asSetConsumer(): ArrayVerifier
+	{
+		return this.getThis();
+	}
+
+	/**
+	 * @return {SizeVerifier} a verifier for the length of the array
+	 */
+	length(): SizeVerifier
 	{
 		return SizeVerifierNoOp.INSTANCE;
 	}
 
 	/**
-	 * @return {SetVerifierNoOp} a <code>Set</code> verifier
+	 * @return {SetVerifier} a <code>Set</code> verifier
 	 */
-	asSet(): SetVerifierNoOp
+	asSet(): SetVerifier
 	{
 		return SetVerifierNoOp.INSTANCE;
 	}

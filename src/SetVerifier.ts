@@ -1,19 +1,15 @@
-import {
+import type {
 	ArrayVerifier,
-	NumberValidator,
-	NumberVerifier,
-	Objects,
 	ObjectVerifier,
-	SetValidator,
-	SetValidatorNoOp
+	SizeVerifier
 } from "./internal/internal";
 
 /**
  * Verifies the requirements of a <code>Set</code>.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * All methods (except those found in {@link ObjectVerifier}) imply {@link #isNotNull()}.
  */
-class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
+interface SetVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that value does not contain any elements.
@@ -21,11 +17,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if the value contains at least one element
 	 */
-	isEmpty(): this
-	{
-		this.validator.isEmpty();
-		return this.validationResult();
-	}
+	isEmpty(): SetVerifier;
 
 	/**
 	 * Ensures that value contains at least one element.
@@ -33,11 +25,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if the value does not contain any elements
 	 */
-	isNotEmpty(): this
-	{
-		this.validator.isNotEmpty();
-		return this.validationResult();
-	}
+	isNotEmpty(): SetVerifier;
 
 	/**
 	 * Ensures that the actual value contains an entry.
@@ -48,11 +36,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the Set does not contain <code>expected</code>
 	 */
-	contains(expected: unknown, name?: string): this
-	{
-		this.validator.contains(expected, name);
-		return this.validationResult();
-	}
+	contains(expected: unknown, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less,
@@ -66,11 +50,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
 	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
-	containsExactly(expected: unknown[] | Set<unknown>, name?: string): this
-	{
-		this.validator.containsExactly(expected, name);
-		return this.validationResult();
-	}
+	containsExactly(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the actual value contains any of the elements in the expected value.
@@ -83,11 +63,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is missing any elements in
 	 *   <code>expected</code>; if the actual value contains elements not found in <code>expected</code>
 	 */
-	containsAny(expected: unknown[] | Set<unknown>, name?: string): this
-	{
-		this.validator.containsAny(expected, name);
-		return this.validationResult();
-	}
+	containsAny(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the actual value contains all of the elements in the expected value.
@@ -100,11 +76,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value does not contain all of
 	 *   <code>expected</code>
 	 */
-	containsAll(expected: unknown[] | Set<unknown>, name?: string): this
-	{
-		this.validator.containsAll(expected, name);
-		return this.validationResult();
-	}
+	containsAll(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the actual value does not contain an entry.
@@ -115,11 +87,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {TypeError} if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains <code>entry</code>
 	 */
-	doesNotContain(entry: unknown, name?: string): this
-	{
-		this.validator.doesNotContain(entry, name);
-		return this.validationResult();
-	}
+	doesNotContain(entry: unknown, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the actual value does not contain any of the specified elements.
@@ -131,11 +99,7 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 *   or [@code Set}
 	 * @throws {RangeError} if <code>name</code> is empty; if the array contains any of <code>elements</code>
 	 */
-	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): this
-	{
-		this.validator.doesNotContainAny(elements, name);
-		return this.validationResult();
-	}
+	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
 	 * Ensures that the array does not contain all of the specified elements.
@@ -148,59 +112,33 @@ class SetVerifier extends ObjectVerifier<SetValidator | SetValidatorNoOp>
 	 * @throws {RangeError} if <code>name</code> is empty; if the actual value contains all of
 	 *   <code>elements</code>
 	 */
-	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): this
-	{
-		this.validator.doesNotContainAll(elements, name);
-		return this.validationResult();
-	}
+	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetVerifier;
 
 	/**
-	 * @return {NumberVerifier} a verifier for the Set's size
+	 * @return {SizeVerifier} a verifier for the Set's size
 	 */
-	size(): NumberVerifier<NumberValidator>
-	{
-		const newValidator = this.validator.size();
-		return this.validationResult(() => new NumberVerifier(newValidator)) as
-			NumberVerifier<NumberValidator>;
-	}
+	size(): SizeVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the Set's size
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberVerifier<NumberValidator>) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.size());
-		return this;
-	}
+	sizeConsumer(consumer: (actual: SizeVerifier) => void): SetVerifier;
 
 	/**
 	 * @return {ArrayVerifier} a verifier for the Set's elements
 	 */
-	asArray(): ArrayVerifier
-	{
-		const newValidator = this.validator.asArray();
-		return this.validationResult(() => new ArrayVerifier(newValidator)) as ArrayVerifier;
-	}
+	asArray(): ArrayVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts an {@link ArrayVerifier} for the Set's elements
 	 * @return {SetVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asArray());
-		return this;
-	}
+	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): SetVerifier;
 
-	getActual(): Set<unknown>
-	{
-		return super.getActual() as Set<unknown>;
-	}
+	getActual(): Set<unknown> | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
