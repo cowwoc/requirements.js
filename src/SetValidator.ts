@@ -6,8 +6,12 @@ import type {
 
 /**
  * Validates the requirements of a <code>Set</code>.
- * <p>
+ *
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
 interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 {
@@ -43,8 +47,8 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
-	 *   or <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null. If <code>expected</code> is not an <code>Array</code>
+	 * or <code>Set</code>.
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	containsExactly(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
@@ -55,8 +59,8 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
-	 *   or <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null. If <code>expected</code> is not an <code>Array</code>
+	 * or <code>Set</code>.
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	containsAny(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
@@ -67,8 +71,8 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @param {Array} expected the elements that must exist
 	 * @param {string} [name] the name of the expected elements
 	 * @return {SetValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null; if <code>expected</code> is not an <code>Array</code>
-	 *   or <code>Set</code>
+	 * @throws {TypeError} if <code>name</code> is null. If <code>expected</code> is not an <code>Array</code>
+	 * or <code>Set</code>.
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	containsAll(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
@@ -90,8 +94,8 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
 	 * @return {SetValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
-	 *   or [@code Set}
+	 * @throws {TypeError} if <code>name</code> is null. If <code>elements</code> is not an <code>Array</code>
+	 * or [@code Set}.
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): SetValidator;
@@ -102,8 +106,8 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @param {Array} elements the elements that must not exist
 	 * @param {string} [name] the name of the elements
 	 * @return {SetValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null; if <code>elements</code> is not an <code>Array</code>
-	 *   or [@code Set}
+	 * @throws {TypeError} if <code>name</code> is null. If <code>elements</code> is not an <code>Array</code>
+	 * or [@code Set}.
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetValidator;

@@ -1,5 +1,6 @@
 /** @module DefaultRequirements */
 import {
+	ObjectAsserter,
 	ObjectValidator,
 	ObjectVerifier,
 	Requirements
@@ -32,12 +33,12 @@ function requireThat(actual: unknown, name: string): ObjectVerifier
  * @function
  * @param {object} actual the actual value
  * @param {string} name the name of the value
- * @return {ObjectVerifier} a verifier
+ * @return {ObjectAsserter} an asserter
  * @throws {TypeError}  if <code>name</code> is null
  * @throws {RangeError} if <code>name</code> is empty
  * @see {@link GlobalConfiguration#assertionsAreEnabled GlobalConfiguration.assertionsAreEnabled}
  */
-function assertThat(actual: unknown, name: string): ObjectVerifier
+function assertThat(actual: unknown, name: string): ObjectAsserter
 {
 	return delegate.assertThat(actual, name);
 }

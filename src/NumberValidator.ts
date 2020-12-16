@@ -2,8 +2,12 @@ import type {ExtensibleNumberValidator} from "./internal/internal";
 
 /**
  * Validates the requirements of a <code>number</code>.
- * <p>
+ *
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NumberValidator extends ExtensibleNumberValidator<NumberValidator>

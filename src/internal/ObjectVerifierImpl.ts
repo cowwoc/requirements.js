@@ -46,7 +46,7 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} the updated verifier
 	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
+	 * @throws {RangeError} if <code>name</code> is empty. If the actual value is not equal to value.
 	 */
 	isEqualTo(expected: unknown, name?: string): ObjectVerifier
 	{
@@ -84,7 +84,7 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	 * @param {string} [name] the name of the expected value
 	 * @return {ObjectVerifier} the updated verifier
 	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
+	 * @throws {RangeError} if <code>name</code> is empty. If the actual value is equal to <code>value</code>.
 	 */
 	isNotEqualTo(value: unknown, name?: string): ObjectVerifier
 	{
@@ -278,7 +278,8 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	/**
 	 * @param {Function} consumer a function that accepts a {@link ArrayVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not an <code>Array</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not an
+	 * <code>Array</code>.
 	 */
 	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): ObjectVerifier
 	{
@@ -300,8 +301,8 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	/**
 	 * @param {Function} consumer a function that accepts a {@link BooleanVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a
-	 * <code>boolean</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not a
+	 * <code>boolean</code>.
 	 */
 	asBooleanConsumer(consumer: (actual: BooleanVerifier) => void): ObjectVerifier
 	{
@@ -323,7 +324,8 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	/**
 	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>number</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not a
+	 * <code>number</code>.
 	 */
 	asNumberConsumer(consumer: (actual: NumberVerifier) => void): ObjectVerifier
 	{
@@ -345,7 +347,7 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	/**
 	 * @param {Function} consumer a function that accepts a {@link SetVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Set</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not a <code>Set</code>.
 	 */
 	asSetConsumer(consumer: (actual: SetVerifier) => void): ObjectVerifier
 	{
@@ -367,7 +369,7 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	/**
 	 * @param {Function} consumer a function that accepts a {@link MapVerifier} for the actual value
 	 * @return {ObjectVerifier} the updated verifier
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Map</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not a <code>Map</code>.
 	 */
 	asMapConsumer(consumer: (actual: MapVerifier) => void): ObjectVerifier
 	{

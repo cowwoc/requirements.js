@@ -23,7 +23,7 @@ interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier>
 	 */
 	isFalse(): BooleanVerifier;
 
-	getActual(): boolean | void;
+	getActual(): boolean;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

@@ -30,7 +30,7 @@ class SizeValidatorImpl extends NumberValidatorImpl
 	 * @param {string} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
 	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are
-	 *   undefined or null; if <code>containerName</code> or <code>sizeName</code> are not a string
+	 *   undefined or null. If <code>containerName</code> or <code>sizeName</code> are not a string.
 	 * @throws {RangeError} if <code>containerName</code> or <code>sizeName</code> are empty
 	 */
 	constructor(configuration: Configuration,

@@ -2,8 +2,12 @@ import type {ExtensibleObjectValidator} from "./internal/internal";
 
 /**
  * Validates the requirements of an IP address or hostname.
- * <p>
+ *
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
 interface InetAddressValidator extends ExtensibleObjectValidator<InetAddressValidator>
 {

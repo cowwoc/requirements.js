@@ -78,7 +78,7 @@ interface MapVerifier extends ObjectVerifier
 	 */
 	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier;
 
-	getActual(): Map<unknown, unknown> | void;
+	getActual(): Map<unknown, unknown>;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

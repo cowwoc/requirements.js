@@ -6,8 +6,12 @@ import type {
 
 /**
  * Validates the requirements of a <code>Map</code>.
- * <p>
+ *
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
 interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 {

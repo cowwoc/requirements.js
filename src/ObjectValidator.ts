@@ -2,6 +2,10 @@ import type {ExtensibleObjectValidator} from "./internal/internal";
 
 /**
  * Validates the requirements of an object.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ObjectValidator extends ExtensibleObjectValidator<ObjectValidator>

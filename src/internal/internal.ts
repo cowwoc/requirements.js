@@ -11,51 +11,62 @@
 // all circular dependencies are resolved.
 
 import type ExtensibleObjectValidator from "../extension/ExtensibleObjectValidator";
+import type ExtensibleObjectAsserter from "../extension/ExtensibleObjectAsserter";
 import type ExtensibleObjectVerifier from "../extension/ExtensibleObjectVerifier";
 import type ObjectValidator from "../ObjectValidator";
+import type ObjectAsserter from "../ObjectAsserter";
 import type ObjectVerifier from "../ObjectVerifier";
 import AbstractObjectValidator from "./extension/AbstractObjectValidator";
 import AbstractObjectVerifier from "./extension/AbstractObjectVerifier";
 import ObjectValidatorImpl from "./ObjectValidatorImpl";
 import ObjectVerifierImpl from "./ObjectVerifierImpl";
 import AbstractObjectValidatorNoOp from "./extension/AbstractObjectValidatorNoOp";
-import AbstractObjectVerifierNoOp from "./extension/AbstractObjectVerifierNoOp";
+import AbstractObjectAsserterNoOp from "./extension/AbstractObjectAsserterNoOp";
 import ObjectValidatorNoOp from "./ObjectValidatorNoOp";
-import ObjectVerifierNoOp from "./ObjectVerifierNoOp";
+import ObjectAsserterNoOp from "./ObjectAsserterNoOp";
 import type ArrayValidator from "../ArrayValidator";
+import type ArrayAsserter from "../ArrayAsserter";
 import type ArrayVerifier from "../ArrayVerifier";
 import ArrayValidatorImpl from "./ArrayValidatorImpl";
 import ArrayVerifierImpl from "./ArrayVerifierImpl";
 import type ClassValidator from "../ClassValidator";
+import type ClassAsserter from "../ClassAsserter";
 import type ClassVerifier from "../ClassVerifier";
 import ClassValidatorImpl from "./ClassValidatorImpl";
 import ClassVerifierImpl from "./ClassVerifierImpl";
 import Configuration from "../Configuration";
 import type InetAddressValidator from "../InetAddressValidator";
+import type InetAddressAsserter from "../InetAddressAsserter";
 import type InetAddressVerifier from "../InetAddressVerifier";
 import InetAddressValidatorImpl from "./InetAddressValidatorImpl";
 import InetAddressVerifierImpl from "./InetAddressVerifierImpl";
 import type MapValidator from "../MapValidator";
+import type MapAsserter from "../MapAsserter";
 import type MapVerifier from "../MapVerifier";
 import MapValidatorImpl from "./MapValidatorImpl";
 import MapVerifierImpl from "./MapVerifierImpl";
 import type ExtensibleNumberValidator from "../extension/ExtensibleNumberValidator";
+import type ExtensibleNumberAsserter from "../extension/ExtensibleNumberAsserter";
 import type ExtensibleNumberVerifier from "../extension/ExtensibleNumberVerifier";
 import type NumberValidator from "../NumberValidator";
+import type NumberAsserter from "../NumberAsserter";
 import type NumberVerifier from "../NumberVerifier";
 import AbstractNumberValidator from "./extension/AbstractNumberValidator";
 import NumberValidatorImpl from "./NumberValidatorImpl";
 import AbstractNumberVerifier from "./extension/AbstractNumberVerifier";
 import NumberVerifierImpl from "./NumberVerifierImpl";
 import type BooleanValidator from "../BooleanValidator";
+import type BooleanAsserter from "../BooleanAsserter";
 import type BooleanVerifier from "../BooleanVerifier";
 import BooleanValidatorImpl from "./BooleanValidatorImpl";
 import BooleanVerifierImpl from "./BooleanVerifierImpl";
 import type SetValidator from "../SetValidator";
+import type SetAsserter from "../SetAsserter";
 import type SetVerifier from "../SetVerifier";
 import SetValidatorImpl from "./SetValidatorImpl";
 import SetVerifierImpl from "./SetVerifierImpl";
 import type StringValidator from "../StringValidator";
+import type StringAsserter from "../StringAsserter";
 import type StringVerifier from "../StringVerifier";
 import StringValidatorImpl from "./StringValidatorImpl";
 import StringVerifierImpl from "./StringVerifierImpl";
@@ -67,9 +78,9 @@ import ValidationFailure from "../ValidationFailure";
 import Requirements from "../Requirements";
 import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration";
 import ArrayValidatorNoOp from "./ArrayValidatorNoOp";
-import ArrayVerifierNoOp from "./ArrayVerifierNoOp";
+import ArrayAsserterNoOp from "./ArrayAsserterNoOp";
 import ClassValidatorNoOp from "./ClassValidatorNoOp";
-import ClassVerifierNoOp from "./ClassVerifierNoOp";
+import ClassAsserterNoOp from "./ClassAsserterNoOp";
 import AbstractDiffWriter from "./diff/AbstractDiffWriter";
 import AbstractColorWriter from "./diff/AbstractColorWriter";
 import TextOnly from "./diff/TextOnly";
@@ -94,24 +105,24 @@ import Node256Colors from "./diff/Node256Colors";
 import type GlobalConfiguration from "../GlobalConfiguration";
 import IllegalStateError from "./IllegalStateError";
 import InetAddressValidatorNoOp from "./InetAddressValidatorNoOp";
-import InetAddressVerifierNoOp from "./InetAddressVerifierNoOp";
+import InetAddressAsserterNoOp from "./InetAddressAsserterNoOp";
 import TestGlobalConfiguration from "./TestGlobalConfiguration";
 import Maps from "./Maps";
 import MapValidatorNoOp from "./MapValidatorNoOp";
-import MapVerifierNoOp from "./MapVerifierNoOp";
+import MapAsserterNoOp from "./MapAsserterNoOp";
 import AbstractNumberValidatorNoOp from "./extension/AbstractNumberValidatorNoOp";
 import NumberValidatorNoOp from "./NumberValidatorNoOp";
-import AbstractNumberVerifierNoOp from "./extension/AbstractNumberVerifierNoOp";
-import NumberVerifierNoOp from "./NumberVerifierNoOp";
+import AbstractNumberAsserterNoOp from "./extension/AbstractNumberAsserterNoOp";
+import NumberAsserterNoOp from "./NumberAsserterNoOp";
 import SizeValidatorImpl from "./SizeValidatorImpl";
 import BooleanValidatorNoOp from "./BooleanValidatorNoOp";
-import BooleanVerifierNoOp from "./BooleanVerifierNoOp";
+import BooleanAsserterNoOp from "./BooleanAsserterNoOp";
 import Pluralizer from "./Pluralizer";
 import SetValidatorNoOp from "./SetValidatorNoOp";
-import SetVerifierNoOp from "./SetVerifierNoOp";
+import SetAsserterNoOp from "./SetAsserterNoOp";
 import Strings from "./Strings";
 import StringValidatorNoOp from "./StringValidatorNoOp";
-import StringVerifierNoOp from "./StringVerifierNoOp";
+import StringAsserterNoOp from "./StringAsserterNoOp";
 
 export {
 	ArrayValidatorImpl,
@@ -120,7 +131,7 @@ export {
 	ClassVerifierImpl,
 	SetValidatorImpl,
 	SetVerifierImpl,
-	SetVerifierNoOp,
+	SetAsserterNoOp,
 	StringValidatorImpl,
 	StringVerifierImpl,
 	TerminalEncoding,
@@ -128,8 +139,8 @@ export {
 	ValidationFailure,
 	AbstractGlobalConfiguration,
 	ArrayValidatorNoOp,
-	ArrayVerifierNoOp,
-	ClassVerifierNoOp,
+	ArrayAsserterNoOp,
+	ClassAsserterNoOp,
 	ClassValidatorNoOp,
 	Configuration,
 	ContextGenerator,
@@ -146,7 +157,7 @@ export {
 	InetAddressValidatorImpl,
 	InetAddressVerifierImpl,
 	InetAddressValidatorNoOp,
-	InetAddressVerifierNoOp,
+	InetAddressAsserterNoOp,
 	MainGlobalConfiguration,
 	TestGlobalConfiguration,
 	Maps,
@@ -159,17 +170,17 @@ export {
 	NumberVerifierImpl,
 	BooleanValidatorImpl,
 	BooleanVerifierImpl,
-	MapVerifierNoOp,
+	MapAsserterNoOp,
 	Node16Colors,
 	Node256Colors,
 	Node16MillionColors,
 	AbstractNumberValidatorNoOp,
 	NumberValidatorNoOp,
-	AbstractNumberVerifierNoOp,
-	NumberVerifierNoOp,
+	AbstractNumberAsserterNoOp,
+	NumberAsserterNoOp,
 	SizeValidatorImpl,
 	BooleanValidatorNoOp,
-	BooleanVerifierNoOp,
+	BooleanAsserterNoOp,
 	Objects,
 	AbstractObjectValidator,
 	ObjectValidatorImpl,
@@ -177,39 +188,50 @@ export {
 	ObjectVerifierImpl,
 	AbstractObjectValidatorNoOp,
 	ObjectValidatorNoOp,
-	AbstractObjectVerifierNoOp,
-	ObjectVerifierNoOp,
+	AbstractObjectAsserterNoOp,
+	ObjectAsserterNoOp,
 	Pluralizer,
 	Requirements,
 	SetValidatorNoOp,
 	Strings,
 	StringValidatorNoOp,
-	StringVerifierNoOp,
+	StringAsserterNoOp,
 	TextOnly,
 	Terminal
 };
 export type {
 	GlobalConfiguration,
 	ArrayValidator,
+	ArrayAsserter,
 	ArrayVerifier,
 	ClassValidator,
+	ClassAsserter,
 	ClassVerifier,
 	SetValidator,
+	SetAsserter,
 	SetVerifier,
 	StringValidator,
+	StringAsserter,
 	StringVerifier,
 	InetAddressValidator,
+	InetAddressAsserter,
 	InetAddressVerifier,
 	MapValidator,
+	MapAsserter,
 	MapVerifier,
 	ExtensibleNumberValidator,
+	ExtensibleNumberAsserter,
 	ExtensibleNumberVerifier,
 	NumberValidator,
+	NumberAsserter,
 	NumberVerifier,
 	BooleanValidator,
+	BooleanAsserter,
 	BooleanVerifier,
 	ExtensibleObjectValidator,
+	ExtensibleObjectAsserter,
 	ExtensibleObjectVerifier,
 	ObjectValidator,
+	ObjectAsserter,
 	ObjectVerifier
 };

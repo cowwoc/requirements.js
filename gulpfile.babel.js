@@ -134,6 +134,7 @@ async function bundleSrcForBrowser()
 			context: "window",
 			onwarn(warning, warn)
 			{
+				// Ignore false alarm about circular dependency involving internal.ts
 				const ignoredCircular =
 					[
 						"src/internal/internal.ts"
@@ -154,7 +155,8 @@ async function bundleSrcForBrowser()
 			format: "iife",
 			globals:
 				{
-					lodash: "_"
+					lodash: "_",
+					tty: "tty"
 				},
 			sourcemap: isReleaseMode,
 			dir: "target/publish/browser"

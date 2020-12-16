@@ -291,7 +291,7 @@ abstract class AbstractObjectValidatorNoOp<S> implements ExtensibleObjectValidat
 	}
 
 	/**
-	 * Returns the list of failed validations. Modifying the returned list results in undefined behavior.
+	 * Returns the list of failed validations. Modifying the returned list results in an undefined behavior.
 	 *
 	 * @return {ValidationFailure[]} the list of failed validations
 	 */

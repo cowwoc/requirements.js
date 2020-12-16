@@ -12,6 +12,10 @@ import type {
 
 /**
  * Validates the requirements of an object.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods. The
+ * remaining exceptions that are thrown by the verifier are wrapped as validation failures and are returned
+ * by {@link #getFailures}.
  */
 interface ExtensibleObjectValidator<S>
 {
@@ -22,7 +26,7 @@ interface ExtensibleObjectValidator<S>
 	 * @param {string} name the name of the expected value
 	 * @return {ExtensibleObjectValidator} the updated validator
 	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is not equal to value
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	isEqualTo(expected: unknown, name?: string): S;
 
@@ -33,7 +37,7 @@ interface ExtensibleObjectValidator<S>
 	 * @param {string} [name] the name of the expected value
 	 * @return {ExtensibleObjectValidator} the updated validator
 	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty; if the actual value is equal to <code>value</code>
+	 * @throws {RangeError} if <code>name</code> is empty
 	 */
 	isNotEqualTo(value: unknown, name?: string): S;
 
@@ -42,9 +46,6 @@ interface ExtensibleObjectValidator<S>
 	 * <code>isInstanceOf(Object)</code>.
 	 *
 	 * @return {ExtensibleObjectValidator} the updated validator
-	 * @throws {RangeError} if the actual value is not a <code>string</code>, <code>number</code>,
-	 *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
-	 *   <code>symbol</code>)
 	 */
 	isPrimitive(): S;
 
@@ -68,7 +69,6 @@ interface ExtensibleObjectValidator<S>
 	 *
 	 * @param {string} type the name of the type to compare to
 	 * @return {ExtensibleObjectValidator} the updated validator
-	 * @throws {RangeError} if the actual value does not have the specified <code>type</code>
 	 */
 	isTypeOf(type: string): S;
 
@@ -78,7 +78,6 @@ interface ExtensibleObjectValidator<S>
 	 * @param {Function} type the type to compare to
 	 * @return {ExtensibleObjectValidator} the updated validator
 	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function or an arrow function
-	 * @throws {RangeError} if the actual value is not an instance of <code>type</code>
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isInstanceOf(type: Function): S;
@@ -132,9 +131,15 @@ interface ExtensibleObjectValidator<S>
 	isNotSet(): S;
 
 	/**
-	 * Returns the actual value. The return value is <code>undefined</code> if
-	 * {@link module:DefaultRequirements~assertThat assertThat()} was invoked and assertions are disabled
-	 * (in which case the value is discarded) is <code>false</code>.
+	 * Indicates if the actual value is available.
+	 *
+	 * @return {boolean} <code>true</code> unless the actual value was converted to an incompatible type
+	 */
+	isActualAvailable(): boolean;
+
+	/**
+	 * Returns the actual value. The return value is <code>undefined</code> if {@link #isActualAvailable()}
+	 * is <code>false</code>.
 	 *
 	 * @return {object} the actual value
 	 */
@@ -209,7 +214,7 @@ interface ExtensibleObjectValidator<S>
 	/**
 	 * @param {Function} consumer a function that accepts a {@link MapValidator} for the actual value
 	 * @return {ExtensibleObjectValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set; if the actual value is not a <code>Map</code>
+	 * @throws {TypeError} if <code>consumer</code> is not set. If the actual value is not a <code>Map</code>.
 	 */
 	asMapConsumer(consumer: (input: MapValidator) => void): S;
 
@@ -242,7 +247,7 @@ interface ExtensibleObjectValidator<S>
 	asClassConsumer(consumer: (input: ClassValidator) => void): S;
 
 	/**
-	 * Returns the list of failed validations. Modifying the returned list results in undefined behavior.
+	 * Returns the list of failed validations. Modifying the returned list results in an undefined behavior.
 	 *
 	 * @return {ValidationFailure[]} the list of failed validations
 	 */

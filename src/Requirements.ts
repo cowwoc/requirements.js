@@ -2,12 +2,13 @@
 import {
 	Configuration,
 	MainGlobalConfiguration,
+	ObjectAsserter,
+	ObjectAsserterNoOp,
 	Objects,
 	ObjectValidator,
 	ObjectValidatorImpl,
 	ObjectVerifier,
-	ObjectVerifierImpl,
-	ObjectVerifierNoOp
+	ObjectVerifierImpl
 } from "./internal/internal";
 
 /**
@@ -55,16 +56,16 @@ class Requirements
 	 * @function
 	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
-	 * @return {ObjectVerifier} a verifier
+	 * @return {ObjectAsserter} an asserter
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	assertThat(actual: unknown, name: string): ObjectVerifier
+	assertThat(actual: unknown, name: string): ObjectAsserter
 	{
 		Objects.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
-		return ObjectVerifierNoOp.INSTANCE;
+		return ObjectAsserterNoOp.INSTANCE;
 	}
 
 	/**
