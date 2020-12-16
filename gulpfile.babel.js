@@ -18,7 +18,6 @@ import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
-import nodeBuiltins from "@stream-io/rollup-plugin-node-builtins";
 import connect from "gulp-connect";
 import typescript from "gulp-typescript";
 
@@ -105,7 +104,6 @@ async function bundleSrcForBrowser()
 							preferBuiltins: true
 						}),
 					rollupCommonjs({include: "node_modules/**"}),
-					nodeBuiltins(),
 					nodeGlobals(),
 					rollupBabel(
 						{
