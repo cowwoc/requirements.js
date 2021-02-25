@@ -118,6 +118,7 @@ interface StringVerifier extends ObjectVerifier
 
 	/**
 	 * @return {StringVerifier} the updated verifier
+	 * @deprecated returns this
 	 */
 	asString(): StringVerifier;
 

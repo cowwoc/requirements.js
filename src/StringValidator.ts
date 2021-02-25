@@ -115,6 +115,7 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator>
 
 	/**
 	 * @return {StringValidator} the updated validator
+	 * @deprecated returns this
 	 */
 	asString(): StringValidator;
 

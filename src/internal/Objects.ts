@@ -371,7 +371,7 @@ class Objects
 				}
 				return JSON.stringify(result, null, 2);
 			}
-			case "object":
+			case "Object":
 				return JSON.stringify(current, null, 2);
 		}
 		while (true)
