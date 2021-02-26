@@ -102,10 +102,10 @@ class ValidationFailure
 	 * Merges the failure context from the <code>ValidationFailure</code> and <code>Configuration</code> object,
 	 * where the former may override values set by the latter.
 	 *
-	 * @return {string} the merged failure context
+	 * @return {ContextLine[]} the merged failure context
 	 * @private
 	 */
-	private mergeContext()
+	private mergeContext(): ContextLine[]
 	{
 		const mergedContext: ContextLine[] = [];
 		const existingKeys = new Set();
