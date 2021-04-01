@@ -2,10 +2,13 @@
 import {
 	Configuration,
 	MainGlobalConfiguration,
+	ObjectAsserter,
+	ObjectAsserterNoOp,
 	Objects,
 	ObjectValidator,
+	ObjectValidatorImpl,
 	ObjectVerifier,
-	ObjectVerifierNoOp
+	ObjectVerifierImpl
 } from "./internal/internal";
 
 /**
@@ -40,9 +43,9 @@ class Requirements
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	requireThat(actual: unknown, name: string): ObjectVerifier<ObjectValidator>
+	requireThat(actual: unknown, name: string): ObjectVerifier
 	{
-		return new ObjectVerifier(this.validateThat(actual, name));
+		return new ObjectVerifierImpl(this.validateThat(actual, name));
 	}
 
 	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
@@ -53,16 +56,16 @@ class Requirements
 	 * @function
 	 * @param {object} actual the actual value
 	 * @param {string} name   the name of the value
-	 * @return {ObjectVerifier | ObjectVerifierNoOp} a verifier
+	 * @return {ObjectAsserter} an asserter
 	 * @throws {TypeError}  if <code>name</code> is null
 	 * @throws {RangeError} if <code>name</code> is empty
 	 */
-	assertThat(actual: unknown, name: string): ObjectVerifier<ObjectValidator> | ObjectVerifierNoOp
+	assertThat(actual: unknown, name: string): ObjectAsserter
 	{
 		Objects.verifyName(name, "name");
 		if (this.config.assertionsAreEnabled())
 			return this.requireThat(actual, name);
-		return ObjectVerifierNoOp.INSTANCE;
+		return ObjectAsserterNoOp.INSTANCE;
 	}
 
 	/**
@@ -78,7 +81,7 @@ class Requirements
 	validateThat(actual: unknown, name: string): ObjectValidator
 	{
 		Objects.verifyName(name, "name");
-		return new ObjectValidator(this.config, actual, name);
+		return new ObjectValidatorImpl(this.config, actual, name);
 	}
 
 	/**

@@ -1,22 +1,43 @@
-import {ObjectValidatorNoOp} from "./internal";
+import {
+	AbstractObjectValidatorNoOp,
+	ClassValidator,
+	ValidationFailure
+} from "./internal";
 
 /**
  * An implementation of <code>ClassValidator</code> that does nothing.
  */
-class ClassValidatorNoOp extends ObjectValidatorNoOp
+class ClassValidatorNoOp extends AbstractObjectValidatorNoOp<ClassValidator>
+	implements ClassValidator
 {
 	/**
-	 * @return {ClassValidatorNoOp} the updated validator
+	 * Creates a new ClassValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isSupertypeOf(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): ClassValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ClassValidatorNoOp} the updated validator
+	 * @return {ClassValidator} the updated validator
 	 */
-	isSubtypeOf(): this
+	isSupertypeOf(): ClassValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {ClassValidator} the updated validator
+	 */
+	isSubtypeOf(): ClassValidator
 	{
 		return this;
 	}

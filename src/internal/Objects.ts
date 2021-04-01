@@ -84,7 +84,7 @@ class Objects
 			if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 				return "ArrowFunction";
 			// Anonymous and named functions
-			const functionNamePattern = /^function(\s+[^(]+)?\(/;
+			const functionNamePattern = /^function\s+([^(]+)?\(/;
 			const functionName = functionNamePattern.exec(instanceToString);
 			if (functionName !== null && typeof (functionName[1]) !== "undefined")
 			{
@@ -120,7 +120,7 @@ class Objects
 	{
 		const constructorString = object.constructor.toString();
 		// Anonymous and named functions
-		const functionNamePattern = /^function(\s+[^(]+)?\(/;
+		const functionNamePattern = /^function\s+([^(]+)?\(/;
 		const functionName = functionNamePattern.exec(constructorString);
 		if (functionName !== null)
 		{
@@ -162,7 +162,7 @@ class Objects
 				"Type  : " + typeOfName);
 		}
 		if (typeof (value) === "undefined")
-			throw new TypeError(name + " must be set");
+			throw new TypeError(name + " must be defined");
 		if (value === null)
 			throw new TypeError(name + " may not be null");
 		return true;
@@ -371,7 +371,7 @@ class Objects
 				}
 				return JSON.stringify(result, null, 2);
 			}
-			case "object":
+			case "Object":
 				return JSON.stringify(current, null, 2);
 		}
 		while (true)
@@ -403,23 +403,6 @@ class Objects
 		const trimmed = value.trim();
 		if (trimmed.length === 0)
 			throw new RangeError(name + " may not be empty");
-	}
-
-	/**
-	 * Returns an error message if <code>value</code> is not set.
-	 *
-	 * @param {object} value the value of the parameter
-	 * @param {string} name the name of the parameter
-	 * @return {string} an error message or null if the value is set
-	 */
-	static validateThatValueIsSet(value: unknown, name: string): string | null
-	{
-		this.assertThatStringNotEmpty(name, "name");
-		if (typeof (value) === "undefined")
-			return name + " must be set";
-		if (value === null)
-			return name + " may not be null";
-		return null;
 	}
 }
 

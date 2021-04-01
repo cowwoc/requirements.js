@@ -1,27 +1,24 @@
-import {
-	Configuration,
-	Objects,
-	ObjectValidator,
-	ValidationFailure
-} from "./internal/internal";
+import type {ExtensibleObjectValidator} from "./internal/internal";
 
 /**
  * Validates the requirements of a type.
- * <p>
+ *
  * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
-class ClassValidator extends ObjectValidator
+interface ClassValidator extends ExtensibleObjectValidator<ClassValidator>
 {
+	/**
+	 * Ensures that the actual value is the specified type, or a sub-type.
+	 *
+	 * @param {Function} type the type to compare to
+	 * @return {ClassValidator} the updated validator
+	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	private readonly actualClass: Function;
-
-	constructor(configuration: Configuration, actual: unknown, name: string)
-	{
-		super(configuration, actual, name);
-
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		this.actualClass = actual as Function;
-	}
+	isSupertypeOf(type: Function): ClassValidator;
 
 	/**
 	 * Ensures that the actual value is the specified type, or a sub-type.
@@ -30,48 +27,10 @@ class ClassValidator extends ObjectValidator
 	 * @return {ClassValidator} the updated validator
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): this
-	{
-		const typeOfType = Objects.getTypeOf(type);
-		if (typeOfType === "Function")
-		{
-			if (Objects.extends(type, this.actualClass))
-				return this;
-		}
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a super-type of " + typeOfType).
-			addContext("Actual", typeOfType);
-		this.failures.push(failure);
-		return this;
-	}
-
-	/**
-	 * Ensures that the actual value is the specified type, or a sub-type.
-	 *
-	 * @param {Function} type the type to compare to
-	 * @return {ClassValidator} the updated validator
-	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): this
-	{
-		const typeOfType = Objects.getTypeOf(type);
-		if (typeOfType === "Function")
-		{
-			if (Objects.extends(this.actualClass, type))
-				return this;
-		}
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a sub-type of " + typeOfType).
-			addContext("Actual", Objects.getTypeOf(this.actual));
-		this.failures.push(failure);
-		return this;
-	}
+	isSubtypeOf(type: Function): ClassValidator;
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function
-	{
-		return this.actualClass;
-	}
+	getActual(): Function | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

@@ -1,134 +1,27 @@
-import {ObjectValidatorNoOp} from "./internal";
+import {
+	AbstractNumberValidatorNoOp,
+	NumberValidator,
+	ValidationFailure
+} from "./internal";
 
 /**
  * An implementation of <code>NumberValidator</code> that does nothing.
  */
-class NumberValidatorNoOp extends ObjectValidatorNoOp
+class NumberValidatorNoOp extends AbstractNumberValidatorNoOp<NumberValidator>
+	implements NumberValidator
 {
 	/**
-	 * @return {NumberValidatorNoOp} the updated validator
+	 * Creates a new NumberValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isNegative(): NumberValidatorNoOp
+	constructor(failures: ValidationFailure[])
 	{
-		return this;
+		super(failures);
 	}
 
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNotNegative(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isZero(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNotZero(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isPositive(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNotPositive(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isGreaterThan(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isGreaterThanOrEqualTo(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isLessThan(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isLessThanOrEqualTo(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isBetween(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isBetweenClosed(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNumber(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNotNumber(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isFinite(): NumberValidatorNoOp
-	{
-		return this;
-	}
-
-	/**
-	 * @return {NumberValidatorNoOp} the updated validator
-	 */
-	isNotFinite(): NumberValidatorNoOp
+	protected getThis(): NumberValidator
 	{
 		return this;
 	}

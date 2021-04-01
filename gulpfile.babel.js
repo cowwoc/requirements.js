@@ -18,7 +18,6 @@ import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
-import nodeBuiltins from "@stream-io/rollup-plugin-node-builtins";
 import connect from "gulp-connect";
 import typescript from "gulp-typescript";
 
@@ -105,7 +104,6 @@ async function bundleSrcForBrowser()
 							preferBuiltins: true
 						}),
 					rollupCommonjs({include: "node_modules/**"}),
-					nodeBuiltins(),
 					nodeGlobals(),
 					rollupBabel(
 						{
@@ -134,6 +132,7 @@ async function bundleSrcForBrowser()
 			context: "window",
 			onwarn(warning, warn)
 			{
+				// Ignore false alarm about circular dependency involving internal.ts
 				const ignoredCircular =
 					[
 						"src/internal/internal.ts"
@@ -154,7 +153,8 @@ async function bundleSrcForBrowser()
 			format: "iife",
 			globals:
 				{
-					lodash: "_"
+					lodash: "_",
+					tty: "tty"
 				},
 			sourcemap: isReleaseMode,
 			dir: "target/publish/browser"
@@ -330,11 +330,11 @@ gulp.task("server", server);
 gulp.task("test", gulp.series(lint,
 	gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
 gulp.task("bundle", bundleAll);
-gulp.task("target", gulp.series(bundleAll, test));
+gulp.task("target", gulp.series(bundleAll, bundleTest, test));
 gulp.task("watch", function()
 {
 	gulp.watch(["gulpfile.babel.js", ".eslintrc.js"], {delay: 500}, lintJs);
 	gulp.watch(["src/**/*.ts", "test/**/*.ts"], {delay: 500},
-		gulp.series(lintTs, bundleSrcForNodeWithoutModules, test));
+		gulp.series(lintTs, bundleSrcForNodeWithoutModules, bundleTest, test));
 });
 gulp.task("default", gulp.parallel("target"));

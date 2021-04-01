@@ -1,129 +1,159 @@
 import {
-	ObjectValidatorNoOp,
-	SizeValidatorNoOp
+	AbstractObjectValidatorNoOp,
+	NumberValidator,
+	NumberValidatorNoOp,
+	StringValidator,
+	ValidationFailure
 } from "./internal";
 
 /**
- * An implementation of <code>String</code> that does nothing.
+ * An implementation of <code>StringValidator</code> that does nothing. A validator that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
-class StringValidatorNoOp extends ObjectValidatorNoOp
+class StringValidatorNoOp extends AbstractObjectValidatorNoOp<StringValidator>
+	implements StringValidator
 {
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * Creates a new StringValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	startsWith(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	doesNotStartWith(): this
+	startsWith(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	contains(): this
+	doesNotStartWith(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	doesNotContain(): this
+	contains(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	endsWith(): this
+	doesNotContain(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	doesNotEndWith(): this
+	endsWith(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	isEmpty(): this
+	doesNotEndWith(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	isNotEmpty(): this
+	isEmpty(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} a validator for the trimmed representation of the actual value
+	 * @return {StringValidator} the updated validator
 	 */
-	trim(): this
+	isNotEmpty(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} a validator for the trimmed representation of the actual value
 	 */
-	trimConsumer(): this
+	trim(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} a validator for the length of the string
+	 * @return {StringValidator} the updated validator
 	 */
-	length(): SizeValidatorNoOp
-	{
-		return new SizeValidatorNoOp(this.failures);
-	}
-
-	/**
-	 * @return {StringValidatorNoOp} the updated validator
-	 */
-	lengthConsumer(): this
+	trimConsumer(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	asString(): this
+	isTrimmed(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {NumberValidator} a validator for the length of the string
 	 */
-	asStringConsumer(): this
+	length(): NumberValidator
+	{
+		return new NumberValidatorNoOp(this.failures);
+	}
+
+	/**
+	 * @return {StringValidator} the updated validator
+	 */
+	lengthConsumer(): StringValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {StringValidatorNoOp} the updated validator
+	 * @return {StringValidator} the updated validator
 	 */
-	asInetAddressConsumer(): this
+	asString(): StringValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {StringValidator} the updated validator
+	 */
+	asStringConsumer(): StringValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {StringValidator} the updated validator
+	 */
+	asInetAddressConsumer(): StringValidator
 	{
 		return this;
 	}

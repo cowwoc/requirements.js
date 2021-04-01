@@ -1,122 +1,143 @@
 import {
-	ObjectValidatorNoOp,
+	AbstractObjectValidatorNoOp,
+	ArrayValidator,
+	NumberValidator,
+	NumberValidatorNoOp,
+	SetValidator,
 	SetValidatorNoOp,
-	SizeValidatorNoOp
+	ValidationFailure
 } from "./internal";
 
 /**
  * An implementation of <code>ArrayValidator</code> that does nothing.
  */
-class ArrayValidatorNoOp extends ObjectValidatorNoOp
+class ArrayValidatorNoOp extends AbstractObjectValidatorNoOp<ArrayValidator>
+	implements ArrayValidator
 {
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * Creates a new ArrayValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isEmpty(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): ArrayValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	isNotEmpty(): this
+	isEmpty(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	contains(): this
+	isNotEmpty(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	containsExactly(): this
+	contains(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	containsAny(): this
+	containsExactly(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	containsAll(): this
+	containsAny(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	doesNotContain(): this
+	containsAll(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	doesNotContainAny(): this
+	doesNotContain(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	doesNotContainAll(): this
+	doesNotContainAny(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	doesNotContainDuplicates(): this
+	doesNotContainAll(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	lengthConsumer(): this
+	doesNotContainDuplicates(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} the updated validator
+	 * @return {ArrayValidator} the updated validator
 	 */
-	asSetConsumer(): this
+	lengthConsumer(): ArrayValidator
 	{
-		return this;
+		return this.getThis();
 	}
 
 	/**
-	 * @return {SizeValidatorNoOp} a validator for the length of the array
+	 * @return {ArrayValidator} the updated validator
 	 */
-	length(): SizeValidatorNoOp
+	asSetConsumer(): ArrayValidator
 	{
-		return new SizeValidatorNoOp(this.failures);
+		return this.getThis();
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} a <code>Set</code> validator
+	 * @return {NumberValidator} a validator for the length of the array
 	 */
-	asSet(): SetValidatorNoOp
+	length(): NumberValidator
+	{
+		return new NumberValidatorNoOp(this.failures);
+	}
+
+	/**
+	 * @return {SetValidator} a <code>Set</code> validator
+	 */
+	asSet(): SetValidator
 	{
 		return new SetValidatorNoOp(this.failures);
 	}

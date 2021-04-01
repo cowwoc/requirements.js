@@ -19,15 +19,15 @@ class Configuration
 	 *
 	 * @param {GlobalConfiguration} globalConfiguration the global configuration inherited by all verifiers
 	 * @param {Map<string, string>} [context] a map of key-value pairs to append to the exception message
-	 * @param {boolean} [assertionsEnabled] true if <code>assertThat()</code> should invoke
-	 *   <code>requireThat()</code>; false if <code>assertThat()</code> should do nothing. If
+	 * @param {boolean} [assertionsEnabled] <code>true</code> if <code>assertThat()</code> should invoke
+	 *   <code>requireThat()</code>. <code>false</code> if <code>assertThat()</code> should do nothing. If
 	 *   <code>undefined</code> defaults to <code>globalConfiguration.assertionsAreEnabled()</code>.
 	 * @param {boolean} [diffEnabled] true if exceptions should show the difference between the actual and
 	 *   expected values. If <code>undefined</code> defaults to <code>globalConfiguration.diffEnabled()</code>.
 	 * @param {Map<string, Function>} [typeToStringConverter] a map from an object type (per
 	 *   {@link Objects#getTypeOf}) to a function that converts the object to a String
-	 * @throws {TypeError} if <code>context</code> or one of its elements are not an array; if the nested array
-	 *   contains less or more than 2 elements; if the keys nested in the context array are not strings
+	 * @throws {TypeError} if <code>context</code> or one of its elements are not an array. If the nested array
+	 *   contains less or more than 2 elements. If the keys nested in the context array are not strings.
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
 	 */
 	constructor(globalConfiguration: GlobalConfiguration,
@@ -51,8 +51,8 @@ class Configuration
 	/**
 	 * Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
-	 *   if it shouldn't do anything
+	 * @return {boolean} <code>true</code> if <code>assertThat()</code> should delegate to
+	 *   <code>requireThat()</code>. <code>false</code> if it shouldn't do anything.
 	 */
 	assertionsAreEnabled(): boolean
 	{
@@ -137,7 +137,7 @@ class Configuration
 	 * @param {string} name the name of the parameter
 	 * @param {object} value the value of the parameter
 	 * @return {Configuration} the updated configuration
-	 * @throws {TypeError} if <code>key</code> is not a <code>String</code>
+	 * @throws {TypeError} if <code>key</code> is not a <code>string</code>
 	 * @see #getContext
 	 */
 	putContext(name: string, value: unknown): Configuration
@@ -168,7 +168,7 @@ class Configuration
 
 	/**
 	 * Returns the <code>String</code> representation of an object. By default, custom handlers are provided for
-	 * arrays, <code>Number</code> and <code>Set</code>.
+	 * arrays, <code>number</code> and <code>Set</code>.
 	 *
 	 * @param {object} value a value
 	 * @return {string} the <code>String</code> representation of the value

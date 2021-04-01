@@ -1,6 +1,14 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.0.1 - 2021/04/01
+
+* Improvements
+    * Added ObjectValidator/Verifier.asBoolean().
+    * Added ObjectValidator/Verifier.isActualAvailable().
+    * Added StringValidator/Verifier.isTrimmed().
+    * Use interfaces to hide whether we return a normal or no-op implementation of a validator or verifier.
+
 ## Version 3.0.0 - 2020/12/05
 
 * Breaking changes

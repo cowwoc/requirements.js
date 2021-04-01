@@ -1,17 +1,18 @@
 import {
 	Configuration,
-	NumberValidator,
+	NumberValidatorImpl,
 	Objects,
 	Pluralizer,
 	ValidationFailure
-} from "./internal/internal";
+} from "./internal";
+import NumberValidatorNoOp from "./NumberValidatorNoOp";
+import type NumberValidator from "../NumberValidator";
 
 /**
- * Validates the requirements of the size of a container.
- * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * Default implementation of <code>SetVerifier</code>.
  */
-class SizeValidator extends NumberValidator
+class SizeValidatorImpl extends NumberValidatorImpl
+	implements NumberValidator
 {
 	private readonly collection: unknown[] | Set<unknown> | Map<unknown, unknown> | string;
 	private readonly collectionName: string;
@@ -20,7 +21,7 @@ class SizeValidator extends NumberValidator
 	private readonly pluralizer: Pluralizer;
 
 	/**
-	 * Creates a new SizeValidator.
+	 * Creates a new SizeValidatorImpl.
 	 *
 	 * @param {Configuration} configuration the instance configuration
 	 * @param {Array | Set | Map | string} collection the collection
@@ -29,7 +30,7 @@ class SizeValidator extends NumberValidator
 	 * @param {string} sizeName the name of the container size
 	 * @param {Pluralizer} pluralizer returns the singular or plural form of the container's element type
 	 * @throws {TypeError} if <code>containerName</code>, <code>sizeName</code>, <code>configuration</code> are
-	 *   undefined or null; if <code>containerName</code> or <code>sizeName</code> are not a string
+	 *   undefined or null. If <code>containerName</code> or <code>sizeName</code> are not a string.
 	 * @throws {RangeError} if <code>containerName</code> or <code>sizeName</code> are empty
 	 */
 	constructor(configuration: Configuration,
@@ -45,40 +46,30 @@ class SizeValidator extends NumberValidator
 		this.pluralizer = pluralizer;
 	}
 
-	/**
-	 * Ensures that the actual value is not negative.
-	 *
-	 * @return {SizeValidator} the updated validator
-	 */
-	isNotNegative(): this
+	protected getNoOp(): NumberValidator
 	{
+		return new NumberValidatorNoOp(this.failures);
+	}
+
+	isNotNegative(): NumberValidator
+	{
+		if (!this.requireThatActualIsSet())
+			return this.getNoOp();
 		// Always true
 		return this;
 	}
 
-	/**
-	 * Ensures that the actual value is negative.
-	 *
-	 * @return {SizeValidator} the updated validator
-	 */
-	isNegative(): this
+	isNegative(): NumberValidator
 	{
+		if (!this.requireThatActualIsSet())
+			return this.getNoOp();
 		const failure = new ValidationFailure(this.config, RangeError,
 			this.name + " may not be negative");
 		this.failures.push(failure);
 		return this;
 	}
 
-	/**
-	 * Ensures that the actual value is equal to a value.
-	 *
-	 * @param {object} expected the expected value
-	 * @param {string} [name] the name of the expected value
-	 * @return {SizeValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty
-	 */
-	isEqualTo(expected: unknown, name?: string): this
+	isEqualTo(expected: unknown, name?: string): NumberValidator
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
@@ -109,16 +100,7 @@ class SizeValidator extends NumberValidator
 		return this;
 	}
 
-	/**
-	 * Ensures that the actual value is not equal to a value.
-	 *
-	 * @param {object} value the value to compare to
-	 * @param {string} [name] the name of the expected value
-	 * @return {SizeValidator} the updated validator
-	 * @throws {TypeError} if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty
-	 */
-	isNotEqualTo(value: unknown, name?: string): this
+	isNotEqualTo(value: unknown, name?: string): NumberValidator
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
@@ -147,15 +129,7 @@ class SizeValidator extends NumberValidator
 		return this;
 	}
 
-	/**
-	 * Ensures that the actual value is within range.
-	 *
-	 * @param {number} startInclusive the minimum value (inclusive)
-	 * @param {number} endExclusive  the maximum value (exclusive)
-	 * @return {SizeValidator} the updated validator
-	 * @throws {TypeError}  if any of the arguments are null or not a number
-	 */
-	isBetween(startInclusive: number, endExclusive: number): this
+	isBetween(startInclusive: number, endExclusive: number): NumberValidator
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endExclusive, "endExclusive", "number");
@@ -165,6 +139,8 @@ class SizeValidator extends NumberValidator
 				"Actual: " + endExclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.requireThatActualIsSet())
+			return this.getNoOp();
 
 		if (this.size < startInclusive || this.size >= endExclusive)
 		{
@@ -180,16 +156,7 @@ class SizeValidator extends NumberValidator
 		return this;
 	}
 
-
-	/**
-	 * Ensures that the actual value is within range.
-	 *
-	 * @param {number} startInclusive the minimum value (inclusive)
-	 * @param {number} endInclusive  the maximum value (inclusive)
-	 * @return {SizeValidator} the updated validator
-	 * @throws {TypeError}  if any of the arguments are null or not a number
-	 */
-	isBetweenClosed(startInclusive: number, endInclusive: number): this
+	isBetweenClosed(startInclusive: number, endInclusive: number): NumberValidator
 	{
 		Objects.requireThatTypeOf(startInclusive, "startInclusive", "number");
 		Objects.requireThatTypeOf(endInclusive, "endInclusive", "number");
@@ -199,6 +166,8 @@ class SizeValidator extends NumberValidator
 				"Actual: " + endInclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
+		if (!this.requireThatActualIsSet())
+			return this.getNoOp();
 
 		if (this.size < startInclusive || this.size > endInclusive)
 		{
@@ -223,4 +192,4 @@ class SizeValidator extends NumberValidator
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {SizeValidator as default};
+export {SizeValidatorImpl as default};

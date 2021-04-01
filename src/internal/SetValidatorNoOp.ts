@@ -1,114 +1,137 @@
 import {
+	AbstractObjectValidatorNoOp,
+	ArrayValidator,
 	ArrayValidatorNoOp,
+	NumberValidator,
 	NumberValidatorNoOp,
-	ObjectValidatorNoOp
+	SetValidator,
+	ValidationFailure
 } from "./internal";
 
 /**
- * An implementation of <code>SetValidator</code> that does nothing.
+ * An implementation of <code>SetValidator</code> that does nothing. A validator that ignores all
+ * subsequent failures because they are guaranteed to fail and wouldn't add any value to the end-user. For
+ * example, an attempt was made to dereference null or cast the value to an incompatible type.
  */
-class SetValidatorNoOp extends ObjectValidatorNoOp
+class SetValidatorNoOp extends AbstractObjectValidatorNoOp<SetValidator>
+	implements SetValidator
 {
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * Creates a new SetValidatorNoOp.
+	 *
+	 * @param {ValidationFailure[]} failures the list of validation failures
+	 * @throws {TypeError} if <code>failures</code> is null or undefined
 	 */
-	isEmpty(): this
+	constructor(failures: ValidationFailure[])
+	{
+		super(failures);
+	}
+
+	protected getThis(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	isNotEmpty(): this
+	isEmpty(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	contains(): this
+	isNotEmpty(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	containsExactly(): this
+	contains(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	containsAny(): this
+	containsExactly(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	containsAll(): this
+	containsAny(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	doesNotContain(): this
+	containsAll(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	doesNotContainAny(): this
+	doesNotContain(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	doesNotContainAll(): this
+	doesNotContainAny(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {NumberValidatorNoOp} a validator for the Set's size
+	 * @return {SetValidator} the updated validator
 	 */
-	size(): NumberValidatorNoOp
+	doesNotContainAll(): SetValidator
+	{
+		return this;
+	}
+
+	/**
+	 * @return {NumberValidator} a validator for the Set's size
+	 */
+	size(): NumberValidator
 	{
 		return new NumberValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	sizeConsumer(): this
+	sizeConsumer(): SetValidator
 	{
 		return this;
 	}
 
 	/**
-	 * @return {ArrayValidatorNoOp} a validator for the Set's elements
+	 * @return {ArrayValidator} a validator for the Set's elements
 	 */
-	asArray(): ArrayValidatorNoOp
+	asArray(): ArrayValidator
 	{
 		return new ArrayValidatorNoOp(this.failures);
 	}
 
 	/**
-	 * @return {SetValidatorNoOp} the updated validator
+	 * @return {SetValidator} the updated validator
 	 */
-	asArrayConsumer(): this
+	asArrayConsumer(): SetValidator
 	{
 		return this;
 	}

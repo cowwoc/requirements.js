@@ -4,12 +4,12 @@ import {
 	Requirements
 } from "../src/index";
 import {
-	ObjectVerifier,
-	TestGlobalConfiguration,
-	TerminalEncoding,
 	Configuration,
-	ObjectValidator
+	ObjectValidator,
+	TerminalEncoding,
+	TestGlobalConfiguration
 } from "../src/internal/internal";
+import ObjectVerifierImpl from "../src/internal/ObjectVerifierImpl";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
@@ -21,7 +21,7 @@ test("ObjectTest.validatorIsUndefined", function(t)
 	{
 		let input: undefined;
 		/* eslint-disable no-new */
-		new ObjectVerifier(input as unknown as ObjectValidator);
+		new ObjectVerifierImpl(input as unknown as ObjectValidator);
 		/* eslint-enable no-new */
 	}, TypeError);
 	t.end();

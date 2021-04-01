@@ -38,7 +38,6 @@ class DiffResult
 		return this.actualLines;
 	}
 
-
 	/**
 	 * @return {string[]} the lines to display between "actual" and "expected". If the list is empty, no lines
 	 * should be displayed.

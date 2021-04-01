@@ -129,8 +129,8 @@ class Terminal
 	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
 	 *
 	 * @param {number} width the width that the terminal should use
-	 * @throws {TypeError} if {@code width} is not a number
-	 * @throws {RangeError} if {@code width} is zero or negative
+	 * @throws {TypeError} if <code>width</code> is not a number
+	 * @throws {RangeError} if <code>width</code> is zero or negative
 	 * @see #useBestWidth
 	 */
 	setWidth(width: number): void
@@ -143,7 +143,7 @@ class Terminal
 
 	/**
 	 * Indicates that verifiers should use the best width supported by the terminal. If the width cannot be
-	 * auto-detected, a value of {@code 80} is used.
+	 * auto-detected, a value of <code>80</code> is used.
 	 *
 	 * @see #setWidth(int)
 	 */

@@ -1,45 +1,27 @@
-import {
-	Configuration,
-	Objects,
-	ObjectValidator,
-	Pluralizer,
-	SizeValidator,
-	ValidationFailure
+import type {
+	ExtensibleObjectValidator,
+	NumberValidator
 } from "./internal/internal";
 
 /**
  * Validates the requirements of a <code>string</code>.
- * <p>
+ *
  * All methods (except for {@link #asString} and those found in {@link ObjectValidator}) imply
  * {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
  */
-class StringValidator extends ObjectValidator
+interface StringValidator extends ExtensibleObjectValidator<StringValidator>
 {
-	private actualString: string;
-
-	constructor(configuration: Configuration, actual: unknown, name: string)
-	{
-		super(configuration, actual, name);
-		this.actualString = actual as string;
-	}
-
 	/**
 	 * Ensures that the actual value starts with a value.
 	 *
 	 * @param {string} prefix the value that the string must start with
 	 * @return {StringValidator} the updated validator
 	 */
-	startsWith(prefix: string): this
-	{
-		if (!this.actualString.startsWith(prefix))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must start with \"" + this.config.convertToString(prefix) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	startsWith(prefix: string): StringValidator;
 
 	/**
 	 * Ensures that the actual value does not start with a value.
@@ -47,17 +29,7 @@ class StringValidator extends ObjectValidator
 	 * @param {string} prefix the value that the string may not start with
 	 * @return {StringValidator} the updated validator
 	 */
-	doesNotStartWith(prefix: string): this
-	{
-		if (this.actualString.startsWith(prefix))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not start with \"" + this.config.convertToString(prefix) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	doesNotStartWith(prefix: string): StringValidator;
 
 	/**
 	 * Ensures that the actual value contains a value.
@@ -65,17 +37,7 @@ class StringValidator extends ObjectValidator
 	 * @param {string} expected the value that the string must contain
 	 * @return {StringValidator} the updated validator
 	 */
-	contains(expected: string): this
-	{
-		if (!this.actualString.includes(expected))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must contain \"" + this.config.convertToString(expected) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	contains(expected: string): StringValidator;
 
 	/**
 	 * Ensures that the actual value does not contain a value.
@@ -83,17 +45,7 @@ class StringValidator extends ObjectValidator
 	 * @param {string} value the value that the string may not contain
 	 * @return {StringValidator} the updated validator
 	 */
-	doesNotContain(value: string): this
-	{
-		if (this.actualString.includes(value))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not contain \"" + this.config.convertToString(value) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	doesNotContain(value: string): StringValidator;
 
 	/**
 	 * Ensures that the actual value ends with a value.
@@ -101,17 +53,7 @@ class StringValidator extends ObjectValidator
 	 * @param {string} suffix the value that the string must end with
 	 * @return {StringValidator} the updated validator
 	 */
-	endsWith(suffix: string): this
-	{
-		if (!this.actualString.endsWith(suffix))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must end with \"" + this.config.convertToString(suffix) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	endsWith(suffix: string): StringValidator;
 
 	/**
 	 * Ensures that the actual value does not end with a value.
@@ -119,60 +61,28 @@ class StringValidator extends ObjectValidator
 	 * @param {string} suffix the value that the string may not end with
 	 * @return {StringValidator} the updated validator
 	 */
-	doesNotEndWith(suffix: string): this
-	{
-		if (this.actualString.endsWith(suffix))
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not end with \"" + this.config.convertToString(suffix) + "\".").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	doesNotEndWith(suffix: string): StringValidator;
 
 	/**
 	 * Ensures that the value is an empty string.
 	 *
 	 * @return {StringValidator} the updated validator
 	 */
-	isEmpty(): this
-	{
-		if (this.actualString.length !== 0)
-		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
-				addContext("Actual", this.actualString);
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isEmpty(): StringValidator;
 
 	/**
 	 * Ensures that the value is not an empty string.
 	 *
 	 * @return {StringValidator} the updated validator
 	 */
-	isNotEmpty(): this
-	{
-		if (this.actualString.length <= 0)
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " may not be empty");
-			this.failures.push(failure);
-		}
-		return this;
-	}
+	isNotEmpty(): StringValidator;
 
 	/**
 	 * Trims whitespace at the beginning and end of the actual value.
 	 *
 	 * @return {StringValidator} the updated validator
 	 */
-	trim(): this
-	{
-		this.actualString = this.actualString.trim();
-		return this;
-	}
+	trim(): StringValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link StringValidator} for the trimmed
@@ -180,63 +90,43 @@ class StringValidator extends ObjectValidator
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	trimConsumer(consumer: (actual: StringValidator) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.trim());
-		return this;
-	}
+	trimConsumer(consumer: (actual: StringValidator) => void): StringValidator;
 
 	/**
-	 * @return {SizeValidator} a validator for the length of the string
+	 * Ensures that the actual value does not contain leading or trailing whitespace.
+	 *
+	 * @return {StringValidator} the updated validator
+	 * @see #trim
 	 */
-	length(): SizeValidator
-	{
-		return new SizeValidator(this.config, this.actualString, this.name, this.actualString.length,
-			this.name + ".length", Pluralizer.CHARACTER);
-	}
+	isTrimmed(): StringValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeValidator} for the length of the
+	 * @return {NumberValidator} a validator for the length of the string
+	 */
+	length(): NumberValidator;
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the length of the
 	 *   string
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeValidator) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.length());
-		return this;
-	}
+	lengthConsumer(consumer: (actual: NumberValidator) => void): StringValidator;
 
 	/**
 	 * @return {StringValidator} the updated validator
+	 * @deprecated returns this
 	 */
-	asString(): StringValidator
-	{
-		if (typeof (this.actualString) === "undefined")
-			return new StringValidator(this.config, "undefined", this.name);
-		if (this.actualString === null)
-			return new StringValidator(this.config, "null", this.name);
-		return this;
-	}
+	asString(): StringValidator;
 
 	/**
 	 * @param {Function} consumer a function that accepts <code>this</code>
 	 * @return {StringValidator} the updated validator
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asStringConsumer(consumer: (actual: StringValidator) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this);
-		return this;
-	}
+	asStringConsumer(consumer: (actual: StringValidator) => void): StringValidator;
 
-	getActual(): string
-	{
-		return this.actualString;
-	}
+	getActual(): string | void;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

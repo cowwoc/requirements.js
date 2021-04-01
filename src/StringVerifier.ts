@@ -1,9 +1,6 @@
-import {
-	Objects,
-	ObjectVerifier,
-	SizeVerifier,
-	StringValidator,
-	StringValidatorNoOp
+import type {
+	NumberVerifier,
+	ObjectVerifier
 } from "./internal/internal";
 
 /**
@@ -12,7 +9,7 @@ import {
  * All methods (except for {@link #asString} and those found in {@link ObjectValidator}) imply
  * {@link #isNotNull()}.
  */
-class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoOp>
+interface StringVerifier extends ObjectVerifier
 {
 	/**
 	 * Ensures that the actual value starts with a value.
@@ -21,11 +18,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
-	startsWith(prefix: string): this
-	{
-		this.validator.startsWith(prefix);
-		return this.validationResult();
-	}
+	startsWith(prefix: string): StringVerifier;
 
 	/**
 	 * Ensures that the actual value does not start with a value.
@@ -34,11 +27,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not start with <code>prefix</code>
 	 */
-	doesNotStartWith(prefix: string): this
-	{
-		this.validator.doesNotStartWith(prefix);
-		return this.validationResult();
-	}
+	doesNotStartWith(prefix: string): StringVerifier;
 
 	/**
 	 * Ensures that the actual value contains a value.
@@ -47,11 +36,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not contain <code>expected</code>
 	 */
-	contains(expected: string): this
-	{
-		this.validator.contains(expected);
-		return this.validationResult();
-	}
+	contains(expected: string): StringVerifier;
 
 	/**
 	 * Ensures that the actual value does not contain a value.
@@ -60,11 +45,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not contain <code>value</code>
 	 */
-	doesNotContain(value: string): this
-	{
-		this.validator.doesNotContain(value);
-		return this.validationResult();
-	}
+	doesNotContain(value: string): StringVerifier;
 
 	/**
 	 * Ensures that the actual value ends with a value.
@@ -73,11 +54,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not end with <code>suffix</code>
 	 */
-	endsWith(suffix: string): this
-	{
-		this.validator.endsWith(suffix);
-		return this.validationResult();
-	}
+	endsWith(suffix: string): StringVerifier;
 
 	/**
 	 * Ensures that the actual value does not end with a value.
@@ -86,11 +63,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the actual value does not start with <code>suffix</code>
 	 */
-	doesNotEndWith(suffix: string): this
-	{
-		this.validator.doesNotEndWith(suffix);
-		return this.validationResult();
-	}
+	doesNotEndWith(suffix: string): StringVerifier;
 
 	/**
 	 * Ensures that the value is an empty string.
@@ -98,11 +71,7 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the value is not an empty string
 	 */
-	isEmpty(): this
-	{
-		this.validator.isEmpty();
-		return this.validationResult();
-	}
+	isEmpty(): StringVerifier;
 
 	/**
 	 * Ensures that the value is not an empty string.
@@ -110,22 +79,14 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {RangeError} if the value is an empty string
 	 */
-	isNotEmpty(): this
-	{
-		this.validator.isNotEmpty();
-		return this.validationResult();
-	}
+	isNotEmpty(): StringVerifier;
 
 	/**
 	 * Trims whitespace at the beginning and end of the actual value.
 	 *
 	 * @return {StringVerifier} a verifier for the trimmed representation of the actual value
 	 */
-	trim(): this
-	{
-		this.validator.trim();
-		return this;
-	}
+	trim(): StringVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts a {@link StringVerifier} for the trimmed
@@ -133,58 +94,42 @@ class StringVerifier extends ObjectVerifier<StringValidator | StringValidatorNoO
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	trimConsumer(consumer: (actual: StringVerifier) => void): StringVerifier
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.trim());
-		return this;
-	}
+	trimConsumer(consumer: (actual: StringVerifier) => void): StringVerifier;
 
 	/**
-	 * @return {SizeVerifier} a verifier for the length of the string
+	 * Ensures that the actual value does not contain leading or trailing whitespace.
+	 *
+	 * @return {StringVerifier} a verifier for the trimmed representation of the actual value
+	 * @see #trim
 	 */
-	length(): SizeVerifier
-	{
-		const newValidator = this.validator.length();
-		return this.validationResult(() => new SizeVerifier(newValidator)) as SizeVerifier;
-	}
+	isTrimmed(): StringVerifier;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link SizeVerifier} for the length of the string
+	 * @return {NumberVerifier} a verifier for the length of the string
+	 */
+	length(): NumberVerifier;
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberVerifier} for the length of the string
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: SizeVerifier) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.length());
-		return this;
-	}
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): StringVerifier;
 
 	/**
 	 * @return {StringVerifier} the updated verifier
+	 * @deprecated returns this
 	 */
-	asString(): this
-	{
-		return this;
-	}
+	asString(): StringVerifier;
 
 	/**
 	 * @param {Function} consumer a function that accepts <code>this</code>
 	 * @return {StringVerifier} the updated verifier
 	 * @throws {TypeError} if <code>consumer</code> is not set
 	 */
-	asStringConsumer(consumer: (actual: StringVerifier) => void): this
-	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this);
-		return this;
-	}
+	asStringConsumer(consumer: (actual: StringVerifier) => void): StringVerifier;
 
-	getActual(): string
-	{
-		return super.getActual() as string;
-	}
+	getActual(): string;
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.
