@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> GlobalConfiguration</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="ArrayAsserter.html">ArrayAsserter</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="BooleanAsserter.html">BooleanAsserter</a></li><li><a href="BooleanValidator.html">BooleanValidator</a></li><li><a href="BooleanVerifier.html">BooleanVerifier</a></li><li><a href="ClassAsserter.html">ClassAsserter</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ExtensibleNumberAsserter.html">ExtensibleNumberAsserter</a></li><li><a href="ExtensibleNumberValidator.html">ExtensibleNumberValidator</a></li><li><a href="ExtensibleNumberVerifier.html">ExtensibleNumberVerifier</a></li><li><a href="ExtensibleObjectAsserter.html">ExtensibleObjectAsserter</a></li><li><a href="ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li><li><a href="ExtensibleObjectVerifier.html">ExtensibleObjectVerifier</a></li><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li><li><a href="InetAddressAsserter.html">InetAddressAsserter</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapAsserter.html">MapAsserter</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="NumberAsserter.html">NumberAsserter</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectAsserter.html">ObjectAsserter</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetAsserter.html">SetAsserter</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="StringAsserter.html">StringAsserter</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Interface</p>
+                    <h1>GlobalConfiguration</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>GlobalConfiguration</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">The global configuration inherited by all verifiers.<p><b>Note</b>: Verifiers inherit from the global configuration at instantiation time. Their<a href="Configuration.html">configuration</a> is not affected by subsequent changes to the global configuration.<p>However, updating settings not found in <a href="Configuration.html">Configuration</a> (such as<a href="GlobalConfiguration.html#withTerminalEncoding">withTerminalEncoding(TerminalEncoding)</a>) will impact thebehavior of existing verifiers.By default, <a href="GlobalConfiguration.html#assertionsAreEnabled">assertionsAreEnabled</a> is <code>false</code>and <a href="GlobalConfiguration.html#isDiffEnabled">isDiffEnabled</a> is <code>true</code>.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line4">line 4</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">boolean</span>
+
+
+    </span>
+
+<h4 class="name" id="assertionsAreEnabled">
+    <a class="href-link" href="#assertionsAreEnabled">#</a>
+    
+    <span class="code-name">
+        assertionsAreEnabled
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="global.html#TerminalEncoding">TerminalEncoding</a></span>
+
+
+    </span>
+
+<h4 class="name" id="getTerminalEncoding">
+    <a class="href-link" href="#getTerminalEncoding">#</a>
+    
+    <span class="code-name">
+        getTerminalEncoding
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Returns the current terminal encoding.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line75">line 75</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">number</span>
+
+
+    </span>
+
+<h4 class="name" id="getTerminalWidth">
+    <a class="href-link" href="#getTerminalWidth">#</a>
+    
+    <span class="code-name">
+        getTerminalWidth
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Returns the current terminal width.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line102">line 102</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">boolean</span>
+
+
+    </span>
+
+<h4 class="name" id="isDiffEnabled">
+    <a class="href-link" href="#isDiffEnabled">#</a>
+    
+    <span class="code-name">
+        isDiffEnabled
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates if exceptions should show the difference between the actual and expected values.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#withDiff()">#withDiff()</a></li>
+        
+            <li><a href="GlobalConfiguration.html#withoutDiff()">#withoutDiff()</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line40">line 40</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type">Array</span>
+
+
+    </span>
+
+<h4 class="name" id="listTerminalEncodings">
+    <a class="href-link" href="#listTerminalEncodings">#</a>
+    
+    <span class="code-name">
+        listTerminalEncodings
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Returns the encodings supported by the terminal.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#withTerminalEncoding(TerminalEncoding)">#withTerminalEncoding(TerminalEncoding)</a></li>
+        
+            <li><a href="GlobalConfiguration.html#withDefaultTerminalEncoding()">#withDefaultTerminalEncoding()</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line65">line 65</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withAssertionsDisabled">
+    <a class="href-link" href="#withAssertionsDisabled">#</a>
+    
+    <span class="code-name">
+        withAssertionsDisabled
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that <code>assertThat()</code> shouldn't do anything.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line33">line 33</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withAssertionsEnabled">
+    <a class="href-link" href="#withAssertionsEnabled">#</a>
+    
+    <span class="code-name">
+        withAssertionsEnabled
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line26">line 26</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withDefaultTerminalEncoding">
+    <a class="href-link" href="#withDefaultTerminalEncoding">#</a>
+    
+    <span class="code-name">
+        withDefaultTerminalEncoding
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that the terminal encoding should be auto-detected.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#.withTerminalEncoding">#.withTerminalEncoding</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line82">line 82</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withDefaultTerminalWidth">
+    <a class="href-link" href="#withDefaultTerminalWidth">#</a>
+    
+    <span class="code-name">
+        withDefaultTerminalWidth
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that the terminal width should be auto-detected.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#.withTerminalWidth">#.withTerminalWidth</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line109">line 109</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withDiff">
+    <a class="href-link" href="#withDiff">#</a>
+    
+    <span class="code-name">
+        withDiff
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that exceptions should show the difference between the actual and expected values.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#isDiffEnabled()">#isDiffEnabled()</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line49">line 49</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withoutDiff">
+    <a class="href-link" href="#withoutDiff">#</a>
+    
+    <span class="code-name">
+        withoutDiff
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates that exceptions should not show the difference between the actual and expected values.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#isDiffEnabled()">#isDiffEnabled()</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line57">line 57</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withTerminalEncoding">
+    <a class="href-link" href="#withTerminalEncoding">#</a>
+    
+    <span class="code-name">
+        withTerminalEncoding
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates the type of encoding that the terminal supports.<p>This feature can be used to force the use of colors even when their support is not detected.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#.withDefaultTerminalEncoding">#.withDefaultTerminalEncoding</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line90">line 90</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="GlobalConfiguration.html">GlobalConfiguration</a></span>
+
+
+    </span>
+
+<h4 class="name" id="withTerminalWidth">
+    <a class="href-link" href="#withTerminalWidth">#</a>
+    
+    <span class="code-name">
+        withTerminalWidth
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates the width that the terminal should use.<p>This feature can be used to override the default terminal width when it cannot be auto-detected.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="GlobalConfiguration.html#.withDefaultTerminalWidth">#.withDefaultTerminalWidth</a></li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="GlobalConfiguration.ts.html" class="button">View Source</a>
+            <span>
+                <a href="GlobalConfiguration.ts.html">GlobalConfiguration.ts</a>, <a href="GlobalConfiguration.ts.html#line117">line 117</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

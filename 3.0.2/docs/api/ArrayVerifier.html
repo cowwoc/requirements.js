@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ArrayVerifier</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li></ul><h3>Interfaces</h3><ul><li><a href="ArrayAsserter.html">ArrayAsserter</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="BooleanAsserter.html">BooleanAsserter</a></li><li><a href="BooleanValidator.html">BooleanValidator</a></li><li><a href="BooleanVerifier.html">BooleanVerifier</a></li><li><a href="ClassAsserter.html">ClassAsserter</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ExtensibleNumberAsserter.html">ExtensibleNumberAsserter</a></li><li><a href="ExtensibleNumberValidator.html">ExtensibleNumberValidator</a></li><li><a href="ExtensibleNumberVerifier.html">ExtensibleNumberVerifier</a></li><li><a href="ExtensibleObjectAsserter.html">ExtensibleObjectAsserter</a></li><li><a href="ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li><li><a href="ExtensibleObjectVerifier.html">ExtensibleObjectVerifier</a></li><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li><li><a href="InetAddressAsserter.html">InetAddressAsserter</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapAsserter.html">MapAsserter</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="NumberAsserter.html">NumberAsserter</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectAsserter.html">ObjectAsserter</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetAsserter.html">SetAsserter</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="StringAsserter.html">StringAsserter</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Interface</p>
+                    <h1>ArrayVerifier</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>ArrayVerifier</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Verifies the requirements of an array.All methods (except those found in <a href="ObjectVerifier.html">ObjectVerifier</a>) imply #isNotNull().</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line4">line 4</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="SetVerifier.html">SetVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="asSet">
+    <a class="href-link" href="#asSet">#</a>
+    
+    <span class="code-name">
+        asSet
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Verifies the Set representation of the array.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line126">line 126</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="asSetConsumer">
+    <a class="href-link" href="#asSetConsumer">#</a>
+    
+    <span class="code-name">
+        asSetConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line133">line 133</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="contains">
+    <a class="href-link" href="#contains">#</a>
+    
+    <span class="code-name">
+        contains
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array contains an element.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line26">line 26</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="containsAll">
+    <a class="href-link" href="#containsAll">#</a>
+    
+    <span class="code-name">
+        containsAll
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array contains all of the specified elements.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line61">line 61</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="containsAny">
+    <a class="href-link" href="#containsAny">#</a>
+    
+    <span class="code-name">
+        containsAny
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array contains any of the specified elements.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line49">line 49</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="containsExactly">
+    <a class="href-link" href="#containsExactly">#</a>
+    
+    <span class="code-name">
+        containsExactly
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array contains exactly the specified elements; nothing less, nothing more.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line37">line 37</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="doesNotContain">
+    <a class="href-link" href="#doesNotContain">#</a>
+    
+    <span class="code-name">
+        doesNotContain
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array does not contain an element.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line73">line 73</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="doesNotContainAll">
+    <a class="href-link" href="#doesNotContainAll">#</a>
+    
+    <span class="code-name">
+        doesNotContainAll
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array does not contain all of the specified elements.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line95">line 95</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="doesNotContainAny">
+    <a class="href-link" href="#doesNotContainAny">#</a>
+    
+    <span class="code-name">
+        doesNotContainAny
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array does not contain any of the specified elements.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line84">line 84</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="doesNotContainDuplicates">
+    <a class="href-link" href="#doesNotContainDuplicates">#</a>
+    
+    <span class="code-name">
+        doesNotContainDuplicates
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the array does not contain any duplicate elements.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line106">line 106</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="isEmpty">
+    <a class="href-link" href="#isEmpty">#</a>
+    
+    <span class="code-name">
+        isEmpty
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is empty.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line10">line 10</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="isNotEmpty">
+    <a class="href-link" href="#isNotEmpty">#</a>
+    
+    <span class="code-name">
+        isNotEmpty
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is not empty.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="NumberVerifier.html">NumberVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="length">
+    <a class="href-link" href="#length">#</a>
+    
+    <span class="code-name">
+        length
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line114">line 114</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<span class="param-type"><a href="ArrayVerifier.html">ArrayVerifier</a></span>
+
+
+    </span>
+
+<h4 class="name" id="lengthConsumer">
+    <a class="href-link" href="#lengthConsumer">#</a>
+    
+    <span class="code-name">
+        lengthConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="ArrayVerifier.ts.html" class="button">View Source</a>
+            <span>
+                <a href="ArrayVerifier.ts.html">ArrayVerifier.ts</a>, <a href="ArrayVerifier.ts.html#line119">line 119</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
