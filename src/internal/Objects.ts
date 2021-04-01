@@ -84,7 +84,7 @@ class Objects
 			if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 				return "ArrowFunction";
 			// Anonymous and named functions
-			const functionNamePattern = /^function(\s+[^(]+)?\(/;
+			const functionNamePattern = /^function\s+([^(]+)?\(/;
 			const functionName = functionNamePattern.exec(instanceToString);
 			if (functionName !== null && typeof (functionName[1]) !== "undefined")
 			{
@@ -120,7 +120,7 @@ class Objects
 	{
 		const constructorString = object.constructor.toString();
 		// Anonymous and named functions
-		const functionNamePattern = /^function(\s+[^(]+)?\(/;
+		const functionNamePattern = /^function\s+([^(]+)?\(/;
 		const functionName = functionNamePattern.exec(constructorString);
 		if (functionName !== null)
 		{
