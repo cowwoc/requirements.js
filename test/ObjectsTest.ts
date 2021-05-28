@@ -1,4 +1,3 @@
-import cheerio from "cheerio";
 import test from "tape-catch";
 import {Objects} from "../src/internal/internal";
 
@@ -110,16 +109,5 @@ test("ObjectsTest.getTypeOf_Class", function(t)
 {
 	const input = new MyClass();
 	t.equals(Objects.getTypeOf(input), "MyClass");
-	t.end();
-});
-
-const $ = cheerio.load("<html></html>");
-// eslint-disable-next-line func-style
-const jquerySelector = $(".selector");
-
-test("ObjectsTest.getTypeOf_jquerySelector", function(t)
-{
-	// eslint-disable-next-line no-new-wrappers
-	t.equals(Objects.getTypeOf(jquerySelector), "Object");
 	t.end();
 });

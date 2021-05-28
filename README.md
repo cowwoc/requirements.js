@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
 
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.0.2/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements.js
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.0.3/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements.js
 Fluent Design by Contract for Javascript
 
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.0.2/docs/api/)
@@ -48,13 +48,13 @@ Actual: 15
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
 ```
-npm install --save @cowwoc/requirements@3.0.2
+npm install --save @cowwoc/requirements@3.0.3
 ```
 
 or [yarn](https://yarnpkg.com/en/):
 
 ```
-yarn add @cowwoc/requirements@3.0.2
+yarn add @cowwoc/requirements@3.0.3
 ```
 
 The best way to learn about the API is using your IDE's auto-complete engine. There are five entry points you can navigate from:

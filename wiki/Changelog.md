@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.0.3 - 2021/05/27
+
+* Security fixes
+
 ## Version 3.0.2 - 2021/04/01
 
 * Security fixes
