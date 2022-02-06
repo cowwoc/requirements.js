@@ -352,22 +352,19 @@ class Objects
 	 */
 	static toString(object: unknown): string
 	{
-		if (typeof (object) === "undefined")
-			return "undefined";
-		if (object === null)
-			return "null";
-		// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
-		let current = object;
-
-		let currentInfo = Objects.getTypeInfo(current);
+		let currentInfo = Objects.getTypeInfo(object);
 		switch (currentInfo.type)
 		{
+			case "undefined":
+			case "null":
+				return currentInfo.type;
 			case "array":
-				return Objects.arrayToString(current as unknown[]);
+				return Objects.arrayToString(object as unknown[]);
+			case "string":
+				return object as string;
 			case "boolean" :
 			case "number" :
 			case "bigint":
-			case "string":
 			case "symbol":
 			case "function":
 			case "class":
@@ -378,8 +375,8 @@ class Objects
 				{
 					case "Set":
 					{
-						const currentAsSet = current as Set<unknown>;
-						return Objects.arrayToString(Array.from(currentAsSet.values()));
+						const set = object as Set<unknown>;
+						return Objects.arrayToString(Array.from(set.values()));
 					}
 					case "Map":
 					{
@@ -399,19 +396,26 @@ class Objects
 			default:
 				throw new Error("Unexpected type: " + currentInfo);
 		}
+
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		let current = object as boolean | number | bigint | symbol | Function | object;
 		while (true)
 		{
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			const safeTypes = current as string | number | bigint | boolean | symbol | Function | object;
-			// See http://stackoverflow.com/a/22445303/14731, https://stackoverflow.com/q/57214613/14731
-			if (Object.prototype.hasOwnProperty.call(safeTypes.constructor.prototype, "toString"))
-				return safeTypes.toString();
+			// See http://stackoverflow.com/a/22445303/14731,
+			// Invoke toString() if it was defined
+			// https://stackoverflow.com/a/57214796/14731: invoke toString() on safeTypes
+			if (Object.prototype.hasOwnProperty.call(current.constructor.prototype, "toString"))
+				return current.toString();
 
 			// Get the superclass and try again
-			current = Object.getPrototypeOf(safeTypes.constructor.prototype) as string;
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			current = Object.getPrototypeOf(current.constructor.prototype) as object;
 			currentInfo = Objects.getTypeInfo(current);
 			if (currentInfo.type === "object")
+			{
+				// Prefer JSON.stringify() to Object.toString().
 				return JSON.stringify(current, null, 2);
+			}
 		}
 	}
 

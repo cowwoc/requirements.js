@@ -41,7 +41,7 @@ class ContextLine
 	{
 		let result = "";
 		if (this.key.length !== 0)
-			result += this.config.convertToString(this.key) + ":";
+			result += this.key + ":";
 		result += this.config.convertToString(this.value);
 		return result;
 	}
