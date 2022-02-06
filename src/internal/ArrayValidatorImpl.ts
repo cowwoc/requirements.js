@@ -164,7 +164,7 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(expected, "expected", "Array");
+		Objects.requireThatTypeOf(expected, "expected", "array");
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
 
@@ -201,7 +201,7 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(expected, "expected", "Array");
+		Objects.requireThatTypeOf(expected, "expected", "array");
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
 
@@ -230,7 +230,7 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(expected, "expected", "Array");
+		Objects.requireThatTypeOf(expected, "expected", "array");
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
 
@@ -292,7 +292,7 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(elements, "elements", "Array");
+		Objects.requireThatTypeOf(elements, "elements", "array");
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
 
@@ -321,7 +321,7 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(elements, "elements", "Array");
+		Objects.requireThatTypeOf(elements, "elements", "array");
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
 

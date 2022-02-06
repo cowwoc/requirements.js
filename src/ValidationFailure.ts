@@ -24,7 +24,7 @@ class ValidationFailure
 	 */
 	constructor(configuration: Configuration, exceptionType: new (message: string) => Error, message: string)
 	{
-		Objects.assertThatTypeOf(configuration, "configuration", "Configuration");
+		Objects.assertThatObjectOf(configuration, "configuration", "Configuration");
 		Objects.requireThatInstanceOf(exceptionType, "exceptionType", Function);
 		Objects.requireThatStringNotEmpty(message, "message");
 
@@ -111,7 +111,7 @@ class ValidationFailure
 		const existingKeys = new Set();
 		for (const entry of this.context)
 		{
-			Objects.requireThatTypeOf(entry, "entry", "ContextLine");
+			Objects.requireThatObjectOf(entry, "entry", "ContextLine");
 			mergedContext.push(entry);
 			if (entry.key !== "")
 				existingKeys.add(entry.key);
@@ -124,7 +124,7 @@ class ValidationFailure
 			{
 				existingKeys.add(key);
 				const value = entry[1];
-				mergedContext.push(new ContextLine(key, value));
+				mergedContext.push(new ContextLine(this.config, key, value));
 			}
 		}
 		return mergedContext;
@@ -141,7 +141,7 @@ class ValidationFailure
 	addContext(name: string, value: unknown): ValidationFailure
 	{
 		Objects.requireThatStringNotEmpty(name, "name");
-		this.context.push(new ContextLine(name, value));
+		this.context.push(new ContextLine(this.config, name, value));
 		this.messageWithContext = null;
 		return this;
 	}
@@ -156,7 +156,7 @@ class ValidationFailure
 	 */
 	addContextList(context: ContextLine[]): this
 	{
-		Objects.requireThatTypeOf(context, "context", "Array");
+		Objects.requireThatTypeOf(context, "context", "array");
 		this.context.push(...context);
 		this.messageWithContext = null;
 		return this;

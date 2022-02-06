@@ -96,6 +96,7 @@ import {
 } from "./diff/DiffGenerator";
 import DiffResult from "./diff/DiffResult";
 import Terminal from "./Terminal";
+import VariableType from "./VariableType";
 import Objects from "./Objects";
 import MainGlobalConfiguration from "./MainGlobalConfiguration";
 import GlobalRequirements from "../GlobalRequirements";
@@ -197,7 +198,8 @@ export {
 	StringValidatorNoOp,
 	StringAsserterNoOp,
 	TextOnly,
-	Terminal
+	Terminal,
+	VariableType
 };
 export type {
 	GlobalConfiguration,

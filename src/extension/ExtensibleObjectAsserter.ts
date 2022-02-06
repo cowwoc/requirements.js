@@ -61,26 +61,14 @@ interface ExtensibleObjectAsserter<S>
 	isPrimitive(): S;
 
 	/**
-	 * Ensures that the type of the actual value has the specified name.
+	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
 	 *
-	 * <ul>
-	 * <li>If the actual value is undefined, the name is "undefined".</li>
-	 * <li>If the actual value is null, the name is "null".</li>
-	 * <li>If the actual value is a primitive boolean, the name is "boolean".</li>
-	 * <li>If the actual value is a primitive number, the name is "number".</li>
-	 * <li>If the actual value is a primitive bigint, the name is "bigint".</li>
-	 * <li>If the actual value is a primitive string, the name is "string".</li>
-	 * <li>If the actual value is a primitive symbol, the name is "symbol".</li>
-	 * <li>If the actual value is an array, the name is "Array".</li>
-	 * <li>If the actual value is a named function or a class constructor, the name is "Function".</li>
-	 * <li>If the actual value is an anonymous function, the name is "AnonymousFunction".</li>
-	 * <li>If the actual value is an arrow function, the name is "ArrowFunction".</li>
-	 * <li>If the actual value is a class instance, returns the class name.</li>
-	 * </ul>
-	 *
-	 * @param {string} type the name of the type to compare to
+	 * @param {string} type the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the actual value
 	 * @return {ExtensibleObjectAsserter} the updated asserter
-	 * @throws {RangeError} if the actual value does not have the specified <code>type</code>
+	 * @throws {TypeError} if <code>type</code> is not set
+	 * @throws {RangeError} if the <code>typeof(actual)</code> is not equal to <code>type</code>
 	 */
 	isTypeOf(type: string): S;
 

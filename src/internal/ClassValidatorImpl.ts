@@ -39,15 +39,28 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
 	{
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
-		const typeOfType = Objects.getTypeOf(type);
-		if (typeOfType === "Function")
+		const typeInfo = Objects.getTypeInfo(type);
+		let failure;
+		switch (typeInfo.type)
 		{
-			if (Objects.extends(type, this.actualClass))
-				return this.getThis();
+			case "function":
+			case "class":
+			{
+				if (Objects.extends(type, this.actualClass))
+					return this.getThis();
+				const actualInfo = Objects.getTypeInfo(this.actualClass);
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be a super-type of " + typeInfo).
+					addContext("Actual", actualInfo);
+				break;
+			}
+			default:
+			{
+				failure = new ValidationFailure(this.config, TypeError, "type must be a function or class.").
+					addContext("Actual", typeInfo);
+				break;
+			}
 		}
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a super-type of " + typeOfType).
-			addContext("Actual", typeOfType);
 		this.failures.push(failure);
 		return this.getThis();
 	}
@@ -57,15 +70,28 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
 	{
 		if (!this.requireThatActualIsSet())
 			return this.getNoOp();
-		const typeOfType = Objects.getTypeOf(type);
-		if (typeOfType === "Function")
+		const typeInfo = Objects.getTypeInfo(type);
+		let failure;
+		switch (typeInfo.type)
 		{
-			if (Objects.extends(this.actualClass, type))
-				return this.getThis();
+			case "function":
+			case "class":
+			{
+				if (Objects.extends(this.actualClass, type))
+					return this.getThis();
+				const actualInfo = Objects.getTypeInfo(this.actualClass);
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be a sub-type of " + typeInfo).
+					addContext("Actual", actualInfo);
+				break;
+			}
+			default:
+			{
+				failure = new ValidationFailure(this.config, TypeError, "type must be a function or class.").
+					addContext("Actual", typeInfo);
+				break;
+			}
 		}
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be a sub-type of " + typeOfType).
-			addContext("Actual", Objects.getTypeOf(this.actual));
 		this.failures.push(failure);
 		return this.getThis();
 	}

@@ -136,7 +136,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 			return this.getNoOp();
 		if (!Objects.isPrimitive(this.actual))
 		{
-			const typeOfActual = Objects.getTypeOf(this.actual);
+			const typeOfActual = Objects.getTypeInfo(this.actual);
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be a primitive").
 				addContext("Actual", this.actual).
@@ -148,43 +148,13 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	isTypeOf(type: string): S
 	{
-		Objects.requireThatStringNotEmpty(type, "type");
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		if (typeOfActual !== type)
+		Objects.requireThatIsSet(type, "type");
+		const typeOfActual = typeof (this.actual);
+		if (type !== typeOfActual)
 		{
-			let message;
-			switch (type)
-			{
-				case "undefined":
-				case "null":
-				{
-					message = type + ".";
-					break;
-				}
-				case "AnonymousFunction":
-				{
-					message = "an anonymous function.";
-					break;
-				}
-				case "ArrowFunction":
-				{
-					message = "an arrow function.";
-					break;
-				}
-				case "Array":
-				{
-					message = "an Array.";
-					break;
-				}
-				default:
-				{
-					message = "a " + type + ".";
-					break;
-				}
-			}
 			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must be " + message).
-				addContext("Actual", typeOfActual);
+				"typeof(" + this.name + ") must be equal to " + type).
+				addContext("Actual", Objects.getTypeInfo(this.actual));
 			this.failures.push(failure);
 		}
 		return this.getThis();
@@ -193,36 +163,30 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isInstanceOf(type: Function): S
 	{
-		if (!(this.actual instanceof type))
+		if (!this.requireThatActualIsSet())
+			return this.getNoOp();
+		const typeOfType = Objects.getTypeInfo(type);
+		let failure;
+		switch (typeOfType.type)
 		{
-			const typeOfType = Objects.getTypeOf(type);
-			let failure;
-			switch (typeOfType)
+			case "function":
+			case "class":
 			{
-				case "undefined":
-				case "null":
-				case "AnonymousFunction":
-				case "ArrowFunction":
-				case "boolean":
-				case "number":
-				case "bigint":
-				case "string":
-				case "Array":
-				{
-					failure = new ValidationFailure(this.config, TypeError, "type must be a class.").
-						addContext("Actual", typeOfType);
-					break;
-				}
-				default:
-				{
-					failure = new ValidationFailure(this.config, RangeError,
-						this.name + " must be an instance of " + typeOfType).
-						addContext("Actual", Objects.getTypeOf(this.actual));
-					break;
-				}
+				if (this.actual instanceof type)
+					return this.getThis();
+				failure = new ValidationFailure(this.config, RangeError,
+					this.name + " must be an instance of " + typeOfType).
+					addContext("Actual", Objects.getTypeInfo(this.actual));
+				break;
 			}
-			this.failures.push(failure);
+			default:
+			{
+				failure = new ValidationFailure(this.config, TypeError, "type must be a function or class.").
+					addContext("Actual", typeOfType);
+				break;
+			}
 		}
+		this.failures.push(failure);
 		return this.getThis();
 	}
 
@@ -319,10 +283,10 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asArray(): ArrayValidator
 	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		switch (typeOfActual.type)
 		{
-			case "Array":
+			case "array":
 				return new ArrayValidatorImpl(this.config, this.actual as unknown[], this.name, Pluralizer.ELEMENT);
 			default:
 			{
@@ -355,7 +319,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 			const failure = new ValidationFailure(this.config, TypeError,
 				this.name + " must be convertible to a boolean.").
 				addContext("Actual", this.actual).
-				addContext("Type", Objects.getTypeOf(this.actual));
+				addContext("Type", Objects.getTypeInfo(this.actual));
 			this.failures.push(failure);
 			return new BooleanValidatorNoOp(this.failures);
 		}
@@ -370,8 +334,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asNumber(): NumberValidator
 	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		switch (typeOfActual.type)
 		{
 			case "number":
 			{
@@ -399,30 +363,32 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asSet(): SetValidator
 	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		let actualSet;
-		switch (typeOfActual)
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		let subTypeOfActual;
+		switch (typeOfActual.type)
 		{
-			case "Set":
+			case "array":
 			{
-				actualSet = this.actual as Set<unknown>;
-				break;
+				const actualSet = new Set<unknown>(this.actual as unknown[]);
+				return new SetValidatorImpl(this.config, actualSet, this.name);
 			}
-			case "Array":
+			case "object":
 			{
-				actualSet = new Set<unknown>(this.actual as unknown[]);
+				if (typeOfActual.name === "Set")
+				{
+					const actualSet = this.actual as Set<unknown>;
+					return new SetValidatorImpl(this.config, actualSet, this.name);
+				}
 				break;
-			}
-			default:
-			{
-				const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
-					addContext("Actual", this.config.convertToString(this.actual)).
-					addContext("Type", typeOfActual);
-				this.failures.push(failure);
-				return new SetValidatorNoOp(this.failures);
 			}
 		}
-		return new SetValidatorImpl(this.config, actualSet, this.name);
+		let failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
+			addContext("Actual", this.config.convertToString(this.actual)).
+			addContext("Type", typeOfActual);
+		if (typeof (subTypeOfActual) !== "undefined")
+			failure = failure.addContext("Class", subTypeOfActual);
+		this.failures.push(failure);
+		return new SetValidatorNoOp(this.failures);
 	}
 
 	asSetConsumer(consumer: (actual: SetValidator) => void): S
@@ -434,15 +400,24 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asMap(): MapValidator
 	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		if (typeOfActual.type !== "object")
+		{
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Map.").
+				addContext("Actual", this.config.convertToString(this.actual)).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
+			return new MapValidatorNoOp(this.failures);
+		}
+		switch (typeOfActual.name)
 		{
 			case "Map":
 				return new MapValidatorImpl(this.config, this.actual, this.name);
 			default:
 			{
 				const failure = new ValidationFailure(this.config, TypeError,
-					this.name + " must be a Map.").addContext("Actual", this.actual).
+					this.name + " must be a Map.").
+					addContext("Actual", this.actual).
 					addContext("Type", typeOfActual);
 				this.failures.push(failure);
 				return new MapValidatorNoOp(this.failures);
@@ -565,8 +540,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asInetAddress(): InetAddressValidator
 	{
-		const typeOfActual = Objects.getTypeOf(this.actual);
-		switch (typeOfActual)
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		switch (typeOfActual.type)
 		{
 			case "undefined":
 			case "null":
@@ -602,7 +577,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	{
 		if (typeof (this.actual) === "function")
 			return new ClassValidatorImpl(this.config, this.actual, this.name);
-		const typeOfActual = Objects.getTypeOf(this.actual);
+		const typeOfActual = Objects.getTypeInfo(this.actual);
 		const failure = new ValidationFailure(this.config, TypeError,
 			this.name + " must contain a class.").
 			addContext("Actual", this.actual).

@@ -134,11 +134,10 @@ test("ObjectTest.isTypeOf", function(t)
 
 test("ObjectTest.isTypeOf_actualIsNull", function(t)
 {
-	t.throws(function()
-	{
-		const actual = null;
-		requirements.requireThat(actual, "actual").isTypeOf("String");
-	}, RangeError);
+	const actual = null;
+	// For backwards-compatibility reasons typeof(null) === "object". See
+	// Per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#typeof_null
+	requirements.requireThat(actual, "actual").isTypeOf("object");
 	t.end();
 });
 
@@ -188,8 +187,9 @@ test("ObjectTest.isInstanceOf_expectedIsNull", function(t)
 	t.throws(function()
 	{
 		const actual = {};
-		requirements.requireThat(actual, "actual").isTypeOf("null");
-	}, RangeError);
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		requirements.requireThat(actual, "actual").isInstanceOf(null as unknown as Function);
+	}, TypeError);
 	t.end();
 });
 
@@ -208,7 +208,7 @@ test("ObjectTest.isTypeOf_AnonymousFunction", function(t)
 	requirements.requireThat(function()
 	{
 		return "anonymousFunction";
-	}, "actual").isTypeOf("AnonymousFunction");
+	}, "actual").isTypeOf("function");
 	t.end();
 });
 

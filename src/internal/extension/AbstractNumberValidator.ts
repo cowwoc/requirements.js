@@ -279,7 +279,7 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 			return this.getNoOp();
 		if (isNaN(this.actualNumber))
 		{
-			const typeOfActual = Objects.getTypeOf(this.actual);
+			const typeOfActual = Objects.getTypeInfo(this.actual);
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be a number.").
 				addContext("Actual", this.actual).
@@ -295,7 +295,7 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 			return this.getNoOp();
 		if (!isNaN(this.actualNumber))
 		{
-			const typeOfActual = Objects.getTypeOf(this.actual);
+			const typeOfActual = Objects.getTypeInfo(this.actual);
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be a number.").
 				addContext("Actual", this.actual).

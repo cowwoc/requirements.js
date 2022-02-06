@@ -1,10 +1,17 @@
-import {Objects} from "../internal";
+import {
+	Objects,
+	Configuration
+} from "../internal";
 
 /**
  * A line item in an exception context.
  */
 class ContextLine
 {
+	/**
+	 * The instance configuration.
+	 */
+	public readonly config: Configuration;
 	/**
 	 * The key associated with the value (empty string is absent).
 	 */
@@ -17,13 +24,15 @@ class ContextLine
 	/**
 	 * Creates a new line.
 	 *
+	 * @param {Configuration} configuration the instance configuration
 	 * @param {string} key   the key associated with the value (empty string if absent)
 	 * @param {object} value a value
 	 * @throws {TypeError} if the key is not a string
 	 */
-	constructor(key: string, value: unknown)
+	constructor(configuration: Configuration, key: string, value: unknown)
 	{
 		Objects.assertThatTypeOf(key, "key", "string");
+		this.config = configuration;
 		this.key = key;
 		this.value = value;
 	}
@@ -32,8 +41,8 @@ class ContextLine
 	{
 		let result = "";
 		if (this.key.length !== 0)
-			result += this.key + ":";
-		result += this.value;
+			result += this.config.convertToString(this.key) + ":";
+		result += this.config.convertToString(this.value);
 		return result;
 	}
 }

@@ -50,25 +50,13 @@ interface ExtensibleObjectValidator<S>
 	isPrimitive(): S;
 
 	/**
-	 * Ensures that the type of the actual value has the specified name.
+	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
 	 *
-	 * <ul>
-	 * <li>If the actual value is undefined, the name is "undefined".</li>
-	 * <li>If the actual value is null, the name is "null".</li>
-	 * <li>If the actual value is a primitive boolean, the name is "boolean".</li>
-	 * <li>If the actual value is a primitive number, the name is "number".</li>
-	 * <li>If the actual value is a primitive bigint, the name is "bigint".</li>
-	 * <li>If the actual value is a primitive string, the name is "string".</li>
-	 * <li>If the actual value is a primitive symbol, the name is "symbol".</li>
-	 * <li>If the actual value is an array, the name is "Array".</li>
-	 * <li>If the actual value is a named function or a class constructor, the name is "Function".</li>
-	 * <li>If the actual value is an anonymous function, the name is "AnonymousFunction".</li>
-	 * <li>If the actual value is an arrow function, the name is "ArrowFunction".</li>
-	 * <li>If the actual value is a class instance, returns the class name.</li>
-	 * </ul>
-	 *
-	 * @param {string} type the name of the type to compare to
+	 * @param {string} type the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the actual value
 	 * @return {ExtensibleObjectValidator} the updated validator
+	 * @throws {TypeError} if <code>type</code> is not set
 	 */
 	isTypeOf(type: string): S;
 
@@ -77,7 +65,7 @@ interface ExtensibleObjectValidator<S>
 	 *
 	 * @param {Function} type the type to compare to
 	 * @return {ExtensibleObjectValidator} the updated validator
-	 * @throws {TypeError}  if <code>type</code> is undefined, null, anonymous function or an arrow function
+	 * @throws {TypeError} if <code>type</code> is not a function or a class
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isInstanceOf(type: Function): S;

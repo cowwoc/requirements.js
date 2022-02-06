@@ -37,7 +37,7 @@ abstract class AbstractObjectValidatorNoOp<S> implements ExtensibleObjectValidat
 	 */
 	protected constructor(failures: ValidationFailure[])
 	{
-		Objects.assertThatTypeOf(failures, "failures", "Array");
+		Objects.assertThatTypeOf(failures, "failures", "array");
 		this.failures = failures;
 	}
 

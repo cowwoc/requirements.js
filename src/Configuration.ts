@@ -24,8 +24,8 @@ class Configuration
 	 *   <code>undefined</code> defaults to <code>globalConfiguration.assertionsAreEnabled()</code>.
 	 * @param {boolean} [diffEnabled] true if exceptions should show the difference between the actual and
 	 *   expected values. If <code>undefined</code> defaults to <code>globalConfiguration.diffEnabled()</code>.
-	 * @param {Map<string, Function>} [typeToStringConverter] a map from an object type (per
-	 *   {@link Objects#getTypeOf}) to a function that converts the object to a String
+	 * @param {Map<string, Function>} [typeToStringConverter] a map from the </code>typeof</code> of a value
+	 *   to a function that converts the value to a string
 	 * @throws {TypeError} if <code>context</code> or one of its elements are not an array. If the nested array
 	 *   contains less or more than 2 elements. If the keys nested in the context array are not strings.
 	 * @throws {RangeError} if the elements nested in the context array are undefined, null, or are empty
@@ -37,7 +37,7 @@ class Configuration
 			new Map<string, (input: unknown) => string>())
 	{
 		this.globalConfiguration = globalConfiguration;
-		Objects.assertThatTypeOf(context, "context", "Map");
+		Objects.assertThatObjectOf(context, "context", "Map");
 		this.context = context;
 		if (typeof (assertionsEnabled) === "undefined")
 			assertionsEnabled = globalConfiguration.assertionsAreEnabled();
@@ -176,28 +176,30 @@ class Configuration
 	 */
 	convertToString(value: unknown): string
 	{
-		const type = Objects.getTypeOf(value);
-		let converter = this.typeToStringConverter.get(type);
+		const valueInfo = Objects.getTypeInfo(value);
+		let converter = this.typeToStringConverter.get(valueInfo.type);
 		if (!converter)
 			converter = (value2: unknown) => Objects.toString(value2);
 		return converter(value);
 	}
 
 	/**
-	 * Indicates that a function should be used to convert an object to a String.
+	 * Indicates that a function should be used to convert a value to a string.
 	 * <p>
-	 * Please note that <code>type</code> must be an exact match, subclasses will not match the type of their
-	 * superclass.
+	 * Please note that <code>type</code> must be an exact match, subclasses do not inherit converters from
+	 * their superclass.
 	 *
-	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
-	 * @param {Function} converter a function that converts an object of the specified type to a String
+	 * @param {string} type the
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the type being converted
+	 * @param {Function} converter a function that converts an object of the specified type to a string
 	 * @return {Configuration} the updated configuration
 	 * @throws {RangeError} if any of the parameters are null
 	 */
 	withStringConverter(type: string, converter: (input: unknown) => string): Configuration
 	{
 		Objects.assertThatTypeOf(type, "type", "string");
-		Objects.assertThatTypeOf(converter, "converter", "Function");
+		Objects.assertThatTypeOf(converter, "converter", "function");
 		const newTypeToStringConverter = new Map<string, (input: unknown) => string>(this.typeToStringConverter);
 		newTypeToStringConverter.set(type, converter);
 		return new Configuration(this.globalConfiguration, this.context, this.assertionsEnabled, this.diffEnabled,
@@ -205,10 +207,11 @@ class Configuration
 	}
 
 	/**
-	 * Indicates that an object's <code>convertToString()</code> method should be used to convert it to a
-	 * String.
+	 * Indicates that the default converter should be used for <code>type</code>.
 	 *
-	 * @param {string} type the type of object (per {@link Objects#getTypeOf}) being converted
+	 * @param {string} type the
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the type being converted
 	 * @return {Configuration} the updated configuration
 	 * @throws {RangeError} if <code>type</code> is null
 	 */

@@ -1,4 +1,3 @@
-import AssertionError from "assert";
 import
 {
 	Configuration,
@@ -7,6 +6,7 @@ import
 	Objects,
 	TextOnly
 } from "../internal";
+import {isEqual} from "lodash";
 
 /**
  * Returns the difference between two values as an exception context.
@@ -30,29 +30,14 @@ class ContextGenerator
 
 	/**
 	 * @param {Configuration} configuration the instance configuration
-	 * @throws {AssertionError} if <code>configuration</code> is null
+	 * @throws {TypeError} if <code>configuration</code> is null
 	 */
 	constructor(configuration: Configuration)
 	{
-		Objects.assertThatTypeOf(configuration, "configuration", "Configuration");
+		Objects.assertThatObjectOf(configuration, "configuration", "Configuration");
 
 		this.config = configuration;
 		this.diffGenerator = new DiffGenerator(configuration.getGlobalConfiguration().getTerminalEncoding());
-	}
-
-	/**
-	 * @param {string} actualName    the name of the actual value
-	 * @param {object} actualValue   the actual value
-	 * @param {string} expectedName  the name of the expected value
-	 * @param {object} expectedValue the expected value
-	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 */
-	getContext(actualName: string, actualValue: unknown, expectedName: string, expectedValue: unknown,
-		expectedInMessage: boolean): ContextLine[]
-	{
-		return this.getContextForObjects(actualName, actualValue, expectedName, expectedValue,
-			expectedInMessage, false);
 	}
 
 	/**
@@ -61,10 +46,10 @@ class ContextGenerator
 	 * @param {ContextLine[]} entries the exception context
 	 * @private
 	 */
-	private static skipDuplicateLines(entries: ContextLine[])
+	private skipDuplicateLines(entries: ContextLine[])
 	{
-		entries.push(new ContextLine("", ""));
-		entries.push(new ContextLine("", "[...]"));
+		entries.push(new ContextLine(this.config, "", ""));
+		entries.push(new ContextLine(this.config, "", "[...]"));
 	}
 
 	/**
@@ -99,43 +84,43 @@ class ContextGenerator
 		return true;
 	}
 
-	/* eslint-disable max-statements */
 	/**
 	 * @param {string} actualName    the name of the actual value
 	 * @param {object} actualValue   the actual value
 	 * @param {string} expectedName  the name of the expected value
 	 * @param {object} expectedValue the expected value
 	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @param {boolean} mayCompareTypes true if the actual and expected types should be compared if their values
-	 *   are equal
+	 * @param {boolean} [compareTypes = true] true if the actual and expected types (classes) should be compared
+	 *   if their values are equal
 	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
 	 * @throws {TypeError} if <code>actualName</code> or <code>expectedName</code> are not a string
 	 * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are empty; if
 	 * <code>expectedInMessage</code> is not a boolean
 	 * @private
 	 */
-	private getContextForObjects(actualName: string, actualValue: unknown, expectedName: string,
-		expectedValue: unknown, expectedInMessage: boolean, mayCompareTypes: boolean)
+	// eslint-disable-next-line max-statements
+	getContext(actualName: string, actualValue: unknown, expectedName: string,
+		expectedValue: unknown, expectedInMessage: boolean, compareTypes = true): ContextLine[]
 	{
 		Objects.assertThatStringNotEmpty(actualName, "actualName");
 		Objects.assertThatStringNotEmpty(expectedName, "expectedName");
 		Objects.assertThatTypeOf(expectedInMessage, "expectedInMessage", "boolean");
 
-		const actualType = Objects.getTypeOf(actualValue);
-		const expectedType = Objects.getTypeOf(expectedValue);
-		if (actualType === "Array" && expectedType === "Array")
+		const actualInfo = Objects.getTypeInfo(actualValue);
+		const expectedInfo = Objects.getTypeInfo(expectedValue);
+		if (actualInfo.type === "array" && expectedInfo.type === "array")
 		{
 			return this.getContextForArrays(actualName, actualValue as unknown[], expectedName,
 				expectedValue as unknown[], expectedInMessage);
 		}
 		// Don't diff booleans
-		const typeIsDiffable = (actualType !== "boolean");
+		const typeIsDiffable = (actualInfo.type !== "boolean");
 		if (!typeIsDiffable || !this.config.isDiffEnabled())
 		{
 			const result: ContextLine[] = [];
-			result.push(new ContextLine(actualName, actualValue));
+			result.push(new ContextLine(this.config, actualName, actualValue));
 			if (!expectedInMessage)
-				result.push(new ContextLine(expectedName, expectedValue));
+				result.push(new ContextLine(this.config, expectedName, expectedValue));
 			return result;
 		}
 		const actualAsString = this.config.convertToString(actualValue);
@@ -144,7 +129,7 @@ class ContextGenerator
 		const actualLines = lines.getActualLines();
 		const expectedLines = lines.getExpectedLines();
 		const diffLines = lines.getDiffLines();
-		console.assert(ContextGenerator.requireThatNumberOfLinesAreEqual(actualLines, expectedLines));
+		Objects.assert(ContextGenerator.requireThatNumberOfLinesAreEqual(actualLines, expectedLines));
 		const numberOfLines = actualLines.length;
 		const result: ContextLine[] = [];
 		if (numberOfLines === 1)
@@ -157,12 +142,12 @@ class ContextGenerator
 			else
 				diffLine = diffLines[0];
 			const stringsAreEqual = ContextGenerator.linesAreEqual(actualLine, expectedLine, diffLine);
-			result.push(new ContextLine("", ""));
-			result.push(new ContextLine(actualName, actualLine));
+			result.push(new ContextLine(this.config, "", ""));
+			result.push(new ContextLine(this.config, actualName, actualLine));
 			if (diffLine.length !== 0 && !stringsAreEqual)
-				result.push(new ContextLine("Diff", diffLine));
-			result.push(new ContextLine(expectedName, expectedLine));
-			if (mayCompareTypes && ContextGenerator.linesAreEqual(actualLine, expectedLine, diffLine))
+				result.push(new ContextLine(this.config, "Diff", diffLine));
+			result.push(new ContextLine(this.config, expectedName, expectedLine));
+			if (compareTypes && ContextGenerator.linesAreEqual(actualLine, expectedLine, diffLine))
 			{
 				// If the String representation of the values is equal, output getClass(), hashCode(),
 				// or System.identityHashCode()] that differ.
@@ -208,12 +193,12 @@ class ContextGenerator
 			if (skippedDuplicates)
 			{
 				skippedDuplicates = false;
-				ContextGenerator.skipDuplicateLines(result);
+				this.skipDuplicateLines(result);
 			}
-			result.push(new ContextLine("", ""));
-			result.push(new ContextLine(actualNameForLine, actualLine));
+			result.push(new ContextLine(this.config, "", ""));
+			result.push(new ContextLine(this.config, actualNameForLine, actualLine));
 			if (diffLine.length !== 0 && !currentLineIsEqual)
-				result.push(new ContextLine("Diff", diffLine));
+				result.push(new ContextLine(this.config, "Diff", diffLine));
 			let expectedNameForLine;
 			if (this.diffGenerator.isEmpty(expectedLine))
 				expectedNameForLine = expectedName;
@@ -223,12 +208,11 @@ class ContextGenerator
 				if (ContextGenerator.EOL_PATTERN.test(expectedLine))
 					++expectedLineNumber;
 			}
-			result.push(new ContextLine(expectedNameForLine, expectedLine));
+			result.push(new ContextLine(this.config, expectedNameForLine, expectedLine));
 		}
 		return result;
 	}
 
-	/* eslint-disable max-statements */
 	/**
 	 * @param {string} actualName    the name of the actual value
 	 * @param {Array} actualValue   the actual value
@@ -241,21 +225,22 @@ class ContextGenerator
 	 * <code>expectedInMessage</code> is not a boolean
 	 * @private
 	 */
+	// eslint-disable-next-line max-statements
 	private getContextForArrays(actualName: string, actualValue: unknown[], expectedName: string,
 		expectedValue: unknown[], expectedInMessage: boolean)
 	{
 		Objects.assertThatStringNotEmpty(actualName, "actualName");
-		Objects.assertThatTypeOf(actualValue, "actualValue", "Array");
+		Objects.assertThatTypeOf(actualValue, "actualValue", "array");
 		Objects.assertThatStringNotEmpty(expectedName, "expectedName");
-		Objects.assertThatTypeOf(expectedValue, "expectedValue", "Array");
+		Objects.assertThatTypeOf(expectedValue, "expectedValue", "array");
 		Objects.assertThatTypeOf(expectedInMessage, "expectedInMessage", "boolean");
 
 		if (!this.config.isDiffEnabled())
 		{
 			const result: ContextLine[] = [];
-			result.push(new ContextLine(actualName, actualValue));
+			result.push(new ContextLine(this.config, actualName, actualValue));
 			if (!expectedInMessage)
-				result.push(new ContextLine(expectedName, expectedValue));
+				result.push(new ContextLine(this.config, expectedName, expectedValue));
 			return result;
 		}
 		const actualSize = actualValue.length;
@@ -309,10 +294,10 @@ class ContextGenerator
 			if (skippedDuplicates)
 			{
 				skippedDuplicates = false;
-				ContextGenerator.skipDuplicateLines(result);
+				this.skipDuplicateLines(result);
 			}
-			result.push(...this.getContextForObjects(actualNameForElement, actualValueAsString,
-				expectedNameForElement, expectedValueAsString, false, false));
+			result.push(...this.getContext(actualNameForElement, actualValueAsString,
+				expectedNameForElement, expectedValueAsString, false, !elementsAreEqual));
 		}
 		return result;
 	}
@@ -329,17 +314,15 @@ class ContextGenerator
 	private compareTypes(actualName: string, actualValue: unknown, expectedName: string,
 		expectedValue: unknown): ContextLine[]
 	{
-		const actualType = Objects.getTypeOf(actualValue);
-		const expectedType = Objects.getTypeOf(expectedValue);
-		if (actualType !== expectedType)
+		const actualType = Objects.getTypeInfo(actualValue);
+		const expectedType = Objects.getTypeInfo(expectedValue);
+		if (!isEqual(actualType, expectedType))
 		{
-			return this.getContextForObjects(actualName + ".class", actualType,
-				expectedName + ".class", expectedType, false, false);
+			return this.getContext(actualName + ".class", actualType, expectedName + ".class", expectedType, false,
+				false);
 		}
 		return [];
 	}
-
-	/* eslint-enabled max-statements */
 }
 
 // "export default X" exports by value, whereas "export X as default" exports by reference.

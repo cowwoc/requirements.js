@@ -1,8 +1,15 @@
+import {
+	VariableType
+} from "./internal";
+
 /**
  * Object helper functions.
  */
 class Objects
 {
+	static readonly functionNamePattern = /^function\s+([^(]+)?\(/;
+	static readonly classNamePattern = /^class(\s+[^{]+)?{/;
+
 	/**
 	 * @param {object} value a value
 	 * @return {boolean} true if <code>value</code> is a primitive type (<code>string</code>,
@@ -42,105 +49,96 @@ class Objects
 	}
 
 	/**
-	 * Returns the name of an object's type.
+	 * Throws an <code>Error</code> if <code>condition</code> is false.
 	 *
-	 * <ul>
-	 * <li>If the input is undefined, returns "undefined".</li>
-	 * <li>If the input is null, returns "null".</li>
-	 * <li>If the input is a primitive boolean, returns "boolean".</li>
-	 * <li>If the input is a primitive number, returns "number".</li>
-	 * <li>If the input is a primitive bigint, returns "bigint".</li>
-	 * <li>If the input is a primitive string, returns "string".</li>
-	 * <li>If the input is a primitive symbol, returns "symbol".</li>
-	 * <li>If the input is an array, returns "Array".</li>
-	 * <li>If the input is a named function or a class constructor, returns "Function".</li>
-	 * <li>If the input is an anonymous function, returns "AnonymousFunction".</li>
-	 * <li>If the input is an arrow function, returns "ArrowFunction".</li>
-	 * <li>If the input is a class instance, returns the class name.</li>
-	 * </ul>
-	 *
-	 * @param {object} value a value
-	 * @return {string} the name of the value's type
-	 * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
-	 * @see isPrimitive
+	 * @param {boolean} condition a condition
+	 * @param {Error} [error = Error] the type of error to throw
+	 * @param {string} message the error message to use on failure
+	 * @throws {Error} if <code>condition</code> is false
 	 */
-	static getTypeOf(value: unknown): string
+	static assert(condition: boolean, error: (message?: string) => Error = Error, message?: string):
+		asserts condition
 	{
-		if (value === null)
-			return "null";
-		const typeOfValue = typeof (value);
-		const isPrimitive = typeOfValue !== "function" && typeOfValue !== "object";
-		if (isPrimitive)
-			return typeOfValue;
-		const valueToString = Object.prototype.toString.call(value).slice(8, -1);
-		if (valueToString === "Function")
-		{
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			const valueAsFunction = value as Function;
-			// A function or a constructor
-			const instanceToString = valueAsFunction.toString();
-			const indexOfArrow = instanceToString.indexOf("=>");
-			const indexOfBody = instanceToString.indexOf("{");
-			if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
-				return "ArrowFunction";
-			// Anonymous and named functions
-			const functionNamePattern = /^function\s+([^(]+)?\(/;
-			const functionName = functionNamePattern.exec(instanceToString);
-			if (functionName !== null && typeof (functionName[1]) !== "undefined")
-			{
-				// Found a named function: equivalent to a class constructor under ES5-
-				return "Function";
-			}
-			const classNamePattern = /^class(\s+[^{]+)?{/;
-			const className = classNamePattern.exec(instanceToString);
-			if (className !== null && typeof (className[1]) !== "undefined")
-			{
-				// When running under ES6+
-				return "Function";
-			}
-			return "AnonymousFunction";
-		}
-		// Built-in types (e.g. String) or class instances
-		if (valueToString === "Object")
-		{
-			const valueAsObject = value as Record<string, unknown>;
-			return Objects.getClassName(valueAsObject);
-		}
-		return valueToString;
+		// Will be stripped out using uglify.js option "pure_funcs"
+		if (!condition)
+			throw error(message);
 	}
 
 	/**
-	 * @param {object} object an object
-	 * @return {string} the name of the object's class
-	 * @throws {TypeError} if <code>object</code> is not an Object
-	 * @see Objects.getTypeOf
-	 * @private
+	 * Returns the type information of a value.
+	 *
+	 * <ul>
+	 *   <li>If the input is undefined, returns <code>(type="undefined", name=null)</code>.</li>
+	 *   <li>If the input is null, returns <code>(type="null", name=null)</code>.</li>
+	 *   <li>If the input is a primitive boolean, returns <code>(type="boolean", name=null)</code>.</li>
+	 *   <li>If the input is a primitive number, returns <code>(type="number", name=null)</code>.</li>
+	 *   <li>If the input is a primitive or wrapper bigint, returns
+	 *   <code>(type="bigint", name=null)</code>.</li>
+	 *   <li>If the input is an array, returns <code>(type="array", name=null)</code>.</li>
+	 *   <li>If the input is a primitive string, returns <code>(type="string", name=null)</code>.</li>
+	 *   <li>If the input is a primitive symbol, returns <code>(type="symbol", null)</code>.</li>
+	 *   <li>If the input is a function, returns <code>(type="function", name=the function name)</code>. If the
+	 *   input is an arrow or anonymous function, its name is <code>null</code>.</li>
+	 *   <li>If the input is a function, returns <code>(type="function", name=the function name)</code>.</li>
+	 *   <li>If the input is a class, returns <code>(type="class", name=the name of the class)</code>.
+	 *   <li>If the input is an object, returns
+	 *   <code>(type="object", name=the name of the object's class)</code>.
+	 *   </li>
+	 * </ul>
+	 *
+	 * Please note that built-in types (such as <code>Object</code>, <code>String</code> or <code>Number</code>)
+	 * may return type <code>function</code> instead of <code>class</code>.
+	 *
+	 * @param {object} value a value
+	 * @return {VariableType} <code>value</code>'s type
+	 * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
+	 * @see isPrimitive
 	 */
-	private static getClassName(object: Record<string, unknown>)
+	static getTypeInfo(value: unknown): VariableType
 	{
-		const constructorString = object.constructor.toString();
-		// Anonymous and named functions
-		const functionNamePattern = /^function\s+([^(]+)?\(/;
-		const functionName = functionNamePattern.exec(constructorString);
-		if (functionName !== null)
+		if (value === null)
+			return new VariableType("null");
+		const typeOfValue = typeof (value);
+		const isPrimitive = typeOfValue !== "function" && typeOfValue !== "object";
+		if (isPrimitive)
+			return new VariableType(typeOfValue);
+		const objectToString = Object.prototype.toString.call(value).slice(8, -1);
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		const valueAsFunction = value as Function;
+		const valueToString = valueAsFunction.toString();
+		if (objectToString === "Function")
 		{
-			if (typeof (functionName[1]) === "undefined")
+			// A function or a constructor
+			const indexOfArrow = valueToString.indexOf("=>");
+			const indexOfBody = valueToString.indexOf("{");
+			if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 			{
-				// Found an anonymous function: JQuery uses anonymous functions to construct selector objects
-				return "Object";
+				// Arrow function
+				return new VariableType("function");
 			}
-			// Found a named function: equivalent to a class constructor
-			return functionName[1].trim();
+			// Anonymous and named functions
+			const functionName = this.functionNamePattern.exec(valueToString);
+			if (functionName !== null && typeof (functionName[1]) !== "undefined")
+			{
+				// Found a named function or class constructor
+				return new VariableType("function", functionName[1].trim());
+			}
+			const className = this.classNamePattern.exec(valueToString);
+			if (className !== null && typeof (className[1]) !== "undefined")
+			{
+				// When running under ES6+
+				return new VariableType("class", className[1].trim());
+			}
+			// Anonymous function
+			return new VariableType("function");
 		}
+		if (objectToString === "Array")
+			return new VariableType("array");
 
-		const classNamePattern = /^class ([^{]+){/;
-		const className = classNamePattern.exec(constructorString);
-		if (className === null)
-		{
-			throw new TypeError("object must be an Object.\n" +
-				"Actual: " + Objects.toString(object));
-		}
-		return className[1].trim();
+		const classInfo = this.getTypeInfo(valueAsFunction.constructor);
+		Objects.assert(classInfo !== null, TypeError, "classInfo may not be null");
+		Objects.assert(classInfo.name !== null, RangeError, classInfo.toString());
+		return new VariableType("object", classInfo.name);
 	}
 
 	/**
@@ -154,12 +152,12 @@ class Objects
 	 */
 	static requireThatIsSet(value: unknown, name: string): boolean
 	{
-		const typeOfName = Objects.getTypeOf(name);
-		if (typeOfName !== "string")
+		const nameInfo = Objects.getTypeInfo(name);
+		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + typeOfName);
+				"Type  : " + nameInfo);
 		}
 		if (typeof (value) === "undefined")
 			throw new TypeError(name + " must be defined");
@@ -173,36 +171,74 @@ class Objects
 	 *
 	 * @param {object} value the value of a parameter
 	 * @param {string} name the name of the parameter
-	 * @param {string} type the name of the expected type of the object
+	 * @param {string} type the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of <code>value</code>
 	 * @return {boolean} true
-	 * @throws {TypeError} if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
-	 * a string
+	 * @throws {TypeError} if <code>typeof(value)</code> is not equal to <code>type</code>'s type. If
+	 * <code>name</code> is not a string
 	 */
 	static requireThatTypeOf(value: unknown, name: string, type: string): boolean
 	{
-		const typeOfName = Objects.getTypeOf(name);
-		if (typeOfName !== "string")
+		const nameInfo = Objects.getTypeInfo(name);
+		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + typeOfName);
+				"Type  : " + nameInfo);
 		}
-		const typeOfValue = Objects.getTypeOf(value);
-		if (typeOfValue !== type)
+		const valueInfo = Objects.getTypeInfo(value);
+		if (valueInfo.type !== type)
 		{
 			throw new TypeError(name + " must be a " + type + ".\n" +
 				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + typeOfValue);
+				"Type  : " + valueInfo);
 		}
 		return true;
 	}
 
 	/**
-	 * Requires that an object is an instance of the expected type.
+	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
+	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
 	 * @param {object} value the value of a parameter
 	 * @param {string} name the name of the parameter
-	 * @param {Function} type the class the value is expected to be an instance of
+	 * @param {string} clazz the expected class name of <code>value</code>
+	 * @return {boolean} true
+	 * @throws {TypeError} if <code>value</code> is not an object of type <code>clazz</code>. If
+	 * <code>name</code> is not a string
+	 */
+	static requireThatObjectOf(value: unknown, name: string, clazz: string): boolean
+	{
+		const nameInfo = Objects.getTypeInfo(name);
+		if (nameInfo.type !== "string")
+		{
+			throw new TypeError("name must be a string.\n" +
+				"Actual: " + Objects.toString(name) + "\n" +
+				"Type  : " + nameInfo);
+		}
+		const valueInfo = Objects.getTypeInfo(value);
+		if (valueInfo.type !== "object")
+		{
+			throw new TypeError("value must be an object.\n" +
+				"Actual: " + Objects.toString(value) + "\n" +
+				"Type  : " + valueInfo);
+		}
+		if (valueInfo.name !== clazz)
+		{
+			throw new TypeError(name + " must be an object of type " + clazz + ".\n" +
+				"Actual: " + Objects.toString(value) + "\n" +
+				"Type  : " + valueInfo);
+		}
+		return true;
+	}
+
+	/**
+	 * Requires that an object is an instance of <code>type</code>.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {Function} type the class that <code>value</code> is expected to be an instance of
 	 * @return {boolean} true
 	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
 	 * is not a string
@@ -210,69 +246,53 @@ class Objects
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	static requireThatInstanceOf(value: unknown, name: string, type: Function): boolean
 	{
-		const typeOfName = Objects.getTypeOf(name);
-		if (typeOfName !== "string")
+		const nameInfo = Objects.getTypeInfo(name);
+		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual     : " + Objects.toString(name) + "\n" +
-				"Actual.type: " + typeOfName);
+				"Actual.type: " + nameInfo);
 		}
-		const typeOfType = Objects.getTypeOf(type);
-		if (typeOfType !== "Function")
-		{
-			throw new TypeError("\"type\" must be a Function.\n" +
-				"Actual     : " + Objects.toString(type) + "\n" +
-				"Actual.type: " + typeOfType);
-		}
+		const typeInfo = Objects.getTypeInfo(type);
 		if (!(value instanceof type))
 		{
-			throw new TypeError(name + " must be an instance of " + Objects.getTypeOf(type) + ".\n" +
-				"Actual.type: " + Objects.getTypeOf(value));
+			throw new TypeError(name + " must be an instance of " + typeInfo + ".\n" +
+				"Actual: " + Objects.toString(type) + "\n" +
+				"Type  : " + typeInfo);
 		}
 		return true;
 	}
 
 	/**
-	 * Requires that the <code>value</code> extends the <code>expected</code> type.
-	 *
-	 * @param {Function} child the child class
-	 * @param {string} name the name of the type
-	 * @param {Function} parent the parent class
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>value</code> does not extend <code>type</code>. If <code>name</code> is not
-	 * a string
-	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	static requireThatExtends(child: Function, name: string, parent: Function): boolean
-	{
-		const typeOfName = Objects.getTypeOf(name);
-		if (typeOfName !== "string")
-		{
-			throw new TypeError("name must be a string.\n" +
-				"Actual     : " + Objects.toString(name) + "\n" +
-				"Actual.type: " + typeOfName);
-		}
-		if (!Objects.extends(child, parent))
-		{
-			throw new TypeError(name + " must extend " + Objects.getTypeOf(parent) + ".\n" +
-				"Actual.type: " + Objects.getTypeOf(child));
-		}
-		return true;
-	}
-
-	/**
-	 * Requires that an object has the expected type if assertions are enabled. We assume that
-	 * <code>console.assert()</code> will be stripped out at build-time if assertions are disabled.
+	 * Requires that a value has the expected type if assertions are enabled. We assume that
+	 * <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
 	 * @param {object} value the value of a parameter
 	 * @param {string} name the name of the parameter
-	 * @param {string} type the expected type of the object
+	 * @param {string} type the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of <code>value</code>
 	 * @throws {TypeError} if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
 	 * a string
 	 */
 	static assertThatTypeOf(value: unknown, name: string, type: string): void
 	{
-		console.assert(this.requireThatTypeOf(value, name, type));
+		Objects.assert(this.requireThatTypeOf(value, name, type));
+	}
+
+	/**
+	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
+	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
+	 *
+	 * @param {object} value the value of a parameter
+	 * @param {string} name the name of the parameter
+	 * @param {string} type the expected class name of <code>value</code>
+	 * @throws {TypeError} if <code>value</code> is not an object of type <code>type</code>. If
+	 * <code>name</code> is not a string
+	 */
+	static assertThatObjectOf(value: unknown, name: string, type: string): void
+	{
+		Objects.assert(this.requireThatObjectOf(value, name, type));
 	}
 
 	/**
@@ -287,7 +307,7 @@ class Objects
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	static assertThatInstanceOf(value: unknown, name: string, type: Function): void
 	{
-		console.assert(this.requireThatInstanceOf(value, name, type));
+		Objects.assert(this.requireThatInstanceOf(value, name, type));
 	}
 
 	/**
@@ -314,7 +334,7 @@ class Objects
 
 	/**
 	 * Requires that a string is not empty if assertions are enabled. We assume that
-	 * <code>console.assert()</code> will be stripped out at build-time if assertions are disabled.
+	 * <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
 	 * @param {object} value the value of a parameter
 	 * @param {string} name the name of the parameter
@@ -323,7 +343,7 @@ class Objects
 	 */
 	static assertThatStringNotEmpty(value: string, name: string): void
 	{
-		console.assert(this.requireThatStringNotEmpty(value, name));
+		Objects.assert(this.requireThatStringNotEmpty(value, name));
 	}
 
 	/**
@@ -338,55 +358,82 @@ class Objects
 			return "null";
 		// Invoke toString() if it was overridden; otherwise, prefer JSON.stringify() to Object.toString().
 		let current = object;
-		let currentAsSet;
-		switch (Objects.getTypeOf(current))
+
+		let currentInfo = Objects.getTypeInfo(current);
+		switch (currentInfo.type)
 		{
-			case "Set":
-				currentAsSet = current as Set<unknown>;
-				current = Array.from(currentAsSet.values());
-			// fallthrough
-			case "Array":
+			case "array":
+				return Objects.arrayToString(current as unknown[]);
+			case "boolean" :
+			case "number" :
+			case "bigint":
+			case "string":
+			case "symbol":
+			case "function":
+			case "class":
+				break;
+			case "object":
 			{
-				let result = "[";
-				// Can't use Array.join() because it doesn't handle nested arrays well
-				const array = current as unknown[];
-				const size = array.length;
-				for (let i = 0; i < size; ++i)
+				switch (currentInfo.name)
 				{
-					result += Objects.toString(array[i]);
-					if (i < size - 1)
-						result += ", ";
+					case "Set":
+					{
+						const currentAsSet = current as Set<unknown>;
+						return Objects.arrayToString(Array.from(currentAsSet.values()));
+					}
+					case "Map":
+					{
+						const result: { [key: string]: unknown } = {};
+						const map = object as Map<unknown, unknown>;
+						for (const entry of map.entries())
+						{
+							const key = Objects.toString(entry[0]);
+							result[key] = entry[1];
+						}
+						return JSON.stringify(result, null, 2);
+					}
 				}
-				result += "]";
-				return result;
+				// Other kind of classes
+				break;
 			}
-			case "Map":
-			{
-				const result: { [key: string]: unknown } = {};
-				const map = object as Map<unknown, unknown>;
-				for (const entry of map.entries())
-				{
-					const key = Objects.toString(entry[0]);
-					result[key] = entry[1];
-				}
-				return JSON.stringify(result, null, 2);
-			}
-			case "Object":
-				return JSON.stringify(current, null, 2);
+			default:
+				throw new Error("Unexpected type: " + currentInfo);
 		}
 		while (true)
 		{
 			// eslint-disable-next-line @typescript-eslint/ban-types
-			const safeTypes = current as string | number | bigint | boolean | symbol | Function;
+			const safeTypes = current as string | number | bigint | boolean | symbol | Function | object;
 			// See http://stackoverflow.com/a/22445303/14731, https://stackoverflow.com/q/57214613/14731
 			if (Object.prototype.hasOwnProperty.call(safeTypes.constructor.prototype, "toString"))
 				return safeTypes.toString();
 
 			// Get the superclass and try again
 			current = Object.getPrototypeOf(safeTypes.constructor.prototype) as string;
-			if (Objects.getTypeOf(current) === "Object")
+			currentInfo = Objects.getTypeInfo(current);
+			if (currentInfo.type === "object")
 				return JSON.stringify(current, null, 2);
 		}
+	}
+
+	/**
+	 * @param {string} array an array
+	 * @return {string} the string representation of the array, using Objects.toString() to convert nested
+	 *   values
+	 * @private
+	 */
+	private static arrayToString(array: unknown[]): string
+	{
+		let result = "[";
+		// Can't use Array.join() because it doesn't handle nested arrays well
+		const size = array.length;
+		for (let i = 0; i < size; ++i)
+		{
+			result += Objects.toString(array[i]);
+			if (i < size - 1)
+				result += ", ";
+		}
+		result += "]";
+		return result;
 	}
 
 	/**

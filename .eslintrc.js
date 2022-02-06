@@ -247,7 +247,7 @@ module.exports = {
 		"no-restricted-globals": "error",
 		"no-shadow-restricted-names": "error",
 		"no-undef-init": "error",
-		"no-undefined": "error",
+		// "no-undefined": "error",
 		"callback-return": "error",
 		"global-require": "error",
 		"handle-callback-err": "error",

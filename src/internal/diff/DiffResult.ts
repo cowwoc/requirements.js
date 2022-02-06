@@ -19,9 +19,9 @@ class DiffResult
 	 */
 	constructor(actualLines: string[], diffLines: string[], expectedLines: string[], paddingMarker: string)
 	{
-		Objects.assertThatTypeOf(actualLines, "actualLines", "Array");
-		Objects.assertThatTypeOf(diffLines, "diffLines", "Array");
-		Objects.assertThatTypeOf(expectedLines, "expectedLines", "Array");
+		Objects.assertThatTypeOf(actualLines, "actualLines", "array");
+		Objects.assertThatTypeOf(diffLines, "diffLines", "array");
+		Objects.assertThatTypeOf(expectedLines, "expectedLines", "array");
 		Objects.assertThatTypeOf(paddingMarker, "paddingMarker", "string");
 
 		this.actualLines = actualLines;
