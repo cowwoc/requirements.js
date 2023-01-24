@@ -1,4 +1,4 @@
-import type {ObjectAsserter} from "./internal/internal";
+import type {ObjectAsserter} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a class.

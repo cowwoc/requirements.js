@@ -10,122 +10,126 @@
 // Further, the loading order matters. You have to load internal.js and reorder dependencies repeatedly until
 // all circular dependencies are resolved.
 
-import type ExtensibleObjectValidator from "../extension/ExtensibleObjectValidator";
-import type ExtensibleObjectAsserter from "../extension/ExtensibleObjectAsserter";
-import type ExtensibleObjectVerifier from "../extension/ExtensibleObjectVerifier";
-import type ObjectValidator from "../ObjectValidator";
-import type ObjectAsserter from "../ObjectAsserter";
-import type ObjectVerifier from "../ObjectVerifier";
-import AbstractObjectValidator from "./extension/AbstractObjectValidator";
-import AbstractObjectVerifier from "./extension/AbstractObjectVerifier";
-import ObjectValidatorImpl from "./ObjectValidatorImpl";
-import ObjectVerifierImpl from "./ObjectVerifierImpl";
-import AbstractObjectValidatorNoOp from "./extension/AbstractObjectValidatorNoOp";
-import AbstractObjectAsserterNoOp from "./extension/AbstractObjectAsserterNoOp";
-import ObjectValidatorNoOp from "./ObjectValidatorNoOp";
-import ObjectAsserterNoOp from "./ObjectAsserterNoOp";
-import type ArrayValidator from "../ArrayValidator";
-import type ArrayAsserter from "../ArrayAsserter";
-import type ArrayVerifier from "../ArrayVerifier";
-import ArrayValidatorImpl from "./ArrayValidatorImpl";
-import ArrayVerifierImpl from "./ArrayVerifierImpl";
-import type ClassValidator from "../ClassValidator";
-import type ClassAsserter from "../ClassAsserter";
-import type ClassVerifier from "../ClassVerifier";
-import ClassValidatorImpl from "./ClassValidatorImpl";
-import ClassVerifierImpl from "./ClassVerifierImpl";
-import Configuration from "../Configuration";
-import type InetAddressValidator from "../InetAddressValidator";
-import type InetAddressAsserter from "../InetAddressAsserter";
-import type InetAddressVerifier from "../InetAddressVerifier";
-import InetAddressValidatorImpl from "./InetAddressValidatorImpl";
-import InetAddressVerifierImpl from "./InetAddressVerifierImpl";
-import type MapValidator from "../MapValidator";
-import type MapAsserter from "../MapAsserter";
-import type MapVerifier from "../MapVerifier";
-import MapValidatorImpl from "./MapValidatorImpl";
-import MapVerifierImpl from "./MapVerifierImpl";
-import type ExtensibleNumberValidator from "../extension/ExtensibleNumberValidator";
-import type ExtensibleNumberAsserter from "../extension/ExtensibleNumberAsserter";
-import type ExtensibleNumberVerifier from "../extension/ExtensibleNumberVerifier";
-import type NumberValidator from "../NumberValidator";
-import type NumberAsserter from "../NumberAsserter";
-import type NumberVerifier from "../NumberVerifier";
-import AbstractNumberValidator from "./extension/AbstractNumberValidator";
-import NumberValidatorImpl from "./NumberValidatorImpl";
-import AbstractNumberVerifier from "./extension/AbstractNumberVerifier";
-import NumberVerifierImpl from "./NumberVerifierImpl";
-import type BooleanValidator from "../BooleanValidator";
-import type BooleanAsserter from "../BooleanAsserter";
-import type BooleanVerifier from "../BooleanVerifier";
-import BooleanValidatorImpl from "./BooleanValidatorImpl";
-import BooleanVerifierImpl from "./BooleanVerifierImpl";
-import type SetValidator from "../SetValidator";
-import type SetAsserter from "../SetAsserter";
-import type SetVerifier from "../SetVerifier";
-import SetValidatorImpl from "./SetValidatorImpl";
-import SetVerifierImpl from "./SetVerifierImpl";
-import type StringValidator from "../StringValidator";
-import type StringAsserter from "../StringAsserter";
-import type StringVerifier from "../StringVerifier";
-import StringValidatorImpl from "./StringValidatorImpl";
-import StringVerifierImpl from "./StringVerifierImpl";
-import {
+import type ExtensibleObjectValidator from "../extension/ExtensibleObjectValidator.js";
+import type ExtensibleObjectAsserter from "../extension/ExtensibleObjectAsserter.js";
+import type ExtensibleObjectVerifier from "../extension/ExtensibleObjectVerifier.js";
+import type ObjectValidator from "../ObjectValidator.js";
+import type ObjectAsserter from "../ObjectAsserter.js";
+import type ObjectVerifier from "../ObjectVerifier.js";
+import AbstractObjectValidator from "./extension/AbstractObjectValidator.js";
+import AbstractObjectVerifier from "./extension/AbstractObjectVerifier.js";
+import ObjectValidatorImpl from "./ObjectValidatorImpl.js";
+import ObjectVerifierImpl from "./ObjectVerifierImpl.js";
+import AbstractObjectValidatorNoOp from "./extension/AbstractObjectValidatorNoOp.js";
+import AbstractObjectAsserterNoOp from "./extension/AbstractObjectAsserterNoOp.js";
+import ObjectValidatorNoOp from "./ObjectValidatorNoOp.js";
+import ObjectAsserterNoOp from "./ObjectAsserterNoOp.js";
+import type ArrayValidator from "../ArrayValidator.js";
+import type ArrayAsserter from "../ArrayAsserter.js";
+import type ArrayVerifier from "../ArrayVerifier.js";
+import ArrayValidatorImpl from "./ArrayValidatorImpl.js";
+import ArrayVerifierImpl from "./ArrayVerifierImpl.js";
+import type ClassValidator from "../ClassValidator.js";
+import type ClassAsserter from "../ClassAsserter.js";
+import type ClassVerifier from "../ClassVerifier.js";
+import ClassValidatorImpl from "./ClassValidatorImpl.js";
+import ClassVerifierImpl from "./ClassVerifierImpl.js";
+import Configuration from "../Configuration.js";
+import type InetAddressValidator from "../InetAddressValidator.js";
+import type InetAddressAsserter from "../InetAddressAsserter.js";
+import type InetAddressVerifier from "../InetAddressVerifier.js";
+import InetAddressValidatorImpl from "./InetAddressValidatorImpl.js";
+import InetAddressVerifierImpl from "./InetAddressVerifierImpl.js";
+import type MapValidator from "../MapValidator.js";
+import type MapAsserter from "../MapAsserter.js";
+import type MapVerifier from "../MapVerifier.js";
+import MapValidatorImpl from "./MapValidatorImpl.js";
+import MapVerifierImpl from "./MapVerifierImpl.js";
+import type ExtensibleNumberValidator from "../extension/ExtensibleNumberValidator.js";
+import type ExtensibleNumberAsserter from "../extension/ExtensibleNumberAsserter.js";
+import type ExtensibleNumberVerifier from "../extension/ExtensibleNumberVerifier.js";
+import type NumberValidator from "../NumberValidator.js";
+import type NumberAsserter from "../NumberAsserter.js";
+import type NumberVerifier from "../NumberVerifier.js";
+import AbstractNumberValidator from "./extension/AbstractNumberValidator.js";
+import NumberValidatorImpl from "./NumberValidatorImpl.js";
+import AbstractNumberVerifier from "./extension/AbstractNumberVerifier.js";
+import NumberVerifierImpl from "./NumberVerifierImpl.js";
+import type BooleanValidator from "../BooleanValidator.js";
+import type BooleanAsserter from "../BooleanAsserter.js";
+import type BooleanVerifier from "../BooleanVerifier.js";
+import BooleanValidatorImpl from "./BooleanValidatorImpl.js";
+import BooleanVerifierImpl from "./BooleanVerifierImpl.js";
+import type SetValidator from "../SetValidator.js";
+import type SetAsserter from "../SetAsserter.js";
+import type SetVerifier from "../SetVerifier.js";
+import SetValidatorImpl from "./SetValidatorImpl.js";
+import SetVerifierImpl from "./SetVerifierImpl.js";
+import type StringValidator from "../StringValidator.js";
+import type StringAsserter from "../StringAsserter.js";
+import type StringVerifier from "../StringVerifier.js";
+import StringValidatorImpl from "./StringValidatorImpl.js";
+import StringVerifierImpl from "./StringVerifierImpl.js";
+import
+{
 	TerminalEncoding,
 	TerminalEncodings
-} from "../TerminalEncoding";
-import ValidationFailure from "../ValidationFailure";
-import Requirements from "../Requirements";
-import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration";
-import ArrayValidatorNoOp from "./ArrayValidatorNoOp";
-import ArrayAsserterNoOp from "./ArrayAsserterNoOp";
-import ClassValidatorNoOp from "./ClassValidatorNoOp";
-import ClassAsserterNoOp from "./ClassAsserterNoOp";
-import AbstractDiffWriter from "./diff/AbstractDiffWriter";
-import AbstractColorWriter from "./diff/AbstractColorWriter";
-import TextOnly from "./diff/TextOnly";
-import ContextGenerator from "./diff/ContextGenerator";
-import ContextLine from "./diff/ContextLine";
-import {
+} from "../TerminalEncoding.js";
+import ValidationFailure from "../ValidationFailure.js";
+import Requirements from "../Requirements.js";
+import AbstractGlobalConfiguration from "./AbstractGlobalConfiguration.js";
+import ArrayValidatorNoOp from "./ArrayValidatorNoOp.js";
+import ArrayAsserterNoOp from "./ArrayAsserterNoOp.js";
+import ClassValidatorNoOp from "./ClassValidatorNoOp.js";
+import ClassAsserterNoOp from "./ClassAsserterNoOp.js";
+import AbstractDiffWriter from "./diff/AbstractDiffWriter.js";
+import AbstractColorWriter from "./diff/AbstractColorWriter.js";
+import TextOnly from "./diff/TextOnly.js";
+import ContextGenerator from "./diff/ContextGenerator.js";
+import ContextLine from "./diff/ContextLine.js";
+import
+{
 	NEWLINE_MARKER,
 	NEWLINE_PATTERN
-} from "./diff/DiffConstants";
-import {
+} from "./diff/DiffConstants.js";
+import
+{
 	DiffGenerator,
 	EOS_MARKER
-} from "./diff/DiffGenerator";
-import DiffResult from "./diff/DiffResult";
-import Terminal from "./Terminal";
-import VariableType from "./VariableType";
-import Objects from "./Objects";
-import MainGlobalConfiguration from "./MainGlobalConfiguration";
-import GlobalRequirements from "../GlobalRequirements";
-import Node16Colors from "./diff/Node16Colors";
-import Node16MillionColors from "./diff/Node16MillionColors";
-import Node256Colors from "./diff/Node256Colors";
-import type GlobalConfiguration from "../GlobalConfiguration";
-import IllegalStateError from "./IllegalStateError";
-import InetAddressValidatorNoOp from "./InetAddressValidatorNoOp";
-import InetAddressAsserterNoOp from "./InetAddressAsserterNoOp";
-import TestGlobalConfiguration from "./TestGlobalConfiguration";
-import Maps from "./Maps";
-import MapValidatorNoOp from "./MapValidatorNoOp";
-import MapAsserterNoOp from "./MapAsserterNoOp";
-import AbstractNumberValidatorNoOp from "./extension/AbstractNumberValidatorNoOp";
-import NumberValidatorNoOp from "./NumberValidatorNoOp";
-import AbstractNumberAsserterNoOp from "./extension/AbstractNumberAsserterNoOp";
-import NumberAsserterNoOp from "./NumberAsserterNoOp";
-import SizeValidatorImpl from "./SizeValidatorImpl";
-import BooleanValidatorNoOp from "./BooleanValidatorNoOp";
-import BooleanAsserterNoOp from "./BooleanAsserterNoOp";
-import Pluralizer from "./Pluralizer";
-import SetValidatorNoOp from "./SetValidatorNoOp";
-import SetAsserterNoOp from "./SetAsserterNoOp";
-import Strings from "./Strings";
-import StringValidatorNoOp from "./StringValidatorNoOp";
-import StringAsserterNoOp from "./StringAsserterNoOp";
+} from "./diff/DiffGenerator.js";
+import DiffResult from "./diff/DiffResult.js";
+import Terminal from "./Terminal.js";
+import VariableType from "./VariableType.js";
+import Objects from "./Objects.js";
+import MainGlobalConfiguration from "./MainGlobalConfiguration.js";
+import GlobalRequirements from "../GlobalRequirements.js";
+import Node16Colors from "./diff/Node16Colors.js";
+import Node16MillionColors from "./diff/Node16MillionColors.js";
+import Node256Colors from "./diff/Node256Colors.js";
+import type GlobalConfiguration from "../GlobalConfiguration.js";
+import IllegalStateError from "./IllegalStateError.js";
+import InetAddressValidatorNoOp from "./InetAddressValidatorNoOp.js";
+import InetAddressAsserterNoOp from "./InetAddressAsserterNoOp.js";
+import TestGlobalConfiguration from "./TestGlobalConfiguration.js";
+import Maps from "./Maps.js";
+import MapValidatorNoOp from "./MapValidatorNoOp.js";
+import MapAsserterNoOp from "./MapAsserterNoOp.js";
+import AbstractNumberValidatorNoOp from "./extension/AbstractNumberValidatorNoOp.js";
+import NumberValidatorNoOp from "./NumberValidatorNoOp.js";
+import AbstractNumberAsserterNoOp from "./extension/AbstractNumberAsserterNoOp.js";
+import NumberAsserterNoOp from "./NumberAsserterNoOp.js";
+import SizeValidatorImpl from "./SizeValidatorImpl.js";
+import BooleanValidatorNoOp from "./BooleanValidatorNoOp.js";
+import BooleanAsserterNoOp from "./BooleanAsserterNoOp.js";
+import Pluralizer from "./Pluralizer.js";
+import SetValidatorNoOp from "./SetValidatorNoOp.js";
+import SetAsserterNoOp from "./SetAsserterNoOp.js";
+import Strings from "./Strings.js";
+import StringValidatorNoOp from "./StringValidatorNoOp.js";
+import StringAsserterNoOp from "./StringAsserterNoOp.js";
 
-export {
+export
+{
 	ArrayValidatorImpl,
 	ArrayVerifierImpl,
 	ClassValidatorImpl,
@@ -201,7 +205,8 @@ export {
 	Terminal,
 	VariableType
 };
-export type {
+export type
+{
 	GlobalConfiguration,
 	ArrayValidator,
 	ArrayAsserter,

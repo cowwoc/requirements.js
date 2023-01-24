@@ -7,7 +7,7 @@ import
 	AbstractDiffWriter,
 	IllegalStateError,
 	Maps
-} from "../internal";
+} from "../internal.js";
 
 /**
  * A diff representation that does not use colors.

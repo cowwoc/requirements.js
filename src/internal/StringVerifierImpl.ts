@@ -1,11 +1,12 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	Objects,
 	StringValidator,
 	StringVerifier,
 	NumberVerifier,
 	NumberVerifierImpl
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>StringVerifier</code>.

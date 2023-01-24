@@ -1,7 +1,8 @@
-import {
+import
+{
 	InetAddressAsserter,
 	ObjectAsserterNoOp
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>InetAddressAsserter</code> that does nothing.

@@ -1,8 +1,9 @@
-import type {
+import type
+{
 	ArrayVerifier,
 	NumberVerifier,
 	ObjectVerifier
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>Set</code>.

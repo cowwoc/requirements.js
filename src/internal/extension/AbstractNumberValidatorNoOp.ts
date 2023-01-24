@@ -1,7 +1,8 @@
-import {
+import
+{
 	AbstractObjectValidatorNoOp,
 	ExtensibleNumberValidator
-} from "../internal";
+} from "../internal.js";
 
 /**
  * An implementation of <code>NumberValidator</code> that does nothing.

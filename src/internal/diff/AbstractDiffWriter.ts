@@ -5,7 +5,7 @@ import
 	NEWLINE_MARKER,
 	NEWLINE_PATTERN,
 	Objects
-} from "../internal";
+} from "../internal.js";
 
 /**
  * Base implementation for all diff writers.

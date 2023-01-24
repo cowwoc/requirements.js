@@ -1,4 +1,4 @@
-import type {ExtensibleObjectAsserter} from "../internal/internal";
+import type {ExtensibleObjectAsserter} from "../internal/internal.js";
 
 /**
  * Asserts the requirements of a <code>number</code>.

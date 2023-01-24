@@ -1,4 +1,4 @@
-import {Objects} from "../internal";
+import {Objects} from "../internal.js";
 
 /**
  * The result of calculating the difference between two strings.

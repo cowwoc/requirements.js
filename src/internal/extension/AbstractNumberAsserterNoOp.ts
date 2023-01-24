@@ -1,7 +1,8 @@
-import {
+import
+{
 	AbstractObjectAsserterNoOp,
 	ExtensibleNumberAsserter
-} from "../internal";
+} from "../internal.js";
 
 /**
  * An implementation of <code>ExtensibleNumberAsserter</code> that does nothing. An asserter that ignores all

@@ -1,7 +1,8 @@
-import type {
+import type
+{
 	GlobalConfiguration,
 	TerminalEncoding
-} from "./internal";
+} from "./internal.js";
 
 abstract class AbstractGlobalConfiguration implements GlobalConfiguration
 {

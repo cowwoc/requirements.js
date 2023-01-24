@@ -1,8 +1,9 @@
-import type {
+import type
+{
 	ExtensibleObjectVerifier,
 	NumberVerifier,
 	SetVerifier
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of an array.

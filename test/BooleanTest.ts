@@ -1,126 +1,119 @@
-import test from "tape-catch";
-import {Requirements} from "../src/index";
-import {
+import
+{
 	Configuration,
 	TerminalEncoding,
 	TestGlobalConfiguration
-} from "../src/internal/internal";
+} from "../src/internal/internal.js";
+import {Requirements} from "../src/index.js";
+import
+{
+	suite,
+	test
+} from "mocha";
+import {assert} from "chai";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
-test("BooleanTest.isTrue", function(t)
+suite("BooleanTest", () =>
 {
-	requirements.requireThat(true, "actual").asBoolean().isTrue();
-	t.end();
-});
-
-test("BooleanTest.isTrue_False", function(t)
-{
-	t.throws(function()
+	test("isTrue", () =>
 	{
-		requirements.requireThat(false, "actual").asBoolean().isTrue();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(true, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.isFalse", function(t)
-{
-	requirements.requireThat(false, "actual").asBoolean().isFalse();
-	t.end();
-});
-
-test("BooleanTest.isFalse_False", function(t)
-{
-	t.throws(function()
+	test("isTrue_False", () =>
 	{
-		requirements.requireThat(true, "actual").asBoolean().isFalse();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(false, "actual").asBoolean().isTrue();
+		}, RangeError);
+	});
 
-test("BooleanTest.undefinedAsBoolean", function(t)
-{
-	let actual;
-	requirements.requireThat(actual, "actual").asBoolean().isFalse();
-	t.end();
-});
+	test("isFalse", () =>
+	{
+		requirements.requireThat(false, "actual").asBoolean().isFalse();
+	});
 
-test("BooleanTest.nullAsBoolean", function(t)
-{
-	const actual = null;
-	requirements.requireThat(actual, "actual").asBoolean().isFalse();
-	t.end();
-});
+	test("isFalse_False", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(true, "actual").asBoolean().isFalse();
+		}, RangeError);
+	});
 
-test("BooleanTest.ZeroNumberAsBoolean", function(t)
-{
-	const actual = 0;
-	requirements.requireThat(actual, "actual").asBoolean().isFalse();
-	t.end();
-});
+	test("undefinedAsBoolean", () =>
+	{
+		let actual;
+		requirements.requireThat(actual, "actual").asBoolean().isFalse();
+	});
 
-test("BooleanTest.nonZeroNumberAsBoolean", function(t)
-{
-	const actual = 1;
-	requirements.requireThat(actual, "actual").asBoolean().isTrue();
-	t.end();
-});
+	test("nullAsBoolean", () =>
+	{
+		const actual = null;
+		requirements.requireThat(actual, "actual").asBoolean().isFalse();
+	});
 
-test("BooleanTest.zeroStringAsBoolean", function(t)
-{
-	const actual = "0";
-	requirements.requireThat(actual, "actual").asBoolean().isTrue();
-	t.end();
-});
+	test("ZeroNumberAsBoolean", () =>
+	{
+		const actual = 0;
+		requirements.requireThat(actual, "actual").asBoolean().isFalse();
+	});
 
-test("BooleanTest.nonZeroStringAsBoolean", function(t)
-{
-	const actual = "1";
-	requirements.requireThat(actual, "actual").asBoolean().isTrue();
-	t.end();
-});
+	test("nonZeroNumberAsBoolean", () =>
+	{
+		const actual = 1;
+		requirements.requireThat(actual, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.trueStringAsBoolean", function(t)
-{
-	const actual = "true";
-	requirements.requireThat(actual, "actual").asBoolean().isTrue();
-	t.end();
-});
+	test("zeroStringAsBoolean", () =>
+	{
+		const actual = "0";
+		requirements.requireThat(actual, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.emptyStringAsBoolean", function(t)
-{
-	const actual = "";
-	requirements.requireThat(actual, "actual").asBoolean().isFalse();
-	t.end();
-});
+	test("nonZeroStringAsBoolean", () =>
+	{
+		const actual = "1";
+		requirements.requireThat(actual, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.falseStringAsBoolean", function(t)
-{
-	const actual = "false";
-	requirements.requireThat(actual, "actual").asBoolean().isTrue();
-	t.end();
-});
+	test("trueStringAsBoolean", () =>
+	{
+		const actual = "true";
+		requirements.requireThat(actual, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.asString_true", function(t)
-{
-	const actual = true;
-	requirements.requireThat(actual, "actual").asBoolean().asString().isEqualTo("true");
-	t.end();
-});
+	test("emptyStringAsBoolean", () =>
+	{
+		const actual = "";
+		requirements.requireThat(actual, "actual").asBoolean().isFalse();
+	});
 
-test("BooleanTest.asString_false", function(t)
-{
-	const actual = false;
-	requirements.requireThat(actual, "actual").asBoolean().asString().isEqualTo("false");
-	t.end();
-});
+	test("falseStringAsBoolean", () =>
+	{
+		const actual = "false";
+		requirements.requireThat(actual, "actual").asBoolean().isTrue();
+	});
 
-test("BooleanTest.getActual", function(t)
-{
-	const input = true;
-	const output = requirements.requireThat(input, "input").getActual();
-	t.equals(output, input);
-	t.end();
+	test("asString_true", () =>
+	{
+		const actual = true;
+		requirements.requireThat(actual, "actual").asBoolean().asString().isEqualTo("true");
+	});
+
+	test("asString_false", () =>
+	{
+		const actual = false;
+		requirements.requireThat(actual, "actual").asBoolean().asString().isEqualTo("false");
+	});
+
+	test("getActual", () =>
+	{
+		const input = true;
+		const output = requirements.requireThat(input, "input").getActual();
+		assert.equal(output, input);
+	});
 });

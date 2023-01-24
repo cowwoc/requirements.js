@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectValidatorNoOp,
 	InetAddressValidator,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>InetAddressValidator</code> that does nothing.

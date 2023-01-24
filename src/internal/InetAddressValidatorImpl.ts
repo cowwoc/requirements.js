@@ -1,11 +1,12 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	Configuration,
 	InetAddressValidator,
 	InetAddressValidatorNoOp,
 	Objects,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>InetAddressValidator</code>.

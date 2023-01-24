@@ -1,118 +1,113 @@
-import test from "tape-catch";
-import {Requirements} from "../src/index";
-import {
+import
+{
 	Configuration,
 	TerminalEncoding,
 	TestGlobalConfiguration
-} from "../src/internal/internal";
+} from "../src/internal/internal.js";
+import {Requirements} from "../src/index.js";
+import
+{
+	suite,
+	test
+} from "mocha";
+import {assert} from "chai";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
-test("Verifiers.assertThatString", function(t)
+suite("RequirementsTest", () =>
 {
-	const actual = "actual";
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatString", () =>
+	{
+		const actual = "actual";
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.assertThatArray", function(t)
-{
-	const actual = [1, 2, 3];
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatArray", () =>
+	{
+		const actual = [1, 2, 3];
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.assertThatNumber", function(t)
-{
-	const actual = 5;
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatNumber", () =>
+	{
+		const actual = 5;
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.assertThatSet", function(t)
-{
-	const actual = new Set([1, 2, 3]);
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatSet", () =>
+	{
+		const actual = new Set([1, 2, 3]);
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.assertThatMap", function(t)
-{
-	const actual = new Map([[1, 2], [2, 3]]);
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatMap", () =>
+	{
+		const actual = new Map([[1, 2], [2, 3]]);
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.assertThatUrl", function(t)
-{
-	const actual = new URL("http://www.google.com/");
-	requirements.assertThat(actual, "actual").isEqualTo("expected");
-	t.end();
-});
+	test("assertThatUrl", () =>
+	{
+		const actual = new URL("http://www.google.com/");
+		requirements.assertThat(actual, "actual").isEqualTo("expected");
+	});
 
-test("Verifiers.withAssertionsEnabled.assertThatObject", function(t)
-{
-	t.throws(function()
+	test("withAssertionsEnabled.assertThatObject", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.withAssertionsEnabled().assertThat(actual, "actual").isEqualTo("expected");
+		}, RangeError);
+	});
+
+	test("withAssertionsDisabled", () =>
 	{
 		const actual = {};
-		requirements.withAssertionsEnabled().assertThat(actual, "actual").isEqualTo("expected");
-	}, RangeError);
-	t.end();
-});
+		requirements.withAssertionsEnabled().withAssertionsDisabled().assertThat(actual, "actual").
+			isEqualTo("expected");
+	});
 
-test("Verifiers.withAssertionsDisabled", function(t)
-{
-	const actual = {};
-	requirements.withAssertionsEnabled().withAssertionsDisabled().assertThat(actual, "actual").
-		isEqualTo("expected");
-	t.end();
-});
+	test("withAssertionsEnabled.withAssertionsEnabled", () =>
+	{
+		const verifiers = requirements.withAssertionsEnabled();
+		assert.equal(verifiers.withAssertionsEnabled(), verifiers);
+	});
 
-test("Verifiers.withAssertionsEnabled.withAssertionsEnabled", function(t)
-{
-	const verifiers = requirements.withAssertionsEnabled();
-	t.equals(verifiers.withAssertionsEnabled(), verifiers);
-	t.end();
-});
+	test("withAssertionsDisabled.withAssertionsDisabled", () =>
+	{
+		const verifiers = requirements.withAssertionsDisabled();
+		assert.equal(verifiers.withAssertionsDisabled(), verifiers);
+	});
 
-test("Verifiers.withAssertionsDisabled.withAssertionsDisabled", function(t)
-{
-	const verifiers = requirements.withAssertionsDisabled();
-	t.equals(verifiers.withAssertionsDisabled(), verifiers);
-	t.end();
-});
+	test("withAssertionsEnabled.isActualAvailable", () =>
+	{
+		const input = 12345;
+		const verifier = requirements.withAssertionsEnabled().assertThat(input, "input");
+		assert.equal(verifier.isActualAvailable(), true);
+		assert.equal(verifier.getActual(), input);
+	});
 
-test("Verifiers.withAssertionsEnabled.isActualAvailable", function(t)
-{
-	const input = 12345;
-	const verifier = requirements.withAssertionsEnabled().assertThat(input, "input");
-	t.equals(verifier.isActualAvailable(), true);
-	t.equals(verifier.getActual(), input);
-	t.end();
-});
+	test("withAssertionsDisabled.isActualAvailable", () =>
+	{
+		const input = 12345;
+		let expected;
+		const verifier = requirements.withAssertionsDisabled().assertThat(input, "input");
+		assert.equal(verifier.isActualAvailable(), false);
+		// noinspection JSUnusedAssignment
+		assert.equal(verifier.getActual(), expected);
+	});
 
-test("Verifiers.withAssertionsDisabled.isActualAvailable", function(t)
-{
-	const input = 12345;
-	let expected;
-	const verifier = requirements.withAssertionsDisabled().assertThat(input, "input");
-	t.equals(verifier.isActualAvailable(), false);
-	// noinspection JSUnusedAssignment
-	t.equals(verifier.getActual(), expected);
-	t.end();
-});
+	test("assertionsAreEnabled", () =>
+	{
+		assert.equal(requirements.assertionsAreEnabled(), false);
+	});
 
-test("Verifiers.assertionsAreEnabled", function(t)
-{
-	t.equals(requirements.assertionsAreEnabled(), false);
-	t.end();
-});
-
-test("Verifiers.putContext", function(t)
-{
-	const verifiers = requirements.putContext("key", "value");
-	t.deepEquals(verifiers.getContext(), new Map([["key", "value"]]));
-	t.end();
+	test("putContext", () =>
+	{
+		const verifiers = requirements.putContext("key", "value");
+		assert.deepEqual(verifiers.getContext(), new Map([["key", "value"]]));
+	});
 });

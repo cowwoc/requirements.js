@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	BooleanValidator,
 	BooleanVerifier
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>BooleanVerifier</code>.

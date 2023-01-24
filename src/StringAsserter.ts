@@ -1,7 +1,8 @@
-import type {
+import type
+{
 	NumberAsserter,
 	ObjectAsserter
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>string</code>.

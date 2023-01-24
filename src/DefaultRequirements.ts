@@ -1,10 +1,11 @@
 /** @module DefaultRequirements */
-import {
+import
+{
 	ObjectAsserter,
 	ObjectValidator,
 	ObjectVerifier,
 	Requirements
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 const delegate = new Requirements();
 
@@ -59,7 +60,8 @@ function validateThat(actual: unknown, name: string): ObjectValidator
 	return delegate.validateThat(actual, name);
 }
 
-export {
+export
+{
 	requireThat,
 	assertThat,
 	validateThat

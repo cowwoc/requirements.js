@@ -1,4 +1,5 @@
-import type {
+import type
+{
 	ArrayAsserter,
 	BooleanAsserter,
 	ClassAsserter,
@@ -7,7 +8,7 @@ import type {
 	NumberAsserter,
 	SetAsserter,
 	StringAsserter
-} from "../internal/internal";
+} from "../internal/internal.js";
 
 /**
  * Asserts the requirements of an object.

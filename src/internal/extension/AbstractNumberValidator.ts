@@ -1,10 +1,11 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	Configuration,
 	ExtensibleNumberValidator,
 	Objects,
 	ValidationFailure
-} from "../internal";
+} from "../internal.js";
 
 /**
  * Extensible implementation of <code>ExtensibleNumberValidator</code>.

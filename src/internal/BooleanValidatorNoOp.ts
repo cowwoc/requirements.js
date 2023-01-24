@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectValidatorNoOp,
 	BooleanValidator,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>BooleanValidator</code> that does nothing.

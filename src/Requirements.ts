@@ -1,5 +1,6 @@
 /** @module Requirements */
-import {
+import
+{
 	Configuration,
 	MainGlobalConfiguration,
 	ObjectAsserter,
@@ -9,7 +10,7 @@ import {
 	ObjectValidatorImpl,
 	ObjectVerifier,
 	ObjectVerifierImpl
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of types from the Javascript core API.

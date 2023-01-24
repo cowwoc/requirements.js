@@ -1,5 +1,5 @@
+import {AbstractColorWriter} from "../internal.js";
 import chalk from "chalk";
-import {AbstractColorWriter} from "../internal";
 
 const greenBackground = chalk.bgRgb(0, 135, 0);
 const redBackground = chalk.bgRgb(175, 0, 0);

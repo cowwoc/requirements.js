@@ -1,9 +1,11 @@
-import chalk from "chalk";
-import {
+import
+{
 	Objects,
 	TerminalEncoding,
 	TerminalEncodings
-} from "./internal";
+} from "./internal.js";
+import chalk from "chalk";
+
 
 /**
  * The terminal associated with the JVM.

@@ -1,8 +1,9 @@
-import type {
+import type
+{
 	ArrayValidator,
 	ExtensibleObjectValidator,
 	NumberValidator
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Validates the requirements of a <code>Map</code>.

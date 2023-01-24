@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	ClassValidator,
 	ClassVerifier
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>ClassVerifier</code>.

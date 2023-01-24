@@ -1,7 +1,8 @@
-import {
+import
+{
 	AbstractGlobalConfiguration,
 	TerminalEncoding
-} from "./internal";
+} from "./internal.js";
 
 class TestGlobalConfiguration extends AbstractGlobalConfiguration
 {

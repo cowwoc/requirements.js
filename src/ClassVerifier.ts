@@ -1,4 +1,4 @@
-import type {ObjectVerifier} from "./internal/internal";
+import type {ObjectVerifier} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a class.

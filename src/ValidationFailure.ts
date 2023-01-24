@@ -1,8 +1,9 @@
-import {
+import
+{
 	Configuration,
 	ContextLine,
 	Objects
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 class ValidationFailure
 {

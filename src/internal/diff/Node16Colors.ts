@@ -1,5 +1,5 @@
+import {AbstractColorWriter} from "../internal.js";
 import chalk from "chalk";
-import {AbstractColorWriter} from "../internal";
 
 /**
  * An node terminal that supports 16 colors.

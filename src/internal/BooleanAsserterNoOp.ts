@@ -1,7 +1,8 @@
-import {
+import
+{
 	AbstractObjectAsserterNoOp,
 	BooleanAsserter
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>BooleanAsserter</code> that does nothing.

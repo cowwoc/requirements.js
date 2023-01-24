@@ -1,4 +1,4 @@
-import type {ExtensibleObjectVerifier} from "./internal/internal";
+import type {ExtensibleObjectVerifier} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of an object.

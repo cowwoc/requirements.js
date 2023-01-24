@@ -1,9 +1,10 @@
-import chalk from "chalk";
-import {
+import
+{
 	AbstractDiffWriter,
 	IllegalStateError,
 	Maps
-} from "../internal";
+} from "../internal.js";
+import chalk from "chalk";
 
 /**
  * Possible types of decorations.

@@ -1,4 +1,4 @@
-import {Objects} from "./internal";
+import {Objects} from "./internal.js";
 
 class SearchResult
 {

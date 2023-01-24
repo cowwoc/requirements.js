@@ -1,9 +1,10 @@
-import {
+import
+{
 	AbstractNumberValidator,
 	Configuration,
 	NumberValidator,
 	NumberValidatorNoOp
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>NumberValidator</code>.

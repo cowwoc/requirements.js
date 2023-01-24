@@ -1,4 +1,5 @@
-import type {
+import type
+{
 	ArrayValidator,
 	BooleanValidator,
 	ClassValidator,
@@ -8,7 +9,7 @@ import type {
 	SetValidator,
 	StringValidator,
 	ValidationFailure
-} from "../internal/internal";
+} from "../internal/internal.js";
 
 /**
  * Validates the requirements of an object.

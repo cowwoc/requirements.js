@@ -1,5 +1,6 @@
 import stripAnsi from "strip-ansi";
-import {
+import
+{
 	Change,
 	diffChars
 } from "diff";
@@ -14,7 +15,7 @@ import
 	TerminalEncoding,
 	TerminalEncodings,
 	TextOnly
-} from "../internal";
+} from "../internal.js";
 
 /**
  * Character denoting the end of string.

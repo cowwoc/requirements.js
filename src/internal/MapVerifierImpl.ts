@@ -1,4 +1,5 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	ArrayVerifier,
 	ArrayVerifierImpl,
@@ -7,7 +8,7 @@ import {
 	NumberVerifier,
 	NumberVerifierImpl,
 	Objects
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>MapVerifier</code>.

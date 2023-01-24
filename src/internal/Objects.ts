@@ -1,6 +1,7 @@
-import {
+import
+{
 	VariableType
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Object helper functions.

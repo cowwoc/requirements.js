@@ -1,7 +1,8 @@
-import {
+import
+{
 	GlobalConfiguration,
 	Objects
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * A verifier's configuration.

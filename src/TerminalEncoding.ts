@@ -1,11 +1,12 @@
-import {
+import
+{
 	AbstractColorWriter,
 	Node16Colors,
 	Node16MillionColors,
 	Node256Colors,
 	Objects,
 	TextOnly
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * The encodings supported by the terminal.
@@ -97,7 +98,8 @@ class TerminalEncodings
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {
+export
+{
 	TerminalEncoding,
 	TerminalEncodings
 };

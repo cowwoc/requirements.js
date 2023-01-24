@@ -1,4 +1,4 @@
-import type {ExtensibleNumberVerifier} from "./internal/internal";
+import type {ExtensibleNumberVerifier} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>number</code>.

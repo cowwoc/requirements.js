@@ -1,4 +1,5 @@
-import {
+import
+{
 	ArrayAsserter,
 	ArrayAsserterNoOp,
 	BooleanAsserter,
@@ -16,7 +17,7 @@ import {
 	SetAsserterNoOp,
 	StringAsserter,
 	StringAsserterNoOp
-} from "../internal";
+} from "../internal.js";
 
 /**
  * An implementation of <code>ExtensibleObjectAsserter</code> that does nothing. An asserter that ignores all

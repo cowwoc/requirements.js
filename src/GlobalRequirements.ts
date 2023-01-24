@@ -1,8 +1,9 @@
 /** @module GlobalRequirements */
-import {
+import
+{
 	MainGlobalConfiguration,
 	TerminalEncoding
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 const delegate = MainGlobalConfiguration.INSTANCE;
 

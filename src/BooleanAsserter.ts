@@ -1,4 +1,4 @@
-import type {ExtensibleObjectAsserter} from "./internal/internal";
+import type {ExtensibleObjectAsserter} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>boolean</code>.

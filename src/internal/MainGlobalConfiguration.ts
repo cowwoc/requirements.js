@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractGlobalConfiguration,
 	Terminal,
 	TerminalEncoding
-} from "./internal";
+} from "./internal.js";
 
 const terminal = new Terminal();
 

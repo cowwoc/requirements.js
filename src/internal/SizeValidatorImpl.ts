@@ -1,12 +1,13 @@
-import {
+import
+{
 	Configuration,
 	NumberValidatorImpl,
 	Objects,
 	Pluralizer,
 	ValidationFailure
-} from "./internal";
-import NumberValidatorNoOp from "./NumberValidatorNoOp";
-import type NumberValidator from "../NumberValidator";
+} from "./internal.js";
+import NumberValidatorNoOp from "./NumberValidatorNoOp.js";
+import type NumberValidator from "../NumberValidator.js";
 
 /**
  * Default implementation of <code>SetVerifier</code>.

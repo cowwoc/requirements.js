@@ -1,7 +1,8 @@
-import type {
+import type
+{
 	NumberVerifier,
 	ObjectVerifier
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>string</code>.
@@ -118,7 +119,7 @@ interface StringVerifier extends ObjectVerifier
 
 	/**
 	 * @return {StringVerifier} the updated verifier
-	 * @deprecated returns this
+	 * @deprecated <code>actual</code> value is already a String
 	 */
 	asString(): StringVerifier;
 

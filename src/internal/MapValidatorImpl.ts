@@ -1,4 +1,5 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	ArrayValidator,
 	ArrayValidatorImpl,
@@ -12,7 +13,7 @@ import {
 	Pluralizer,
 	ValidationFailure,
 	SizeValidatorImpl
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>MapValidator</code>.

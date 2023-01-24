@@ -1,7 +1,8 @@
-export {
+export
+{
 	requireThat,
 	assertThat,
 	validateThat
-} from "./DefaultRequirements";
-export {Requirements} from "./internal/internal";
-export type {GlobalRequirements} from "./internal/internal";
+} from "./DefaultRequirements.js";
+export {Requirements} from "./internal/internal.js";
+export type {GlobalRequirements} from "./internal/internal.js";

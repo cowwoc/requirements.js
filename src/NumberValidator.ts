@@ -1,4 +1,4 @@
-import type {ExtensibleNumberValidator} from "./internal/internal";
+import type {ExtensibleNumberValidator} from "./internal/internal.js";
 
 /**
  * Validates the requirements of a <code>number</code>.

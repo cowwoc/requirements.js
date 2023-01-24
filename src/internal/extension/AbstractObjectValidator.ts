@@ -1,4 +1,5 @@
-import {
+import
+{
 	ArrayValidator,
 	ArrayValidatorImpl,
 	ArrayValidatorNoOp,
@@ -29,8 +30,8 @@ import {
 	StringValidator,
 	StringValidatorImpl,
 	ValidationFailure
-} from "../internal";
-import {isEqual} from "lodash";
+} from "../internal.js";
+import isEqual from "lodash/isEqual.js";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectValidator</code>.

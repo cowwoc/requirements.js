@@ -1,11 +1,12 @@
-import {
+import
+{
 	ArrayAsserter,
 	ArrayAsserterNoOp,
 	NumberAsserter,
 	NumberAsserterNoOp,
 	ObjectAsserterNoOp,
 	SetAsserter
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>SetAsserter</code> that does nothing. An asserter that ignores all

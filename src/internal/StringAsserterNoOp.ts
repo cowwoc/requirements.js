@@ -1,9 +1,10 @@
-import {
+import
+{
 	NumberAsserter,
 	NumberAsserterNoOp,
 	ObjectAsserterNoOp,
 	StringAsserter
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>StringAsserter</code> that does nothing. An asserter that ignores all

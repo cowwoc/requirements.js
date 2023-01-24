@@ -5,8 +5,8 @@ import
 	DiffGenerator,
 	Objects,
 	TextOnly
-} from "../internal";
-import {isEqual} from "lodash";
+} from "../internal.js";
+import isEqual from "lodash/isEqual.js";
 
 /**
  * Returns the difference between two values as an exception context.

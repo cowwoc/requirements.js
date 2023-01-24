@@ -1,4 +1,5 @@
-import type {
+import type
+{
 	ArrayVerifier,
 	BooleanVerifier,
 	ClassVerifier,
@@ -7,7 +8,7 @@ import type {
 	NumberVerifier,
 	SetVerifier,
 	StringVerifier
-} from "../internal/internal";
+} from "../internal/internal.js";
 
 /**
  * Verifies the requirements of an object.

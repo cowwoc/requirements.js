@@ -1,4 +1,5 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	Configuration,
 	NumberValidator,
@@ -9,7 +10,7 @@ import {
 	StringValidator,
 	StringValidatorNoOp,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>StringValidator</code>.

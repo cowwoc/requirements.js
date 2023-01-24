@@ -1,4 +1,5 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	ArrayValidator,
 	ArrayVerifier,
@@ -7,7 +8,7 @@ import {
 	SetVerifier,
 	SetVerifierImpl,
 	NumberVerifierImpl
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>ArrayVerifier</code>.

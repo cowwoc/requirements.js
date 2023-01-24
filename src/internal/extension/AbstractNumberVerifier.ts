@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	ExtensibleNumberValidator,
 	ExtensibleNumberVerifier
-} from "../internal";
+} from "../internal.js";
 
 /**
  * Extensible implementation of <code>ExtensibleNumberVerifier</code>.

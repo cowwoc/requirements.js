@@ -1,8 +1,9 @@
-import type {
+import type
+{
 	ArrayAsserter,
 	NumberAsserter,
 	ObjectAsserter
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Verifies the requirements of a <code>Map</code>.

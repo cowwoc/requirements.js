@@ -1,387 +1,356 @@
-import test from "tape-catch";
-import {
-	assertThat,
-	Requirements
-} from "../src/index";
-import {
+import
+{
 	Configuration,
 	ObjectValidator,
 	TerminalEncoding,
 	TestGlobalConfiguration
-} from "../src/internal/internal";
-import ObjectVerifierImpl from "../src/internal/ObjectVerifierImpl";
+} from "../src/internal/internal.js";
+import {
+	assertThat,
+	Requirements
+} from "../src/index.js";
+import ObjectVerifierImpl from "../src/internal/ObjectVerifierImpl.js";
+import {
+	suite,
+	test
+} from "mocha";
+import {assert} from "chai";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
-test("ObjectTest.validatorIsUndefined", function(t)
+suite("ObjectTest", () =>
 {
-	t.throws(function()
+	test("validatorIsUndefined", () =>
 	{
-		let input: undefined;
-		/* eslint-disable no-new */
-		new ObjectVerifierImpl(input as unknown as ObjectValidator);
-		/* eslint-enable no-new */
-	}, TypeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			let input: undefined;
+			/* eslint-disable no-new */
+			new ObjectVerifierImpl(input as unknown as ObjectValidator);
+			/* eslint-enable no-new */
+		}, TypeError);
+	});
 
-test("ObjectTest.nameIsNull", function(t)
-{
-	t.throws(function()
+	test("nameIsNull", () =>
 	{
-		const actual = {};
-		requirements.requireThat(actual, null as unknown as string);
-	}, TypeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, null as unknown as string);
+		}, TypeError);
+	});
 
-test("ObjectTest.nameIsEmpty", function(t)
-{
-	t.throws(function()
+	test("nameIsEmpty", () =>
 	{
-		const actual = {};
-		requirements.requireThat(actual, "");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, "");
+		}, RangeError);
+	});
 
-test("ObjectTest.isEqualTo", function(t)
-{
-	const actual = "actual";
-	requirements.requireThat(actual, "actual").isEqualTo(actual);
-	t.end();
-});
-
-test("ObjectTest.isEqual_False", function(t)
-{
-	const actual = {};
-	t.throws(function()
-	{
-		requirements.requireThat(actual, "actual").isEqualTo("expected");
-	}, RangeError);
-	t.throws(function()
-	{
-		requirements.requireThat(actual, "actual").isEqualTo("expected", "expected");
-	}, RangeError);
-	t.end();
-});
-
-test("ObjectTest.isEqual_sameToStringDifferentTypes", function(t)
-{
-	t.throws(function()
-	{
-		const actual = "null";
-		requirements.requireThat(actual, "actual").isEqualTo(null);
-	}, RangeError);
-	t.end();
-});
-
-test("ObjectTest.isEqual_nullToNull", function(t)
-{
-	const actual = null;
-	requirements.requireThat(actual, "actual").isEqualTo(actual);
-	t.end();
-});
-
-test("ObjectTest.isEqualTo_nullToNotNull", function(t)
-{
-	t.throws(function()
-	{
-		const actual = null;
-		requirements.requireThat(actual, "actual").isEqualTo("expected");
-	}, RangeError);
-	t.end();
-});
-
-test("ObjectTest.isEqualTo_notNullToNull", function(t)
-{
-	t.throws(function()
+	test("isEqualTo", () =>
 	{
 		const actual = "actual";
-		requirements.requireThat(actual, "actual").isEqualTo(null);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(actual, "actual").isEqualTo(actual);
+	});
 
-test("ObjectTest.isNotEqualTo", function(t)
-{
-	requirements.requireThat("actualValue", "actual").isNotEqualTo("expectedValue");
-	t.end();
-});
-
-test("ObjectTest.isNotEqualTo_False", function(t)
-{
-	const actual = {};
-	t.throws(function()
-	{
-		requirements.requireThat(actual, "actual").isNotEqualTo(actual);
-	}, RangeError);
-	t.throws(function()
-	{
-		requirements.requireThat(actual, "actual").isNotEqualTo(actual, "actual");
-	}, RangeError);
-	t.end();
-});
-
-test("ObjectTest.isTypeOf", function(t)
-{
-	const actual = "value";
-	requirements.requireThat(actual, "actual").isTypeOf("string");
-	t.end();
-});
-
-test("ObjectTest.isTypeOf_actualIsNull", function(t)
-{
-	const actual = null;
-	// For backwards-compatibility reasons typeof(null) === "object". See
-	// Per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#typeof_null
-	requirements.requireThat(actual, "actual").isTypeOf("object");
-	t.end();
-});
-
-test("ObjectTest.isTypeOf_expectedIsNull", function(t)
-{
-	t.throws(function()
+	test("isEqual_False", () =>
 	{
 		const actual = {};
-		requirements.requireThat(actual, "actual").isTypeOf("null");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(actual, "actual").isEqualTo("expected");
+		}, RangeError);
+		assert.throws(function()
+		{
+			requirements.requireThat(actual, "actual").isEqualTo("expected", "expected");
+		}, RangeError);
+	});
 
-test("ObjectTest.isTypeOf_False", function(t)
-{
-	t.throws(function()
+	test("isEqual_sameToStringDifferentTypes", () =>
 	{
-		const actual = {};
-		requirements.requireThat(actual, "actual").isTypeOf("string");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			const actual = "null";
+			requirements.requireThat(actual, "actual").isEqualTo(null);
+		}, RangeError);
+	});
 
-test("ObjectTest.isInstanceOf", function(t)
-{
-	/* eslint-disable no-new-wrappers */
-	// noinspection JSPrimitiveTypeWrapperUsage
-	const actual = new String("value");
-	/* eslint-enable no-new-wrappers */
-
-	requirements.requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
-	t.end();
-});
-
-test("ObjectTest.isInstanceOf_actualIsNull", function(t)
-{
-	t.throws(function()
+	test("isEqual_nullToNull", () =>
 	{
 		const actual = null;
-		requirements.requireThat(actual, "actual").isInstanceOf(String);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(actual, "actual").isEqualTo(actual);
+	});
 
-test("ObjectTest.isInstanceOf_expectedIsNull", function(t)
-{
-	t.throws(function()
+	test("isEqualTo_nullToNotNull", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = null;
+			requirements.requireThat(actual, "actual").isEqualTo("expected");
+		}, RangeError);
+	});
+
+	test("isEqualTo_notNullToNull", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = "actual";
+			requirements.requireThat(actual, "actual").isEqualTo(null);
+		}, RangeError);
+	});
+
+	test("isNotEqualTo", () =>
+	{
+		requirements.requireThat("actualValue", "actual").isNotEqualTo("expectedValue");
+	});
+
+	test("isNotEqualTo_False", () =>
 	{
 		const actual = {};
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		requirements.requireThat(actual, "actual").isInstanceOf(null as unknown as Function);
-	}, TypeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(actual, "actual").isNotEqualTo(actual);
+		}, RangeError);
+		assert.throws(function()
+		{
+			requirements.requireThat(actual, "actual").isNotEqualTo(actual, "actual");
+		}, RangeError);
+	});
 
-test("ObjectTest.isInstanceOf_False", function(t)
-{
-	t.throws(function()
+	test("isTypeOf", () =>
 	{
-		const actual = {};
-		requirements.requireThat(actual, "actual").isInstanceOf(String);
-	}, RangeError);
-	t.end();
-});
+		const actual = "value";
+		requirements.requireThat(actual, "actual").isTypeOf("string");
+	});
 
-test("ObjectTest.isTypeOf_AnonymousFunction", function(t)
-{
-	requirements.requireThat(function()
+	test("isTypeOf_actualIsNull", () =>
 	{
-		return "anonymousFunction";
-	}, "actual").isTypeOf("function");
-	t.end();
-});
+		const actual = null;
+		// For backwards-compatibility reasons typeof(null) === "object". See
+		// Per https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#typeof_null
+		requirements.requireThat(actual, "actual").isTypeOf("object");
+	});
+
+	test("isTypeOf_expectedIsNull", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, "actual").isTypeOf("null");
+		}, RangeError);
+	});
+
+	test("isTypeOf_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, "actual").isTypeOf("string");
+		}, RangeError);
+	});
+
+	test("isInstanceOf", () =>
+	{
+		/* eslint-disable no-new-wrappers */
+		// noinspection JSPrimitiveTypeWrapperUsage
+		const actual = new String("value");
+		/* eslint-enable no-new-wrappers */
+
+		requirements.requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
+	});
+
+	test("isInstanceOf_actualIsNull", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = null;
+			requirements.requireThat(actual, "actual").isInstanceOf(String);
+		}, RangeError);
+	});
+
+	test("isInstanceOf_expectedIsNull", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			requirements.requireThat(actual, "actual").isInstanceOf(null as unknown as Function);
+		}, TypeError);
+	});
+
+	test("isInstanceOf_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, "actual").isInstanceOf(String);
+		}, RangeError);
+	});
+
+	test("isTypeOf_AnonymousFunction", () =>
+	{
+		requirements.requireThat(function()
+		{
+			return "anonymousFunction";
+		}, "actual").isTypeOf("function");
+	});
 
 // TODO: this test cannot run under Babel because it converts arrow functions to anonymous functions.
 //
-// test("ObjectTest.isTypeOf_ArrowFunction", function(t)
+// test("isTypeOf_ArrowFunction", () =>
 // {
 // 	requirements.requireThat(input => input + " -> output", "actual").isTypeOf("ArrowFunction");
-// 	t.end();
-// });
+// 	// });
 
-class MyClass
-{
-}
-
-test("ObjectTest.isInstanceOf_Object", function(t)
-{
-	t.throws(function()
+	class MyClass
 	{
-		const actual = 5;
-		requirements.requireThat(actual, "actual").isInstanceOf(MyClass);
-	}, RangeError);
-	t.end();
-});
+	}
 
-test("ObjectTest.isNull", function(t)
-{
-	requirements.requireThat(null, "actual").isNull();
-	t.end();
-});
+	test("isInstanceOf_Object", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = 5;
+			requirements.requireThat(actual, "actual").isInstanceOf(MyClass);
+		}, RangeError);
+	});
 
-test("ObjectTest.isNull_False", function(t)
-{
-	t.throws(function()
+	test("isNull", () =>
+	{
+		requirements.requireThat(null, "actual").isNull();
+	});
+
+	test("isNull_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = {};
+			requirements.requireThat(actual, "actual").isNull();
+		}, RangeError);
+	});
+
+	test("isNotNull", () =>
 	{
 		const actual = {};
-		requirements.requireThat(actual, "actual").isNull();
-	}, RangeError);
-	t.end();
-});
-
-test("ObjectTest.isNotNull", function(t)
-{
-	const actual = {};
-	requirements.requireThat(actual, "actual").isNotNull();
-	t.end();
-});
-
-test("ObjectTest.isNotNull_False", function(t)
-{
-	t.throws(function()
-	{
-		const actual = null;
 		requirements.requireThat(actual, "actual").isNotNull();
-	}, RangeError);
-	t.end();
-});
+	});
 
-test("ObjectTest.isDefined", function(t)
-{
-	const actual = 5;
-	requirements.requireThat(actual, "actual").isDefined();
-	t.end();
-});
-
-test("ObjectTest.isDefined_False", function(t)
-{
-	t.throws(function()
+	test("isNotNull_False", () =>
 	{
-		let actual;
-		// noinspection JSUnusedAssignment
+		assert.throws(function()
+		{
+			const actual = null;
+			requirements.requireThat(actual, "actual").isNotNull();
+		}, RangeError);
+	});
+
+	test("isDefined", () =>
+	{
+		const actual = 5;
 		requirements.requireThat(actual, "actual").isDefined();
-	}, RangeError);
-	t.end();
-});
+	});
 
-test("ObjectTest.isNotDefined", function(t)
-{
-	let actual;
-	// noinspection JSUnusedAssignment
-	requirements.requireThat(actual, "actual").isNotDefined();
-	t.end();
-});
-
-test("ObjectTest.isNotDefined_False", function(t)
-{
-	t.throws(function()
+	test("isDefined_False", () =>
 	{
-		const actual = 5;
-		requirements.requireThat(actual, "actual").isNotDefined();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			let actual;
+			// noinspection JSUnusedAssignment
+			requirements.requireThat(actual, "actual").isDefined();
+		}, RangeError);
+	});
 
-test("ObjectTest.isSet", function(t)
-{
-	const actual = 5;
-	requirements.requireThat(actual, "actual").isSet();
-	t.end();
-});
-
-test("ObjectTest.isSet_False", function(t)
-{
-	t.throws(function()
+	test("isNotDefined", () =>
 	{
 		let actual;
 		// noinspection JSUnusedAssignment
-		requirements.requireThat(actual, "actual").isSet();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(actual, "actual").isNotDefined();
+	});
 
-test("ObjectTest.isNotSet", function(t)
-{
-	let actual;
-	// noinspection JSUnusedAssignment
-	requirements.requireThat(actual, "actual").isNotSet();
-	t.end();
-});
+	test("isNotDefined_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = 5;
+			requirements.requireThat(actual, "actual").isNotDefined();
+		}, RangeError);
+	});
 
-test("ObjectTest.isNotSet_False", function(t)
-{
-	t.throws(function()
+	test("isSet", () =>
 	{
 		const actual = 5;
-		requirements.requireThat(actual, "actual").isNotSet();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(actual, "actual").isSet();
+	});
 
-test("ObjectTest.asStringConsumer", function(t)
-{
-	const actual = 1234;
-	requirements.requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
-	t.end();
-});
-
-test("ObjectTest.asInetAddressConsumer", function(t)
-{
-	const actual = "1.2.3.4";
-	t.throws(function()
+	test("isSet_False", () =>
 	{
-		requirements.requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6());
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			let actual;
+			// noinspection JSUnusedAssignment
+			requirements.requireThat(actual, "actual").isSet();
+		}, RangeError);
+	});
 
-test("ObjectTest.requirements.requireThat.getActual", function(t)
-{
-	const input = 12345;
-	const output = requirements.requireThat(input, "input").getActual();
-	t.equals(output, input);
-	t.end();
-});
+	test("isNotSet", () =>
+	{
+		let actual;
+		// noinspection JSUnusedAssignment
+		requirements.requireThat(actual, "actual").isNotSet();
+	});
 
-test("ObjectTest.assertThat.getActual", function(t)
-{
-	const input = 12345;
-	let expected;
-	const verifier = assertThat(input, "input");
-	t.equals(verifier.isActualAvailable(), false);
-	// noinspection JSUnusedAssignment
-	t.equals(verifier.getActual(), expected);
-	t.end();
-});
+	test("isNotSet_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = 5;
+			requirements.requireThat(actual, "actual").isNotSet();
+		}, RangeError);
+	});
 
-test("ObjectTest.assertThat.getActual", function(t)
-{
-	const input = 12345;
-	let expected;
-	const verifier = assertThat(input, "input");
-	t.equals(verifier.isActualAvailable(), false);
-	// noinspection JSUnusedAssignment
-	t.equals(verifier.getActual(), expected);
-	t.end();
+	test("asStringConsumer", () =>
+	{
+		const actual = 1234;
+		requirements.requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
+	});
+
+	test("asInetAddressConsumer", () =>
+	{
+		const actual = "1.2.3.4";
+		assert.throws(function()
+		{
+			requirements.requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6());
+		}, RangeError);
+	});
+
+	test("requirements.requireThat.getActual", () =>
+	{
+		const input = 12345;
+		const output = requirements.requireThat(input, "input").getActual();
+		assert.equal(output, input);
+	});
+
+	test("assertThat.getActual", () =>
+	{
+		const input = 12345;
+		let expected;
+		const verifier = assertThat(input, "input");
+		assert.equal(verifier.isActualAvailable(), false);
+		// noinspection JSUnusedAssignment
+		assert.equal(verifier.getActual(), expected);
+	});
+
+	test("assertThat.getActual", () =>
+	{
+		const input = 12345;
+		let expected;
+		const verifier = assertThat(input, "input");
+		assert.equal(verifier.isActualAvailable(), false);
+		// noinspection JSUnusedAssignment
+		assert.equal(verifier.getActual(), expected);
+	});
 });

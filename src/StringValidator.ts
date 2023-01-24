@@ -1,7 +1,8 @@
-import type {
+import type
+{
 	ExtensibleObjectValidator,
 	NumberValidator
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Validates the requirements of a <code>string</code>.

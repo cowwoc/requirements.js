@@ -1,7 +1,8 @@
-import {
+import
+{
 	ClassAsserter,
 	ObjectAsserterNoOp
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>ClassAsserter</code> that does nothing.

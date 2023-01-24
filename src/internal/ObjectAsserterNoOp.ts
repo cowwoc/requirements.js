@@ -1,7 +1,8 @@
-import {
+import
+{
 	AbstractObjectAsserterNoOp,
 	ObjectAsserter
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>ObjectAsserter</code> that does nothing. An asserter that ignores all

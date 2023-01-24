@@ -1,9 +1,10 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	Configuration,
 	ObjectValidator,
 	ObjectValidatorNoOp
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>ObjectValidator</code>.

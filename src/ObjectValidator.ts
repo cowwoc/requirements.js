@@ -1,4 +1,4 @@
-import type {ExtensibleObjectValidator} from "./internal/internal";
+import type {ExtensibleObjectValidator} from "./internal/internal.js";
 
 /**
  * Validates the requirements of an object.

@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractNumberValidatorNoOp,
 	NumberValidator,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>NumberValidator</code> that does nothing.

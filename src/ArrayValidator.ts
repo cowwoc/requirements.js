@@ -1,8 +1,9 @@
-import type {
+import type
+{
 	ExtensibleObjectValidator,
 	NumberValidator,
 	SetValidator
-} from "./internal/internal";
+} from "./internal/internal.js";
 
 /**
  * Validates the requirements of an array.

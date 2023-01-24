@@ -1,34 +1,34 @@
-module.exports = {
-	env: {
-		node: true,
-		browser: true,
-		es6: true
+{
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
 	},
-	extends: [
+	"extends": [
 		"eslint:recommended"
 	],
-	parserOptions: {
-		ecmaVersion: 2020,
-		sourceType: "module"
+	"parserOptions": {
+		"ecmaVersion": 2020,
+		"sourceType": "module"
 	},
-	plugins: [
+	"plugins": [
 		"jsdoc"
 	],
-	settings: {
-		jsdoc: {
-			tagNamePreference: {
-				returns: "return"
+	"settings": {
+		"jsdoc": {
+			"tagNamePreference": {
+				"returns": "return"
 			}
 		}
 	},
-	overrides: [
+	"overrides": [
 		{
-			files: [
+			"files": [
 				"gulpfile.babel.js",
 				"src/**/*.js",
 				"test/**/*.js"
 			],
-			rules: {
+			"rules": {
 				"brace-style": [
 					"error",
 					"allman"
@@ -67,33 +67,33 @@ module.exports = {
 				"no-use-before-define": [
 					"error",
 					{
-						functions: false
+						"functions": false
 					}
 				],
 				"no-useless-constructor": "error",
-				quotes: "error",
+				"quotes": "error",
 				"require-await": "error",
 				"no-return-await": "error",
-				semi: "error"
+				"semi": "error"
 			}
 		},
 		{
-			files: [
+			"files": [
 				"src/**/*.ts",
 				"test/**/*.ts"
 			],
-			parser: "@typescript-eslint/parser",
-			extends: [
+			"parser": "@typescript-eslint/parser",
+			"extends": [
 				"plugin:@typescript-eslint/recommended",
 				"plugin:@typescript-eslint/recommended-requiring-type-checking"
 			],
-			parserOptions: {
-				project: "./tsconfig.json"
+			"parserOptions": {
+				"project": "./tsconfig.json"
 			},
-			plugins: [
+			"plugins": [
 				"@typescript-eslint"
 			],
-			rules: {
+			"rules": {
 				"brace-style": "off",
 				"@typescript-eslint/brace-style": [
 					"error",
@@ -158,7 +158,7 @@ module.exports = {
 				"@typescript-eslint/no-use-before-define": [
 					"error",
 					{
-						functions: false
+						"functions": false
 					}
 				],
 				"no-useless-constructor": "off",
@@ -170,13 +170,13 @@ module.exports = {
 				"@typescript-eslint/require-await": "error",
 				"no-return-await": "off",
 				"@typescript-eslint/return-await": "error",
-				semi: "off",
+				"semi": "off",
 				"@typescript-eslint/semi": "error",
 				"@typescript-eslint/restrict-plus-operands": "off"
 			}
 		}
 	],
-	rules: {
+	"rules": {
 		"no-console": "off",
 		//    [
 		//      "error",
@@ -189,18 +189,18 @@ module.exports = {
 		"no-constant-condition": [
 			"error",
 			{
-				checkLoops: false
+				"checkLoops": false
 			}
 		],
 		"block-scoped-var": "error",
 		"consistent-return": [
 			"error",
 			{
-				treatUndefinedAsUnspecified: true
+				"treatUndefinedAsUnspecified": true
 			}
 		],
 		"dot-location": "error",
-		eqeqeq: "error",
+		"eqeqeq": "error",
 		"no-caller": "error",
 		"no-div-regex": "error",
 		"no-else-return": "error",
@@ -237,11 +237,11 @@ module.exports = {
 		//"no-useless-return": "error",
 		"no-void": "error",
 		"no-with": "error",
-		radix: "error",
+		"radix": "error",
 		"vars-on-top": "error",
 		"wrap-iife": "error",
-		yoda: "error",
-		strict: "error",
+		"yoda": "error",
+		"strict": "error",
 		"no-catch-shadow": "error",
 		"no-label-var": "error",
 		"no-restricted-globals": "error",
@@ -260,7 +260,7 @@ module.exports = {
 		"no-sync": "error",
 		"array-bracket-spacing": "error",
 		"block-spacing": "error",
-		camelcase: "error",
+		"camelcase": "error",
 		//"capitalized-comments": "error",
 		"comma-style": "error",
 		"computed-property-spacing": "error",
@@ -278,7 +278,7 @@ module.exports = {
 			"error",
 			"declaration",
 			{
-				allowArrowFunctions: true
+				"allowArrowFunctions": true
 			}
 		],
 		"id-blacklist": "error",
@@ -294,10 +294,10 @@ module.exports = {
 		"max-len": [
 			"error",
 			{
-				code: 110,
-				tabWidth: 2,
-				ignoreUrls: true,
-				ignorePattern: "@link"
+				"code": 110,
+				"tabWidth": 2,
+				"ignoreUrls": true,
+				"ignorePattern": "@link"
 			}
 		],
 		"max-lines": "off",
@@ -305,14 +305,14 @@ module.exports = {
 		"max-params": [
 			"warn",
 			{
-				max: 7
+				"max": 7
 			}
 		],
 		"max-statements-per-line": "error",
 		"max-statements": [
 			"error",
 			{
-				max: 25
+				"max": 25
 			}
 		],
 		"multiline-ternary": "error",
@@ -338,7 +338,7 @@ module.exports = {
 		"no-trailing-spaces": [
 			"error",
 			{
-				skipBlankLines: true
+				"skipBlankLines": true
 			}
 		],
 		"no-underscore-dangle": "error",
@@ -357,9 +357,9 @@ module.exports = {
 		"padded-blocks": [
 			"error",
 			{
-				blocks: "never",
-				classes: "never",
-				switches: "never"
+				"blocks": "never",
+				"classes": "never",
+				"switches": "never"
 			}
 		],
 		"quote-props": [
@@ -421,4 +421,4 @@ module.exports = {
 		"jsdoc/require-returns": "error",
 		"jsdoc/valid-types": "error"
 	}
-};
+}

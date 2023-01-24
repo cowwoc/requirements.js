@@ -1,11 +1,12 @@
-import {
+import
+{
 	ArrayAsserter,
 	ArrayAsserterNoOp,
 	MapAsserter,
 	NumberAsserter,
 	NumberAsserterNoOp,
 	ObjectAsserterNoOp
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>Map</code> that does nothing.

@@ -1,411 +1,369 @@
-import test from "tape-catch";
-import {Requirements} from "../src/index";
-import {
+import
+{
 	TestGlobalConfiguration,
 	TerminalEncoding,
 	Configuration
-} from "../src/internal/internal";
+} from "../src/internal/internal.js";
+import {Requirements} from "../src/index.js";
+import
+{
+	suite,
+	test
+} from "mocha";
+import {assert} from "chai";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
-test("NumberTest.isBetween_actualIsLowerBound", function(t)
+suite("NumberTest", () =>
 {
-	requirements.requireThat(0, "actual").asNumber().isBetween(0, 2);
-	t.end();
-});
-
-test("NumberTest.isBetween_actualIsInBounds", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isBetween(0, 2);
-	t.end();
-});
-
-test("NumberTest.isBetween_actualIsUpperBound", function(t)
-{
-	t.throws(function()
+	test("isBetween_actualIsLowerBound", () =>
 	{
-		requirements.requireThat(2, "actual").asNumber().isBetween(0, 2);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isBetween(0, 2);
+	});
 
-test("NumberTest.isBetween_actualIsBelow", function(t)
-{
-	t.throws(function()
+	test("isBetween_actualIsInBounds", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isBetween(10, 20);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(1, "actual").asNumber().isBetween(0, 2);
+	});
 
-test("NumberTest.isBetweenClosed_actualIsUpperBound", function(t)
-{
-	requirements.requireThat(2, "actual").asNumber().isBetweenClosed(0, 2);
-	t.end();
-});
-
-test("NumberTest.isNegative_actualIsNegativeOne", function(t)
-{
-	requirements.requireThat(-1, "actual").asNumber().isNegative();
-	t.end();
-});
-
-test("NumberTest.isNegative_actualIsZero", function(t)
-{
-	t.throws(function()
+	test("isBetween_actualIsUpperBound", () =>
 	{
-		requirements.requireThat(0, "actual").asNumber().isNegative();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(2, "actual").asNumber().isBetween(0, 2);
+		}, RangeError);
+	});
 
-test("NumberTest.isNegative_actualIsOne", function(t)
-{
-	t.throws(function()
+	test("isBetween_actualIsBelow", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isNegative();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isBetween(10, 20);
+		}, RangeError);
+	});
 
-test("NumberTest.isNotNegative", function(t)
-{
-	requirements.requireThat(0, "actual").asNumber().isNotNegative();
-	requirements.requireThat(1, "actual").asNumber().isNotNegative();
-	t.end();
-});
-
-test("NumberTest.isNotNegative_actualIsNegativeOne", function(t)
-{
-	t.throws(function()
+	test("isBetweenClosed_actualIsUpperBound", () =>
 	{
-		requirements.requireThat(-1, "actual").asNumber().isNotNegative();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(2, "actual").asNumber().isBetweenClosed(0, 2);
+	});
 
-test("NumberTest.isZero", function(t)
-{
-	requirements.requireThat(0, "actual").asNumber().isZero();
-	t.end();
-});
-
-test("NumberTest.isZero_actualIsOne", function(t)
-{
-	t.throws(function()
+	test("isNegative_actualIsNegativeOne", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isZero();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(-1, "actual").asNumber().isNegative();
+	});
 
-test("NumberTest.isZero_actualIsNegativeOne", function(t)
-{
-	t.throws(function()
+	test("isNegative_actualIsZero", () =>
 	{
-		requirements.requireThat(-1, "actual").asNumber().isZero();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(0, "actual").asNumber().isNegative();
+		}, RangeError);
+	});
 
-test("NumberTest.isNotZero", function(t)
-{
-	requirements.requireThat(-1, "actual").asNumber().isNotZero();
-	requirements.requireThat(1, "actual").asNumber().isNotZero();
-	t.end();
-});
-
-test("NumberTest.isNotZero_False", function(t)
-{
-	t.throws(function()
+	test("isNegative_actualIsOne", () =>
 	{
-		requirements.requireThat(0, "actual").asNumber().isNotZero();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isNegative();
+		}, RangeError);
+	});
 
-test("NumberTest.isPositive", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isPositive();
-	t.end();
-});
-
-test("NumberTest.isPositive_actualIsZero", function(t)
-{
-	t.throws(function()
+	test("isNotNegative", () =>
 	{
-		requirements.requireThat(0, "actual").asNumber().isPositive();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isNotNegative();
+		requirements.requireThat(1, "actual").asNumber().isNotNegative();
+	});
 
-test("NumberTest.isPositive_actualIsNegativeOne", function(t)
-{
-	t.throws(function()
+	test("isNotNegative_actualIsNegativeOne", () =>
 	{
-		requirements.requireThat(-1, "actual").asNumber().isPositive();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(-1, "actual").asNumber().isNotNegative();
+		}, RangeError);
+	});
 
-test("NumberTest.isNotPositive", function(t)
-{
-	requirements.requireThat(0, "actual").asNumber().isNotPositive();
-	requirements.requireThat(-1, "actual").asNumber().isNotPositive();
-	t.end();
-});
-
-test("NumberTest.isNotPositive_actualIsOne", function(t)
-{
-	t.throws(function()
+	test("isZero", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isNotPositive();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isZero();
+	});
 
-test("NumberTest.isLessThanVariable", function(t)
-{
-	requirements.requireThat(0, "actual").asNumber().isLessThan(1, "expected");
-	t.end();
-});
-
-test("NumberTest.isLessThanConstant", function(t)
-{
-	requirements.requireThat(0, "actual").asNumber().isLessThan(1);
-	t.end();
-});
-
-test("NumberTest.isLessThanVariable_actualIsEqual", function(t)
-{
-	t.throws(function()
+	test("isZero_actualIsOne", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isLessThan(1, "expected");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isZero();
+		}, RangeError);
+	});
 
-test("NumberTest.isLessThanConstant_actualIsEqual", function(t)
-{
-	t.throws(function()
+	test("isZero_actualIsNegativeOne", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isLessThan(1);
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(-1, "actual").asNumber().isZero();
+		}, RangeError);
+	});
 
-test("NumberTest.isLessThanVariable_actualIsGreater", function(t)
-{
-	t.throws(function()
+	test("isNotZero", () =>
 	{
-		requirements.requireThat(2, "actual").asNumber().isLessThan(1, "expected");
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(-1, "actual").asNumber().isNotZero();
+		requirements.requireThat(1, "actual").asNumber().isNotZero();
+	});
 
-test("NumberTest.isLessThanConstant_actualIsGreater", function(t)
-{
-	t.throws(function()
+	test("isNotZero_False", () =>
 	{
-		requirements.requireThat(2, "actual").asNumber().isLessThan(1);
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(0, "actual").asNumber().isNotZero();
+		}, RangeError);
+	});
 
-test("NumberTest.isLessThanOrEqualToVariable", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isLessThanOrEqualTo(1, "expected");
-	t.end();
-});
-
-test("NumberTest.isLessThanOrEqualToConstant", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isLessThanOrEqualTo(1);
-	t.end();
-});
-
-test("NumberTest.isLessThanOrEqualToVariable_actualIsGreater", function(t)
-{
-	t.throws(function()
+	test("isPositive", () =>
 	{
-		requirements.requireThat(3, "actual").asNumber().isLessThanOrEqualTo(2, "expected");
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(1, "actual").asNumber().isPositive();
+	});
 
-test("NumberTest.isLessThanOrEqualToConstant_actualIsGreater", function(t)
-{
-	t.throws(function()
+	test("isPositive_actualIsZero", () =>
 	{
-		requirements.requireThat(3, "actual").asNumber().isLessThanOrEqualTo(2);
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(0, "actual").asNumber().isPositive();
+		}, RangeError);
+	});
 
-test("NumberTest.isGreaterThanVariable", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isGreaterThan(0, "expected");
-	t.end();
-});
-
-test("NumberTest.isGreaterThanConstant", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isGreaterThan(0);
-	t.end();
-});
-
-test("NumberTest.isGreaterThanVariable_actualIsEqual", function(t)
-{
-	t.throws(function()
+	test("isPositive_actualIsNegativeOne", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThan(1, "expected");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(-1, "actual").asNumber().isPositive();
+		}, RangeError);
+	});
 
-test("NumberTest.isGreaterThanConstant_actualIsEqual", function(t)
-{
-	t.throws(function()
+	test("isNotPositive", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThan(1);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isNotPositive();
+		requirements.requireThat(-1, "actual").asNumber().isNotPositive();
+	});
 
-test("NumberTest.isGreaterThanVariable_actualIsLess", function(t)
-{
-	t.throws(function()
+	test("isNotPositive_actualIsOne", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThan(2,
-			"expected");
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isNotPositive();
+		}, RangeError);
+	});
 
-test("NumberTest.isGreaterThanConstant_actualIsLess", function(t)
-{
-	t.throws(function()
+	test("isLessThanVariable", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThan(2);
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isLessThan(1, "expected");
+	});
 
-test("NumberTest.isGreaterThanOrEqualToVariable", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(1, "expected");
-	t.end();
-});
-
-test("NumberTest.isGreaterThanOrEqualToConstant", function(t)
-{
-	requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(1);
-	t.end();
-});
-
-test("NumberTest.isGreaterThanOrEqualToVariable_actualIsLess", function(t)
-{
-	t.throws(function()
+	test("isLessThanConstant", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(2, "expected");
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(0, "actual").asNumber().isLessThan(1);
+	});
 
-test("NumberTest.isGreaterThanOrEqualToConstant_actualIsLess", function(t)
-{
-	t.throws(function()
+	test("isLessThanVariable_actualIsEqual", () =>
 	{
-		requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(2);
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isLessThan(1, "expected");
+		}, RangeError);
+	});
 
-test("NumberTest.isFinite", function(t)
-{
-	requirements.requireThat(1.0, "actual").asNumber().isFinite();
-	t.end();
-});
-
-test("NumberTest.isFinite_False", function(t)
-{
-	t.throws(function()
+	test("isLessThanConstant_actualIsEqual", () =>
 	{
-		requirements.requireThat(1.0 / 0.0, "actual").asNumber().isFinite();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isLessThan(1);
+		}, RangeError);
+	});
 
-test("NumberTest.isNotFinite", function(t)
-{
-	requirements.requireThat(1.0 / 0.0, "actual").asNumber().isNotFinite();
-	t.end();
-});
-
-test("NumberTest.isNotFinite_False", function(t)
-{
-	t.throws(function()
+	test("isLessThanVariable_actualIsGreater", () =>
 	{
-		requirements.requireThat(1.0, "actual").asNumber().isNotFinite();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(2, "actual").asNumber().isLessThan(1, "expected");
+		}, RangeError);
+	});
 
-test("NumberTest.isNumber", function(t)
-{
-	requirements.requireThat(1.0, "actual").asNumber().isNumber();
-	t.end();
-});
-
-test("NumberTest.isNumber_False", function(t)
-{
-	t.throws(function()
+	test("isLessThanConstant_actualIsGreater", () =>
 	{
-		requirements.requireThat(0.0 / 0.0, "actual").asNumber().isNumber();
-	}, RangeError);
-	t.end();
-});
+		assert.throws(function()
+		{
+			requirements.requireThat(2, "actual").asNumber().isLessThan(1);
+		}, RangeError);
+	});
 
-test("NumberTest.isNotNumber", function(t)
-{
-	requirements.requireThat(0.0 / 0.0, "actual").asNumber().isNotNumber();
-	t.end();
-});
-
-test("NumberTest.isNotNumber_False", function(t)
-{
-	t.throws(function()
+	test("isLessThanOrEqualToVariable", () =>
 	{
-		requirements.requireThat(1.0, "actual").asNumber().isNotNumber();
-	}, RangeError);
-	t.end();
-});
+		requirements.requireThat(1, "actual").asNumber().isLessThanOrEqualTo(1, "expected");
+	});
 
-test("NumberTest.asString", function(t)
-{
-	const actual = 5;
-	requirements.requireThat(actual, "actual").asNumber().asString().isEqualTo("5");
-	t.end();
-});
+	test("isLessThanOrEqualToConstant", () =>
+	{
+		requirements.requireThat(1, "actual").asNumber().isLessThanOrEqualTo(1);
+	});
 
-test("NumberTest.getActual", function(t)
-{
-	const input = 5;
-	const output = requirements.requireThat(input, "input").getActual();
-	t.equals(output, input);
-	t.end();
-});
+	test("isLessThanOrEqualToVariable_actualIsGreater", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(3, "actual").asNumber().isLessThanOrEqualTo(2, "expected");
+		}, RangeError);
+	});
 
-test("NumberTest.validateThatNullAsNumber", function(t)
-{
-	const actual = null;
-	const expectedMessages = ["actual must be a number.\n" +
-	"Actual: null\n" +
-	"Type  : null"];
-	const actualFailures = requirements.validateThat(actual, "actual").asNumber().getFailures();
-	const actualMessages = actualFailures.map(failure => failure.getMessage());
-	requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
-	t.end();
+	test("isLessThanOrEqualToConstant_actualIsGreater", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(3, "actual").asNumber().isLessThanOrEqualTo(2);
+		}, RangeError);
+	});
+
+	test("isGreaterThanVariable", () =>
+	{
+		requirements.requireThat(1, "actual").asNumber().isGreaterThan(0, "expected");
+	});
+
+	test("isGreaterThanConstant", () =>
+	{
+		requirements.requireThat(1, "actual").asNumber().isGreaterThan(0);
+	});
+
+	test("isGreaterThanVariable_actualIsEqual", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThan(1, "expected");
+		}, RangeError);
+	});
+
+	test("isGreaterThanConstant_actualIsEqual", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThan(1);
+		}, RangeError);
+	});
+
+	test("isGreaterThanVariable_actualIsLess", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThan(2,
+				"expected");
+		}, RangeError);
+	});
+
+	test("isGreaterThanConstant_actualIsLess", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThan(2);
+		}, RangeError);
+	});
+
+	test("isGreaterThanOrEqualToVariable", () =>
+	{
+		requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(1, "expected");
+	});
+
+	test("isGreaterThanOrEqualToConstant", () =>
+	{
+		requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(1);
+	});
+
+	test("isGreaterThanOrEqualToVariable_actualIsLess", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(2, "expected");
+		}, RangeError);
+	});
+
+	test("isGreaterThanOrEqualToConstant_actualIsLess", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1, "actual").asNumber().isGreaterThanOrEqualTo(2);
+		}, RangeError);
+	});
+
+	test("isFinite", () =>
+	{
+		requirements.requireThat(1.0, "actual").asNumber().isFinite();
+	});
+
+	test("isFinite_False", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1.0 / 0.0, "actual").asNumber().isFinite();
+		}, RangeError);
+	});
+
+	test("isNotFinite", () =>
+	{
+		requirements.requireThat(1.0 / 0.0, "actual").asNumber().isNotFinite();
+	});
+
+	test("isNotFinite_False", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1.0, "actual").asNumber().isNotFinite();
+		}, RangeError);
+	});
+
+	test("isNumber", () =>
+	{
+		requirements.requireThat(1.0, "actual").asNumber().isNumber();
+	});
+
+	test("isNumber_False", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(0.0 / 0.0, "actual").asNumber().isNumber();
+		}, RangeError);
+	});
+
+	test("isNotNumber", () =>
+	{
+		requirements.requireThat(0.0 / 0.0, "actual").asNumber().isNotNumber();
+	});
+
+	test("isNotNumber_False", () =>
+	{
+		assert.throws(function()
+		{
+			requirements.requireThat(1.0, "actual").asNumber().isNotNumber();
+		}, RangeError);
+	});
+
+	test("asString", () =>
+	{
+		const actual = 5;
+		requirements.requireThat(actual, "actual").asNumber().asString().isEqualTo("5");
+	});
+
+	test("getActual", () =>
+	{
+		const input = 5;
+		const output = requirements.requireThat(input, "input").getActual();
+		assert.equal(output, input);
+	});
+
+	test("validateThatNullAsNumber", () =>
+	{
+		const actual = null;
+		const expectedMessages = ["actual must be a number.\n" +
+		"Actual: null\n" +
+		"Type  : null"];
+		const actualFailures = requirements.validateThat(actual, "actual").asNumber().getFailures();
+		const actualMessages = actualFailures.map(failure => failure.getMessage());
+		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
+	});
 });

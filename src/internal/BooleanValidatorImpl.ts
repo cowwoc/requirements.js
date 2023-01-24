@@ -1,10 +1,11 @@
-import {
+import
+{
 	AbstractObjectValidator,
 	BooleanValidator,
 	BooleanValidatorNoOp,
 	Configuration,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>BooleanValidator</code>.

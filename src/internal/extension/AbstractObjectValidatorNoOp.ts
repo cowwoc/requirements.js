@@ -1,4 +1,5 @@
-import {
+import
+{
 	ArrayValidator,
 	ArrayValidatorNoOp,
 	BooleanValidator,
@@ -18,7 +19,7 @@ import {
 	StringValidator,
 	StringValidatorNoOp,
 	ValidationFailure
-} from "../internal";
+} from "../internal.js";
 
 /**
  * An extensible implementation of <code>ObjectValidator</code> that does nothing. A validator that ignores

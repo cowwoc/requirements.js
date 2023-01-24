@@ -1,9 +1,8 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import babel from "gulp-babel";
 import babelConfig from "./.babelrc.js";
-import eslint from "gulp-eslint7";
+import eslint from "gulp-eslint-new";
 import gulp from "gulp";
-import replace from "gulp-replace";
 import rollupCommonjs from "@rollup/plugin-commonjs";
 import rollupNodeResolve from "@rollup/plugin-node-resolve";
 import rollupTypescript from "@rollup/plugin-typescript";
@@ -11,32 +10,36 @@ import rollupBabel from "@rollup/plugin-babel";
 import rename from "gulp-rename";
 import {rollup} from "rollup";
 import sourcemaps from "gulp-sourcemaps";
-import tape from "gulp-tape";
-import tapeReporter from "tap-diff";
 import terser from "gulp-terser";
 import log from "fancy-log";
 import parseArgs from "minimist";
 import jsdoc from "gulp-jsdoc3";
 import nodeGlobals from "rollup-plugin-node-globals";
-import connect from "gulp-connect";
+import browserSync from "browser-sync";
 import typescript from "gulp-typescript";
+import {spawn} from "child_process";
+import path from "path";
+
 
 const env = parseArgs(process.argv.slice(2));
 let mode = env.mode;
 if (typeof (mode) === "undefined")
 	mode = "DEBUG";
 const isReleaseMode = mode === "RELEASE";
-const targets = ["node 15"];
+const targets = ["node 18"];
 log.info(mode + " mode detected");
 
 function lintJs()
 {
-	return gulp.src(["gulpfile.babel.js", ".eslintrc.js"]).
+	return gulp.src(["gulpfile.babel.js"]).
 		pipe(eslint(
 			{
-				parserOptions:
+				overrideConfig:
 					{
-						// debugLevel: true
+						parserOptions:
+							{
+								// debugLevel: true
+							}
 					}
 			})).
 		pipe(eslint.format()).
@@ -56,9 +59,12 @@ function lintTs()
 		pipe(checkTypescript()).
 		pipe(eslint(
 			{
-				parserOptions:
+				overrideConfig:
 					{
-						// debugLevel: true
+						parserOptions:
+							{
+								// debugLevel: true
+							}
 					}
 			})).
 		pipe(eslint.format()).
@@ -94,7 +100,6 @@ async function bundleSrcForBrowser()
 	const bundle = await rollup(
 		{
 			input: "src/index.ts",
-			external: ["lodash"],
 			plugins:
 				[
 					rollupTypescript(),
@@ -137,10 +142,12 @@ async function bundleSrcForBrowser()
 					[
 						"src/internal/internal.ts"
 					];
-				if (warning.code === "CIRCULAR_DEPENDENCY" && warning.importer &&
-					ignoredCircular.includes(warning.importer.replace(/\\/g, "/")))
+				if (warning.code === "CIRCULAR_DEPENDENCY" &&
+					ignoredCircular.some(predicate =>
+						warning.message.replace(/\\/g, "/").includes(predicate)))
+				{
 					return;
-				// Reminder: Use warning.toString() to find out which file/line is at fault
+				}
 				warn(warning);
 			}
 		});
@@ -156,7 +163,7 @@ async function bundleSrcForBrowser()
 					lodash: "_",
 					tty: "tty"
 				},
-			sourcemap: isReleaseMode,
+			sourcemap: true,
 			dir: "target/publish/browser"
 		});
 	if (isReleaseMode)
@@ -208,9 +215,9 @@ function bundleSrcForNodeWithModules()
 				],
 			ignore: babelConfig.ignore
 		})).
-		pipe(rename(path =>
+		pipe(rename(output =>
 		{
-			path.extname = ".mjs";
+			output.extname = ".mjs";
 		}));
 	if (isReleaseMode)
 		result = result.pipe(terser(stripDebug));
@@ -254,27 +261,6 @@ function bundleSrcForNodeWithoutModules()
 		pipe(gulp.dest("target/publish/node/cjs"));
 }
 
-function bundleTest()
-{
-	let result = gulp.src("test/**/*.ts").
-		pipe(replace("from \"../src/", "from \"../publish/node/cjs/")).
-		pipe(babel(babelConfigurationForCommonjs));
-	if (isReleaseMode)
-		result = result.pipe(terser(stripDebug));
-	return result.
-		pipe(gulp.dest("target/test"));
-}
-
-function test()
-{
-	return gulp.src("target/test/**/*.js").
-		pipe(tape(
-			{
-				reporter: tapeReporter(),
-				nyc: true
-			}));
-}
-
 function bundleJsDoc(cb)
 {
 	return gulp.src(["src/**/*.ts"], {read: false}).
@@ -310,11 +296,17 @@ function bundleResources()
 		pipe(gulp.dest("target/publish"));
 }
 
-function server()
+function test()
 {
-	connect.server(
+	const binPath = path.resolve("./node_modules/.bin");
+	const nycPath = path.resolve(binPath + "/nyc");
+	const mochaPath = path.resolve(binPath + "/mocha");
+
+	// https://stackoverflow.com/a/14231570/14731
+	return spawn(nycPath, [mochaPath, "./test/**/*.ts"],
 		{
-			livereload: true
+			shell: true,
+			stdio: "inherit"
 		});
 }
 
@@ -326,15 +318,24 @@ const bundleAll = gulp.series(lint,
 // Per https://github.com/typescript-eslint/typescript-eslint/issues/109#issuecomment-536160947 we need
 // separate configurations for JS and TS files
 gulp.task("lint", lint);
-gulp.task("server", server);
-gulp.task("test", gulp.series(lint,
-	gulp.parallel(bundleSrcForNodeWithModules, bundleTest), test));
+gulp.task("test", gulp.series(gulp.parallel(lint, bundleSrcForNodeWithModules), test));
 gulp.task("bundle", bundleAll);
-gulp.task("target", gulp.series(bundleAll, bundleTest, test));
-gulp.task("watch", function()
+gulp.task("target", gulp.series(bundleAll, test));
+gulp.task("watch", function(done)
 {
-	gulp.watch(["gulpfile.babel.js", ".eslintrc.js"], {delay: 500}, lintJs);
+	gulp.watch(["gulpfile.babel.js", ".eslintrc.json"], {delay: 500}, lintJs);
 	gulp.watch(["src/**/*.ts", "test/**/*.ts"], {delay: 500},
-		gulp.series(lintTs, bundleSrcForNodeWithoutModules, bundleTest, test));
+		gulp.series(gulp.parallel(lintTs, bundleSrcForNodeWithoutModules), test));
+
+	browserSync.init({
+		watch: true,
+		server:
+			{
+				baseDir: "./"
+			},
+		files: ["./commonjs.html", "./modulejs.html"],
+		reloadDebounce: 500
+	});
+	done();
 });
 gulp.task("default", gulp.parallel("target"));

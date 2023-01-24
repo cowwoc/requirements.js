@@ -1,4 +1,5 @@
-import {
+import
+{
 	AbstractObjectValidatorNoOp,
 	ArrayValidator,
 	NumberValidator,
@@ -6,7 +7,7 @@ import {
 	SetValidator,
 	SetValidatorNoOp,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>ArrayValidator</code> that does nothing.

@@ -1,4 +1,5 @@
-import {
+import
+{
 	ArrayVerifier,
 	ArrayVerifierImpl,
 	BooleanVerifier,
@@ -18,7 +19,7 @@ import {
 	SetVerifierImpl,
 	StringVerifier,
 	StringVerifierImpl
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>ObjectVerifier</code>.

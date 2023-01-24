@@ -1,35 +1,27 @@
-const presets =
-	[
-		"@babel/preset-typescript",
-		[
-			"@babel/preset-env",
-			{
-				useBuiltIns: "usage",
-				corejs:
-					{
-						version: 3,
-						proposals: true
-					}
-				// debug: true
-			}
-		]
-	];
-
-const plugins =
-	[
-		"@babel/plugin-transform-typescript",
-		"@babel/proposal-class-properties",
-		"@babel/proposal-object-rest-spread"
-	];
-
-const ignore =
-	[
-		"node_modules/**"
-	];
-
-module.exports =
+const config =
 	{
-		presets,
-		plugins,
-		ignore
+		presets:
+			[
+				"@babel/preset-typescript",
+				[
+					"@babel/preset-env",
+					{
+						useBuiltIns: "usage",
+						corejs:
+							{
+								version: "3.27.1",
+								proposals: true
+							}
+						// debug: true
+					}
+				]
+			],
+		ignore:
+			[
+				"**/node_modules/**",
+				"**/.yarn/**"
+			],
+		compact: false
 	};
+
+export {config as default};

@@ -1,5 +1,5 @@
-import {isEqual} from "lodash";
-import {
+import
+{
 	AbstractObjectValidator,
 	ArrayValidator,
 	ArrayValidatorNoOp,
@@ -13,7 +13,8 @@ import {
 	SizeValidatorImpl,
 	ValidationFailure,
 	NumberValidatorNoOp
-} from "./internal";
+} from "./internal.js";
+import isEqual from "lodash/isEqual.js";
 
 /**
  * Default implementation of <code>ArrayValidator</code>.

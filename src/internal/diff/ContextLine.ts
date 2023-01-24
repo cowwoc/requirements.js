@@ -1,7 +1,8 @@
-import {
+import
+{
 	Objects,
 	Configuration
-} from "../internal";
+} from "../internal.js";
 
 /**
  * A line item in an exception context.

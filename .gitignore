@@ -4,7 +4,7 @@ syntax: glob
 .idea/
 
 # Files generated as part of the build
-node_modules/
+**/node_modules/
 target/
 coverage/
 .nyc_output/
@@ -15,3 +15,8 @@ coverage/
 # Manual tests
 circular.js
 index.html
+
+# Yarn 2+
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/**

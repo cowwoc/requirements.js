@@ -1,10 +1,11 @@
-import {
+import
+{
 	AbstractObjectValidatorNoOp,
 	NumberValidator,
 	NumberValidatorNoOp,
 	StringValidator,
 	ValidationFailure
-} from "./internal";
+} from "./internal.js";
 
 /**
  * An implementation of <code>StringValidator</code> that does nothing. A validator that ignores all

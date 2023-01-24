@@ -1,4 +1,4 @@
-import type {TerminalEncoding} from "./internal/internal";
+import type {TerminalEncoding} from "./internal/internal.js";
 
 /**
  * The global configuration inherited by all verifiers.

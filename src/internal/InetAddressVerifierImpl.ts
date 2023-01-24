@@ -1,8 +1,9 @@
-import {
+import
+{
 	AbstractObjectVerifier,
 	InetAddressValidator,
 	InetAddressVerifier
-} from "./internal";
+} from "./internal.js";
 
 /**
  * Default implementation of <code>InetAddressVerifier</code>.
