@@ -20,3 +20,11 @@ index.html
 .pnp.cjs
 .pnp.loader.mjs
 .yarn/**
+
+# Unignore specific yarn directories: https://stackoverflow.com/a/5534865/14731
+!.yarn/
+!.yarn/patches
+!.yarn/patches/**
+
+!.yarn/releases
+!.yarn/releases/**

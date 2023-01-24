@@ -1,36 +1,26 @@
 name: Build
-on: [push]
+on: [ push ]
 
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 12.16.1
-      - name: Cache Node.js modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
-      - name: Show versions
+          node-version: latest
+          cache: 'yarn'
+
+      - name: Install Yarn
         run: |
-          node --version
-          yarn --version
-      - name: Install dependencies
-        run: |
-          yarn --frozen-lockfile
-          yarn global add gulp-cli
+          yarn --immutable
+
       - name: lint
-        run: gulp lint
+        run: yarn dlx gulp lint
+
       - name: bundle
-        run: gulp bundle
+        run: yarn dlx gulp bundle
+
       - name: test
-        run: gulp test
-      - name: Prevent generated artifacts from getting cached
-        run: rm -rf ~/.npm/@cowwoc/requirements
+        run: yarn dlx gulp test
