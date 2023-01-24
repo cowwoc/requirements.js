@@ -2,7 +2,6 @@
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
 
 # <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.1.0/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements.js
-
 Fluent Design by Contract for Javascript
 
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.0.2/docs/api/)
@@ -13,37 +12,26 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
 
 ```javascript
-import {requireThat} from "@cowwoc/requirements"
+import {requireThat} from "@cowwoc/requirements";
 
 class Player
 {
-	constructor(name, age)
-	{
-		requireThat(name, "name").isNotNull().asString().length.isBetween(1, 30);
-		requireThat(age, "age").asNumber().isBetween(18, 30);
-	}
+  constructor(name, age)
+  {
+    requireThat(name, "name").isNotNull().asString().length.isBetween(1, 30);
+    requireThat(age, "age").asNumber().isBetween(18, 30);
+  }
 }
 ```
 
 Exception messages will look like this:
 
-```javascript
-TypeError: name
-may
-not
-be
-null
+```
+TypeError: name may not be null
 
-RangeError: name
-may
-not
-be
-empty
+RangeError: name may not be empty
 
-RangeError: age
-must
-be in range [18, 30
-).
+RangeError: age must be in range [18, 30).
 Actual: 15
 ```
 
@@ -59,13 +47,13 @@ Actual: 15
 
 You can install this library using [npm](https://www.npmjs.com/get-npm):
 
-```
+```shell
 npm install --save @cowwoc/requirements@3.1.0
 ```
 
-or [yarn](https://yarnpkg.com/en/):
+or [yarn](https://yarnpkg.com/):
 
-```
+```shell
 yarn add @cowwoc/requirements@3.1.0
 ```
 
