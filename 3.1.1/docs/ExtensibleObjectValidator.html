@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ExtensibleObjectValidator</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li><li><a href="Configuration_Configuration.html">Configuration</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="module-Requirements-Requirements_Requirements.html">Requirements</a></li></ul><h3>Interfaces</h3><ul><li><a href="ArrayAsserter.html">ArrayAsserter</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="BooleanAsserter.html">BooleanAsserter</a></li><li><a href="BooleanValidator.html">BooleanValidator</a></li><li><a href="BooleanVerifier.html">BooleanVerifier</a></li><li><a href="ClassAsserter.html">ClassAsserter</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ExtensibleNumberAsserter.html">ExtensibleNumberAsserter</a></li><li><a href="ExtensibleNumberValidator.html">ExtensibleNumberValidator</a></li><li><a href="ExtensibleNumberVerifier.html">ExtensibleNumberVerifier</a></li><li><a href="ExtensibleObjectAsserter.html">ExtensibleObjectAsserter</a></li><li><a href="ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li><li><a href="ExtensibleObjectVerifier.html">ExtensibleObjectVerifier</a></li><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li><li><a href="InetAddressAsserter.html">InetAddressAsserter</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapAsserter.html">MapAsserter</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="NumberAsserter.html">NumberAsserter</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectAsserter.html">ObjectAsserter</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetAsserter.html">SetAsserter</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="StringAsserter.html">StringAsserter</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Interface</p>
+                    <h1>ExtensibleObjectValidator</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>ExtensibleObjectValidator</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Validates the requirements of an object.Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods. Theremaining exceptions that are thrown by the verifier are wrapped as validation failures and are returnedby #getFailures.</div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line5">line 5</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="ArrayValidator.html">ArrayValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asArray">
+    <a class="href-link" href="#asArray">#</a>
+    
+    <span class="code-name">
+        asArray
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line139">line 139</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asArrayConsumer">
+    <a class="href-link" href="#asArrayConsumer">#</a>
+    
+    <span class="code-name">
+        asArrayConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line144">line 144</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="BooleanValidator.html">BooleanValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asBoolean">
+    <a class="href-link" href="#asBoolean">#</a>
+    
+    <span class="code-name">
+        asBoolean
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line151">line 151</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asBooleanConsumer">
+    <a class="href-link" href="#asBooleanConsumer">#</a>
+    
+    <span class="code-name">
+        asBooleanConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line156">line 156</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="ClassValidator.html">ClassValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asClass">
+    <a class="href-link" href="#asClass">#</a>
+    
+    <span class="code-name">
+        asClass
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line214">line 214</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asClassConsumer">
+    <a class="href-link" href="#asClassConsumer">#</a>
+    
+    <span class="code-name">
+        asClassConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line219">line 219</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="InetAddressValidator.html">InetAddressValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asInetAddress">
+    <a class="href-link" href="#asInetAddress">#</a>
+    
+    <span class="code-name">
+        asInetAddress
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line199">line 199</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asInetAddressConsumer">
+    <a class="href-link" href="#asInetAddressConsumer">#</a>
+    
+    <span class="code-name">
+        asInetAddressConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line205">line 205</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="MapValidator.html">MapValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asMap">
+    <a class="href-link" href="#asMap">#</a>
+    
+    <span class="code-name">
+        asMap
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line187">line 187</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asMapConsumer">
+    <a class="href-link" href="#asMapConsumer">#</a>
+    
+    <span class="code-name">
+        asMapConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line192">line 192</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="NumberValidator.html">NumberValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asNumber">
+    <a class="href-link" href="#asNumber">#</a>
+    
+    <span class="code-name">
+        asNumber
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line163">line 163</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asNumberConsumer">
+    <a class="href-link" href="#asNumberConsumer">#</a>
+    
+    <span class="code-name">
+        asNumberConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line168">line 168</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="SetValidator.html">SetValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asSet">
+    <a class="href-link" href="#asSet">#</a>
+    
+    <span class="code-name">
+        asSet
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line175">line 175</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asSetConsumer">
+    <a class="href-link" href="#asSetConsumer">#</a>
+    
+    <span class="code-name">
+        asSetConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line180">line 180</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type"><a href="StringValidator.html">StringValidator</a></code>
+
+
+    </span>
+
+<h4 class="name" id="asString">
+    <a class="href-link" href="#asString">#</a>
+    
+    <span class="code-name">
+        asString
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line126">line 126</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="asStringConsumer">
+    <a class="href-link" href="#asStringConsumer">#</a>
+    
+    <span class="code-name">
+        asStringConsumer
+    </span>
+    
+</h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line131">line 131</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">unknown</code>
+
+
+    </span>
+
+<h4 class="name" id="getActual">
+    <a class="href-link" href="#getActual">#</a>
+    
+    <span class="code-name">
+        getActual
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Returns the actual value. The return value is <code>undefined</code> if #isActualAvailable()is <code>false</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line118">line 118</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">Array</code>
+
+
+    </span>
+
+<h4 class="name" id="getFailures">
+    <a class="href-link" href="#getFailures">#</a>
+    
+    <span class="code-name">
+        getFailures
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Returns the list of failed validations. Modifying the returned list results in an undefined behavior.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line227">line 227</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">boolean</code>
+
+
+    </span>
+
+<h4 class="name" id="isActualAvailable">
+    <a class="href-link" href="#isActualAvailable">#</a>
+    
+    <span class="code-name">
+        isActualAvailable
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Indicates if the actual value is available.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line111">line 111</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isDefined">
+    <a class="href-link" href="#isDefined">#</a>
+    
+    <span class="code-name">
+        isDefined
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is defined.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line79">line 79</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isEqualTo">
+    <a class="href-link" href="#isEqualTo">#</a>
+    
+    <span class="code-name">
+        isEqualTo
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is equal to a value.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line13">line 13</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isInstanceOf">
+    <a class="href-link" href="#isInstanceOf">#</a>
+    
+    <span class="code-name">
+        isInstanceOf
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is an object that is an instance of the specified type.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line54">line 54</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isNotDefined">
+    <a class="href-link" href="#isNotDefined">#</a>
+    
+    <span class="code-name">
+        isNotDefined
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is undefined.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line87">line 87</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isNotEqualTo">
+    <a class="href-link" href="#isNotEqualTo">#</a>
+    
+    <span class="code-name">
+        isNotEqualTo
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is not equal to a value.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line24">line 24</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isNotNull">
+    <a class="href-link" href="#isNotNull">#</a>
+    
+    <span class="code-name">
+        isNotNull
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is not null.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line71">line 71</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isNotSet">
+    <a class="href-link" href="#isNotSet">#</a>
+    
+    <span class="code-name">
+        isNotSet
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that value is not undefined or null.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line103">line 103</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isNull">
+    <a class="href-link" href="#isNull">#</a>
+    
+    <span class="code-name">
+        isNull
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is null.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line63">line 63</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isPrimitive">
+    <a class="href-link" href="#isPrimitive">#</a>
+    
+    <span class="code-name">
+        isPrimitive
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that the actual value is a primitive. To check if the actual value is an object, use<code>isInstanceOf(Object)</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line35">line 35</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isSet">
+    <a class="href-link" href="#isSet">#</a>
+    
+    <span class="code-name">
+        isSet
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that value is not undefined or null.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line95">line 95</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+    <span class="method-parameter is-pulled-right">
+        <label>Type:</label>
+        
+<code class="param-type">S</code>
+
+
+    </span>
+
+<h4 class="name" id="isTypeOf">
+    <a class="href-link" href="#isTypeOf">#</a>
+    
+    <span class="code-name">
+        isTypeOf
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="extension_ExtensibleObjectValidator.ts.html" class="button">View Source</a>
+            <span>
+                <a href="extension_ExtensibleObjectValidator.ts.html">extension/ExtensibleObjectValidator.ts</a>, <a href="extension_ExtensibleObjectValidator.ts.html#line43">line 43</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
