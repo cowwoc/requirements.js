@@ -1,7 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
-## Version 3.1.0 - 2021/05/27
+## Version 3.1.1 - 2023/01/27
+
+* Documentation fixes
+
+## Version 3.1.0 - 2023/01/27
 
 * Breaking changes
     * Changed the meaning of `ObjectValidator/Verifier.isTypeOf()`'s parameters.

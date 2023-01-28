@@ -13,8 +13,8 @@ coverage/
 *.bat
 
 # Manual tests
-circular.js
-index.html
+commonjs.html
+modulejs.html
 
 # Yarn 2+
 .pnp.cjs
