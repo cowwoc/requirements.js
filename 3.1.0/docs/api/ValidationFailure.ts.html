@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ValidationFailure.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li><li><a href="Configuration_Configuration.html">Configuration</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="module-Requirements-Requirements_Requirements.html">Requirements</a></li></ul><h3>Interfaces</h3><ul><li><a href="ArrayAsserter.html">ArrayAsserter</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="BooleanAsserter.html">BooleanAsserter</a></li><li><a href="BooleanValidator.html">BooleanValidator</a></li><li><a href="BooleanVerifier.html">BooleanVerifier</a></li><li><a href="ClassAsserter.html">ClassAsserter</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ExtensibleNumberAsserter.html">ExtensibleNumberAsserter</a></li><li><a href="ExtensibleNumberValidator.html">ExtensibleNumberValidator</a></li><li><a href="ExtensibleNumberVerifier.html">ExtensibleNumberVerifier</a></li><li><a href="ExtensibleObjectAsserter.html">ExtensibleObjectAsserter</a></li><li><a href="ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li><li><a href="ExtensibleObjectVerifier.html">ExtensibleObjectVerifier</a></li><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li><li><a href="InetAddressAsserter.html">InetAddressAsserter</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapAsserter.html">MapAsserter</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="NumberAsserter.html">NumberAsserter</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectAsserter.html">ObjectAsserter</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetAsserter.html">SetAsserter</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="StringAsserter.html">StringAsserter</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>ValidationFailure.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import
+{
+	Configuration,
+	ContextLine,
+	Objects
+} from "./internal/internal.js";
+
+class ValidationFailure
+{
+	private readonly config: Configuration;
+	private readonly exceptionType: new (message: string) => Error;
+	private readonly message: string;
+	private messageWithContext: string | null = null;
+	private readonly context: ContextLine[] = [];
+
+	/**
+	 * Creates a new validation failure.
+	 *
+	 * @param {Configuration} configuration the instance configuration
+	 * @param {Function} exceptionType the type of exception associated with the failure
+	 * @param {string} message the message associated with the failure
+	 * @throws {TypeError} if &lt;code>exceptionType&lt;/code> is not a &lt;code>Function&lt;/code> or &lt;code>message&lt;/code>
+	 *   is not a &lt;code>string&lt;/code>
+	 * @throws {RangeError} if &lt;code>message&lt;/code> is empty
+	 */
+	constructor(configuration: Configuration, exceptionType: new (message: string) => Error, message: string)
+	{
+		Objects.assertThatObjectOf(configuration, "configuration", "Configuration");
+		Objects.requireThatInstanceOf(exceptionType, "exceptionType", Function);
+		Objects.requireThatStringNotEmpty(message, "message");
+
+		this.config = configuration;
+		this.exceptionType = exceptionType;
+		this.message = message;
+	}
+
+	/**
+	 * Returns the message associated with the failure.
+	 *
+	 * @return {string} the message associated with the failure
+	 */
+	getMessage(): string
+	{
+		if (this.messageWithContext === null)
+			this.messageWithContext = this.createMessageWithContext();
+		return this.messageWithContext;
+	}
+
+	/**
+	 * Pads a string with space on the right to reach the desired length.
+	 *
+	 * @param {string} text a string
+	 * @param {number} length the maximum length of the string
+	 * @return {string} the result
+	 * @private
+	 */
+	private static justifyLeft(text: string, length: number): string
+	{
+		// See http://stackoverflow.com/a/36247412/14731
+		const needed = length - text.length;
+		if (needed === 0)
+			return text;
+		return text + " ".repeat(needed);
+	}
+
+	/**
+	 * Returns the failure message with contextual information.
+	 *
+	 * @return {string} the failure message with contextual information
+	 * @private
+	 */
+	private createMessageWithContext(): string
+	{
+		const mergedContext = this.mergeContext();
+
+		let maxKeyLength = 0;
+		for (const entry of mergedContext)
+		{
+			if (entry.key === "")
+				continue;
+			const keyLength = entry.key.length;
+			if (keyLength > maxKeyLength)
+				maxKeyLength = keyLength;
+		}
+
+		const contextToAdd = [this.message];
+		for (const entry of mergedContext)
+		{
+			const key = entry.key;
+			const value = entry.value;
+			if (key === "")
+				contextToAdd.push(this.config.convertToString(value));
+			else
+			{
+				contextToAdd.push(ValidationFailure.justifyLeft(key, maxKeyLength) + ": " +
+					this.config.convertToString(value));
+			}
+		}
+		return contextToAdd.join("\n");
+	}
+
+	/**
+	 * Merges the failure context from the &lt;code>ValidationFailure&lt;/code> and &lt;code>Configuration&lt;/code> object,
+	 * where the former may override values set by the latter.
+	 *
+	 * @return {ContextLine[]} the merged failure context
+	 * @private
+	 */
+	private mergeContext(): ContextLine[]
+	{
+		const mergedContext: ContextLine[] = [];
+		const existingKeys = new Set();
+		for (const entry of this.context)
+		{
+			Objects.requireThatObjectOf(entry, "entry", "ContextLine");
+			mergedContext.push(entry);
+			if (entry.key !== "")
+				existingKeys.add(entry.key);
+		}
+
+		for (const entry of this.config.getContext())
+		{
+			const key = entry[0];
+			if (!existingKeys.has(key))
+			{
+				existingKeys.add(key);
+				const value = entry[1];
+				mergedContext.push(new ContextLine(this.config, key, value));
+			}
+		}
+		return mergedContext;
+	}
+
+	/**
+	 * Adds contextual information associated with the failure.
+	 *
+	 * @param {string} name  the name of a variable
+	 * @param {object} value the value of the variable
+	 * @return {ValidationFailure} this
+	 * @throws {TypeError} if &lt;code>name&lt;/code> is null
+	 */
+	addContext(name: string, value: unknown): ValidationFailure
+	{
+		Objects.requireThatStringNotEmpty(name, "name");
+		this.context.push(new ContextLine(this.config, name, value));
+		this.messageWithContext = null;
+		return this;
+	}
+
+	/**
+	 * Adds contextual information to append to the exception message.
+	 *
+	 * @param {ContextLine[]} context the list of name-value pairs to append to the exception message
+	 * @return {ValidationFailure} this
+	 * @throws {TypeError} if &lt;code>context&lt;/code> is not an Array
+	 * @see ConsumerToContext
+	 */
+	addContextList(context: ContextLine[]): this
+	{
+		Objects.requireThatTypeOf(context, "context", "array");
+		this.context.push(...context);
+		this.messageWithContext = null;
+		return this;
+	}
+
+	/**
+	 * Creates an exception containing the failure message.
+	 *
+	 * @throws {Error} the exception corresponding to the validation failure
+	 */
+	createException(): never
+	{
+		// eslint-disable-next-line new-cap
+		throw new this.exceptionType(this.getMessage());
+	}
+
+	/**
+	 * Returns the String representation of the failure.
+	 *
+	 * @return {string} the String representation of the failure
+	 */
+	toString(): string
+	{
+		return "exception: " + this.exceptionType + "\n" +
+			"message: " + this.message + "\n" +
+			"context: " + this.config.convertToString(this.context);
+	}
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {ValidationFailure as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

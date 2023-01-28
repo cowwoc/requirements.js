@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> MapValidator.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-DefaultRequirements.html">DefaultRequirements</a></li><li><a href="module-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements.html">Requirements</a></li></ul><h3>Classes</h3><ul><li><a href="Configuration.html">Configuration</a></li><li><a href="Configuration_Configuration.html">Configuration</a></li><li><a href="TerminalEncodings.html">TerminalEncodings</a></li><li><a href="ValidationFailure.html">ValidationFailure</a></li><li><a href="module-GlobalRequirements-GlobalRequirements.html">GlobalRequirements</a></li><li><a href="module-Requirements-Requirements.html">Requirements</a></li><li><a href="module-Requirements-Requirements_Requirements.html">Requirements</a></li></ul><h3>Interfaces</h3><ul><li><a href="ArrayAsserter.html">ArrayAsserter</a></li><li><a href="ArrayValidator.html">ArrayValidator</a></li><li><a href="ArrayVerifier.html">ArrayVerifier</a></li><li><a href="BooleanAsserter.html">BooleanAsserter</a></li><li><a href="BooleanValidator.html">BooleanValidator</a></li><li><a href="BooleanVerifier.html">BooleanVerifier</a></li><li><a href="ClassAsserter.html">ClassAsserter</a></li><li><a href="ClassValidator.html">ClassValidator</a></li><li><a href="ClassVerifier.html">ClassVerifier</a></li><li><a href="ExtensibleNumberAsserter.html">ExtensibleNumberAsserter</a></li><li><a href="ExtensibleNumberValidator.html">ExtensibleNumberValidator</a></li><li><a href="ExtensibleNumberVerifier.html">ExtensibleNumberVerifier</a></li><li><a href="ExtensibleObjectAsserter.html">ExtensibleObjectAsserter</a></li><li><a href="ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li><li><a href="ExtensibleObjectVerifier.html">ExtensibleObjectVerifier</a></li><li><a href="GlobalConfiguration.html">GlobalConfiguration</a></li><li><a href="InetAddressAsserter.html">InetAddressAsserter</a></li><li><a href="InetAddressValidator.html">InetAddressValidator</a></li><li><a href="InetAddressVerifier.html">InetAddressVerifier</a></li><li><a href="MapAsserter.html">MapAsserter</a></li><li><a href="MapValidator.html">MapValidator</a></li><li><a href="MapVerifier.html">MapVerifier</a></li><li><a href="NumberAsserter.html">NumberAsserter</a></li><li><a href="NumberValidator.html">NumberValidator</a></li><li><a href="NumberVerifier.html">NumberVerifier</a></li><li><a href="ObjectAsserter.html">ObjectAsserter</a></li><li><a href="ObjectValidator.html">ObjectValidator</a></li><li><a href="ObjectVerifier.html">ObjectVerifier</a></li><li><a href="SetAsserter.html">SetAsserter</a></li><li><a href="SetValidator.html">SetValidator</a></li><li><a href="SetVerifier.html">SetVerifier</a></li><li><a href="StringAsserter.html">StringAsserter</a></li><li><a href="StringValidator.html">StringValidator</a></li><li><a href="StringVerifier.html">StringVerifier</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TerminalEncoding">TerminalEncoding</a></li><li><a href="global.html#TerminalEncoding%255Bundefined%255D">TerminalEncoding[undefined]</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>MapValidator.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import type
+{
+	ArrayValidator,
+	ExtensibleObjectValidator,
+	NumberValidator
+} from "./internal/internal.js";
+
+/**
+ * Validates the requirements of a &lt;code>Map&lt;/code>.
+ *
+ * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ *
+ * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
+ * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
+ * returned by {@link #getFailures}.
+ */
+interface MapValidator extends ExtensibleObjectValidator&lt;MapValidator>
+{
+	/**
+	 * Ensures that value does not contain any entries
+	 *
+	 * @return {MapValidator} the updated validator
+	 */
+	isEmpty(): MapValidator;
+
+	/**
+	 * Ensures that value contains at least one entry.
+	 *
+	 * @return {MapValidator} the updated validator
+	 */
+	isNotEmpty(): MapValidator;
+
+	/**
+	 * @return {ArrayValidator} a validator for the Map's keys
+	 */
+	keys(): ArrayValidator;
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's keys
+	 * @return {MapValidator} the updated validator
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	keysConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
+
+	/**
+	 * @return {ArrayValidator} a validator for the Map's values
+	 */
+	values(): ArrayValidator;
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's values
+	 * @return {MapValidator} the updated validator
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	valuesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
+
+	/**
+	 * @return {ArrayValidator} validator for the Map's entries (an array of
+	 *   &lt;code>[key, value]&lt;/code> for each element in the Map)
+	 */
+	entries(): ArrayValidator;
+
+	/**
+	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's entries (an
+	 *   array of &lt;code>[key, value]&lt;/code> for each element in the Map)
+	 * @return {MapValidator} the updated validator
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
+
+	/**
+	 * @return {NumberValidator} a validator for the number of entries this Map contains
+	 */
+	size(): NumberValidator;
+
+	/**
+	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the number of entries
+	 *   this Map contains
+	 * @return {MapValidator} the updated validator
+	 * @throws {TypeError} if &lt;code>consumer&lt;/code> is not set
+	 */
+	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator;
+
+	getActual(): Map&lt;unknown, unknown> | void;
+}
+
+// "export default X" exports by value, whereas "export X as default" exports by reference.
+// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
+// explanation.
+export {MapValidator as default};</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.0</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
