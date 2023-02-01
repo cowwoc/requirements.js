@@ -1,6 +1,6 @@
 {
 	"name": "@cowwoc/requirements",
-	"version": "3.1.1",
+	"version": "3.1.2",
 	"keywords": [
 		"preconditions",
 		"postconditions",
@@ -34,7 +34,7 @@
 		"lodash": "^4.17.21"
 	},
 	"license": "Apache-2.0",
-	"packageManager": "yarn@3.3.1",
+	"packageManager": "yarn@3.4.1",
 	"devDependencies": {
 		"@babel/core": "^7.20.12",
 		"@babel/plugin-proposal-class-properties": "^7.18.6",

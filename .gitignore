@@ -25,6 +25,3 @@ modulejs.html
 !.yarn/
 !.yarn/patches
 !.yarn/patches/**
-
-!.yarn/releases
-!.yarn/releases/**

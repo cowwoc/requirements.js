@@ -7,14 +7,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
         with:
           node-version: latest
-          cache: 'yarn'
 
       - name: Install Yarn
         run: |
-          yarn --immutable
+          corepack enable
+          corepack prepare yarn@stable --activate
+
+      # Yarn dependencies cannot be cached until yarn is installed
+      # WORKAROUND: https://github.com/actions/setup-node/issues/531
+      - name: Extract cached dependencies
+        uses: actions/setup-node@v3
+        with:
+          cache: yarn
+
+      - name: Update dependencies
+        run: corepack yarn --immutable
 
       - name: lint
         run: yarn dlx gulp lint
