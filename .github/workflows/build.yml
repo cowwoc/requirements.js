@@ -26,7 +26,7 @@ jobs:
           cache: yarn
 
       - name: Update dependencies
-        run: corepack yarn --immutable
+        run: yarn --immutable
 
       - name: lint
         run: yarn dlx gulp lint
