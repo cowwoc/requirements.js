@@ -1,6 +1,18 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.2.0 - 2023/07/04
+
+* Breaking changes:
+  * Dropped support for CommonJS
+  * Replaced `Requirements.assertThat(actual, name)` by 
+    `assertThat(requirements -> requirements.requireThat(actual, name))` and
+    `assertThatAndReturn(requirements -> requirements.requireThat(actual, name))`.
+    The latter is used for assertions with a return value.
+    This change improves the runtime performance of `assertThat()` and reduces code duplication across
+    the library.
+  * Removed `Object.isActualAvailable()` in favor of `Requirements.assertionsAreEnabled()`.
+
 ## Version 3.1.1 - 2023/01/27
 
 * Documentation fixes
