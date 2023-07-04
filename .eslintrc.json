@@ -24,9 +24,9 @@
 	"overrides": [
 		{
 			"files": [
-				"gulpfile.babel.js",
-				"src/**/*.js",
-				"test/**/*.js"
+				"gulpfile.babel.mjs",
+				"src/**/*.mts",
+				"test/**/*.mts"
 			],
 			"rules": {
 				"brace-style": [
@@ -79,8 +79,8 @@
 		},
 		{
 			"files": [
-				"src/**/*.ts",
-				"test/**/*.ts"
+				"src/**/*.mts",
+				"test/**/*.mts"
 			],
 			"parser": "@typescript-eslint/parser",
 			"extends": [
@@ -408,7 +408,6 @@
 		"jsdoc/check-tag-names": "error",
 		"jsdoc/check-types": "error",
 		"jsdoc/implements-on-classes": "error",
-		"jsdoc/newline-after-description": "error",
 		"jsdoc/no-undefined-types": "error",
 		"jsdoc/require-jsdoc": "error",
 		"jsdoc/require-param-description": "error",
@@ -419,6 +418,13 @@
 		"jsdoc/require-returns-description": "error",
 		"jsdoc/require-returns-type": "error",
 		"jsdoc/require-returns": "error",
+		"jsdoc/tag-lines": [
+			"error",
+			"any",
+			{
+				"endLines": 1
+			}
+		],
 		"jsdoc/valid-types": "error"
 	}
 }

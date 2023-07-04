@@ -1,7 +1,17 @@
 {
 	"extends": "@istanbuljs/nyc-config-typescript",
+	"extension": [
+		".js",
+		".cjs",
+		".mjs",
+		".ts",
+		".cts",
+		".mts",
+		".tsx",
+		".jsx"
+	],
 	"include": [
-		"src/**/*.ts"
+		"test/*.mts"
 	],
 	"exclude": [
 		"**/*.d.ts"

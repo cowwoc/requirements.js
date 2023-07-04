@@ -5,13 +5,13 @@ module.exports = {
 	reporter: "spec",
 	extensions:
 		[
-			".ts"
+			".mts"
 		],
 	include:
 		[
-			"**/*.ts"
+			"**/*.mts"
 		],
 	"exclude": [
-		"**/*.d.ts"
+		"**/*.d.mts"
 	]
 };
