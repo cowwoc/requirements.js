@@ -1,5 +1,4 @@
-import
-{
+import {
 	Objects,
 	TerminalEncoding,
 	TerminalEncodings
@@ -17,9 +16,9 @@ class Terminal
 	private width: number | undefined;
 
 	/**
-	 * @return {TerminalEncoding[]} the encodings supported by the terminal
+	 * @returns the encodings supported by the terminal
 	 */
-	listSupportedTypes(): TerminalEncoding[]
+	listSupportedTypes()
 	{
 		if (typeof (this.supportedTypes) === "undefined")
 		{
@@ -44,7 +43,7 @@ class Terminal
 					default:
 					{
 						throw new RangeError("chalk.level had an unexpected value.\n" +
-							"Actual: " + chalk.level);
+							"Actual: " + String(chalk.level));
 					}
 				}
 			}
@@ -62,14 +61,13 @@ class Terminal
 	 * <p>
 	 * This feature can be used to force the use of colors even when their support is not detected.
 	 *
-	 * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
-	 * @param {boolean} force true if the encoding should be forced regardless of what the system supports
-	 * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>. If
-	 *   <code>force</code> is not a <code>boolean</code>.
+	 * @param encoding - the type of encoding that the terminal should use
+	 * @param force - true if the encoding should be forced regardless of what the system supports
+	 * @throws TypeError if <code>encoding</code> is not a <code>TerminalEncoding</code>.
+	 * If <code>force</code> is not a <code>boolean</code>.
 	 * @see #useBestEncoding
-	 * @private
 	 */
-	private setEncodingImpl(encoding: TerminalEncoding, force: boolean): void
+	private setEncodingImpl(encoding: TerminalEncoding, force: boolean)
 	{
 		Objects.assertThatTypeOf(force, "force", "boolean");
 		console.debug("setEncodingImpl(%s, %s)", encoding, force);
@@ -89,11 +87,11 @@ class Terminal
 	 * <p>
 	 * This feature can be used to force the use of colors even when their support is not detected.
 	 *
-	 * @param {TerminalEncoding} encoding the type of encoding that the terminal should use
-	 * @throws {TypeError} if <code>encoding</code> is not a <code>TerminalEncoding</code>
+	 * @param encoding - the type of encoding that the terminal should use
+	 * @throws TypeError if <code>encoding</code> is not a <code>TerminalEncoding</code>
 	 * @see #useBestEncoding
 	 */
-	setEncoding(encoding: TerminalEncoding): void
+	setEncoding(encoding: TerminalEncoding)
 	{
 		this.setEncodingImpl(encoding, true);
 	}
@@ -103,7 +101,7 @@ class Terminal
 	 *
 	 * @see #setEncoding
 	 */
-	useBestEncoding(): void
+	useBestEncoding()
 	{
 		const supportedTypes = this.listSupportedTypes();
 		const sortedTypes = supportedTypes.sort(TerminalEncodings.sortByDecreasingRank);
@@ -111,10 +109,9 @@ class Terminal
 	}
 
 	/**
-	 * @return {TerminalEncoding} the encoding that the terminal should use (defaults to the best available
-	 *   encoding)
+	 * @returns the encoding that the terminal should use (defaults to the best available encoding)
 	 */
-	getEncoding(): TerminalEncoding
+	getEncoding()
 	{
 		let result = this.encoding;
 		if (typeof (result) === "undefined")
@@ -130,12 +127,12 @@ class Terminal
 	 * <p>
 	 * This feature can be used to override the default terminal width when it cannot be auto-detected.
 	 *
-	 * @param {number} width the width that the terminal should use
-	 * @throws {TypeError} if <code>width</code> is not a number
-	 * @throws {RangeError} if <code>width</code> is zero or negative
+	 * @param width - the width that the terminal should use
+	 * @throws TypeError if <code>width</code> is not a number
+	 * @throws RangeError if <code>width</code> is zero or negative
 	 * @see #useBestWidth
 	 */
-	setWidth(width: number): void
+	setWidth(width: number)
 	{
 		Objects.assertThatTypeOf(width, "width", "number");
 		if (width <= 0)
@@ -149,16 +146,16 @@ class Terminal
 	 *
 	 * @see #setWidth(int)
 	 */
-	useBestWidth(): void
+	useBestWidth()
 	{
 		// Node: https://stackoverflow.com/a/30335724/14731
 		this.width = process.stdout.columns || 80;
 	}
 
 	/**
-	 * @return {number} the width of the terminal in characters (defaults to the auto-detected width)
+	 * @returns the width of the terminal in characters (defaults to the auto-detected width)
 	 */
-	getWidth(): number
+	getWidth()
 	{
 		if (typeof (this.width) === "undefined")
 			this.useBestWidth();

@@ -1,9 +1,7 @@
-import
-{
+import {
 	AbstractObjectValidator,
 	Configuration,
-	InetAddressValidator,
-	InetAddressValidatorNoOp,
+	type InetAddressValidator,
 	Objects,
 	ValidationFailure
 } from "./internal.mjs";
@@ -21,24 +19,25 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 	/**
 	 * Creates a new InetAddressValidator.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {object} actual the actual value
-	 * @param {string} name   the name of the value
-	 * @param {boolean} isIpV4 true if the actual value is an IP v4 address
-	 * @param {boolean} isIpV6 true if the actual value is an IP v6 address
-	 * @param {boolean} isHostname true if the actual value is a hostname
-	 * @throws {TypeError} if <code>configuration</code>, <code>name</code>, <code>isIpV4</code>,
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @param isIpV4 - true if the actual value is an IP v4 address
+	 * @param isIpV6 - true if the actual value is an IP v6 address
+	 * @param isHostname - true if the actual value is a hostname
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code>, <code>name</code>, <code>isIpV4</code>,
 	 *   <code>isIpV6</code>, <code>isHostname</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: string, name: string, isIpV4: boolean, isIpV6: boolean,
-		isHostname: boolean)
+	constructor(configuration: Configuration, actual: void | string, name: string, isIpV4: boolean, isIpV6: boolean,
+		isHostname: boolean, failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 
-		Objects.requireThatIsSet(isIpV4, "isIpV4");
-		Objects.requireThatIsSet(isIpV6, "isIpV6");
-		Objects.requireThatIsSet(isHostname, "isHostname");
+		Objects.requireThatValueIsDefinedAndNotNull(isIpV4, "isIpV4");
+		Objects.requireThatValueIsDefinedAndNotNull(isIpV6, "isIpV6");
+		Objects.requireThatValueIsDefinedAndNotNull(isHostname, "isHostname");
 		this.addressIsIpV4 = isIpV4;
 		this.addressIsIpV6 = isIpV6;
 		this.addressIsHostname = isHostname;
@@ -49,15 +48,12 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 		return this;
 	}
 
-	protected getNoOp(): InetAddressValidator
-	{
-		return new InetAddressValidatorNoOp(this.failures);
-	}
-
 	isIpV4(): InetAddressValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
+
 		if (!this.addressIsIpV4)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -70,8 +66,10 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 
 	isIpV6(): InetAddressValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
+
 		if (!this.addressIsIpV6)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -84,8 +82,9 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 
 	isHostname(): InetAddressValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
 		if (!this.addressIsHostname)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,

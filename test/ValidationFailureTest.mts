@@ -1,13 +1,11 @@
-import
-{
+import {
 	Configuration,
 	TerminalEncoding,
 	TestGlobalConfiguration,
 	ValidationFailure
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
-import
-{
+import {
 	suite,
 	test
 } from "mocha";
@@ -25,7 +23,7 @@ suite("ValidationFailureTest", () =>
 
 			// eslint-disable-next-line no-new
 			new ValidationFailure(configuration as unknown as Configuration,
-				exceptionType as unknown as new (message: string) => Error, message as unknown as string);
+				exceptionType as unknown as new (exceptionMessage: string) => Error, message as unknown as string);
 		}, TypeError);
 	});
 

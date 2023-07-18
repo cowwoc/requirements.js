@@ -2,13 +2,14 @@
  * Copyright (c) 2016 Gili Tzabari
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-import
-{
+import {
 	AbstractDiffWriter,
 	IllegalStateError,
 	Maps
 } from "../internal.mjs";
 
+// WORKAROUND: https://github.com/microsoft/tsdoc/issues/362
+/* eslint-disable tsdoc/syntax */
 /**
  * A diff representation that does not use colors.
  * <h3>Basic Rules</h3>
@@ -155,6 +156,8 @@ import
  * <li>We need to delete line 1 and retain line 2 unchanged.</li>
  * </ul>
  */
+
+/* eslint-enable tsdoc/syntax */
 class TextOnly extends AbstractDiffWriter
 {
 	/**

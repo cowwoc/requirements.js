@@ -1,14 +1,15 @@
-import
-{
+import {
 	AbstractObjectValidator,
 	Configuration,
-	ExtensibleNumberValidator,
+	type ExtensibleNumberValidator,
 	Objects,
 	ValidationFailure
 } from "../internal.mjs";
 
 /**
  * Extensible implementation of <code>ExtensibleNumberValidator</code>.
+ *
+ * @typeParam S - the type of validator returned by the methods
  */
 abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	implements ExtensibleNumberValidator<S>
@@ -18,22 +19,24 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	/**
 	 * Creates a new NumberValidator.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {Array} actual the actual value
-	 * @param {string} [name] the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - (optional) the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	protected constructor(configuration: Configuration, actual: unknown, name: string)
+	protected constructor(configuration: Configuration, actual: unknown, name: string,
+		failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 		this.actualNumber = actual as number;
 	}
 
 	isNegative(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber >= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -46,8 +49,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNotNegative(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber < 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -60,8 +63,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isZero(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be zero.").
@@ -73,8 +76,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNotZero(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -86,8 +89,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isPositive(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber <= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -100,8 +103,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNotPositive(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (this.actualNumber > 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -115,10 +118,10 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	isGreaterThan(value: number, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber <= value)
 		{
@@ -144,10 +147,10 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	isGreaterThanOrEqualTo(value: number, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber < value)
 		{
@@ -173,10 +176,10 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	isLessThan(value: number, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber >= value)
 		{
@@ -202,10 +205,10 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	isLessThanOrEqualTo(value: number, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber > value)
 		{
@@ -238,8 +241,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 				"Actual: " + endExclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber < startInclusive || this.actualNumber >= endExclusive)
 		{
@@ -261,8 +264,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 				"Actual: " + endInclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 
 		if (this.actualNumber < startInclusive || this.actualNumber > endInclusive)
 		{
@@ -276,8 +279,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNumber(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (isNaN(this.actualNumber))
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
@@ -292,8 +295,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNotNumber(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (!isNaN(this.actualNumber))
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
@@ -308,8 +311,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isFinite(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		// See http://stackoverflow.com/a/1830844/14731
 		if (!Number.isFinite(this.actualNumber))
 		{
@@ -323,8 +326,8 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 
 	isNotFinite(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		// See http://stackoverflow.com/a/1830844/14731
 		if (Number.isFinite(this.actualNumber))
 		{
@@ -336,9 +339,9 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 		return this.getThis();
 	}
 
-	getActual(): number
+	getActual(): void | number
 	{
-		return super.getActual() as number;
+		return super.getActual() as void | number;
 	}
 }
 

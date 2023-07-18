@@ -1,8 +1,7 @@
-import
-{
+import {
 	AbstractObjectVerifier,
-	InetAddressValidator,
-	InetAddressVerifier
+	type InetAddressValidator,
+	type InetAddressVerifier
 } from "./internal.mjs";
 
 /**
@@ -14,8 +13,8 @@ class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier
 	/**
 	 * Creates a new InetAddressVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: InetAddressValidator)
 	{
@@ -30,19 +29,19 @@ class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier
 	isIpV4(): InetAddressVerifier
 	{
 		this.validator.isIpV4();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isIpV6(): InetAddressVerifier
 	{
 		this.validator.isIpV6();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isHostname(): InetAddressVerifier
 	{
 		this.validator.isHostname();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	getActual(): string

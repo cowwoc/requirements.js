@@ -1,14 +1,11 @@
-import
-{
+import {
 	AbstractObjectValidator,
 	Configuration,
-	NumberValidator,
-	NumberValidatorNoOp,
+	type NumberValidator,
 	Objects,
 	Pluralizer,
 	SizeValidatorImpl,
-	StringValidator,
-	StringValidatorNoOp,
+	type StringValidator,
 	ValidationFailure
 } from "./internal.mjs";
 
@@ -23,15 +20,16 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 	/**
 	 * Creates a new StringValidatorImpl.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {object} actual the actual value
-	 * @param {string} name the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string)
+	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 		this.actualString = actual as string;
 	}
 
@@ -40,15 +38,10 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 		return this;
 	}
 
-	protected getNoOp(): StringValidator
-	{
-		return new StringValidatorNoOp(this.failures);
-	}
-
 	startsWith(prefix: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (!this.actualString.startsWith(prefix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -61,8 +54,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	doesNotStartWith(prefix: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualString.startsWith(prefix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -75,8 +68,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	contains(expected: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (!this.actualString.includes(expected))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -89,8 +82,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	doesNotContain(value: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualString.includes(value))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -103,8 +96,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	endsWith(suffix: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (!this.actualString.endsWith(suffix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -117,8 +110,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	doesNotEndWith(suffix: string): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualString.endsWith(suffix))
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -131,8 +124,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	isEmpty(): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualString.length !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
@@ -144,8 +137,8 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	isNotEmpty(): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualString.length <= 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -157,23 +150,24 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	trim(): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		this.actualString = this.actualString.trim();
 		return this;
 	}
 
 	trimConsumer(consumer: (actual: StringValidator) => void): StringValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.trim());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.trim());
 		return this;
 	}
 
 	isTrimmed(): StringValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		const trimmed = this.actualString.trim();
 		if (trimmed !== this.actualString)
 		{
@@ -181,39 +175,45 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 				this.name + " may not contain leading or trailing whitespace").
 				addContext("Actual", this.actualString);
 			this.failures.push(failure);
-			return this.getNoOp();
 		}
 		return this;
 	}
 
 	length(): NumberValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return new NumberValidatorNoOp(this.failures);
-		return new SizeValidatorImpl(this.config, this.actualString, this.name, this.actualString.length,
-			this.name + ".length", Pluralizer.CHARACTER);
+		let value: void | number;
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+			value = this.actualString.length;
+		return new SizeValidatorImpl(this.config, this.actualString, this.name, value, this.name + ".length",
+			Pluralizer.CHARACTER, this.failures);
 	}
 
 	lengthConsumer(consumer: (actual: NumberValidator) => void): StringValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.length());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.length());
 		return this;
 	}
 
 	asString(): StringValidator
 	{
+		if (this.failures.length > 0)
+			return this;
 		if (typeof (this.actualString) === "undefined")
-			return new StringValidatorImpl(this.config, "undefined", this.name);
+			return new StringValidatorImpl(this.config, "undefined", this.name, this.failures);
 		if (this.actualString === null)
-			return new StringValidatorImpl(this.config, "null", this.name);
+			return new StringValidatorImpl(this.config, "null", this.name, this.failures);
 		return this;
 	}
 
 	asStringConsumer(consumer: (actual: StringValidator) => void): StringValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this);
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this);
 		return this;
 	}
 

@@ -16,34 +16,35 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 To get started, add this dependency:
 
 ```shell
-npm install --save @cowwoc/requirements@3.1.0
+npm install --save @cowwoc/requirements@3.2.0
 ```
 
-or [yarn](https://yarnpkg.com/):
+or [pnpm](https://pnpm.io/):
 
 ```shell
-yarn add @cowwoc/requirements@3.1.0
+pnpm install @cowwoc/requirements@3.2.0
 ```
 
 The contents of the API classes depend on which [modules](wiki/Supported_Libraries.md) are enabled.
 
 ## Sample Code
-```javascript
+
+```typescript
 import {requireThat} from "@cowwoc/requirements";
 
 class Player
 {
-  constructor(name, age)
-  {
-    requireThat(name, "name").isNotNull().asString().length.isBetween(1, 30);
-    requireThat(age, "age").asNumber().isBetween(18, 30);
-  }
+	constructor(name, age)
+	{
+		requireThat(name, "name").isNotNull().asString().length.isBetween(1, 30);
+		requireThat(age, "age").asNumber().isBetween(18, 30);
+	}
 }
 ```
 
 Failure messages look like this:
 
-```
+```text
 TypeError: name may not be null
 
 RangeError: name may not be empty

@@ -1,5 +1,4 @@
-import
-{
+import {
 	AbstractGlobalConfiguration,
 	Terminal,
 	TerminalEncoding
@@ -9,24 +8,17 @@ const terminal = new Terminal();
 
 class MainGlobalConfiguration extends AbstractGlobalConfiguration
 {
-	private readonly terminalEncoding: TerminalEncoding;
-	static readonly INSTANCE: MainGlobalConfiguration = new MainGlobalConfiguration(false, true,
-		terminal.getEncoding());
+	static readonly INSTANCE: MainGlobalConfiguration = new MainGlobalConfiguration(false, true);
 
 	/**
 	 * Creates a new global configuration.
 	 *
-	 * @param {boolean} assertionsEnabled true if <code>assertThat()</code> should invoke
-	 *   <code>requireThat()</code>
-	 * @param {boolean} diffEnabled true if exceptions should show the difference between the actual and
-	 *   expected values
-	 * @param {TerminalEncoding} terminalEncoding the encoding of the terminal
-	 * @private
+	 * @param assertionsEnabled - true if <code>assertThat()</code> should invoke <code>requireThat()</code>
+	 * @param diffEnabled - true if exceptions should show the difference between the actual and expected values
 	 */
-	private constructor(assertionsEnabled: boolean, diffEnabled: boolean, terminalEncoding: TerminalEncoding)
+	private constructor(assertionsEnabled: boolean, diffEnabled: boolean)
 	{
 		super(assertionsEnabled, diffEnabled);
-		this.terminalEncoding = terminalEncoding;
 	}
 
 	listTerminalEncodings(): TerminalEncoding[]

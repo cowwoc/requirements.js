@@ -25,7 +25,7 @@ class SearchResult
 class Strings
 {
 	/**
-	 * Returns the index within <code>source</code> of the last consecutive occurrence of <code>target</code>.
+	 * Returns the last consecutive occurrence of <code>target</code> within <code>source</code>.
 	 * The last occurrence of the empty string <code>""</code> is considered to occur at the index value
 	 * <code>source.length()</code>.
 	 * <p>
@@ -33,12 +33,12 @@ class Strings
 	 * <code>source.startsWith(target, k)</code> consecutively. If no such value of <code>k</code> exists, then
 	 * <code>-1</code> is returned.
 	 *
-	 * @param {string} source the string to search within
-	 * @param {string} target the string to search for
-	 * @return {number} the index of the last consecutive occurrence of <code>target</code> in
-	 *   <code>source</code>, or <code>-1</code> if there is no such occurrence.
+	 * @param source - the string to search within
+	 * @param target - the string to search for
+	 * @returns the index of the last consecutive occurrence of <code>target</code> in <code>source</code>,
+	 *   or <code>-1</code> if there is no such occurrence.
 	 */
-	static lastConsecutiveIndexOf(source: string, target: string): number
+	static lastConsecutiveIndexOf(source: string, target: string)
 	{
 		Objects.assertThatTypeOf(source, "source", "string");
 		Objects.assertThatTypeOf(target, "target", "string");
@@ -59,9 +59,9 @@ class Strings
 	/**
 	 * Returns the last occurrence of <code>target</code> in <code>source</code>.
 	 *
-	 * @param {string} source the string to search within
-	 * @param {RegExp} target the regular expression to search for
-	 * @return {SearchResult | null} <code>null</code> if no match was found.
+	 * @param source - the string to search within
+	 * @param target - the regular expression to search for
+	 * @returns null if no match was found.
 	 */
 	static lastIndexOf(source: string, target: RegExp): SearchResult | null
 	{
@@ -86,12 +86,12 @@ class Strings
 	}
 
 	/**
-	 * @param {string} source the string to search within
-	 * @param {string} target the string to search for
-	 * @return {boolean} true if <code>source</code> only contains (potentially multiple) occurrences of
+	 * @param source - the string to search within
+	 * @param target - the string to search for
+	 * @returns true if <code>source</code> only contains (potentially multiple) occurrences of
 	 *   <code>target</code> or if <code>source</code> is empty
 	 */
-	static containsOnly(source: string, target: string): boolean
+	static containsOnly(source: string, target: string)
 	{
 		return source.length === 0 || this.lastConsecutiveIndexOf(source, target) === 0;
 	}

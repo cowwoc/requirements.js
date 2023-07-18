@@ -1,7 +1,4 @@
-import
-{
-	VariableType
-} from "./internal.mjs";
+import {VariableType} from "./internal.mjs";
 
 /**
  * Object helper functions.
@@ -12,12 +9,12 @@ class Objects
 	static readonly classNamePattern = /^class(\s+[^{]+)?{/;
 
 	/**
-	 * @param {object} value a value
-	 * @return {boolean} true if <code>value</code> is a primitive type (<code>string</code>,
+	 * @param value - a value
+	 * @returns <code>true</code> if <code>value</code> is a primitive type (<code>string</code>,
 	 *   <code>number</code>, <code>bigint</code>, <code>boolean</code>, <code>null</code>,
 	 *   <code>undefined</code>, or <code>symbol</code>)
 	 */
-	static isPrimitive(value: unknown): boolean
+	static isPrimitive(value: unknown)
 	{
 		// Per https://jsperf.com/testing-value-is-primitive/7 the following is the fastest
 		if (value === null)
@@ -31,14 +28,14 @@ class Objects
 	 * <code>prototype</code> such as <code>Error.prototype</code>. To convert an object to a type, use
 	 * <code>constructor</code> such as <code>instance.constructor</code>.
 	 *
-	 * @param {Function} child the child class
-	 * @param {Function} parent the parent class
-	 * @return {boolean} true if <code>child</code> extends <code>parent</code>; false if <code>parent</code>
-	 *   or <code>child</code> are null or undefined; false if <code>child</code> does not extend
-	 *   <code>parent</code>
+	 * @param child - the child class
+	 * @param parent - the parent class
+	 * @returns <code>true</code> if <code>child</code> extends <code>parent</code>; false if
+	 *   <code>parent</code> or <code>child</code> are null or undefined; false if <code>child</code> does not
+	 *   extend <code>parent</code>
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	static extends(child: Function, parent: Function): boolean
+	static extends(child: Function, parent: Function)
 	{
 		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" ||
 			parent === null)
@@ -52,10 +49,10 @@ class Objects
 	/**
 	 * Throws an <code>Error</code> if <code>condition</code> is false.
 	 *
-	 * @param {boolean} condition a condition
-	 * @param {Error} [error = Error] the type of error to throw
-	 * @param {string} message the error message to use on failure
-	 * @throws {Error} if <code>condition</code> is false
+	 * @param condition - a condition
+	 * @param error - the type of error to throw (Default: <code>Error</code>)
+	 * @param message - the error message to use on failure
+	 * @throws Error if <code>condition</code> is false
 	 */
 	static assert(condition: boolean, error: (message?: string) => Error = Error, message?: string):
 		asserts condition
@@ -88,14 +85,14 @@ class Objects
 	 * </ul>
 	 *
 	 * Please note that built-in types (such as <code>Object</code>, <code>String</code> or <code>Number</code>)
-	 * may return type <code>function</code> instead of <code>class</code>.
+	 * may return a <code>function</code> instead of <code>class</code>.
 	 *
-	 * @param {object} value a value
-	 * @return {VariableType} <code>value</code>'s type
+	 * @param value - a value
+	 * @returns <code>value</code>'s type
 	 * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
 	 * @see isPrimitive
 	 */
-	static getTypeInfo(value: unknown): VariableType
+	static getTypeInfo(value: unknown)
 	{
 		if (value === null)
 			return new VariableType("null");
@@ -122,13 +119,15 @@ class Objects
 			if (functionName !== null && typeof (functionName[1]) !== "undefined")
 			{
 				// Found a named function or class constructor
-				return new VariableType("function", functionName[1].trim());
+				const name = functionName[1].trim();
+				return new VariableType("function", name);
 			}
 			const className = this.classNamePattern.exec(valueToString);
 			if (className !== null && typeof (className[1]) !== "undefined")
 			{
 				// When running under ES6+
-				return new VariableType("class", className[1].trim());
+				const name = className[1].trim();
+				return new VariableType("class", name);
 			}
 			// Anonymous function
 			return new VariableType("function");
@@ -136,29 +135,28 @@ class Objects
 		if (objectToString === "Array")
 			return new VariableType("array");
 
-		const classInfo = this.getTypeInfo(valueAsFunction.constructor);
-		Objects.assert(classInfo !== null, TypeError, "classInfo may not be null");
-		Objects.assert(classInfo.name !== null, RangeError, classInfo.toString());
-		return new VariableType("object", classInfo.name);
+		// Per https://stackoverflow.com/a/30560581/14731 the ES6 specification guarantees the following will
+		// work
+		return new VariableType("object", valueAsFunction.constructor.name);
 	}
 
 	/**
-	 * Requires that an object is set.
+	 * Ensures that an object is defined and not null.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>value</code> is <code>undefined</code> or <code>null</code>. If
-	 * <code>name</code> is not a string
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @returns <code>true</code>
+	 * @throws TypeError if <code>name</code> is not a string.
+	 * If <code>value</code> is <code>undefined</code> or <code>null</code>.
 	 */
-	static requireThatIsSet(value: unknown, name: string): boolean
+	static requireThatValueIsDefinedAndNotNull(value: unknown, name: string)
 	{
 		const nameInfo = Objects.getTypeInfo(name);
 		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + nameInfo);
+				"Type  : " + nameInfo.toString());
 		}
 		if (typeof (value) === "undefined")
 			throw new TypeError(name + " must be defined");
@@ -170,30 +168,30 @@ class Objects
 	/**
 	 * Requires that an object has the expected type.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {string} type the expected
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param type - the expected
 	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
 	 * of <code>value</code>
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>typeof(value)</code> is not equal to <code>type</code>'s type. If
-	 * <code>name</code> is not a string
+	 * @returns <code>true</code>
+	 * @throws TypeError if <code>typeof(value)</code> is not equal to <code>type</code>'s type.
+	 * If <code>name</code> is not a string.
 	 */
-	static requireThatTypeOf(value: unknown, name: string, type: string): boolean
+	static requireThatTypeOf(value: unknown, name: string, type: string)
 	{
 		const nameInfo = Objects.getTypeInfo(name);
 		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + nameInfo);
+				"Type  : " + nameInfo.toString());
 		}
 		const valueInfo = Objects.getTypeInfo(value);
 		if (valueInfo.type !== type)
 		{
 			throw new TypeError(name + " must be a " + type + ".\n" +
 				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + valueInfo);
+				"Type  : " + valueInfo.toString());
 		}
 		return true;
 	}
@@ -202,34 +200,34 @@ class Objects
 	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
 	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {string} clazz the expected class name of <code>value</code>
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>value</code> is not an object of type <code>clazz</code>. If
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param clazz - he expected class name of <code>value</code>
+	 * @returns <code>true</code>
+	 * @throws TypeError if <code>value</code> is not an object of type <code>clazz</code>. If
 	 * <code>name</code> is not a string
 	 */
-	static requireThatObjectOf(value: unknown, name: string, clazz: string): boolean
+	static requireThatObjectOf(value: unknown, name: string, clazz: string)
 	{
 		const nameInfo = Objects.getTypeInfo(name);
 		if (nameInfo.type !== "string")
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + nameInfo);
+				"Type  : " + nameInfo.toString());
 		}
 		const valueInfo = Objects.getTypeInfo(value);
 		if (valueInfo.type !== "object")
 		{
 			throw new TypeError("value must be an object.\n" +
 				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + valueInfo);
+				"Type  : " + valueInfo.toString());
 		}
 		if (valueInfo.name !== clazz)
 		{
 			throw new TypeError(name + " must be an object of type " + clazz + ".\n" +
 				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + valueInfo);
+				"Type  : " + valueInfo.toString());
 		}
 		return true;
 	}
@@ -237,12 +235,12 @@ class Objects
 	/**
 	 * Requires that an object is an instance of <code>type</code>.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {Function} type the class that <code>value</code> is expected to be an instance of
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
-	 * is not a string
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param type - the class that <code>value</code> is expected to be an instance of
+	 * @returns <code>true</code>
+	 * @throws TypeError if <code>value</code> is not an instance of <code>type</code>.
+	 * If <code>name</code> is not a string
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	static requireThatInstanceOf(value: unknown, name: string, type: Function): boolean
@@ -252,14 +250,14 @@ class Objects
 		{
 			throw new TypeError("name must be a string.\n" +
 				"Actual     : " + Objects.toString(name) + "\n" +
-				"Actual.type: " + nameInfo);
+				"Actual.type: " + nameInfo.toString());
 		}
 		const typeInfo = Objects.getTypeInfo(type);
 		if (!(value instanceof type))
 		{
-			throw new TypeError(name + " must be an instance of " + typeInfo + ".\n" +
+			throw new TypeError(name + " must be an instance of " + typeInfo.toString() + ".\n" +
 				"Actual: " + Objects.toString(type) + "\n" +
-				"Type  : " + typeInfo);
+				"Type  : " + typeInfo.toString());
 		}
 		return true;
 	}
@@ -268,12 +266,12 @@ class Objects
 	 * Requires that a value has the expected type if assertions are enabled. We assume that
 	 * <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {string} type the expected
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param type - the expected
 	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
 	 * of <code>value</code>
-	 * @throws {TypeError} if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
+	 * @throws TypeError if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
 	 * a string
 	 */
 	static assertThatTypeOf(value: unknown, name: string, type: string): void
@@ -285,10 +283,10 @@ class Objects
 	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
 	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {string} type the expected class name of <code>value</code>
-	 * @throws {TypeError} if <code>value</code> is not an object of type <code>type</code>. If
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param type - the expected class name of <code>value</code>
+	 * @throws TypeError if <code>value</code> is not an object of type <code>type</code>. If
 	 * <code>name</code> is not a string
 	 */
 	static assertThatObjectOf(value: unknown, name: string, type: string): void
@@ -299,11 +297,11 @@ class Objects
 	/**
 	 * Requires that an object is an instance of the expected type.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @param {Function} type the class the value is expected to be an instance of
-	 * @throws {TypeError} if <code>value</code> is not an instance of <code>type</code>. If <code>name</code>
-	 * is not a string
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @param type - the class the value is expected to be an instance of
+	 * @throws TypeError if <code>value</code> is not an instance of <code>type</code>.
+	 * If <code>name</code> is not a string.
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	static assertThatInstanceOf(value: unknown, name: string, type: Function): void
@@ -314,13 +312,13 @@ class Objects
 	/**
 	 * Requires that a string is not empty.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @return {boolean} true
-	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
-	 * string
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @returns <code>true</code>
+	 * @throws TypeError if <code>name</code> or <code>value</code> are empty.
+	 * If <code>name</code> is not a string
 	 */
-	static requireThatStringNotEmpty(value: string, name: string): boolean
+	static requireThatStringIsNotEmpty(value: string, name: string): boolean
 	{
 		this.requireThatTypeOf(name, "name", "string");
 		name = name.trim();
@@ -337,19 +335,19 @@ class Objects
 	 * Requires that a string is not empty if assertions are enabled. We assume that
 	 * <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
 	 *
-	 * @param {object} value the value of a parameter
-	 * @param {string} name the name of the parameter
-	 * @throws {TypeError} if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
+	 * @param value - the value of a parameter
+	 * @param name - the name of the parameter
+	 * @throws TypeError if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
 	 * string
 	 */
 	static assertThatStringNotEmpty(value: string, name: string): void
 	{
-		Objects.assert(this.requireThatStringNotEmpty(value, name));
+		Objects.assert(this.requireThatStringIsNotEmpty(value, name));
 	}
 
 	/**
-	 * @param {object} object an object
-	 * @return {string} the string representation of the object
+	 * @param object - an object
+	 * @returns the string representation of the object
 	 */
 	static toString(object: unknown): string
 	{
@@ -395,7 +393,7 @@ class Objects
 				break;
 			}
 			default:
-				throw new Error("Unexpected type: " + currentInfo);
+				throw new Error("Unexpected type: " + currentInfo.toString());
 		}
 
 		// eslint-disable-next-line @typescript-eslint/ban-types
@@ -406,7 +404,10 @@ class Objects
 			// Invoke toString() if it was defined
 			// https://stackoverflow.com/a/57214796/14731: invoke toString() on safeTypes
 			if (Object.prototype.hasOwnProperty.call(current.constructor.prototype, "toString"))
+			{
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
 				return current.toString();
+			}
 
 			// Get the superclass and try again
 			// eslint-disable-next-line @typescript-eslint/ban-types
@@ -421,10 +422,8 @@ class Objects
 	}
 
 	/**
-	 * @param {string} array an array
-	 * @return {string} the string representation of the array, using Objects.toString() to convert nested
-	 *   values
-	 * @private
+	 * @param array - an array
+	 * @returns the string representation of the array, using Objects.toString() to convert nested values
 	 */
 	private static arrayToString(array: unknown[]): string
 	{
@@ -442,10 +441,10 @@ class Objects
 	}
 
 	/**
-	 * @param {string} value a name
-	 * @param {string} name the name of the name
-	 * @throws {TypeError} if <code>name</code> or <code>value</code> are not a String
-	 * @throws {RangeError} if <code>value</code> is empty
+	 * @param value - a name
+	 * @param name - the name of the name
+	 * @throws TypeError if <code>name</code> or <code>value</code> are not a String
+	 * @throws RangeError if <code>value</code> is empty
 	 */
 	static verifyName(value: string, name: string): void
 	{

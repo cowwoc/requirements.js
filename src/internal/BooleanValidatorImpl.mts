@@ -1,8 +1,6 @@
-import
-{
+import {
 	AbstractObjectValidator,
-	BooleanValidator,
-	BooleanValidatorNoOp,
+	type BooleanValidator,
 	Configuration,
 	ValidationFailure
 } from "./internal.mjs";
@@ -18,15 +16,16 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
 	/**
 	 * Creates a new BooleanValidator.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {object} actual the actual value
-	 * @param {string} name   the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string)
+	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 		this.actualBoolean = actual as boolean;
 	}
 
@@ -35,40 +34,38 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
 		return this;
 	}
 
-	protected getNoOp(): BooleanValidator
-	{
-		return new BooleanValidatorNoOp(this.failures);
-	}
-
 	isTrue(): BooleanValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
+
 		if (!this.actualBoolean)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be true.").
 				addContext("Actual", this.actualBoolean);
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	isFalse(): BooleanValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
 		if (this.actualBoolean)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be false.").
 				addContext("Actual", this.actualBoolean);
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
-	getActual(): boolean
+	getActual(): void | boolean
 	{
-		return super.getActual() as boolean;
+		return super.getActual() as void | boolean;
 	}
 }
 

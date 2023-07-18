@@ -1,18 +1,16 @@
-import
-{
+import {
+	Configuration,
 	EOS_MARKER,
 	NEWLINE_MARKER,
-	TextOnly,
+	Node16Colors,
+	Node16MillionColors,
+	Node256Colors,
+	Requirements,
 	TerminalEncoding,
 	TestGlobalConfiguration,
-	Configuration,
-	Node16Colors,
-	Node256Colors,
-	Node16MillionColors,
-	Requirements
+	TextOnly
 } from "../src/internal/internal.mjs";
-import
-{
+import {
 	suite,
 	test
 } from "mocha";

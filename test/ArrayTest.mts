@@ -1,8 +1,8 @@
 import {
+	Configuration,
 	Requirements,
-	TestGlobalConfiguration,
 	TerminalEncoding,
-	Configuration
+	TestGlobalConfiguration
 } from "../src/internal/internal.mjs";
 import {
 	suite,

@@ -2,7 +2,7 @@ import {AbstractColorWriter} from "../internal.mjs";
 import chalk from "chalk";
 
 /**
- * An node terminal that supports 16 colors.
+ * A node terminal that supports 16 colors.
  */
 class Node16Colors extends AbstractColorWriter
 {

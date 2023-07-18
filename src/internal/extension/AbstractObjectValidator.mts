@@ -1,33 +1,25 @@
-import
-{
-	ArrayValidator,
+import {
+	type ArrayValidator,
 	ArrayValidatorImpl,
-	ArrayValidatorNoOp,
-	BooleanValidator,
+	type BooleanValidator,
 	BooleanValidatorImpl,
-	BooleanValidatorNoOp,
-	ClassValidator,
+	type ClassValidator,
 	ClassValidatorImpl,
-	ClassValidatorNoOp,
 	Configuration,
 	ContextGenerator,
 	ContextLine,
-	ExtensibleObjectValidator,
-	InetAddressValidator,
+	type ExtensibleObjectValidator,
+	type InetAddressValidator,
 	InetAddressValidatorImpl,
-	InetAddressValidatorNoOp,
-	MapValidator,
+	type MapValidator,
 	MapValidatorImpl,
-	MapValidatorNoOp,
-	NumberValidator,
+	type NumberValidator,
 	NumberValidatorImpl,
-	NumberValidatorNoOp,
 	Objects,
 	Pluralizer,
-	SetValidator,
+	type SetValidator,
 	SetValidatorImpl,
-	SetValidatorNoOp,
-	StringValidator,
+	type StringValidator,
 	StringValidatorImpl,
 	ValidationFailure
 } from "../internal.mjs";
@@ -35,48 +27,47 @@ import isEqual from "lodash/isEqual.js";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectValidator</code>.
+ *
+ * @typeParam S - the type of validator returned by the methods
  */
 abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S>
 {
 	protected readonly config: Configuration;
 	protected actual: unknown;
 	protected readonly name: string;
-	readonly failures: ValidationFailure[] = [];
+	protected readonly failures: ValidationFailure[];
 
 	/**
-	 * @return {ExtensibleObjectValidator} this
-	 * @protected
+	 * @returns this
 	 */
 	protected abstract getThis(): S;
 
 	/**
-	 * @return {ExtensibleObjectValidator} a validator that does nothing
-	 * @protected
-	 */
-	protected abstract getNoOp(): S;
-
-	/**
 	 * Creates a new AbstractObjectValidator.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {object} actual the actual value
-	 * @param {string} name the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	protected constructor(configuration: Configuration, actual: unknown, name: string)
+	protected constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
 	{
 		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
 		Objects.verifyName(name, "name");
 		this.config = configuration;
 		this.actual = actual;
 		this.name = name;
+		this.failures = failures;
 	}
 
 	isEqualTo(expected: unknown, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0)
+			return this.getThis();
 		if (!isEqual(this.actual, expected))
 		{
 			let failure;
@@ -111,7 +102,9 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	isNotEqualTo(value: unknown, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0)
+			return this.getThis();
 		if (isEqual(this.actual, value))
 		{
 			let failure;
@@ -133,8 +126,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	isPrimitive(): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		if (!Objects.isPrimitive(this.actual))
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
@@ -149,7 +142,9 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	isTypeOf(type: string): S
 	{
-		Objects.requireThatIsSet(type, "type");
+		Objects.requireThatValueIsDefinedAndNotNull(type, "type");
+		if (this.failures.length > 0)
+			return this.getThis();
 		const typeOfActual = typeof (this.actual);
 		if (type !== typeOfActual)
 		{
@@ -164,8 +159,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isInstanceOf(type: Function): S
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis();
 		const typeOfType = Objects.getTypeInfo(type);
 		let failure;
 		switch (typeOfType.type)
@@ -176,7 +171,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 				if (this.actual instanceof type)
 					return this.getThis();
 				failure = new ValidationFailure(this.config, RangeError,
-					this.name + " must be an instance of " + typeOfType).
+					this.name + " must be an instance of " + typeOfType.toString()).
 					addContext("Actual", Objects.getTypeInfo(this.actual));
 				break;
 			}
@@ -255,11 +250,6 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	isActualAvailable(): boolean
-	{
-		return true;
-	}
-
 	getActual(): unknown
 	{
 		return this.actual;
@@ -272,171 +262,162 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 			newName = this.name;
 		else
 			newName = this.name + ".asString()";
-		return new StringValidatorImpl(this.config, this.config.convertToString(this.actual), newName);
+		let value: undefined | string;
+		if (this.failures.length > 0)
+			value = undefined;
+		else
+			value = this.config.convertToString(this.actual);
+		return new StringValidatorImpl(this.config, value, newName, this.failures);
 	}
 
 	asStringConsumer(consumer: (actual: unknown) => StringValidator): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asString());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asString());
 		return this.getThis();
 	}
 
 	asArray(): ArrayValidator
 	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		switch (typeOfActual.type)
+		if (this.failures.length === 0)
 		{
-			case "array":
-				return new ArrayValidatorImpl(this.config, this.actual as unknown[], this.name, Pluralizer.ELEMENT);
-			default:
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "array")
 			{
-				const failure = new ValidationFailure(this.config, TypeError,
-					this.name + " must be an Array.").
-					addContext("Actual", this.actual).
-					addContext("Type", typeOfActual);
-				this.failures.push(failure);
-				return new ArrayValidatorNoOp(this.failures);
+				return new ArrayValidatorImpl(this.config, this.actual as unknown[], this.name, Pluralizer.ELEMENT,
+					this.failures);
 			}
+
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must be an Array.").
+				addContext("Actual", this.actual).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
 		}
+		return new ArrayValidatorImpl(this.config, undefined, this.name, Pluralizer.ELEMENT, this.failures);
 	}
 
 	asArrayConsumer(consumer: (input: ArrayValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asArray());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asArray());
 		return this.getThis();
 	}
 
 	asBoolean(): BooleanValidator
 	{
-		try
+		if (this.failures.length === 0)
 		{
-			const actualBoolean = Boolean(this.actual);
-			return new BooleanValidatorImpl(this.config, actualBoolean.valueOf(), this.name);
+			try
+			{
+				return new BooleanValidatorImpl(this.config, Boolean(this.actual), this.name, this.failures);
+			}
+			catch (e)
+			{
+				const failure = new ValidationFailure(this.config, TypeError,
+					this.name + " must be convertible to a boolean.").
+					addContext("Actual", this.actual).
+					addContext("Type", Objects.getTypeInfo(this.actual));
+				this.failures.push(failure);
+			}
 		}
-		catch (e)
-		{
-			const failure = new ValidationFailure(this.config, TypeError,
-				this.name + " must be convertible to a boolean.").
-				addContext("Actual", this.actual).
-				addContext("Type", Objects.getTypeInfo(this.actual));
-			this.failures.push(failure);
-			return new BooleanValidatorNoOp(this.failures);
-		}
+		return new BooleanValidatorImpl(this.config, undefined, this.name, this.failures);
 	}
 
 	asBooleanConsumer(consumer: (input: BooleanValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asBoolean());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asBoolean());
 		return this.getThis();
 	}
 
 	asNumber(): NumberValidator
 	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		switch (typeOfActual.type)
+		if (this.failures.length === 0)
 		{
-			case "number":
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "number")
 			{
 				// https://stackoverflow.com/a/23440948
-				return new NumberValidatorImpl(this.config, Number(this.actual), this.name);
+				return new NumberValidatorImpl(this.config, Number(this.actual), this.name, this.failures);
 			}
-			default:
-			{
-				const failure = new ValidationFailure(this.config, TypeError,
-					this.name + " must be a number.").
-					addContext("Actual", this.actual).
-					addContext("Type", typeOfActual);
-				this.failures.push(failure);
-				return new NumberValidatorNoOp(this.failures);
-			}
+
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must be a number.").
+				addContext("Actual", this.actual).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
 		}
+		return new NumberValidatorImpl(this.config, undefined, this.name, this.failures);
 	}
 
 	asNumberConsumer(consumer: (input: NumberValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asNumber());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asNumber());
 		return this.getThis();
 	}
 
 	asSet(): SetValidator
 	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		let subTypeOfActual;
-		switch (typeOfActual.type)
+		if (this.failures.length === 0)
 		{
-			case "array":
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "array")
 			{
-				const actualSet = new Set<unknown>(this.actual as unknown[]);
-				return new SetValidatorImpl(this.config, actualSet, this.name);
+				return new SetValidatorImpl(this.config, new Set<unknown>(this.actual as unknown[]), this.name,
+					this.failures);
 			}
-			case "object":
-			{
-				if (typeOfActual.name === "Set")
-				{
-					const actualSet = this.actual as Set<unknown>;
-					return new SetValidatorImpl(this.config, actualSet, this.name);
-				}
-				break;
-			}
+			else if (typeOfActual.type === "object" && typeOfActual.name === "Set")
+				return new SetValidatorImpl(this.config, this.actual as Set<unknown>, this.name, this.failures);
+
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
+				addContext("Actual", this.config.convertToString(this.actual)).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
 		}
-		let failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
-			addContext("Actual", this.config.convertToString(this.actual)).
-			addContext("Type", typeOfActual);
-		if (typeof (subTypeOfActual) !== "undefined")
-			failure = failure.addContext("Class", subTypeOfActual);
-		this.failures.push(failure);
-		return new SetValidatorNoOp(this.failures);
+		return new SetValidatorImpl(this.config, undefined, this.name, this.failures);
 	}
 
 	asSetConsumer(consumer: (actual: SetValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asSet());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asSet());
 		return this.getThis();
 	}
 
 	asMap(): MapValidator
 	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		if (typeOfActual.type !== "object")
+		if (this.failures.length === 0)
 		{
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "object" && typeOfActual.name === "Map")
+				return new MapValidatorImpl(this.config, this.actual, this.name, this.failures);
+
 			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Map.").
 				addContext("Actual", this.config.convertToString(this.actual)).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
-			return new MapValidatorNoOp(this.failures);
 		}
-		switch (typeOfActual.name)
-		{
-			case "Map":
-				return new MapValidatorImpl(this.config, this.actual, this.name);
-			default:
-			{
-				const failure = new ValidationFailure(this.config, TypeError,
-					this.name + " must be a Map.").
-					addContext("Actual", this.actual).
-					addContext("Type", typeOfActual);
-				this.failures.push(failure);
-				return new MapValidatorNoOp(this.failures);
-			}
-		}
+		return new MapValidatorImpl(this.config, undefined, this.name, this.failures);
 	}
 
 	asMapConsumer(consumer: (input: MapValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asMap());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asMap());
 		return this.getThis();
 	}
 
 	/**
-	 * @param {string} value a String
-	 * @return {boolean} true if the String is a valid IPv4 address; false otherwise
-	 * @private
+	 * @param value - a String
+	 * @returns <code>true</code> if the String is a valid IPv4 address; false otherwise
 	 */
 	private static isIpV4Impl(value: string): boolean
 	{
@@ -447,9 +428,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	}
 
 	/**
-	 * @param {string} value a string
-	 * @return {boolean} true if the String is a valid IPv6 address; false otherwise
-	 * @private
+	 * @param value - a string
+	 * @returns <code>true</code> if the String is a valid IPv6 address; false otherwise
 	 */
 	private static isIpV6Impl(value: string): boolean
 	{
@@ -500,9 +480,8 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	}
 
 	/**
-	 * @param {string} value a String
-	 * @return {boolean} true if the String is a valid hostname; false otherwise
-	 * @private
+	 * @param value - a String
+	 * @returns true if the String is a valid hostname; false otherwise
 	 */
 	private static isHostnameImpl(value: string): boolean
 	{
@@ -541,56 +520,74 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 
 	asInetAddress(): InetAddressValidator
 	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		switch (typeOfActual.type)
+		if (this.failures.length === 0)
 		{
-			case "undefined":
-			case "null":
-				break;
-			case "string":
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			switch (typeOfActual.type)
 			{
-				const actualString = this.actual as string;
-				if (AbstractObjectValidator.isIpV4Impl(actualString))
-					return new InetAddressValidatorImpl(this.config, actualString, this.name, true, false, false);
-				if (AbstractObjectValidator.isIpV6Impl(actualString))
-					return new InetAddressValidatorImpl(this.config, actualString, this.name, false, true, false);
-				if (AbstractObjectValidator.isHostnameImpl(actualString))
-					return new InetAddressValidatorImpl(this.config, actualString, this.name, false, false, true);
-				break;
+				case "undefined":
+				case "null":
+					break;
+				case "string":
+				{
+					const actualString = this.actual as string;
+					if (AbstractObjectValidator.isIpV4Impl(actualString))
+					{
+						return new InetAddressValidatorImpl(this.config, actualString, this.name, true, false, false,
+							this.failures);
+					}
+					if (AbstractObjectValidator.isIpV6Impl(actualString))
+					{
+						return new InetAddressValidatorImpl(this.config, actualString, this.name, false, true, false,
+							this.failures);
+					}
+					if (AbstractObjectValidator.isHostnameImpl(actualString))
+					{
+						return new InetAddressValidatorImpl(this.config, actualString, this.name, false, false, true,
+							this.failures);
+					}
+					break;
+				}
 			}
+			const failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must contain a valid IP address or hostname.").
+				addContext("Actual", this.actual).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
 		}
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must contain a valid IP address or hostname.").
-			addContext("Actual", this.actual).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new InetAddressValidatorNoOp(this.failures);
+		return new InetAddressValidatorImpl(this.config, undefined, this.name, false, false, false, this.failures);
 	}
 
 	asInetAddressConsumer(consumer: (actual: InetAddressValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asInetAddress());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asInetAddress());
 		return this.getThis();
 	}
 
 	asClass(): ClassValidator
 	{
-		if (typeof (this.actual) === "function")
-			return new ClassValidatorImpl(this.config, this.actual, this.name);
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		const failure = new ValidationFailure(this.config, TypeError,
-			this.name + " must contain a class.").
-			addContext("Actual", this.actual).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new ClassValidatorNoOp(this.failures);
+		if (this.failures.length === 0)
+		{
+			if (typeof (this.actual) === "function")
+				return new ClassValidatorImpl(this.config, this.actual, this.name, this.failures);
+
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must contain a class.").
+				addContext("Actual", this.actual).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
+		}
+		return new ClassValidatorImpl(this.config, undefined, this.name, this.failures);
 	}
 
 	asClassConsumer(consumer: (input: ClassValidator) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.asClass());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.asClass());
 		return this.getThis();
 	}
 
@@ -600,12 +597,12 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	}
 
 	/**
-	 * Indicates that <code>actual</code> must be set; otherwise, an entry is added to <code>failures</code>.
+	 * Ensures that <code>actual</code> is defined and not null; otherwise, an entry is added to
+	 * <code>failures</code>.
 	 *
-	 * @return {boolean} false if the actual value is <code>null</code> or <code>undefined</code>
-	 * @protected
+	 * @returns <code>false</code> if the actual value is <code>undefined</code> or <code>null</code>
 	 */
-	protected requireThatActualIsSet(): boolean
+	protected requireThatActualIsDefinedAndNotNull(): boolean
 	{
 		if (typeof (this.actual) === "undefined")
 		{
@@ -625,10 +622,9 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	}
 
 	/**
-	 * @param {object} expected the expected value
-	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 * @private
+	 * @param expected - the expected value
+	 * @param expectedInMessage - true if the expected value is already mentioned in the failure message
+	 * @returns the list of name-value pairs to append to the exception message
 	 */
 	protected getContext(expected: unknown, expectedInMessage: boolean): ContextLine[]
 	{

@@ -1,5 +1,4 @@
-import
-{
+import {
 	Configuration,
 	ContextLine,
 	DiffGenerator,
@@ -15,22 +14,18 @@ class ContextGenerator
 {
 	/**
 	 * A regular expression that matches lines that are not equal.
-	 *
-	 * @private
 	 */
 	private static readonly LINES_NOT_EQUAL = new RegExp("[^" + TextOnly.DIFF_EQUAL + "]+");
 	/**
 	 * A pattern matching the end of a line or stream.
-	 *
-	 * @private
 	 */
 	private static readonly EOL_PATTERN = /\\n|\\0$/;
 	private readonly config: Configuration;
 	private readonly diffGenerator: DiffGenerator;
 
 	/**
-	 * @param {Configuration} configuration the instance configuration
-	 * @throws {TypeError} if <code>configuration</code> is null
+	 * @param configuration - the instance configuration
+	 * @throws TypeError if <code>configuration</code> is null
 	 */
 	constructor(configuration: Configuration)
 	{
@@ -43,8 +38,7 @@ class ContextGenerator
 	/**
 	 * Updates the last context entry to indicate that duplicate lines were skipped.
 	 *
-	 * @param {ContextLine[]} entries the exception context
-	 * @private
+	 * @param entries - the exception context
 	 */
 	private skipDuplicateLines(entries: ContextLine[])
 	{
@@ -53,11 +47,10 @@ class ContextGenerator
 	}
 
 	/**
-	 * @param {string} actualLine   the actual lines
-	 * @param {string} expectedLine the expected lines
-	 * @param {string} diffLine     the diff associated with the line
-	 * @return {boolean} true if the lines being compared are equal to each other
-	 * @private
+	 * @param actualLine - the actual lines
+	 * @param expectedLine - the expected lines
+	 * @param diffLine - the diff associated with the line
+	 * @returns true if the lines being compared are equal to each other
 	 */
 	private static linesAreEqual(actualLine: string, expectedLine: string, diffLine: string): boolean
 	{
@@ -67,11 +60,10 @@ class ContextGenerator
 	}
 
 	/**
-	 * @param {string[]} actualLines the lines of the actual value
-	 * @param {string[]} expectedLines the lines of the expected value
-	 * @return {boolean} true
-	 * @throws {RangeError} if the number of lines does not match
-	 * @private
+	 * @param actualLines - the lines of the actual value
+	 * @param expectedLines - the lines of the expected value
+	 * @returns true
+	 * @throws RangeError if the number of lines does not match
 	 */
 	private static requireThatNumberOfLinesAreEqual(actualLines: string[], expectedLines: string[])
 	{
@@ -85,18 +77,17 @@ class ContextGenerator
 	}
 
 	/**
-	 * @param {string} actualName    the name of the actual value
-	 * @param {object} actualValue   the actual value
-	 * @param {string} expectedName  the name of the expected value
-	 * @param {object} expectedValue the expected value
-	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @param {boolean} [compareTypes = true] true if the actual and expected types (classes) should be compared
-	 *   if their values are equal
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 * @throws {TypeError} if <code>actualName</code> or <code>expectedName</code> are not a string
-	 * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are empty; if
+	 * @param actualName - the name of the actual value
+	 * @param actualValue - the actual value
+	 * @param expectedName - the name of the expected value
+	 * @param expectedValue - the expected value
+	 * @param expectedInMessage - true if the expected value is already mentioned in the failure message
+	 * @param compareTypes - true if the actual and expected types (classes) should be compared if their values
+	 *   are equal (Default: true)
+	 * @returns the list of name-value pairs to append to the exception message
+	 * @throws TypeError if <code>actualName</code> or <code>expectedName</code> are not a string
+	 * @throws RangeError if <code>actualName</code> or <code>expectedName</code> are empty; if
 	 * <code>expectedInMessage</code> is not a boolean
-	 * @private
 	 */
 	// eslint-disable-next-line max-statements
 	getContext(actualName: string, actualValue: unknown, expectedName: string,
@@ -214,16 +205,15 @@ class ContextGenerator
 	}
 
 	/**
-	 * @param {string} actualName    the name of the actual value
-	 * @param {Array} actualValue   the actual value
-	 * @param {string} expectedName  the name of the expected value
-	 * @param {Array} expectedValue the expected value
-	 * @param {boolean} expectedInMessage true if the expected value is already mentioned in the failure message
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 * @throws {TypeError} if <code>actualName</code> or <code>expectedName</code> are not a string
-	 * @throws {RangeError} if <code>actualName</code> or <code>expectedName</code> are empty; if
+	 * @param actualName -the name of the actual value
+	 * @param actualValue - the actual value
+	 * @param expectedName - the name of the expected value
+	 * @param expectedValue - the expected value
+	 * @param expectedInMessage - true if the expected value is already mentioned in the failure message
+	 * @returns the list of name-value pairs to append to the exception message
+	 * @throws TypeError if <code>actualName</code> or <code>expectedName</code> are not a string
+	 * @throws RangeError if <code>actualName</code> or <code>expectedName</code> are empty; if
 	 * <code>expectedInMessage</code> is not a boolean
-	 * @private
 	 */
 	// eslint-disable-next-line max-statements
 	private getContextForArrays(actualName: string, actualValue: unknown[], expectedName: string,
@@ -303,13 +293,12 @@ class ContextGenerator
 	}
 
 	/**
-	 * @param {string} actualName    the name of the actual value
-	 * @param {object} actualValue   the actual value
-	 * @param {string} expectedName  the name of the expected value
-	 * @param {object} expectedValue the expected value
-	 * @return {ContextLine[]} the list of name-value pairs to append to the exception message
-	 * @throws {TypeError} if <code>actualName</code> or <code>expectedName</code> are null
-	 * @private
+	 * @param actualName - the name of the actual value
+	 * @param actualValue - the actual value
+	 * @param expectedName - the name of the expected value
+	 * @param expectedValue - the expected value
+	 * @returns the list of name-value pairs to append to the exception message
+	 * @throws TypeError if <code>actualName</code> or <code>expectedName</code> are null
 	 */
 	private compareTypes(actualName: string, actualValue: unknown, expectedName: string,
 		expectedValue: unknown): ContextLine[]

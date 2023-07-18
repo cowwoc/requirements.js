@@ -1,8 +1,7 @@
-import
-{
+import {
 	AbstractNumberVerifier,
-	NumberValidator,
-	NumberVerifier
+	type NumberValidator,
+	type NumberVerifier
 } from "./internal.mjs";
 
 /**
@@ -14,15 +13,15 @@ class NumberVerifierImpl extends AbstractNumberVerifier<NumberVerifier, NumberVa
 	/**
 	 * Creates a new NumberVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: NumberValidator)
 	{
 		super(validator);
 	}
 
-	protected getThis(): NumberVerifier
+	protected getThis()
 	{
 		return this;
 	}

@@ -1,6 +1,6 @@
 import {
-	Requirements,
 	Configuration,
+	Requirements,
 	TerminalEncoding,
 	TestGlobalConfiguration
 } from "../src/internal/internal.mjs";
@@ -44,9 +44,8 @@ suite("Configuration", () =>
 	test("putContext", () =>
 	{
 		const valueNotString = 12345;
-		const newConfig = requirements.putContext("key", valueNotString);
-		assert.notEqual(requirements, newConfig);
-		assert.deepEqual(newConfig.getContext(), new Map([["key", valueNotString]]));
+		const requirements2 = requirements.putContext("key", valueNotString);
+		assert.equal(requirements, requirements2);
 	});
 
 	test("putContext(keyNotString)", () =>

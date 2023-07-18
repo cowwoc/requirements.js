@@ -1,14 +1,8 @@
-/** @module Requirements */
-import
-{
+import {
 	Configuration,
 	MainGlobalConfiguration,
-	ObjectAsserter,
-	ObjectAsserterNoOp,
 	Objects,
-	ObjectValidator,
 	ObjectValidatorImpl,
-	ObjectVerifier,
 	ObjectVerifierImpl
 } from "./internal/internal.mjs";
 
@@ -25,7 +19,7 @@ class Requirements
 	 * Unlike {@link Requirements}, instances of this class can be configured prior to initiating verification.
 	 * Doing so causes the same configuration to get reused across runs.
 	 *
-	 * @param {Configuration} configuration the instance configuration
+	 * @param configuration - the instance configuration
 	 */
 	constructor(configuration?: Configuration)
 	{
@@ -37,61 +31,80 @@ class Requirements
 	/**
 	 * Verifies the requirements of an object.
 	 *
-	 * @function
-	 * @param {object} actual the actual value
-	 * @param {string} name   the name of the value
-	 * @return {ObjectVerifier} a verifier
-	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @returns a verifier
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	requireThat(actual: unknown, name: string): ObjectVerifier
+	requireThat(actual: unknown, name: string)
 	{
 		return new ObjectVerifierImpl(this.validateThat(actual, name));
 	}
 
-	// WORKAROUND: https://github.com/jsdoc3/jsdoc/issues/1533
 	/**
-	 * Same as [requireThat()]{@link module:Requirements~Requirements#requireThat} but does nothing if
-	 * assertions are disabled.
+	 * Verifies requirements only if assertions are enabled.
 	 *
-	 * @function
-	 * @param {object} actual the actual value
-	 * @param {string} name   the name of the value
-	 * @return {ObjectAsserter} an asserter
-	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param requirements - the requirements to verify
+	 * @returns the value returned by the operation, or <code>undefined</code> if assertions are disabled
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
+	 * @see #assertThat
 	 */
-	assertThat(actual: unknown, name: string): ObjectAsserter
+	assertThatAndReturn<V>(requirements: (requirements: Requirements) => V)
 	{
-		Objects.verifyName(name, "name");
+		Objects.requireThatValueIsDefinedAndNotNull(requirements, "requirements");
 		if (this.config.assertionsAreEnabled())
-			return this.requireThat(actual, name);
-		return ObjectAsserterNoOp.INSTANCE;
+			return requirements(this.copy());
+		return undefined;
+	}
+
+	/**
+	 * Verifies requirements only if assertions are enabled.
+	 *
+	 * @param requirements - the requirements to verify
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
+	 */
+	assertThat(requirements: (requirements: Requirements) => void)
+	{
+		Objects.requireThatValueIsDefinedAndNotNull(requirements, "requirements");
+		if (this.config.assertionsAreEnabled())
+			requirements(this.copy());
+	}
+
+	/**
+	 * Returns a copy of this configuration.
+	 *
+	 * @returns a copy of this configuration
+	 */
+	copy()
+	{
+		return new Requirements(this.config.copy());
 	}
 
 	/**
 	 * Validates the requirements of an object.
 	 *
-	 * @function
-	 * @param {object} actual the actual value
-	 * @param {string} name   the name of the value
-	 * @return {ObjectValidator} validator for the value
-	 * @throws {TypeError}  if <code>name</code> is null
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @returns validator for the value
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	validateThat(actual: unknown, name: string): ObjectValidator
+	validateThat(actual: unknown, name: string)
 	{
 		Objects.verifyName(name, "name");
-		return new ObjectValidatorImpl(this.config, actual, name);
+		return new ObjectValidatorImpl(this.config, actual, name, []);
 	}
 
 	/**
 	 * Indicates whether <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return {boolean} true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false
-	 *   if it shouldn't do anything
+	 * @returns true if <code>assertThat()</code> should delegate to <code>requireThat()</code>; false if it
+	 *   shouldn't do anything
 	 */
-	assertionsAreEnabled(): boolean
+	assertionsAreEnabled()
 	{
 		return this.config.assertionsAreEnabled();
 	}
@@ -99,35 +112,31 @@ class Requirements
 	/**
 	 * Indicates that <code>assertThat()</code> should invoke <code>requireThat()</code>.
 	 *
-	 * @return {Requirements} a verifier with the updated configuration
+	 * @returns this
 	 */
-	withAssertionsEnabled(): Requirements
+	withAssertionsEnabled()
 	{
-		const newConfig = this.config.withAssertionsEnabled();
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
+		this.config.withAssertionsEnabled();
+		return this;
 	}
 
 	/**
 	 * Indicates that <code>assertThat()</code> shouldn't do anything.
 	 *
-	 * @return {Requirements} a verifier with the updated configuration
+	 * @returns this
 	 */
-	withAssertionsDisabled(): Requirements
+	withAssertionsDisabled()
 	{
-		const newConfig = this.config.withAssertionsDisabled();
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
+		this.config.withAssertionsDisabled();
+		return this;
 	}
 
 	/**
 	 * Indicates if exceptions should show the difference between the actual and expected values.
 	 *
-	 * @return {boolean} true by default
+	 * @returns true by default
 	 */
-	isDiffEnabled(): boolean
+	isDiffEnabled()
 	{
 		return this.config.isDiffEnabled();
 	}
@@ -135,35 +144,31 @@ class Requirements
 	/**
 	 * Indicates that exceptions should show the difference between the actual and expected values.
 	 *
-	 * @return {Requirements} a verifier with the updated configuration
+	 * @returns this
 	 */
-	withDiff(): Requirements
+	withDiff()
 	{
-		const newConfig = this.config.withDiff();
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
+		this.config.withDiff();
+		return this;
 	}
 
 	/**
 	 * Indicates that exceptions should not show the difference between the actual and expected
 	 * values.
 	 *
-	 * @return {Requirements} a verifier with the updated configuration
+	 * @returns this
 	 */
-	withoutDiff(): Requirements
+	withoutDiff()
 	{
-		const newConfig = this.config.withoutDiff();
-		if (newConfig === this.config)
-			return this;
-		return new Requirements(newConfig);
+		this.config.withoutDiff();
+		return this;
 	}
 
 	/**
-	 * @return {Map<string, object>} a map of key-value pairs to append to the exception message
+	 * @returns a map of key-value pairs to append to the exception message
 	 * @see #putContext
 	 */
-	getContext(): Map<string, unknown>
+	getContext()
 	{
 		return this.config.getContext();
 	}
@@ -171,15 +176,16 @@ class Requirements
 	/**
 	 * Appends contextual information to the exception message.
 	 *
-	 * @param {string} key   a key
-	 * @param {object} value a value
-	 * @return {Requirements} a verifier with the updated configuration
-	 * @throws {TypeError} if <code>key</code> is not a string
+	 * @param key - a key
+	 * @param value - a value
+	 * @returns this
+	 * @throws TypeError if <code>key</code> is not a string
 	 * @see #getContext
 	 */
-	putContext(key: string, value: unknown): Requirements
+	putContext(key: string, value: unknown)
 	{
-		return new Requirements(this.config.putContext(key, value));
+		this.config.putContext(key, value);
+		return this;
 	}
 }
 

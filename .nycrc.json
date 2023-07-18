@@ -2,19 +2,17 @@
 	"extends": "@istanbuljs/nyc-config-typescript",
 	"extension": [
 		".js",
-		".cjs",
 		".mjs",
 		".ts",
-		".cts",
 		".mts",
-		".tsx",
-		".jsx"
+		".cts",
+		".mts"
 	],
 	"include": [
 		"test/*.mts"
 	],
 	"exclude": [
-		"**/*.d.ts"
+		"**/*.d.mts"
 	],
 	"all": true,
 	"instrument": true,

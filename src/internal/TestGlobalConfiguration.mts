@@ -1,5 +1,4 @@
-import
-{
+import {
 	AbstractGlobalConfiguration,
 	TerminalEncoding
 } from "./internal.mjs";
@@ -12,8 +11,8 @@ class TestGlobalConfiguration extends AbstractGlobalConfiguration
 	/**
 	 * Creates a new test configuration.
 	 *
-	 * @param {TerminalEncoding} terminalEncoding the encoding of the terminal
-	 * @param {number} [terminalWidth] the width of the terminal
+	 * @param terminalEncoding - the encoding of the terminal
+	 * @param terminalWidth - (optional) the width of the terminal
 	 */
 	constructor(terminalEncoding: TerminalEncoding, terminalWidth = 80)
 	{

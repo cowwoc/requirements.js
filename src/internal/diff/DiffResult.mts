@@ -11,11 +11,11 @@ class DiffResult
 	private readonly paddingMarker: string;
 
 	/**
-	 * @param {string[]} actualLines    the lines of the actual string
-	 * @param {string[]} diffLines      optional lines denoting the difference between "actual" and "expected"
-	 * @param {string[]} expectedLines  the lines of the expected string
-	 * @param {string} paddingMarker a padding character used to align values vertically
-	 * @throws {TypeError}     if any of the arguments are null
+	 * @param actualLines - the lines of the actual string
+	 * @param diffLines - optional lines denoting the difference between "actual" and "expected"
+	 * @param expectedLines - the lines of the expected string
+	 * @param paddingMarker - a padding character used to align values vertically
+	 * @throws TypeError if any of the arguments are null
 	 */
 	constructor(actualLines: string[], diffLines: string[], expectedLines: string[], paddingMarker: string)
 	{
@@ -31,7 +31,7 @@ class DiffResult
 	}
 
 	/**
-	 * @return {string[]} the lines of the actual string
+	 * @returns the lines of the actual string
 	 */
 	getActualLines(): string[]
 	{
@@ -39,8 +39,8 @@ class DiffResult
 	}
 
 	/**
-	 * @return {string[]} the lines to display between "actual" and "expected". If the list is empty, no lines
-	 * should be displayed.
+	 * @returns the lines to display between "actual" and "expected". If the list is empty, no lines should be
+	 *   displayed.
 	 */
 	getDiffLines(): string[]
 	{
@@ -48,7 +48,7 @@ class DiffResult
 	}
 
 	/**
-	 * @return {string[]} the lines of the expected string
+	 * @returns the lines of the expected string
 	 */
 	getExpectedLines(): string[]
 	{
@@ -56,7 +56,7 @@ class DiffResult
 	}
 
 	/**
-	 * @return {string} a padding character used to align values vertically
+	 * @returns a padding character used to align values vertically
 	 */
 	getPaddingMarker(): string
 	{

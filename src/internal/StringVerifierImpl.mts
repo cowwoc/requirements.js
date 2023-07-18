@@ -1,11 +1,10 @@
-import
-{
+import {
 	AbstractObjectVerifier,
+	type NumberVerifier,
+	NumberVerifierImpl,
 	Objects,
-	StringValidator,
-	StringVerifier,
-	NumberVerifier,
-	NumberVerifierImpl
+	type StringValidator,
+	type StringVerifier
 } from "./internal.mjs";
 
 /**
@@ -17,8 +16,8 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 	/**
 	 * Creates a new StringVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: StringValidator)
 	{
@@ -33,49 +32,49 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 	startsWith(prefix: string): StringVerifier
 	{
 		this.validator.startsWith(prefix);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	doesNotStartWith(prefix: string): StringVerifier
 	{
 		this.validator.doesNotStartWith(prefix);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	contains(expected: string): StringVerifier
 	{
 		this.validator.contains(expected);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	doesNotContain(value: string): StringVerifier
 	{
 		this.validator.doesNotContain(value);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	endsWith(suffix: string): StringVerifier
 	{
 		this.validator.endsWith(suffix);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	doesNotEndWith(suffix: string): StringVerifier
 	{
 		this.validator.doesNotEndWith(suffix);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isEmpty(): StringVerifier
 	{
 		this.validator.isEmpty();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isNotEmpty(): StringVerifier
 	{
 		this.validator.isNotEmpty();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	trim(): StringVerifier
@@ -86,7 +85,7 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 
 	trimConsumer(consumer: (actual: StringVerifier) => void): StringVerifier
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.trim());
 		return this;
 	}
@@ -94,7 +93,7 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 	isTrimmed(): StringVerifier
 	{
 		this.validator.isTrimmed();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	length(): NumberVerifier
@@ -105,7 +104,7 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 
 	lengthConsumer(consumer: (actual: NumberVerifier) => void): StringVerifier
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.length());
 		return this;
 	}
@@ -117,7 +116,7 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 
 	asStringConsumer(consumer: (actual: StringVerifier) => void): StringVerifier
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this);
 		return this;
 	}

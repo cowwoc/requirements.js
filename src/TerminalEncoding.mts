@@ -1,5 +1,4 @@
-import
-{
+import {
 	AbstractColorWriter,
 	Node16Colors,
 	Node16MillionColors,
@@ -37,11 +36,11 @@ enum TerminalEncoding
 class TerminalEncodings
 {
 	/**
-	 * @param {TerminalEncoding} first the first encoding
-	 * @param {TerminalEncoding} second the second encoding
-	 * @return {number} a negative number if <code>first</code> supports more colors than <code>second</code>.
+	 * @param first - the first encoding
+	 * @param second - the second encoding
+	 * @returns a negative number if <code>first</code> supports more colors than <code>second</code>.
 	 *   <code>0</code> if the encodings support the same number of colors. A positive number if
-	 *   <code>first</code> supports less colors than <code>second</code>.
+	 *   <code>first</code> supports fewer colors than <code>second</code>.
 	 */
 	static readonly sortByDecreasingRank = (first: TerminalEncoding, second: TerminalEncoding): number =>
 	{
@@ -53,8 +52,8 @@ class TerminalEncodings
 	};
 
 	/**
-	 * @param {TerminalEncoding} terminalEncoding the encoding to use for the terminal
-	 * @return {TextOnly | Node16Colors | Node256Colors | Node16MillionColors} a writer that generates a diff
+	 * @param terminalEncoding - the encoding to use for the terminal
+	 * @returns a writer that generates a diff
 	 */
 	static createDiffWriter(terminalEncoding: TerminalEncoding):
 		TextOnly | Node16Colors | Node256Colors | Node16MillionColors
@@ -75,11 +74,10 @@ class TerminalEncodings
 	}
 
 	/**
-	 * @param {TerminalEncoding} terminalEncoding the encoding to use for the terminal
-	 * @return {string} the padding character used to align values vertically
-	 * @ignore
+	 * @param terminalEncoding - the encoding to use for the terminal
+	 * @returns the padding character used to align values vertically
 	 */
-	static getPaddingMarker(terminalEncoding: TerminalEncoding): string
+	static getPaddingMarker(terminalEncoding: TerminalEncoding)
 	{
 		switch (terminalEncoding)
 		{

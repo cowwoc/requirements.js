@@ -1,6 +1,6 @@
 import {
-	Requirements,
 	Configuration,
+	Requirements,
 	TerminalEncoding,
 	TestGlobalConfiguration
 } from "../src/internal/internal.mjs";

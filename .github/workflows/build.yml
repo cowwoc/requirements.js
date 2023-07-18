@@ -13,26 +13,20 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install Yarn
+      - name: Install pnpm
         run: |
           corepack enable
-          corepack prepare yarn@stable --activate
+          corepack prepare pnpm@latest --activate
 
-      # Yarn dependencies cannot be cached until yarn is installed
+      # pnpm dependencies cannot be cached until pnpm is installed
       # WORKAROUND: https://github.com/actions/setup-node/issues/531
       - name: Extract cached dependencies
         uses: actions/setup-node@v3
         with:
-          cache: yarn
+          cache: pnpm
 
       - name: Update dependencies
-        run: yarn --immutable
+        run: pnpm install
 
-      - name: lint
-        run: yarn dlx gulp lint
-
-      - name: bundle
-        run: yarn dlx gulp bundle
-
-      - name: test
-        run: yarn dlx gulp test
+      - name: build
+        run: pnpm run build.debug

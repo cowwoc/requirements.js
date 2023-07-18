@@ -1,11 +1,9 @@
 import stripAnsi from "strip-ansi";
-import
-{
-	Change,
+import {
+	type Change,
 	diffChars
 } from "diff";
-import
-{
+import {
 	DiffResult,
 	Node16Colors,
 	Node16MillionColors,
@@ -27,8 +25,8 @@ const EOS_MARKER = "\\0";
 const WORDS = /(\p{Zs}+|\r?\n|[.[\](){}/\\*+\-#])/u;
 
 /**
- * @param {Change[]} deltas a list of deltas
- * @return {number} the number of deltas that indicate that text was not equal
+ * @param deltas - a list of deltas
+ * @returns the number of deltas that indicate that text was not equal
  */
 function numberOfUnequalDeltas(deltas: Change[]): number
 {
@@ -44,8 +42,8 @@ function numberOfUnequalDeltas(deltas: Change[]): number
 /**
  * Write a single word.
  *
- * @param {Change} delta a delta
- * @param {TextOnly | Node16Colors | Node256Colors | Node16MillionColors} writer the writer to write into
+ * @param delta - a delta
+ * @param writer - the writer to write into
  */
 function writeDelta(delta: Change, writer: TextOnly | Node16Colors | Node256Colors | Node16MillionColors):
 	void
@@ -59,7 +57,7 @@ function writeDelta(delta: Change, writer: TextOnly | Node16Colors | Node256Colo
 }
 
 /**
- * For every word associated with 2 or more unequal deltas, replace the deltas with a single
+ * For every word that is associated with 2 or more unequal deltas, replace the deltas with a single
  * <code>[DELETE actual, INSERT expected]</code> pair.
  */
 class ReduceDeltasPerWord
@@ -67,58 +65,44 @@ class ReduceDeltasPerWord
 	/**
 	 * The deltas to process.
 	 *
-	 * @private
+	 * Syntax: [optional] (mandatory)
+	 *
+	 * word: (start-delta) (end-delta)
+	 * start-delta: [pre-word] [delimiter] (word-in-start-delta)
+	 * end-delta: (word-in-end-delta) [delimiter] [post-word]
+	 * delimiter: whitespace found in EQUAL deltas
 	 */
 	private deltas: Change[] = [];
 	/**
 	 * The length of <code>deltas</code>.
-	 *
-	 * @private
 	 */
 	private numberOfDeltas = 0;
 	/**
 	 * The index of the start delta.
-	 *
-	 * @private
 	 */
 	private indexOfStartDelta = 0;
 	/**
 	 * The index of the word in the start delta.
-	 *
-	 * @private
 	 */
 	private indexOfWordInStartDelta = 0;
 	/**
 	 * The index of the end delta.
-	 *
-	 * @private
 	 */
 	private indexOfEndDelta = 0;
 	/**
 	 * The index of the delimiter in the end delta. If there is no delimiter, points to the end of the string.
-	 *
-	 * @private
 	 */
 	private indexOfDelimiterInEndDelta = 0;
 	/**
-	 * The index of the start of the next word in the end delta. If there are no followup words, points to the
-	 * end of the string.
-	 *
-	 * @private
+	 * the start of the next word in the end delta.
+	 * If there are no followup words, points to the end of the string.
 	 */
 	private indexOfNextWordInEndDelta = 0;
 	private actualBuilder = "";
 	private expectedBuilder = "";
 
-	// Format: [optional] (mandatory)
-	//
-	// word: (start-delta) (end-delta)
-	// start-delta: [pre-word] [delimiter] (word-in-start-delta)
-	// end-delta: (word-in-end-delta) [delimiter] [post-word]
-	// delimiter: whitespace found in EQUAL deltas
-
 	/**
-	 * @param {Change[]} deltas the deltas to update
+	 * @param deltas - the deltas to update
 	 */
 	accept(deltas: Change[]): void
 	{
@@ -129,13 +113,11 @@ class ReduceDeltasPerWord
 		this.findFirstWord();
 		if (this.indexOfStartDelta === this.numberOfDeltas)
 			return;
-		while (true)
+		do
 		{
 			this.findEndOfWord();
 			this.updateDeltas();
-			if (!this.findNextWord())
-				return;
-		}
+		} while (this.findNextWord());
 	}
 
 	/**
@@ -219,7 +201,7 @@ class ReduceDeltasPerWord
 	/**
 	 * Processes the start delta.
 	 *
-	 * @param {Change[]} updatedDeltas a list to insert updated deltas into
+	 * @param updatedDeltas - a list to insert updated deltas into
 	 */
 	processStartDelta(updatedDeltas: Change[]): void
 	{
@@ -289,7 +271,7 @@ class ReduceDeltasPerWord
 	/**
 	 * Processes the end delta.
 	 *
-	 * @param {Change[]} updatedDeltas a list to insert updated deltas into
+	 * @param updatedDeltas - a list to insert updated deltas into
 	 */
 	processEndDelta(updatedDeltas: Change[]): void
 	{
@@ -333,7 +315,7 @@ class ReduceDeltasPerWord
 	/**
 	 * Finds the next word.
 	 *
-	 * @return {boolean} <code>false</code> if there are no more words to be found
+	 * @returns <code>false</code> if there are no more words to be found
 	 */
 	findNextWord(): boolean
 	{
@@ -369,7 +351,7 @@ class DiffGenerator
 	private readonly reduceDeltasPerWord: ReduceDeltasPerWord;
 
 	/**
-	 * @param {TerminalEncoding} terminalEncoding the terminal encoding
+	 * @param terminalEncoding - the terminal encoding
 	 */
 	constructor(terminalEncoding: TerminalEncoding)
 	{
@@ -381,13 +363,13 @@ class DiffGenerator
 	/**
 	 * Generates the diff of two strings.
 	 * <p>
-	 * <b>NOTE</b>: Colors may be disabled when stdin or stdout are redirected. To override this
-	 * behavior, use {@link GlobalRequirements#withConsoleType(ConsoleType)}.
+	 * <b>NOTE</b>: Colors may be disabled when stdin or stdout are redirected.
+	 * To override this behavior, use {@link GlobalRequirements.withTerminalEncoding}.
 	 *
-	 * @param {string} actual   the actual value
-	 * @param {string} expected the expected value
-	 * @return {DiffResult} the calculated diff
-	 * @throws {TypeError} if any of the arguments are null
+	 * @param actual - the actual value
+	 * @param expected - the expected value
+	 * @returns the calculated diff
+	 * @throws TypeError if any of the arguments are null
 	 */
 	diff(actual: string, expected: string): DiffResult
 	{
@@ -408,8 +390,8 @@ class DiffGenerator
 	}
 
 	/**
-	 * @param {string} line a line
-	 * @return {boolean} if <code>line</code> only contains padding characters
+	 * @param line - a line
+	 * @returns if <code>line</code> only contains padding characters
 	 */
 	isEmpty(line: string): boolean
 	{

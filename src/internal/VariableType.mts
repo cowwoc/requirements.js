@@ -3,6 +3,13 @@
  */
 class VariableType
 {
+	public static readonly NULL = new VariableType("null");
+	public static readonly BOOLEAN = new VariableType("boolean");
+	public static readonly NUMBER = new VariableType("number");
+	public static readonly BIGINT = new VariableType("bigint");
+	public static readonly ARRAY = new VariableType("array");
+	public static readonly STRING = new VariableType("string");
+	public static readonly SYMBOL = new VariableType("symbol");
 	public readonly type: "undefined" | "null" | "boolean" | "number" | "bigint" | "array" | "string" |
 		"symbol" | "function" | "class" | "object";
 	public readonly name: null | string;
@@ -10,11 +17,10 @@ class VariableType
 	/**
 	 * Creates a new VariableType.
 	 *
-	 * @param {"undefined" | "null" | "boolean" | "number" | "bigint" | "array" | "string" | "symbol" |
-	 * 	"function" | "class" | "object"} type the name of the type
-	 * @param {null | string} [name = null] the name of the type (the function or class name)
-	 * @throws {RangeError} if neither <code>type</code> or <code>name</code> are set. If <code>type</code>
-	 * does not have a name (e.g. "number" or "array") but <code>name</code> is set.
+	 * @param type - the name of the type
+	 * @param name - the name of the function or class (Default: <code>null</code>)
+	 * @throws RangeError if neither <code>type</code> or <code>name</code> are set.
+	 * If <code>type</code> does not have a name (e.g. "number" or "array") but <code>name</code> is set.
 	 */
 	constructor(type: "undefined" | "null" | "boolean" | "number" | "bigint" | "array" | "string" | "symbol" |
 		"function" | "class" | "object", name: null | string = null)
@@ -37,9 +43,9 @@ class VariableType
 	}
 
 	/**
-	 * @return {string} the string representation of this object
+	 * @returns the string representation of this object
 	 */
-	toString(): string
+	toString()
 	{
 		let result;
 		switch (this.type)

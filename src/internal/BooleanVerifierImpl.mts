@@ -1,8 +1,7 @@
-import
-{
+import {
 	AbstractObjectVerifier,
-	BooleanValidator,
-	BooleanVerifier
+	type BooleanValidator,
+	type BooleanVerifier
 } from "./internal.mjs";
 
 /**
@@ -14,8 +13,8 @@ class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, Boolea
 	/**
 	 * Creates a new BooleanVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: BooleanValidator)
 	{
@@ -30,25 +29,25 @@ class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, Boolea
 	/**
 	 * Ensures that the actual value is true.
 	 *
-	 * @return {BooleanVerifier} the updated verifier
-	 * @throws {RangeError} if the actual value is not true
+	 * @returns the updated verifier
+	 * @throws RangeError if the actual value is not true
 	 */
 	isTrue(): BooleanVerifier
 	{
 		this.validator.isTrue();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	/**
 	 * Ensures that the actual value is false.
 	 *
-	 * @return {BooleanVerifier} the updated verifier
-	 * @throws {RangeError} if the actual value is not false
+	 * @returns the updated verifier
+	 * @throws RangeError if the actual value is not false
 	 */
 	isFalse(): BooleanVerifier
 	{
 		this.validator.isFalse();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	getActual(): boolean

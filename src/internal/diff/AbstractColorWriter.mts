@@ -1,5 +1,4 @@
-import
-{
+import {
 	AbstractDiffWriter,
 	IllegalStateError,
 	Maps
@@ -28,14 +27,10 @@ abstract class AbstractColorWriter extends AbstractDiffWriter
 	static readonly DIFF_PADDING = "/";
 	/**
 	 * Maps from a line number in the actual value to the decoration at the end of the line.
-	 *
-	 * @private
 	 */
 	private lineToActualDecoration: Map<number, DecorationType> = new Map<number, DecorationType>();
 	/**
 	 * Maps from a line number in the expected value to the decoration at the end of the line.
-	 *
-	 * @private
 	 */
 	private lineToExpectedDecoration: Map<number, DecorationType> = new Map<number, DecorationType>();
 
@@ -47,8 +42,8 @@ abstract class AbstractColorWriter extends AbstractDiffWriter
 	}
 
 	/**
-	 * @param {number} length the length of the padding
-	 * @return {string} the (possibly decorated) padding
+	 * @param length - the length of the padding
+	 * @returns the (possibly decorated) padding
 	 */
 	decoratePadding(length: number): string
 	{

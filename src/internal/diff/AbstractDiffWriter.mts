@@ -1,5 +1,4 @@
-import
-{
+import {
 	IllegalStateError,
 	Maps,
 	NEWLINE_MARKER,
@@ -24,30 +23,30 @@ abstract class AbstractDiffWriter
 	/**
 	 * Adds text that did not change.
 	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
+	 * @param text - the text
+	 * @throws IllegalStateError if the writer is closed
 	 */
 	abstract writeEqual(text: string): void;
 
 	/**
 	 * Deletes text that is present in <code>actual</code> but not <code>expected</code>.
 	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
+	 * @param text - the text
+	 * @throws IllegalStateError if the writer is closed
 	 */
 	abstract writeDeleted(text: string): void;
 
 	/**
 	 * Adds text that is present in <code>expected</code> but not <code>actual</code>.
 	 *
-	 * @param {string} text the text
-	 * @throws {IllegalStateError} if the writer is closed
+	 * @param text - the text
+	 * @throws IllegalStateError if the writer is closed
 	 */
 	abstract writeInserted(text: string): void;
 
 	/**
-	 * @param {string} paddingMarker a padding character used to align values vertically
-	 * @throws {TypeError}  if any of the arguments are null
+	 * @param paddingMarker - a padding character used to align values vertically
+	 * @throws TypeError if any of the arguments are null
 	 */
 	protected constructor(paddingMarker: string)
 	{
@@ -56,12 +55,12 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * Splits text into one or more lines, invoking <code>writeNewline()</code in place of each newline
+	 * Splits text into one or more lines, invoking <code>writeNewline()</code> in place of each newline
 	 * character.
 	 *
-	 * @param {string} text         some text
-	 * @param {Function} lineConsumer consumes one line at a time
-	 * @param {Function} writeNewLine ends the current line
+	 * @param text - some text
+	 * @param lineConsumer - consumes one line at a time
+	 * @param writeNewLine - ends the current line
 	 */
 	splitLines(text: string, lineConsumer: (line: string) => void, writeNewLine: () => void): void
 	{
@@ -82,8 +81,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @param {number} length the length of the padding
-	 * @return {string} the (possibly decorated) padding
+	 * @param length - the length of the padding
+	 * @returns the (possibly decorated) padding
 	 */
 	decoratePadding(length: number): string
 	{
@@ -91,8 +90,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @param {string} text the text that did not change
-	 * @return {string} the (possibly decorated) text
+	 * @param text - the text that did not change
+	 * @returns the (possibly decorated) text
 	 */
 	decorateEqualText(text: string): string
 	{
@@ -100,8 +99,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @param {string} text the text that was inserted
-	 * @return {string} the (possibly decorated) text
+	 * @param text - the text that was inserted
+	 * @returns the (possibly decorated) text
 	 */
 	decorateInsertedText(text: string): string
 	{
@@ -109,8 +108,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @param {string} text the text that was deleted
-	 * @return {string} the (possibly decorated) text
+	 * @param text - the text that was deleted
+	 * @returns the (possibly decorated) text
 	 */
 	decorateDeletedText(text: string): string
 	{
@@ -134,7 +133,7 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {string} a padding character used to align values vertically
+	 * @returns a padding character used to align values vertically
 	 */
 	getPaddingMarker(): string
 	{
@@ -144,7 +143,7 @@ abstract class AbstractDiffWriter
 	/**
 	 * Populates the state of lineTo* variables for a new actual line.
 	 *
-	 * @param {number} number the line number to initialize
+	 * @param number - the line number to initialize
 	 */
 	initActualLine(number: number): void
 	{
@@ -155,7 +154,7 @@ abstract class AbstractDiffWriter
 	/**
 	 * Populates the state of lineTo* variables for a new expected line.
 	 *
-	 * @param {number} number the line number to initialize
+	 * @param number - the line number to initialize
 	 */
 	initExpectedLine(number: number): void
 	{
@@ -206,8 +205,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {string[]} the lines of the actual value
-	 * @throws {IllegalStateError} if the writer was closed
+	 * @returns the lines of the actual value
+	 * @throws IllegalStateError if the writer was closed
 	 */
 	getActualLines(): string[]
 	{
@@ -217,9 +216,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {string[]} the lines to display after "actual" and before "expected" (empty lines should not be
-	 *   displayed)
-	 * @throws {RangeError} if the writer is open
+	 * @returns the lines to display after "actual" and before "expected" (empty lines should not be displayed)
+	 * @throws RangeError if the writer is open
 	 */
 	getDiffLines(): string[]
 	{
@@ -229,8 +227,8 @@ abstract class AbstractDiffWriter
 	}
 
 	/**
-	 * @return {string[]} the lines of the expected value
-	 * @throws {IllegalStateError} if the writer was closed
+	 * @returns the lines of the expected value
+	 * @throws IllegalStateError if the writer was closed
 	 */
 	getExpectedLines(): string[]
 	{

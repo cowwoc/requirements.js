@@ -16,12 +16,5 @@ coverage/
 commonjs.html
 modulejs.html
 
-# Yarn 2+
-.pnp.cjs
-.pnp.loader.mjs
-.yarn/**
-
-# Unignore specific yarn directories: https://stackoverflow.com/a/5534865/14731
-!.yarn/
-!.yarn/patches
-!.yarn/patches/**
+# eslint
+/.eslintcache

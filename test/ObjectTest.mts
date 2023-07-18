@@ -1,14 +1,10 @@
-import
-{
+import {
 	Configuration,
-	ObjectValidator,
+	type ObjectValidator,
 	TerminalEncoding,
 	TestGlobalConfiguration
 } from "../src/internal/internal.mjs";
-import {
-	assertThat,
-	Requirements
-} from "../src/index.mjs";
+import {Requirements} from "../src/index.mjs";
 import ObjectVerifierImpl from "../src/internal/ObjectVerifierImpl.mjs";
 import {
 	suite,
@@ -26,9 +22,9 @@ suite("ObjectTest", () =>
 	{
 		assert.throws(function()
 		{
-			let input: undefined;
+			let actual: undefined;
 			/* eslint-disable no-new */
-			new ObjectVerifierImpl(input as unknown as ObjectValidator);
+			new ObjectVerifierImpl(actual as unknown as ObjectValidator);
 			/* eslint-enable no-new */
 		}, TypeError);
 	});
@@ -199,12 +195,10 @@ suite("ObjectTest", () =>
 		}, "actual").isTypeOf("function");
 	});
 
-// TODO: this test cannot run under Babel because it converts arrow functions to anonymous functions.
-//
-// test("isTypeOf_ArrowFunction", () =>
-// {
-// 	requirements.requireThat(input => input + " -> output", "actual").isTypeOf("ArrowFunction");
-// 	// });
+	test("isTypeOf_ArrowFunction", () =>
+	{
+		requirements.requireThat((input: string) => input + " -> output", "actual").isTypeOf("function");
+	});
 
 	class MyClass
 	{
@@ -325,32 +319,5 @@ suite("ObjectTest", () =>
 		{
 			requirements.requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6());
 		}, RangeError);
-	});
-
-	test("requirements.requireThat.getActual", () =>
-	{
-		const input = 12345;
-		const output = requirements.requireThat(input, "input").getActual();
-		assert.equal(output, input);
-	});
-
-	test("assertThat.getActual", () =>
-	{
-		const input = 12345;
-		let expected;
-		const verifier = assertThat(input, "input");
-		assert.equal(verifier.isActualAvailable(), false);
-		// noinspection JSUnusedAssignment
-		assert.equal(verifier.getActual(), expected);
-	});
-
-	test("assertThat.getActual", () =>
-	{
-		const input = 12345;
-		let expected;
-		const verifier = assertThat(input, "input");
-		assert.equal(verifier.isActualAvailable(), false);
-		// noinspection JSUnusedAssignment
-		assert.equal(verifier.getActual(), expected);
 	});
 });

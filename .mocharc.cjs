@@ -11,7 +11,7 @@ module.exports = {
 		[
 			"**/*.mts"
 		],
-	"exclude": [
+	exclude: [
 		"**/*.d.mts"
 	]
 };

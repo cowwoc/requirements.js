@@ -6,11 +6,11 @@ class Maps
 	/**
 	 * Appends to a <code>string</code> map value.
 	 *
-	 * @param {Map} map a map
-	 * @param {object} key the map key
-	 * @param {string} value the value to append
+	 * @param map - a map
+	 * @param key - the map key
+	 * @param value - the value to append
 	 */
-	static appendToValue<K>(map: Map<K, string>, key: K, value: string): void
+	static appendToValue<K>(map: Map<K, string>, key: K, value: string)
 	{
 		const oldValue = map.get(key);
 		if (typeof (oldValue) === "undefined")
@@ -20,10 +20,10 @@ class Maps
 	}
 
 	/**
-	 * @param {Map} map a map
-	 * @return {Map} the map sorted by its keys
+	 * @param map - a map
+	 * @returns the map sorted by its keys
 	 */
-	static sortByKeys<K, V>(map: Map<K, V>): Map<K, V>
+	static sortByKeys<K, V>(map: Map<K, V>)
 	{
 		// https://stackoverflow.com/a/31159284/14731
 		return new Map([...map.entries()].sort());

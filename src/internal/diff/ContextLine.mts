@@ -1,7 +1,6 @@
-import
-{
-	Objects,
-	Configuration
+import {
+	Configuration,
+	Objects
 } from "../internal.mjs";
 
 /**
@@ -25,10 +24,10 @@ class ContextLine
 	/**
 	 * Creates a new line.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {string} key   the key associated with the value (empty string if absent)
-	 * @param {object} value a value
-	 * @throws {TypeError} if the key is not a string
+	 * @param configuration - the instance configuration
+	 * @param key - the key associated with the value (empty string if absent)
+	 * @param value - a value
+	 * @throws TypeError if the key is not a string
 	 */
 	constructor(configuration: Configuration, key: string, value: unknown)
 	{

@@ -18,8 +18,7 @@ const config =
 			],
 		ignore:
 			[
-				"**/node_modules/**",
-				"**/.yarn/**"
+				"**/node_modules/**"
 			],
 		compact: false
 	};

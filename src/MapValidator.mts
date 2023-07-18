@@ -1,5 +1,4 @@
-import type
-{
+import type {
 	ArrayValidator,
 	ExtensibleObjectValidator,
 	NumberValidator
@@ -8,76 +7,76 @@ import type
 /**
  * Validates the requirements of a <code>Map</code>.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * Verifier and Validator methods are equivalent.
+ * Validators return validation failures through the {@link getFailures} method, while Verifiers throw them
+ * as exceptions.
  *
- * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
- * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
- * returned by {@link #getFailures}.
+ * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
 interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 {
 	/**
 	 * Ensures that value does not contain any entries
 	 *
-	 * @return {MapValidator} the updated validator
+	 * @returns the updated validator
 	 */
 	isEmpty(): MapValidator;
 
 	/**
 	 * Ensures that value contains at least one entry.
 	 *
-	 * @return {MapValidator} the updated validator
+	 * @returns the updated validator
 	 */
 	isNotEmpty(): MapValidator;
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's keys
+	 * @returns a validator for the Map's keys
 	 */
 	keys(): ArrayValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's keys
-	 * @return {MapValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
+	 * @param consumer - a function that accepts an {@link ArrayValidator} for the Map's keys
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	keysConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {ArrayValidator} a validator for the Map's values
+	 * @returns a validator for the Map's values
 	 */
 	values(): ArrayValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's values
-	 * @return {MapValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
+	 * @param consumer - a function that accepts an {@link ArrayValidator} for the Map's values
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	valuesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {ArrayValidator} validator for the Map's entries (an array of
+	 * @returns validator for the Map's entries (an array of
 	 *   <code>[key, value]</code> for each element in the Map)
 	 */
 	entries(): ArrayValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts an {@link ArrayValidator} for the Map's entries (an
+	 * @param consumer - a function that accepts an {@link ArrayValidator} for the Map's entries (an
 	 *   array of <code>[key, value]</code> for each element in the Map)
-	 * @return {MapValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator;
 
 	/**
-	 * @return {NumberValidator} a validator for the number of entries this Map contains
+	 * @returns a validator for the number of entries this Map contains
 	 */
 	size(): NumberValidator;
 
 	/**
-	 * @param {Function} consumer a function that accepts a {@link NumberValidator} for the number of entries
+	 * @param consumer - a function that accepts a {@link NumberValidator} for the number of entries
 	 *   this Map contains
-	 * @return {MapValidator} the updated validator
-	 * @throws {TypeError} if <code>consumer</code> is not set
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator;
 
@@ -87,4 +86,4 @@ interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {MapValidator as default};
+export {type MapValidator as default};

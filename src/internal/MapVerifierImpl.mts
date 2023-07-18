@@ -1,11 +1,10 @@
-import
-{
+import {
 	AbstractObjectVerifier,
-	ArrayVerifier,
+	type ArrayVerifier,
 	ArrayVerifierImpl,
-	MapValidator,
-	MapVerifier,
-	NumberVerifier,
+	type MapValidator,
+	type MapVerifier,
+	type NumberVerifier,
 	NumberVerifierImpl,
 	Objects
 } from "./internal.mjs";
@@ -19,71 +18,71 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 	/**
 	 * Creates a new MapVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: MapValidator)
 	{
 		super(validator);
 	}
 
-	protected getThis(): MapVerifier
+	protected getThis()
 	{
 		return this;
 	}
 
-	isEmpty(): MapVerifier
+	isEmpty()
 	{
 		this.validator.isEmpty();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
-	isNotEmpty(): MapVerifier
+	isNotEmpty()
 	{
 		this.validator.isNotEmpty();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
-	keys(): ArrayVerifier
+	keys()
 	{
 		const newValidator = this.validator.keys();
 		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
 	}
 
-	keysConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier
+	keysConsumer(consumer: (actual: ArrayVerifier) => void)
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.keys());
 		return this;
 	}
 
-	values(): ArrayVerifier
+	values()
 	{
 		const newValidator = this.validator.values();
 		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
 	}
 
-	valuesConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier
+	valuesConsumer(consumer: (actual: ArrayVerifier) => void)
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.values());
 		return this;
 	}
 
-	entries(): ArrayVerifier
+	entries()
 	{
 		const newValidator = this.validator.entries();
 		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
 	}
 
-	entriesConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier
+	entriesConsumer(consumer: (actual: ArrayVerifier) => void)
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.entries());
 		return this;
 	}
 
-	size(): NumberVerifier
+	size()
 	{
 		const newValidator = this.validator.size();
 		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
@@ -91,7 +90,7 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 
 	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.size());
 		return this;
 	}

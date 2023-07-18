@@ -79,34 +79,26 @@ suite("ObjectsTest", () =>
 		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "Symbol"));
 	});
 
-	test("getTypeOf_anonymousFunctionContainingArrow", () =>
+	test("getTypeOf_anonymousFunction", () =>
 	{
 		assert.deepEqual(Objects.getTypeInfo(function()
 		{
-			return "=>";
+			return "output";
 		}), new VariableType("function"));
 	});
 
-// TODO: this test cannot run under Babel because it converts arrow functions to anonymous functions.
-//
-// test("getTypeOf_arrowFunction", () =>
-// {
-// 	assert.deepEqual(Objects.getTypeOf(input => input + " -> output"), new VariableType("function"));
-// 	// });
-
-	/**
-	 * Test function.
-	 *
-	 * @return {string} hello world
-	 */
-	function MyFunction()
+	test("getTypeOf_arrowFunction", () =>
 	{
-		return "hello world";
-	}
+		assert.deepEqual(Objects.getTypeInfo((input: string) => input + " -> output"),
+			new VariableType("function"));
+	});
 
-	test("getTypeOf_function", () =>
+	test("getTypeOf_namedFunction", () =>
 	{
-		const input = MyFunction;
+		const input = function MyFunction()
+		{
+			return "hello world";
+		};
 		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("function", "MyFunction"));
 	});
 

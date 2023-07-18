@@ -13,9 +13,9 @@ class Pluralizer
 	static readonly ENTRY = new Pluralizer("entr", "y", "ies");
 
 	/**
-	 * @param {string} prefix the prefix common to both singular and plural forms
-	 * @param {string} singularSuffix the suffix to append to the singular form of the word
-	 * @param {string} pluralSuffix the suffix to append to the plural form of the word
+	 * @param prefix - the prefix common to both singular and plural forms
+	 * @param singularSuffix - the suffix to append to the singular form of the word
+	 * @param pluralSuffix - the suffix to append to the plural form of the word
 	 */
 	constructor(prefix: string, singularSuffix: string, pluralSuffix: string)
 	{
@@ -25,10 +25,10 @@ class Pluralizer
 	}
 
 	/**
-	 * @param {number} count a number of elements
-	 * @return {string} the singular or plural form of the element type
+	 * @param count - a number of elements
+	 * @returns the singular or plural form of the element type
 	 */
-	nameOf(count: number): string
+	nameOf(count: number)
 	{
 		if (count === 1)
 			return this.prefix + this.singularSuffix;

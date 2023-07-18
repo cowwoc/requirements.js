@@ -1,28 +1,29 @@
-import
-{
-	ArrayVerifier,
+import {
+	type ArrayVerifier,
 	ArrayVerifierImpl,
-	BooleanVerifier,
+	type BooleanVerifier,
 	BooleanVerifierImpl,
-	ClassVerifier,
+	type ClassVerifier,
 	ClassVerifierImpl,
-	ExtensibleObjectValidator,
-	ExtensibleObjectVerifier,
-	InetAddressVerifier,
+	type ExtensibleObjectValidator,
+	type ExtensibleObjectVerifier,
+	type InetAddressVerifier,
 	InetAddressVerifierImpl,
-	MapVerifier,
+	type MapVerifier,
 	MapVerifierImpl,
-	NumberVerifier,
+	type NumberVerifier,
 	NumberVerifierImpl,
 	Objects,
-	SetVerifier,
+	type SetVerifier,
 	SetVerifierImpl,
-	StringVerifier,
+	type StringVerifier,
 	StringVerifierImpl
 } from "../internal.mjs";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectVerifier</code>.
+ *
+ * @typeParam S - the type of validator returned by the methods
  */
 abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 	implements ExtensibleObjectVerifier<S>
@@ -32,28 +33,27 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 	/**
 	 * Creates a new AbstractObjectVerifier.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	protected constructor(validator: V)
 	{
-		Objects.requireThatIsSet(validator, "validator");
+		Objects.requireThatValueIsDefinedAndNotNull(validator, "validator");
 		this.validator = validator;
 	}
 
 	/**
-	 * @return {ExtensibleObjectVerifier} this
-	 * @protected
+	 * @returns this
 	 */
 	protected abstract getThis(): S;
 
 	isEqualTo(expected: unknown, name?: string): S
 	{
 		this.validator.isEqualTo(expected, name);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
-	validationResult<R>(result: () => R | S = () => this.getThis()): R | S
+	validationResult<R>(result: () => R): R
 	{
 		if (result === null)
 			throw new TypeError("result may not be null");
@@ -71,67 +71,62 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 	isNotEqualTo(value: unknown, name?: string): S
 	{
 		this.validator.isNotEqualTo(value, name);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isPrimitive(): S
 	{
 		this.validator.isPrimitive();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isTypeOf(type: string): S
 	{
 		this.validator.isTypeOf(type);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isInstanceOf(type: Function): S
 	{
 		this.validator.isInstanceOf(type);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isNull(): S
 	{
 		this.validator.isNull();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isNotNull(): S
 	{
 		this.validator.isNotNull();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isDefined(): S
 	{
 		this.validator.isDefined();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isNotDefined(): S
 	{
 		this.validator.isNotDefined();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isSet(): S
 	{
 		this.validator.isSet();
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	isNotSet(): S
 	{
 		this.validator.isNotSet();
-		return this.validationResult();
-	}
-
-	isActualAvailable(): boolean
-	{
-		return true;
+		return this.validationResult(() => this.getThis());
 	}
 
 	getActual(): unknown
@@ -147,7 +142,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asStringConsumer(consumer: (actual: StringVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asString());
 		return this.getThis();
 	}
@@ -160,7 +155,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asArray());
 		return this.getThis();
 	}
@@ -173,7 +168,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asBooleanConsumer(consumer: (actual: BooleanVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asBoolean());
 		return this.getThis();
 	}
@@ -186,7 +181,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asNumberConsumer(consumer: (actual: NumberVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asNumber());
 		return this.getThis();
 	}
@@ -199,7 +194,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asSetConsumer(consumer: (actual: SetVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asSet());
 		return this.getThis();
 	}
@@ -212,7 +207,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asMapConsumer(consumer: (actual: MapVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asMap());
 		return this.getThis();
 	}
@@ -225,7 +220,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asInetAddressConsumer(consumer: (input: InetAddressVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asInetAddress());
 		return this.getThis();
 	}
@@ -238,7 +233,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 
 	asClassConsumer(consumer: (actual: ClassVerifier) => void): S
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asClass());
 		return this.getThis();
 	}

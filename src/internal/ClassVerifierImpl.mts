@@ -1,8 +1,7 @@
-import
-{
+import {
 	AbstractObjectVerifier,
-	ClassValidator,
-	ClassVerifier
+	type ClassValidator,
+	type ClassVerifier
 } from "./internal.mjs";
 
 /**
@@ -14,35 +13,35 @@ class ClassVerifierImpl extends AbstractObjectVerifier<ClassVerifier, ClassValid
 	/**
 	 * Creates a new ClassVerifierImpl.
 	 *
-	 * @param {object} validator the validator to delegate to
-	 * @throws {TypeError} if <code>validator</code> is null or undefined
+	 * @param validator - the validator to delegate to
+	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
 	constructor(validator: ClassValidator)
 	{
 		super(validator);
 	}
 
-	protected getThis(): ClassVerifier
+	protected getThis()
 	{
 		return this;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): ClassVerifier
+	isSupertypeOf(type: Function)
 	{
 		this.validator.isSupertypeOf(type);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): ClassVerifier
+	isSubtypeOf(type: Function)
 	{
 		this.validator.isSubtypeOf(type);
-		return this.validationResult();
+		return this.validationResult(() => this.getThis());
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function
+	getActual()
 	{
 		// eslint-disable-next-line @typescript-eslint/ban-types
 		return super.getActual() as Function;

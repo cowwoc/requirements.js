@@ -1,18 +1,14 @@
-import
-{
+import {
 	AbstractObjectValidator,
-	ArrayValidator,
-	ArrayValidatorNoOp,
+	type ArrayValidator,
 	Configuration,
-	NumberValidator,
+	type NumberValidator,
 	Objects,
 	Pluralizer,
-	SetValidator,
+	type SetValidator,
 	SetValidatorImpl,
-	SetValidatorNoOp,
 	SizeValidatorImpl,
-	ValidationFailure,
-	NumberValidatorNoOp
+	ValidationFailure
 } from "./internal.mjs";
 import isEqual from "lodash/isEqual.js";
 
@@ -22,71 +18,70 @@ import isEqual from "lodash/isEqual.js";
 class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	implements ArrayValidator
 {
-	private readonly actualArray: unknown[];
+	private readonly actualArray: void | unknown[];
 	private readonly pluralizer: Pluralizer;
 
 	/**
 	 * Creates a new ArrayValidatorImpl.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {Array} actual the actual value
-	 * @param {string} [name] the name of the value
-	 * @param {Pluralizer} pluralizer the plural form of the array elements
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - (optional) the name of the value
+	 * @param pluralizer - the plural form of the array elements
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown[], name: string, pluralizer: Pluralizer)
+	constructor(configuration: Configuration, actual: void | unknown[], name: string, pluralizer: Pluralizer,
+		failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 		this.actualArray = actual;
 		this.pluralizer = pluralizer;
 	}
 
-	protected getThis(): ArrayValidator
+	protected getThis()
 	{
 		return this;
 	}
 
-	protected getNoOp(): ArrayValidator
+	isEmpty()
 	{
-		return new ArrayValidatorNoOp(this.failures);
-	}
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-	isEmpty(): ArrayValidator
-	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
 
-		if (this.actualArray.length !== 0)
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (actualAsNotVoid.length > 0)
 		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must be empty").
+			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty").
 				addContext("Actual", this.actualArray);
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
-	isNotEmpty(): ArrayValidator
+	isNotEmpty()
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (this.actualArray.length === 0)
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (actualAsNotVoid.length === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be empty.");
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	/**
 	 * Indicates if an array contains at least one element of another array.
 	 *
-	 * @param {Array}  array an array of arrays
-	 * @param {object} element an element
-	 * @return {boolean} true if <code>arrays</code> contains the element
-	 * @private
+	 * @param array - an array of arrays
+	 * @param element - an element
+	 * @returns true if <code>arrays</code> contains the element
 	 */
 	private static arrayContainsElement(array: unknown[], element: unknown): boolean
 	{
@@ -100,10 +95,9 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	}
 
 	/**
-	 * @param  {Array}  array an array
-	 * @param  {object} expected an array of expected values
-	 * @return {boolean} true if <code>actual</code> contains any of the <code>expected</code> elements
-	 * @private
+	 * @param array - an array
+	 * @param expected - an array of expected values
+	 * @returns true if <code>actual</code> contains any of the <code>expected</code> elements
 	 */
 	private static arrayContainsAny(array: unknown[], expected: unknown[]): boolean
 	{
@@ -118,10 +112,9 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	/**
 	 * Indicates if an array contains all elements of another array.
 	 *
-	 * @param  {Array} array an array
-	 * @param  {Array} expected an array of expected elements
-	 * @return {boolean} true if <code>actual</code> contains all of the <code>expected</code> elements
-	 * @private
+	 * @param array - an array
+	 * @param expected - an array of expected elements
+	 * @returns true if <code>actual</code> contains all the <code>expected</code> elements
 	 */
 	private static arrayContainsAll(array: unknown[], expected: unknown[]): boolean
 	{
@@ -136,11 +129,13 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	contains(element: unknown, name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (!ArrayValidatorImpl.arrayContainsElement(this.actualArray, element))
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (!ArrayValidatorImpl.arrayContainsElement(actualAsNotVoid, element))
 		{
 			let failure;
 			if (name)
@@ -158,19 +153,21 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	containsExactly(expected: unknown[], name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
+			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(expected, "expected", "array");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
+
+		const actualAsNotVoid = this.actualArray as unknown[];
 		const expectedAsSet = new Set(expected);
-		const actualAsSet = new Set(this.actualArray);
+		const actualAsSet = new Set(actualAsNotVoid);
 		const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
 		const unwanted = new Set([...actualAsSet].filter(x => !expectedAsSet.has(x)));
 		if (missing.size !== 0 || unwanted.size !== 0)
@@ -195,18 +192,20 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	containsAny(expected: unknown[], name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(expected, "expected", "array");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (!ArrayValidatorImpl.arrayContainsAny(this.actualArray, expected))
+		Objects.requireThatTypeOf(expected, "expected", "array");
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (!ArrayValidatorImpl.arrayContainsAny(actualAsNotVoid, expected))
 		{
 			let failure;
 			if (name)
@@ -224,21 +223,23 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	containsAll(expected: unknown[], name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(expected, "expected", "array");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (!ArrayValidatorImpl.arrayContainsAll(this.actualArray, expected))
+		Objects.requireThatTypeOf(expected, "expected", "array");
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (!ArrayValidatorImpl.arrayContainsAll(actualAsNotVoid, expected))
 		{
 			const expectedAsSet = new Set(expected);
-			const actualAsSet = new Set(this.actualArray);
+			const actualAsSet = new Set(actualAsNotVoid);
 			const missing = new Set([...expectedAsSet].filter(x => !actualAsSet.has(x)));
 			let failure;
 			if (name)
@@ -258,17 +259,19 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	doesNotContain(element: unknown, name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (ArrayValidatorImpl.arrayContainsElement(this.actualArray, element))
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (ArrayValidatorImpl.arrayContainsElement(actualAsNotVoid, element))
 		{
 			let failure;
 			if (name)
@@ -286,18 +289,20 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	doesNotContainAny(elements: unknown[], name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(elements, "elements", "array");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (ArrayValidatorImpl.arrayContainsAny(this.actualArray, elements))
+		Objects.requireThatTypeOf(elements, "elements", "array");
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (ArrayValidatorImpl.arrayContainsAny(actualAsNotVoid, elements))
 		{
 			let failure;
 			if (name)
@@ -315,21 +320,23 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	doesNotContainAll(elements: unknown[], name?: string): ArrayValidator
 	{
 		if (typeof (name) !== "undefined")
-			Objects.requireThatStringNotEmpty(name, "name");
-		Objects.requireThatTypeOf(elements, "elements", "array");
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+			Objects.requireThatStringIsNotEmpty(name, "name");
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 
-		if (ArrayValidatorImpl.arrayContainsAll(this.actualArray, elements))
+		Objects.requireThatTypeOf(elements, "elements", "array");
+
+		const actualAsNotVoid = this.actualArray as unknown[];
+		if (ArrayValidatorImpl.arrayContainsAll(actualAsNotVoid, elements))
 		{
 			const elementsAsSet = new Set(elements);
-			const actualAsSet = new Set(this.actualArray);
+			const actualAsSet = new Set(actualAsNotVoid);
 			const missing = new Set([...elementsAsSet].filter(x => !actualAsSet.has(x)));
 			let failure;
 			if (name)
@@ -349,17 +356,19 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 			}
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	doesNotContainDuplicates(): ArrayValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
+
 
 		const unique = new Set();
 		const duplicates = new Set();
-		for (const element of this.actualArray)
+		const actualAsNotVoid = this.actualArray as unknown[];
+		for (const element of actualAsNotVoid)
 		{
 			if (unique.has(element))
 				duplicates.add(element);
@@ -374,32 +383,49 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 				addContext("Duplicates", duplicates);
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this;
 	}
 
 	length(): NumberValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return new NumberValidatorNoOp(this.failures);
-		return new SizeValidatorImpl(this.config, this.actualArray, this.name, this.actualArray.length,
-			this.name + ".length", this.pluralizer);
+		let value: void | unknown[];
+		let length;
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		{
+			value = undefined;
+			length = 0;
+		}
+		else
+		{
+			value = this.actualArray as unknown[];
+			length = value.length;
+		}
+		return new SizeValidatorImpl(this.config, value, this.name, length, this.name + ".length",
+			this.pluralizer, this.failures);
 	}
 
 	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.length());
-		return this.getThis();
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.length());
+		return this;
 	}
 
 	asSet(): SetValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return new SetValidatorNoOp(this.failures);
-		return new SetValidatorImpl(this.config, new Set(this.actualArray), this.name + ".asSet()");
+		let value: void | Set<unknown>;
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+		{
+			const actualAsNotVoid = this.actualArray as unknown[];
+			value = new Set(actualAsNotVoid);
+		}
+		return new SetValidatorImpl(this.config, value, this.name + ".asSet()", this.failures);
 	}
 
-	getActual(): unknown[]
+	getActual(): void | unknown[]
 	{
 		return this.actualArray;
 	}

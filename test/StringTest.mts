@@ -1,5 +1,4 @@
-import
-{
+import {
 	Configuration,
 	EOS_MARKER,
 	TerminalEncoding,

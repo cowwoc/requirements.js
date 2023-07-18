@@ -1,5 +1,4 @@
-import type
-{
+import type {
 	GlobalConfiguration,
 	TerminalEncoding
 } from "./internal.mjs";
@@ -26,10 +25,9 @@ abstract class AbstractGlobalConfiguration implements GlobalConfiguration
 	/**
 	 * Creates a new global configuration.
 	 *
-	 * @param {boolean} assertionsEnabled true if <code>assertThat()</code> should invoke
-	 *   <code>requireThat()</code>
-	 * @param {boolean} diffEnabled true if exceptions should show the difference between the actual and
-	 *   expected values
+	 * @param assertionsEnabled - true if <code>assertThat()</code> should invoke <code>requireThat()</code>
+	 * @param diffEnabled - true if exceptions should show the difference between the actual and expected
+	 *   values
 	 */
 	protected constructor(assertionsEnabled: boolean, diffEnabled: boolean)
 	{

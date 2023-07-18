@@ -1,18 +1,14 @@
-import
-{
+import {
 	AbstractObjectValidator,
-	ArrayValidator,
+	type ArrayValidator,
 	ArrayValidatorImpl,
-	ArrayValidatorNoOp,
 	Configuration,
-	MapValidator,
-	MapValidatorNoOp,
-	NumberValidator,
-	NumberValidatorNoOp,
+	type MapValidator,
+	type NumberValidator,
 	Objects,
 	Pluralizer,
-	ValidationFailure,
-	SizeValidatorImpl
+	SizeValidatorImpl,
+	ValidationFailure
 } from "./internal.mjs";
 
 /**
@@ -26,32 +22,28 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 	/**
 	 * Creates a new MapValidatorImpl.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {object} actual the actual value
-	 * @param {string} name the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string)
+	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
+		super(configuration, actual, name, failures);
 		this.actualMap = this.actual as Map<unknown, unknown>;
 	}
 
-	protected getThis(): MapValidator
+	protected getThis()
 	{
 		return this;
 	}
 
-	protected getNoOp(): MapValidator
+	isEmpty()
 	{
-		return new MapValidatorNoOp(this.failures);
-	}
-
-	isEmpty(): MapValidator
-	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualMap.size !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
@@ -61,10 +53,10 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 		return this;
 	}
 
-	isNotEmpty(): MapValidator
+	isNotEmpty()
 	{
-		if (!this.requireThatActualIsSet())
-			return this.getNoOp();
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			return this;
 		if (this.actualMap.size === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -74,63 +66,78 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 		return this;
 	}
 
-	keys(): ArrayValidator
+	keys()
 	{
-		if (!this.requireThatActualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidatorImpl(this.config, Array.from(this.actualMap.keys()), this.name + ".keys()",
-			Pluralizer.KEY);
+		let value: void | unknown[];
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+			value = Array.from(this.actualMap.keys());
+		return new ArrayValidatorImpl(this.config, value, this.name + ".keys()", Pluralizer.KEY, this.failures);
 	}
 
-	keysConsumer(consumer: (actual: ArrayValidator) => void): MapValidator
+	keysConsumer(consumer: (actual: ArrayValidator) => void)
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.keys());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.keys());
 		return this;
 	}
 
-	values(): ArrayValidator
+	values()
 	{
-		if (!this.requireThatActualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidatorImpl(this.config, Array.from(this.actualMap.values()), this.name + ".values()",
-			Pluralizer.VALUE);
+		let value: void | unknown[];
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+			value = Array.from(this.actualMap.values());
+		return new ArrayValidatorImpl(this.config, value, this.name + ".values()", Pluralizer.VALUE,
+			this.failures);
 	}
 
-	valuesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator
+	valuesConsumer(consumer: (actual: ArrayValidator) => void)
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.values());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.values());
 		return this;
 	}
 
-	entries(): ArrayValidator
+	entries()
 	{
-		if (!this.requireThatActualIsSet())
-			return new ArrayValidatorNoOp(this.failures);
-		return new ArrayValidatorImpl(this.config, Array.from(this.actualMap.entries()), this.name + ".entries()",
-			Pluralizer.ENTRY);
+		let value: void | unknown[];
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+			value = Array.from(this.actualMap.entries());
+		return new ArrayValidatorImpl(this.config, value, this.name + ".entries()", Pluralizer.ENTRY,
+			this.failures);
 	}
 
 	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.entries());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.entries());
 		return this;
 	}
 
 	size(): NumberValidator
 	{
-		if (!this.requireThatActualIsSet())
-			return new NumberValidatorNoOp(this.failures);
-		return new SizeValidatorImpl(this.config, this.actualMap, this.name, this.actualMap.size,
-			this.name + ".size", Pluralizer.ENTRY);
+		let value: void | unknown[] | Set<unknown> | Map<unknown, unknown> | string;
+		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+			value = undefined;
+		else
+			value = this.actualMap;
+		return new SizeValidatorImpl(this.config, value, this.name, this.actualMap.size, this.name + ".size",
+			Pluralizer.ENTRY, this.failures);
 	}
 
 	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator
 	{
-		Objects.requireThatIsSet(consumer, "consumer");
-		consumer(this.size());
+		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
+		if (this.failures.length === 0)
+			consumer(this.size());
 		return this;
 	}
 

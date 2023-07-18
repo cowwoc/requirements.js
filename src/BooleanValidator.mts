@@ -3,25 +3,25 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
 /**
  * Validates the requirements of a <code>boolean</code>.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link #isNotNull()}.
+ * Verifier and Validator methods are equivalent.
+ * Validators return validation failures through the {@link getFailures} method, while Verifiers throw them
+ * as exceptions.
  *
- * Verifiers and Validators contain corresponding methods. Some exceptions are thrown by both methods.
- * The remaining exceptions that are thrown by the verifier are wrapped as validation failures and are
- * returned by {@link #getFailures}.
+ * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
 interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator>
 {
 	/**
 	 * Ensures that the actual value is true.
 	 *
-	 * @return {BooleanValidator} the updated validator
+	 * @returns the updated validator
 	 */
 	isTrue(): BooleanValidator;
 
 	/**
 	 * Ensures that the actual value is false.
 	 *
-	 * @return {BooleanValidator} the updated validator
+	 * @returns the updated validator
 	 */
 	isFalse(): BooleanValidator;
 
@@ -31,4 +31,4 @@ interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator>
 // "export default X" exports by value, whereas "export X as default" exports by reference.
 // See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
 // explanation.
-export {BooleanValidator as default};
+export {type BooleanValidator as default};

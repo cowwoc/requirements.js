@@ -1,12 +1,10 @@
-import
-{
-	TestGlobalConfiguration,
+import {
+	Configuration,
 	TerminalEncoding,
-	Configuration
+	TestGlobalConfiguration
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
-import
-{
+import {
 	suite,
 	test
 } from "mocha";

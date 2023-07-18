@@ -1,9 +1,8 @@
-import
-{
+import {
 	AbstractNumberValidator,
 	Configuration,
-	NumberValidator,
-	NumberValidatorNoOp
+	type NumberValidator,
+	ValidationFailure
 } from "./internal.mjs";
 
 /**
@@ -15,20 +14,16 @@ class NumberValidatorImpl extends AbstractNumberValidator<NumberValidator>
 	/**
 	 * Creates a new NumberValidator.
 	 *
-	 * @param {Configuration} configuration the instance configuration
-	 * @param {Array} actual the actual value
-	 * @param {string} [name] the name of the value
-	 * @throws {TypeError} if <code>configuration</code> or <code>name</code> are null or undefined
-	 * @throws {RangeError} if <code>name</code> is empty
+	 * @param configuration - the instance configuration
+	 * @param actual - the actual value
+	 * @param name - (optional) the name of the value
+	 * @param failures - the list of validation failures
+	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
+	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string)
+	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
 	{
-		super(configuration, actual, name);
-	}
-
-	protected getNoOp(): NumberValidator
-	{
-		return new NumberValidatorNoOp(this.failures);
+		super(configuration, actual, name, failures);
 	}
 
 	protected getThis(): NumberValidator
