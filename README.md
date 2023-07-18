@@ -9,6 +9,7 @@
 
 A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
+
 ✔️ Easy to use  
 ✔️ Fast  
 ✔️ Production-ready
