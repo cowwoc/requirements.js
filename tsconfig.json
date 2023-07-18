@@ -4,27 +4,34 @@
 	"compilerOptions": {
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
-		"target": "ES2022",
+		"target": "ES2021",
 		"lib": [
 			"DOM",
-			"ESNext"
+			"ES2021"
 		],
-		"module": "ES2022",
-		"moduleResolution": "node",
+		"module": "Node16",
+		"moduleResolution": "node16",
 		// Import non-ES modules as default imports
 		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
-		"importsNotUsedAsValues": "error",
-		// Required by NYC
+		"verbatimModuleSyntax": true,
+		// Required by C8
 		"sourceMap": true
 	},
 	"include": [
-		"src/**/*.ts",
-		"test/**/*.ts"
+		"src/**/*.mts",
+		"test/**/*.mts"
 	],
 	"exclude": [
-		"node_modules"
+		"node_modules",
+		"target",
+		"scripts",
+		"./*.mts",
+		"./.eslintrc.mjs"
+	],
+	"typeRoots": [
+		"node_modules/@types"
 	],
 	"declaration": true
 }

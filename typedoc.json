@@ -1,0 +1,9 @@
+{
+	"entryPoints": [
+		"src"
+	],
+	"excludePrivate": true,
+	"includeVersion": true,
+	"treatWarningsAsErrors": true,
+	"treatValidationWarningsAsErrors": true
+}

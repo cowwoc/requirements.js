@@ -1,0 +1,14 @@
+{
+	"extension": [
+		".mts"
+	],
+	"include": [
+		"test/*.mts"
+	],
+	"exclude": [
+		"**/*.d.mts"
+	],
+	"all": true,
+	"instrument": true,
+	"sourceMap": true
+}
