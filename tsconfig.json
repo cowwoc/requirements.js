@@ -16,7 +16,7 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
-		// Required by NYC
+		// Required by C8
 		"sourceMap": true
 	},
 	"include": [

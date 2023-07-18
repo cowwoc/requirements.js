@@ -7,7 +7,6 @@ syntax: glob
 **/node_modules/
 target/
 coverage/
-.nyc_output/
 
 # Release scripts
 *.bat

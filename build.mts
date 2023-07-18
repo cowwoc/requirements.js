@@ -279,14 +279,14 @@ class Build
 	{
 		log.info("test()");
 		const binPath = path.resolve("./node_modules/.bin");
-		const nycPath = path.resolve(binPath + "/nyc");
+		const c8Path = path.resolve(binPath + "/c8");
 		const mochaPath = path.resolve(binPath + "/mocha");
 
 		// https://stackoverflow.com/a/53204227/14731
 		return new Promise(function(resolve, reject)
 		{
 			// https://stackoverflow.com/a/14231570/14731
-			const process = spawn(nycPath, [mochaPath, "./test/**/*.mts"],
+			const process = spawn(c8Path, [mochaPath, "./test/**/*.mts"],
 				{
 					shell: true,
 					stdio: "inherit"
