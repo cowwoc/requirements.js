@@ -44,10 +44,6 @@ export default {
 	"rules": {
 		// "indent" is broken for Typescript: https://github.com/typescript-eslint/typescript-eslint/issues/1824
 		"indent": "off",
-		"linebreak-style": [
-			"error",
-			"windows"
-		],
 		"quotes": [
 			"error",
 			"double"
