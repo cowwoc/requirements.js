@@ -1,29 +1,31 @@
+import isEqual from "lodash/isEqual.js";
+import type {
+	ArrayValidator,
+	BooleanValidator,
+	ClassValidator,
+	ContextLine,
+	ExtensibleObjectValidator,
+	InetAddressValidator,
+	MapValidator,
+	NumberValidator,
+	SetValidator,
+	StringValidator
+} from "../internal.mjs";
 import {
-	type ArrayValidator,
 	ArrayValidatorImpl,
-	type BooleanValidator,
 	BooleanValidatorImpl,
-	type ClassValidator,
 	ClassValidatorImpl,
 	Configuration,
 	ContextGenerator,
-	ContextLine,
-	type ExtensibleObjectValidator,
-	type InetAddressValidator,
 	InetAddressValidatorImpl,
-	type MapValidator,
 	MapValidatorImpl,
-	type NumberValidator,
 	NumberValidatorImpl,
 	Objects,
 	Pluralizer,
-	type SetValidator,
 	SetValidatorImpl,
-	type StringValidator,
 	StringValidatorImpl,
 	ValidationFailure
 } from "../internal.mjs";
-import isEqual from "lodash/isEqual.js";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectValidator</code>.
@@ -634,7 +636,4 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {AbstractObjectValidator as default};
+export {AbstractObjectValidator};

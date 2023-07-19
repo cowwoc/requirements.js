@@ -1,14 +1,21 @@
 import type {
+	ExtensibleObjectValidator,
 	NumberVerifier,
 	ObjectVerifier
 } from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ExtensibleObjectValidator<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of a <code>string</code>.
  * <p>
  * Verifier and Validator methods are equivalent.
- * Validators return validation failures through the {@link getFailures} method, while Verifiers throw them
- * as exceptions.
+ * Validators return validation failures through the
+ * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
+ * exceptions.
  *
  * All methods (except for {@link asString} and those found in {@link ObjectValidator}) imply
  * {@link isNotNull}.
@@ -136,7 +143,4 @@ interface StringVerifier extends ObjectVerifier
 	getActual(): string;
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {type StringVerifier as default};
+export {type StringVerifier};

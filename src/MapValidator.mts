@@ -8,8 +8,9 @@ import type {
  * Validates the requirements of a <code>Map</code>.
  *
  * Verifier and Validator methods are equivalent.
- * Validators return validation failures through the {@link getFailures} method, while Verifiers throw them
- * as exceptions.
+ * Validators return validation failures through the
+ * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
+ * exceptions.
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
@@ -83,7 +84,4 @@ interface MapValidator extends ExtensibleObjectValidator<MapValidator>
 	getActual(): Map<unknown, unknown> | void;
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {type MapValidator as default};
+export {type MapValidator};

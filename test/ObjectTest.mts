@@ -1,16 +1,16 @@
 import {
-	Configuration,
-	type ObjectValidator,
-	TerminalEncoding,
-	TestGlobalConfiguration
-} from "../src/internal/internal.mjs";
-import {Requirements} from "../src/index.mjs";
-import ObjectVerifierImpl from "../src/internal/ObjectVerifierImpl.mjs";
-import {
 	suite,
 	test
 } from "mocha";
 import {assert} from "chai";
+import type {ObjectValidator} from "../src/internal/internal.mjs";
+import {
+	Configuration,
+	ObjectVerifierImpl,
+	TerminalEncoding,
+	TestGlobalConfiguration
+} from "../src/internal/internal.mjs";
+import {Requirements} from "../src/index.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);

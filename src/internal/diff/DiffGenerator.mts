@@ -1,8 +1,6 @@
+import type {Change} from "diff";
+import {diffChars} from "diff";
 import stripAnsi from "strip-ansi";
-import {
-	type Change,
-	diffChars
-} from "diff";
 import {
 	DiffResult,
 	Node16Colors,
@@ -379,7 +377,7 @@ class DiffGenerator
 		// Mark the end of the string to guard against cases that end with whitespace
 		const actualWithEos = actual + EOS_MARKER;
 		const expectedWithEos = expected + EOS_MARKER;
-		const writer = TerminalEncodings.createDiffWriter(this.terminalEncoding);
+		const writer = this.createDiffWriter(this.terminalEncoding);
 		const deltas = diffChars(actualWithEos, expectedWithEos);
 		this.reduceDeltasPerWord.accept(deltas);
 		for (const delta of deltas)
@@ -387,6 +385,28 @@ class DiffGenerator
 		writer.close();
 		return new DiffResult(writer.getActualLines(), writer.getDiffLines(), writer.getExpectedLines(),
 			writer.getPaddingMarker());
+	}
+
+	/**
+	 * @param terminalEncoding - the encoding to use for the terminal
+	 * @returns a writer that generates a diff
+	 */
+	createDiffWriter(terminalEncoding: TerminalEncoding):
+		TextOnly | Node16Colors | Node256Colors | Node16MillionColors
+	{
+		switch (terminalEncoding)
+		{
+			case TerminalEncoding.NONE:
+				return new TextOnly();
+			case TerminalEncoding.NODE_16_COLORS:
+				return new Node16Colors();
+			case TerminalEncoding.NODE_256_COLORS:
+				return new Node256Colors();
+			case TerminalEncoding.NODE_16MILLION_COLORS:
+				return new Node16MillionColors();
+			default:
+				throw new RangeError(Objects.toString(terminalEncoding));
+		}
 	}
 
 	/**
@@ -413,9 +433,6 @@ class DiffGenerator
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
 export
 {
 	DiffGenerator,

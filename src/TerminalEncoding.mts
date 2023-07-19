@@ -1,8 +1,5 @@
 import {
 	AbstractColorWriter,
-	Node16Colors,
-	Node16MillionColors,
-	Node256Colors,
 	Objects,
 	TextOnly
 } from "./internal/internal.mjs";
@@ -53,28 +50,6 @@ class TerminalEncodings
 
 	/**
 	 * @param terminalEncoding - the encoding to use for the terminal
-	 * @returns a writer that generates a diff
-	 */
-	static createDiffWriter(terminalEncoding: TerminalEncoding):
-		TextOnly | Node16Colors | Node256Colors | Node16MillionColors
-	{
-		switch (terminalEncoding)
-		{
-			case TerminalEncoding.NONE:
-				return new TextOnly();
-			case TerminalEncoding.NODE_16_COLORS:
-				return new Node16Colors();
-			case TerminalEncoding.NODE_256_COLORS:
-				return new Node256Colors();
-			case TerminalEncoding.NODE_16MILLION_COLORS:
-				return new Node16MillionColors();
-			default:
-				throw new RangeError(Objects.toString(terminalEncoding));
-		}
-	}
-
-	/**
-	 * @param terminalEncoding - the encoding to use for the terminal
 	 * @returns the padding character used to align values vertically
 	 */
 	static getPaddingMarker(terminalEncoding: TerminalEncoding)
@@ -93,9 +68,6 @@ class TerminalEncodings
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
 export
 {
 	TerminalEncoding,

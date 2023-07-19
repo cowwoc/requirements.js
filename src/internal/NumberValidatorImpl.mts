@@ -1,9 +1,9 @@
-import {
-	AbstractNumberValidator,
+import type {
 	Configuration,
-	type NumberValidator,
+	NumberValidator,
 	ValidationFailure
 } from "./internal.mjs";
+import {AbstractNumberValidator} from "./internal.mjs";
 
 /**
  * Default implementation of <code>NumberValidator</code>.
@@ -32,7 +32,4 @@ class NumberValidatorImpl extends AbstractNumberValidator<NumberValidator>
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {NumberValidatorImpl as default};
+export {NumberValidatorImpl};

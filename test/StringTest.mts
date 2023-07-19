@@ -1,16 +1,16 @@
 import {
+	suite,
+	test
+} from "mocha";
+import {assert} from "chai";
+import {
 	Configuration,
 	EOS_MARKER,
 	TerminalEncoding,
 	TestGlobalConfiguration,
 	TextOnly
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/index.mjs";
-import {
-	suite,
-	test
-} from "mocha";
-import {assert} from "chai";
+import {Requirements} from "../src/Requirements.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);

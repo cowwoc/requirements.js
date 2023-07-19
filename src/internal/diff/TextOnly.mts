@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2016 Gili Tzabari
- * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
- */
 import {
 	AbstractDiffWriter,
 	IllegalStateError,
@@ -277,7 +273,4 @@ class TextOnly extends AbstractDiffWriter
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {TextOnly as default};
+export {TextOnly};

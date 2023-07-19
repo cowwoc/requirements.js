@@ -1,8 +1,8 @@
-import {
-	AbstractNumberVerifier,
-	type NumberValidator,
-	type NumberVerifier
+import type {
+	NumberValidator,
+	NumberVerifier
 } from "./internal.mjs";
+import {AbstractNumberVerifier} from "./internal.mjs";
 
 /**
  * Default implementation of <code>NumberVerifier</code>.
@@ -27,7 +27,4 @@ class NumberVerifierImpl extends AbstractNumberVerifier<NumberVerifier, NumberVa
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {NumberVerifierImpl as default};
+export {NumberVerifierImpl};

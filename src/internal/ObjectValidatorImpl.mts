@@ -1,9 +1,9 @@
-import {
-	AbstractObjectValidator,
+import type {
 	Configuration,
-	type ObjectValidator,
+	ObjectValidator,
 	ValidationFailure
 } from "./internal.mjs";
+import {AbstractObjectValidator} from "./internal.mjs";
 
 /**
  * Default implementation of <code>ObjectValidator</code>.
@@ -33,7 +33,4 @@ class ObjectValidatorImpl extends AbstractObjectValidator<ObjectValidator>
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {ObjectValidatorImpl as default};
+export {ObjectValidatorImpl};
