@@ -72,7 +72,7 @@ requireThat(nameToAge, "nameToAge").asMap().
 
 ## String diff
 
-When a [String comparison](https://cowwoc.github.io/requirements.js/3.2.0/docs/api/ObjectVerifier.html#isEqualTo)
+When a [String comparison](https://cowwoc.github.io/requirements.js/3.2.1/docs/api/ObjectVerifier.html#isEqualTo)
 fails, the library outputs a [diff](String_Diff.md) of the values being compared.
 
 ![colored-diff-example4.png](colored-diff-example4.png)

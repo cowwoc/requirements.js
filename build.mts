@@ -13,9 +13,6 @@ import {
 	type Plugin,
 	rollup
 } from "rollup";
-import {babel as rollupBabel} from "@rollup/plugin-babel";
-// @ts-ignore
-import babelConfig from "./.babelrc.mjs";
 import {assert} from "chai";
 import ts from "typescript";
 import {glob} from "glob";
@@ -127,35 +124,19 @@ class Build
 	{
 		log.info("compileForBrowser()");
 		// WORKAROUND: https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
-		const commonJsPlugin = (rollupCommonjs as unknown as (typeof rollupCommonjs)["default"]);
+		const commonJsToEsm = (rollupCommonjs as unknown as (typeof rollupCommonjs)["default"]);
 		const typescriptPlugin = (rollupTypescript as unknown as (typeof rollupTypescript)["default"]);
 
 		// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
 		const plugins: Plugin[] = [
+			commonJsToEsm,
 			typescriptPlugin(),
 			rollupNodeResolve(
 				{
 					mainFields: ["module"],
 					preferBuiltins: true
 				}),
-			commonJsPlugin({include: "node_modules/**"}),
-			rollupBabel(
-				{
-					presets:
-						[
-							[
-								"@babel/preset-env", {targets: ["defaults"]}
-							]
-						],
-					babelHelpers: "runtime",
-					plugins:
-						[
-							[
-								"@babel/plugin-transform-runtime", {useESModules: true}
-							]
-						],
-					ignore: babelConfig.ignore
-				})
+			commonJsToEsm({include: "node_modules/**"})
 		];
 
 		const bundle = await rollup(
@@ -248,10 +229,14 @@ class Build
 		app.bootstrap();
 
 		const project = app.convert();
-
 		if (!project)
 			process.exit(1);
+		app.validate(project);
+		if (app.logger.hasErrors() || app.logger.hasWarnings())
+			process.exit(1);
 		await app.generateDocs(project, targetDirectory);
+		if (app.logger.hasErrors() || app.logger.hasWarnings())
+			process.exit(1);
 	}
 
 	public async copyResources()

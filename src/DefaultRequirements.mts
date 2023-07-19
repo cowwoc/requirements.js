@@ -1,4 +1,14 @@
+import type {
+	GlobalConfiguration,
+	ObjectValidator,
+	ObjectVerifier
+} from "./internal/internal.mjs";
 import {Requirements} from "./internal/internal.mjs";
+
+const typedocWorkaround: null | GlobalConfiguration = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 const delegate = new Requirements();
 
@@ -11,7 +21,7 @@ const delegate = new Requirements();
  * @throws TypeError  if <code>name</code> is null
  * @throws RangeError if <code>name</code> is empty
  */
-function requireThat(actual: unknown, name: string)
+function requireThat(actual: unknown, name: string): ObjectVerifier
 {
 	return delegate.requireThat(actual, name);
 }
@@ -61,7 +71,7 @@ function assertThatAndReturn(requirements: (requirements: Requirements) => void)
  * @throws RangeError if <code>name</code> is empty
  * @see {@link GlobalConfiguration.assertionsAreEnabled | GlobalConfiguration.assertionsAreEnabled}
  */
-function validateThat(actual: unknown, name: string)
+function validateThat(actual: unknown, name: string): ObjectValidator
 {
 	return delegate.validateThat(actual, name);
 }

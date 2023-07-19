@@ -1,11 +1,13 @@
+import type {
+	ArrayValidator,
+	ArrayVerifier,
+	NumberVerifier,
+	SetVerifier
+} from "./internal.mjs";
 import {
 	AbstractObjectVerifier,
-	type ArrayValidator,
-	type ArrayVerifier,
-	type NumberVerifier,
 	NumberVerifierImpl,
 	Objects,
-	type SetVerifier,
 	SetVerifierImpl
 } from "./internal.mjs";
 
@@ -123,7 +125,4 @@ class ArrayVerifierImpl extends AbstractObjectVerifier<ArrayVerifier, ArrayValid
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {ArrayVerifierImpl as default};
+export {ArrayVerifierImpl};

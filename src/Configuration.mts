@@ -1,7 +1,5 @@
-import {
-	type GlobalConfiguration,
-	Objects
-} from "./internal/internal.mjs";
+import type {GlobalConfiguration} from "./internal/internal.mjs";
+import {Objects} from "./internal/internal.mjs";
 
 /**
  * A verifier's configuration.
@@ -233,7 +231,4 @@ class Configuration
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {Configuration as default};
+export {Configuration};

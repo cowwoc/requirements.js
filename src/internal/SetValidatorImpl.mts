@@ -1,14 +1,16 @@
+import type {
+	ArrayValidator,
+	Configuration,
+	NumberValidator,
+	SetValidator
+} from "./internal.mjs";
 import {
 	AbstractObjectValidator,
-	type ArrayValidator,
 	ArrayValidatorImpl,
-	Configuration,
-	type NumberValidator,
 	Objects,
 	ObjectValidatorImpl,
 	ObjectVerifierImpl,
 	Pluralizer,
-	type SetValidator,
 	SizeValidatorImpl,
 	ValidationFailure
 } from "./internal.mjs";
@@ -397,7 +399,4 @@ class SetValidatorImpl extends AbstractObjectValidator<SetValidator>
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {SetValidatorImpl as default};
+export {SetValidatorImpl};

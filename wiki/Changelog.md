@@ -1,7 +1,14 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
-## Version 3.2.0 - 2023/07/18
+## Version 3.2.1 - 2023/07/19
+
+* Breaking changes:
+  * Migrated from default to named-exports to improve documentation and code-complete discoverability.
+* Bugfix: Documentation was missing all the interfaces.
+* Removed all babel dependencies.
+
+* ## Version 3.2.0 - 2023/07/18
 
 * Breaking changes:
   * Dropped support for CommonJS.

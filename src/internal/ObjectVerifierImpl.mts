@@ -1,22 +1,24 @@
+import type {
+	ArrayVerifier,
+	BooleanVerifier,
+	ClassVerifier,
+	InetAddressVerifier,
+	MapVerifier,
+	NumberVerifier,
+	ObjectValidator,
+	ObjectVerifier,
+	SetVerifier,
+	StringVerifier
+} from "./internal.mjs";
 import {
-	type ArrayVerifier,
 	ArrayVerifierImpl,
-	type BooleanVerifier,
 	BooleanVerifierImpl,
-	type ClassVerifier,
 	ClassVerifierImpl,
-	type InetAddressVerifier,
 	InetAddressVerifierImpl,
-	type MapVerifier,
 	MapVerifierImpl,
-	type NumberVerifier,
 	NumberVerifierImpl,
 	Objects,
-	type ObjectValidator,
-	type ObjectVerifier,
-	type SetVerifier,
 	SetVerifierImpl,
-	type StringVerifier,
 	StringVerifierImpl
 } from "./internal.mjs";
 
@@ -410,7 +412,4 @@ class ObjectVerifierImpl<V extends ObjectValidator> implements ObjectVerifier
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {ObjectVerifierImpl as default};
+export {ObjectVerifierImpl};

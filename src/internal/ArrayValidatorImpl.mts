@@ -1,16 +1,18 @@
+import isEqual from "lodash/isEqual.js";
+import type {
+	ArrayValidator,
+	Configuration,
+	NumberValidator,
+	Pluralizer,
+	SetValidator
+} from "./internal.mjs";
 import {
 	AbstractObjectValidator,
-	type ArrayValidator,
-	Configuration,
-	type NumberValidator,
 	Objects,
-	Pluralizer,
-	type SetValidator,
 	SetValidatorImpl,
 	SizeValidatorImpl,
 	ValidationFailure
 } from "./internal.mjs";
-import isEqual from "lodash/isEqual.js";
 
 /**
  * Default implementation of <code>ArrayValidator</code>.
@@ -431,7 +433,4 @@ class ArrayValidatorImpl extends AbstractObjectValidator<ArrayValidator>
 	}
 }
 
-// "export default X" exports by value, whereas "export X as default" exports by reference.
-// See http://stackoverflow.com/a/39277065/14731 and https://github.com/rollup/rollup/issues/1378 for an
-// explanation.
-export {ArrayValidatorImpl as default};
+export {ArrayValidatorImpl};

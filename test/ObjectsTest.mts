@@ -1,5 +1,7 @@
-import {Objects} from "../src/internal/internal.mjs";
-import VariableType from "../src/internal/VariableType.mjs";
+import {
+	Objects,
+	VariableType
+} from "../src/internal/internal.mjs";
 import {
 	suite,
 	test
@@ -27,6 +29,7 @@ suite("ObjectsTest", () =>
 	test("getTypeOf_Boolean", () =>
 	{
 		// eslint-disable-next-line no-new-wrappers
+		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new Boolean(true);
 		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "Boolean"));
 	});
