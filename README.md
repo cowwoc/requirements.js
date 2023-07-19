@@ -23,7 +23,7 @@ npm install --save @cowwoc/requirements@3.2.1
 or [pnpm](https://pnpm.io/):
 
 ```shell
-pnpm install @cowwoc/requirements@3.2.1
+pnpm add @cowwoc/requirements@3.2.1
 ```
 
 The contents of the API classes depend on which [modules](wiki/Supported_Libraries.md) are enabled.
