@@ -1,0 +1,732 @@
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>ExtensibleObjectValidator | @cowwoc/requirements - v3.2.1</title><meta name="description" content="Documentation for @cowwoc/requirements"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container">
+<div class="table-cell" id="tsd-search" data-base="..">
+<div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
+<div class="field">
+<div id="tsd-toolbar-links"></div></div>
+<ul class="results">
+<li class="state loading">Preparing search index...</li>
+<li class="state failure">The search index is not available</li></ul><a href="../index.html" class="title">@cowwoc/requirements - v3.2.1</a></div>
+<div class="table-cell" id="tsd-widgets"><a href="#" class="tsd-widget tsd-toolbar-icon menu no-caption" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="7" width="14" height="2" fill="var(--color-text)"></rect><rect x="1" y="11" width="14" height="2" fill="var(--color-text)"></rect></svg></a></div></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<ul class="tsd-breadcrumb">
+<li><a href="../index.html">@cowwoc/requirements</a></li>
+<li><a href="../modules/extension_ExtensibleObjectValidator.html">extension/ExtensibleObjectValidator</a></li>
+<li><a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html">ExtensibleObjectValidator</a></li></ul>
+<h1>Interface ExtensibleObjectValidator&lt;S&gt;</h1></div>
+<section class="tsd-panel tsd-comment">
+<div class="tsd-comment tsd-typography"><p>Validates the requirements of an object.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></section> 
+<section class="tsd-panel">
+<h4>Type Parameters</h4>
+<ul class="tsd-type-parameter-list">
+<li>
+<h4><span class="tsd-kind-type-parameter">S</span></h4>
+<div class="tsd-comment tsd-typography"><p>the type of validator returned by the methods</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></section> 
+<section class="tsd-panel tsd-hierarchy">
+<h4>Hierarchy</h4>
+<ul class="tsd-hierarchy">
+<li><span class="target">ExtensibleObjectValidator</span>
+<ul class="tsd-hierarchy">
+<li><a href="ArrayValidator.ArrayValidator.html" class="tsd-signature-type tsd-kind-interface">ArrayValidator</a></li>
+<li><a href="BooleanValidator.BooleanValidator.html" class="tsd-signature-type tsd-kind-interface">BooleanValidator</a></li>
+<li><a href="ClassValidator.ClassValidator.html" class="tsd-signature-type tsd-kind-interface">ClassValidator</a></li>
+<li><a href="InetAddressValidator.InetAddressValidator.html" class="tsd-signature-type tsd-kind-interface">InetAddressValidator</a></li>
+<li><a href="MapValidator.MapValidator.html" class="tsd-signature-type tsd-kind-interface">MapValidator</a></li>
+<li><a href="ObjectValidator.ObjectValidator.html" class="tsd-signature-type tsd-kind-interface">ObjectValidator</a></li>
+<li><a href="SetValidator.SetValidator.html" class="tsd-signature-type tsd-kind-interface">SetValidator</a></li>
+<li><a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a></li>
+<li><a href="extension_ExtensibleNumberValidator.ExtensibleNumberValidator.html" class="tsd-signature-type tsd-kind-interface">ExtensibleNumberValidator</a></li></ul></li></ul></section><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L18">extension/ExtensibleObjectValidator.mts:18</a></li></ul></aside>
+<section class="tsd-panel-group tsd-index-group">
+<section class="tsd-panel tsd-index-panel">
+<details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
+<h5 class="tsd-index-heading uppercase" role="button" aria-expanded="false" tabIndex=0><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1.5 5.50969L8 11.6609L14.5 5.50969L12.5466 3.66086L8 7.96494L3.45341 3.66086L1.5 5.50969Z" fill="var(--color-text)"></path></svg> Index</h5></summary>
+<div class="tsd-accordion-details">
+<section class="tsd-index-section">
+<h3 class="tsd-index-heading">Methods</h3>
+<div class="tsd-index-list"><a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asArray" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-2048"><rect fill="var(--color-icon-background)" stroke="#FF4DB8" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="12"></rect><path d="M9.162 16V7.24H10.578L11.514 10.072C11.602 10.328 11.674 10.584 11.73 10.84C11.794 11.088 11.842 11.28 11.874 11.416C11.906 11.28 11.954 11.088 12.018 10.84C12.082 10.584 12.154 10.324 12.234 10.06L13.122 7.24H14.538V16H13.482V12.82C13.482 12.468 13.49 12.068 13.506 11.62C13.53 11.172 13.558 10.716 13.59 10.252C13.622 9.78 13.654 9.332 13.686 8.908C13.726 8.476 13.762 8.1 13.794 7.78L12.366 12.16H11.334L9.894 7.78C9.934 8.092 9.97 8.456 10.002 8.872C10.042 9.28 10.078 9.716 10.11 10.18C10.142 10.636 10.166 11.092 10.182 11.548C10.206 12.004 10.218 12.428 10.218 12.82V16H9.162Z" fill="var(--color-text)"></path></g></svg><span>as<wbr/>Array</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asArrayConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Array<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asBoolean" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Boolean</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asBooleanConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Boolean<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asClass" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Class</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asClassConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Class<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asInetAddress" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Inet<wbr/>Address</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asInetAddressConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Inet<wbr/>Address<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asMap" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Map</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asMapConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Map<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asNumber" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Number</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asNumberConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Number<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asSet" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Set</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asSetConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Set<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asString" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>String</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#asStringConsumer" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>String<wbr/>Consumer</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#getActual" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Actual</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#getFailures" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Failures</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isDefined" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Defined</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isEqualTo" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Equal<wbr/>To</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isInstanceOf" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Instance<wbr/>Of</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isNotDefined" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Defined</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isNotEqualTo" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Equal<wbr/>To</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isNotNull" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Null</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isNotSet" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Set</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isNull" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Null</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isPrimitive" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Primitive</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isSet" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Set</span></a>
+<a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html#isTypeOf" class="tsd-index-link"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Type<wbr/>Of</span></a>
+</div></section></div></details></section></section>
+<section class="tsd-panel-group tsd-member-group">
+<h2>Methods</h2>
+<section class="tsd-panel tsd-member"><a id="asArray" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Array</span><a href="#asArray" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asArray.asArray-1"><span class="tsd-kind-call-signature">as<wbr/>Array</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ArrayValidator.ArrayValidator.html" class="tsd-signature-type tsd-kind-interface">ArrayValidator</a><a href="#asArray.asArray-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="ArrayValidator.ArrayValidator.html" class="tsd-signature-type tsd-kind-interface">ArrayValidator</a></h4><p>a validator for the <code>Array</code></p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L142">extension/ExtensibleObjectValidator.mts:142</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asArrayConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Array<wbr/>Consumer</span><a href="#asArrayConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asArrayConsumer.asArrayConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Array<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asArrayConsumer.asArrayConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="ArrayValidator.ArrayValidator.html" class="tsd-kind-interface">ArrayValidator</a> for the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">input</span>: <a href="ArrayValidator.ArrayValidator.html" class="tsd-signature-type tsd-kind-interface">ArrayValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L149">extension/ExtensibleObjectValidator.mts:149</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asBoolean" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Boolean</span><a href="#asBoolean" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asBoolean.asBoolean-1"><span class="tsd-kind-call-signature">as<wbr/>Boolean</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="BooleanValidator.BooleanValidator.html" class="tsd-signature-type tsd-kind-interface">BooleanValidator</a><a href="#asBoolean.asBoolean-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="BooleanValidator.BooleanValidator.html" class="tsd-signature-type tsd-kind-interface">BooleanValidator</a></h4><p>a validator for the <code>boolean</code></p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L154">extension/ExtensibleObjectValidator.mts:154</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asBooleanConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Boolean<wbr/>Consumer</span><a href="#asBooleanConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asBooleanConsumer.asBooleanConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Boolean<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asBooleanConsumer.asBooleanConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="BooleanValidator.BooleanValidator.html" class="tsd-kind-interface">BooleanValidator</a> for the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">input</span>: <a href="BooleanValidator.BooleanValidator.html" class="tsd-signature-type tsd-kind-interface">BooleanValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L161">extension/ExtensibleObjectValidator.mts:161</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asClass" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Class</span><a href="#asClass" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asClass.asClass-1"><span class="tsd-kind-call-signature">as<wbr/>Class</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="ClassValidator.ClassValidator.html" class="tsd-signature-type tsd-kind-interface">ClassValidator</a><a href="#asClass.asClass-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="ClassValidator.ClassValidator.html" class="tsd-signature-type tsd-kind-interface">ClassValidator</a></h4><p>a validator for the object&#39;s class representation</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L217">extension/ExtensibleObjectValidator.mts:217</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asClassConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Class<wbr/>Consumer</span><a href="#asClassConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asClassConsumer.asClassConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Class<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asClassConsumer.asClassConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="ClassValidator.ClassValidator.html" class="tsd-kind-interface">ClassValidator</a> for the class representation of the
+  actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">input</span>: <a href="ClassValidator.ClassValidator.html" class="tsd-signature-type tsd-kind-interface">ClassValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L225">extension/ExtensibleObjectValidator.mts:225</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asInetAddress" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Inet<wbr/>Address</span><a href="#asInetAddress" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asInetAddress.asInetAddress-1"><span class="tsd-kind-call-signature">as<wbr/>Inet<wbr/>Address</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="InetAddressValidator.InetAddressValidator.html" class="tsd-signature-type tsd-kind-interface">InetAddressValidator</a><a href="#asInetAddress.asInetAddress-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="InetAddressValidator.InetAddressValidator.html" class="tsd-signature-type tsd-kind-interface">InetAddressValidator</a></h4><p>a validator for the value&#39;s Internet address representation</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L203">extension/ExtensibleObjectValidator.mts:203</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asInetAddressConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Inet<wbr/>Address<wbr/>Consumer</span><a href="#asInetAddressConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asInetAddressConsumer.asInetAddressConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Inet<wbr/>Address<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asInetAddressConsumer.asInetAddressConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts an <a href="InetAddressValidator.InetAddressValidator.html" class="tsd-kind-interface">InetAddressValidator</a> for the value&#39;s Internet
+  address representation</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">actual</span>: <a href="InetAddressValidator.InetAddressValidator.html" class="tsd-signature-type tsd-kind-interface">InetAddressValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+
+<h4>Throws</h4><p>RangeError if the actual value does not contain a valid Internet address format</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L212">extension/ExtensibleObjectValidator.mts:212</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asMap" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Map</span><a href="#asMap" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asMap.asMap-1"><span class="tsd-kind-call-signature">as<wbr/>Map</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="MapValidator.MapValidator.html" class="tsd-signature-type tsd-kind-interface">MapValidator</a><a href="#asMap.asMap-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="MapValidator.MapValidator.html" class="tsd-signature-type tsd-kind-interface">MapValidator</a></h4><p>a validator for the <code>Map</code></p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L190">extension/ExtensibleObjectValidator.mts:190</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asMapConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Map<wbr/>Consumer</span><a href="#asMapConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asMapConsumer.asMapConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Map<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asMapConsumer.asMapConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="MapValidator.MapValidator.html" class="tsd-kind-interface">MapValidator</a> for the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">input</span>: <a href="MapValidator.MapValidator.html" class="tsd-signature-type tsd-kind-interface">MapValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set.
+If the actual value is not a <code>Map</code>.</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L198">extension/ExtensibleObjectValidator.mts:198</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asNumber" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Number</span><a href="#asNumber" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asNumber.asNumber-1"><span class="tsd-kind-call-signature">as<wbr/>Number</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="NumberValidator.NumberValidator.html" class="tsd-signature-type tsd-kind-interface">NumberValidator</a><a href="#asNumber.asNumber-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="NumberValidator.NumberValidator.html" class="tsd-signature-type tsd-kind-interface">NumberValidator</a></h4><p>a validator for the <code>number</code></p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L166">extension/ExtensibleObjectValidator.mts:166</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asNumberConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Number<wbr/>Consumer</span><a href="#asNumberConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asNumberConsumer.asNumberConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Number<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asNumberConsumer.asNumberConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="NumberValidator.NumberValidator.html" class="tsd-kind-interface">NumberValidator</a> for the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">input</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">input</span>: <a href="NumberValidator.NumberValidator.html" class="tsd-signature-type tsd-kind-interface">NumberValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L173">extension/ExtensibleObjectValidator.mts:173</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asSet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Set</span><a href="#asSet" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asSet.asSet-1"><span class="tsd-kind-call-signature">as<wbr/>Set</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="SetValidator.SetValidator.html" class="tsd-signature-type tsd-kind-interface">SetValidator</a><a href="#asSet.asSet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="SetValidator.SetValidator.html" class="tsd-signature-type tsd-kind-interface">SetValidator</a></h4><p>a validator for the <code>Set</code></p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L178">extension/ExtensibleObjectValidator.mts:178</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asSetConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>Set<wbr/>Consumer</span><a href="#asSetConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asSetConsumer.asSetConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>Set<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asSetConsumer.asSetConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="SetValidator.SetValidator.html" class="tsd-kind-interface">SetValidator</a> for the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">actual</span>: <a href="SetValidator.SetValidator.html" class="tsd-signature-type tsd-kind-interface">SetValidator</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L185">extension/ExtensibleObjectValidator.mts:185</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asString" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>String</span><a href="#asString" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asString.asString-1"><span class="tsd-kind-call-signature">as<wbr/>String</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a><a href="#asString.asString-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<h4 class="tsd-returns-title">Returns <a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a></h4><p>a validator for the object&#39;s string representation</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L129">extension/ExtensibleObjectValidator.mts:129</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="asStringConsumer" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>as<wbr/>String<wbr/>Consumer</span><a href="#asStringConsumer" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="asStringConsumer.asStringConsumer-1"><span class="tsd-kind-call-signature">as<wbr/>String<wbr/>Consumer</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">consumer</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#asStringConsumer.asStringConsumer-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">consumer</span>: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a><span class="tsd-signature-symbol">)</span></h5>
+<div class="tsd-comment tsd-typography"><p>a function that accepts a <a href="StringValidator.StringValidator.html" class="tsd-kind-interface">StringValidator</a> for the string representation of the
+  actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div>
+<ul class="tsd-parameters">
+<li class="tsd-parameter-signature">
+<ul class="tsd-signatures">
+<li class="tsd-signature"><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">actual</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a></li>
+<li class="tsd-description">
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">actual</span>: <span class="tsd-signature-type">unknown</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="StringValidator.StringValidator.html" class="tsd-signature-type tsd-kind-interface">StringValidator</a></h4></li></ul></li></ul></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>consumer</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L137">extension/ExtensibleObjectValidator.mts:137</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="getActual" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Actual</span><a href="#getActual" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="getActual.getActual-1"><span class="tsd-kind-call-signature">get<wbr/>Actual</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><a href="#getActual.getActual-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the actual value.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">unknown</span></h4><p>the actual value</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L124">extension/ExtensibleObjectValidator.mts:124</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="getFailures" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>get<wbr/>Failures</span><a href="#getFailures" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="getFailures.getFailures-1"><span class="tsd-kind-call-signature">get<wbr/>Failures</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/ValidationFailure.ValidationFailure.html" class="tsd-signature-type tsd-kind-class">ValidationFailure</a><span class="tsd-signature-symbol">[]</span><a href="#getFailures.getFailures-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Returns the list of failed validations. Modifying the returned list results in an undefined behavior.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <a href="../classes/ValidationFailure.ValidationFailure.html" class="tsd-signature-type tsd-kind-class">ValidationFailure</a><span class="tsd-signature-symbol">[]</span></h4><p>the list of failed validations</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L232">extension/ExtensibleObjectValidator.mts:232</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isDefined" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Defined</span><a href="#isDefined" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isDefined.isDefined-1"><span class="tsd-kind-call-signature">is<wbr/>Defined</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isDefined.isDefined-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is defined.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>RangeError if the actual value is undefined</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L93">extension/ExtensibleObjectValidator.mts:93</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isEqualTo" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Equal<wbr/>To</span><a href="#isEqualTo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isEqualTo.isEqualTo-1"><span class="tsd-kind-call-signature">is<wbr/>Equal<wbr/>To</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">expected</span>, <span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isEqualTo.isEqualTo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is equal to a value.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">expected</span>: <span class="tsd-signature-type">unknown</span></h5>
+<div class="tsd-comment tsd-typography"><p>the expected value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the name of the expected value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>name</code> is null</p>
+
+<h4>Throws</h4><p>RangeError if <code>name</code> is empty</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L29">extension/ExtensibleObjectValidator.mts:29</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isInstanceOf" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Instance<wbr/>Of</span><a href="#isInstanceOf" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isInstanceOf.isInstanceOf-1"><span class="tsd-kind-call-signature">is<wbr/>Instance<wbr/>Of</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isInstanceOf.isInstanceOf-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is an object that is an instance of the specified type.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">type</span>: <span class="tsd-signature-type ">Function</span></h5>
+<div class="tsd-comment tsd-typography"><p>the type to compare to</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>type</code> is not a function or a class</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L69">extension/ExtensibleObjectValidator.mts:69</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isNotDefined" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Not<wbr/>Defined</span><a href="#isNotDefined" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isNotDefined.isNotDefined-1"><span class="tsd-kind-call-signature">is<wbr/>Not<wbr/>Defined</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isNotDefined.isNotDefined-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is undefined.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>RangeError if the actual value is not undefined</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L101">extension/ExtensibleObjectValidator.mts:101</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isNotEqualTo" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Not<wbr/>Equal<wbr/>To</span><a href="#isNotEqualTo" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isNotEqualTo.isNotEqualTo-1"><span class="tsd-kind-call-signature">is<wbr/>Not<wbr/>Equal<wbr/>To</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">value</span>, <span class="tsd-kind-parameter">name</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isNotEqualTo.isNotEqualTo-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is not equal to a value.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">value</span>: <span class="tsd-signature-type">unknown</span></h5>
+<div class="tsd-comment tsd-typography"><p>the value to compare to</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">name</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the name of the expected value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>name</code> is null</p>
+
+<h4>Throws</h4><p>RangeError if <code>name</code> is empty</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L40">extension/ExtensibleObjectValidator.mts:40</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isNotNull" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Not<wbr/>Null</span><a href="#isNotNull" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isNotNull.isNotNull-1"><span class="tsd-kind-call-signature">is<wbr/>Not<wbr/>Null</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isNotNull.isNotNull-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is not null.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>RangeError if the actual value is null</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L85">extension/ExtensibleObjectValidator.mts:85</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isNotSet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Not<wbr/>Set</span><a href="#isNotSet" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isNotSet.isNotSet-1"><span class="tsd-kind-call-signature">is<wbr/>Not<wbr/>Set</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isNotSet.isNotSet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that value is not undefined or null.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if the value is not undefined or null</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L117">extension/ExtensibleObjectValidator.mts:117</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isNull" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Null</span><a href="#isNull" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isNull.isNull-1"><span class="tsd-kind-call-signature">is<wbr/>Null</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isNull.isNull-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is null.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>RangeError if the actual value is not null</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L77">extension/ExtensibleObjectValidator.mts:77</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isPrimitive" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Primitive</span><a href="#isPrimitive" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isPrimitive.isPrimitive-1"><span class="tsd-kind-call-signature">is<wbr/>Primitive</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isPrimitive.isPrimitive-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that the actual value is a primitive. To check if the actual value is an object, use
+<code>isInstanceOf(Object)</code>.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L48">extension/ExtensibleObjectValidator.mts:48</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isSet" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Set</span><a href="#isSet" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isSet.isSet-1"><span class="tsd-kind-call-signature">is<wbr/>Set</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isSet.isSet-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that value is not undefined or null.</p>
+</div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if the value is undefined or null</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L109">extension/ExtensibleObjectValidator.mts:109</a></li></ul></aside></li></ul></section>
+<section class="tsd-panel tsd-member"><a id="isTypeOf" class="tsd-anchor"></a>
+<h3 class="tsd-anchor-link"><span>is<wbr/>Type<wbr/>Of</span><a href="#isTypeOf" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></h3>
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="isTypeOf.isTypeOf-1"><span class="tsd-kind-call-signature">is<wbr/>Type<wbr/>Of</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type tsd-kind-type-parameter">S</span><a href="#isTypeOf.isTypeOf-1" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><span class="tsd-kind-parameter">type</span>: <span class="tsd-signature-type">string</span></h5>
+<div class="tsd-comment tsd-typography"><p>the expected
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+of the actual value</p>
+</div>
+<div class="tsd-comment tsd-typography"></div></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type tsd-kind-type-parameter">S</span></h4><p>the updated validator</p>
+
+<div class="tsd-comment tsd-typography">
+<h4>Throws</h4><p>TypeError if <code>type</code> is not set</p>
+</div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/cowwoc/requirements.js/blob/a7a0d56/src/extension/ExtensibleObjectValidator.mts#L59">extension/ExtensibleObjectValidator.mts:59</a></li></ul></aside></li></ul></section></section></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4.93896 8.531L12 15.591L19.061 8.531L16.939 6.409L12 11.349L7.06098 6.409L4.93896 8.531Z" fill="var(--color-text)" id="icon-chevronDown"></path></svg>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility">
+<h4 class="uppercase">Member Visibility</h4><form>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></form></div>
+<div class="tsd-theme-toggle">
+<h4 class="uppercase">Theme</h4><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-index-accordion tsd-page-navigation"><summary class="tsd-accordion-summary">
+<h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg>On This Page</h3></summary>
+<div class="tsd-accordion-details">
+<ul>
+<li><a href="#asArray" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Array</span></a></li>
+<li><a href="#asArrayConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Array<wbr/>Consumer</span></a></li>
+<li><a href="#asBoolean" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Boolean</span></a></li>
+<li><a href="#asBooleanConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Boolean<wbr/>Consumer</span></a></li>
+<li><a href="#asClass" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Class</span></a></li>
+<li><a href="#asClassConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Class<wbr/>Consumer</span></a></li>
+<li><a href="#asInetAddress" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Inet<wbr/>Address</span></a></li>
+<li><a href="#asInetAddressConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Inet<wbr/>Address<wbr/>Consumer</span></a></li>
+<li><a href="#asMap" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Map</span></a></li>
+<li><a href="#asMapConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Map<wbr/>Consumer</span></a></li>
+<li><a href="#asNumber" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Number</span></a></li>
+<li><a href="#asNumberConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Number<wbr/>Consumer</span></a></li>
+<li><a href="#asSet" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Set</span></a></li>
+<li><a href="#asSetConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>Set<wbr/>Consumer</span></a></li>
+<li><a href="#asString" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>String</span></a></li>
+<li><a href="#asStringConsumer" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>as<wbr/>String<wbr/>Consumer</span></a></li>
+<li><a href="#getActual" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Actual</span></a></li>
+<li><a href="#getFailures" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>get<wbr/>Failures</span></a></li>
+<li><a href="#isDefined" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Defined</span></a></li>
+<li><a href="#isEqualTo" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Equal<wbr/>To</span></a></li>
+<li><a href="#isInstanceOf" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Instance<wbr/>Of</span></a></li>
+<li><a href="#isNotDefined" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Defined</span></a></li>
+<li><a href="#isNotEqualTo" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Equal<wbr/>To</span></a></li>
+<li><a href="#isNotNull" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Null</span></a></li>
+<li><a href="#isNotSet" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Not<wbr/>Set</span></a></li>
+<li><a href="#isNull" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Null</span></a></li>
+<li><a href="#isPrimitive" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Primitive</span></a></li>
+<li><a href="#isSet" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Set</span></a></li>
+<li><a href="#isTypeOf" class=""><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2048"></use></svg><span>is<wbr/>Type<wbr/>Of</span></a></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="../index.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-4"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-namespace)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.33 16V7.24H10.77L13.446 14.74C13.43 14.54 13.41 14.296 13.386 14.008C13.37 13.712 13.354 13.404 13.338 13.084C13.33 12.756 13.326 12.448 13.326 12.16V7.24H14.37V16H12.93L10.266 8.5C10.282 8.692 10.298 8.936 10.314 9.232C10.33 9.52 10.342 9.828 10.35 10.156C10.366 10.476 10.374 10.784 10.374 11.08V16H9.33Z" fill="var(--color-text)"></path></g></svg><span>@cowwoc/requirements -<wbr/> v3.2.1</span></a>
+<ul class="tsd-small-nested-navigation">
+<li><a href="../modules/ArrayValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Array<wbr/>Validator</span></a></li>
+<li><a href="../modules/ArrayVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Array<wbr/>Verifier</span></a></li>
+<li><a href="../modules/BooleanValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Boolean<wbr/>Validator</span></a></li>
+<li><a href="../modules/BooleanVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Boolean<wbr/>Verifier</span></a></li>
+<li><a href="../modules/ClassValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Class<wbr/>Validator</span></a></li>
+<li><a href="../modules/ClassVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Class<wbr/>Verifier</span></a></li>
+<li><a href="../modules/Configuration.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Configuration</span></a></li>
+<li><a href="../modules/ContextLine.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Context<wbr/>Line</span></a></li>
+<li><a href="../modules/DefaultRequirements.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Default<wbr/>Requirements</span></a></li>
+<li><a href="../modules/GlobalConfiguration.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Global<wbr/>Configuration</span></a></li>
+<li><a href="../modules/GlobalRequirements.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Global<wbr/>Requirements</span></a></li>
+<li><a href="../modules/InetAddressValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Inet<wbr/>Address<wbr/>Validator</span></a></li>
+<li><a href="../modules/InetAddressVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Inet<wbr/>Address<wbr/>Verifier</span></a></li>
+<li><a href="../modules/MapValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Map<wbr/>Validator</span></a></li>
+<li><a href="../modules/MapVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Map<wbr/>Verifier</span></a></li>
+<li><a href="../modules/NumberValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Number<wbr/>Validator</span></a></li>
+<li><a href="../modules/NumberVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Number<wbr/>Verifier</span></a></li>
+<li><a href="../modules/ObjectValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Object<wbr/>Validator</span></a></li>
+<li><a href="../modules/ObjectVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Object<wbr/>Verifier</span></a></li>
+<li><a href="../modules/Requirements.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Requirements</span></a></li>
+<li><a href="../modules/SetValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Set<wbr/>Validator</span></a></li>
+<li><a href="../modules/SetVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Set<wbr/>Verifier</span></a></li>
+<li><a href="../modules/StringValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>String<wbr/>Validator</span></a></li>
+<li><a href="../modules/StringVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>String<wbr/>Verifier</span></a></li>
+<li><a href="../modules/TerminalEncoding.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Terminal<wbr/>Encoding</span></a></li>
+<li><a href="../modules/ValidationFailure.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>Validation<wbr/>Failure</span></a></li>
+<li><a href="../modules/extension_ExtensibleNumberValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>extension/<wbr/>Extensible<wbr/>Number<wbr/>Validator</span></a></li>
+<li><a href="../modules/extension_ExtensibleNumberVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>extension/<wbr/>Extensible<wbr/>Number<wbr/>Verifier</span></a></li>
+<li>
+<details class="tsd-index-accordion" open data-key="extension/ExtensibleObjectValidator"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><use href="#icon-chevronDown"></use></svg><a href="../modules/extension_ExtensibleObjectValidator.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>extension/<wbr/>Extensible<wbr/>Object<wbr/>Validator</span></a></summary>
+<div class="tsd-accordion-details">
+<ul class="tsd-nested-navigation">
+<li><a href="extension_ExtensibleObjectValidator.ExtensibleObjectValidator.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-256"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-interface)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.51 16V15.016H11.298V8.224H9.51V7.24H14.19V8.224H12.402V15.016H14.19V16H9.51Z" fill="var(--color-text)"></path></g></svg><span>Extensible<wbr/>Object<wbr/>Validator</span></a></li></ul></div></details></li>
+<li><a href="../modules/extension_ExtensibleObjectVerifier.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>extension/<wbr/>Extensible<wbr/>Object<wbr/>Verifier</span></a></li>
+<li><a href="../modules/index.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-4"></use></svg><span>index</span></a></li></ul></nav></div></div></div>
+<div class="tsd-generator">
+<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
+<div class="overlay"></div></body></html>
