@@ -17,3 +17,6 @@ modulejs.html
 
 # eslint
 /.eslintcache
+
+# Credentials
+/keys.txt
