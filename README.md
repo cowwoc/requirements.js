@@ -5,7 +5,7 @@
 
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.2.1/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
-[![js](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
+[![java](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
 
 A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
