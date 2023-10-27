@@ -223,12 +223,12 @@ class Build
 		log.info("generateDocumentation()");
 		const targetDirectory = "target/apidocs/";
 
-		const app = new TypeDoc.Application();
-		app.options.addReader(new TypeDoc.TypeDocReader());
-		app.options.addReader(new TypeDoc.TSConfigReader());
-		app.bootstrap();
+		const app = await TypeDoc.Application.bootstrapWithPlugins({}, [
+			new TypeDoc.TypeDocReader(),
+			new TypeDoc.TSConfigReader()
+		]);
 
-		const project = app.convert();
+		const project = await app.convert();
 		if (!project)
 			process.exit(1);
 		app.validate(project);

@@ -11,7 +11,7 @@
 		],
 		"module": "Node16",
 		"moduleResolution": "node16",
-		// Import non-ES modules as default imports
+		// Fix importing of CommonJS/AMD/UMD modules
 		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
@@ -20,6 +20,7 @@
 		"sourceMap": true
 	},
 	"include": [
+		"build.mts",
 		"src/**/*.mts",
 		"test/**/*.mts"
 	],
@@ -27,7 +28,6 @@
 		"node_modules",
 		"target",
 		"scripts",
-		"./*.mts",
 		"./.eslintrc.mjs"
 	],
 	"typeRoots": [
