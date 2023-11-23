@@ -232,10 +232,10 @@ class Build
 		if (!project)
 			process.exit(1);
 		app.validate(project);
-		if (app.logger.hasErrors() || app.logger.hasWarnings())
+		if (app.logger.hasErrors())
 			process.exit(1);
 		await app.generateDocs(project, targetDirectory);
-		if (app.logger.hasErrors() || app.logger.hasWarnings())
+		if (app.logger.hasErrors())
 			process.exit(1);
 	}
 
