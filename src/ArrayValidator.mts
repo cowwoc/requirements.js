@@ -1,8 +1,14 @@
 import type {
 	ExtensibleObjectValidator,
 	NumberValidator,
-	SetValidator
+	SetValidator,
+	ObjectValidator
 } from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ObjectValidator<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Validates the requirements of an array.
@@ -163,6 +169,9 @@ interface ArrayValidator<E> extends ExtensibleObjectValidator<ArrayValidator<E>,
 
 	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): E[] | undefined;
 }
 

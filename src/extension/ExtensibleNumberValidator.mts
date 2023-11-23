@@ -143,6 +143,9 @@ interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S, numb
 	 */
 	isNotFinite(): S;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): number | undefined;
 }
 

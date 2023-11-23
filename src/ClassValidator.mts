@@ -31,6 +31,9 @@ interface ClassValidator extends ExtensibleObjectValidator<ClassValidator, Funct
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isSubtypeOf(type: Function): ClassValidator;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	getActual(): Function | undefined;
 }

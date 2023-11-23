@@ -63,11 +63,6 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator, boo
 		}
 		return this;
 	}
-
-	getActual(): boolean | undefined
-	{
-		return super.getActual() as boolean | undefined;
-	}
 }
 
 export {BooleanValidatorImpl};

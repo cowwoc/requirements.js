@@ -29,9 +29,9 @@ class ObjectValidatorImpl<T> extends AbstractObjectValidator<ObjectValidator<T>,
 		super(configuration, actual, name, failures);
 	}
 
-	protected getThis(): ObjectValidator<T>
+	protected getThis(): ObjectValidator<NonNullable<T>>
 	{
-		return this;
+		return this as ObjectValidator<NonNullable<T>>;
 	}
 }
 

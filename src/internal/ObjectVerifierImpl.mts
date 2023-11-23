@@ -101,16 +101,16 @@ class ObjectVerifierImpl<V extends ObjectValidator<T>, T> implements ObjectVerif
 		return this.validationResult(() => this.getThis());
 	}
 
-	isNull(): ObjectVerifier<T>
+	isNull(): ObjectVerifier<null>
 	{
 		this.validator.isNull();
-		return this.validationResult(() => this.getThis());
+		return this.validationResult(() => this.getThis()) as unknown as ObjectVerifier<null>;
 	}
 
-	isNotNull(): ObjectVerifier<T>
+	isNotNull(): ObjectVerifier<NonNullable<T>>
 	{
 		this.validator.isNotNull();
-		return this.validationResult(() => this.getThis());
+		return this.validationResult(() => this.getThis()) as ObjectVerifier<NonNullable<T>>;
 	}
 
 	isDefined(): ObjectVerifier<T>

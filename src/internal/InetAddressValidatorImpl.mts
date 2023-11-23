@@ -94,11 +94,6 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 		}
 		return this;
 	}
-
-	getActual(): string
-	{
-		return super.getActual() as string;
-	}
 }
 
 export {InetAddressValidatorImpl};

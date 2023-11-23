@@ -23,6 +23,9 @@ interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier, bool
 	 */
 	isFalse(): BooleanVerifier;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): boolean;
 }
 

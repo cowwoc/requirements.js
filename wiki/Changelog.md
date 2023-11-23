@@ -1,6 +1,12 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.2.3 - 2023/11/23
+
+* Improvements
+  * isNull() changes the compile-time type of T to `null`.
+  * isNotNull() changes the compile-time type of T to not `null`.
+
 ## Version 3.2.2 - 2023/11/23
 
 * Improvement: getActual() now returns a specific type instead of `unknown`.

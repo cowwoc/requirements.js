@@ -34,6 +34,9 @@ interface InetAddressValidator extends ExtensibleObjectValidator<InetAddressVali
 	 */
 	isHostname(): InetAddressValidator;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): string | undefined;
 }
 

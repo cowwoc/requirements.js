@@ -32,6 +32,9 @@ interface InetAddressVerifier extends ObjectVerifier<string>
 	 */
 	isHostname(): InetAddressVerifier;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): string;
 }
 

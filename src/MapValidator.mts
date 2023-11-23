@@ -102,6 +102,9 @@ interface MapValidator<K, V> extends ExtensibleObjectValidator<MapValidator<K, V
 
 	asMapConsumer<K, V>(consumer: (input: MapValidator<K, V>) => void): MapValidator<K, V>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): Map<K, V> | undefined;
 }
 

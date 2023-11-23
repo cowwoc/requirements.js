@@ -7,7 +7,8 @@ import type {
 	ClassValidator,
 	ArrayValidator,
 	SetValidator,
-	MapValidator
+	MapValidator,
+	ObjectValidator
 } from "../internal/internal.mjs";
 
 /**
@@ -75,7 +76,7 @@ interface ExtensibleObjectValidator<S, T>
 	 * @returns the updated validator
 	 * @throws RangeError if the actual value is not null
 	 */
-	isNull(): S;
+	isNull(): ObjectValidator<null>;
 
 	/**
 	 * Ensures that the actual value is not null.

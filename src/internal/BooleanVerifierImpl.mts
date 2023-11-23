@@ -49,11 +49,6 @@ class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, Boolea
 		this.validator.isFalse();
 		return this.validationResult(() => this.getThis());
 	}
-
-	getActual(): boolean
-	{
-		return super.getActual() as boolean;
-	}
 }
 
 export {BooleanVerifierImpl};

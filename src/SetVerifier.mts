@@ -166,6 +166,9 @@ interface SetVerifier<E> extends ObjectVerifier<Set<E>>
 
 	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): SetVerifier<E>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): Set<E>;
 }
 

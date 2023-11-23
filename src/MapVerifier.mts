@@ -99,6 +99,9 @@ interface MapVerifier<K, V> extends ObjectVerifier<Map<K, V>>
 
 	asMapConsumer<K, V>(consumer: (input: MapVerifier<K, V>) => void): MapVerifier<K, V>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): Map<K, V>;
 }
 

@@ -28,6 +28,9 @@ interface ClassVerifier extends ObjectVerifier<Function>
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	isSubtypeOf(type: Function): ClassVerifier;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	getActual(): Function;
 }

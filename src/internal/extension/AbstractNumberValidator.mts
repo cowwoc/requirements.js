@@ -340,11 +340,6 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S, num
 		}
 		return this.getThis();
 	}
-
-	getActual(): number | undefined
-	{
-		return super.getActual();
-	}
 }
 
 export {AbstractNumberValidator};

@@ -26,6 +26,9 @@ interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator, b
 	 */
 	isFalse(): BooleanValidator;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): boolean | undefined;
 }
 

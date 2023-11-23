@@ -416,12 +416,6 @@ class ArrayValidatorImpl<E> extends AbstractObjectValidator<ArrayValidator<E>, E
 		return this;
 	}
 
-	asArrayConsumer<E2>(consumer: (input: ArrayValidator<E2>) => void): ArrayValidator<E>
-	asArrayConsumer(consumer: (input: ArrayValidator<E>) => void): ArrayValidator<E>
-	{
-		return super.asArrayConsumer(consumer);
-	}
-
 	asSet<E>(): SetValidator<E>;
 	asSet(): SetValidator<E>
 	{
@@ -434,15 +428,6 @@ class ArrayValidatorImpl<E> extends AbstractObjectValidator<ArrayValidator<E>, E
 			value = new Set(actualAsDefined);
 		}
 		return new SetValidatorImpl<E>(this.config, value, this.name + ".asSet()", this.failures);
-	}
-
-	asSetConsumer<S, E>(consumer: (actual: SetValidator<E>) => void): S;
-	asSetConsumer(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
-		if (this.failures.length === 0)
-			consumer(this.asSet());
-		return this.getThis();
 	}
 
 	getActual(): E[] | undefined

@@ -140,6 +140,9 @@ interface StringVerifier extends ObjectVerifier<string>
 	 */
 	asStringConsumer(consumer: (actual: StringVerifier) => void): StringVerifier;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): string;
 }
 

@@ -9,7 +9,8 @@ import type {
 	SetValidator,
 	MapValidator,
 	InetAddressValidator,
-	ClassValidator
+	ClassValidator,
+	ObjectValidator
 } from "../internal.mjs";
 import {
 	Configuration,
@@ -189,7 +190,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		return this.getThis();
 	}
 
-	isNull(): S
+	isNull(): ObjectValidator<null>
 	{
 		if (this.actual !== null)
 		{
@@ -197,10 +198,11 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 		}
-		return this.getThis();
+		return this.getThis() as ObjectValidator<null>;
 	}
 
-	isNotNull(): S
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	isNotNull(): any
 	{
 		if (this.actual === null)
 		{
@@ -253,6 +255,9 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		return this.getThis();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): T | undefined
 	{
 		return this.actual;

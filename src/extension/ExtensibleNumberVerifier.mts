@@ -161,6 +161,9 @@ interface ExtensibleNumberVerifier<S> extends ExtensibleObjectVerifier<S, number
 	 */
 	isNotFinite(): S;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): number;
 }
 

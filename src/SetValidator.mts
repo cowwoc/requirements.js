@@ -161,6 +161,9 @@ interface SetValidator<E> extends ExtensibleObjectValidator<SetValidator<E>, Set
 
 	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): SetValidator<E>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): Set<E> | undefined;
 }
 

@@ -8,7 +8,8 @@ import type {
 	SetVerifier,
 	MapVerifier,
 	InetAddressVerifier,
-	ClassVerifier
+	ClassVerifier,
+	ObjectVerifier
 } from "../internal.mjs";
 import {
 	Objects,
@@ -96,10 +97,10 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, 
 		return this.validationResult(() => this.getThis());
 	}
 
-	isNull(): S
+	isNull(): ObjectVerifier<null>
 	{
 		this.validator.isNull();
-		return this.validationResult(() => this.getThis());
+		return this.validationResult(() => this.getThis()) as ObjectVerifier<null>;
 	}
 
 	isNotNull(): S

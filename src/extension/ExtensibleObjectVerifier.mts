@@ -6,7 +6,8 @@ import type {
 	ClassVerifier,
 	ArrayVerifier,
 	SetVerifier,
-	MapVerifier
+	MapVerifier,
+	ObjectVerifier
 } from "../internal/internal.mjs";
 
 /**
@@ -92,7 +93,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is not null
 	 */
-	isNull(): S;
+	isNull(): ObjectVerifier<null>;
 
 	/**
 	 * Ensures that the actual value is not null.

@@ -127,6 +127,9 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator, str
 	 */
 	asStringConsumer(consumer: (actual: StringValidator) => void): StringValidator;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): string | undefined;
 }
 

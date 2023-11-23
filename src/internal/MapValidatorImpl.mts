@@ -152,13 +152,6 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 		return this;
 	}
 
-	asMapConsumer<K2, V2>(consumer: (input: MapValidator<K2, V2>) => void): MapValidator<K, V>;
-	asMapConsumer(consumer: (input: MapValidator<K, V>) => void): MapValidator<K, V>
-	{
-		return super.asMapConsumer(consumer);
-	}
-
-
 	getActual(): Map<K, V>
 	{
 		return this.actualMap;

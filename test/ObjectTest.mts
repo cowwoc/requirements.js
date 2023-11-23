@@ -36,8 +36,9 @@ suite("ObjectTest", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = {};
-			requirements.requireThat(actual, null as unknown as string);
+			const actual = {} as object | null;
+			// Changes the compile-time type of the value to null
+			const isNull: null = requirements.requireThat(actual, null as unknown as string).isNull().getActual();
 		}, TypeError);
 	});
 
@@ -242,8 +243,9 @@ suite("ObjectTest", () =>
 
 	test("isNotNull", () =>
 	{
-		const actual = {};
-		requirements.requireThat(actual, "actual").isNotNull();
+		const actual = {} as object | null;
+		// Changes the compile-time type of the value to not-null
+		const notNull: object = requirements.requireThat(actual, "actual").isNotNull().getActual();
 	});
 
 	test("isNotNull_False", () =>

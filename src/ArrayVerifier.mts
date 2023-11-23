@@ -1,8 +1,14 @@
 import type {
 	ExtensibleObjectVerifier,
 	NumberVerifier,
-	SetVerifier
+	SetVerifier,
+	ObjectVerifier
 } from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ObjectVerifier<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of an array.
@@ -177,6 +183,9 @@ interface ArrayVerifier<E> extends ExtensibleObjectVerifier<ArrayVerifier<E>, E[
 
 	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	getActual(): E[];
 }
 
