@@ -5,7 +5,7 @@ import type {ExtensibleObjectVerifier} from "./internal/internal.mjs";
  * <p>
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
  */
-interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier>
+interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier, boolean>
 {
 	/**
 	 * Ensures that the actual value is true.

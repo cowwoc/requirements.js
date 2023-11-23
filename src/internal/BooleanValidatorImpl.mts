@@ -10,7 +10,7 @@ import {
 /**
  * Default implementation of <code>BooleanValidator</code>.
  */
-class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
+class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator, boolean>
 	implements BooleanValidator
 {
 	private readonly actualBoolean: boolean;
@@ -25,7 +25,7 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: boolean | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
 		this.actualBoolean = actual as boolean;
@@ -40,7 +40,6 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
 	{
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			return this;
-
 
 		if (!this.actualBoolean)
 		{
@@ -65,9 +64,9 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator>
 		return this;
 	}
 
-	getActual(): void | boolean
+	getActual(): boolean | undefined
 	{
-		return super.getActual() as void | boolean;
+		return super.getActual() as boolean | undefined;
 	}
 }
 

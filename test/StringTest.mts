@@ -5,12 +5,12 @@ import {
 import {assert} from "chai";
 import {
 	Configuration,
-	EOS_MARKER,
 	TerminalEncoding,
-	TestGlobalConfiguration,
-	TextOnly
+	TextOnly,
+	EOS_MARKER
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/Requirements.mjs";
+import {Requirements} from "../src/index.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
@@ -278,13 +278,13 @@ suite("StringTest", () =>
 	test("validateThatNullAsString", () =>
 	{
 		const actual = null;
-		const expected = 5;
+		const expected = "not-null";
 		const expectedMessage = "actual.asString() must be equal to " + expected + ".\n" +
 			"\n" +
-			"Actual  : null" + TextOnly.DIFF_PADDING + EOS_MARKER + "\n" +
-			"Diff    : " + TextOnly.DIFF_DELETE.repeat("null".length) + TextOnly.DIFF_INSERT +
-			TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length) + "\n" +
-			"Expected: " + TextOnly.DIFF_PADDING.repeat("null".length) + "5" + EOS_MARKER;
+			"Actual  : n" + TextOnly.DIFF_PADDING.repeat("ot-n".length) + "ull" + EOS_MARKER + "\n" +
+			"Diff    : " + TextOnly.DIFF_EQUAL + TextOnly.DIFF_INSERT.repeat("on-n".length) +
+			TextOnly.DIFF_EQUAL.repeat("ull".length) + TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length) + "\n" +
+			"Expected: not-null" + EOS_MARKER;
 		const expectedMessages = [expectedMessage];
 
 		const actualFailures = requirements.validateThat(actual, "actual").asString().isEqualTo(expected).

@@ -1,41 +1,42 @@
 import isEqual from "lodash/isEqual.js";
 import type {
-	ArrayValidator,
-	BooleanValidator,
-	ClassValidator,
 	ContextLine,
 	ExtensibleObjectValidator,
-	InetAddressValidator,
-	MapValidator,
+	StringValidator,
+	ArrayValidator,
+	BooleanValidator,
 	NumberValidator,
 	SetValidator,
-	StringValidator
+	MapValidator,
+	InetAddressValidator,
+	ClassValidator
 } from "../internal.mjs";
 import {
-	ArrayValidatorImpl,
-	BooleanValidatorImpl,
-	ClassValidatorImpl,
 	Configuration,
 	ContextGenerator,
-	InetAddressValidatorImpl,
-	MapValidatorImpl,
-	NumberValidatorImpl,
 	Objects,
-	Pluralizer,
-	SetValidatorImpl,
 	StringValidatorImpl,
-	ValidationFailure
+	ValidationFailure,
+	ArrayValidatorImpl,
+	BooleanValidatorImpl,
+	NumberValidatorImpl,
+	SetValidatorImpl,
+	MapValidatorImpl,
+	InetAddressValidatorImpl,
+	ClassValidatorImpl,
+	Pluralizer
 } from "../internal.mjs";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectValidator</code>.
  *
  * @typeParam S - the type of validator returned by the methods
+ * @typeParam T - the type the actual value
  */
-abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S>
+abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidator<S, T>
 {
 	protected readonly config: Configuration;
-	protected actual: unknown;
+	protected actual: T | undefined;
 	protected readonly name: string;
 	protected readonly failures: ValidationFailure[];
 
@@ -54,7 +55,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	protected constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	protected constructor(configuration: Configuration, actual: T | undefined, name: string, failures: ValidationFailure[])
 	{
 		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
 		Objects.verifyName(name, "name");
@@ -64,7 +65,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		this.failures = failures;
 	}
 
-	isEqualTo(expected: unknown, name?: string): S
+	isEqualTo(expected: T, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
@@ -101,7 +102,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	isNotEqualTo(value: unknown, name?: string): S
+	isNotEqualTo(value: T, name?: string): S
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
@@ -193,7 +194,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		if (this.actual !== null)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be null.").
-				addContextList(this.getContext(null, true));
+				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 		}
 		return this.getThis();
@@ -252,7 +253,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	getActual(): unknown
+	getActual(): T | undefined
 	{
 		return this.actual;
 	}
@@ -264,7 +265,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 			newName = this.name;
 		else
 			newName = this.name + ".asString()";
-		let value: undefined | string;
+		let value: string | undefined;
 		if (this.failures.length > 0)
 			value = undefined;
 		else
@@ -272,7 +273,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return new StringValidatorImpl(this.config, value, newName, this.failures);
 	}
 
-	asStringConsumer(consumer: (actual: unknown) => StringValidator): S
+	asStringConsumer(consumer: (actual: StringValidator) => StringValidator): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -280,14 +281,14 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	asArray(): ArrayValidator
+	asArray<E>(): ArrayValidator<E>
 	{
 		if (this.failures.length === 0)
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
 			if (typeOfActual.type === "array")
 			{
-				return new ArrayValidatorImpl(this.config, this.actual as unknown[], this.name, Pluralizer.ELEMENT,
+				return new ArrayValidatorImpl(this.config, this.actual as E[], this.name, Pluralizer.ELEMENT,
 					this.failures);
 			}
 
@@ -297,10 +298,10 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
 		}
-		return new ArrayValidatorImpl(this.config, undefined, this.name, Pluralizer.ELEMENT, this.failures);
+		return new ArrayValidatorImpl<E>(this.config, undefined, this.name, Pluralizer.ELEMENT, this.failures);
 	}
 
-	asArrayConsumer(consumer: (input: ArrayValidator) => void): S
+	asArrayConsumer<E>(consumer: (input: ArrayValidator<E>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -364,28 +365,28 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	asSet(): SetValidator
+	asSet<E>(): SetValidator<E>
 	{
 		if (this.failures.length === 0)
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
 			if (typeOfActual.type === "array")
 			{
-				return new SetValidatorImpl(this.config, new Set<unknown>(this.actual as unknown[]), this.name,
+				return new SetValidatorImpl(this.config, new Set<E>(this.actual as E[]), this.name,
 					this.failures);
 			}
 			else if (typeOfActual.type === "object" && typeOfActual.name === "Set")
-				return new SetValidatorImpl(this.config, this.actual as Set<unknown>, this.name, this.failures);
+				return new SetValidatorImpl(this.config, this.actual as Set<E>, this.name, this.failures);
 
 			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
 				addContext("Actual", this.config.convertToString(this.actual)).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
 		}
-		return new SetValidatorImpl(this.config, undefined, this.name, this.failures);
+		return new SetValidatorImpl<E>(this.config, undefined, this.name, this.failures);
 	}
 
-	asSetConsumer(consumer: (actual: SetValidator) => void): S
+	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -393,23 +394,23 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		return this.getThis();
 	}
 
-	asMap(): MapValidator
+	asMap<K, V>(): MapValidator<K, V>
 	{
 		if (this.failures.length === 0)
 		{
 			const typeOfActual = Objects.getTypeInfo(this.actual);
 			if (typeOfActual.type === "object" && typeOfActual.name === "Map")
-				return new MapValidatorImpl(this.config, this.actual, this.name, this.failures);
+				return new MapValidatorImpl(this.config, this.actual as Map<K, V>, this.name, this.failures);
 
 			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Map.").
 				addContext("Actual", this.config.convertToString(this.actual)).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
 		}
-		return new MapValidatorImpl(this.config, undefined, this.name, this.failures);
+		return new MapValidatorImpl<K, V>(this.config, undefined, this.name, this.failures);
 	}
 
-	asMapConsumer(consumer: (input: MapValidator) => void): S
+	asMapConsumer<K, V>(consumer: (input: MapValidator<K, V>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -609,14 +610,14 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 		if (typeof (this.actual) === "undefined")
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be defined.").
-				addContextList(this.getContext(null, true));
+				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 			return false;
 		}
 		if (this.actual === null)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be null.").
-				addContextList(this.getContext(null, true));
+				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 			return false;
 		}
@@ -628,7 +629,7 @@ abstract class AbstractObjectValidator<S> implements ExtensibleObjectValidator<S
 	 * @param expectedInMessage - true if the expected value is already mentioned in the failure message
 	 * @returns the list of name-value pairs to append to the exception message
 	 */
-	protected getContext(expected: unknown, expectedInMessage: boolean): ContextLine[]
+	protected getContext(expected: T | undefined, expectedInMessage: boolean): ContextLine[]
 	{
 		const contextGenerator = new ContextGenerator(this.config);
 		return contextGenerator.getContext("Actual", this.actual, "Expected", expected,

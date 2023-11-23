@@ -10,7 +10,8 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
-interface ClassValidator extends ExtensibleObjectValidator<ClassValidator>
+// eslint-disable-next-line @typescript-eslint/ban-types
+interface ClassValidator extends ExtensibleObjectValidator<ClassValidator, Function>
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a subtype.
@@ -31,7 +32,7 @@ interface ClassValidator extends ExtensibleObjectValidator<ClassValidator>
 	isSubtypeOf(type: Function): ClassValidator;
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function | void;
+	getActual(): Function | undefined;
 }
 
 export {type ClassValidator};

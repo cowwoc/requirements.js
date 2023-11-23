@@ -1,13 +1,34 @@
 import type {
+	ObjectVerifier,
+	SetVerifier,
+	ArrayVerifier,
+	ClassVerifier,
+	ArrayValidator,
+	SetValidator,
+	ClassValidator,
 	ObjectValidator,
-	ObjectVerifier
+	MapVerifier,
+	StringVerifier,
+	NumberVerifier,
+	StringValidator,
+	NumberValidator,
+	MapValidator
 } from "./internal/internal.mjs";
 import {
 	Configuration,
 	MainGlobalConfiguration,
 	Objects,
 	ObjectValidatorImpl,
-	ObjectVerifierImpl
+	ObjectVerifierImpl,
+	SetValidatorImpl,
+	SetVerifierImpl,
+	ArrayVerifierImpl,
+	ArrayValidatorImpl,
+	Pluralizer,
+	ClassVerifierImpl,
+	ClassValidatorImpl,
+	MapVerifierImpl,
+	MapValidatorImpl
 } from "./internal/internal.mjs";
 
 /**
@@ -35,15 +56,93 @@ class Requirements
 	/**
 	 * Verifies the requirements of an object.
 	 *
+	 * @typeParam T - the type the actual value
+	 * @typeParam E - the type elements in the array or set
 	 * @param actual - the actual value
 	 * @param name - the name of the value
 	 * @returns a verifier
 	 * @throws TypeError  if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	requireThat(actual: unknown, name: string): ObjectVerifier
+	requireThat(actual: string, name: string): StringVerifier;
+	requireThat(actual: number, name: string): NumberVerifier;
+	requireThat(actual: null, name: string): ObjectVerifier<null>;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	requireThat(actual: Function, name: string): ClassVerifier;
+	requireThat<E>(actual: Array<E>, name: string): ArrayVerifier<E>;
+	requireThat<E>(actual: Set<E>, name: string): SetVerifier<E>;
+	requireThat<K, V>(actual: Map<K, V>, name: string): MapVerifier<K, V>;
+	requireThat<T>(actual: T, name: string): ObjectVerifier<T>;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	requireThat<T extends string | number | Function | Array<E> | Set<E> | Map<K, V>, E, K, V>
+	(actual: T, name: string): StringVerifier | NumberVerifier | ClassVerifier | ArrayVerifier<E> | SetVerifier<E> | MapVerifier<K, V> | ObjectVerifier<T>
 	{
-		return new ObjectVerifierImpl(this.validateThat(actual, name));
+		Objects.verifyName(name, "name");
+		const typeOfActual = Objects.getTypeInfo(actual);
+		if (typeOfActual.type === "array")
+			return new ArrayVerifierImpl<E>(new ArrayValidatorImpl<E>(this.config, actual as E[], name, Pluralizer.ELEMENT, []));
+		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
+			return new SetVerifierImpl<E>(new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []));
+		if (typeOfActual.type === "object" && typeOfActual.name === "Map")
+			return new MapVerifierImpl<K, V>(new MapValidatorImpl<K, V>(this.config, actual as Map<K, V>, name, []));
+		if (typeOfActual.type === "class")
+		{
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			return new ClassVerifierImpl(new ClassValidatorImpl(this.config, actual as Function, name, []));
+		}
+		return new ObjectVerifierImpl(new ObjectValidatorImpl(this.config, actual, name, []));
+	}
+
+	/**
+	 * Validates the requirements of an object.
+	 *
+	 * @typeParam T - the type the actual value
+	 * @typeParam E - the type elements in the array or set
+	 * @param actual - the actual value
+	 * @param name - the name of the value
+	 * @returns validator for the value
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
+	 */
+	validateThat(actual: string, name: string): StringValidator;
+	validateThat(actual: number, name: string): NumberValidator;
+	validateThat(actual: null, name: string): ObjectValidator<null>;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	validateThat(actual: Function, name: string): ClassValidator;
+	validateThat<E>(actual: Array<E>, name: string): ArrayValidator<E>;
+	validateThat<E>(actual: Set<E>, name: string): SetValidator<E>;
+	validateThat<K, V>(actual: Map<K, V>, name: string): MapValidator<K, V>;
+	validateThat<T>(actual: T, name: string): ObjectValidator<T>;
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	validateThat<T extends string | number | Function | Array<E> | Set<E> | Map<K, V>, E, K, V>
+	(actual: T, name: string): StringValidator | NumberValidator | ClassValidator | ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | ObjectValidator<T>
+	{
+		Objects.verifyName(name, "name");
+		const typeOfActual = Objects.getTypeInfo(actual);
+		if (typeOfActual.type === "array")
+			return new ArrayValidatorImpl<E>(this.config, actual as E[], name, Pluralizer.ELEMENT, []);
+		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
+			return new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []);
+		if (typeOfActual.type === "class")
+		{
+			// eslint-disable-next-line @typescript-eslint/ban-types
+			return new ClassValidatorImpl(this.config, actual as Function, name, []);
+		}
+		return new ObjectValidatorImpl(this.config, actual, name, []);
+	}
+
+	/**
+	 * Verifies requirements only if assertions are enabled.
+	 *
+	 * @param requirements - the requirements to verify
+	 * @throws TypeError  if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty
+	 */
+	assertThat(requirements: (requirements: Requirements) => void)
+	{
+		Objects.requireThatValueIsDefinedAndNotNull(requirements, "requirements");
+		if (this.config.assertionsAreEnabled())
+			requirements(this.copy());
 	}
 
 	/**
@@ -64,20 +163,6 @@ class Requirements
 	}
 
 	/**
-	 * Verifies requirements only if assertions are enabled.
-	 *
-	 * @param requirements - the requirements to verify
-	 * @throws TypeError  if <code>name</code> is null
-	 * @throws RangeError if <code>name</code> is empty
-	 */
-	assertThat(requirements: (requirements: Requirements) => void)
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(requirements, "requirements");
-		if (this.config.assertionsAreEnabled())
-			requirements(this.copy());
-	}
-
-	/**
 	 * Returns a copy of this configuration.
 	 *
 	 * @returns a copy of this configuration
@@ -85,21 +170,6 @@ class Requirements
 	copy()
 	{
 		return new Requirements(this.config.copy());
-	}
-
-	/**
-	 * Validates the requirements of an object.
-	 *
-	 * @param actual - the actual value
-	 * @param name - the name of the value
-	 * @returns validator for the value
-	 * @throws TypeError  if <code>name</code> is null
-	 * @throws RangeError if <code>name</code> is empty
-	 */
-	validateThat(actual: unknown, name: string): ObjectValidator
-	{
-		Objects.verifyName(name, "name");
-		return new ObjectValidatorImpl(this.config, actual, name, []);
 	}
 
 	/**

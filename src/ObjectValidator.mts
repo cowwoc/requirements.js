@@ -7,9 +7,11 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  * Validators return validation failures through the
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
+ *
+ * @typeParam T - the type the actual value
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ObjectValidator extends ExtensibleObjectValidator<ObjectValidator>
+interface ObjectValidator<T> extends ExtensibleObjectValidator<ObjectValidator<T>, T>
 {
 }
 

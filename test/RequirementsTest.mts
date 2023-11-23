@@ -1,14 +1,14 @@
-import {Requirements} from "../src/index.mjs";
+import {
+	Requirements,
+	Configuration,
+	TerminalEncoding
+} from "../src/index.mjs";
 import {
 	suite,
 	test
 } from "mocha";
 import {assert} from "chai";
-import {
-	Configuration,
-	TerminalEncoding,
-	TestGlobalConfiguration
-} from "../src/internal/internal.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
@@ -25,31 +25,31 @@ suite("RequirementsTest", () =>
 	test("assertThatArray", () =>
 	{
 		const actual = [1, 2, 3];
-		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo("expected"));
+		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo(actual, "expected"));
 	});
 
 	test("assertThatNumber", () =>
 	{
 		const actual = 5;
-		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo("expected"));
+		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo(actual, "expected"));
 	});
 
 	test("assertThatSet", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo("expected"));
+		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo(actual, "expected"));
 	});
 
 	test("assertThatMap", () =>
 	{
 		const actual = new Map([[1, 2], [2, 3]]);
-		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo("expected"));
+		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo(actual, "expected"));
 	});
 
 	test("assertThatUrl", () =>
 	{
 		const actual = new URL("http://www.google.com/");
-		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo("expected"));
+		requirements.assertThat(r => r.requireThat(actual, "actual").isEqualTo(actual, "expected"));
 	});
 
 	test("withAssertionsEnabled.assertThatObject", () =>
@@ -110,7 +110,7 @@ suite("RequirementsTest", () =>
 		const actual = 12345;
 		const getActual = requirements.copy().withAssertionsEnabled().assertThatAndReturn(r =>
 			r.requireThat(actual, "actual").getActual());
-		requirements.requireThat(actual, "actual").isEqualTo(getActual, "getActual()");
+		requirements.requireThat(actual, "actual").isEqualTo(getActual as number, "getActual()");
 	});
 
 	test("assertThat.getActual_assertionsDisabled", () =>
@@ -118,7 +118,7 @@ suite("RequirementsTest", () =>
 		const actual = 12345;
 		const getActual = requirements.copy().withAssertionsDisabled().assertThatAndReturn(r =>
 			r.requireThat(actual, "actual").getActual());
-		requirements.requireThat(actual, "actual").isNotEqualTo(getActual, "getActual()");
+		requirements.requireThat(actual, "actual").isNotEqualTo(getActual as number, "getActual()");
 		requirements.requireThat(getActual, "getActual").isNotDefined();
 	});
 

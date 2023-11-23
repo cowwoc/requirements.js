@@ -1,5 +1,5 @@
-import type {TerminalEncoding} from "./internal.mjs";
-import {AbstractGlobalConfiguration} from "./internal.mjs";
+import type {TerminalEncoding} from "../src/index.mjs";
+import {AbstractGlobalConfiguration} from "../src/internal/internal.mjs";
 
 class TestGlobalConfiguration extends AbstractGlobalConfiguration
 {

@@ -8,8 +8,10 @@ import type {
  * Verifies the requirements of an array.
  *
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ *
+ * @typeParam E - the type the array elements
  */
-interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
+interface ArrayVerifier<E> extends ExtensibleObjectVerifier<ArrayVerifier<E>, E[]>
 {
 	/**
 	 * Ensures that the actual value is empty.
@@ -17,7 +19,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is not empty
 	 */
-	isEmpty(): ArrayVerifier;
+	isEmpty(): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the actual value is not empty.
@@ -25,7 +27,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is empty
 	 */
-	isNotEmpty(): ArrayVerifier;
+	isNotEmpty(): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array contains an element.
@@ -37,7 +39,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array does not contain <code>element</code>.
 	 */
-	contains(element: unknown, name?: string): ArrayVerifier;
+	contains(element: E, name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array contains exactly the specified elements; nothing less, nothing more.
@@ -51,7 +53,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * If the array is missing any elements in <code>expected</code>.
 	 * If the array contains elements not found in <code>expected</code>.
 	 */
-	containsExactly(expected: unknown[], name?: string): ArrayVerifier;
+	containsExactly(expected: E[], name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array contains any of the specified elements.
@@ -65,7 +67,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * If the array is missing any elements in <code>expected</code>.
 	 * If the array contains elements not found in <code>expected</code>.
 	 */
-	containsAny(expected: unknown[], name?: string): ArrayVerifier;
+	containsAny(expected: E[], name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array contains all the specified elements.
@@ -78,7 +80,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array does not contain all of <code>expected</code>.
 	 */
-	containsAll(expected: unknown[], name?: string): ArrayVerifier;
+	containsAll(expected: E[], name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array does not contain an element.
@@ -90,7 +92,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array contains <code>element</code>.
 	 */
-	doesNotContain(element: unknown, name?: string): ArrayVerifier;
+	doesNotContain(element: E, name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array does not contain any of the specified elements.
@@ -103,7 +105,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array contains any of <code>elements</code>.
 	 */
-	doesNotContainAny(elements: unknown[], name?: string): ArrayVerifier;
+	doesNotContainAny(elements: E[], name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array does not contain all the specified elements.
@@ -116,7 +118,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array contains all of <code>elements</code>.
 	 */
-	doesNotContainAll(elements: unknown[], name?: string): ArrayVerifier;
+	doesNotContainAll(elements: E[], name?: string): ArrayVerifier<E>;
 
 	/**
 	 * Ensures that the array does not contain any duplicate elements.
@@ -124,7 +126,7 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @returns the updated verifier
 	 * @throws RangeError if the array contains any duplicate elements
 	 */
-	doesNotContainDuplicates(): ArrayVerifier;
+	doesNotContainDuplicates(): ArrayVerifier<E>;
 
 	/**
 	 * @returns a verifier for the length of the array
@@ -136,23 +138,46 @@ interface ArrayVerifier extends ExtensibleObjectVerifier<ArrayVerifier>
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier;
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier<E>;
+
+	/**
+	 * @returns a verifier for the <code>Array</code>
+	 * @throws TypeError if the actual value is not an <code>Array</code>
+	 * @deprecated returns this
+	 */
+	asArray(): ArrayVerifier<E>;
+
+	asArray<E>(): ArrayVerifier<E>;
+
+	/**
+	 * @param consumer - a function that accepts a {@link ArrayVerifier} for the actual value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>consumer</code> is not set.
+	 * If the actual value is not an <code>Array</code>.
+	 */
+	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): ArrayVerifier<E>;
+
+	asArrayConsumer<E>(consumer: (actual: ArrayVerifier<E>) => void): ArrayVerifier<E>;
 
 	/**
 	 * Verifies the Set representation of the array.
 	 *
 	 * @returns a <code>Set</code> verifier
 	 */
-	asSet(): SetVerifier;
+	asSet(): SetVerifier<E>;
+
+	asSet<E>(): SetVerifier<E>;
 
 	/**
 	 * @param consumer - a function that accepts a {@link SetVerifier} for the Set representation of the array
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asSetConsumer(consumer: (actual: SetVerifier) => void): ArrayVerifier;
+	asSetConsumer(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>;
 
-	getActual(): unknown[];
+	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>;
+
+	getActual(): E[];
 }
 
 export {type ArrayVerifier};

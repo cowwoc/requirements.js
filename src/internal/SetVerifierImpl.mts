@@ -13,9 +13,11 @@ import {
 
 /**
  * Default implementation of <code>SetVerifier</code>.
+ *
+ * @typeParam E - the type the array elements
  */
-class SetVerifierImpl extends AbstractObjectVerifier<SetVerifier, SetValidator>
-	implements SetVerifier
+class SetVerifierImpl<E> extends AbstractObjectVerifier<SetVerifier<E>, SetValidator<E>, Set<E>>
+	implements SetVerifier<E>
 {
 	/**
 	 * Creates a new SetVerifierImpl.
@@ -23,7 +25,7 @@ class SetVerifierImpl extends AbstractObjectVerifier<SetVerifier, SetValidator>
 	 * @param validator - the validator to delegate to
 	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
-	constructor(validator: SetValidator)
+	constructor(validator: SetValidator<E>)
 	{
 		super(validator);
 	}
@@ -45,43 +47,43 @@ class SetVerifierImpl extends AbstractObjectVerifier<SetVerifier, SetValidator>
 		return this.validationResult(() => this.getThis());
 	}
 
-	contains(expected: unknown, name?: string)
+	contains(expected: E, name?: string)
 	{
 		this.validator.contains(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsExactly(expected: unknown[] | Set<unknown>, name?: string)
+	containsExactly(expected: E[] | Set<E>, name?: string)
 	{
 		this.validator.containsExactly(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsAny(expected: unknown[] | Set<unknown>, name?: string)
+	containsAny(expected: E[] | Set<E>, name?: string)
 	{
 		this.validator.containsAny(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsAll(expected: unknown[] | Set<unknown>, name?: string)
+	containsAll(expected: E[] | Set<E>, name?: string)
 	{
 		this.validator.containsAll(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContain(entry: unknown, name?: string)
+	doesNotContain(entry: E, name?: string)
 	{
 		this.validator.doesNotContain(entry, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): SetVerifier
+	doesNotContainAny(elements: E[] | Set<E>, name?: string): SetVerifier<E>
 	{
 		this.validator.doesNotContainAny(elements, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetVerifier
+	doesNotContainAll(elements: E[] | Set<E>, name?: string): SetVerifier<E>
 	{
 		this.validator.doesNotContainAll(elements, name);
 		return this.validationResult(() => this.getThis());
@@ -93,29 +95,32 @@ class SetVerifierImpl extends AbstractObjectVerifier<SetVerifier, SetValidator>
 		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier<E>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.size());
 		return this;
 	}
 
-	asArray(): ArrayVerifier
+	asArray<E>(): ArrayVerifier<E>;
+	asArray(): ArrayVerifier<E>
 	{
 		const newValidator = this.validator.asArray();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
+		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<E>;
 	}
 
-	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): SetVerifier
+	asArrayConsumer<E2>(consumer: (actual: ArrayVerifier<E2>) => void): SetVerifier<E>;
+	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): SetVerifier<E>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asArray());
 		return this;
 	}
 
-	getActual(): Set<unknown>
+	asSet<E>(): SetVerifier<E>;
+	asSet(): SetVerifier<E>
 	{
-		return super.getActual() as Set<unknown>;
+		return this;
 	}
 }
 

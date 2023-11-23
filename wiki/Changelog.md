@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.2.2 - 2023/11/23
+
+* Improvement: getActual() now returns a specific type instead of `unknown`.
+
 ## Version 3.2.1 - 2023/07/19
 
 * Breaking changes:

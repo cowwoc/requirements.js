@@ -84,8 +84,10 @@ class Build
 
 		// tsconfig.json references the tests to suppress an ESLint warning, but we don't actually want to publish
 		// them.
-		const index = config.include.indexOf("test/**/*.mts", 0);
-		config.include.splice(index, 1);
+		config.include = config.include.filter((element: string) =>
+		{
+			return element !== "build.mts" && !element.startsWith("test/");
+		});
 		config.compilerOptions.outDir = "target/publish/node/";
 		config.compilerOptions.declaration = true;
 

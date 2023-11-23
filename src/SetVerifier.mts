@@ -8,8 +8,10 @@ import type {
  * Verifies the requirements of a <code>Set</code>.
  * <p>
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ *
+ * @typeParam E - the type the array elements
  */
-interface SetVerifier extends ObjectVerifier
+interface SetVerifier<E> extends ObjectVerifier<Set<E>>
 {
 	/**
 	 * Ensures that value does not contain any elements.
@@ -17,7 +19,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if the value contains at least one element
 	 */
-	isEmpty(): SetVerifier;
+	isEmpty(): SetVerifier<E>;
 
 	/**
 	 * Ensures that value contains at least one element.
@@ -25,7 +27,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if the value does not contain any elements
 	 */
-	isNotEmpty(): SetVerifier;
+	isNotEmpty(): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value contains an entry.
@@ -37,7 +39,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the Set does not contain <code>expected</code>.
 	 */
-	contains(expected: unknown, name?: string): SetVerifier;
+	contains(expected: E, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less,
@@ -52,7 +54,7 @@ interface SetVerifier extends ObjectVerifier
 	 * If the actual value is missing any elements in <code>expected</code>.
 	 * If the actual value contains elements not found in <code>expected</code>.
 	 */
-	containsExactly(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
+	containsExactly(expected: E[] | Set<E>, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value contains any of the elements in the expected value.
@@ -66,7 +68,7 @@ interface SetVerifier extends ObjectVerifier
 	 * If the actual value is missing any elements in <code>expected</code>.
 	 * If the actual value contains elements not found in <code>expected</code>.
 	 */
-	containsAny(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
+	containsAny(expected: E[] | Set<E>, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value contains all the elements in the expected value.
@@ -79,7 +81,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the actual value does not contain all of <code>expected</code>.
 	 */
-	containsAll(expected: unknown[] | Set<unknown>, name?: string): SetVerifier;
+	containsAll(expected: E[] | Set<E>, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value does not contain an entry.
@@ -91,7 +93,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the actual value contains <code>entry</code>.
 	 */
-	doesNotContain(entry: unknown, name?: string): SetVerifier;
+	doesNotContain(entry: E, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the actual value does not contain any of the specified elements.
@@ -104,7 +106,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the array contains any of <code>elements</code>.
 	 */
-	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): SetVerifier;
+	doesNotContainAny(elements: E[] | Set<E>, name?: string): SetVerifier<E>;
 
 	/**
 	 * Ensures that the array does not contain all the specified elements.
@@ -117,7 +119,7 @@ interface SetVerifier extends ObjectVerifier
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the actual value contains all of <code>elements</code>.
 	 */
-	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetVerifier;
+	doesNotContainAll(elements: E[] | Set<E>, name?: string): SetVerifier<E>;
 
 	/**
 	 * @returns a verifier for the Set's size
@@ -129,21 +131,42 @@ interface SetVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier;
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier<E>;
 
 	/**
 	 * @returns a verifier for the Set's elements
 	 */
-	asArray(): ArrayVerifier;
+	asArray<E>(): ArrayVerifier<E>;
+
+	asArray(): ArrayVerifier<E>;
 
 	/**
 	 * @param consumer - a function that accepts an {@link ArrayVerifier} for the Set's elements
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): SetVerifier;
+	asArrayConsumer<S, E>(consumer: (actual: ArrayVerifier<E>) => void): S;
 
-	getActual(): Set<unknown>;
+	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): SetVerifier<E>;
+
+	/**
+	 * @returns a verifier for the <code>Set</code>
+	 * @deprecated returns this
+	 */
+	asSet(): SetVerifier<E>;
+
+	asSet<E>(): SetVerifier<E>;
+
+	/**
+	 * @param consumer - a function that accepts a {@link SetVerifier} for the actual value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>consumer</code> is not set
+	 */
+	asSetConsumer(consumer: (actual: SetVerifier<E>) => void): SetVerifier<E>;
+
+	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): SetVerifier<E>;
+
+	getActual(): Set<E>;
 }
 
 export {type SetVerifier};

@@ -5,5 +5,9 @@ export
 	assertThatAndReturn,
 	validateThat
 } from "./DefaultRequirements.mjs";
-export {Requirements} from "./internal/internal.mjs";
-export {GlobalRequirements} from "./internal/internal.mjs";
+export {
+	Requirements,
+	GlobalRequirements,
+	Configuration,
+	TerminalEncoding
+} from "./internal/internal.mjs";

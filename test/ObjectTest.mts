@@ -7,14 +7,17 @@ import type {ObjectValidator} from "../src/internal/internal.mjs";
 import {
 	Configuration,
 	ObjectVerifierImpl,
-	TerminalEncoding,
-	TestGlobalConfiguration
+	TerminalEncoding
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
+import {TypeScriptCompiler} from "./TypescriptCompiler.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import * as os from "os";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
+const compiler = new TypeScriptCompiler();
 
 suite("ObjectTest", () =>
 {
@@ -24,7 +27,7 @@ suite("ObjectTest", () =>
 		{
 			let actual: undefined;
 			/* eslint-disable no-new */
-			new ObjectVerifierImpl(actual as unknown as ObjectValidator);
+			new ObjectVerifierImpl(actual as unknown as ObjectValidator<undefined>);
 			/* eslint-enable no-new */
 		}, TypeError);
 	});
@@ -68,12 +71,15 @@ suite("ObjectTest", () =>
 
 	test("isEqual_sameToStringDifferentTypes", () =>
 	{
-		assert.throws(function()
-		{
-			const actual = "null";
-			requirements.requireThat(actual, "actual").isEqualTo(null);
-		}, RangeError);
-	});
+		const code =
+			`import {requireThat} from "./target/publish/node/index.mjs";
+			
+			const actual = "null"
+			requireThat(actual, "actual").isEqualTo(null);`;
+		const messages = compiler.compile(code);
+		assert.equal(messages, "test.mts(4,44): error TS2345: Argument of type 'null' is not assignable " +
+			"to parameter of type 'string'." + os.EOL);
+	}).timeout(5000);
 
 	test("isEqual_nullToNull", () =>
 	{
@@ -83,25 +89,32 @@ suite("ObjectTest", () =>
 
 	test("isEqualTo_nullToNotNull", () =>
 	{
-		assert.throws(function()
-		{
+		const code =
+			`import {requireThat} from "./target/publish/node/index.mjs";
+
 			const actual = null;
-			requirements.requireThat(actual, "actual").isEqualTo("expected");
-		}, RangeError);
-	});
+			requireThat(actual, "actual").isEqualTo("expected");`;
+		const messages = compiler.compile(code);
+		assert.equal(messages, "test.mts(4,44): error TS2345: Argument of type '\"expected\"' is not " +
+			"assignable to parameter of type 'null'." + os.EOL);
+	}).timeout(5000);
 
 	test("isEqualTo_notNullToNull", () =>
 	{
-		assert.throws(function()
-		{
+		const code =
+			`import {requireThat} from "./target/publish/node/index.mjs";
+
 			const actual = "actual";
-			requirements.requireThat(actual, "actual").isEqualTo(null);
-		}, RangeError);
-	});
+			requireThat(actual, "actual").isEqualTo(null);`;
+		const messages = compiler.compile(code);
+		assert.equal(messages, "test.mts(4,44): error TS2345: Argument of type 'null' is not assignable " +
+			"to parameter of type 'string'." + os.EOL);
+	}).timeout(5000);
 
 	test("isNotEqualTo", () =>
 	{
-		requirements.requireThat("actualValue", "actual").isNotEqualTo("expectedValue");
+		const actual = "actualValue";
+		requirements.requireThat(actual, "actual").isNotEqualTo("expectedValue");
 	});
 
 	test("isNotEqualTo_False", () =>

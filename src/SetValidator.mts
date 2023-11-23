@@ -13,22 +13,24 @@ import type {
  * exceptions.
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ *
+ * @typeParam E - the type the array elements
  */
-interface SetValidator extends ExtensibleObjectValidator<SetValidator>
+interface SetValidator<E> extends ExtensibleObjectValidator<SetValidator<E>, Set<E>>
 {
 	/**
 	 * Ensures that value does not contain any elements.
 	 *
 	 * @returns the updated validator
 	 */
-	isEmpty(): SetValidator;
+	isEmpty(): SetValidator<E>;
 
 	/**
 	 * Ensures that value contains at least one element.
 	 *
 	 * @returns the updated validator
 	 */
-	isNotEmpty(): SetValidator;
+	isNotEmpty(): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value contains an entry.
@@ -39,7 +41,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	contains(expected: unknown, name?: string): SetValidator;
+	contains(expected: E, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value contains exactly the same elements as the expected value; nothing less,
@@ -52,7 +54,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * If <code>expected</code> is not an <code>Array</code> or <code>Set</code>.
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsExactly(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
+	containsExactly(expected: E[] | Set<E>, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value contains any of the elements in the expected value.
@@ -64,7 +66,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * If <code>expected</code> is not an <code>Array</code> or <code>Set</code>.
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsAny(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
+	containsAny(expected: E[] | Set<E>, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value contains all the elements in the expected value.
@@ -76,7 +78,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * If <code>expected</code> is not an <code>Array</code> or <code>Set</code>.
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsAll(expected: unknown[] | Set<unknown>, name?: string): SetValidator;
+	containsAll(expected: E[] | Set<E>, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value does not contain an entry.
@@ -87,7 +89,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContain(entry: unknown, name?: string): SetValidator;
+	doesNotContain(entry: E, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the actual value does not contain any of the specified elements.
@@ -99,7 +101,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * If <code>elements</code> is not an <code>Array</code> or <code>Set</code>.
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContainAny(elements: unknown[] | Set<unknown>, name?: string): SetValidator;
+	doesNotContainAny(elements: E[] | Set<E>, name?: string): SetValidator<E>;
 
 	/**
 	 * Ensures that the array does not contain all the specified elements.
@@ -111,7 +113,7 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * If <code>elements</code> is not an <code>Array</code> or <code>Set</code>.
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContainAll(elements: unknown[] | Set<unknown>, name?: string): SetValidator;
+	doesNotContainAll(elements: E[] | Set<E>, name?: string): SetValidator<E>;
 
 	/**
 	 * @returns a validator for the Set's size
@@ -123,21 +125,43 @@ interface SetValidator extends ExtensibleObjectValidator<SetValidator>
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberValidator) => void): SetValidator;
+	sizeConsumer(consumer: (actual: NumberValidator) => void): SetValidator<E>;
 
 	/**
 	 * @returns a validator for the Set's elements
 	 */
-	asArray(): ArrayValidator;
+	asArray(): ArrayValidator<E>;
+
+	asArray<E>(): ArrayValidator<E>;
+
 
 	/**
 	 * @param consumer - a function that accepts an {@link ArrayValidator} for the Set's elements
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asArrayConsumer(consumer: (actual: ArrayValidator) => void): SetValidator;
+	asArrayConsumer(consumer: (actual: ArrayValidator<E>) => void): SetValidator<E>;
 
-	getActual(): void | Set<unknown>;
+	asArrayConsumer<S, E>(consumer: (input: ArrayValidator<E>) => void): S;
+
+	/**
+	 * @returns a validator for the <code>Set</code>
+	 * @deprecated returns this
+	 */
+	asSet(): SetValidator<E>;
+
+	asSet<E>(): SetValidator<E>;
+
+	/**
+	 * @param consumer - a function that accepts a {@link SetValidator} for the actual value
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
+	 */
+	asSetConsumer(consumer: (actual: SetValidator<E>) => void): SetValidator<E>;
+
+	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): SetValidator<E>;
+
+	getActual(): Set<E> | undefined;
 }
 
 export {type SetValidator};
