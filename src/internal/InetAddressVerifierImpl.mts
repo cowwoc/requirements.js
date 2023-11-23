@@ -7,7 +7,7 @@ import {AbstractObjectVerifier} from "./internal.mjs";
 /**
  * Default implementation of <code>InetAddressVerifier</code>.
  */
-class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier, InetAddressValidator>
+class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier, InetAddressValidator, string>
 	implements InetAddressVerifier
 {
 	/**
@@ -42,11 +42,6 @@ class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier
 	{
 		this.validator.isHostname();
 		return this.validationResult(() => this.getThis());
-	}
-
-	getActual(): string
-	{
-		return super.getActual() as string;
 	}
 }
 

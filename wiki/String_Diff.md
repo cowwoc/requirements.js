@@ -1,4 +1,4 @@
-When a [String comparison](https://cowwoc.github.io/requirements.js/3.2.1/docs/api/ObjectVerifier.html#isEqualTo)
+When a [String comparison](https://cowwoc.github.io/requirements.js/3.2.2/docs/api/ObjectVerifier.html#isEqualTo)
 fails, the library outputs a [diff](https://en.wikipedia.org/wiki/Diff) of the values being compared.
 
 Depending on the terminal capability, you will see a [Textual](Textual_Diff.md) or [Colored](Colored_Diff.md) diff.
@@ -8,4 +8,4 @@ Depending on the terminal capability, you will see a [Textual](Textual_Diff.md) 
 We disable colors if stdout is redirected. This doesn't necessarily mean that ANSI codes are not supported, but we chose
 to err on the side of caution.
 Users can override this behavior by
-invoking [GlobalRequirements.withTerminalEncoding()](https://cowwoc.github.io/requirements.js/3.2.1/docs/api/module-GlobalRequirements-GlobalRequirements.html#.withTerminalEncoding).
+invoking [GlobalRequirements.withTerminalEncoding()](https://cowwoc.github.io/requirements.js/3.2.2/docs/api/module-GlobalRequirements-GlobalRequirements.html#.withTerminalEncoding).

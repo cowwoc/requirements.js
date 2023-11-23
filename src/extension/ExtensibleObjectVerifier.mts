@@ -1,20 +1,21 @@
 import type {
-	ArrayVerifier,
+	StringVerifier,
 	BooleanVerifier,
-	ClassVerifier,
-	InetAddressVerifier,
-	MapVerifier,
 	NumberVerifier,
+	InetAddressVerifier,
+	ClassVerifier,
+	ArrayVerifier,
 	SetVerifier,
-	StringVerifier
+	MapVerifier
 } from "../internal/internal.mjs";
 
 /**
  * Verifies the requirements of an object.
  *
  * @typeParam S - the type of verifier returned by the methods
+ * @typeParam T - the type the actual value
  */
-interface ExtensibleObjectVerifier<S>
+interface ExtensibleObjectVerifier<S, T>
 {
 	/**
 	 * Ensures that the actual value is equal to a value.
@@ -26,7 +27,7 @@ interface ExtensibleObjectVerifier<S>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the actual value is not equal to <code>expected</code>.
 	 */
-	isEqualTo(expected: unknown, name?: string): S;
+	isEqualTo(expected: T, name?: string): S;
 
 	/**
 	 * Throws an exception if the validation failed.
@@ -49,7 +50,7 @@ interface ExtensibleObjectVerifier<S>
 	 * @throws RangeError if <code>name</code> is empty.
 	 * If the actual value is equal to <code>value</code>.
 	 */
-	isNotEqualTo(value: unknown, name?: string): S;
+	isNotEqualTo(value: T, name?: string): S;
 
 	/**
 	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
@@ -138,7 +139,7 @@ interface ExtensibleObjectVerifier<S>
 	 *
 	 * @returns the actual value
 	 */
-	getActual(): unknown;
+	getActual(): T;
 
 	/**
 	 * @returns a verifier for the object's string representation
@@ -152,20 +153,6 @@ interface ExtensibleObjectVerifier<S>
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	asStringConsumer(consumer: (actual: StringVerifier) => void): S;
-
-	/**
-	 * @returns a verifier for the <code>Array</code>
-	 * @throws TypeError if the actual value is not an <code>Array</code>
-	 */
-	asArray(): ArrayVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link ArrayVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not an <code>Array</code>.
-	 */
-	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): S;
 
 	/**
 	 * @returns a verifier for the <code>boolean</code>
@@ -196,32 +183,54 @@ interface ExtensibleObjectVerifier<S>
 	asNumberConsumer(consumer: (actual: NumberVerifier) => void): S;
 
 	/**
+	 * @typeParam E - the type the array elements
+	 * @returns a verifier for the <code>Array</code>
+	 * @throws TypeError if the actual value is not an <code>Array</code>
+	 */
+	asArray<E>(): ArrayVerifier<E>;
+
+	/**
+	 * @typeParam E - the type the array elements
+	 * @param consumer - a function that accepts a {@link ArrayVerifier} for the actual value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>consumer</code> is not set.
+	 * If the actual value is not an <code>Array</code>.
+	 */
+	asArrayConsumer<E>(consumer: (actual: ArrayVerifier<E>) => void): S;
+
+	/**
+	 * @typeParam E - the type the set elements
 	 * @returns a verifier for the <code>Set</code>
 	 * @throws TypeError if the actual value is not a <code>Set</code>
 	 */
-	asSet(): SetVerifier;
+	asSet<E>(): SetVerifier<E>;
 
 	/**
+	 * @typeParam E - the type the set elements
 	 * @param consumer - a function that accepts a {@link SetVerifier} for the actual value
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set.
 	 * If the actual value is not a <code>Set</code>.
 	 */
-	asSetConsumer(consumer: (actual: SetVerifier) => void): S;
+	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): S;
 
 	/**
+	 * @typeParam K - the type the map's keys
+	 * @typeParam V - the type the map's values
 	 * @returns a verifier for the <code>Map</code>
 	 * @throws TypeError if the actual value is not a <code>Map</code>
 	 */
-	asMap(): MapVerifier;
+	asMap<K, V>(): MapVerifier<K, V>;
 
 	/**
+	 * @typeParam K - the type the map's keys
+	 * @typeParam V - the type the map's values
 	 * @param consumer - a function that accepts a {@link MapVerifier} for the actual value
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set.
 	 * If the actual value is not a <code>Map</code>.
 	 */
-	asMapConsumer(consumer: (actual: MapVerifier) => void): S;
+	asMapConsumer<K, V>(consumer: (actual: MapVerifier<K, V>) => void): S;
 
 	/**
 	 * @returns a verifier for the value's Internet address representation

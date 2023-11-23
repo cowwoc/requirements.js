@@ -21,7 +21,7 @@ class NumberValidatorImpl extends AbstractNumberValidator<NumberValidator>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: number | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
 	}

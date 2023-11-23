@@ -1,21 +1,22 @@
 import type {
-	ArrayValidator,
-	BooleanValidator,
-	ClassValidator,
-	InetAddressValidator,
-	MapValidator,
-	NumberValidator,
-	SetValidator,
 	StringValidator,
-	ValidationFailure
+	ValidationFailure,
+	BooleanValidator,
+	NumberValidator,
+	InetAddressValidator,
+	ClassValidator,
+	ArrayValidator,
+	SetValidator,
+	MapValidator
 } from "../internal/internal.mjs";
 
 /**
  * Validates the requirements of an object.
  *
  * @typeParam S - the type of validator returned by the methods
+ * @typeParam T - the type the actual value
  */
-interface ExtensibleObjectValidator<S>
+interface ExtensibleObjectValidator<S, T>
 {
 	/**
 	 * Ensures that the actual value is equal to a value.
@@ -26,7 +27,7 @@ interface ExtensibleObjectValidator<S>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	isEqualTo(expected: unknown, name?: string): S;
+	isEqualTo(expected: T, name?: string): S;
 
 	/**
 	 * Ensures that the actual value is not equal to a value.
@@ -37,7 +38,7 @@ interface ExtensibleObjectValidator<S>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	isNotEqualTo(value: unknown, name?: string): S;
+	isNotEqualTo(value: T, name?: string): S;
 
 	/**
 	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
@@ -119,9 +120,9 @@ interface ExtensibleObjectValidator<S>
 	/**
 	 * Returns the actual value.
 	 *
-	 * @returns the actual value
+	 * @returns undefined if the validation failed
 	 */
-	getActual(): unknown;
+	getActual(): T | undefined;
 
 	/**
 	 * @returns a validator for the object's string representation
@@ -134,19 +135,7 @@ interface ExtensibleObjectValidator<S>
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asStringConsumer(consumer: (actual: unknown) => StringValidator): S;
-
-	/**
-	 * @returns a validator for the <code>Array</code>
-	 */
-	asArray(): ArrayValidator;
-
-	/**
-	 * @param consumer - a function that accepts a {@link ArrayValidator} for the actual value
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asArrayConsumer(consumer: (input: ArrayValidator) => void): S;
+	asStringConsumer(consumer: (actual: StringValidator) => StringValidator): S;
 
 	/**
 	 * @returns a validator for the <code>boolean</code>
@@ -173,29 +162,49 @@ interface ExtensibleObjectValidator<S>
 	asNumberConsumer(consumer: (input: NumberValidator) => void): S;
 
 	/**
-	 * @returns a validator for the <code>Set</code>
+	 * @typeParam E - the type the array elements
+	 * @returns a validator for the <code>Array</code>
 	 */
-	asSet(): SetValidator;
+	asArray<E>(): ArrayValidator<E>;
 
 	/**
+	 * @typeParam E - the type the array elements
+	 * @param consumer - a function that accepts a {@link ArrayValidator} for the actual value
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
+	 */
+	asArrayConsumer<E>(consumer: (input: ArrayValidator<E>) => void): S;
+
+	/**
+	 * @typeParam E - the type the set elements
+	 * @returns a validator for the <code>Set</code>
+	 */
+	asSet<E>(): SetValidator<E>;
+
+	/**
+	 * @typeParam E - the type the array elements
 	 * @param consumer - a function that accepts a {@link SetValidator} for the actual value
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asSetConsumer(consumer: (actual: SetValidator) => void): S;
+	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): S;
 
 	/**
+	 * @typeParam K - the type the map's keys
+	 * @typeParam V - the type the map's values
 	 * @returns a validator for the <code>Map</code>
 	 */
-	asMap(): MapValidator;
+	asMap<K, V>(): MapValidator<K, V>;
 
 	/**
+	 * @typeParam K - the type the map's keys
+	 * @typeParam V - the type the map's values
 	 * @param consumer - a function that accepts a {@link MapValidator} for the actual value
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set.
 	 * If the actual value is not a <code>Map</code>.
 	 */
-	asMapConsumer(consumer: (input: MapValidator) => void): S;
+	asMapConsumer<K, V>(consumer: (input: MapValidator<K, V>) => void): S;
 
 	/**
 	 * @returns a validator for the value's Internet address representation

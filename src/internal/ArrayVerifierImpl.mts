@@ -13,9 +13,11 @@ import {
 
 /**
  * Default implementation of <code>ArrayVerifier</code>.
+ *
+ * @typeParam E - the type the array elements
  */
-class ArrayVerifierImpl extends AbstractObjectVerifier<ArrayVerifier, ArrayValidator>
-	implements ArrayVerifier
+class ArrayVerifierImpl<E> extends AbstractObjectVerifier<ArrayVerifier<E>, ArrayValidator<E>, E[]>
+	implements ArrayVerifier<E>
 {
 	/**
 	 * Creates a new ArrayVerifierImpl.
@@ -23,7 +25,7 @@ class ArrayVerifierImpl extends AbstractObjectVerifier<ArrayVerifier, ArrayValid
 	 * @param validator - the validator to delegate to
 	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
-	constructor(validator: ArrayValidator)
+	constructor(validator: ArrayValidator<E>)
 	{
 		super(validator);
 	}
@@ -45,49 +47,49 @@ class ArrayVerifierImpl extends AbstractObjectVerifier<ArrayVerifier, ArrayValid
 		return this.validationResult(() => this.getThis());
 	}
 
-	contains(element: unknown, name?: string)
+	contains(element: E, name?: string)
 	{
 		this.validator.contains(element, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsExactly(expected: unknown[], name?: string)
+	containsExactly(expected: E[], name?: string)
 	{
 		this.validator.containsExactly(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsAny(expected: unknown[], name?: string)
+	containsAny(expected: E[], name?: string)
 	{
 		this.validator.containsAny(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	containsAll(expected: unknown[], name?: string)
+	containsAll(expected: E[], name?: string)
 	{
 		this.validator.containsAll(expected, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContain(element: unknown, name?: string)
+	doesNotContain(element: E, name?: string)
 	{
 		this.validator.doesNotContain(element, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContainAny(elements: unknown[], name?: string): ArrayVerifier
+	doesNotContainAny(elements: E[], name?: string): ArrayVerifier<E>
 	{
 		this.validator.doesNotContainAny(elements, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContainAll(elements: unknown[], name?: string): ArrayVerifier
+	doesNotContainAll(elements: E[], name?: string): ArrayVerifier<E>
 	{
 		this.validator.doesNotContainAll(elements, name);
 		return this.validationResult(() => this.getThis());
 	}
 
-	doesNotContainDuplicates(): ArrayVerifier
+	doesNotContainDuplicates(): ArrayVerifier<E>
 	{
 		this.validator.doesNotContainDuplicates();
 		return this.validationResult(() => this.getThis());
@@ -99,29 +101,26 @@ class ArrayVerifierImpl extends AbstractObjectVerifier<ArrayVerifier, ArrayValid
 		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier
+	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier<E>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.length());
 		return this;
 	}
 
-	asSet(): SetVerifier
+	asSet<E>(): SetVerifier<E>;
+	asSet(): SetVerifier<E>
 	{
 		const newValidator = this.validator.asSet();
-		return this.validationResult(() => new SetVerifierImpl(newValidator)) as SetVerifier;
+		return this.validationResult(() => new SetVerifierImpl(newValidator)) as SetVerifier<E>;
 	}
 
-	asSetConsumer(consumer: (actual: SetVerifier) => void): ArrayVerifier
+	asSetConsumer<S, E>(consumer: (actual: SetVerifier<E>) => void): S;
+	asSetConsumer(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asSet());
 		return this;
-	}
-
-	getActual(): unknown[]
-	{
-		return super.getActual() as unknown[];
 	}
 }
 

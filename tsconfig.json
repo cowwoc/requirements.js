@@ -28,7 +28,8 @@
 		"node_modules",
 		"target",
 		"scripts",
-		"./.eslintrc.mjs"
+		"./.eslintrc.mjs",
+		"test/TestGlobalConfiguration.mts"
 	],
 	"typeRoots": [
 		"node_modules/@types"

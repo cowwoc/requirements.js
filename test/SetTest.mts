@@ -1,14 +1,14 @@
-import {Requirements} from "../src/index.mjs";
+import {
+	Requirements,
+	Configuration,
+	TerminalEncoding
+} from "../src/index.mjs";
 import {
 	suite,
 	test
 } from "mocha";
 import {assert} from "chai";
-import {
-	Configuration,
-	TerminalEncoding,
-	TestGlobalConfiguration
-} from "../src/internal/internal.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);

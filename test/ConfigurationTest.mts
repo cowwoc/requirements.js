@@ -6,9 +6,9 @@ import {assert} from "chai";
 import {
 	Configuration,
 	TerminalEncoding,
-	TestGlobalConfiguration
-} from "../src/internal/internal.mjs";
-import {Requirements} from "../src/Requirements.mjs";
+	Requirements
+} from "../src/index.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);

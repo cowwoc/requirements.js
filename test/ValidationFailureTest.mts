@@ -6,10 +6,10 @@ import {assert} from "chai";
 import {
 	Configuration,
 	TerminalEncoding,
-	TestGlobalConfiguration,
 	ValidationFailure
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 suite("ValidationFailureTest", () =>
 {

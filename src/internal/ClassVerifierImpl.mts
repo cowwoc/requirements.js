@@ -7,7 +7,8 @@ import {AbstractObjectVerifier} from "./internal.mjs";
 /**
  * Default implementation of <code>ClassVerifier</code>.
  */
-class ClassVerifierImpl extends AbstractObjectVerifier<ClassVerifier, ClassValidator>
+// eslint-disable-next-line @typescript-eslint/ban-types
+class ClassVerifierImpl extends AbstractObjectVerifier<ClassVerifier, ClassValidator, Function>
 	implements ClassVerifier
 {
 	/**
@@ -38,13 +39,6 @@ class ClassVerifierImpl extends AbstractObjectVerifier<ClassVerifier, ClassValid
 	{
 		this.validator.isSubtypeOf(type);
 		return this.validationResult(() => this.getThis());
-	}
-
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual()
-	{
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		return super.getActual() as Function;
 	}
 }
 

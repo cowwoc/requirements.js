@@ -10,7 +10,7 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
-interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator>
+interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator, boolean>
 {
 	/**
 	 * Ensures that the actual value is true.
@@ -26,7 +26,7 @@ interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator>
 	 */
 	isFalse(): BooleanValidator;
 
-	getActual(): boolean | void;
+	getActual(): boolean | undefined;
 }
 
 export {type BooleanValidator};

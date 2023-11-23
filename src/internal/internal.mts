@@ -85,7 +85,6 @@ import {Node16MillionColors} from "./diff/Node16MillionColors.mjs";
 import {Node256Colors} from "./diff/Node256Colors.mjs";
 import type {GlobalConfiguration} from "../GlobalConfiguration.mjs";
 import {IllegalStateError} from "./IllegalStateError.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import {Maps} from "./Maps.mjs";
 import {SizeValidatorImpl} from "./SizeValidatorImpl.mjs";
 import {Pluralizer} from "./Pluralizer.mjs";
@@ -120,7 +119,6 @@ export
 	InetAddressValidatorImpl,
 	InetAddressVerifierImpl,
 	MainGlobalConfiguration,
-	TestGlobalConfiguration,
 	Maps,
 	MapValidatorImpl,
 	MapVerifierImpl,

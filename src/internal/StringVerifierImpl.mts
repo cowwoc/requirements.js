@@ -12,7 +12,7 @@ import {
 /**
  * Default implementation of <code>StringVerifier</code>.
  */
-class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringValidator>
+class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringValidator, string>
 	implements StringVerifier
 {
 	/**
@@ -121,11 +121,6 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this);
 		return this;
-	}
-
-	getActual(): string
-	{
-		return super.getActual() as string;
 	}
 }
 

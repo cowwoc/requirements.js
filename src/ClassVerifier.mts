@@ -5,7 +5,8 @@ import type {ObjectVerifier} from "./internal/internal.mjs";
  * <p>
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
  */
-interface ClassVerifier extends ObjectVerifier
+// eslint-disable-next-line @typescript-eslint/ban-types
+interface ClassVerifier extends ObjectVerifier<Function>
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a super-type.

@@ -14,7 +14,7 @@ import {
 /**
  * Default implementation of <code>StringValidator</code>.
  */
-class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
+class StringValidatorImpl extends AbstractObjectValidator<StringValidator, string>
 	implements StringValidator
 {
 	private actualString: string;
@@ -29,7 +29,7 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: string | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
 		this.actualString = actual as string;
@@ -183,7 +183,7 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	length(): NumberValidator
 	{
-		let value: void | number;
+		let value: number | undefined;
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
@@ -202,12 +202,6 @@ class StringValidatorImpl extends AbstractObjectValidator<StringValidator>
 
 	asString(): StringValidator
 	{
-		if (this.failures.length > 0)
-			return this;
-		if (typeof (this.actualString) === "undefined")
-			return new StringValidatorImpl(this.config, "undefined", this.name, this.failures);
-		if (this.actualString === null)
-			return new StringValidatorImpl(this.config, "null", this.name, this.failures);
 		return this;
 	}
 

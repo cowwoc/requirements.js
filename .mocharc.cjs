@@ -14,4 +14,5 @@ module.exports = {
 	exclude: [
 		"**/*.d.mts"
 	]
+	// slow: 0
 };

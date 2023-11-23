@@ -3,7 +3,7 @@ import type {
 	ExtensibleObjectValidator
 } from "./internal/internal.mjs";
 
-const typedocWorkaround: null | ExtensibleObjectValidator<void> = null;
+const typedocWorkaround: null | ExtensibleObjectValidator<void, void> = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");

@@ -10,7 +10,7 @@ import {AbstractObjectVerifier} from "../internal.mjs";
  * @typeParam S - the type of validator returned by the methods
  */
 abstract class AbstractNumberVerifier<S, V extends ExtensibleNumberValidator<V>>
-	extends AbstractObjectVerifier<S, V>
+	extends AbstractObjectVerifier<S, V, number>
 	implements ExtensibleNumberVerifier<S>
 {
 	isNegative(): S
@@ -107,11 +107,6 @@ abstract class AbstractNumberVerifier<S, V extends ExtensibleNumberValidator<V>>
 	{
 		this.validator.isNotFinite();
 		return this.validationResult(() => this.getThis());
-	}
-
-	getActual(): number
-	{
-		return super.getActual() as number;
 	}
 }
 

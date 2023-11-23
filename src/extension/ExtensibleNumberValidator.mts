@@ -7,7 +7,7 @@ import type {ExtensibleObjectValidator} from "../internal/internal.mjs";
  *
  * @typeParam S - the type of validator returned by the methods
  */
-interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S>
+interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S, number>
 {
 	/**
 	 * Ensures that the actual value is negative.
@@ -143,7 +143,7 @@ interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S>
 	 */
 	isNotFinite(): S;
 
-	getActual(): number | void;
+	getActual(): number | undefined;
 }
 
 export {type ExtensibleNumberValidator};

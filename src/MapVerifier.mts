@@ -8,8 +8,11 @@ import type {
  * Verifies the requirements of a <code>Map</code>.
  * <p>
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ *
+ * @typeParam K - the type the map's keys
+ * @typeParam V - the type the map's values
  */
-interface MapVerifier extends ObjectVerifier
+interface MapVerifier<K, V> extends ObjectVerifier<Map<K, V>>
 {
 	/**
 	 * Ensures that value does not contain any entries
@@ -17,7 +20,7 @@ interface MapVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if the value contains any entries
 	 */
-	isEmpty(): MapVerifier;
+	isEmpty(): MapVerifier<K, V>;
 
 	/**
 	 * Ensures that value contains at least one entry.
@@ -25,37 +28,37 @@ interface MapVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if the value does not contain any entries
 	 */
-	isNotEmpty(): MapVerifier;
+	isNotEmpty(): MapVerifier<K, V>;
 
 	/**
 	 * @returns a verifier for the Map's keys
 	 */
-	keys(): ArrayVerifier;
+	keys(): ArrayVerifier<K>;
 
 	/**
 	 * @param consumer - a function that accepts an {@link ArrayVerifier} for the Map's keys
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	keysConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier;
+	keysConsumer(consumer: (actual: ArrayVerifier<K>) => void): MapVerifier<K, V>;
 
 	/**
 	 * @returns a verifier for the Map's values
 	 */
-	values(): ArrayVerifier;
+	values(): ArrayVerifier<V>;
 
 	/**
 	 * @param consumer - a function that accepts an {@link ArrayVerifier} for the Map's values
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	valuesConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier;
+	valuesConsumer(consumer: (actual: ArrayVerifier<V>) => void): MapVerifier<K, V>;
 
 	/**
 	 * @returns a verifier for the Map's entries (an array of <code>[key, value]</code> for
 	 *   each element in the Map)
 	 */
-	entries(): ArrayVerifier;
+	entries(): ArrayVerifier<[K, V]>;
 
 	/**
 	 * @param consumer - a function that accepts an {@link ArrayVerifier} for the Map's entries (an
@@ -63,7 +66,7 @@ interface MapVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	entriesConsumer(consumer: (actual: ArrayVerifier) => void): MapVerifier;
+	entriesConsumer(consumer: (actual: ArrayVerifier<[K, V]>) => void): MapVerifier<K, V>;
 
 	/**
 	 * @returns a verifier for the number of entries this Map contains
@@ -76,9 +79,27 @@ interface MapVerifier extends ObjectVerifier
 	 * @returns the updated verifier
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier;
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier<K, V>;
 
-	getActual(): Map<unknown, unknown>;
+	/**
+	 * @returns a verifier for the <code>Map</code>
+	 * @deprecated returns this
+	 */
+	asMap(): MapVerifier<K, V>;
+
+	asMap<K, V>(): MapVerifier<K, V>;
+
+	/**
+	 * @param consumer - a function that accepts a {@link MapVerifier} for the actual value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>consumer</code> is not set.
+	 * If the actual value is not a <code>Map</code>.
+	 */
+	asMapConsumer(consumer: (input: MapVerifier<K, V>) => void): MapVerifier<K, V>;
+
+	asMapConsumer<K, V>(consumer: (input: MapVerifier<K, V>) => void): MapVerifier<K, V>;
+
+	getActual(): Map<K, V>;
 }
 
 export {type MapVerifier};

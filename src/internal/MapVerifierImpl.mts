@@ -13,9 +13,12 @@ import {
 
 /**
  * Default implementation of <code>MapVerifier</code>.
+ *
+ * @typeParam K - the type the map's keys
+ * @typeParam V - the type the map's values
  */
-class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
-	implements MapVerifier
+class MapVerifierImpl<K, V> extends AbstractObjectVerifier<MapVerifier<K, V>, MapValidator<K, V>, Map<K, V>>
+	implements MapVerifier<K, V>
 {
 	/**
 	 * Creates a new MapVerifierImpl.
@@ -23,7 +26,7 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 	 * @param validator - the validator to delegate to
 	 * @throws TypeError if <code>validator</code> is null or undefined
 	 */
-	constructor(validator: MapValidator)
+	constructor(validator: MapValidator<K, V>)
 	{
 		super(validator);
 	}
@@ -48,10 +51,10 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 	keys()
 	{
 		const newValidator = this.validator.keys();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
+		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<K>;
 	}
 
-	keysConsumer(consumer: (actual: ArrayVerifier) => void)
+	keysConsumer(consumer: (actual: ArrayVerifier<K>) => void)
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.keys());
@@ -61,10 +64,10 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 	values()
 	{
 		const newValidator = this.validator.values();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
+		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<V>;
 	}
 
-	valuesConsumer(consumer: (actual: ArrayVerifier) => void)
+	valuesConsumer(consumer: (actual: ArrayVerifier<V>) => void)
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.values());
@@ -74,10 +77,10 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 	entries()
 	{
 		const newValidator = this.validator.entries();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
+		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<[K, V]>;
 	}
 
-	entriesConsumer(consumer: (actual: ArrayVerifier) => void)
+	entriesConsumer(consumer: (actual: ArrayVerifier<[K, V]>) => void)
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.entries());
@@ -90,16 +93,11 @@ class MapVerifierImpl extends AbstractObjectVerifier<MapVerifier, MapValidator>
 		return this.validationResult(() => new NumberVerifierImpl(newValidator)) as NumberVerifier;
 	}
 
-	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier
+	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier<K, V>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.size());
 		return this;
-	}
-
-	getActual(): Map<unknown, unknown>
-	{
-		return super.getActual() as Map<unknown, unknown>;
 	}
 }
 

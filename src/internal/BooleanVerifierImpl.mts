@@ -7,7 +7,7 @@ import {AbstractObjectVerifier} from "./internal.mjs";
 /**
  * Default implementation of <code>BooleanVerifier</code>.
  */
-class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, BooleanValidator>
+class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, BooleanValidator, boolean>
 	implements BooleanVerifier
 {
 	/**

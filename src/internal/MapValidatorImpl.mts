@@ -15,11 +15,14 @@ import {
 
 /**
  * Default implementation of <code>MapValidator</code>.
+ *
+ * @typeParam K - the type the map's keys
+ * @typeParam V - the type the map's values
  */
-class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
-	implements MapValidator
+class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>, Map<K, V>>
+	implements MapValidator<K, V>
 {
-	private readonly actualMap: Map<unknown, unknown>;
+	private readonly actualMap: Map<K, V>;
 
 	/**
 	 * Creates a new MapValidatorImpl.
@@ -31,10 +34,10 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: Map<K, V> | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-		this.actualMap = this.actual as Map<unknown, unknown>;
+		this.actualMap = this.actual as Map<K, V>;
 	}
 
 	protected getThis()
@@ -70,7 +73,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 
 	keys()
 	{
-		let value: void | unknown[];
+		let value: K[] | undefined;
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
@@ -78,7 +81,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 		return new ArrayValidatorImpl(this.config, value, this.name + ".keys()", Pluralizer.KEY, this.failures);
 	}
 
-	keysConsumer(consumer: (actual: ArrayValidator) => void)
+	keysConsumer(consumer: (actual: ArrayValidator<K>) => void)
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -88,7 +91,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 
 	values()
 	{
-		let value: void | unknown[];
+		let value: V[] | undefined;
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
@@ -97,7 +100,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 			this.failures);
 	}
 
-	valuesConsumer(consumer: (actual: ArrayValidator) => void)
+	valuesConsumer(consumer: (actual: ArrayValidator<V>) => void)
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -107,7 +110,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 
 	entries()
 	{
-		let value: void | unknown[];
+		let value: [K, V][] | undefined;
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
@@ -116,7 +119,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 			this.failures);
 	}
 
-	entriesConsumer(consumer: (actual: ArrayValidator) => void): MapValidator
+	entriesConsumer(consumer: (actual: ArrayValidator<[K, V]>) => void): MapValidator<K, V>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -126,7 +129,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 
 	size(): NumberValidator
 	{
-		let value: void | unknown[] | Set<unknown> | Map<unknown, unknown> | string;
+		let value: unknown;
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
@@ -135,7 +138,7 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 			Pluralizer.ENTRY, this.failures);
 	}
 
-	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator
+	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator<K, V>
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		if (this.failures.length === 0)
@@ -143,7 +146,20 @@ class MapValidatorImpl extends AbstractObjectValidator<MapValidator>
 		return this;
 	}
 
-	getActual(): Map<unknown, unknown>
+	asMap<K, V>(): MapValidator<K, V>;
+	asMap(): MapValidator<K, V>
+	{
+		return this;
+	}
+
+	asMapConsumer<K2, V2>(consumer: (input: MapValidator<K2, V2>) => void): MapValidator<K, V>;
+	asMapConsumer(consumer: (input: MapValidator<K, V>) => void): MapValidator<K, V>
+	{
+		return super.asMapConsumer(consumer);
+	}
+
+
+	getActual(): Map<K, V>
 	{
 		return this.actualMap;
 	}

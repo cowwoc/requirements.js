@@ -18,7 +18,6 @@ class SearchResult
 	}
 }
 
-
 /**
  * String helper functions.
  */

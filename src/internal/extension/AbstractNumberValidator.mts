@@ -13,7 +13,7 @@ import {
  *
  * @typeParam S - the type of validator returned by the methods
  */
-abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
+abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S, number>
 	implements ExtensibleNumberValidator<S>
 {
 	private readonly actualNumber: number;
@@ -28,7 +28,7 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	protected constructor(configuration: Configuration, actual: unknown, name: string,
+	protected constructor(configuration: Configuration, actual: number | undefined, name: string,
 		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
@@ -341,9 +341,9 @@ abstract class AbstractNumberValidator<S> extends AbstractObjectValidator<S>
 		return this.getThis();
 	}
 
-	getActual(): void | number
+	getActual(): number | undefined
 	{
-		return super.getActual() as void | number;
+		return super.getActual();
 	}
 }
 

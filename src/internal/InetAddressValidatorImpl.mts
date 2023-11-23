@@ -11,7 +11,7 @@ import {
 /**
  * Default implementation of <code>InetAddressValidator</code>.
  */
-class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValidator>
+class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValidator, string>
 	implements InetAddressValidator
 {
 	private readonly addressIsIpV4: boolean;
@@ -32,7 +32,7 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 	 *   <code>isIpV6</code>, <code>isHostname</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: void | string, name: string, isIpV4: boolean, isIpV6: boolean,
+	constructor(configuration: Configuration, actual: string | undefined, name: string, isIpV4: boolean, isIpV6: boolean,
 		isHostname: boolean, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
@@ -55,7 +55,6 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			return this;
 
-
 		if (!this.addressIsIpV4)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
@@ -70,7 +69,6 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 	{
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			return this;
-
 
 		if (!this.addressIsIpV6)
 		{

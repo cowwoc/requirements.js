@@ -1,34 +1,35 @@
 import type {
-	ArrayVerifier,
-	BooleanVerifier,
-	ClassVerifier,
 	ExtensibleObjectValidator,
 	ExtensibleObjectVerifier,
-	InetAddressVerifier,
-	MapVerifier,
+	StringVerifier,
+	ArrayVerifier,
+	BooleanVerifier,
 	NumberVerifier,
 	SetVerifier,
-	StringVerifier
+	MapVerifier,
+	InetAddressVerifier,
+	ClassVerifier
 } from "../internal.mjs";
 import {
+	Objects,
+	StringVerifierImpl,
 	ArrayVerifierImpl,
 	BooleanVerifierImpl,
-	ClassVerifierImpl,
-	InetAddressVerifierImpl,
-	MapVerifierImpl,
 	NumberVerifierImpl,
-	Objects,
 	SetVerifierImpl,
-	StringVerifierImpl
+	MapVerifierImpl,
+	InetAddressVerifierImpl,
+	ClassVerifierImpl
 } from "../internal.mjs";
 
 /**
  * Extensible implementation of <code>ExtensibleObjectVerifier</code>.
  *
  * @typeParam S - the type of validator returned by the methods
+ * @typeParam T - the type the actual value
  */
-abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
-	implements ExtensibleObjectVerifier<S>
+abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, T>, T>
+	implements ExtensibleObjectVerifier<S, T>
 {
 	protected readonly validator: V;
 
@@ -49,7 +50,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 	 */
 	protected abstract getThis(): S;
 
-	isEqualTo(expected: unknown, name?: string): S
+	isEqualTo(expected: T, name?: string): S
 	{
 		this.validator.isEqualTo(expected, name);
 		return this.validationResult(() => this.getThis());
@@ -70,7 +71,7 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 		throw failure.createException();
 	}
 
-	isNotEqualTo(value: unknown, name?: string): S
+	isNotEqualTo(value: T, name?: string): S
 	{
 		this.validator.isNotEqualTo(value, name);
 		return this.validationResult(() => this.getThis());
@@ -131,9 +132,10 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 		return this.validationResult(() => this.getThis());
 	}
 
-	getActual(): unknown
+	getActual(): T
 	{
-		return this.validator.getActual();
+		// The verifier is guaranteed to throw an exception if validation fails
+		return this.validator.getActual() as T;
 	}
 
 	asString(): StringVerifier
@@ -149,13 +151,13 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 		return this.getThis();
 	}
 
-	asArray(): ArrayVerifier
+	asArray<E>(): ArrayVerifier<E>
 	{
 		const newValidator = this.validator.asArray();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier;
+		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<E>;
 	}
 
-	asArrayConsumer(consumer: (actual: ArrayVerifier) => void): S
+	asArrayConsumer<E>(consumer: (actual: ArrayVerifier<E>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asArray());
@@ -188,26 +190,26 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V>>
 		return this.getThis();
 	}
 
-	asSet(): SetVerifier
+	asSet<E>(): SetVerifier<E>
 	{
 		const newValidator = this.validator.asSet();
-		return this.validationResult(() => new SetVerifierImpl(newValidator)) as SetVerifier;
+		return this.validationResult(() => new SetVerifierImpl(newValidator)) as SetVerifier<E>;
 	}
 
-	asSetConsumer(consumer: (actual: SetVerifier) => void): S
+	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asSet());
 		return this.getThis();
 	}
 
-	asMap(): MapVerifier
+	asMap<K, V>(): MapVerifier<K, V>
 	{
 		const newValidator = this.validator.asMap();
-		return this.validationResult(() => new MapVerifierImpl(newValidator)) as MapVerifier;
+		return this.validationResult(() => new MapVerifierImpl(newValidator)) as MapVerifier<K, V>;
 	}
 
-	asMapConsumer(consumer: (actual: MapVerifier) => void): S
+	asMapConsumer<K, V>(consumer: (actual: MapVerifier<K, V>) => void): S
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.asMap());

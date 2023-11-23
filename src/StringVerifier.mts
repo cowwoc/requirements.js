@@ -4,7 +4,7 @@ import type {
 	ObjectVerifier
 } from "./internal/internal.mjs";
 
-const typedocWorkaround: null | ExtensibleObjectValidator<void> = null;
+const typedocWorkaround: null | ExtensibleObjectValidator<void, void> = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
@@ -20,7 +20,7 @@ if (typedocWorkaround !== null)
  * All methods (except for {@link asString} and those found in {@link ObjectValidator}) imply
  * {@link isNotNull}.
  */
-interface StringVerifier extends ObjectVerifier
+interface StringVerifier extends ObjectVerifier<string>
 {
 	/**
 	 * Ensures that the actual value starts with a value.

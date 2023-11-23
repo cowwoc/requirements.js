@@ -10,7 +10,7 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
  */
-interface InetAddressValidator extends ExtensibleObjectValidator<InetAddressValidator>
+interface InetAddressValidator extends ExtensibleObjectValidator<InetAddressValidator, string>
 {
 	/**
 	 * Ensures that the actual value is an IP v4 address.
@@ -34,7 +34,7 @@ interface InetAddressValidator extends ExtensibleObjectValidator<InetAddressVali
 	 */
 	isHostname(): InetAddressValidator;
 
-	getActual(): string | void;
+	getActual(): string | undefined;
 }
 
 export {type InetAddressValidator};

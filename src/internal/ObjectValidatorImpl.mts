@@ -7,9 +7,11 @@ import {AbstractObjectValidator} from "./internal.mjs";
 
 /**
  * Default implementation of <code>ObjectValidator</code>.
+ *
+ * @typeParam T - the type the actual value
  */
-class ObjectValidatorImpl extends AbstractObjectValidator<ObjectValidator>
-	implements ObjectValidator
+class ObjectValidatorImpl<T> extends AbstractObjectValidator<ObjectValidator<T>, T>
+	implements ObjectValidator<T>
 {
 	/**
 	 * Creates a new ObjectValidator.
@@ -21,13 +23,13 @@ class ObjectValidatorImpl extends AbstractObjectValidator<ObjectValidator>
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string,
+	constructor(configuration: Configuration, actual: T, name: string,
 		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
 	}
 
-	protected getThis(): ObjectValidator
+	protected getThis(): ObjectValidator<T>
 	{
 		return this;
 	}

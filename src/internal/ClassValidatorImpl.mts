@@ -11,7 +11,8 @@ import {
 /**
  * Default implementation of <code>ClassValidator</code>.
  */
-class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
+// eslint-disable-next-line @typescript-eslint/ban-types
+class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator, Function>
 	implements ClassValidator
 {
 	protected getThis()
@@ -33,7 +34,8 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
 	 *   <code>isIpV6</code>, <code>isHostname</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: unknown, name: string, failures: ValidationFailure[])
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	constructor(configuration: Configuration, actual: Function | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
 
@@ -46,7 +48,6 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
 	{
 		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
 			return this;
-
 
 		const typeInfo = Objects.getTypeInfo(type);
 		let failure;
@@ -107,7 +108,7 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator>
 	}
 
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): void | Function
+	getActual(): Function | undefined
 	{
 		return this.actualClass;
 	}

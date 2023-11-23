@@ -7,7 +7,7 @@ import type {ExtensibleObjectVerifier} from "../internal/internal.mjs";
  *
  * @typeParam S - the type of validator returned by the methods
  */
-interface ExtensibleNumberVerifier<S> extends ExtensibleObjectVerifier<S>
+interface ExtensibleNumberVerifier<S> extends ExtensibleObjectVerifier<S, number>
 {
 	/**
 	 * Ensures that the actual value is negative.

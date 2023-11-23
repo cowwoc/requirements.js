@@ -13,22 +13,24 @@ import type {
  * exceptions.
  *
  * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ *
+ * @typeParam E - the type the array elements
  */
-interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
+interface ArrayValidator<E> extends ExtensibleObjectValidator<ArrayValidator<E>, E[]>
 {
 	/**
 	 * Ensures that the actual value is empty.
 	 *
 	 * @returns the updated validator
 	 */
-	isEmpty(): ArrayValidator;
+	isEmpty(): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the actual value is not empty.
 	 *
 	 * @returns the updated validator
 	 */
-	isNotEmpty(): ArrayValidator;
+	isNotEmpty(): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array contains an element.
@@ -39,7 +41,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	contains(element: unknown, name?: string): ArrayValidator;
+	contains(element: E, name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array contains exactly the specified elements; nothing less, nothing more.
@@ -50,7 +52,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsExactly(expected: unknown[], name?: string): ArrayValidator;
+	containsExactly(expected: E[], name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array contains any of the specified elements.
@@ -61,7 +63,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsAny(expected: unknown[], name?: string): ArrayValidator;
+	containsAny(expected: E[], name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array contains all the specified elements.
@@ -72,7 +74,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	containsAll(expected: unknown[], name?: string): ArrayValidator;
+	containsAll(expected: E[], name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array does not contain an element.
@@ -83,7 +85,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContain(element: unknown, name?: string): ArrayValidator;
+	doesNotContain(element: E, name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array does not contain any of the specified elements.
@@ -94,7 +96,7 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContainAny(elements: unknown[], name?: string): ArrayValidator;
+	doesNotContainAny(elements: E[], name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array does not contain all the specified elements.
@@ -105,14 +107,14 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @throws TypeError if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	doesNotContainAll(elements: unknown[], name?: string): ArrayValidator;
+	doesNotContainAll(elements: E[], name?: string): ArrayValidator<E>;
 
 	/**
 	 * Ensures that the array does not contain any duplicate elements.
 	 *
 	 * @returns the updated validator
 	 */
-	doesNotContainDuplicates(): ArrayValidator;
+	doesNotContainDuplicates(): ArrayValidator<E>;
 
 	/**
 	 * @returns a validator for the length of the array
@@ -124,23 +126,44 @@ interface ArrayValidator extends ExtensibleObjectValidator<ArrayValidator>
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator;
+	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator<E>;
+
+	/**
+	 * @returns a validator for the <code>Array</code>
+	 * @deprecated returns this
+	 */
+	asArray(): ArrayValidator<E>;
+
+	asArray<E>(): ArrayValidator<E>;
+
+	/**
+	 * @param consumer - a function that accepts a {@link ArrayValidator} for the actual value
+	 * @returns the updated validator
+	 * @throws TypeError if <code>consumer</code> is not set
+	 */
+	asArrayConsumer(consumer: (input: ArrayValidator<E>) => void): ArrayValidator<E>;
+
+	asArrayConsumer<E>(consumer: (input: ArrayValidator<E>) => void): ArrayValidator<E>;
 
 	/**
 	 * Verifies the Set representation of the array.
 	 *
 	 * @returns a <code>Set</code> validator
 	 */
-	asSet(): SetValidator;
+	asSet(): SetValidator<E>;
+
+	asSet<E>(): SetValidator<E>;
 
 	/**
 	 * @param consumer - a function that accepts a {@link SetValidator} for the Set representation of the array
 	 * @returns the updated validator
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
-	asSetConsumer(consumer: (actual: SetValidator) => void): ArrayValidator;
+	asSetConsumer(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>;
 
-	getActual(): unknown[] | void;
+	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>;
+
+	getActual(): E[] | undefined;
 }
 
 export {type ArrayValidator};

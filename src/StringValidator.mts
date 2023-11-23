@@ -14,7 +14,7 @@ import type {
  * All methods (except for {@link asString} and those found in {@link ObjectValidator}) imply
  * {@link isNotNull}.
  */
-interface StringValidator extends ExtensibleObjectValidator<StringValidator>
+interface StringValidator extends ExtensibleObjectValidator<StringValidator, string>
 {
 	/**
 	 * Ensures that the actual value starts with a value.
@@ -127,7 +127,7 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator>
 	 */
 	asStringConsumer(consumer: (actual: StringValidator) => void): StringValidator;
 
-	getActual(): string | void;
+	getActual(): string | undefined;
 }
 
 export {type StringValidator};

@@ -5,7 +5,7 @@ import type {ObjectVerifier} from "./internal/internal.mjs";
  * <p>
  * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
  */
-interface InetAddressVerifier extends ObjectVerifier
+interface InetAddressVerifier extends ObjectVerifier<string>
 {
 	/**
 	 * Ensures that the actual value is an IP v4 address.

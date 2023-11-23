@@ -11,10 +11,10 @@ import {
 	Node16MillionColors,
 	Node256Colors,
 	TerminalEncoding,
-	TestGlobalConfiguration,
 	TextOnly
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/Requirements.mjs";
+import {Requirements} from "../src/index.mjs";
+import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 
 
 suite("DiffTest", () =>
