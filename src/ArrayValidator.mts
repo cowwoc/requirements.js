@@ -1,7 +1,6 @@
 import type {
 	ExtensibleObjectValidator,
 	NumberValidator,
-	SetValidator,
 	ObjectValidator
 } from "./internal/internal.mjs";
 
@@ -18,7 +17,7 @@ if (typedocWorkaround !== null)
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  *
  * @typeParam E - the type the array elements
  */
@@ -133,41 +132,6 @@ interface ArrayValidator<E> extends ExtensibleObjectValidator<ArrayValidator<E>,
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer: (length: NumberValidator) => void): ArrayValidator<E>;
-
-	/**
-	 * @returns a validator for the <code>Array</code>
-	 * @deprecated returns this
-	 */
-	asArray(): ArrayValidator<E>;
-
-	asArray<E>(): ArrayValidator<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link ArrayValidator} for the actual value
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asArrayConsumer(consumer: (input: ArrayValidator<E>) => void): ArrayValidator<E>;
-
-	asArrayConsumer<E>(consumer: (input: ArrayValidator<E>) => void): ArrayValidator<E>;
-
-	/**
-	 * Verifies the Set representation of the array.
-	 *
-	 * @returns a <code>Set</code> validator
-	 */
-	asSet(): SetValidator<E>;
-
-	asSet<E>(): SetValidator<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link SetValidator} for the Set representation of the array
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asSetConsumer(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>;
-
-	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): ArrayValidator<E>;
 
 	/**
 	 * {@inheritDoc}

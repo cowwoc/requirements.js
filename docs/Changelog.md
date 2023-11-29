@@ -1,6 +1,16 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.3.0 - 2023/11/29
+
+* Breaking changes
+  * Removed methods that transform the actual value, such as asString() or trim().
+    Users are expected to handle this outside the library.
+  * Removed consumer methods not used to validate class properties (e.g., asStringConsumer()).
+  * Renamed isNotDefined() to isUndefined().
+  * Renamed isNotFinite() to isInfinite().
+  * Removed all deprecated method declarations.
+
 ## Version 3.2.3 - 2023/11/23
 
 * Improvements

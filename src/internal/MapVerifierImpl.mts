@@ -31,11 +31,6 @@ class MapVerifierImpl<K, V> extends AbstractObjectVerifier<MapVerifier<K, V>, Ma
 		super(validator);
 	}
 
-	protected getThis()
-	{
-		return this;
-	}
-
 	isEmpty()
 	{
 		this.validator.isEmpty();

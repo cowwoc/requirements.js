@@ -16,7 +16,7 @@ if (typedocWorkaround !== null)
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface NumberValidator extends ExtensibleNumberValidator<NumberValidator>

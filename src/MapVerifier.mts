@@ -1,24 +1,30 @@
 import type {
 	ArrayVerifier,
 	NumberVerifier,
-	ObjectVerifier
+	ObjectVerifier,
+	ExtensibleObjectVerifier
 } from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ObjectVerifier<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of a <code>Map</code>.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  *
  * @typeParam K - the type the map's keys
  * @typeParam V - the type the map's values
  */
-interface MapVerifier<K, V> extends ObjectVerifier<Map<K, V>>
+interface MapVerifier<K, V> extends ExtensibleObjectVerifier<MapVerifier<K, V>, Map<K, V>>
 {
 	/**
 	 * Ensures that value does not contain any entries
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value contains any entries
+	 * @throws RangeError if the value contains any entries
 	 */
 	isEmpty(): MapVerifier<K, V>;
 
@@ -26,7 +32,7 @@ interface MapVerifier<K, V> extends ObjectVerifier<Map<K, V>>
 	 * Ensures that value contains at least one entry.
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value does not contain any entries
+	 * @throws RangeError if the value does not contain any entries
 	 */
 	isNotEmpty(): MapVerifier<K, V>;
 
@@ -80,24 +86,6 @@ interface MapVerifier<K, V> extends ObjectVerifier<Map<K, V>>
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer: (actual: NumberVerifier) => void): MapVerifier<K, V>;
-
-	/**
-	 * @returns a verifier for the <code>Map</code>
-	 * @deprecated returns this
-	 */
-	asMap(): MapVerifier<K, V>;
-
-	asMap<K, V>(): MapVerifier<K, V>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link MapVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>Map</code>.
-	 */
-	asMapConsumer(consumer: (input: MapVerifier<K, V>) => void): MapVerifier<K, V>;
-
-	asMapConsumer<K, V>(consumer: (input: MapVerifier<K, V>) => void): MapVerifier<K, V>;
 
 	/**
 	 * {@inheritDoc}

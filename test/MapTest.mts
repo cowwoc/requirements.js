@@ -37,7 +37,7 @@ suite("MapTest", () =>
 	test("isEmpty", () =>
 	{
 		const actual = new Map();
-		requirements.requireThat(actual, "actual").asMap().isEmpty();
+		requirements.requireThat(actual, "actual").isEmpty();
 	});
 
 	test("isEmpty_False", () =>
@@ -45,14 +45,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().isEmpty();
+			requirements.requireThat(actual, "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().isNotEmpty();
+		requirements.requireThat(actual, "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
@@ -60,14 +60,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			requirements.requireThat(actual, "actual").asMap().isNotEmpty();
+			requirements.requireThat(actual, "actual").isNotEmpty();
 		}, RangeError);
 	});
 
 	test("isEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().isEqualTo(actual);
+		requirements.requireThat(actual, "actual").isEqualTo(actual);
 	});
 
 	test("isEqual_False", () =>
@@ -75,7 +75,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().isEqualTo(new Map());
+			requirements.requireThat(actual, "actual").isEqualTo(new Map());
 		}, RangeError);
 	});
 
@@ -89,14 +89,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			requirements.requireThat(actual, "actual").asMap().isNotEqualTo(actual);
+			requirements.requireThat(actual, "actual").isNotEqualTo(actual);
 		}, RangeError);
 	});
 
 	test("isInstanceOf", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().isInstanceOf(Map).isInstanceOf(Object);
+		requirements.requireThat(actual as unknown, "actual").isInstanceOf(Map).isInstanceOf(Object);
 	});
 
 	test("isInstanceOf_False", () =>
@@ -104,7 +104,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			requirements.requireThat(actual, "actual").asMap().isInstanceOf(String);
+			requirements.requireThat(actual as unknown, "actual").isInstanceOf(String);
 		}, RangeError);
 	});
 
@@ -113,20 +113,20 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			requirements.requireThat(actual, "actual").asMap().isNull();
+			requirements.requireThat(actual as unknown, "actual").isNull();
 		}, RangeError);
 	});
 
 	test("isNotNull", () =>
 	{
 		const actual = new Map();
-		requirements.requireThat(actual, "actual").asMap().isNotNull();
+		requirements.requireThat(actual as unknown, "actual").isNotNull();
 	});
 
 	test("keysContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().keys().contains(2);
+		requirements.requireThat(actual, "actual").keys().contains(2);
 	});
 
 	test("keysContain_False", () =>
@@ -134,14 +134,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().keys().contains(5);
+			requirements.requireThat(actual, "actual").keys().contains(5);
 		}, RangeError);
 	});
 
 	test("keysDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().keys().doesNotContain(5);
+		requirements.requireThat(actual, "actual").keys().doesNotContain(5);
 	});
 
 	test("keysDoesNotContain_False", () =>
@@ -149,14 +149,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().keys().doesNotContain(2);
+			requirements.requireThat(actual, "actual").keys().doesNotContain(2);
 		}, RangeError);
 	});
 
 	test("keysConsumer", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().keysConsumer(k => k.contains(2)).size().isEqualTo(2);
+		requirements.requireThat(actual, "actual").keysConsumer(k => k.contains(2)).size().isEqualTo(2);
 	});
 
 	test("keysLength_False", () =>
@@ -164,11 +164,11 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().keys().length().isGreaterThan(1);
+			requirements.requireThat(actual, "actual").keys().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().keys().length().isGreaterThan(2);
+			requirements.requireThat(actual, "actual").keys().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
@@ -177,14 +177,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().keysConsumer(k => k.doesNotContain(2));
+			requirements.requireThat(actual, "actual").keysConsumer(k => k.doesNotContain(2));
 		}, RangeError);
 	});
 
 	test("valuesContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().values().contains(20);
+		requirements.requireThat(actual, "actual").values().contains(20);
 	});
 
 	test("valuesContain_False", () =>
@@ -192,14 +192,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().values().contains(50);
+			requirements.requireThat(actual, "actual").values().contains(50);
 		}, RangeError);
 	});
 
 	test("valuesDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().values().doesNotContain(50);
+		requirements.requireThat(actual, "actual").values().doesNotContain(50);
 	});
 
 	test("valuesDoesNotContain_False", () =>
@@ -207,7 +207,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().values().doesNotContain(20);
+			requirements.requireThat(actual, "actual").values().doesNotContain(20);
 		}, RangeError);
 	});
 
@@ -216,18 +216,18 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().values().length().isGreaterThan(1);
+			requirements.requireThat(actual, "actual").values().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().values().length().isGreaterThan(2);
+			requirements.requireThat(actual, "actual").values().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
 	test("valuesConsumer", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().valuesConsumer(k => k.contains(20)).size().isEqualTo(2);
+		requirements.requireThat(actual, "actual").valuesConsumer(k => k.contains(20)).size().isEqualTo(2);
 	});
 
 	test("valuesConsumer_Fail", () =>
@@ -235,14 +235,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().valuesConsumer(v => v.doesNotContain(20));
+			requirements.requireThat(actual, "actual").valuesConsumer(v => v.doesNotContain(20));
 		}, RangeError);
 	});
 
 	test("entriesContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().entries().contains([2, 20]);
+		requirements.requireThat(actual, "actual").entries().contains([2, 20]);
 	});
 
 	test("entriesContain_False", () =>
@@ -250,14 +250,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().entries().contains([5, 50]);
+			requirements.requireThat(actual, "actual").entries().contains([5, 50]);
 		}, RangeError);
 	});
 
 	test("entriesDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().entries().doesNotContain([5, 50]);
+		requirements.requireThat(actual, "actual").entries().doesNotContain([5, 50]);
 	});
 
 	test("entriesDoesNotContain_False", () =>
@@ -265,7 +265,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().entries().doesNotContain([2, 20]);
+			requirements.requireThat(actual, "actual").entries().doesNotContain([2, 20]);
 		}, RangeError);
 	});
 
@@ -274,18 +274,18 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().entries().length().isGreaterThan(1);
+			requirements.requireThat(actual, "actual").entries().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asMap().entries().length().isGreaterThan(2);
+			requirements.requireThat(actual, "actual").entries().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
 	test("entriesConsumer", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().entriesConsumer(k => k.contains([2, 20])).size().
+		requirements.requireThat(actual, "actual").entriesConsumer(k => k.contains([2, 20])).size().
 			isEqualTo(2);
 	});
 
@@ -294,14 +294,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().entriesConsumer(v => v.doesNotContain([2, 20]));
+			requirements.requireThat(actual, "actual").entriesConsumer(v => v.doesNotContain([2, 20]));
 		}, RangeError);
 	});
 
 	test("sizeIsEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().size().isEqualTo(2);
+		requirements.requireThat(actual, "actual").size().isEqualTo(2);
 	});
 
 	test("sizeIsEqualTo_False", () =>
@@ -309,14 +309,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().size().isEqualTo(1);
+			requirements.requireThat(actual, "actual").size().isEqualTo(1);
 		}, RangeError);
 	});
 
 	test("sizeIsNotEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().size().isNotEqualTo(1);
+		requirements.requireThat(actual, "actual").size().isNotEqualTo(1);
 	});
 
 	test("sizeIsNotEqualTo_False", () =>
@@ -324,14 +324,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().size().isNotEqualTo(2);
+			requirements.requireThat(actual, "actual").size().isNotEqualTo(2);
 		}, RangeError);
 	});
 
 	test("sizeConsumer", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().sizeConsumer(s => s.isEqualTo(2)).entries().
+		requirements.requireThat(actual, "actual").sizeConsumer(s => s.isEqualTo(2)).entries().
 			contains([2, 20]);
 	});
 
@@ -340,14 +340,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			requirements.requireThat(actual, "actual").asMap().sizeConsumer(s => s.isNotEqualTo(2));
+			requirements.requireThat(actual, "actual").sizeConsumer(s => s.isNotEqualTo(2));
 		}, RangeError);
 	});
 
-	test("asString", () =>
+	test("isString", () =>
 	{
-		const actual = new Map([[1, 10], [2, 20]]);
-		requirements.requireThat(actual, "actual").asMap().asString().isEqualTo("{\n" +
+		const actual = JSON.stringify(Object.fromEntries(new Map([[1, 10], [2, 20]])), null, "  ");
+		requirements.requireThat(actual as unknown, "actual").isString().isEqualTo("{\n" +
 			"  \"1\": 10,\n" +
 			"  \"2\": 20\n" +
 			"}");
@@ -360,13 +360,13 @@ suite("MapTest", () =>
 		assert.equal(output, input);
 	});
 
-	test("validateThatNullAsMap", () =>
+	test("validateThatNullIsMap", () =>
 	{
 		const actual = null;
 		const expectedMessages = ["actual must be a Map.\n" +
 		"Actual: null\n" +
 		"Type  : null"];
-		const actualFailures = requirements.validateThat(actual, "actual").asMap().getFailures();
+		const actualFailures = requirements.validateThat(actual, "actual").isMap().getFailures();
 		const actualMessages = actualFailures.map(failure => failure.getMessage());
 		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	});

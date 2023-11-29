@@ -225,7 +225,9 @@ class Build
 		log.info("generateDocumentation()");
 		const targetDirectory = "target/apidocs/";
 
-		const app = await TypeDoc.Application.bootstrapWithPlugins({}, [
+		const app = await TypeDoc.Application.bootstrapWithPlugins({
+			excludeExternals: true
+		}, [
 			new TypeDoc.TypeDocReader(),
 			new TypeDoc.TSConfigReader()
 		]);

@@ -3,7 +3,7 @@ import type {ExtensibleObjectVerifier} from "./internal/internal.mjs";
 /**
  * Verifies the requirements of a <code>boolean</code>.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  */
 interface BooleanVerifier extends ExtensibleObjectVerifier<BooleanVerifier, boolean>
 {

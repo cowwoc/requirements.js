@@ -21,11 +21,6 @@ class BooleanVerifierImpl extends AbstractObjectVerifier<BooleanVerifier, Boolea
 		super(validator);
 	}
 
-	protected getThis(): BooleanVerifier
-	{
-		return this;
-	}
-
 	/**
 	 * Ensures that the actual value is true.
 	 *

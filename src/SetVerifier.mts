@@ -1,23 +1,28 @@
 import type {
-	ArrayVerifier,
 	NumberVerifier,
-	ObjectVerifier
+	ObjectVerifier,
+	ExtensibleObjectVerifier
 } from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ObjectVerifier<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of a <code>Set</code>.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  *
  * @typeParam E - the type the array elements
  */
-interface SetVerifier<E> extends ObjectVerifier<Set<E>>
+interface SetVerifier<E> extends ExtensibleObjectVerifier<SetVerifier<E>, Set<E>>
 {
 	/**
 	 * Ensures that value does not contain any elements.
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value contains at least one element
+	 * @throws RangeError if the value contains at least one element
 	 */
 	isEmpty(): SetVerifier<E>;
 
@@ -25,7 +30,7 @@ interface SetVerifier<E> extends ObjectVerifier<Set<E>>
 	 * Ensures that value contains at least one element.
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value does not contain any elements
+	 * @throws RangeError if the value does not contain any elements
 	 */
 	isNotEmpty(): SetVerifier<E>;
 
@@ -132,39 +137,6 @@ interface SetVerifier<E> extends ObjectVerifier<Set<E>>
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer: (actual: NumberVerifier) => void): SetVerifier<E>;
-
-	/**
-	 * @returns a verifier for the Set's elements
-	 */
-	asArray<E>(): ArrayVerifier<E>;
-
-	asArray(): ArrayVerifier<E>;
-
-	/**
-	 * @param consumer - a function that accepts an {@link ArrayVerifier} for the Set's elements
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asArrayConsumer<S, E>(consumer: (actual: ArrayVerifier<E>) => void): S;
-
-	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): SetVerifier<E>;
-
-	/**
-	 * @returns a verifier for the <code>Set</code>
-	 * @deprecated returns this
-	 */
-	asSet(): SetVerifier<E>;
-
-	asSet<E>(): SetVerifier<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link SetVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asSetConsumer(consumer: (actual: SetVerifier<E>) => void): SetVerifier<E>;
-
-	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): SetVerifier<E>;
 
 	/**
 	 * {@inheritDoc}

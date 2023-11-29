@@ -9,23 +9,46 @@ import {
 	Requirements
 } from "../src/index.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import type {ClassVerifier} from "../src/ClassVerifier.mjs";
+import type {ObjectVerifier} from "../src/ObjectVerifier.mjs";
+import type {ClassConstructor} from "../src/internal/internal.mjs";
+
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
+class MyClass
+{
+}
+
 suite("ClassTest", () =>
 {
+	test("any matches ObjectVerifier", () =>
+	{
+		const myClassAsClass: ClassVerifier<MyClass> = requirements.requireThat(MyClass, "actual");
+		const numberAsClass: ClassVerifier<Number> = requirements.requireThat(Number, "actual");
+		const anyAsObject: ObjectVerifier<unknown> = requirements.requireThat(Number as unknown, "actual");
+		const objectAsClass: ClassVerifier<Object> = requirements.requireThat(Object, "actual");
+	});
+
+	test("isClass", () =>
+	{
+		const actual = Number;
+		const expected: ClassConstructor<Number> = requirements.requireThat(actual as unknown, "actual").
+			isClass(Number).getActual();
+	});
+
 	test("isSupertypeOf", () =>
 	{
-		requirements.requireThat(Object, "actual").asClass().isSupertypeOf(Number);
+		requirements.requireThat(Object, "actual").isSupertypeOf(Number);
 	});
 
 	test("isSupertypeOf_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(String, "actual").asClass().isSupertypeOf(Number);
+			requirements.requireThat(String, "actual").isSupertypeOf(Number);
 		}, RangeError);
 	});
 
@@ -33,31 +56,22 @@ suite("ClassTest", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = ["element"];
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			requirements.requireThat(actual, "actual").asClass().isSupertypeOf(null as unknown as Function);
-		}, TypeError);
-	});
-
-	test("isSupertypeOf_actualIsNull", () =>
-	{
-		assert.throws(function()
-		{
-			const actual = null;
-			requirements.requireThat(actual, "actual").asClass().isSupertypeOf(Object);
+			const actual = Number;
+			requirements.requireThat(actual, "actual").isSupertypeOf(null as unknown as
+				new (...args: any[]) => any);
 		}, TypeError);
 	});
 
 	test("isSubtypeOf", () =>
 	{
-		requirements.requireThat(Number, "actual").asClass().isSubtypeOf(Object);
+		requirements.requireThat(Number, "actual").isSubtypeOf(Object);
 	});
 
 	test("isSubtypeOf_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(Number, "actual").asClass().isSubtypeOf(String);
+			requirements.requireThat(Number, "actual").isSubtypeOf(String);
 		}, RangeError);
 	});
 
@@ -65,30 +79,8 @@ suite("ClassTest", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = ["element"];
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			requirements.requireThat(actual, "actual").asClass().isSubtypeOf(null as unknown as Function);
+			const actual = Number;
+			requirements.requireThat(actual, "actual").isSubtypeOf(null as unknown as ClassConstructor<unknown>);
 		}, TypeError);
-	});
-
-	test("isSubtypeOf_actualIsNull", () =>
-	{
-		assert.throws(function()
-		{
-			const actual = null;
-			requirements.requireThat(actual, "actual").asClass().isSubtypeOf(Object);
-		}, TypeError);
-	});
-
-	test("validateThatNullAsClass", () =>
-	{
-		const actual = null;
-		const expectedMessages = ["actual must contain a class.\n" +
-		"Actual: null\n" +
-		"Type  : null"];
-		const actualFailures = requirements.validateThat(actual, "actual").asClass().isSubtypeOf(Object).
-			getFailures();
-		const actualMessages = actualFailures.map(failure => failure.getMessage());
-		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	});
 });

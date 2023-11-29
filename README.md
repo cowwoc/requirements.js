@@ -1,9 +1,9 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
 
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.2.3/wiki/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Fluent API for Design Contracts
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.3.0/docs/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Fluent API for Design Contracts
 
-[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/)
+[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
 [![java](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
 
@@ -17,13 +17,13 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 To get started, add this dependency:
 
 ```shell
-npm install --save @cowwoc/requirements@3.2.3
+npm install --save @cowwoc/requirements@3.3.0
 ```
 
 or [pnpm](https://pnpm.io/):
 
 ```shell
-pnpm add @cowwoc/requirements@3.2.3
+pnpm add @cowwoc/requirements@3.3.0
 ```
 
 The contents of the API classes depend on which [modules](wiki/Supported_Libraries.md) are enabled.
@@ -33,17 +33,40 @@ The contents of the API classes depend on which [modules](wiki/Supported_Librari
 ```typescript
 import {requireThat} from "@cowwoc/requirements";
 
-class Player
+
+class Address
 {
-	constructor(name, age)
+}
+
+class PublicAPI
+{
+	constructor(name: string | null, age: number, address: Address | undefined)
 	{
-		requireThat(name, "name").isNotNull().isInstanceOf(String).length().isBetween(1, 30);
-		requireThat(age, "age").isInstanceOf(Number).isBetween(18, 30);
+		// To validate user input, cast them to "unknown" prior to type-checks.
+		requireThat(name as unknown, "name").isString().length().isBetween(1, 30);
+		requireThat(age as unknown, "age").isNumber().isBetween(18, 30);
+
+		// Methods that conduct runtime type-checks, such as isString() or isNotNull(), update the
+		// compile-time type returned by getActual().
+		const nameIsString: string = requireThat(name as unknown, "name").isString().getActual();
+		const address: Address = requireThat(address as unknown, "address").isInstance(Address).getActual();
+	}
+}
+
+class PrivateAPI
+{
+	public static toCamelCase(text): string
+	{
+		// Trusted input does not need to be casted to "unknown". The input type will be inferred
+		// and runtime checks will be skipped. Notice the lack of isString() or isNumber() invocations
+		// in the following code.
+		assertThat(r => r.requireThat(name, "name").length().isBetween(1, 30));
+		assertThat(r => r.requireThat(age, "age").isBetween(18, 30));
 	}
 }
 ```
 
-Failure messages look like this:
+Failure messages will look like this:
 
 ```text
 TypeError: name may not be null
@@ -67,13 +90,13 @@ Actual: 15
 The best way to learn about the API is using your IDE's auto-complete engine.
 There are six entry points you can navigate from:
 
-* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-DefaultRequirements.html#~requireThat)
-* [validateThat(value, name)](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-DefaultRequirements.html#~validateThat)
-* [assertThat(Function)](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-DefaultRequirements.html#~assertThat)
-* [assertThatAndReturn(Function)](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-DefaultRequirements.html#~assertThatAndReturn)
+* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-DefaultRequirements.html#~requireThat)
+* [validateThat(value, name)](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-DefaultRequirements.html#~validateThat)
+* [assertThat(Function)](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-DefaultRequirements.html#~assertThat)
+* [assertThatAndReturn(Function)](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-DefaultRequirements.html#~assertThatAndReturn)
 
-* [Requirements](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-Requirements-Requirements.html)
-* [GlobalRequirements](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/module-GlobalRequirements-GlobalRequirements.html)
+* [Requirements](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-Requirements-Requirements.html)
+* [GlobalRequirements](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
 
 ## Best practices
 

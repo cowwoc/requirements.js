@@ -10,13 +10,8 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  *
  * @typeParam T - the type the actual value
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ObjectValidator<T> extends ExtensibleObjectValidator<ObjectValidator<T>, T>
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	isNotNull(): ObjectValidator<NonNullable<T>>;
 }
 
 export {type ObjectValidator};

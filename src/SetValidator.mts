@@ -12,7 +12,7 @@ import type {
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  *
  * @typeParam E - the type the array elements
  */
@@ -134,32 +134,13 @@ interface SetValidator<E> extends ExtensibleObjectValidator<SetValidator<E>, Set
 
 	asArray<E>(): ArrayValidator<E>;
 
-
-	/**
-	 * @param consumer - a function that accepts an {@link ArrayValidator} for the Set's elements
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asArrayConsumer(consumer: (actual: ArrayValidator<E>) => void): SetValidator<E>;
-
-	asArrayConsumer<S, E>(consumer: (input: ArrayValidator<E>) => void): S;
-
 	/**
 	 * @returns a validator for the <code>Set</code>
-	 * @deprecated returns this
+	 * @deprecated the <code>actual</code> value is already a set
 	 */
 	asSet(): SetValidator<E>;
 
 	asSet<E>(): SetValidator<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link SetValidator} for the actual value
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asSetConsumer(consumer: (actual: SetValidator<E>) => void): SetValidator<E>;
-
-	asSetConsumer<E>(consumer: (actual: SetValidator<E>) => void): SetValidator<E>;
 
 	/**
 	 * {@inheritDoc}

@@ -1,8 +1,9 @@
 import type {
 	ExtensibleObjectValidator,
 	NumberVerifier,
-	ObjectVerifier
+	ExtensibleObjectVerifier
 } from "./internal/internal.mjs";
+
 
 const typedocWorkaround: null | ExtensibleObjectValidator<void, void> = null;
 // noinspection PointlessBooleanExpressionJS
@@ -17,10 +18,9 @@ if (typedocWorkaround !== null)
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except for {@link asString} and those found in {@link ObjectValidator}) imply
- * {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  */
-interface StringVerifier extends ObjectVerifier<string>
+interface StringVerifier extends ExtensibleObjectVerifier<StringVerifier, string>
 {
 	/**
 	 * Ensures that the actual value starts with a value.
@@ -93,21 +93,6 @@ interface StringVerifier extends ObjectVerifier<string>
 	isNotEmpty(): StringVerifier;
 
 	/**
-	 * Trims whitespace at the beginning and end of the actual value.
-	 *
-	 * @returns a verifier for the trimmed representation of the actual value
-	 */
-	trim(): StringVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link StringVerifier} for the trimmed
-	 *   representation of the string
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	trimConsumer(consumer: (actual: StringVerifier) => void): StringVerifier;
-
-	/**
 	 * Ensures that the actual value does not contain leading or trailing whitespace.
 	 *
 	 * @returns a verifier for the trimmed representation of the actual value
@@ -126,19 +111,6 @@ interface StringVerifier extends ObjectVerifier<string>
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer: (actual: NumberVerifier) => void): StringVerifier;
-
-	/**
-	 * @returns the updated verifier
-	 * @deprecated <code>actual</code> value is already a String
-	 */
-	asString(): StringVerifier;
-
-	/**
-	 * @param consumer - a function that accepts <code>this</code>
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asStringConsumer(consumer: (actual: StringVerifier) => void): StringVerifier;
 
 	/**
 	 * {@inheritDoc}

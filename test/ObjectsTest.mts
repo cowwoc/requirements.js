@@ -13,17 +13,17 @@ suite("ObjectsTest", () =>
 	test("getTypeOf_undefined", () =>
 	{
 		// eslint-disable-next-line no-undefined
-		assert.deepEqual(Objects.getTypeInfo(undefined), new VariableType("undefined"));
+		assert.deepEqual(Objects.getTypeInfo(undefined), VariableType.UNDEFINED);
 	});
 
 	test("getTypeOf_null", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(null), new VariableType("null"));
+		assert.deepEqual(Objects.getTypeInfo(null), VariableType.NULL);
 	});
 
 	test("getTypeOf_boolean", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(true), new VariableType("boolean"));
+		assert.deepEqual(Objects.getTypeInfo(true), VariableType.BOOLEAN);
 	});
 
 	test("getTypeOf_Boolean", () =>
@@ -36,7 +36,7 @@ suite("ObjectsTest", () =>
 
 	test("getTypeOf_number", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(5), new VariableType("number"));
+		assert.deepEqual(Objects.getTypeInfo(5), VariableType.NUMBER);
 	});
 
 	test("getTypeOf_Number", () =>
@@ -48,19 +48,19 @@ suite("ObjectsTest", () =>
 
 	test("getTypeOf_bigint", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(5n), new VariableType("bigint"));
+		assert.deepEqual(Objects.getTypeInfo(5n), VariableType.BIGINT);
 	});
 
 	test("getTypeOf_BigInt", () =>
 	{
 		// eslint-disable-next-line no-new-wrappers
 		const input = BigInt(5);
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("bigint"));
+		assert.deepEqual(Objects.getTypeInfo(input), VariableType.BIGINT);
 	});
 
 	test("getTypeOf_string", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo("test"), new VariableType("string"));
+		assert.deepEqual(Objects.getTypeInfo("test"), VariableType.STRING);
 	});
 
 	test("getTypeOf_String", () =>
@@ -72,7 +72,7 @@ suite("ObjectsTest", () =>
 
 	test("getTypeOf_symbol", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(Symbol("test")), new VariableType("symbol"));
+		assert.deepEqual(Objects.getTypeInfo(Symbol("test")), VariableType.SYMBOL);
 	});
 
 	test("getTypeOf_Symbol", () =>
@@ -87,13 +87,13 @@ suite("ObjectsTest", () =>
 		assert.deepEqual(Objects.getTypeInfo(function()
 		{
 			return "output";
-		}), new VariableType("function"));
+		}), VariableType.ANONYMOUS_FUNCTION);
 	});
 
 	test("getTypeOf_arrowFunction", () =>
 	{
 		assert.deepEqual(Objects.getTypeInfo((input: string) => input + " -> output"),
-			new VariableType("function"));
+			VariableType.ANONYMOUS_FUNCTION);
 	});
 
 	test("getTypeOf_namedFunction", () =>

@@ -37,7 +37,7 @@ suite("SetTest", () =>
 	test("isEmpty", () =>
 	{
 		const actual = new Set();
-		requirements.requireThat(actual, "actual").asSet().isEmpty();
+		requirements.requireThat(actual, "actual").isEmpty();
 	});
 
 	test("isEmpty_False", () =>
@@ -45,14 +45,14 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set([1, 2, 3]);
-			requirements.requireThat(actual, "actual").asSet().isEmpty();
+			requirements.requireThat(actual, "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().isNotEmpty();
+		requirements.requireThat(actual, "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
@@ -60,14 +60,14 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set();
-			requirements.requireThat(actual, "actual").asSet().isNotEmpty();
+			requirements.requireThat(actual, "actual").isNotEmpty();
 		}, RangeError);
 	});
 
 	test("isEqualTo", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().isEqualTo(actual);
+		requirements.requireThat(actual, "actual").isEqualTo(actual);
 	});
 
 	test("isEqual_False", () =>
@@ -75,7 +75,7 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set([1, 2, 3]);
-			requirements.requireThat(actual, "actual").asSet().isEqualTo(new Set());
+			requirements.requireThat(actual, "actual").isEqualTo(new Set());
 		}, RangeError);
 	});
 
@@ -89,22 +89,23 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set();
-			requirements.requireThat(actual, "actual").asSet().isNotEqualTo(actual);
+			requirements.requireThat(actual, "actual").isNotEqualTo(actual);
 		}, RangeError);
 	});
 
-	test("isInstanceOf", () =>
+	test("isSet", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().isInstanceOf(Set).isInstanceOf(Object);
+		const expected: Set<number> = requirements.requireThat(actual as unknown, "actual").isSet<number>().
+			getActual();
 	});
 
-	test("isInstanceOf_False", () =>
+	test("isSet_False", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = new Set();
-			requirements.requireThat(actual, "actual").asSet().isInstanceOf(String);
+			const actual = [1, 2, 3];
+			requirements.requireThat(actual, "actual").isSet();
 		}, RangeError);
 	});
 
@@ -113,20 +114,20 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set();
-			requirements.requireThat(actual, "actual").asSet().isNull();
+			requirements.requireThat(actual, "actual").isNull();
 		}, RangeError);
 	});
 
 	test("isNotNull", () =>
 	{
 		const actual = new Set();
-		requirements.requireThat(actual, "actual").asSet().isNotNull();
+		requirements.requireThat(actual, "actual").isNotNull();
 	});
 
 	test("contains", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().contains(2);
+		requirements.requireThat(actual, "actual").contains(2);
 	});
 
 	test("contains_False", () =>
@@ -134,18 +135,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().contains(5);
+			requirements.requireThat(actual, "actual").contains(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().contains(5, "expected");
+			requirements.requireThat(actual, "actual").contains(5, "expected");
 		}, RangeError);
 	});
 
 	test("doesNotContain", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().doesNotContain(5);
+		requirements.requireThat(actual, "actual").doesNotContain(5);
 	});
 
 	test("doesNotContain_False", () =>
@@ -153,18 +154,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContain(2);
+			requirements.requireThat(actual, "actual").doesNotContain(2);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContain(2, "expected");
+			requirements.requireThat(actual, "actual").doesNotContain(2, "expected");
 		}, RangeError);
 	});
 
 	test("containsAny", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().containsAny([0, 2, 4]);
+		requirements.requireThat(actual, "actual").containsAny([0, 2, 4]);
 	});
 
 	test("containsAny_False", () =>
@@ -172,18 +173,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsAny([0, 5]);
+			requirements.requireThat(actual, "actual").containsAny([0, 5]);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsAny([0, 5], "expected");
+			requirements.requireThat(actual, "actual").containsAny([0, 5], "expected");
 		}, RangeError);
 	});
 
 	test("doesNotContainAny", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().doesNotContainAny([0, 5]);
+		requirements.requireThat(actual, "actual").doesNotContainAny([0, 5]);
 	});
 
 	test("doesNotContainAny_False", () =>
@@ -191,18 +192,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContainAny([0, 2]);
+			requirements.requireThat(actual, "actual").doesNotContainAny([0, 2]);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContainAny([0, 2], "expected");
+			requirements.requireThat(actual, "actual").doesNotContainAny([0, 2], "expected");
 		}, RangeError);
 	});
 
 	test("containsAll", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().containsAll([2, 3]);
+		requirements.requireThat(actual, "actual").containsAll([2, 3]);
 	});
 
 	test("containsAll_False", () =>
@@ -210,18 +211,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsAll([0, 1, 2]);
+			requirements.requireThat(actual, "actual").containsAll([0, 1, 2]);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsAll([0, 1, 2], "expected");
+			requirements.requireThat(actual, "actual").containsAll([0, 1, 2], "expected");
 		}, RangeError);
 	});
 
 	test("doesNotContainAll", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().doesNotContainAll([0, 2, 3]);
+		requirements.requireThat(actual, "actual").doesNotContainAll([0, 2, 3]);
 	});
 
 	test("doesNotContainAll_False", () =>
@@ -229,18 +230,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContainAll([2, 3]);
+			requirements.requireThat(actual, "actual").doesNotContainAll([2, 3]);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().doesNotContainAll([2, 3], "expected");
+			requirements.requireThat(actual, "actual").doesNotContainAll([2, 3], "expected");
 		}, RangeError);
 	});
 
 	test("containsExactly", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().containsExactly([1, 2, 3]);
+		requirements.requireThat(actual, "actual").containsExactly([1, 2, 3]);
 	});
 
 	test("containsExactly_False", () =>
@@ -248,18 +249,18 @@ suite("SetTest", () =>
 		const actual = new Set([1, 2, 3]);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsExactly([0, 1, 2, 3]);
+			requirements.requireThat(actual, "actual").containsExactly([0, 1, 2, 3]);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asSet().containsExactly([0, 1, 2, 3], "expected");
+			requirements.requireThat(actual, "actual").containsExactly([0, 1, 2, 3], "expected");
 		}, RangeError);
 	});
 
 	test("sizeIsEqualTo", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().size().isEqualTo(3);
+		requirements.requireThat(actual, "actual").size().isEqualTo(3);
 	});
 
 	test("sizeIsEqualTo_False", () =>
@@ -267,14 +268,14 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set([1, 2, 3]);
-			requirements.requireThat(actual, "actual").asSet().size().isEqualTo(2);
+			requirements.requireThat(actual, "actual").size().isEqualTo(2);
 		}, RangeError);
 	});
 
 	test("sizeIsNotEqualTo", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().size().isNotEqualTo(2);
+		requirements.requireThat(actual, "actual").size().isNotEqualTo(2);
 	});
 
 	test("sizeIsNotEqualTo_False", () =>
@@ -282,7 +283,7 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set([1, 2, 3]);
-			requirements.requireThat(actual, "actual").asSet().size().isNotEqualTo(3);
+			requirements.requireThat(actual, "actual").size().isNotEqualTo(3);
 		}, RangeError);
 	});
 
@@ -291,31 +292,8 @@ suite("SetTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Set([1, 2, 3]);
-			requirements.requireThat(actual, "actual").asSet().sizeConsumer(s => s.isNotEqualTo(3));
+			requirements.requireThat(actual, "actual").sizeConsumer(s => s.isNotEqualTo(3));
 		}, RangeError);
-	});
-
-	test("asArray", () =>
-	{
-		const array = [1, 2, 3];
-		const actual = new Set(array);
-		requirements.requireThat(actual, "actual").asSet().asArray().isEqualTo(array);
-	});
-
-	test("asArrayConsumer", () =>
-	{
-		const array = [1, 2, 3];
-		assert.throws(function()
-		{
-			const actual = new Set(array);
-			requirements.requireThat(actual, "actual").asSet().asArrayConsumer(a => a.isNotEqualTo(array));
-		}, RangeError);
-	});
-
-	test("asString", () =>
-	{
-		const actual = new Set([1, 2, 3]);
-		requirements.requireThat(actual, "actual").asSet().asString().isEqualTo("[1, 2, 3]");
 	});
 
 	test("getActual", () =>
@@ -331,7 +309,7 @@ suite("SetTest", () =>
 		const expectedMessages = ["actual must be a Set.\n" +
 		"Actual: null\n" +
 		"Type  : null"];
-		const actualFailures = requirements.validateThat(actual, "actual").asSet().getFailures();
+		const actualFailures = requirements.validateThat(actual, "actual").isSet().getFailures();
 		const actualMessages = actualFailures.map(failure => failure.getMessage());
 		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	});

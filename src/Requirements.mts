@@ -12,7 +12,11 @@ import type {
 	NumberVerifier,
 	StringValidator,
 	NumberValidator,
-	MapValidator
+	MapValidator,
+	BooleanVerifier,
+	BooleanValidator,
+	ClassConstructor,
+	AnythingButClassConstructor
 } from "./internal/internal.mjs";
 import {
 	Configuration,
@@ -28,7 +32,13 @@ import {
 	ClassVerifierImpl,
 	ClassValidatorImpl,
 	MapVerifierImpl,
-	MapValidatorImpl
+	MapValidatorImpl,
+	BooleanVerifierImpl,
+	BooleanValidatorImpl,
+	StringVerifierImpl,
+	StringValidatorImpl,
+	NumberVerifierImpl,
+	NumberValidatorImpl
 } from "./internal/internal.mjs";
 
 /**
@@ -64,33 +74,55 @@ class Requirements
 	 * @throws TypeError  if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
+	requireThat(actual: boolean, name: string): BooleanVerifier;
 	requireThat(actual: string, name: string): StringVerifier;
 	requireThat(actual: number, name: string): NumberVerifier;
-	requireThat(actual: null, name: string): ObjectVerifier<null>;
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	requireThat(actual: Function, name: string): ClassVerifier;
 	requireThat<E>(actual: Array<E>, name: string): ArrayVerifier<E>;
 	requireThat<E>(actual: Set<E>, name: string): SetVerifier<E>;
 	requireThat<K, V>(actual: Map<K, V>, name: string): MapVerifier<K, V>;
+	requireThat<T>(actual: ClassConstructor<T>, name: string): ClassVerifier<T>;
 	requireThat<T>(actual: T, name: string): ObjectVerifier<T>;
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	requireThat<T extends string | number | Function | Array<E> | Set<E> | Map<K, V>, E, K, V>
-	(actual: T, name: string): StringVerifier | NumberVerifier | ClassVerifier | ArrayVerifier<E> | SetVerifier<E> | MapVerifier<K, V> | ObjectVerifier<T>
+	requireThat<T, E, K, V>
+	(actual: unknown, name: string): BooleanVerifier | StringVerifier | NumberVerifier | ArrayVerifier<E> |
+		SetVerifier<E> | MapVerifier<K, V> | ClassVerifier<T> | ObjectVerifier<T>
 	{
 		Objects.verifyName(name, "name");
 		const typeOfActual = Objects.getTypeInfo(actual);
-		if (typeOfActual.type === "array")
-			return new ArrayVerifierImpl<E>(new ArrayValidatorImpl<E>(this.config, actual as E[], name, Pluralizer.ELEMENT, []));
-		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
-			return new SetVerifierImpl<E>(new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []));
-		if (typeOfActual.type === "object" && typeOfActual.name === "Map")
-			return new MapVerifierImpl<K, V>(new MapValidatorImpl<K, V>(this.config, actual as Map<K, V>, name, []));
-		if (typeOfActual.type === "class")
+		switch (typeOfActual.type)
 		{
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			return new ClassVerifierImpl(new ClassValidatorImpl(this.config, actual as Function, name, []));
+			case "boolean":
+				return new BooleanVerifierImpl(new BooleanValidatorImpl(this.config, actual as boolean, name, []));
+			case "string":
+				return new StringVerifierImpl(new StringValidatorImpl(this.config, actual as string, name, []));
+			case "number":
+				return new NumberVerifierImpl(new NumberValidatorImpl(this.config, actual as number, name, []));
+			case "array":
+			{
+				return new ArrayVerifierImpl<E>(new ArrayValidatorImpl<E>(this.config, actual as E[], name,
+					Pluralizer.ELEMENT, []));
+			}
+			case "object":
+			{
+				switch (typeOfActual.name)
+				{
+					case "Set":
+						return new SetVerifierImpl<E>(new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []));
+					case "Map":
+					{
+						return new MapVerifierImpl<K, V>(new MapValidatorImpl<K, V>(this.config, actual as Map<K, V>,
+							name, []));
+					}
+				}
+				break;
+			}
+			case "class":
+			{
+				return new ClassVerifierImpl<T>(new ClassValidatorImpl(this.config,
+					actual as ClassConstructor<T> | undefined, name, []));
+			}
 		}
-		return new ObjectVerifierImpl(new ObjectValidatorImpl(this.config, actual, name, []));
+		return new ObjectVerifierImpl<ObjectValidator<T>, T>(new ObjectValidatorImpl<T>(this.config,
+			actual as T | undefined, name, []));
 	}
 
 	/**
@@ -104,29 +136,44 @@ class Requirements
 	 * @throws TypeError  if <code>name</code> is null
 	 * @throws RangeError if <code>name</code> is empty
 	 */
+	validateThat(actual: boolean, name: string): BooleanValidator;
 	validateThat(actual: string, name: string): StringValidator;
 	validateThat(actual: number, name: string): NumberValidator;
-	validateThat(actual: null, name: string): ObjectValidator<null>;
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	validateThat(actual: Function, name: string): ClassValidator;
 	validateThat<E>(actual: Array<E>, name: string): ArrayValidator<E>;
 	validateThat<E>(actual: Set<E>, name: string): SetValidator<E>;
 	validateThat<K, V>(actual: Map<K, V>, name: string): MapValidator<K, V>;
-	validateThat<T>(actual: T, name: string): ObjectValidator<T>;
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	validateThat<T extends string | number | Function | Array<E> | Set<E> | Map<K, V>, E, K, V>
-	(actual: T, name: string): StringValidator | NumberValidator | ClassValidator | ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | ObjectValidator<T>
+	validateThat<T>(actual: AnythingButClassConstructor<T>, name: string): ObjectValidator<T>;
+	validateThat<T>(actual: ClassConstructor<T>, name: string): ClassValidator<T>;
+	validateThat(actual: unknown, name: string): ObjectValidator<unknown>;
+	validateThat<E, K, V, T>
+	(actual: unknown, name: string): BooleanValidator | StringValidator | NumberValidator |
+		ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | ObjectValidator<T> | ClassValidator<T> |
+		ObjectValidator<unknown>
 	{
 		Objects.verifyName(name, "name");
 		const typeOfActual = Objects.getTypeInfo(actual);
-		if (typeOfActual.type === "array")
-			return new ArrayValidatorImpl<E>(this.config, actual as E[], name, Pluralizer.ELEMENT, []);
-		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
-			return new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []);
-		if (typeOfActual.type === "class")
+		switch (typeOfActual.type)
 		{
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			return new ClassValidatorImpl(this.config, actual as Function, name, []);
+			case "boolean":
+				return new BooleanValidatorImpl(this.config, actual as boolean, name, []);
+			case "string":
+				return new StringValidatorImpl(this.config, actual as string, name, []);
+			case "number":
+				return new NumberValidatorImpl(this.config, actual as number, name, []);
+			case "class":
+				return new ClassValidatorImpl<T>(this.config, actual as ClassConstructor<T> | undefined, name, []);
+			case "array":
+				return new ArrayValidatorImpl<E>(this.config, actual as E[], name, Pluralizer.ELEMENT, []);
+			case "object":
+			{
+				switch (typeOfActual.name)
+				{
+					case "Set":
+						return new SetValidatorImpl<E>(this.config, actual as Set<E>, name, []);
+					case "Map":
+						return new MapValidatorImpl<K, V>(this.config, actual as Map<K, V>, name, []);
+				}
+			}
 		}
 		return new ObjectValidatorImpl(this.config, actual, name, []);
 	}

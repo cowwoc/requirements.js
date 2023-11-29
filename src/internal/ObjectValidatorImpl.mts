@@ -1,9 +1,11 @@
 import type {
 	Configuration,
-	ObjectValidator,
+	ObjectValidator
+} from "./internal.mjs";
+import {
+	AbstractObjectValidator,
 	ValidationFailure
 } from "./internal.mjs";
-import {AbstractObjectValidator} from "./internal.mjs";
 
 /**
  * Default implementation of <code>ObjectValidator</code>.
@@ -23,15 +25,10 @@ class ObjectValidatorImpl<T> extends AbstractObjectValidator<ObjectValidator<T>,
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: T, name: string,
+	constructor(configuration: Configuration, actual: T | undefined, name: string,
 		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-	}
-
-	protected getThis(): ObjectValidator<NonNullable<T>>
-	{
-		return this as ObjectValidator<NonNullable<T>>;
 	}
 }
 

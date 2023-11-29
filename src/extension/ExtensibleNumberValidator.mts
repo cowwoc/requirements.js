@@ -3,7 +3,7 @@ import type {ExtensibleObjectValidator} from "../internal/internal.mjs";
 /**
  * Validates the requirements of a <code>number</code>.
  * <p>
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  *
  * @typeParam S - the type of validator returned by the methods
  */
@@ -116,20 +116,6 @@ interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S, numb
 	isBetweenClosed(startInclusive: number, endInclusive: number): S;
 
 	/**
-	 * Ensures that the actual value is a number.
-	 *
-	 * @returns the updated validator
-	 */
-	isNumber(): S;
-
-	/**
-	 * Ensures that the actual value is not a number.
-	 *
-	 * @returns the updated validator
-	 */
-	isNotNumber(): S;
-
-	/**
 	 * Ensures that the actual value is a finite number.
 	 *
 	 * @returns the updated validator
@@ -141,7 +127,7 @@ interface ExtensibleNumberValidator<S> extends ExtensibleObjectValidator<S, numb
 	 *
 	 * @returns the updated validator
 	 */
-	isNotFinite(): S;
+	isInfinite(): S;
 
 	/**
 	 * {@inheritDoc}

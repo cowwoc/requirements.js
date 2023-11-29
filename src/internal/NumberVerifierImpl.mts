@@ -20,11 +20,6 @@ class NumberVerifierImpl extends AbstractNumberVerifier<NumberVerifier, NumberVa
 	{
 		super(validator);
 	}
-
-	protected getThis()
-	{
-		return this;
-	}
 }
 
 export {NumberVerifierImpl};

@@ -1,12 +1,23 @@
-import type {ObjectVerifier} from "./internal/internal.mjs";
+import type {
+	ObjectVerifier,
+	ExtensibleObjectVerifier,
+	ClassConstructor
+} from "./internal/internal.mjs";
+
+
+const typedocWorkaround: null | ObjectVerifier<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of a class.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
+ *
+ * @typeParam T - the type of the class
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-interface ClassVerifier extends ObjectVerifier<Function>
+interface ClassVerifier<T> extends ExtensibleObjectVerifier<ClassVerifier<T>, ClassConstructor<T>>
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a super-type.
@@ -15,8 +26,7 @@ interface ClassVerifier extends ObjectVerifier<Function>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is not a supertype of <code>type</code>
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): ClassVerifier;
+	isSupertypeOf<T2>(type: ClassConstructor<T2>): ClassVerifier<T>;
 
 	/**
 	 * Ensures that the actual value is the specified type, or a subtype.
@@ -25,14 +35,12 @@ interface ClassVerifier extends ObjectVerifier<Function>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is not a subtype of <code>type</code>
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): ClassVerifier;
+	isSubtypeOf<T2>(type: ClassConstructor<T2>): ClassVerifier<T>;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function;
+	getActual(): ClassConstructor<T>;
 }
 
 export {type ClassVerifier};

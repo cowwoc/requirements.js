@@ -90,6 +90,16 @@ import {SizeValidatorImpl} from "./SizeValidatorImpl.mjs";
 import {Pluralizer} from "./Pluralizer.mjs";
 import {Strings} from "./Strings.mjs";
 
+type ElementOf<T> = T extends readonly (infer E)[] ? E : (T extends Set<infer E> ? E : never);
+type MapKey<T> = T extends Map<infer K, unknown> ? K : never;
+type MapValue<T> = T extends Map<unknown, infer V> ? V : never;
+
+// Object and all its subclasses, excluding Function which is its superclass.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ClassConstructor<T> = new (...args: any[]) => NonNullable<T>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnythingButClassConstructor<T> = T extends ClassConstructor<any> ? never : T;
+
 export
 {
 	ArrayValidatorImpl,
@@ -168,5 +178,10 @@ export type
 	ExtensibleObjectValidator,
 	ExtensibleObjectVerifier,
 	ObjectValidator,
-	ObjectVerifier
+	ObjectVerifier,
+	ElementOf,
+	MapKey,
+	MapValue,
+	ClassConstructor,
+	AnythingButClassConstructor
 };

@@ -26,11 +26,6 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 		super(validator);
 	}
 
-	protected getThis(): StringVerifier
-	{
-		return this;
-	}
-
 	startsWith(prefix: string): StringVerifier
 	{
 		this.validator.startsWith(prefix);
@@ -79,19 +74,6 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 		return this.validationResult(() => this.getThis());
 	}
 
-	trim(): StringVerifier
-	{
-		this.validator.trim();
-		return this;
-	}
-
-	trimConsumer(consumer: (actual: StringVerifier) => void): StringVerifier
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
-		consumer(this.trim());
-		return this;
-	}
-
 	isTrimmed(): StringVerifier
 	{
 		this.validator.isTrimmed();
@@ -108,18 +90,6 @@ class StringVerifierImpl extends AbstractObjectVerifier<StringVerifier, StringVa
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.length());
-		return this;
-	}
-
-	asString(): StringVerifier
-	{
-		return this;
-	}
-
-	asStringConsumer(consumer: (actual: StringVerifier) => void): StringVerifier
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
-		consumer(this);
 		return this;
 	}
 }

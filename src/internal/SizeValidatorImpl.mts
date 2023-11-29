@@ -17,7 +17,6 @@ class SizeValidatorImpl extends NumberValidatorImpl
 {
 	private readonly collection: unknown;
 	private readonly collectionName: string;
-	private readonly size: number | undefined;
 	private readonly pluralizer: Pluralizer;
 
 	/**
@@ -42,24 +41,17 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		Objects.verifyName(collectionName, "containerName");
 		this.collection = collection;
 		this.collectionName = collectionName;
-		this.size = size;
 		this.pluralizer = pluralizer;
 	}
 
 	isNotNegative()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
 		// Always true
 		return this;
 	}
 
 	isNegative()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
 		const failure = new ValidationFailure(this.config, RangeError,
 			this.name + " may not be negative");
 		this.failures.push(failure);
@@ -71,29 +63,26 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(expected, "expected", "number");
-		if (this.failures.length > 0)
-			return this;
 
-		const expectedAsNumber = expected as number;
-		if (this.actual !== expectedAsNumber)
+		if (this.actual === undefined || this.actual !== expected)
 		{
+			const expectedIsNumber = expected as number;
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
-					this.collectionName + " must contain " + name + "(" + expectedAsNumber + ") " +
-					this.pluralizer.nameOf(expectedAsNumber) + ".");
+					this.collectionName + " must contain " + name + "(" + expectedIsNumber + ") " +
+					this.pluralizer.nameOf(expectedIsNumber) + ".");
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
-					this.collectionName + " must contain " + expectedAsNumber + " " +
-					this.pluralizer.nameOf(expectedAsNumber) + ".");
+					this.collectionName + " must contain " + expectedIsNumber + " " +
+					this.pluralizer.nameOf(expectedIsNumber) + ".");
 			}
 			failure.addContext("Actual", this.actual);
 
-			const sizeAsDefined = this.size as number;
-			if (sizeAsDefined > 0)
+			if (this.actual !== undefined && this.actual > 0)
 				failure.addContext(this.collectionName, this.collection);
 			this.failures.push(failure);
 		}
@@ -105,25 +94,23 @@ class SizeValidatorImpl extends NumberValidatorImpl
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
 		Objects.requireThatTypeOf(value, "value", "number");
-		if (this.failures.length > 0)
-			return this;
 
-		const valueAsNumber = value as number;
-		if (this.actual === valueAsNumber)
+		if (this.actual === undefined || this.actual === value)
 		{
+			const valueIsNumber = value as number;
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
-					this.collectionName + " may not contain " + name + " (" + valueAsNumber + ") " +
-					this.pluralizer.nameOf(valueAsNumber)).
+					this.collectionName + " may not contain " + name + " (" + valueIsNumber + ") " +
+					this.pluralizer.nameOf(valueIsNumber)).
 					addContext(this.collectionName, this.collection);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
-					this.collectionName + " may not contain " + valueAsNumber + " " +
-					this.pluralizer.nameOf(valueAsNumber)).
+					this.collectionName + " may not contain " + valueIsNumber + " " +
+					this.pluralizer.nameOf(valueIsNumber)).
 					addContext(this.collectionName, this.collection);
 			}
 			this.failures.push(failure);
@@ -141,18 +128,15 @@ class SizeValidatorImpl extends NumberValidatorImpl
 				"Actual: " + endExclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const sizeAsDefined = this.size as number;
-		if (sizeAsDefined < startInclusive || sizeAsDefined >= endExclusive)
+		if (this.actual === undefined || this.actual < startInclusive || this.actual >= endExclusive)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.collectionName + " must contain [" + startInclusive + ", " + endExclusive + ") " +
 				this.pluralizer.nameOf(2) + ".").
-				addContext("Actual", sizeAsDefined);
+				addContext("Actual", this.actual);
 
-			if (sizeAsDefined > 0)
+			if (this.actual !== undefined && this.actual > 0)
 				failure.addContext(this.collectionName, this.collection);
 			this.failures.push(failure);
 		}
@@ -169,27 +153,19 @@ class SizeValidatorImpl extends NumberValidatorImpl
 				"Actual: " + endInclusive + "\n" +
 				"Min   : " + startInclusive);
 		}
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const sizeAsDefined = this.size as number;
-		if (sizeAsDefined < startInclusive || sizeAsDefined > endInclusive)
+		if (this.actual === undefined || this.actual < startInclusive || this.actual > endInclusive)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.collectionName + " must contain [" + startInclusive + ", " + endInclusive + "] " +
 				this.pluralizer.nameOf(2) + ".").
-				addContext("Actual", sizeAsDefined);
+				addContext("Actual", this.actual);
 
-			if (sizeAsDefined > 0)
+			if (this.actual !== undefined && this.actual > 0)
 				failure.addContext(this.collectionName, this.collection);
 			this.failures.push(failure);
 		}
 		return this;
-	}
-
-	getActual(): number | undefined
-	{
-		return this.size;
 	}
 }
 

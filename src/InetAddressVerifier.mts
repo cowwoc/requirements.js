@@ -1,11 +1,19 @@
-import type {ObjectVerifier} from "./internal/internal.mjs";
+import type {
+	ObjectVerifier,
+	ExtensibleObjectVerifier
+} from "./internal/internal.mjs";
+
+const typedocWorkaround: null | ObjectVerifier<void> = null;
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
 
 /**
  * Verifies the requirements of an IP address or hostname.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  */
-interface InetAddressVerifier extends ObjectVerifier<string>
+interface InetAddressVerifier extends ExtensibleObjectVerifier<InetAddressVerifier, string>
 {
 	/**
 	 * Ensures that the actual value is an IP v4 address.

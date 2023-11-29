@@ -25,11 +25,6 @@ class NumberValidatorImpl extends AbstractNumberValidator<NumberValidator>
 	{
 		super(configuration, actual, name, failures);
 	}
-
-	protected getThis(): NumberValidator
-	{
-		return this;
-	}
 }
 
 export {NumberValidatorImpl};

@@ -19,8 +19,6 @@ import {
 class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E>>
 	implements SetValidator<E>
 {
-	private readonly actualSet: Set<E> | undefined;
-
 	/**
 	 * Creates a new SetValidatorImpl.
 	 *
@@ -35,24 +33,14 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-		this.actualSet = actual;
-	}
-
-	protected getThis()
-	{
-		return this;
 	}
 
 	isEmpty()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (actualAsDefined.size !== 0)
+		if (this.actual === undefined || this.actual.size !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
-				addContext("Actual", this.actualSet);
+				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
 		return this;
@@ -60,11 +48,7 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 
 	isNotEmpty()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (actualAsDefined.size === 0)
+		if (this.actual === undefined || this.actual.size === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be empty");
@@ -77,25 +61,22 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (!actualAsDefined.has(expected))
+		if (this.actual === undefined || !this.actual.has(expected))
 		{
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Expected", expected);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError, this.name + "  must contain " +
 					this.config.convertToString(expected)).
-					addContext("Actual", this.actualSet);
+					addContext("Actual", this.actual);
 			}
 			this.failures.push(failure);
 		}
@@ -107,20 +88,27 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		const expectedAsSet = new Set<E>(expected);
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		const missing = new Set([...expectedAsSet].filter(x => !actualAsDefined.has(x)));
-		const unwanted = new Set([...actualAsDefined].filter(x => !expectedAsSet.has(x)));
-		if (missing.size !== 0 || unwanted.size !== 0)
+		let missing;
+		let unwanted;
+		if (this.actual === undefined)
+		{
+			missing = undefined;
+			unwanted = undefined;
+		}
+		else
+		{
+			missing = new Set([...expectedAsSet].filter(x => !this.actual!.has(x)));
+			unwanted = new Set([...this.actual].filter(x => !expectedAsSet.has(x)));
+		}
+		if (missing === undefined || unwanted === undefined || missing.size !== 0 || unwanted.size !== 0)
 		{
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError, this.name +
 					" must contain exactly the same elements as " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet).
 					addContext("Missing", missing).
 					addContext("Unwanted", unwanted);
@@ -129,7 +117,7 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain exactly: " + this.config.convertToString(expectedAsSet)).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Missing", missing).
 					addContext("Unwanted", unwanted);
 			}
@@ -143,25 +131,22 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		const expectedAsSet = new Set<E>(expected);
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (!this.actualContainsAny(actualAsDefined, expectedAsSet))
+		if (this.actual === undefined || !this.actualContainsAny(this.actual, expectedAsSet))
 		{
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain any entry in " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain any entry in: " + this.config.convertToString(expectedAsSet)).
-					addContext("Actual", this.actualSet);
+					addContext("Actual", this.actual);
 			}
 			this.failures.push(failure);
 		}
@@ -173,26 +158,27 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		const expectedAsSet = new Set<E>(expected);
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (!this.actualContainsAll(actualAsDefined, expectedAsSet))
+		if (this.actual === undefined || !this.actualContainsAll(this.actual, expectedAsSet))
 		{
-			const missing = new Set([...expectedAsSet].filter(x => !actualAsDefined.has(x)));
+			let missing;
+			if (this.actual === undefined)
+				missing = undefined;
+			else
+				missing = new Set([...expectedAsSet].filter(x => !this.actual!.has(x)));
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain all elements in " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Missing", missing);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must contain all elements in: " + this.config.convertToString(expectedAsSet)).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Expected", expectedAsSet).
 					addContext("Missing", missing);
 			}
@@ -205,25 +191,22 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 	{
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (actualAsDefined.has(entry))
+		if (this.actual === undefined || this.actual.has(entry))
 		{
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain " + name + ".").
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Unwanted", entry);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain " + this.config.convertToString(entry)).
-					addContext("Actual", this.actualSet);
+					addContext("Actual", this.actual);
 			}
 			this.failures.push(failure);
 		}
@@ -235,25 +218,22 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		const elementsAsSet = new Set<E>(elements);
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (this.actualContainsAny(actualAsDefined, elementsAsSet))
+		if (this.actual === undefined || this.actualContainsAny(this.actual, elementsAsSet))
 		{
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must not contain any element in " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Unwanted", elementsAsSet);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " must not contain any element in: " + this.config.convertToString(elementsAsSet)).
-					addContext("Actual", this.actualSet);
+					addContext("Actual", this.actual);
 			}
 			this.failures.push(failure);
 		}
@@ -265,26 +245,27 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		const elementsAsSet = new Set<E>(elements);
 		if (typeof (name) !== "undefined")
 			Objects.requireThatStringIsNotEmpty(name, "name");
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
 
-		const actualAsDefined: Set<E> = this.actualSet as Set<E>;
-		if (this.actualContainsAll(actualAsDefined, elementsAsSet))
+		if (this.actual === undefined || this.actualContainsAll(this.actual, elementsAsSet))
 		{
-			const missing = new Set([...elementsAsSet].filter(x => !actualAsDefined.has(x)));
+			let missing;
+			if (this.actual === undefined)
+				missing = undefined;
+			else
+				missing = new Set([...elementsAsSet].filter(x => !this.actual!.has(x)));
 			let failure;
 			if (name)
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain all elements in " + name).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Missing", missing);
 			}
 			else
 			{
 				failure = new ValidationFailure(this.config, RangeError,
 					this.name + " may not contain all elements in: " + this.config.convertToString(elementsAsSet)).
-					addContext("Actual", this.actualSet).
+					addContext("Actual", this.actual).
 					addContext("Unwanted", elementsAsSet).
 					addContext("Missing", missing);
 			}
@@ -297,14 +278,14 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 	{
 		let value: Set<E> | undefined;
 		let size: number;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		if (!this.requireThatActualIsDefinedAndNotNull())
 		{
 			value = undefined;
 			size = 0;
 		}
 		else
 		{
-			value = this.actualSet as Set<E>;
+			value = this.actual as Set<E>;
 			size = value.size;
 		}
 		return new SizeValidatorImpl(this.config, value, this.name, size, this.name + ".size",
@@ -319,11 +300,11 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 		return this;
 	}
 
-	asArray<E>(): ArrayValidator<E>;
+	asArray<C extends ArrayValidator<E>>(): C;
 	asArray(): ArrayValidator<E>
 	{
 		let value: E[] | undefined;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		if (!this.requireThatActualIsDefinedAndNotNull())
 			value = undefined;
 		else
 		{
@@ -333,14 +314,6 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 
 		return new ArrayValidatorImpl<E>(this.config, value, this.name + ".asArray()",
 			Pluralizer.ELEMENT, this.failures);
-	}
-
-	asArrayConsumer<S, E>(consumer: (input: ArrayValidator<E>) => void): S;
-	asArrayConsumer(consumer: (actual: ArrayValidator<E>) => void): SetValidator<E>
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
-		consumer(this.asArray());
-		return this;
 	}
 
 	/**
@@ -377,11 +350,6 @@ class SetValidatorImpl<E> extends AbstractObjectValidator<SetValidator<E>, Set<E
 	asSet(): SetValidator<E>
 	{
 		return this;
-	}
-	
-	getActual(): Set<E> | undefined
-	{
-		return this.actualSet;
 	}
 }
 

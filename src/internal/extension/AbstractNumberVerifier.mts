@@ -85,27 +85,15 @@ abstract class AbstractNumberVerifier<S, V extends ExtensibleNumberValidator<V>>
 		return this.validationResult(() => this.getThis());
 	}
 
-	isNumber(): S
-	{
-		this.validator.isNumber();
-		return this.validationResult(() => this.getThis());
-	}
-
-	isNotNumber(): S
-	{
-		this.validator.isNotNumber();
-		return this.validationResult(() => this.getThis());
-	}
-
 	isFinite(): S
 	{
 		this.validator.isFinite();
 		return this.validationResult(() => this.getThis());
 	}
 
-	isNotFinite(): S
+	isInfinite(): S
 	{
-		this.validator.isNotFinite();
+		this.validator.isInfinite();
 		return this.validationResult(() => this.getThis());
 	}
 }

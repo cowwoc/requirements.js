@@ -21,11 +21,6 @@ class InetAddressVerifierImpl extends AbstractObjectVerifier<InetAddressVerifier
 		super(validator);
 	}
 
-	protected getThis(): InetAddressVerifier
-	{
-		return this;
-	}
-
 	isIpV4(): InetAddressVerifier
 	{
 		this.validator.isIpV4();

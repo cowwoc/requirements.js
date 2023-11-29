@@ -2,30 +2,30 @@ import ts, {type CompilerHost} from "typescript";
 import * as path from "path";
 
 /**
- * Detects whether a code snippet contains compilation errors.
+ * Tests whether a code snippet contains compilation errors.
  */
-class TypeScriptCompiler
+class TestCompiler
 {
 	// The root directory relative to which external files will be interpreted
 	private static readonly rootDir: string = path.resolve(".");
 	private static readonly fileToExclude = "build.mts";
 	private static readonly snippetFilename = "test.mts";
-	private static readonly config = TypeScriptCompiler.createParsedCommandLine();
-	private static readonly defaultCompilerHost = ts.createCompilerHost(TypeScriptCompiler.config.options);
+	private static readonly config = TestCompiler.createParsedCommandLine();
+	private static readonly defaultCompilerHost = ts.createCompilerHost(TestCompiler.config.options);
 
 	private static createParsedCommandLine()
 	{
 		// Example of compiling using API: https://gist.github.com/jeremyben/4de4fdc40175d0f76892209e00ece98f
-		const configFile = ts.findConfigFile(TypeScriptCompiler.rootDir, ts.sys.fileExists, "tsconfig.json");
+		const configFile = ts.findConfigFile(TestCompiler.rootDir, ts.sys.fileExists, "tsconfig.json");
 		if (!configFile)
 			throw Error("tsconfig.json not found");
 		const {config} = ts.readConfigFile(configFile, ts.sys.readFile);
 
 		// We have to include at least one existing file to avoid CompilerHost throwing an exception
-		config.include = [TypeScriptCompiler.snippetFilename, TypeScriptCompiler.fileToExclude];
+		config.include = [TestCompiler.snippetFilename, TestCompiler.fileToExclude];
 		config.exclude.concat(["src/**", "test/**"]);
 
-		return ts.parseJsonConfigFileContent(config, ts.sys, TypeScriptCompiler.rootDir);
+		return ts.parseJsonConfigFileContent(config, ts.sys, TestCompiler.rootDir);
 	}
 
 	/**
@@ -40,11 +40,11 @@ class TypeScriptCompiler
 			fileExists: ts.sys.fileExists,
 			readFile: fileName =>
 			{
-				if (fileName === TypeScriptCompiler.snippetFilename)
+				if (fileName === TestCompiler.snippetFilename)
 					return snippet;
-				if (fileName === TypeScriptCompiler.fileToExclude)
+				if (fileName === TestCompiler.fileToExclude)
 					return undefined;
-				return TypeScriptCompiler.defaultCompilerHost.readFile(fileName);
+				return TestCompiler.defaultCompilerHost.readFile(fileName);
 			},
 			writeFile: () =>
 			{
@@ -52,30 +52,30 @@ class TypeScriptCompiler
 			},
 			getSourceFile: (fileName, languageVersion, onError, shouldCreateNewSourceFile) =>
 			{
-				if (fileName === TypeScriptCompiler.snippetFilename)
+				if (fileName === TestCompiler.snippetFilename)
 					return ts.createSourceFile(fileName, snippet, languageVersion);
-				if (fileName === TypeScriptCompiler.fileToExclude)
+				if (fileName === TestCompiler.fileToExclude)
 					return undefined;
-				return TypeScriptCompiler.defaultCompilerHost.getSourceFile(fileName, languageVersion, onError,
+				return TestCompiler.defaultCompilerHost.getSourceFile(fileName, languageVersion, onError,
 					shouldCreateNewSourceFile);
 			},
 			getCanonicalFileName: fileName =>
 			{
-				if (fileName === TypeScriptCompiler.snippetFilename)
-					return TypeScriptCompiler.snippetFilename;
-				return TypeScriptCompiler.defaultCompilerHost.getCanonicalFileName(fileName);
+				if (fileName === TestCompiler.snippetFilename)
+					return TestCompiler.snippetFilename;
+				return TestCompiler.defaultCompilerHost.getCanonicalFileName(fileName);
 			},
 			getDefaultLibFileName: (options) =>
-				TypeScriptCompiler.defaultCompilerHost.getDefaultLibFileName(options),
-			getCurrentDirectory: TypeScriptCompiler.defaultCompilerHost.getCurrentDirectory,
-			useCaseSensitiveFileNames: TypeScriptCompiler.defaultCompilerHost.useCaseSensitiveFileNames,
-			getNewLine: TypeScriptCompiler.defaultCompilerHost.getNewLine
+				TestCompiler.defaultCompilerHost.getDefaultLibFileName(options),
+			getCurrentDirectory: TestCompiler.defaultCompilerHost.getCurrentDirectory,
+			useCaseSensitiveFileNames: TestCompiler.defaultCompilerHost.useCaseSensitiveFileNames,
+			getNewLine: TestCompiler.defaultCompilerHost.getNewLine
 		};
 
-		const errors = TypeScriptCompiler.config.errors;
+		const errors = TestCompiler.config.errors;
 		const program = ts.createProgram({
-			options: TypeScriptCompiler.config.options,
-			rootNames: [TypeScriptCompiler.snippetFilename],
+			options: TestCompiler.config.options,
+			rootNames: [TestCompiler.snippetFilename],
 			configFileParsingDiagnostics: errors,
 			host: compilerHost
 		});
@@ -96,4 +96,4 @@ class TypeScriptCompiler
 	}
 }
 
-export {TypeScriptCompiler};
+export {TestCompiler};

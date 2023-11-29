@@ -1,4 +1,7 @@
-import {VariableType} from "./internal.mjs";
+import {
+	VariableType,
+	type ClassConstructor
+} from "./internal.mjs";
 
 /**
  * Object helper functions.
@@ -7,6 +10,7 @@ class Objects
 {
 	static readonly functionNamePattern = /^function\s+([^(]+)?\(/;
 	static readonly classNamePattern = /^class(\s+[^{]+)?{/;
+	static readonly builtInClassNamePattern = /^function\s+([^(]+)?\(\) { \[native code] }/;
 
 	/**
 	 * @param value - a value
@@ -34,8 +38,7 @@ class Objects
 	 *   <code>parent</code> or <code>child</code> are null or undefined; false if <code>child</code> does not
 	 *   extend <code>parent</code>
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	static extends(child: Function, parent: Function)
+	static extends(child: ClassConstructor<unknown>, parent: ClassConstructor<unknown>)
 	{
 		if (typeof (child) === "undefined" || child === null || typeof (parent) === "undefined" ||
 			parent === null)
@@ -94,50 +97,58 @@ class Objects
 	 */
 	static getTypeInfo(value: unknown)
 	{
+		if (value === undefined)
+			return VariableType.UNDEFINED;
 		if (value === null)
-			return new VariableType("null");
+			return VariableType.NULL;
+		if (Array.isArray(value))
+			return VariableType.ARRAY;
 		const typeOfValue = typeof (value);
 		const isPrimitive = typeOfValue !== "function" && typeOfValue !== "object";
 		if (isPrimitive)
-			return new VariableType(typeOfValue);
+			return VariableType.of(typeOfValue);
+		const valueAsFunction = value as ClassConstructor<unknown>;
 		const objectToString = Object.prototype.toString.call(value).slice(8, -1);
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		const valueAsFunction = value as Function;
-		const valueToString = valueAsFunction.toString();
 		if (objectToString === "Function")
 		{
-			// A function or a constructor
+			// A function or a class
+			const valueToString = valueAsFunction.toString();
 			const indexOfArrow = valueToString.indexOf("=>");
 			const indexOfBody = valueToString.indexOf("{");
 			if (indexOfArrow !== -1 && (indexOfBody === -1 || indexOfArrow < indexOfBody))
 			{
 				// Arrow function
-				return new VariableType("function");
+				return VariableType.ANONYMOUS_FUNCTION;
+			}
+			const className = this.classNamePattern.exec(valueToString);
+			if (className !== null && typeof (className[1]) !== "undefined")
+			{
+				// A class
+				const name = className[1].trim();
+				return VariableType.of("class", name);
+			}
+			const builtInClassName = this.builtInClassNamePattern.exec(valueToString);
+			if (builtInClassName !== null && typeof (builtInClassName[1]) !== "undefined")
+			{
+				// A built-in class
+				const name = builtInClassName[1].trim();
+				return VariableType.of("class", name);
 			}
 			// Anonymous and named functions
 			const functionName = this.functionNamePattern.exec(valueToString);
 			if (functionName !== null && typeof (functionName[1]) !== "undefined")
 			{
-				// Found a named function or class constructor
+				// A named function
 				const name = functionName[1].trim();
-				return new VariableType("function", name);
-			}
-			const className = this.classNamePattern.exec(valueToString);
-			if (className !== null && typeof (className[1]) !== "undefined")
-			{
-				// When running under ES6+
-				const name = className[1].trim();
-				return new VariableType("class", name);
+				return VariableType.of("function", name);
 			}
 			// Anonymous function
-			return new VariableType("function");
+			return VariableType.ANONYMOUS_FUNCTION;
 		}
-		if (objectToString === "Array")
-			return new VariableType("array");
 
 		// Per https://stackoverflow.com/a/30560581/14731 the ES6 specification guarantees the following will
 		// work
-		return new VariableType("object", valueAsFunction.constructor.name);
+		return VariableType.of("object", valueAsFunction.constructor.name);
 	}
 
 	/**
@@ -146,7 +157,7 @@ class Objects
 	 * @param value - the value of a parameter
 	 * @param name - the name of the parameter
 	 * @returns <code>true</code>
-	 * @throws TypeError if <code>name</code> is not a string.
+	 * @throws TypeError if <code>name</code> is not a string
 	 * If <code>value</code> is <code>undefined</code> or <code>null</code>.
 	 */
 	static requireThatValueIsDefinedAndNotNull(value: unknown, name: string)
@@ -205,7 +216,7 @@ class Objects
 	 * @param clazz - he expected class name of <code>value</code>
 	 * @returns <code>true</code>
 	 * @throws TypeError if <code>value</code> is not an object of type <code>clazz</code>. If
-	 * <code>name</code> is not a string
+	 * <code>name</code> is not a string.
 	 */
 	static requireThatObjectOf(value: unknown, name: string, clazz: string)
 	{
@@ -240,10 +251,10 @@ class Objects
 	 * @param type - the class that <code>value</code> is expected to be an instance of
 	 * @returns <code>true</code>
 	 * @throws TypeError if <code>value</code> is not an instance of <code>type</code>.
-	 * If <code>name</code> is not a string
+	 * If <code>name</code> is not a string.
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	static requireThatInstanceOf(value: unknown, name: string, type: Function): boolean
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static requireThatInstanceOf(value: unknown, name: string, type: ClassConstructor<any>): boolean
 	{
 		const nameInfo = Objects.getTypeInfo(name);
 		if (nameInfo.type !== "string")
@@ -272,7 +283,7 @@ class Objects
 	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
 	 * of <code>value</code>
 	 * @throws TypeError if <code>value</code> is not of type <code>type</code>. If <code>name</code> is not
-	 * a string
+	 * a string.
 	 */
 	static assertThatTypeOf(value: unknown, name: string, type: string): void
 	{
@@ -287,7 +298,7 @@ class Objects
 	 * @param name - the name of the parameter
 	 * @param type - the expected class name of <code>value</code>
 	 * @throws TypeError if <code>value</code> is not an object of type <code>type</code>. If
-	 * <code>name</code> is not a string
+	 * <code>name</code> is not a string.
 	 */
 	static assertThatObjectOf(value: unknown, name: string, type: string): void
 	{
@@ -303,8 +314,7 @@ class Objects
 	 * @throws TypeError if <code>value</code> is not an instance of <code>type</code>.
 	 * If <code>name</code> is not a string.
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	static assertThatInstanceOf(value: unknown, name: string, type: Function): void
+	static assertThatInstanceOf<T>(value: T, name: string, type: ClassConstructor<T>): void
 	{
 		Objects.assert(this.requireThatInstanceOf(value, name, type));
 	}
@@ -316,7 +326,7 @@ class Objects
 	 * @param name - the name of the parameter
 	 * @returns <code>true</code>
 	 * @throws TypeError if <code>name</code> or <code>value</code> are empty.
-	 * If <code>name</code> is not a string
+	 * If <code>name</code> is not a string.
 	 */
 	static requireThatStringIsNotEmpty(value: string, name: string): boolean
 	{
@@ -338,7 +348,7 @@ class Objects
 	 * @param value - the value of a parameter
 	 * @param name - the name of the parameter
 	 * @throws TypeError if <code>name</code> or <code>value</code> are empty. If <code>name</code> is not a
-	 * string
+	 * string.
 	 */
 	static assertThatStringNotEmpty(value: string, name: string): void
 	{
@@ -396,8 +406,7 @@ class Objects
 				throw new Error("Unexpected type: " + currentInfo.toString());
 		}
 
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		let current = object as boolean | number | bigint | symbol | Function | object;
+		let current = object as boolean | number | bigint | symbol | ClassConstructor<unknown> | object;
 		while (true)
 		{
 			// See http://stackoverflow.com/a/22445303/14731,
@@ -410,7 +419,6 @@ class Objects
 			}
 
 			// Get the superclass and try again
-			// eslint-disable-next-line @typescript-eslint/ban-types
 			current = Object.getPrototypeOf(current.constructor.prototype) as object;
 			currentInfo = Objects.getTypeInfo(current);
 			if (currentInfo.type === "object")
@@ -443,7 +451,7 @@ class Objects
 	/**
 	 * @param value - a name
 	 * @param name - the name of the name
-	 * @throws TypeError if <code>name</code> or <code>value</code> are not a String
+	 * @throws TypeError if <code>name</code> or <code>value</code> are not a string
 	 * @throws RangeError if <code>value</code> is empty
 	 */
 	static verifyName(value: string, name: string): void

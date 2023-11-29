@@ -3,7 +3,7 @@ import type {ExtensibleObjectVerifier} from "../internal/internal.mjs";
 /**
  * Verifies the requirements of a <code>number</code>.
  * <p>
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  *
  * @typeParam S - the type of validator returned by the methods
  */
@@ -130,22 +130,6 @@ interface ExtensibleNumberVerifier<S> extends ExtensibleObjectVerifier<S, number
 	isBetweenClosed(startInclusive: number, endInclusive: number): S;
 
 	/**
-	 * Ensures that the actual value is a number.
-	 *
-	 * @returns the updated verifier
-	 * @throws RangeError if actual value is not a number
-	 */
-	isNumber(): S;
-
-	/**
-	 * Ensures that the actual value is not a number.
-	 *
-	 * @returns the updated verifier
-	 * @throws RangeError if actual value is a number
-	 */
-	isNotNumber(): S;
-
-	/**
 	 * Ensures that the actual value is a finite number.
 	 *
 	 * @returns the updated verifier
@@ -159,7 +143,7 @@ interface ExtensibleNumberVerifier<S> extends ExtensibleObjectVerifier<S, number
 	 * @returns the updated verifier
 	 * @throws RangeError if actual value is a finite number
 	 */
-	isNotFinite(): S;
+	isInfinite(): S;
 
 	/**
 	 * {@inheritDoc}

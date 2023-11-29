@@ -1,4 +1,4 @@
-When a [String comparison](https://cowwoc.github.io/requirements.js/3.2.3/docs/api/ObjectVerifier.html#isEqualTo)
+When a [String comparison](https://cowwoc.github.io/requirements.js/3.3.0/docs/api/ObjectVerifier.html#isEqualTo)
 fails, the library outputs a [diff](https://en.wikipedia.org/wiki/Diff) of the values being compared.
 
 Depending on the terminal capability, you will see a [Textual](Textual_Diff.md) or [Colored](Colored_Diff.md) diff.

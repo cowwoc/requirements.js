@@ -114,9 +114,9 @@ class ContextGenerator
 				result.push(new ContextLine(this.config, expectedName, expectedValue));
 			return result;
 		}
-		const actualAsString = this.config.convertToString(actualValue);
-		const expectedAsString = this.config.convertToString(expectedValue);
-		const lines = this.diffGenerator.diff(actualAsString, expectedAsString);
+		const actualIsString = this.config.convertToString(actualValue);
+		const expectedIsString = this.config.convertToString(expectedValue);
+		const lines = this.diffGenerator.diff(actualIsString, expectedIsString);
 		const actualLines = lines.getActualLines();
 		const expectedLines = lines.getExpectedLines();
 		const diffLines = lines.getDiffLines();
@@ -245,31 +245,31 @@ class ContextGenerator
 		for (let i = 0; i < maxSize; ++i)
 		{
 			let elementsAreEqual = true;
-			let actualValueAsString;
+			let actualValueIsString;
 			let actualNameForElement;
 			if (i < actualSize)
 			{
-				actualValueAsString = this.config.convertToString(actualValue[i]);
+				actualValueIsString = this.config.convertToString(actualValue[i]);
 				actualNameForElement = actualName + "[" + actualIndex + "]";
 				++actualIndex;
 			}
 			else
 			{
-				actualValueAsString = "";
+				actualValueIsString = "";
 				actualNameForElement = actualName;
 				elementsAreEqual = false;
 			}
-			let expectedValueAsString;
+			let expectedValueIsString;
 			let expectedNameForElement;
 			if (i < expectedSize)
 			{
-				expectedValueAsString = this.config.convertToString(expectedValue[i]);
+				expectedValueIsString = this.config.convertToString(expectedValue[i]);
 				expectedNameForElement = expectedName + "[" + expectedIndex + "]";
 				++expectedIndex;
 			}
 			else
 			{
-				expectedValueAsString = "";
+				expectedValueIsString = "";
 				expectedNameForElement = expectedName;
 				elementsAreEqual = false;
 			}
@@ -286,8 +286,8 @@ class ContextGenerator
 				skippedDuplicates = false;
 				this.skipDuplicateLines(result);
 			}
-			result.push(...this.getContext(actualNameForElement, actualValueAsString,
-				expectedNameForElement, expectedValueAsString, false, !elementsAreEqual));
+			result.push(...this.getContext(actualNameForElement, actualValueIsString,
+				expectedNameForElement, expectedValueIsString, false, !elementsAreEqual));
 		}
 		return result;
 	}

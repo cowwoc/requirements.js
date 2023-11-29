@@ -12,8 +12,6 @@ import type {
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
- *
  * @typeParam K - the type the map's keys
  * @typeParam V - the type the map's values
  */
@@ -83,24 +81,6 @@ interface MapValidator<K, V> extends ExtensibleObjectValidator<MapValidator<K, V
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	sizeConsumer(consumer: (actual: NumberValidator) => void): MapValidator<K, V>;
-
-	/**
-	 * @returns a validator for the <code>Map</code>
-	 * @deprecated returns this
-	 */
-	asMap(): MapValidator<K, V>;
-
-	asMap<K, V>(): MapValidator<K, V>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link MapValidator} for the actual value
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>Map</code>.
-	 */
-	asMapConsumer(consumer: (input: MapValidator<K, V>) => void): MapValidator<K, V>;
-
-	asMapConsumer<K, V>(consumer: (input: MapValidator<K, V>) => void): MapValidator<K, V>;
 
 	/**
 	 * {@inheritDoc}

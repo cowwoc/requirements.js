@@ -119,7 +119,7 @@ suite("RequirementsTest", () =>
 		const getActual = requirements.copy().withAssertionsDisabled().assertThatAndReturn(r =>
 			r.requireThat(actual, "actual").getActual());
 		requirements.requireThat(actual, "actual").isNotEqualTo(getActual as number, "getActual()");
-		requirements.requireThat(getActual, "getActual").isNotDefined();
+		requirements.requireThat(getActual, "getActual").isUndefined();
 	});
 
 	test("assertionsAreEnabled", () =>

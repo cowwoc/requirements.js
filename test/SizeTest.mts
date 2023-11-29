@@ -19,7 +19,7 @@ suite("SizeTest", () =>
 	test("isGreaterThanOrEqualTo", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").asArray().length().isGreaterThanOrEqualTo(0);
+		requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(0);
 	});
 
 	test("isGreaterThanOrEqualTo_False", () =>
@@ -27,18 +27,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isGreaterThanOrEqualTo(5);
+			requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isGreaterThanOrEqualTo(5, "expected");
+			requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5, "expected");
 		}, RangeError);
 	});
 
 	test("isGreaterThan", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").asArray().length().isGreaterThan(0);
+		requirements.requireThat(actual, "actual").length().isGreaterThan(0);
 	});
 
 	test("isGreaterThan_False", () =>
@@ -46,18 +46,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isGreaterThan(5);
+			requirements.requireThat(actual, "actual").length().isGreaterThan(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isGreaterThan(5, "expected");
+			requirements.requireThat(actual, "actual").length().isGreaterThan(5, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThanOrEqualTo", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").asArray().length().isLessThanOrEqualTo(2);
+		requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(2);
 	});
 
 	test("isLessThanOrEqualTo_False", () =>
@@ -65,18 +65,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isLessThanOrEqualTo(-1);
+			requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isLessThanOrEqualTo(-1, "expected");
+			requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThan", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").asArray().length().isLessThan(2);
+		requirements.requireThat(actual, "actual").length().isLessThan(2);
 	});
 
 	test("isLessThan_False", () =>
@@ -84,18 +84,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isLessThan(0);
+			requirements.requireThat(actual, "actual").length().isLessThan(0);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asArray().length().isLessThan(0, "expected");
+			requirements.requireThat(actual, "actual").length().isLessThan(0, "expected");
 		}, RangeError);
 	});
 
 	test("isNotPositive", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").asArray().length().isNotPositive();
+		requirements.requireThat(actual, "actual").length().isNotPositive();
 	});
 
 	test("isNotPositive_False", () =>
@@ -103,14 +103,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual = [1, 2, 3];
-			requirements.requireThat(actual, "actual").asArray().length().isNotPositive();
+			requirements.requireThat(actual, "actual").length().isNotPositive();
 		}, RangeError);
 	});
 
 	test("isPositive", () =>
 	{
 		const actual = [1, 2, 3];
-		requirements.requireThat(actual, "actual").asArray().length().isPositive();
+		requirements.requireThat(actual, "actual").length().isPositive();
 	});
 
 	test("isPositive_False", () =>
@@ -118,14 +118,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").asArray().length().isPositive();
+			requirements.requireThat(actual, "actual").length().isPositive();
 		}, RangeError);
 	});
 
 	test("isNotZero", () =>
 	{
 		const actual = [1, 2, 3];
-		requirements.requireThat(actual, "actual").asArray().length().isNotZero();
+		requirements.requireThat(actual, "actual").length().isNotZero();
 	});
 
 	test("isNotZero_False", () =>
@@ -133,20 +133,20 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").asArray().length().isNotZero();
+			requirements.requireThat(actual, "actual").length().isNotZero();
 		}, RangeError);
 	});
 
 	test("isZero", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").asArray().length().isZero();
+		requirements.requireThat(actual, "actual").length().isZero();
 	});
 
 	test("isNotNegative", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").asArray().length().isNotNegative();
+		requirements.requireThat(actual, "actual").length().isNotNegative();
 	});
 
 	test("isNegative", () =>
@@ -154,7 +154,7 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").asArray().length().isNegative();
+			requirements.requireThat(actual, "actual").length().isNegative();
 		}, RangeError);
 	});
 });

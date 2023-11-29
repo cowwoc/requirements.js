@@ -19,7 +19,7 @@ suite("InetAddressTest", () =>
 	test("asIpAddress_actualIsIpV4", () =>
 	{
 		const actual = "1.2.3.4";
-		requirements.requireThat(actual, "actual").asInetAddress();
+		requirements.requireThat(actual, "actual").isInetAddress();
 	});
 
 	test("asIpAddress_actualIsInvalidIpV4", () =>
@@ -27,20 +27,20 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "1.256.3.4";
-			requirements.requireThat(actual, "actual").asInetAddress();
+			requirements.requireThat(actual, "actual").isInetAddress();
 		}, RangeError);
 	});
 
 	test("asIpAddress_actualIsIpV6", () =>
 	{
 		const actual = "0000:0000:0000:0000:0000:0000:192.168.0.1";
-		requirements.requireThat(actual, "actual").asInetAddress();
+		requirements.requireThat(actual, "actual").isInetAddress();
 	});
 
 	test("asIpAddress_endsWithZeroCompression", () =>
 	{
 		const actual = "0000:0000:0000:0000:192.168.0.1::";
-		requirements.requireThat(actual, "actual").asInetAddress();
+		requirements.requireThat(actual, "actual").isInetAddress();
 	});
 
 	test("asIpAddress_multipleZeroCompressions", () =>
@@ -48,14 +48,14 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "0000::0000::0000:0000:192.168.0.1:";
-			requirements.requireThat(actual, "actual").asInetAddress();
+			requirements.requireThat(actual, "actual").isInetAddress();
 		}, RangeError);
 	});
 
 	test("isIpV4", () =>
 	{
 		const actual = "1.2.3.4";
-		requirements.requireThat(actual, "actual").asInetAddress().isIpV4();
+		requirements.requireThat(actual, "actual").isInetAddress().isIpV4();
 	});
 
 	test("isIpV4_actualIsV6", () =>
@@ -63,14 +63,14 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "2001:db8:a0b:12f0::1";
-			requirements.requireThat(actual, "actual").asInetAddress().isIpV4();
+			requirements.requireThat(actual, "actual").isInetAddress().isIpV4();
 		}, RangeError);
 	});
 
 	test("isIpV6", () =>
 	{
 		const actual = "2001:db8:a0b:12f0::1";
-		requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+		requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 	});
 
 	test("isIpV6_actualIsV4", () =>
@@ -78,7 +78,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "1.2.3.4";
-			requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+			requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 		}, RangeError);
 	});
 
@@ -87,7 +87,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "2001:db8::a0b:12f0::1";
-			requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+			requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 		}, RangeError);
 	});
 
@@ -96,20 +96,20 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "2001:gb8:a0b:12f0::1";
-			requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+			requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 		}, RangeError);
 	});
 
 	test("isIpV6_actualHasZeroSuppression", () =>
 	{
 		const actual = "2001:DB8:0:2F3B:2AA:FF:FE28:9C5A";
-		requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+		requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 	});
 
 	test("isIpV6_actualHasLeadingZeros", () =>
 	{
 		const actual = "::0:2F3B:2AA:FF:FE28:9C5A";
-		requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+		requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 	});
 
 	test("isIpV6_actualHasLeadingColon", () =>
@@ -117,7 +117,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = ":0:2F3B:2AA:FF:FE28:9C5A";
-			requirements.requireThat(actual, "actual").asInetAddress().isIpV6();
+			requirements.requireThat(actual, "actual").isInetAddress().isIpV6();
 		}, RangeError);
 	});
 
@@ -126,14 +126,14 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "0000:0000:0000:0000:0000:0000:192.168.0.1:";
-			requirements.requireThat(actual, "actual").asInetAddress();
+			requirements.requireThat(actual, "actual").isInetAddress();
 		}, RangeError);
 	});
 
 	test("isHostname", () =>
 	{
 		const actual = "example.com";
-		requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+		requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 	});
 
 	test("isHostname_actualIsEmpty", () =>
@@ -141,7 +141,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -150,7 +150,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "ex@mple.com";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -159,7 +159,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "example..com";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -168,7 +168,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "1234567890123456789012345678901234567890123456789012345678901234.com";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -177,7 +177,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "-example.com";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -186,7 +186,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "example-.com";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -207,13 +207,13 @@ suite("InetAddressTest", () =>
 		let actual = prefix + suffix;
 
 		assert.equal(actual.length, 253);
-		requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+		requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 
 		assert.throws(function()
 		{
 			prefix += "c";
 			actual = prefix + suffix;
-			requirements.requireThat(prefix, "actual").asInetAddress().isHostname();
+			requirements.requireThat(prefix, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -222,7 +222,7 @@ suite("InetAddressTest", () =>
 		assert.throws(function()
 		{
 			const actual = "0000:0000:0000:0000:0000:0000:192.168.0.1";
-			requirements.requireThat(actual, "actual").asInetAddress().isHostname();
+			requirements.requireThat(actual, "actual").isInetAddress().isHostname();
 		}, RangeError);
 	});
 
@@ -233,13 +233,16 @@ suite("InetAddressTest", () =>
 		assert.equal(output, input);
 	});
 
-	test("validateThatNullAsInetAddress", () =>
+	test("validateThatNullIsInetAddress", () =>
 	{
 		const actual = null;
-		const expectedMessages = ["actual must contain a valid IP address or hostname.\n" +
+		const expectedMessages = ["actual must be a string.\n" +
 		"Actual: null\n" +
-		"Type  : null"];
-		const actualFailures = requirements.validateThat(actual, "actual").asInetAddress().getFailures();
+		"Type  : null",
+			"actual must contain a valid IP address or hostname.\n" +
+			"Actual: undefined\n" +
+			"Type  : undefined"];
+		const actualFailures = requirements.validateThat(actual, "actual").isInetAddress().getFailures();
 		const actualMessages = actualFailures.map(failure => failure.getMessage());
 		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
 	});

@@ -20,40 +20,27 @@ suite("StringTest", () =>
 {
 	test("isEmpty", () =>
 	{
-		requirements.requireThat("", "actual").asString().isEmpty();
+		requirements.requireThat("", "actual").isEmpty();
 	});
 
 	test("isEmpty_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("   ", "actual").asString().isEmpty();
-		}, RangeError);
-	});
-
-	test("trimIsEmpty", () =>
-	{
-		requirements.requireThat("   ", "actual").asString().trim().isEmpty();
-	});
-
-	test("trimIsEmpty_False", () =>
-	{
-		assert.throws(function()
-		{
-			requirements.requireThat("value", "actual").asString().trim().isEmpty();
+			requirements.requireThat("   ", "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isTrimmed", () =>
 	{
-		requirements.requireThat("", "actual").asString().isTrimmed();
+		requirements.requireThat("", "actual").isTrimmed();
 	});
 
 	test("isTrimmed_LeftSpace", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("  value", "actual").asString().isTrimmed();
+			requirements.requireThat("  value", "actual").isTrimmed();
 		}, RangeError);
 	});
 
@@ -61,33 +48,20 @@ suite("StringTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("value  ", "actual").asString().isTrimmed();
+			requirements.requireThat("value  ", "actual").isTrimmed();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
-		requirements.requireThat("   ", "actual").asString().isNotEmpty();
+		requirements.requireThat("   ", "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("", "actual").asString().isNotEmpty();
-		}, RangeError);
-	});
-
-	test("trimIsNotEmpty", () =>
-	{
-		requirements.requireThat("value", "actual").asString().trim().isNotEmpty();
-	});
-
-	test("trimIsNotEmpty_False", () =>
-	{
-		assert.throws(function()
-		{
-			requirements.requireThat("   ", "actual").asString().trim().isNotEmpty();
+			requirements.requireThat("", "actual").isNotEmpty();
 		}, RangeError);
 	});
 
@@ -95,7 +69,7 @@ suite("StringTest", () =>
 	{
 		const prefix = "home";
 		const actual = prefix + "1234";
-		requirements.requireThat(actual, "actual").asString().startsWith(prefix);
+		requirements.requireThat(actual, "actual").startsWith(prefix);
 	});
 
 	test("startsWith_False", () =>
@@ -104,7 +78,7 @@ suite("StringTest", () =>
 		{
 			const prefix = "home";
 			const actual = "1234" + prefix;
-			requirements.requireThat(actual, "actual").asString().startsWith(prefix);
+			requirements.requireThat(actual, "actual").startsWith(prefix);
 		}, RangeError);
 	});
 
@@ -112,7 +86,7 @@ suite("StringTest", () =>
 	{
 		const prefix = "home";
 		const actual = "1234" + prefix;
-		requirements.requireThat(actual, "actual").asString().doesNotStartWith(prefix);
+		requirements.requireThat(actual, "actual").doesNotStartWith(prefix);
 	});
 
 	test("doesNotStartWith_False", () =>
@@ -121,7 +95,7 @@ suite("StringTest", () =>
 		{
 			const prefix = "home";
 			const actual = prefix + "1234";
-			requirements.requireThat(actual, "actual").asString().doesNotStartWith(prefix);
+			requirements.requireThat(actual, "actual").doesNotStartWith(prefix);
 		}, RangeError);
 	});
 
@@ -129,7 +103,7 @@ suite("StringTest", () =>
 	{
 		const expected = "cat";
 		const actual = "my " + expected + " is the best";
-		requirements.requireThat(actual, "actual").asString().contains(expected);
+		requirements.requireThat(actual, "actual").contains(expected);
 	});
 
 	test("contains_False", () =>
@@ -138,7 +112,7 @@ suite("StringTest", () =>
 		{
 			const expected = "cat";
 			const actual = "my dog is the best";
-			requirements.requireThat(actual, "actual").asString().contains(expected);
+			requirements.requireThat(actual, "actual").contains(expected);
 		}, RangeError);
 	});
 
@@ -146,7 +120,7 @@ suite("StringTest", () =>
 	{
 		const value = "cat";
 		const actual = "my dog is the best";
-		requirements.requireThat(actual, "actual").asString().doesNotContain(value);
+		requirements.requireThat(actual, "actual").doesNotContain(value);
 	});
 
 	test("doesNotContain_False", () =>
@@ -155,7 +129,7 @@ suite("StringTest", () =>
 		{
 			const value = "cat";
 			const actual = "my " + value + " is the best";
-			requirements.requireThat(actual, "actual").asString().doesNotContain(value);
+			requirements.requireThat(actual, "actual").doesNotContain(value);
 		}, RangeError);
 	});
 
@@ -163,7 +137,7 @@ suite("StringTest", () =>
 	{
 		const suffix = "home";
 		const actual = "1234" + suffix;
-		requirements.requireThat(actual, "actual").asString().endsWith(suffix);
+		requirements.requireThat(actual, "actual").endsWith(suffix);
 	});
 
 	test("endsWith_False", () =>
@@ -172,7 +146,7 @@ suite("StringTest", () =>
 		{
 			const suffix = "home";
 			const actual = suffix + "1234";
-			requirements.requireThat(actual, "actual").asString().endsWith(suffix);
+			requirements.requireThat(actual, "actual").endsWith(suffix);
 		}, RangeError);
 	});
 
@@ -180,7 +154,7 @@ suite("StringTest", () =>
 	{
 		const suffix = "home";
 		const actual = suffix + "1234";
-		requirements.requireThat(actual, "actual").asString().doesNotEndWith(suffix);
+		requirements.requireThat(actual, "actual").doesNotEndWith(suffix);
 	});
 
 	test("doesNotEndWith_False", () =>
@@ -189,14 +163,14 @@ suite("StringTest", () =>
 		{
 			const suffix = "home";
 			const actual = "1234" + suffix;
-			requirements.requireThat(actual, "actual").asString().doesNotEndWith(suffix);
+			requirements.requireThat(actual, "actual").doesNotEndWith(suffix);
 		}, RangeError);
 	});
 
 	test("lengthIsEqualTo", () =>
 	{
 		const actual = "value";
-		requirements.requireThat(actual, "actual").asString().length().isEqualTo(actual.length);
+		requirements.requireThat(actual, "actual").length().isEqualTo(actual.length);
 	});
 
 	test("lengthIsEqualTo_False", () =>
@@ -204,18 +178,18 @@ suite("StringTest", () =>
 		const actual = "value";
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asString().length().isEqualTo(1);
+			requirements.requireThat(actual, "actual").length().isEqualTo(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asString().length().isEqualTo(actual.length + 1);
+			requirements.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
 		}, RangeError);
 	});
 
 	test("lengthIsNotEqualTo", () =>
 	{
 		const actual = "value";
-		requirements.requireThat(actual, "actual").asString().length().isNotEqualTo(actual.length + 1);
+		requirements.requireThat(actual, "actual").length().isNotEqualTo(actual.length + 1);
 	});
 
 	test("lengthIsNotEqualTo_False", () =>
@@ -223,49 +197,24 @@ suite("StringTest", () =>
 		assert.throws(function()
 		{
 			const actual = "value";
-			requirements.requireThat(actual, "actual").asString().length().isNotEqualTo(actual.length);
+			requirements.requireThat(actual, "actual").length().isNotEqualTo(actual.length);
 		}, RangeError);
 	});
 
-	test("trim", () =>
-	{
-		const actual = " value ";
-		requirements.requireThat(actual, "actual").asString().trim().length().isEqualTo(actual.length - 2);
-	});
-
-	test("trimConsumer_False", () =>
-	{
-		assert.throws(function()
-		{
-			const actual = " value ";
-			requirements.requireThat(actual, "actual").asString().trimConsumer(s => s.length().
-				isNotEqualTo(actual.length - 2));
-		}, RangeError);
-	});
-
-	test("lengthConsumer", () =>
+	test("length", () =>
 	{
 		const actual = " value ";
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asString().
-				lengthConsumer(l => l.isEqualTo(actual.length + 1));
+			requirements.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
 		}, RangeError);
 	});
 
-	test("asString", () =>
+	test("isString", () =>
 	{
 		const actual = "value";
-		requirements.requireThat(actual, "actual").asString().asString().isEqualTo(actual);
-	});
-
-	test("asStringConsumer", () =>
-	{
-		const actual = "value";
-		assert.throws(function()
-		{
-			requirements.requireThat(actual, "actual").asString().asStringConsumer(s => s.isNotEqualTo(actual));
-		}, RangeError);
+		const expected: string = requirements.requireThat(actual as unknown, "actual").isString().
+			isEqualTo(actual).getActual();
 	});
 
 	test("getActual", () =>
@@ -279,15 +228,17 @@ suite("StringTest", () =>
 	{
 		const actual = null;
 		const expected = "not-null";
-		const expectedMessage = "actual.asString() must be equal to " + expected + ".\n" +
+		const expectedMessages = ["actual must be a string.\n" +
+		"Actual: null\n" +
+		"Type  : null",
+			"actual must be equal to " + expected + ".\n" +
 			"\n" +
-			"Actual  : n" + TextOnly.DIFF_PADDING.repeat("ot-n".length) + "ull" + EOS_MARKER + "\n" +
-			"Diff    : " + TextOnly.DIFF_EQUAL + TextOnly.DIFF_INSERT.repeat("on-n".length) +
-			TextOnly.DIFF_EQUAL.repeat("ull".length) + TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length) + "\n" +
-			"Expected: not-null" + EOS_MARKER;
-		const expectedMessages = [expectedMessage];
+			"Actual  : undefined" + TextOnly.DIFF_PADDING.repeat("not-null".length) + EOS_MARKER + "\n" +
+			"Diff    : " + TextOnly.DIFF_DELETE.repeat("undefined".length) +
+			TextOnly.DIFF_INSERT.repeat("not-null".length) + TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length) + "\n" +
+			"Expected: " + TextOnly.DIFF_PADDING.repeat("undefined".length) + "not-null" + EOS_MARKER];
 
-		const actualFailures = requirements.validateThat(actual, "actual").asString().isEqualTo(expected).
+		const actualFailures = requirements.validateThat(actual, "actual").isString().isEqualTo(expected).
 			getFailures();
 		const actualMessages = actualFailures.map(failure => failure.getMessage());
 		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);

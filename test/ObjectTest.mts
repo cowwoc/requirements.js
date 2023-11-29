@@ -3,21 +3,25 @@ import {
 	test
 } from "mocha";
 import {assert} from "chai";
-import type {ObjectValidator} from "../src/internal/internal.mjs";
+import type {
+	ObjectValidator,
+	ClassConstructor
+} from "../src/internal/internal.mjs";
 import {
 	Configuration,
 	ObjectVerifierImpl,
 	TerminalEncoding
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
-import {TypeScriptCompiler} from "./TypescriptCompiler.mjs";
+import {TestCompiler} from "./TestCompiler.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import * as os from "os";
+
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
-const compiler = new TypeScriptCompiler();
+const compiler = new TestCompiler();
 
 suite("ObjectTest", () =>
 {
@@ -163,14 +167,29 @@ suite("ObjectTest", () =>
 		}, RangeError);
 	});
 
+	class Person
+	{
+		name: string;
+		age: number;
+
+		constructor(name: string, age: number)
+		{
+			this.name = name;
+			this.age = age;
+		}
+	}
+
 	test("isInstanceOf", () =>
 	{
-		/* eslint-disable no-new-wrappers */
-		// noinspection JSPrimitiveTypeWrapperUsage
-		const actual = new String("value");
-		/* eslint-enable no-new-wrappers */
+		const actual = new Person("name", 5);
+		const expected: Person = requirements.requireThat(actual as unknown, "actual").isInstanceOf(Person).
+			getActual();
+	});
 
-		requirements.requireThat(actual, "actual").isInstanceOf(String).isInstanceOf(Object);
+	test("isInstanceOf_Array", () =>
+	{
+		const actual = [1, 2, 3];
+		requirements.requireThat(actual as unknown, "actual").isArray().length().isEqualTo(3);
 	});
 
 	test("isInstanceOf_actualIsNull", () =>
@@ -187,8 +206,8 @@ suite("ObjectTest", () =>
 		assert.throws(function()
 		{
 			const actual = {};
-			// eslint-disable-next-line @typescript-eslint/ban-types
-			requirements.requireThat(actual, "actual").isInstanceOf(null as unknown as Function);
+			requirements.requireThat(actual as unknown, "actual").isInstanceOf(null as unknown as
+				ClassConstructor<null>);
 		}, TypeError);
 	});
 
@@ -197,7 +216,7 @@ suite("ObjectTest", () =>
 		assert.throws(function()
 		{
 			const actual = {};
-			requirements.requireThat(actual, "actual").isInstanceOf(String);
+			requirements.requireThat(actual as unknown, "actual").isInstanceOf(String);
 		}, RangeError);
 	});
 
@@ -214,16 +233,12 @@ suite("ObjectTest", () =>
 		requirements.requireThat((input: string) => input + " -> output", "actual").isTypeOf("function");
 	});
 
-	class MyClass
-	{
-	}
-
 	test("isInstanceOf_Object", () =>
 	{
 		assert.throws(function()
 		{
 			const actual = 5;
-			requirements.requireThat(actual, "actual").isInstanceOf(MyClass);
+			requirements.requireThat(actual as unknown, "actual").isInstanceOf(Object);
 		}, RangeError);
 	});
 
@@ -236,8 +251,8 @@ suite("ObjectTest", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = {};
-			requirements.requireThat(actual, "actual").isNull();
+			const actual = {} as object | null;
+			const isNull: null = requirements.requireThat(actual, "actual").isNull().getActual();
 		}, RangeError);
 	});
 
@@ -260,7 +275,7 @@ suite("ObjectTest", () =>
 	test("isDefined", () =>
 	{
 		const actual = 5;
-		requirements.requireThat(actual, "actual").isDefined();
+		requirements.requireThat(actual as unknown, "actual").isDefined();
 	});
 
 	test("isDefined_False", () =>
@@ -273,66 +288,49 @@ suite("ObjectTest", () =>
 		}, RangeError);
 	});
 
-	test("isNotDefined", () =>
+	test("isUndefined", () =>
 	{
 		let actual;
 		// noinspection JSUnusedAssignment
-		requirements.requireThat(actual, "actual").isNotDefined();
+		requirements.requireThat(actual, "actual").isUndefined();
 	});
 
-	test("isNotDefined_False", () =>
+	test("isUndefined_False", () =>
 	{
 		assert.throws(function()
 		{
 			const actual = 5;
-			requirements.requireThat(actual, "actual").isNotDefined();
+			requirements.requireThat(actual as unknown, "actual").isUndefined();
 		}, RangeError);
+	});
+
+	test("isArray", () =>
+	{
+		const array = [1, 2, 3];
+		const expected: number[] = requirements.requireThat(array as unknown, "actual").isArray<number>().
+			isEqualTo(array).getActual();
 	});
 
 	test("isSet", () =>
 	{
-		const actual = 5;
-		requirements.requireThat(actual, "actual").isSet();
+		const set = new Set([1, 2, 3]);
+		const expected: Set<number> = requirements.requireThat(set as unknown, "actual").isSet<number>().
+			isEqualTo(set).getActual();
 	});
 
-	test("isSet_False", () =>
+	test("isString", () =>
 	{
-		assert.throws(function()
-		{
-			let actual;
-			// noinspection JSUnusedAssignment
-			requirements.requireThat(actual, "actual").isSet();
-		}, RangeError);
+		const actual = "[1, 2, 3]";
+		const expected: string = requirements.requireThat(actual as unknown, "actual").isString().
+			isEqualTo("[1, 2, 3]").getActual();
 	});
 
-	test("isNotSet", () =>
-	{
-		let actual;
-		// noinspection JSUnusedAssignment
-		requirements.requireThat(actual, "actual").isNotSet();
-	});
-
-	test("isNotSet_False", () =>
-	{
-		assert.throws(function()
-		{
-			const actual = 5;
-			requirements.requireThat(actual, "actual").isNotSet();
-		}, RangeError);
-	});
-
-	test("asStringConsumer", () =>
-	{
-		const actual = 1234;
-		requirements.requireThat(actual, "actual").asStringConsumer(s => s.length().isLessThan(5));
-	});
-
-	test("asInetAddressConsumer", () =>
+	test("isInetAddress", () =>
 	{
 		const actual = "1.2.3.4";
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").asInetAddressConsumer(i => i.isIpV6());
+			requirements.requireThat(actual as unknown, "actual").isInetAddress().isIpV6();
 		}, RangeError);
 	});
 });

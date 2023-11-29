@@ -1,12 +1,10 @@
 import type {
-	ArrayVerifier,
 	NumberVerifier,
 	SetValidator,
 	SetVerifier
 } from "./internal.mjs";
 import {
 	AbstractObjectVerifier,
-	ArrayVerifierImpl,
 	NumberVerifierImpl,
 	Objects
 } from "./internal.mjs";
@@ -28,11 +26,6 @@ class SetVerifierImpl<E> extends AbstractObjectVerifier<SetVerifier<E>, SetValid
 	constructor(validator: SetValidator<E>)
 	{
 		super(validator);
-	}
-
-	protected getThis()
-	{
-		return this;
 	}
 
 	isEmpty()
@@ -99,27 +92,6 @@ class SetVerifierImpl<E> extends AbstractObjectVerifier<SetVerifier<E>, SetValid
 	{
 		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
 		consumer(this.size());
-		return this;
-	}
-
-	asArray<E>(): ArrayVerifier<E>;
-	asArray(): ArrayVerifier<E>
-	{
-		const newValidator = this.validator.asArray();
-		return this.validationResult(() => new ArrayVerifierImpl(newValidator)) as ArrayVerifier<E>;
-	}
-
-	asArrayConsumer<E2>(consumer: (actual: ArrayVerifier<E2>) => void): SetVerifier<E>;
-	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): SetVerifier<E>
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(consumer, "consumer");
-		consumer(this.asArray());
-		return this;
-	}
-
-	asSet<E>(): SetVerifier<E>;
-	asSet(): SetVerifier<E>
-	{
 		return this;
 	}
 }

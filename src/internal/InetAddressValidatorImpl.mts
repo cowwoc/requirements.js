@@ -45,17 +45,9 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 		this.addressIsHostname = isHostname;
 	}
 
-	protected getThis(): InetAddressValidator
-	{
-		return this;
-	}
-
 	isIpV4(): InetAddressValidator
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		if (!this.addressIsIpV4)
+		if (this.actual === undefined || !this.addressIsIpV4)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be an IP v4 address.").
@@ -67,10 +59,7 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 
 	isIpV6(): InetAddressValidator
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		if (!this.addressIsIpV6)
+		if (this.actual === undefined || !this.addressIsIpV6)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be an IP v6 address.").
@@ -82,10 +71,7 @@ class InetAddressValidatorImpl extends AbstractObjectValidator<InetAddressValida
 
 	isHostname(): InetAddressValidator
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		if (!this.addressIsHostname)
+		if (this.actual === undefined || !this.addressIsHostname)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " must be a hostname.").

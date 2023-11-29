@@ -8,7 +8,7 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  */
 interface BooleanValidator extends ExtensibleObjectValidator<BooleanValidator, boolean>
 {

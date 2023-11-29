@@ -1,6 +1,7 @@
 import type {
 	ClassValidator,
-	Configuration
+	Configuration,
+	ClassConstructor
 } from "./internal.mjs";
 import {
 	AbstractObjectValidator,
@@ -11,18 +12,9 @@ import {
 /**
  * Default implementation of <code>ClassValidator</code>.
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator, Function>
-	implements ClassValidator
+class ClassValidatorImpl<T> extends AbstractObjectValidator<ClassValidator<T>, ClassConstructor<T>>
+	implements ClassValidator<T>
 {
-	protected getThis()
-	{
-		return this;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	private readonly actualClass: Function;
-
 	/**
 	 * Creates a new ClassValidator.
 	 *
@@ -34,83 +26,55 @@ class ClassValidatorImpl extends AbstractObjectValidator<ClassValidator, Functio
 	 *   <code>isIpV6</code>, <code>isHostname</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	constructor(configuration: Configuration, actual: Function | undefined, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: ClassConstructor<T> | undefined, name: string,
+		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-
-		// eslint-disable-next-line @typescript-eslint/ban-types
-		this.actualClass = actual as Function;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function)
+	isSupertypeOf<T2>(type: ClassConstructor<T2>): ClassValidator<T>
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		const typeInfo = Objects.getTypeInfo(type);
+		Objects.requireThatValueIsDefinedAndNotNull(type, "type");
+		const typeOfType = Objects.getTypeInfo(type);
 		let failure;
-		switch (typeInfo.type)
+		if (typeOfType.type === "class")
 		{
-			case "function":
-			case "class":
-			{
-				if (Objects.extends(type, this.actualClass))
-					return this;
-				const actualInfo = Objects.getTypeInfo(this.actualClass);
-				failure = new ValidationFailure(this.config, RangeError,
-					this.name + " must be a super-type of " + typeInfo.toString()).
-					addContext("Actual", actualInfo);
-				break;
-			}
-			default:
-			{
-				failure = new ValidationFailure(this.config, TypeError, "type must be a function or class.").
-					addContext("Actual", typeInfo);
-				break;
-			}
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "class" && Objects.extends(type, this.actual as ClassConstructor<T>))
+				return this;
+			failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be a super-type of " + typeOfType.toString()).
+				addContext("Actual", typeOfActual);
+		}
+		else
+		{
+			failure = new ValidationFailure(this.config, TypeError, "type must be a class.").
+				addContext("Actual", typeOfType);
 		}
 		this.failures.push(failure);
 		return this;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function)
+	isSubtypeOf<T2>(type: ClassConstructor<T2>): ClassValidator<T>
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
 		const typeInfo = Objects.getTypeInfo(type);
 		let failure;
-		switch (typeInfo.type)
+		if (typeInfo.type === "class")
 		{
-			case "function":
-			case "class":
-			{
-				if (Objects.extends(this.actualClass, type))
-					return this;
-				const actualInfo = Objects.getTypeInfo(this.actualClass);
-				failure = new ValidationFailure(this.config, RangeError,
-					this.name + " must be a sub-type of " + typeInfo.toString()).
-					addContext("Actual", actualInfo);
-				break;
-			}
-			default:
-			{
-				failure = new ValidationFailure(this.config, TypeError, "type must be a function or class.").
-					addContext("Actual", typeInfo);
-				break;
-			}
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			if (typeOfActual.type === "class" && Objects.extends(this.actual as ClassConstructor<T>, type))
+				return this;
+			failure = new ValidationFailure(this.config, RangeError,
+				this.name + " must be a sub-type of " + typeInfo.toString()).
+				addContext("Actual", typeOfActual);
+		}
+		else
+		{
+			failure = new ValidationFailure(this.config, TypeError, "type must be a class.").
+				addContext("Actual", typeInfo);
 		}
 		this.failures.push(failure);
 		return this;
-	}
-
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function | undefined
-	{
-		return this.actualClass;
 	}
 }
 

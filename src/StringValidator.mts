@@ -11,8 +11,7 @@ import type {
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except for {@link asString} and those found in {@link ObjectValidator}) imply
- * {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
  */
 interface StringValidator extends ExtensibleObjectValidator<StringValidator, string>
 {
@@ -79,21 +78,6 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator, str
 	isNotEmpty(): StringValidator;
 
 	/**
-	 * Trims whitespace at the beginning and end of the actual value.
-	 *
-	 * @returns the updated validator
-	 */
-	trim(): StringValidator;
-
-	/**
-	 * @param consumer - a function that accepts a {@link StringValidator} for the trimmed
-	 *   representation of the string
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	trimConsumer(consumer: (actual: StringValidator) => void): StringValidator;
-
-	/**
 	 * Ensures that the actual value does not contain leading or trailing whitespace.
 	 *
 	 * @returns the updated validator
@@ -113,19 +97,6 @@ interface StringValidator extends ExtensibleObjectValidator<StringValidator, str
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer: (actual: NumberValidator) => void): StringValidator;
-
-	/**
-	 * @returns the updated validator
-	 * @deprecated returns this
-	 */
-	asString(): StringValidator;
-
-	/**
-	 * @param consumer - a function that accepts <code>this</code>
-	 * @returns the updated validator
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asStringConsumer(consumer: (actual: StringValidator) => void): StringValidator;
 
 	/**
 	 * {@inheritDoc}

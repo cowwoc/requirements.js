@@ -22,8 +22,6 @@ import {
 class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>, Map<K, V>>
 	implements MapValidator<K, V>
 {
-	private readonly actualMap: Map<K, V>;
-
 	/**
 	 * Creates a new MapValidatorImpl.
 	 *
@@ -37,19 +35,11 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	constructor(configuration: Configuration, actual: Map<K, V> | undefined, name: string, failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-		this.actualMap = this.actual as Map<K, V>;
-	}
-
-	protected getThis()
-	{
-		return this;
 	}
 
 	isEmpty()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-		if (this.actualMap.size !== 0)
+		if (this.actual === undefined || this.actual.size !== 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be empty.").
 				addContext("Actual", this.actual);
@@ -60,9 +50,7 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 
 	isNotEmpty()
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-		if (this.actualMap.size === 0)
+		if (this.actual === undefined || this.actual.size === 0)
 		{
 			const failure = new ValidationFailure(this.config, RangeError,
 				this.name + " may not be empty");
@@ -74,10 +62,10 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	keys()
 	{
 		let value: K[] | undefined;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		if (this.actual === undefined)
 			value = undefined;
 		else
-			value = Array.from(this.actualMap.keys());
+			value = Array.from(this.actual.keys());
 		return new ArrayValidatorImpl(this.config, value, this.name + ".keys()", Pluralizer.KEY, this.failures);
 	}
 
@@ -92,10 +80,10 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	values()
 	{
 		let value: V[] | undefined;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		if (this.actual === undefined)
 			value = undefined;
 		else
-			value = Array.from(this.actualMap.values());
+			value = Array.from(this.actual.values());
 		return new ArrayValidatorImpl(this.config, value, this.name + ".values()", Pluralizer.VALUE,
 			this.failures);
 	}
@@ -111,10 +99,10 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	entries()
 	{
 		let value: [K, V][] | undefined;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		if (this.actual === undefined)
 			value = undefined;
 		else
-			value = Array.from(this.actualMap.entries());
+			value = Array.from(this.actual.entries());
 		return new ArrayValidatorImpl(this.config, value, this.name + ".entries()", Pluralizer.ENTRY,
 			this.failures);
 	}
@@ -130,11 +118,18 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	size(): NumberValidator
 	{
 		let value: unknown;
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
+		let size: number | undefined;
+		if (this.actual === undefined)
+		{
 			value = undefined;
+			size = undefined;
+		}
 		else
-			value = this.actualMap;
-		return new SizeValidatorImpl(this.config, value, this.name, this.actualMap.size, this.name + ".size",
+		{
+			value = this.actual;
+			size = this.actual.size;
+		}
+		return new SizeValidatorImpl(this.config, value, this.name, size, this.name + ".size",
 			Pluralizer.ENTRY, this.failures);
 	}
 
@@ -150,11 +145,6 @@ class MapValidatorImpl<K, V> extends AbstractObjectValidator<MapValidator<K, V>,
 	asMap(): MapValidator<K, V>
 	{
 		return this;
-	}
-
-	getActual(): Map<K, V>
-	{
-		return this.actualMap;
 	}
 }
 

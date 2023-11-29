@@ -13,8 +13,6 @@ import {
 class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator, boolean>
 	implements BooleanValidator
 {
-	private readonly actualBoolean: boolean;
-
 	/**
 	 * Creates a new BooleanValidator.
 	 *
@@ -25,26 +23,18 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator, boo
 	 * @throws TypeError if <code>configuration</code> or <code>name</code> are null or undefined
 	 * @throws RangeError if <code>name</code> is empty
 	 */
-	constructor(configuration: Configuration, actual: boolean | undefined, name: string, failures: ValidationFailure[])
+	constructor(configuration: Configuration, actual: boolean | undefined, name: string,
+		failures: ValidationFailure[])
 	{
 		super(configuration, actual, name, failures);
-		this.actualBoolean = actual as boolean;
-	}
-
-	protected getThis(): BooleanValidator
-	{
-		return this;
 	}
 
 	isTrue(): BooleanValidator
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		if (!this.actualBoolean)
+		if (this.actual === undefined || !this.actual)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be true.").
-				addContext("Actual", this.actualBoolean);
+				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
 		return this;
@@ -52,13 +42,10 @@ class BooleanValidatorImpl extends AbstractObjectValidator<BooleanValidator, boo
 
 	isFalse(): BooleanValidator
 	{
-		if (this.failures.length > 0 || !this.requireThatActualIsDefinedAndNotNull())
-			return this;
-
-		if (this.actualBoolean)
+		if (this.actual === undefined || this.actual)
 		{
 			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be false.").
-				addContext("Actual", this.actualBoolean);
+				addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
 		return this;

@@ -1,13 +1,17 @@
 import type {
-	StringVerifier,
-	BooleanVerifier,
-	NumberVerifier,
-	InetAddressVerifier,
+	ClassConstructor,
 	ClassVerifier,
 	ArrayVerifier,
 	SetVerifier,
+	MapKey,
+	MapValue,
 	MapVerifier,
-	ObjectVerifier
+	ObjectVerifier,
+	BooleanVerifier,
+	NumberVerifier,
+	StringVerifier,
+	InetAddressVerifier,
+	ElementOf
 } from "../internal/internal.mjs";
 
 /**
@@ -18,75 +22,6 @@ import type {
  */
 interface ExtensibleObjectVerifier<S, T>
 {
-	/**
-	 * Ensures that the actual value is equal to a value.
-	 *
-	 * @param expected - the expected value
-	 * @param name - the name of the expected value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>name</code> is null
-	 * @throws RangeError if <code>name</code> is empty.
-	 * If the actual value is not equal to <code>expected</code>.
-	 */
-	isEqualTo(expected: T, name?: string): S;
-
-	/**
-	 * Throws an exception if the validation failed.
-	 *
-	 * @typeParam E - the type of error that may be thrown
-	 * @param result - (optional) a no-arg function that returns the value to return on success.
-	 *   By default, this function returns "this".
-	 * @returns the updated verifier
-	 * @throws Error if the validation failed
-	 */
-	validationResult(result: () => S): S;
-
-	/**
-	 * Ensures that the actual value is not equal to a value.
-	 *
-	 * @param value - the value to compare to
-	 * @param name - (optional) the name of the expected value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>name</code> is null
-	 * @throws RangeError if <code>name</code> is empty.
-	 * If the actual value is equal to <code>value</code>.
-	 */
-	isNotEqualTo(value: T, name?: string): S;
-
-	/**
-	 * Ensures that the actual value is a primitive. To check if the actual value is an object, use
-	 * <code>isInstanceOf(Object)</code>.
-	 *
-	 * @returns the updated verifier
-	 * @throws RangeError if the actual value is not a <code>string</code>, <code>number</code>,
-	 *   <code>bigint</code>, <code>boolean</code>, <code>null</code>, <code>undefined</code>, or
-	 *   <code>symbol</code>
-	 */
-	isPrimitive(): S;
-
-	/**
-	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
-	 *
-	 * @param type - the expected
-	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
-	 * of the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>type</code> is not set
-	 * @throws RangeError if the <code>typeof(actual)</code> is not equal to <code>type</code>
-	 */
-	isTypeOf(type: string): S;
-
-	/**
-	 * Ensures that the actual value is an object that is an instance of the specified type.
-	 *
-	 * @param type - the type to compare to
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>type</code> is not a function or a class
-	 * @throws RangeError if the actual value is not an instance of <code>type</code>
-	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isInstanceOf(type: Function): S;
-
 	/**
 	 * Ensures that the actual value is null.
 	 *
@@ -101,7 +36,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is null
 	 */
-	isNotNull(): S;
+	isNotNull(): ObjectVerifier<Exclude<T, null>>;
 
 	/**
 	 * Ensures that the actual value is defined.
@@ -109,7 +44,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is undefined
 	 */
-	isDefined(): S;
+	isDefined<T2 = Exclude<T, undefined>>(): ObjectVerifier<T2>;
 
 	/**
 	 * Ensures that the actual value is undefined.
@@ -117,23 +52,149 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @returns the updated verifier
 	 * @throws RangeError if the actual value is not undefined
 	 */
-	isNotDefined(): S;
+	isUndefined(): ObjectVerifier<undefined>;
 
 	/**
-	 * Ensures that value is not undefined or null.
+	 * Ensures that the actual value is not undefined or null.
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value is undefined or null
+	 * @throws RangeError if the value is undefined or null
 	 */
-	isSet(): S;
+	isDefinedAndNotNull<T2 = Exclude<T, undefined | null>>(): ObjectVerifier<T2>;
 
 	/**
-	 * Ensures that value is not undefined or null.
+	 * Ensures that the actual value is not undefined or null.
 	 *
 	 * @returns the updated verifier
-	 * @throws TypeError if the value is not undefined or null
+	 * @throws RangeError if the value is not undefined or null
 	 */
-	isNotSet(): S;
+	isUndefinedOrNull<T2 extends T = T & (undefined | null)>(): ObjectVerifier<T2>;
+
+	/**
+	 * Ensures that the actual value is a boolean.
+	 *
+	 * @returns a verifier for the <code>boolean</code>
+	 * @throws RangeError if the actual value is not a <code>boolean</code>
+	 */
+	isBoolean(): BooleanVerifier;
+
+	/**
+	 * Ensures that the actual value is a number.
+	 *
+	 * @returns a verifier for the <code>number</code>
+	 * @throws RangeError if the actual value is not a <code>number</code>
+	 */
+	isNumber(): NumberVerifier;
+
+	/**
+	 * Ensures that the actual value is a string.
+	 *
+	 * @returns a verifier for the <code>string</code>
+	 * @throws RangeError if the actual value is not a <code>string</code>
+	 */
+	isString(): StringVerifier;
+
+	/**
+	 * Ensures that the actual value is an internet address.
+	 *
+	 * @returns a verifier for the internet address
+	 * @throws RangeError if the actual value is not an internet address
+	 */
+	isInetAddress(): InetAddressVerifier;
+
+	/**
+	 * Ensures that the actual value is class-like.
+	 *
+	 * @typeParam T2 - the type of the class
+	 * @param type - the type of class to check for
+	 * @returns a verifier for the object's class representation
+	 * @throws RangeError if the actual value is not a class constructor
+	 */
+	isClass<T2>(type: ClassConstructor<T2>): ClassVerifier<T2>;
+
+	/**
+	 * Ensures that the actual value is an array.
+	 *
+	 * @typeParam E - the type of elements in the array
+	 * @returns a verifier for the <code>Array</code>
+	 * @throws RangeError if the actual value is not an <code>Array</code>
+	 */
+	isArray<E = ElementOf<T>>(): ArrayVerifier<E>;
+
+	/**
+	 * Ensures that the actual value is a set.
+	 *
+	 * @typeParam E - the type of elements in the set
+	 * @returns a verifier for the <code>Set</code>
+	 * @throws RangeError if the actual value is not a <code>Set</code>
+	 */
+	isSet<E = ElementOf<T>>(): SetVerifier<E>;
+
+	/**
+	 * Ensures that the actual value is a map.
+	 *
+	 * @typeParam K - the type of keys in the map
+	 * @typeParam K - the type of values in the map
+	 * @returns a verifier for the <code>Map</code>
+	 * @throws RangeError if the actual value is not a <code>Map</code>
+	 */
+	isMap<K = MapKey<T>, V = MapValue<T>>(): MapVerifier<K, V>;
+
+	/**
+	 * Ensures that the actual value is a primitive type (<code>string</code>,
+	 * <code>number</code>, <code>bigint</code>, <code>boolean</code>, <code>null</code>,
+	 * <code>undefined</code>, or <code>symbol</code>).
+	 * To check if the actual value is an object, use <code>isInstanceOf(Object)</code>.
+	 *
+	 * @returns the updated verifier
+	 */
+	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>():
+		ObjectVerifier<T2>;
+
+	/**
+	 * Ensures that the actual value is an instance of a class.
+	 *
+	 * @typeParam T2 - the type of the actual value
+	 * @param type - the class constructor
+	 * @returns the updated validator
+	 * @throws TypeError if <code>type</code> is not a class
+	 * @throws RangeError if the actual value is not an instance of the specified class
+	 */
+	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectVerifier<T2>;
+
+	/**
+	 * Ensures that the actual value is equal to a value.
+	 *
+	 * @param expected - the expected value
+	 * @param name - the name of the expected value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty.
+	 * If the actual value is not equal to <code>expected</code>.
+	 */
+	isEqualTo(expected: T, name?: string): S;
+
+	/**
+	 * Ensures that the actual value is not equal to a value.
+	 *
+	 * @param value - the value to compare to
+	 * @param name - (optional) the name of the expected value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>name</code> is null
+	 * @throws RangeError if <code>name</code> is empty.
+	 * If the actual value is equal to <code>value</code>.
+	 */
+	isNotEqualTo(value: T, name?: string): S;
+
+	/**
+	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
+	 *
+	 * @param type - the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the actual value
+	 * @returns the updated verifier
+	 */
+	isTypeOf(type: string): S;
 
 	/**
 	 * Returns the actual value.
@@ -143,124 +204,15 @@ interface ExtensibleObjectVerifier<S, T>
 	getActual(): T;
 
 	/**
-	 * @returns a verifier for the object's string representation
-	 */
-	asString(): StringVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link StringVerifier} for the string representation of the
-	 *   actual value
+	 * Throws an exception if the validation failed.
+	 *
+	 * @typeParam T2 - the type of the updated verifier
+	 * @param result - (optional) a no-arg function that returns the value to return on success.
+	 *   By default, this function returns "this".
 	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
+	 * @throws Error if the validation failed
 	 */
-	asStringConsumer(consumer: (actual: StringVerifier) => void): S;
-
-	/**
-	 * @returns a verifier for the <code>boolean</code>
-	 * @throws TypeError if the actual value is not a <code>boolean</code>
-	 */
-	asBoolean(): BooleanVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link BooleanVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>boolean</code>.
-	 */
-	asBooleanConsumer(consumer: (actual: BooleanVerifier) => void): S;
-
-	/**
-	 * @returns a verifier for the <code>number</code>
-	 * @throws TypeError if the actual value is not a <code>number</code>
-	 */
-	asNumber(): NumberVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link NumberVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>number</code>.
-	 */
-	asNumberConsumer(consumer: (actual: NumberVerifier) => void): S;
-
-	/**
-	 * @typeParam E - the type the array elements
-	 * @returns a verifier for the <code>Array</code>
-	 * @throws TypeError if the actual value is not an <code>Array</code>
-	 */
-	asArray<E>(): ArrayVerifier<E>;
-
-	/**
-	 * @typeParam E - the type the array elements
-	 * @param consumer - a function that accepts a {@link ArrayVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not an <code>Array</code>.
-	 */
-	asArrayConsumer<E>(consumer: (actual: ArrayVerifier<E>) => void): S;
-
-	/**
-	 * @typeParam E - the type the set elements
-	 * @returns a verifier for the <code>Set</code>
-	 * @throws TypeError if the actual value is not a <code>Set</code>
-	 */
-	asSet<E>(): SetVerifier<E>;
-
-	/**
-	 * @typeParam E - the type the set elements
-	 * @param consumer - a function that accepts a {@link SetVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>Set</code>.
-	 */
-	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): S;
-
-	/**
-	 * @typeParam K - the type the map's keys
-	 * @typeParam V - the type the map's values
-	 * @returns a verifier for the <code>Map</code>
-	 * @throws TypeError if the actual value is not a <code>Map</code>
-	 */
-	asMap<K, V>(): MapVerifier<K, V>;
-
-	/**
-	 * @typeParam K - the type the map's keys
-	 * @typeParam V - the type the map's values
-	 * @param consumer - a function that accepts a {@link MapVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not a <code>Map</code>.
-	 */
-	asMapConsumer<K, V>(consumer: (actual: MapVerifier<K, V>) => void): S;
-
-	/**
-	 * @returns a verifier for the value's Internet address representation
-	 * @throws RangeError if the actual value does not contain a valid Internet address format
-	 */
-	asInetAddress(): InetAddressVerifier;
-
-	/**
-	 * @param consumer - a function that accepts an {@link InetAddressVerifier} for the value's Internet
-	 *   address representation
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 * @throws RangeError if the actual value does not contain a valid Internet address format
-	 */
-	asInetAddressConsumer(consumer: (input: InetAddressVerifier) => void): S;
-
-	/**
-	 * @returns a verifier for the object's class representation
-	 * @throws TypeError if the actual value is not a <code>Function</code>
-	 */
-	asClass(): ClassVerifier;
-
-	/**
-	 * @param consumer - a function that accepts a {@link ClassVerifier} for the class representation of the
-	 *   actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asClassConsumer(consumer: (actual: ClassVerifier) => void): S;
+	validationResult<T2>(result: () => T2): T2;
 }
 
 export {type ExtensibleObjectVerifier};

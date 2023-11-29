@@ -1,4 +1,7 @@
-import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
+import type {
+	ExtensibleObjectValidator,
+	ClassConstructor
+} from "./internal/internal.mjs";
 
 /**
  * Validates the requirements of a type.
@@ -8,10 +11,11 @@ import type {ExtensibleObjectValidator} from "./internal/internal.mjs";
  * {@link ExtensibleObjectValidator.getFailures | getFailures()} method, while Verifiers throw them as
  * exceptions.
  *
- * All methods (except those found in {@link ObjectValidator}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectValidator}) assume that the actual value is not null.
+ *
+ * @typeParam T - the type of the class
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
-interface ClassValidator extends ExtensibleObjectValidator<ClassValidator, Function>
+interface ClassValidator<T> extends ExtensibleObjectValidator<ClassValidator<T>, ClassConstructor<T>>
 {
 	/**
 	 * Ensures that the actual value is the specified type, or a subtype.
@@ -19,8 +23,7 @@ interface ClassValidator extends ExtensibleObjectValidator<ClassValidator, Funct
 	 * @param type -the type to compare to
 	 * @returns the updated validator
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSupertypeOf(type: Function): ClassValidator;
+	isSupertypeOf<T2>(type: ClassConstructor<T2>): ClassValidator<T>;
 
 	/**
 	 * Ensures that the actual value is the specified type, or a subtype.
@@ -28,14 +31,12 @@ interface ClassValidator extends ExtensibleObjectValidator<ClassValidator, Funct
 	 * @param type -the type to compare to
 	 * @returns the updated validator
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	isSubtypeOf(type: Function): ClassValidator;
+	isSubtypeOf<T2>(type: ClassConstructor<T2>): ClassValidator<T>;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	getActual(): Function | undefined;
+	getActual(): ClassConstructor<T> | undefined;
 }
 
 export {type ClassValidator};

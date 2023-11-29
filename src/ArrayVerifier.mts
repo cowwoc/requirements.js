@@ -1,7 +1,6 @@
 import type {
 	ExtensibleObjectVerifier,
 	NumberVerifier,
-	SetVerifier,
 	ObjectVerifier
 } from "./internal/internal.mjs";
 
@@ -13,7 +12,7 @@ if (typedocWorkaround !== null)
 /**
  * Verifies the requirements of an array.
  *
- * All methods (except those found in {@link ObjectVerifier}) imply {@link isNotNull}.
+ * All methods (except those found in {@link ObjectVerifier}) assume that the actual value is not null.
  *
  * @typeParam E - the type the array elements
  */
@@ -145,43 +144,6 @@ interface ArrayVerifier<E> extends ExtensibleObjectVerifier<ArrayVerifier<E>, E[
 	 * @throws TypeError if <code>consumer</code> is not set
 	 */
 	lengthConsumer(consumer: (actual: NumberVerifier) => void): ArrayVerifier<E>;
-
-	/**
-	 * @returns a verifier for the <code>Array</code>
-	 * @throws TypeError if the actual value is not an <code>Array</code>
-	 * @deprecated returns this
-	 */
-	asArray(): ArrayVerifier<E>;
-
-	asArray<E>(): ArrayVerifier<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link ArrayVerifier} for the actual value
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set.
-	 * If the actual value is not an <code>Array</code>.
-	 */
-	asArrayConsumer(consumer: (actual: ArrayVerifier<E>) => void): ArrayVerifier<E>;
-
-	asArrayConsumer<E>(consumer: (actual: ArrayVerifier<E>) => void): ArrayVerifier<E>;
-
-	/**
-	 * Verifies the Set representation of the array.
-	 *
-	 * @returns a <code>Set</code> verifier
-	 */
-	asSet(): SetVerifier<E>;
-
-	asSet<E>(): SetVerifier<E>;
-
-	/**
-	 * @param consumer - a function that accepts a {@link SetVerifier} for the Set representation of the array
-	 * @returns the updated verifier
-	 * @throws TypeError if <code>consumer</code> is not set
-	 */
-	asSetConsumer(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>;
-
-	asSetConsumer<E>(consumer: (actual: SetVerifier<E>) => void): ArrayVerifier<E>;
 
 	/**
 	 * {@inheritDoc}
