@@ -9,5 +9,6 @@
 	"excludePrivate": true,
 	"includeVersion": true,
 	"treatWarningsAsErrors": true,
-	"treatValidationWarningsAsErrors": true
+	"treatValidationWarningsAsErrors": true,
+	"excludeExternals": true
 }
