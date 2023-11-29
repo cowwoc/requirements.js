@@ -40,29 +40,29 @@ class Address
 
 class PublicAPI
 {
-	constructor(name: string | null, age: number, address: Address | undefined)
-	{
-		// To validate user input, cast them to "unknown" prior to type-checks.
-		requireThat(name as unknown, "name").isString().length().isBetween(1, 30);
-		requireThat(age as unknown, "age").isNumber().isBetween(18, 30);
+  constructor(name: string | null, age: number, address: Address | undefined)
+  {
+    // To validate user input, cast them to "unknown" prior to type-checks.
+    requireThat(name as unknown, "name").isString().length().isBetween(1, 30);
+    requireThat(age as unknown, "age").isNumber().isBetween(18, 30);
 
-		// Methods that conduct runtime type-checks, such as isString() or isNotNull(), update the
-		// compile-time type returned by getActual().
-		const nameIsString: string = requireThat(name as unknown, "name").isString().getActual();
-		const address: Address = requireThat(address as unknown, "address").isInstance(Address).getActual();
-	}
+    // Methods that conduct runtime type-checks, such as isString() or isNotNull(), update the
+    // compile-time type returned by getActual().
+    const nameIsString: string = requireThat(name as unknown, "name").isString().getActual();
+    const address: Address = requireThat(address as unknown, "address").isInstance(Address).getActual();
+  }
 }
 
 class PrivateAPI
 {
-	public static toCamelCase(text): string
-	{
-		// Trusted input does not need to be casted to "unknown". The input type will be inferred
-		// and runtime checks will be skipped. Notice the lack of isString() or isNumber() invocations
-		// in the following code.
-		assertThat(r => r.requireThat(name, "name").length().isBetween(1, 30));
-		assertThat(r => r.requireThat(age, "age").isBetween(18, 30));
-	}
+  public static toCamelCase(text): string
+  {
+    // Trusted input does not need to be casted to "unknown". The input type will be inferred
+    // and runtime checks will be skipped. Notice the lack of isString() or isNumber() invocations
+    // in the following code.
+    assertThat(r => r.requireThat(name, "name").length().isBetween(1, 30));
+    assertThat(r => r.requireThat(age, "age").isBetween(18, 30));
+  }
 }
 ```
 
