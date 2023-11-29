@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.3.1 - 2023/11/29
+
+* Bugfix: Output ESM format to browsers instead of IIFE
+
 ## Version 3.3.0 - 2023/11/29
 
 * Breaking changes

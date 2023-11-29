@@ -145,8 +145,6 @@ class Build
 			{
 				input: "src/index.mts",
 				plugins,
-				// Assume that the top-level "this" is "window" since we are targeting a browser environment
-				context: "window",
 				onwarn(warning, warn)
 				{
 					// Ignore false alarm about circular dependencies involving internal.mts
@@ -161,16 +159,6 @@ class Build
 			});
 		await bundle.write(
 			{
-				// On the browser, module exports need to be translated into global variables (properties of "window"):
-				// https://github.com/rollup/rollup/issues/494#issuecomment-268243574
-				name: "window",
-				extend: true,
-				format: "iife",
-				globals:
-					{
-						lodash: "_",
-						tty: "tty"
-					},
 				sourcemap: true,
 				dir: "target/publish/browser"
 			});
