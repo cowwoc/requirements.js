@@ -12,11 +12,21 @@ import {
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import {TestCompiler} from "./TestCompiler.mjs";
 import os from "os";
+import parseArgs from "minimist";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
-const compiler = new TestCompiler();
+
+const env = parseArgs(process.argv.slice(2));
+let mode = env.mode;
+if (typeof (mode) === "undefined")
+	mode = "DEBUG";
+let compiler: TestCompiler | undefined;
+if (mode === "DEBUG")
+	compiler = undefined;
+else
+	compiler = new TestCompiler();
 
 suite("BooleanTest", () =>
 {
@@ -57,6 +67,8 @@ suite("BooleanTest", () =>
 
 	test("nullAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -69,6 +81,8 @@ suite("BooleanTest", () =>
 
 	test("zeroNumberAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -81,6 +95,8 @@ suite("BooleanTest", () =>
 
 	test("nonZeroNumberAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -93,6 +109,8 @@ suite("BooleanTest", () =>
 
 	test("zeroStringAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -105,6 +123,8 @@ suite("BooleanTest", () =>
 
 	test("nonZeroStringAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -117,6 +137,8 @@ suite("BooleanTest", () =>
 
 	test("trueStringAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -129,6 +151,8 @@ suite("BooleanTest", () =>
 
 	test("emptyStringAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -141,6 +165,8 @@ suite("BooleanTest", () =>
 
 	test("falseStringAsBoolean", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			

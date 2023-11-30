@@ -16,12 +16,22 @@ import {Requirements} from "../src/index.mjs";
 import {TestCompiler} from "./TestCompiler.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import * as os from "os";
+import parseArgs from "minimist";
 
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
-const compiler = new TestCompiler();
+
+const env = parseArgs(process.argv.slice(2));
+let mode = env.mode;
+if (typeof (mode) === "undefined")
+	mode = "DEBUG";
+let compiler: TestCompiler | undefined;
+if (mode === "DEBUG")
+	compiler = undefined;
+else
+	compiler = new TestCompiler();
 
 suite("ObjectTest", () =>
 {
@@ -76,6 +86,8 @@ suite("ObjectTest", () =>
 
 	test("isEqual_sameToStringDifferentTypes", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -94,6 +106,8 @@ suite("ObjectTest", () =>
 
 	test("isEqualTo_nullToNotNull", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 
@@ -106,6 +120,8 @@ suite("ObjectTest", () =>
 
 	test("isEqualTo_notNullToNull", () =>
 	{
+		if (!compiler)
+			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 

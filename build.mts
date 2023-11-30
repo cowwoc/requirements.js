@@ -125,20 +125,21 @@ class Build
 	public async compileForBrowser()
 	{
 		log.info("compileForBrowser()");
-		// WORKAROUND: https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
-		const commonJsToEsm = (rollupCommonjs as unknown as (typeof rollupCommonjs)["default"]);
-		const typescriptPlugin = (rollupTypescript as unknown as (typeof rollupTypescript)["default"]);
 
-		// See https://github.com/gulpjs/gulp/blob/master/docs/recipes/rollup-with-rollup-stream.md
+		// Need to cast plugins to Function due to bug in type definitions.
+		// WORKAROUND: https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
 		const plugins: Plugin[] = [
-			commonJsToEsm,
-			typescriptPlugin(),
+			rollupCommonjs,
+			(rollupTypescript as unknown as Function)({
+				"module": "ES2022",
+				"moduleResolution": "bundler"
+			}),
 			rollupNodeResolve(
 				{
 					mainFields: ["module"],
 					preferBuiltins: true
 				}),
-			commonJsToEsm({include: "node_modules/**"})
+			(rollupCommonjs as unknown as Function)({include: "node_modules/**"})
 		];
 
 		const bundle = await rollup(
