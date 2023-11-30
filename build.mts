@@ -37,39 +37,42 @@ class Build
 	public async lint()
 	{
 		log.info("lint()");
-		try
-		{
-			const eslint = new ESLint({
-				baseConfig: eslintConfig,
-				cache: true,
-				"overrideConfig": {
-					parserOptions: {
-						debugLevel: false
-					}
-				}
-			});
-			const results = await eslint.lintFiles(["src/**/*.mts"]);
-			const formatter = await eslint.loadFormatter("stylish");
-			const resultText = formatter.format(results);
-			console.log(resultText);
-
-			let buildFailed = false;
-			for (const result of results)
-			{
-				if (result.errorCount > 0)
-				{
-					buildFailed = true;
-					break;
+		const eslint = new ESLint({
+			baseConfig: eslintConfig,
+			cache: true,
+			"overrideConfig": {
+				parserOptions: {
+					debugLevel: false
 				}
 			}
-			if (buildFailed)
-				process.exit(1);
-		}
-		catch (error)
+		});
+		return async () =>
 		{
-			log.error(error);
-			process.exit(1);
-		}
+			try
+			{
+				const results = await eslint.lintFiles(["src/**/*.mts"]);
+				const formatter = await eslint.loadFormatter("stylish");
+				const resultText = formatter.format(results);
+				console.log(resultText);
+
+				let buildFailed = false;
+				for (const result of results)
+				{
+					if (result.errorCount > 0)
+					{
+						buildFailed = true;
+						break;
+					}
+				}
+				if (buildFailed)
+					process.exit(1);
+			}
+			catch (error)
+			{
+				log.error(error);
+				process.exit(1);
+			}
+		};
 	}
 
 	public async compileForNode()
@@ -142,29 +145,32 @@ class Build
 			(rollupCommonjs as unknown as Function)({include: "node_modules/**"})
 		];
 
-		const bundle = await rollup(
-			{
-				input: "src/index.mts",
-				plugins,
-				onwarn(warning, warn)
+		return async () =>
+		{
+			const bundle = await rollup(
 				{
-					// Ignore false alarm about circular dependencies involving internal.mts
-					const ignoredCircular = ["src/internal/internal.mts"];
-					const isCircularDependency = warning.code === "CIRCULAR_DEPENDENCY" &&
-						ignoredCircular.some(predicate =>
-							warning.message.replace(/\\/g, "/").includes(predicate));
-					if (isCircularDependency)
-						return;
-					warn(warning);
-				}
-			});
-		await bundle.write(
-			{
-				sourcemap: true,
-				dir: "target/publish/browser"
-			});
-		if (this.mode === "RELEASE")
-			await this.minifyBrowserSources();
+					input: "src/index.mts",
+					plugins,
+					onwarn(warning, warn)
+					{
+						// Ignore false alarm about circular dependencies involving internal.mts
+						const ignoredCircular = ["src/internal/internal.mts"];
+						const isCircularDependency = warning.code === "CIRCULAR_DEPENDENCY" &&
+							ignoredCircular.some(predicate =>
+								warning.message.replace(/\\/g, "/").includes(predicate));
+						if (isCircularDependency)
+							return;
+						warn(warning);
+					}
+				});
+			await bundle.write(
+				{
+					sourcemap: true,
+					dir: "target/publish/browser"
+				});
+			if (this.mode === "RELEASE")
+				await this.minifyBrowserSources();
+		};
 	}
 
 	/**
@@ -182,31 +188,34 @@ class Build
 		const pathToCode: { [name: string]: string } = {};
 		for (const file of sourceFiles)
 			pathToCode[file] = fs.readFileSync(file, "utf8");
-		const {
-			code,
-			map
-		} = await minify(pathToCode, {
-				ecma: 2020,
-				compress:
-					{
-						/* eslint-disable camelcase */
-						drop_console: true,
-						global_defs:
-							{
-								"@alert": "console.log"
-							}
-						/* eslint-enable camelcase */
-					},
-				sourceMap: {
-					filename: "index.min.mjs.map"
+		return async () =>
+		{
+			const {
+				code,
+				map
+			} = await minify(pathToCode, {
+					ecma: 2020,
+					compress:
+						{
+							/* eslint-disable camelcase */
+							drop_console: true,
+							global_defs:
+								{
+									"@alert": "console.log"
+								}
+							/* eslint-enable camelcase */
+						},
+					sourceMap: {
+						filename: "index.min.mjs.map"
+					}
 				}
-			}
-		);
-		assert(typeof (code) === "string");
-		assert(typeof (map) === "string");
+			);
+			assert(typeof (code) === "string");
+			assert(typeof (map) === "string");
 
-		fs.writeFileSync(targetDirectory + "index.min.mjs", code);
-		fs.writeFileSync(targetDirectory + "index.min.mjs.map", map);
+			fs.writeFileSync(targetDirectory + "index.min.mjs", code);
+			fs.writeFileSync(targetDirectory + "index.min.mjs.map", map);
+		};
 	}
 
 	public async generateDocumentation()
@@ -214,20 +223,23 @@ class Build
 		log.info("generateDocumentation()");
 		const targetDirectory = "target/apidocs/";
 
-		const app = await TypeDoc.Application.bootstrapWithPlugins({}, [
-			new TypeDoc.TypeDocReader(),
-			new TypeDoc.TSConfigReader()
-		]);
+		return async () =>
+		{
+			const app = await TypeDoc.Application.bootstrapWithPlugins({}, [
+				new TypeDoc.TypeDocReader(),
+				new TypeDoc.TSConfigReader()
+			]);
 
-		const project = await app.convert();
-		if (!project)
-			process.exit(1);
-		app.validate(project);
-		if (app.logger.hasErrors())
-			process.exit(1);
-		await app.generateDocs(project, targetDirectory);
-		if (app.logger.hasErrors())
-			process.exit(1);
+			const project = await app.convert();
+			if (!project)
+				process.exit(1);
+			app.validate(project);
+			if (app.logger.hasErrors())
+				process.exit(1);
+			await app.generateDocs(project, targetDirectory);
+			if (app.logger.hasErrors())
+				process.exit(1);
+		};
 	}
 
 	public async copyResources()
