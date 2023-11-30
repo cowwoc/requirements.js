@@ -18,14 +18,13 @@
 		"url": "https://github.com/cowwoc/requirements.js/"
 	},
 	"scripts": {
-		"build.debug": "tsx build.mts --mode=DEBUG",
-		"build.release": "tsx build.mts --mode=RELEASE"
+		"build.debug": "node node_modules/tsx/dist/cli.mjs scripts/build.mts --mode=DEBUG",
+		"build.release": "node node_modules/tsx/dist/cli.mjs scripts/build.mts --mode=RELEASE"
 	},
 	"browser": "browser/index.js",
 	"module": "node/index.mjs",
 	"types": "node/index.d.mts",
 	"sideEffects": false,
-	"prepublishOnly": "tsx build.mts --mode=DEBUG",
 	"dependencies": {
 		"chalk": "^5.3.0",
 		"diff": "^5.1.0",

@@ -8,7 +8,9 @@ class TestCompiler
 {
 	// The root directory relative to which external files will be interpreted
 	private static readonly rootDir: string = path.resolve(".");
-	private static readonly fileToExclude = "build.mts";
+	// We have to include at least one existing file to avoid CompilerHost complaining that it couldn't find any
+	// input files
+	private static readonly existingFileToSuppressError = "scripts/build.mts";
 	private static readonly snippetFilename = "test.mts";
 	private static readonly config = TestCompiler.createParsedCommandLine();
 	private static readonly defaultCompilerHost = ts.createCompilerHost(TestCompiler.config.options);
@@ -21,9 +23,8 @@ class TestCompiler
 			throw Error("tsconfig.json not found");
 		const {config} = ts.readConfigFile(configFile, ts.sys.readFile);
 
-		// We have to include at least one existing file to avoid CompilerHost throwing an exception
-		config.include = [TestCompiler.snippetFilename, TestCompiler.fileToExclude];
-		config.exclude.concat(["src/**", "test/**"]);
+		config.include = [TestCompiler.snippetFilename, TestCompiler.existingFileToSuppressError];
+		config.exclude = [];
 
 		return ts.parseJsonConfigFileContent(config, ts.sys, TestCompiler.rootDir);
 	}
@@ -42,7 +43,7 @@ class TestCompiler
 			{
 				if (fileName === TestCompiler.snippetFilename)
 					return snippet;
-				if (fileName === TestCompiler.fileToExclude)
+				if (fileName === TestCompiler.existingFileToSuppressError)
 					return undefined;
 				return TestCompiler.defaultCompilerHost.readFile(fileName);
 			},
@@ -54,7 +55,7 @@ class TestCompiler
 			{
 				if (fileName === TestCompiler.snippetFilename)
 					return ts.createSourceFile(fileName, snippet, languageVersion);
-				if (fileName === TestCompiler.fileToExclude)
+				if (fileName === TestCompiler.existingFileToSuppressError)
 					return undefined;
 				return TestCompiler.defaultCompilerHost.getSourceFile(fileName, languageVersion, onError,
 					shouldCreateNewSourceFile);

@@ -20,14 +20,13 @@
 		"sourceMap": true
 	},
 	"include": [
-		"build.mts",
 		"src/**/*.mts",
 		"test/**/*.mts"
 	],
 	"exclude": [
+		"scripts",
 		"node_modules",
 		"target",
-		"scripts",
 		"./.eslintrc.mjs",
 		"test/TestGlobalConfiguration.mts"
 	],

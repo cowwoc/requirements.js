@@ -1,9 +1,8 @@
-import parseArgs from "minimist";
 import * as url from "url";
 import path from "path";
 import {ESLint} from "eslint";
 // @ts-ignore
-import eslintConfig from "./.eslintrc.mjs";
+import eslintConfig from "../.eslintrc.mjs";
 import TypeDoc from "typedoc";
 import fs from "fs";
 import rollupCommonjs from "@rollup/plugin-commonjs";
@@ -24,6 +23,7 @@ import {
 	Logger,
 	transports
 } from "winston";
+import {mode} from "./mode.mjs";
 
 class Build
 {
@@ -274,7 +274,7 @@ class Build
 		return new Promise(function(resolve, reject)
 		{
 			// https://stackoverflow.com/a/14231570/14731
-			const process = spawn(c8Path, [mochaPath, "./test/**/*.mts"],
+			const process = spawn(c8Path, [mochaPath, "./test/**/*.mts", "--mode=" + mode],
 				{
 					shell: true,
 					stdio: "inherit"
@@ -345,10 +345,6 @@ class LogFactory
 }
 
 console.time("Time elapsed");
-const env = parseArgs(process.argv.slice(2));
-let mode = env.mode;
-if (typeof (mode) === "undefined")
-	mode = "DEBUG";
 
 const __filename = path.basename(url.fileURLToPath(import.meta.url));
 const log = LogFactory.getLogger(__filename, mode);

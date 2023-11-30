@@ -13,20 +13,16 @@ import {
 	TerminalEncoding
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
-import {TestCompiler} from "./TestCompiler.mjs";
+import {TestCompiler} from "../scripts/TestCompiler.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import * as os from "os";
-import parseArgs from "minimist";
+import {mode} from "../scripts/mode.mjs";
 
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
 const requirements = new Requirements(configuration);
 
-const env = parseArgs(process.argv.slice(2));
-let mode = env.mode;
-if (typeof (mode) === "undefined")
-	mode = "DEBUG";
 let compiler: TestCompiler | undefined;
 if (mode === "DEBUG")
 	compiler = undefined;
