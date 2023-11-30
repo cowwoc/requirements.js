@@ -208,42 +208,6 @@ class Objects
 	}
 
 	/**
-	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
-	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
-	 *
-	 * @param value - the value of a parameter
-	 * @param name - the name of the parameter
-	 * @param clazz - he expected class name of <code>value</code>
-	 * @returns <code>true</code>
-	 * @throws TypeError if <code>value</code> is not an object of type <code>clazz</code>. If
-	 * <code>name</code> is not a string.
-	 */
-	static requireThatObjectOf(value: unknown, name: string, clazz: string)
-	{
-		const nameInfo = Objects.getTypeInfo(name);
-		if (nameInfo.type !== "string")
-		{
-			throw new TypeError("name must be a string.\n" +
-				"Actual: " + Objects.toString(name) + "\n" +
-				"Type  : " + nameInfo.toString());
-		}
-		const valueInfo = Objects.getTypeInfo(value);
-		if (valueInfo.type !== "object")
-		{
-			throw new TypeError("value must be an object.\n" +
-				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + valueInfo.toString());
-		}
-		if (valueInfo.name !== clazz)
-		{
-			throw new TypeError(name + " must be an object of type " + clazz + ".\n" +
-				"Actual: " + Objects.toString(value) + "\n" +
-				"Type  : " + valueInfo.toString());
-		}
-		return true;
-	}
-
-	/**
 	 * Requires that an object is an instance of <code>type</code>.
 	 *
 	 * @param value - the value of a parameter
@@ -288,21 +252,6 @@ class Objects
 	static assertThatTypeOf(value: unknown, name: string, type: string): void
 	{
 		Objects.assert(this.requireThatTypeOf(value, name, type));
-	}
-
-	/**
-	 * Requires that a value is an object whose class has the specified name if assertions are enabled. We
-	 * assume that <code>Objects.assert()</code> will be stripped out at build-time if assertions are disabled.
-	 *
-	 * @param value - the value of a parameter
-	 * @param name - the name of the parameter
-	 * @param type - the expected class name of <code>value</code>
-	 * @throws TypeError if <code>value</code> is not an object of type <code>type</code>. If
-	 * <code>name</code> is not a string.
-	 */
-	static assertThatObjectOf(value: unknown, name: string, type: string): void
-	{
-		Objects.assert(this.requireThatObjectOf(value, name, type));
 	}
 
 	/**

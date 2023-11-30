@@ -1,6 +1,6 @@
 import isEqual from "lodash/isEqual.js";
-import type {Configuration} from "../internal.mjs";
 import {
+	Configuration,
 	ContextLine,
 	DiffGenerator,
 	Objects,
@@ -29,7 +29,7 @@ class ContextGenerator
 	 */
 	constructor(configuration: Configuration)
 	{
-		Objects.assertThatObjectOf(configuration, "configuration", "Configuration");
+		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
 
 		this.config = configuration;
 		this.diffGenerator = new DiffGenerator(configuration.getGlobalConfiguration().getTerminalEncoding());

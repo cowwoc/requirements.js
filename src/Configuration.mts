@@ -33,7 +33,7 @@ class Configuration
 		typeToStringConverter = new Map<string, (input: unknown) => string>())
 	{
 		this.globalConfiguration = globalConfiguration;
-		Objects.assertThatObjectOf(context, "context", "Map");
+		Objects.assertThatInstanceOf(context, "context", Map);
 		this.context = context;
 		if (typeof (assertionsEnabled) === "undefined")
 			assertionsEnabled = globalConfiguration.assertionsAreEnabled();

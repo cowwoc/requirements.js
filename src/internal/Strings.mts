@@ -65,7 +65,7 @@ class Strings
 	static lastIndexOf(source: string, target: RegExp): SearchResult | null
 	{
 		Objects.assertThatTypeOf(source, "source", "string");
-		Objects.assertThatObjectOf(target, "target", "RegExp");
+		Objects.assertThatInstanceOf(target, "target", RegExp);
 
 		// RegExp is stateful: https://stackoverflow.com/a/11477448/14731
 		let flags = target.flags;

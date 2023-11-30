@@ -1,7 +1,7 @@
-import type {Configuration} from "./internal/internal.mjs";
 import {
 	ContextLine,
-	Objects
+	Objects,
+	Configuration
 } from "./internal/internal.mjs";
 
 /**
@@ -27,7 +27,7 @@ class ValidationFailure
 	 */
 	constructor(configuration: Configuration, exceptionType: new (message: string) => Error, message: string)
 	{
-		Objects.assertThatObjectOf(configuration, "configuration", "Configuration");
+		Objects.assertThatInstanceOf(configuration, "configuration", Configuration);
 		Objects.requireThatInstanceOf(exceptionType, "exceptionType", Function);
 		Objects.requireThatStringIsNotEmpty(message, "message");
 
@@ -111,7 +111,7 @@ class ValidationFailure
 		const existingKeys = new Set();
 		for (const entry of this.context)
 		{
-			Objects.requireThatObjectOf(entry, "entry", ContextLine.name);
+			Objects.requireThatInstanceOf(entry, "entry", ContextLine);
 			mergedContext.push(entry);
 			if (entry.key !== "")
 				existingKeys.add(entry.key);

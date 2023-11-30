@@ -17,13 +17,13 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 To get started, add this dependency:
 
 ```shell
-npm install --save @cowwoc/requirements@3.3.1
+npm install --save @cowwoc/requirements@3.3.2
 ```
 
 or [pnpm](https://pnpm.io/):
 
 ```shell
-pnpm add @cowwoc/requirements@3.3.1
+pnpm add @cowwoc/requirements@3.3.2
 ```
 
 The contents of the API classes depend on which [modules](wiki/Supported_Libraries.md) are enabled.
