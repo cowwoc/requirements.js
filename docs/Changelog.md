@@ -1,6 +1,10 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.3.3 - 2023/12/04
+
+* Bugfix: 3.3.2 release was missing browser files
+
 ## Version 3.3.2 - 2023/11/30
 
 * Bugfix: Assertions were being thrown if class names were changed code minifiers.
