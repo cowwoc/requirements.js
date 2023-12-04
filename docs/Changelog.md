@@ -1,9 +1,31 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 3.4.0 - 2023/12/04
+
+* Breaking changes: The following `ObjectVerifier` methods now throw `TypeError` instead of `RangeError` if the actual
+  value does not have the desired type:
+  * `isNull()`
+  * `isNotNull()`
+  * `isDefined()`
+  * `isUndefined()`
+  * `isDefinedAndNotNull`
+  * `isUndefinedOrNull`
+  * `isBoolean()`
+  * `isNumber()`
+  * `isString()`
+  * `isInetAddress()`
+  * `isClass()`
+  * `isArray()`
+  * `isSet()`
+  * `isMap()`
+  * `isPrimitive()`
+  * `isTypeOf()`
+  * `isInstanceOf()`
+
 ## Version 3.3.3 - 2023/12/04
 
-* Bugfix: 3.3.2 release was missing browser files
+* Bugfix: 3.3.2 release was missing browser files.
 
 ## Version 3.3.2 - 2023/11/30
 

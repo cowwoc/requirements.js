@@ -72,51 +72,11 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		this.failures = failures;
 	}
 
-	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>(): ObjectValidator<T2>
-	{
-		if (!this.requireThatActualIsDefinedAndNotNull())
-			return this.getThis() as ObjectValidator<T2>;
-		if (!Objects.isPrimitive(this.actual))
-		{
-			const typeOfActual = Objects.getTypeInfo(this.actual);
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must be a primitive").
-				addContext("Actual", this.actual).
-				addContext("Type", typeOfActual);
-			this.failures.push(failure);
-		}
-		return this.getThis() as ObjectValidator<T2>;
-	}
-
-	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectValidator<T2>
-	{
-		const typeOfType = Objects.getTypeInfo(type);
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		if (typeOfType.type === "class")
-		{
-			if (typeOfActual.type === "object" && this.actual instanceof type)
-			{
-				return new ObjectValidatorImpl<T2>(this.config, this.actual as T2 | undefined, this.name,
-					this.failures);
-			}
-			const failure = new ValidationFailure(this.config, RangeError,
-				this.name + " must be an instance of " + typeOfType.toString()).
-				addContext("Actual", typeOfActual);
-			this.failures.push(failure);
-			return new ObjectValidatorImpl<T2>(this.config, undefined, this.name, this.failures);
-		}
-		else
-		{
-			throw new TypeError("type must be a class\n" +
-				"Actual: " + typeOfType.toString());
-		}
-	}
-
 	isNull(): ObjectValidator<null>
 	{
 		if (this.actual !== null)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be null.").
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be null.").
 				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 		}
@@ -127,7 +87,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (this.actual === null)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be null");
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " may not be null");
 			this.failures.push(failure);
 		}
 		return this.getThis() as ObjectValidator<Exclude<T, null>>;
@@ -137,7 +97,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (typeof (this.actual) === "undefined")
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be defined");
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be defined");
 			this.failures.push(failure);
 		}
 		return this.getThis() as unknown as ObjectValidator<T2>;
@@ -147,7 +107,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (typeof (this.actual) !== "undefined")
 		{
-			const failure = new ValidationFailure(this.config, RangeError,
+			const failure = new ValidationFailure(this.config, TypeError,
 				this.name + " must be undefined.").addContext("Actual", this.actual);
 			this.failures.push(failure);
 		}
@@ -158,7 +118,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (typeof (this.actual) === "undefined" || this.actual === null)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name +
+			const failure = new ValidationFailure(this.config, TypeError, this.name +
 				" may not be undefined or null");
 			this.failures.push(failure);
 		}
@@ -169,7 +129,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (typeof (this.actual) !== "undefined" && this.actual !== null)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name +
+			const failure = new ValidationFailure(this.config, TypeError, this.name +
 				" must be undefined or null");
 			this.failures.push(failure);
 		}
@@ -181,7 +141,7 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		const typeOfActual = Objects.getTypeInfo(this.actual);
 		if (typeOfActual.type === "boolean")
 			return new BooleanValidatorImpl(this.config, Boolean(this.actual), this.name, this.failures);
-		const failure = new ValidationFailure(this.config, RangeError,
+		const failure = new ValidationFailure(this.config, TypeError,
 			this.name + " must be a boolean.").
 			addContext("Actual", this.actual).
 			addContext("Type", typeOfActual);
@@ -198,30 +158,12 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 			return new NumberValidatorImpl(this.config, Number(this.actual), this.name, this.failures);
 		}
 
-		const failure = new ValidationFailure(this.config, RangeError,
+		const failure = new ValidationFailure(this.config, TypeError,
 			this.name + " must be a number.").
 			addContext("Actual", this.actual).
 			addContext("Type", typeOfActual);
 		this.failures.push(failure);
 		return new NumberValidatorImpl(this.config, undefined, this.name, this.failures);
-	}
-
-	isArray<E = ElementOf<T>>(): ArrayValidator<E>
-	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		if (typeOfActual.type === "array")
-		{
-			return new ArrayValidatorImpl<E>(this.config, this.actual as E[], this.name, Pluralizer.ELEMENT,
-				this.failures) as ArrayValidator<E>;
-		}
-
-		const failure = new ValidationFailure(this.config, RangeError,
-			this.name + " must be an Array.").
-			addContext("Actual", this.actual).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new ArrayValidatorImpl<E>(this.config, undefined, this.name, Pluralizer.ELEMENT,
-			this.failures) as ArrayValidator<E>;
 	}
 
 	isString(): StringValidator
@@ -233,38 +175,12 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		else
 		{
 			value = undefined;
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be a string.").
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a string.").
 				addContext("Actual", this.config.convertToString(this.actual)).
 				addContext("Type", typeOfActual);
 			this.failures.push(failure);
 		}
 		return new StringValidatorImpl(this.config, value, this.name, this.failures);
-	}
-
-	isSet<E>(): SetValidator<E>
-	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
-			return new SetValidatorImpl(this.config, this.actual as Set<E>, this.name, this.failures);
-
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be a Set.").
-			addContext("Actual", this.config.convertToString(this.actual)).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new SetValidatorImpl<E>(this.config, undefined, this.name, this.failures);
-	}
-
-	isMap<K, V>(): MapValidator<K, V>
-	{
-		const typeOfActual = Objects.getTypeInfo(this.actual);
-		if (typeOfActual.type === "object" && typeOfActual.name === "Map")
-			return new MapValidatorImpl(this.config, this.actual as Map<K, V>, this.name, this.failures);
-
-		const failure = new ValidationFailure(this.config, RangeError, this.name + " must be a Map.").
-			addContext("Actual", this.config.convertToString(this.actual)).
-			addContext("Type", typeOfActual);
-		this.failures.push(failure);
-		return new MapValidatorImpl<K, V>(this.config, undefined, this.name, this.failures);
 	}
 
 	isInetAddress(): InetAddressValidator
@@ -282,12 +198,110 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 				this.name, this.failures);
 		}
 
-		const failure = new ValidationFailure(this.config, RangeError,
+		const failure = new ValidationFailure(this.config, TypeError,
 			this.name + " must contain a class.").
 			addContext("Actual", this.actual).
 			addContext("Type", typeOfActual);
 		this.failures.push(failure);
 		return new ClassValidatorImpl<T2>(this.config, undefined, this.name, this.failures);
+	}
+
+	isArray<E = ElementOf<T>>(): ArrayValidator<E>
+	{
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		if (typeOfActual.type === "array")
+		{
+			return new ArrayValidatorImpl<E>(this.config, this.actual as E[], this.name, Pluralizer.ELEMENT,
+				this.failures) as ArrayValidator<E>;
+		}
+
+		const failure = new ValidationFailure(this.config, TypeError,
+			this.name + " must be an Array.").
+			addContext("Actual", this.actual).
+			addContext("Type", typeOfActual);
+		this.failures.push(failure);
+		return new ArrayValidatorImpl<E>(this.config, undefined, this.name, Pluralizer.ELEMENT,
+			this.failures) as ArrayValidator<E>;
+	}
+
+	isSet<E>(): SetValidator<E>
+	{
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		if (typeOfActual.type === "object" && typeOfActual.name === "Set")
+			return new SetValidatorImpl(this.config, this.actual as Set<E>, this.name, this.failures);
+
+		const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Set.").
+			addContext("Actual", this.config.convertToString(this.actual)).
+			addContext("Type", typeOfActual);
+		this.failures.push(failure);
+		return new SetValidatorImpl<E>(this.config, undefined, this.name, this.failures);
+	}
+
+	isMap<K, V>(): MapValidator<K, V>
+	{
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		if (typeOfActual.type === "object" && typeOfActual.name === "Map")
+			return new MapValidatorImpl(this.config, this.actual as Map<K, V>, this.name, this.failures);
+
+		const failure = new ValidationFailure(this.config, TypeError, this.name + " must be a Map.").
+			addContext("Actual", this.config.convertToString(this.actual)).
+			addContext("Type", typeOfActual);
+		this.failures.push(failure);
+		return new MapValidatorImpl<K, V>(this.config, undefined, this.name, this.failures);
+	}
+
+	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>(): ObjectValidator<T2>
+	{
+		if (!this.requireThatActualIsDefinedAndNotNull())
+			return this.getThis() as ObjectValidator<T2>;
+		if (!Objects.isPrimitive(this.actual))
+		{
+			const typeOfActual = Objects.getTypeInfo(this.actual);
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must be a primitive").
+				addContext("Actual", this.actual).
+				addContext("Type", typeOfActual);
+			this.failures.push(failure);
+		}
+		return this.getThis() as ObjectValidator<T2>;
+	}
+
+	isTypeOf(type: string): S
+	{
+		Objects.requireThatValueIsDefinedAndNotNull(type, "type");
+		const typeOfActual = typeof (this.actual);
+		if (type !== typeOfActual)
+		{
+			const failure = new ValidationFailure(this.config, TypeError,
+				"typeof(" + this.name + ") must be equal to " + type).
+				addContext("Actual", Objects.getTypeInfo(this.actual));
+			this.failures.push(failure);
+		}
+		return this.getThis();
+	}
+
+	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectValidator<T2>
+	{
+		const typeOfType = Objects.getTypeInfo(type);
+		const typeOfActual = Objects.getTypeInfo(this.actual);
+		if (typeOfType.type === "class")
+		{
+			if (typeOfActual.type === "object" && this.actual instanceof type)
+			{
+				return new ObjectValidatorImpl<T2>(this.config, this.actual as T2 | undefined, this.name,
+					this.failures);
+			}
+			const failure = new ValidationFailure(this.config, TypeError,
+				this.name + " must be an instance of " + typeOfType.toString()).
+				addContext("Actual", typeOfActual);
+			this.failures.push(failure);
+			return new ObjectValidatorImpl<T2>(this.config, undefined, this.name, this.failures);
+		}
+		else
+		{
+			throw new TypeError("type must be a class\n" +
+				"Actual: " + typeOfType.toString());
+		}
 	}
 
 	isEqualTo(expected: T, name?: string): S
@@ -356,20 +370,6 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 		return this.actual;
 	}
 
-	isTypeOf(type: string): S
-	{
-		Objects.requireThatValueIsDefinedAndNotNull(type, "type");
-		const typeOfActual = typeof (this.actual);
-		if (type !== typeOfActual)
-		{
-			const failure = new ValidationFailure(this.config, RangeError,
-				"typeof(" + this.name + ") must be equal to " + type).
-				addContext("Actual", Objects.getTypeInfo(this.actual));
-			this.failures.push(failure);
-		}
-		return this.getThis();
-	}
-
 	getFailures(): ValidationFailure[]
 	{
 		return this.failures;
@@ -397,14 +397,14 @@ abstract class AbstractObjectValidator<S, T> implements ExtensibleObjectValidato
 	{
 		if (typeof (this.actual) === "undefined")
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " must be defined.").
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " must be defined.").
 				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 			return false;
 		}
 		if (this.actual === null)
 		{
-			const failure = new ValidationFailure(this.config, RangeError, this.name + " may not be null.").
+			const failure = new ValidationFailure(this.config, TypeError, this.name + " may not be null.").
 				addContextList(this.getContext(undefined, true));
 			this.failures.push(failure);
 			return false;

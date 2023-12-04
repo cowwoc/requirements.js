@@ -60,28 +60,6 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, 
 		return this as unknown as S;
 	}
 
-	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>(): ObjectVerifier<T2>
-	{
-		this.validator.isPrimitive();
-		return this.validationResult(() => this.getThis()) as unknown as ObjectVerifier<T2>;
-	}
-
-	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectVerifier<T2>
-	{
-		const typeOfType = Objects.getTypeInfo(type);
-		if (typeOfType.type === "class")
-		{
-			const newValidator = this.validator.isInstanceOf(type);
-			const newVerifier = new ObjectVerifierImpl<ObjectValidator<T2>, T2>(newValidator);
-			return newVerifier.validationResult(() => this.getThis()) as unknown as ObjectVerifier<T2>;
-		}
-		else
-		{
-			throw new TypeError("type must be a class\n" +
-				"Actual: " + typeOfType.toString());
-		}
-	}
-
 	isNull(): ObjectVerifier<null>
 	{
 		this.validator.isNull();
@@ -136,6 +114,18 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, 
 		return this.validationResult(() => new StringVerifierImpl(newValidator)) as StringVerifier;
 	}
 
+	isInetAddress(): InetAddressVerifier
+	{
+		const newValidator = this.validator.isInetAddress();
+		return this.validationResult(() => new InetAddressVerifierImpl(newValidator)) as InetAddressVerifier;
+	}
+
+	isClass<T2>(type: ClassConstructor<T2>): ClassVerifier<T2>
+	{
+		const newValidator = this.validator.isClass(type);
+		return this.validationResult(() => new ClassVerifierImpl(newValidator));
+	}
+
 	isArray<E = ElementOf<T>>(): ArrayVerifier<E>
 	{
 		const newValidator = this.validator.isArray();
@@ -154,18 +144,34 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, 
 		return this.validationResult(() => new MapVerifierImpl(newValidator)) as unknown as MapVerifier<K, V>;
 	}
 
-	isInetAddress(): InetAddressVerifier
+	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>(): ObjectVerifier<T2>
 	{
-		const newValidator = this.validator.isInetAddress();
-		return this.validationResult(() => new InetAddressVerifierImpl(newValidator)) as InetAddressVerifier;
+		this.validator.isPrimitive();
+		return this.validationResult(() => this.getThis()) as unknown as ObjectVerifier<T2>;
 	}
 
-	isClass<T2>(type: ClassConstructor<T2>): ClassVerifier<T2>
+	isTypeOf(type: string): S
 	{
-		const newValidator = this.validator.isClass(type);
-		return this.validationResult(() => new ClassVerifierImpl(newValidator));
+		this.validator.isTypeOf(type);
+		return this.validationResult(() => this.getThis());
 	}
 
+	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectVerifier<T2>
+	{
+		const typeOfType = Objects.getTypeInfo(type);
+		if (typeOfType.type === "class")
+		{
+			const newValidator = this.validator.isInstanceOf(type);
+			const newVerifier = new ObjectVerifierImpl<ObjectValidator<T2>, T2>(newValidator);
+			return newVerifier.validationResult(() => this.getThis()) as unknown as ObjectVerifier<T2>;
+		}
+		else
+		{
+			throw new TypeError("type must be a class\n" +
+				"Actual: " + typeOfType.toString());
+		}
+	}
+	
 	isEqualTo(expected: T, name?: string): S
 	{
 		this.validator.isEqualTo(expected, name);
@@ -175,12 +181,6 @@ abstract class AbstractObjectVerifier<S, V extends ExtensibleObjectValidator<V, 
 	isNotEqualTo(value: T, name?: string): S
 	{
 		this.validator.isNotEqualTo(value, name);
-		return this.validationResult(() => this.getThis());
-	}
-
-	isTypeOf(type: string): S
-	{
-		this.validator.isTypeOf(type);
 		return this.validationResult(() => this.getThis());
 	}
 

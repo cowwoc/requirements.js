@@ -26,7 +26,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is null.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the actual value is not null
+	 * @throws TypeError if the actual value is not null
 	 */
 	isNull(): ObjectVerifier<null>;
 
@@ -34,7 +34,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is not null.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the actual value is null
+	 * @throws TypeError if the actual value is null
 	 */
 	isNotNull(): ObjectVerifier<Exclude<T, null>>;
 
@@ -42,7 +42,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is defined.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the actual value is undefined
+	 * @throws TypeError if the actual value is undefined
 	 */
 	isDefined<T2 = Exclude<T, undefined>>(): ObjectVerifier<T2>;
 
@@ -50,7 +50,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is undefined.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the actual value is not undefined
+	 * @throws TypeError if the actual value is not undefined
 	 */
 	isUndefined(): ObjectVerifier<undefined>;
 
@@ -58,7 +58,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is not undefined or null.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the value is undefined or null
+	 * @throws TypeError if the value is undefined or null
 	 */
 	isDefinedAndNotNull<T2 = Exclude<T, undefined | null>>(): ObjectVerifier<T2>;
 
@@ -66,7 +66,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is not undefined or null.
 	 *
 	 * @returns the updated verifier
-	 * @throws RangeError if the value is not undefined or null
+	 * @throws TypeError if the value is not undefined or null
 	 */
 	isUndefinedOrNull<T2 extends T = T & (undefined | null)>(): ObjectVerifier<T2>;
 
@@ -74,7 +74,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is a boolean.
 	 *
 	 * @returns a verifier for the <code>boolean</code>
-	 * @throws RangeError if the actual value is not a <code>boolean</code>
+	 * @throws TypeError if the actual value is not a <code>boolean</code>
 	 */
 	isBoolean(): BooleanVerifier;
 
@@ -82,7 +82,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is a number.
 	 *
 	 * @returns a verifier for the <code>number</code>
-	 * @throws RangeError if the actual value is not a <code>number</code>
+	 * @throws TypeError if the actual value is not a <code>number</code>
 	 */
 	isNumber(): NumberVerifier;
 
@@ -90,7 +90,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is a string.
 	 *
 	 * @returns a verifier for the <code>string</code>
-	 * @throws RangeError if the actual value is not a <code>string</code>
+	 * @throws TypeError if the actual value is not a <code>string</code>
 	 */
 	isString(): StringVerifier;
 
@@ -98,7 +98,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * Ensures that the actual value is an internet address.
 	 *
 	 * @returns a verifier for the internet address
-	 * @throws RangeError if the actual value is not an internet address
+	 * @throws TypeError if the actual value is not an internet address
 	 */
 	isInetAddress(): InetAddressVerifier;
 
@@ -108,7 +108,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @typeParam T2 - the type of the class
 	 * @param type - the type of class to check for
 	 * @returns a verifier for the object's class representation
-	 * @throws RangeError if the actual value is not a class constructor
+	 * @throws TypeError if the actual value is not a class constructor
 	 */
 	isClass<T2>(type: ClassConstructor<T2>): ClassVerifier<T2>;
 
@@ -117,7 +117,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 *
 	 * @typeParam E - the type of elements in the array
 	 * @returns a verifier for the <code>Array</code>
-	 * @throws RangeError if the actual value is not an <code>Array</code>
+	 * @throws TypeError if the actual value is not an <code>Array</code>
 	 */
 	isArray<E = ElementOf<T>>(): ArrayVerifier<E>;
 
@@ -126,7 +126,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 *
 	 * @typeParam E - the type of elements in the set
 	 * @returns a verifier for the <code>Set</code>
-	 * @throws RangeError if the actual value is not a <code>Set</code>
+	 * @throws TypeError if the actual value is not a <code>Set</code>
 	 */
 	isSet<E = ElementOf<T>>(): SetVerifier<E>;
 
@@ -136,7 +136,7 @@ interface ExtensibleObjectVerifier<S, T>
 	 * @typeParam K - the type of keys in the map
 	 * @typeParam K - the type of values in the map
 	 * @returns a verifier for the <code>Map</code>
-	 * @throws RangeError if the actual value is not a <code>Map</code>
+	 * @throws TypeError if the actual value is not a <code>Map</code>
 	 */
 	isMap<K = MapKey<T>, V = MapValue<T>>(): MapVerifier<K, V>;
 
@@ -147,18 +147,30 @@ interface ExtensibleObjectVerifier<S, T>
 	 * To check if the actual value is an object, use <code>isInstanceOf(Object)</code>.
 	 *
 	 * @returns the updated verifier
+	 * @throws TypeError if the actual value is not a primitive type
 	 */
 	isPrimitive<T2 extends T = T & (string | number | bigint | boolean | null | undefined | symbol)>():
 		ObjectVerifier<T2>;
 
 	/**
+	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
+	 *
+	 * @param type - the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the actual value
+	 * @returns the updated verifier
+	 * @throws TypeError if <code>type</code> is not a string or if the actual value does not have the specified type
+	 */
+	isTypeOf(type: string): S;
+
+	/**
 	 * Ensures that the actual value is an instance of a class.
 	 *
 	 * @typeParam T2 - the type of the actual value
-	 * @param type - the class constructor
+	 * @param type - a class constructor
 	 * @returns the updated validator
-	 * @throws TypeError if <code>type</code> is not a class
-	 * @throws RangeError if the actual value is not an instance of the specified class
+	 * @throws TypeError if <code>type</code> is not a class, or if the actual value is not an instance of the specified
+	 * class.
 	 */
 	isInstanceOf<T2>(type: ClassConstructor<T2>): ObjectVerifier<T2>;
 
@@ -185,16 +197,6 @@ interface ExtensibleObjectVerifier<S, T>
 	 * If the actual value is equal to <code>value</code>.
 	 */
 	isNotEqualTo(value: T, name?: string): S;
-
-	/**
-	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
-	 *
-	 * @param type - the expected
-	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
-	 * of the actual value
-	 * @returns the updated verifier
-	 */
-	isTypeOf(type: string): S;
 
 	/**
 	 * Returns the actual value.

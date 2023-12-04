@@ -138,6 +138,16 @@ interface ExtensibleObjectValidator<S, T>
 		ObjectValidator<T2>;
 
 	/**
+	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
+	 *
+	 * @param type - the expected
+	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
+	 * of the actual value
+	 * @returns the updated validator
+	 */
+	isTypeOf(type: string): S;
+
+	/**
 	 * Ensures that the actual value is an instance of an array or class.
 	 *
 	 * @typeParam T2 - the type of the actual value
@@ -168,16 +178,6 @@ interface ExtensibleObjectValidator<S, T>
 	 * @throws RangeError if <code>name</code> is empty
 	 */
 	isNotEqualTo(value: T, name?: string): S;
-
-	/**
-	 * Ensures that <code>typeof(actual)</code> is equal to <code>type</code>.
-	 *
-	 * @param type - the expected
-	 * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof">typeof</a>
-	 * of the actual value
-	 * @returns the updated validator
-	 */
-	isTypeOf(type: string): S;
 
 	/**
 	 * Returns the actual value.
