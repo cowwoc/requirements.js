@@ -10,9 +10,9 @@ import {
 	requireThat
 } from "../src/index.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
-import {TestCompiler} from "../scripts/TestCompiler.mjs";
+import {TestCompiler} from "../build/TestCompiler.mjs";
 import os from "os";
-import {mode} from "../scripts/mode.mjs";
+import {mode} from "../build/mode.mjs";
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
 const configuration = new Configuration(globalConfiguration);
@@ -58,7 +58,7 @@ suite("BooleanTest", () =>
 		{
 			let actual;
 			requireThat(actual, "actual").isBoolean();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("nullAsBoolean", () =>

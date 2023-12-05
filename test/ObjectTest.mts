@@ -13,10 +13,10 @@ import {
 	TerminalEncoding
 } from "../src/internal/internal.mjs";
 import {Requirements} from "../src/index.mjs";
-import {TestCompiler} from "../scripts/TestCompiler.mjs";
+import {TestCompiler} from "../build/TestCompiler.mjs";
 import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import * as os from "os";
-import {mode} from "../scripts/mode.mjs";
+import {mode} from "../build/mode.mjs";
 
 
 const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
@@ -167,7 +167,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = {};
 			requirements.requireThat(actual, "actual").isTypeOf("null");
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isTypeOf_False", () =>
@@ -176,7 +176,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = {};
 			requirements.requireThat(actual, "actual").isTypeOf("string");
-		}, RangeError);
+		}, TypeError);
 	});
 
 	class Person
@@ -210,7 +210,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = null;
 			requirements.requireThat(actual, "actual").isInstanceOf(String);
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isInstanceOf_expectedIsNull", () =>
@@ -229,7 +229,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = {};
 			requirements.requireThat(actual as unknown, "actual").isInstanceOf(String);
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isTypeOf_AnonymousFunction", () =>
@@ -251,7 +251,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = 5;
 			requirements.requireThat(actual as unknown, "actual").isInstanceOf(Object);
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNull", () =>
@@ -265,7 +265,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = {} as object | null;
 			const isNull: null = requirements.requireThat(actual, "actual").isNull().getActual();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNotNull", () =>
@@ -281,7 +281,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = null;
 			requirements.requireThat(actual, "actual").isNotNull();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isDefined", () =>
@@ -297,7 +297,7 @@ suite("ObjectTest", () =>
 			let actual;
 			// noinspection JSUnusedAssignment
 			requirements.requireThat(actual, "actual").isDefined();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isUndefined", () =>
@@ -313,7 +313,7 @@ suite("ObjectTest", () =>
 		{
 			const actual = 5;
 			requirements.requireThat(actual as unknown, "actual").isUndefined();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isArray", () =>

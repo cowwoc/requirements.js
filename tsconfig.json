@@ -10,7 +10,7 @@
 			"ES2021"
 		],
 		"module": "Node16",
-		"moduleResolution": "node16",
+		"moduleResolution": "Node16",
 		// Fix importing of CommonJS/AMD/UMD modules
 		"esModuleInterop": true,
 		"strict": true,
@@ -20,18 +20,16 @@
 		"sourceMap": true
 	},
 	"include": [
-		"src/**/*.mts",
-		"test/**/*.mts"
+		// Files used to generate the target/publish directory
+		"./src"
 	],
 	"exclude": [
-		"scripts",
 		"node_modules",
 		"target",
 		"./.eslintrc.mjs",
-		"test/TestGlobalConfiguration.mts"
-	],
-	"typeRoots": [
-		"node_modules/@types"
+		"./build",
+		"./test",
+		"./test/TestGlobalConfiguration.mts"
 	],
 	"declaration": true
 }

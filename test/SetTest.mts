@@ -106,7 +106,7 @@ suite("SetTest", () =>
 		{
 			const actual = [1, 2, 3];
 			requirements.requireThat(actual, "actual").isSet();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNull_False", () =>
@@ -115,7 +115,7 @@ suite("SetTest", () =>
 		{
 			const actual = new Set();
 			requirements.requireThat(actual, "actual").isNull();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNotNull", () =>

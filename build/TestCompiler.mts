@@ -10,7 +10,7 @@ class TestCompiler
 	private static readonly rootDir: string = path.resolve(".");
 	// We have to include at least one existing file to avoid CompilerHost complaining that it couldn't find any
 	// input files
-	private static readonly existingFileToSuppressError = "scripts/build.mts";
+	private static readonly existingFileToSuppressError = "build/Project.mts";
 	private static readonly snippetFilename = "test.mts";
 	private static readonly config = TestCompiler.createParsedCommandLine();
 	private static readonly defaultCompilerHost = ts.createCompilerHost(TestCompiler.config.options);

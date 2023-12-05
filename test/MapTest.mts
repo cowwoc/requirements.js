@@ -105,7 +105,7 @@ suite("MapTest", () =>
 		{
 			const actual = new Map();
 			requirements.requireThat(actual as unknown, "actual").isInstanceOf(String);
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNull_False", () =>
@@ -114,7 +114,7 @@ suite("MapTest", () =>
 		{
 			const actual = new Map();
 			requirements.requireThat(actual as unknown, "actual").isNull();
-		}, RangeError);
+		}, TypeError);
 	});
 
 	test("isNotNull", () =>

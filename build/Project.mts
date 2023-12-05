@@ -1,10 +1,8 @@
-import * as url from "url";
+import url from "url";
 import path from "path";
 import {ESLint} from "eslint";
-// @ts-ignore
-import eslintConfig from "../.eslintrc.mjs";
 import TypeDoc from "typedoc";
-import fs from "fs";
+import fs from "node:fs";
 import rollupCommonjs from "@rollup/plugin-commonjs";
 import {nodeResolve as rollupNodeResolve} from "@rollup/plugin-node-resolve";
 import rollupTypescript from "@rollup/plugin-typescript";
@@ -17,15 +15,11 @@ import ts from "typescript";
 import {glob} from "glob";
 import {minify} from "terser";
 import {spawn} from "child_process";
-import {
-	createLogger,
-	format,
-	Logger,
-	transports
-} from "winston";
 import {mode} from "./mode.mjs";
+import {LogFactory} from "./LogFactory.mjs";
+import eslintConfig from "../.eslintrc.mjs";
 
-class Build
+class Project
 {
 	private readonly mode: string;
 
@@ -86,7 +80,7 @@ class Build
 		// them.
 		config.include = config.include.filter((element: string) =>
 		{
-			return element !== "build.mts" && !element.startsWith("test/");
+			return element !== "build/Project.mts" && !element.startsWith("test/");
 		});
 		config.compilerOptions.outDir = "target/publish/node/";
 		config.compilerOptions.declaration = true;
@@ -283,62 +277,13 @@ class Build
 	}
 }
 
-// https://stackoverflow.com/a/63486530/14731
-const Reset = "\x1b[0m";
-const FgWhite = "\x1b[37m";
-const BgRed = "\x1b[41m";
-
-class LogFactory
-{
-	/**
-	 * @param name the name of the logger
-	 * @param mode the operational mode ("DEBUG" or "RELEASE")
-	 */
-	public static getLogger(name: string, mode: string): Logger
-	{
-		let messageFormat;
-		if (mode === "DEBUG")
-			messageFormat = format.prettyPrint();
-		else
-			messageFormat = format.simple();
-		return createLogger({
-			transports: [new transports.Console()],
-			format: format.combine(
-				format(info =>
-				{
-					// https://github.com/winstonjs/winston/issues/1345#issuecomment-393853665
-					info.level = info.level.toUpperCase();
-					return info;
-				})(),
-				format.errors({stack: true}),
-				messageFormat,
-				format.colorize(),
-				format.timestamp({format: "YYYY-MM-DD HH:mm:ss.SSS"}),
-				format.printf(({
-					timestamp,
-					level,
-					message,
-					stack
-				}) =>
-				{
-					if (stack)
-					{
-						return `${timestamp} ${level} ${FgWhite + BgRed + name + Reset} - ${message}\n${stack}`;
-					}
-					return `${timestamp} ${level} ${FgWhite + BgRed + name + Reset} - ${message}`;
-				})
-			)
-		});
-	}
-}
-
 console.time("Time elapsed");
 
 const __filename = path.basename(url.fileURLToPath(import.meta.url));
-const log = LogFactory.getLogger(__filename, mode);
+const log = LogFactory.getLogger(__filename);
 log.info(mode + " mode detected");
 
-const build = new Build(mode);
+const build = new Project(mode);
 await Promise.all([build.lint(), build.compileForNode(), build.compileForBrowser(),
 	build.generateDocumentation(), build.copyResources()]);
 await build.test();
