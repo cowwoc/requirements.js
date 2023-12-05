@@ -21,6 +21,7 @@ import eslintConfig from "../.eslintrc.mjs";
 import {Logger} from "winston";
 import {mode} from "./mode.mjs";
 import parseArgs from "minimist";
+import _ from "lodash";
 
 
 class Project
@@ -293,7 +294,7 @@ class Project
 		console.timeEnd("bundleResources");
 	}
 
-	public async test()
+	private async test()
 	{
 		console.time("test");
 		const binPath = path.posix.resolve("./node_modules/.bin");
@@ -359,12 +360,29 @@ class Project
 	private async watchFiles(paths: string | ReadonlyArray<string>,
 	                         callback: (sources: string[]) => Promise<void>): Promise<void>
 	{
+		const changes: Set<string> = new Set();
+		const project = this;
+
+		async function processUpdate()
+		{
+			const filesToProcess = new Set(changes);
+			const posixPaths = [];
+			for (const changed of filesToProcess)
+			{
+				changes.delete(changed);
+				// Use POSIX paths across all platforms
+				const posixPath = changed.split(path.posix.sep).join(path.posix.sep);
+				posixPaths.push(posixPath);
+			}
+			project.log.info(`Updating: [${Array.from(filesToProcess).join(", ")}]`);
+			await callback(posixPaths);
+		}
+
+		const queueUpdate = _.debounce(processUpdate, 500);
 		const onUpdate = async (changed: string, stats: fs.Stats) =>
 		{
-			this.log.info(`Updating: ${changed}`);
-			// Use POSIX paths across all platforms
-			const posixPath = changed.split(path.posix.sep).join(path.posix.sep);
-			await callback([posixPath]);
+			changes.add(changed);
+			await queueUpdate();
 		};
 		chokidar.watch(paths).on("add", onUpdate).
 			on("addDir", onUpdate).
