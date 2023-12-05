@@ -70,6 +70,9 @@ devDependencies:
   chai:
     specifier: ^4.3.10
     version: 4.3.10
+  chokidar:
+    specifier: ^3.5.3
+    version: 3.5.3
   eslint:
     specifier: ^8.55.0
     version: 8.55.0

@@ -18,8 +18,8 @@
 		"url": "https://github.com/cowwoc/requirements.js/"
 	},
 	"scripts": {
-		"build.debug": "node node_modules/tsx/dist/cli.mjs build/Project.mts --mode=DEBUG",
-		"build.release": "node node_modules/tsx/dist/cli.mjs build/Project.mts --mode=RELEASE"
+		"build.debug": "node node_modules/tsx/dist/cli.mjs build/Project.mts build --mode=DEBUG",
+		"build.release": "node node_modules/tsx/dist/cli.mjs build/Project.mts build --mode=RELEASE"
 	},
 	"browser": "browser/index.js",
 	"module": "node/index.mjs",
@@ -51,6 +51,7 @@
 		"browser-sync": "^2.29.3",
 		"c8": "^8.0.1",
 		"chai": "^4.3.10",
+		"chokidar": "^3.5.3",
 		"eslint": "^8.55.0",
 		"eslint-import-resolver-typescript": "^3.6.1",
 		"eslint-plugin-import": "^2.29.0",
