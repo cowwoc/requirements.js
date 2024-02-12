@@ -371,7 +371,7 @@ class Project
 			{
 				changes.delete(changed);
 				// Use POSIX paths across all platforms
-				const posixPath = changed.split(path.posix.sep).join(path.posix.sep);
+				const posixPath = changed.split(path.sep).join(path.posix.sep);
 				posixPaths.push(posixPath);
 			}
 			project.log.info(`Updating: [${Array.from(filesToProcess).join(", ")}]`);
