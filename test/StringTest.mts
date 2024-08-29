@@ -4,43 +4,47 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	Configuration,
-	TerminalEncoding,
 	TextOnly,
-	EOS_MARKER
+	EOS_MARKER,
+	DIFF_DELETE,
+	DIFF_INSERT,
+	JavascriptValidatorsImpl,
+	Type
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {
+	TerminalEncoding,
+	Configuration
+} from "../src/index.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
-const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-const configuration = new Configuration(globalConfiguration);
-const requirements = new Requirements(configuration);
+const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+	Configuration.DEFAULT);
 
 suite("StringTest", () =>
 {
 	test("isEmpty", () =>
 	{
-		requirements.requireThat("", "actual").isEmpty();
+		validators.requireThat("", "actual").isEmpty();
 	});
 
 	test("isEmpty_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("   ", "actual").isEmpty();
+			validators.requireThat("   ", "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isTrimmed", () =>
 	{
-		requirements.requireThat("", "actual").isTrimmed();
+		validators.requireThat("", "actual").isTrimmed();
 	});
 
 	test("isTrimmed_LeftSpace", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("  value", "actual").isTrimmed();
+			validators.requireThat("  value", "actual").isTrimmed();
 		}, RangeError);
 	});
 
@@ -48,20 +52,20 @@ suite("StringTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("value  ", "actual").isTrimmed();
+			validators.requireThat("value  ", "actual").isTrimmed();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
-		requirements.requireThat("   ", "actual").isNotEmpty();
+		validators.requireThat("   ", "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat("", "actual").isNotEmpty();
+			validators.requireThat("", "actual").isNotEmpty();
 		}, RangeError);
 	});
 
@@ -69,7 +73,7 @@ suite("StringTest", () =>
 	{
 		const prefix = "home";
 		const actual = prefix + "1234";
-		requirements.requireThat(actual, "actual").startsWith(prefix);
+		validators.requireThat(actual, "actual").startsWith(prefix);
 	});
 
 	test("startsWith_False", () =>
@@ -78,7 +82,7 @@ suite("StringTest", () =>
 		{
 			const prefix = "home";
 			const actual = "1234" + prefix;
-			requirements.requireThat(actual, "actual").startsWith(prefix);
+			validators.requireThat(actual, "actual").startsWith(prefix);
 		}, RangeError);
 	});
 
@@ -86,7 +90,7 @@ suite("StringTest", () =>
 	{
 		const prefix = "home";
 		const actual = "1234" + prefix;
-		requirements.requireThat(actual, "actual").doesNotStartWith(prefix);
+		validators.requireThat(actual, "actual").doesNotStartWith(prefix);
 	});
 
 	test("doesNotStartWith_False", () =>
@@ -95,7 +99,7 @@ suite("StringTest", () =>
 		{
 			const prefix = "home";
 			const actual = prefix + "1234";
-			requirements.requireThat(actual, "actual").doesNotStartWith(prefix);
+			validators.requireThat(actual, "actual").doesNotStartWith(prefix);
 		}, RangeError);
 	});
 
@@ -103,7 +107,7 @@ suite("StringTest", () =>
 	{
 		const expected = "cat";
 		const actual = "my " + expected + " is the best";
-		requirements.requireThat(actual, "actual").contains(expected);
+		validators.requireThat(actual, "actual").contains(expected);
 	});
 
 	test("contains_False", () =>
@@ -112,7 +116,7 @@ suite("StringTest", () =>
 		{
 			const expected = "cat";
 			const actual = "my dog is the best";
-			requirements.requireThat(actual, "actual").contains(expected);
+			validators.requireThat(actual, "actual").contains(expected);
 		}, RangeError);
 	});
 
@@ -120,7 +124,7 @@ suite("StringTest", () =>
 	{
 		const value = "cat";
 		const actual = "my dog is the best";
-		requirements.requireThat(actual, "actual").doesNotContain(value);
+		validators.requireThat(actual, "actual").doesNotContain(value);
 	});
 
 	test("doesNotContain_False", () =>
@@ -129,7 +133,7 @@ suite("StringTest", () =>
 		{
 			const value = "cat";
 			const actual = "my " + value + " is the best";
-			requirements.requireThat(actual, "actual").doesNotContain(value);
+			validators.requireThat(actual, "actual").doesNotContain(value);
 		}, RangeError);
 	});
 
@@ -137,7 +141,7 @@ suite("StringTest", () =>
 	{
 		const suffix = "home";
 		const actual = "1234" + suffix;
-		requirements.requireThat(actual, "actual").endsWith(suffix);
+		validators.requireThat(actual, "actual").endsWith(suffix);
 	});
 
 	test("endsWith_False", () =>
@@ -146,7 +150,7 @@ suite("StringTest", () =>
 		{
 			const suffix = "home";
 			const actual = suffix + "1234";
-			requirements.requireThat(actual, "actual").endsWith(suffix);
+			validators.requireThat(actual, "actual").endsWith(suffix);
 		}, RangeError);
 	});
 
@@ -154,7 +158,7 @@ suite("StringTest", () =>
 	{
 		const suffix = "home";
 		const actual = suffix + "1234";
-		requirements.requireThat(actual, "actual").doesNotEndWith(suffix);
+		validators.requireThat(actual, "actual").doesNotEndWith(suffix);
 	});
 
 	test("doesNotEndWith_False", () =>
@@ -163,14 +167,14 @@ suite("StringTest", () =>
 		{
 			const suffix = "home";
 			const actual = "1234" + suffix;
-			requirements.requireThat(actual, "actual").doesNotEndWith(suffix);
+			validators.requireThat(actual, "actual").doesNotEndWith(suffix);
 		}, RangeError);
 	});
 
 	test("lengthIsEqualTo", () =>
 	{
 		const actual = "value";
-		requirements.requireThat(actual, "actual").length().isEqualTo(actual.length);
+		validators.requireThat(actual, "actual").length().isEqualTo(actual.length);
 	});
 
 	test("lengthIsEqualTo_False", () =>
@@ -178,18 +182,18 @@ suite("StringTest", () =>
 		const actual = "value";
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isEqualTo(1);
+			validators.requireThat(actual, "actual").length().isEqualTo(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
+			validators.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
 		}, RangeError);
 	});
 
 	test("lengthIsNotEqualTo", () =>
 	{
 		const actual = "value";
-		requirements.requireThat(actual, "actual").length().isNotEqualTo(actual.length + 1);
+		validators.requireThat(actual, "actual").length().isNotEqualTo(actual.length + 1);
 	});
 
 	test("lengthIsNotEqualTo_False", () =>
@@ -197,7 +201,7 @@ suite("StringTest", () =>
 		assert.throws(function()
 		{
 			const actual = "value";
-			requirements.requireThat(actual, "actual").length().isNotEqualTo(actual.length);
+			validators.requireThat(actual, "actual").length().isNotEqualTo(actual.length);
 		}, RangeError);
 	});
 
@@ -206,41 +210,36 @@ suite("StringTest", () =>
 		const actual = " value ";
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
+			validators.requireThat(actual, "actual").length().isEqualTo(actual.length + 1);
 		}, RangeError);
 	});
 
-	test("isString", () =>
+	test("isTypeString", () =>
 	{
 		const actual = "value";
-		const expected: string = requirements.requireThat(actual as unknown, "actual").isString().
-			isEqualTo(actual).getActual();
+		validators.requireThat(actual as unknown, "actual").isType(Type.STRING).isEqualTo(actual).getValue();
 	});
 
 	test("getActual", () =>
 	{
 		const input = "value";
-		const output = requirements.requireThat(input, "input").getActual();
-		assert.equal(output, input);
+		const output = validators.requireThat(input, "input").getValue();
+		assert.strictEqual(output, input);
 	});
 
-	test("validateThatNullAsString", () =>
+	test("checkIfNullAsString", () =>
 	{
 		const actual = null;
 		const expected = "not-null";
-		const expectedMessages = ["actual must be a string.\n" +
-		"Actual: null\n" +
-		"Type  : null",
-			"actual must be equal to " + expected + ".\n" +
-			"\n" +
-			"Actual  : undefined" + TextOnly.DIFF_PADDING.repeat("not-null".length) + EOS_MARKER + "\n" +
-			"Diff    : " + TextOnly.DIFF_DELETE.repeat("undefined".length) +
-			TextOnly.DIFF_INSERT.repeat("not-null".length) + TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length) + "\n" +
-			"Expected: " + TextOnly.DIFF_PADDING.repeat("undefined".length) + "not-null" + EOS_MARKER];
+		const expectedMessages = [`\
+"actual" must be a string.
+actual: null`,
+`"actual" must be equal to "${expected}".
+actual: null`];
 
-		const actualFailures = requirements.validateThat(actual, "actual").isString().isEqualTo(expected).
-			getFailures();
-		const actualMessages = actualFailures.map(failure => failure.getMessage());
-		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
+		const actualFailures = validators.checkIf(actual, "actual").isType(Type.STRING).isEqualTo(expected).
+			elseGetFailures();
+		const actualMessages = actualFailures.getFailures().map(failure => failure.getMessage());
+		validators.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

@@ -1,65 +1,37 @@
-import type {TerminalEncoding} from "../src/index.mjs";
-import {AbstractGlobalConfiguration} from "../src/internal/internal.mjs";
+import {
+	TerminalEncoding,
+	type GlobalConfiguration
+} from "../src/index.mjs";
 
-class TestGlobalConfiguration extends AbstractGlobalConfiguration
+class TestGlobalConfiguration implements GlobalConfiguration
 {
-	private readonly terminalEncoding: TerminalEncoding;
-	private readonly terminalWidth: number;
+	private readonly _terminalEncoding: TerminalEncoding;
 
 	/**
 	 * Creates a new test configuration.
 	 *
 	 * @param terminalEncoding - the encoding of the terminal
-	 * @param terminalWidth - (optional) the width of the terminal
 	 */
-	constructor(terminalEncoding: TerminalEncoding, terminalWidth = 80)
+	constructor(terminalEncoding: TerminalEncoding)
 	{
-		super(false, true);
-		this.terminalEncoding = terminalEncoding;
-		this.terminalWidth = terminalWidth;
+		this._terminalEncoding = terminalEncoding;
 	}
 
-	listTerminalEncodings(): TerminalEncoding[]
+	supportedTerminalEncodings(): Set<TerminalEncoding>
 	{
-		return [this.terminalEncoding];
+		return new Set<TerminalEncoding>([this._terminalEncoding]);
 	}
 
-	getTerminalEncoding(): TerminalEncoding
+	terminalEncoding(): TerminalEncoding;
+	terminalEncoding(encoding: TerminalEncoding): GlobalConfiguration;
+	terminalEncoding(encoding?: TerminalEncoding): TerminalEncoding | GlobalConfiguration
 	{
-		return this.terminalEncoding;
-	}
-
-	withDefaultTerminalEncoding(): this
-	{
-		return this;
-	}
-
-	withTerminalEncoding(encoding: TerminalEncoding): this
-	{
-		if (encoding !== this.terminalEncoding)
+		if (typeof (encoding) === "undefined")
+			return this._terminalEncoding;
+		if (encoding !== this._terminalEncoding)
 		{
 			throw new RangeError("Test only supports one encoding: " + this.terminalEncoding + "\n" +
 				"Actual: " + encoding);
-		}
-		return this;
-	}
-
-	getTerminalWidth(): number
-	{
-		return this.terminalWidth;
-	}
-
-	withDefaultTerminalWidth(): this
-	{
-		return this;
-	}
-
-	withTerminalWidth(width: number): this
-	{
-		if (width !== this.terminalWidth)
-		{
-			throw new RangeError("Test only supports one width: " + this.terminalWidth + "\n" +
-				"Actual: " + width);
 		}
 		return this;
 	}

@@ -4,19 +4,20 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	Configuration,
 	TerminalEncoding,
-	Requirements,
-	requireThat
+	requireThat,
+	Configuration,
+	Type
 } from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
 import {TestCompiler} from "../build/TestCompiler.mjs";
 import os from "os";
 import {mode} from "../build/mode.mjs";
+import {JavascriptValidatorsImpl} from "../src/internal/validator/JavascriptValidatorsImpl.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
-const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-const configuration = new Configuration(globalConfiguration);
-const requirements = new Requirements(configuration);
+
+const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+	Configuration.DEFAULT);
 
 let compiler: TestCompiler | undefined;
 if (mode === "DEBUG")
@@ -28,27 +29,27 @@ suite("BooleanTest", () =>
 {
 	test("isTrue", () =>
 	{
-		requirements.requireThat(true, "actual").isTrue();
+		validators.requireThat(true, "actual").isTrue();
 	});
 
 	test("isTrue_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(false, "actual").isTrue();
+			validators.requireThat(false, "actual").isTrue();
 		}, RangeError);
 	});
 
 	test("isFalse", () =>
 	{
-		requirements.requireThat(false, "actual").isFalse();
+		validators.requireThat(false, "actual").isFalse();
 	});
 
 	test("isFalse_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(true, "actual").isFalse();
+			validators.requireThat(true, "actual").isFalse();
 		}, RangeError);
 	});
 
@@ -57,7 +58,7 @@ suite("BooleanTest", () =>
 		assert.throws(function()
 		{
 			let actual;
-			requireThat(actual, "actual").isBoolean();
+			requireThat(actual, "actual").isType(Type.BOOLEAN);
 		}, TypeError);
 	});
 
@@ -71,7 +72,7 @@ suite("BooleanTest", () =>
 			const actual = null;
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'ObjectVerifier<null>'." + os.EOL);
 	}).timeout(5000);
 
@@ -85,7 +86,7 @@ suite("BooleanTest", () =>
 			const actual = 0;
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'NumberVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -99,7 +100,7 @@ suite("BooleanTest", () =>
 			const actual = 1;
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'NumberVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -113,7 +114,7 @@ suite("BooleanTest", () =>
 			const actual = "0";
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'StringVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -127,7 +128,7 @@ suite("BooleanTest", () =>
 			const actual = "1";
 			requireThat(actual, "actual").isTrue();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
 			"type 'StringVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -141,7 +142,7 @@ suite("BooleanTest", () =>
 			const actual = "true";
 			requireThat(actual, "actual").isTrue();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
 			"type 'StringVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -155,7 +156,7 @@ suite("BooleanTest", () =>
 			const actual = "";
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'StringVerifier'." + os.EOL);
 	}).timeout(5000);
 
@@ -169,14 +170,14 @@ suite("BooleanTest", () =>
 			const actual = "false";
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'StringVerifier'." + os.EOL);
 	}).timeout(5000);
 
 	test("getActual", () =>
 	{
 		const input = true;
-		const output = requirements.requireThat(input, "input").getActual();
-		assert.equal(output, input);
+		const output = validators.requireThat(input, "input").getValue();
+		assert.strictEqual(output, input);
 	});
 });

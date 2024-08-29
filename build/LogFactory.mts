@@ -13,7 +13,7 @@ const BgRed = "\x1b[41m";
 class LogFactory
 {
 	/**
-	 * @param name the name of the logger
+	 * @param name - the name of the logger
 	 */
 	public static getLogger(name: string): Logger
 	{

@@ -4,22 +4,30 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	Configuration,
 	TerminalEncoding,
-	Requirements
+	Configuration
 } from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {TestCompiler} from "../build/TestCompiler.mjs";
+import os from "os";
+import {mode} from "../build/mode.mjs";
+import {JavascriptValidatorsImpl} from "../src/internal/internal.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
-const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-const configuration = new Configuration(globalConfiguration);
-const requirements = new Requirements(configuration);
+const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+	Configuration.DEFAULT);
+
+let compiler: TestCompiler | undefined;
+if (mode === "DEBUG")
+	compiler = undefined;
+else
+	compiler = new TestCompiler();
 
 suite("SizeTest", () =>
 {
 	test("isGreaterThanOrEqualTo", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(0);
+		validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(0);
 	});
 
 	test("isGreaterThanOrEqualTo_False", () =>
@@ -27,18 +35,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5);
+			validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5, "expected");
+			validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5, "expected");
 		}, RangeError);
 	});
 
 	test("isGreaterThan", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").length().isGreaterThan(0);
+		validators.requireThat(actual, "actual").length().isGreaterThan(0);
 	});
 
 	test("isGreaterThan_False", () =>
@@ -46,18 +54,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isGreaterThan(5);
+			validators.requireThat(actual, "actual").length().isGreaterThan(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isGreaterThan(5, "expected");
+			validators.requireThat(actual, "actual").length().isGreaterThan(5, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThanOrEqualTo", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(2);
+		validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(2);
 	});
 
 	test("isLessThanOrEqualTo_False", () =>
@@ -65,18 +73,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1);
+			validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1, "expected");
+			validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThan", () =>
 	{
 		const actual = [1];
-		requirements.requireThat(actual, "actual").length().isLessThan(2);
+		validators.requireThat(actual, "actual").length().isLessThan(2);
 	});
 
 	test("isLessThan_False", () =>
@@ -84,18 +92,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isLessThan(0);
+			validators.requireThat(actual, "actual").length().isLessThan(0);
 		}, RangeError);
 		assert.throws(function()
 		{
-			requirements.requireThat(actual, "actual").length().isLessThan(0, "expected");
+			validators.requireThat(actual, "actual").length().isLessThan(0, "expected");
 		}, RangeError);
 	});
 
 	test("isNotPositive", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").length().isNotPositive();
+		validators.requireThat(actual, "actual").length().isNotPositive();
 	});
 
 	test("isNotPositive_False", () =>
@@ -103,14 +111,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual = [1, 2, 3];
-			requirements.requireThat(actual, "actual").length().isNotPositive();
+			validators.requireThat(actual, "actual").length().isNotPositive();
 		}, RangeError);
 	});
 
 	test("isPositive", () =>
 	{
 		const actual = [1, 2, 3];
-		requirements.requireThat(actual, "actual").length().isPositive();
+		validators.requireThat(actual, "actual").length().isPositive();
 	});
 
 	test("isPositive_False", () =>
@@ -118,14 +126,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").length().isPositive();
+			validators.requireThat(actual, "actual").length().isPositive();
 		}, RangeError);
 	});
 
 	test("isNotZero", () =>
 	{
 		const actual = [1, 2, 3];
-		requirements.requireThat(actual, "actual").length().isNotZero();
+		validators.requireThat(actual, "actual").length().isNotZero();
 	});
 
 	test("isNotZero_False", () =>
@@ -133,28 +141,41 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").length().isNotZero();
+			validators.requireThat(actual, "actual").length().isNotZero();
 		}, RangeError);
 	});
 
 	test("isZero", () =>
 	{
 		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").length().isZero();
+		validators.requireThat(actual, "actual").length().isZero();
 	});
 
 	test("isNotNegative", () =>
 	{
-		const actual: unknown[] = [];
-		requirements.requireThat(actual, "actual").length().isNotNegative();
-	});
+		if (!compiler)
+			return;
+		const code =
+			`import {requireThat} from "./target/publish/node/index.mjs";
+			
+			const actual: unknown[] = [];
+			validators.requireThat(actual, "actual").length().isNotNegative();`;
+		const messages = compiler.compile(code);
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+			"type 'ObjectVerifier<null>'." + os.EOL);
+	}).timeout(5000);
 
 	test("isNegative", () =>
 	{
-		assert.throws(function()
-		{
+		if (!compiler)
+			return;
+		const code =
+			`import {requireThat} from "./target/publish/node/index.mjs";
+			
 			const actual: unknown[] = [];
-			requirements.requireThat(actual, "actual").length().isNegative();
-		}, RangeError);
-	});
+			validators.requireThat(actual, "actual").length().isNegative();`;
+		const messages = compiler.compile(code);
+		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
+			"type 'ObjectVerifier<null>'." + os.EOL);
+	}).timeout(5000);
 });

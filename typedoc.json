@@ -1,7 +1,6 @@
 {
 	"entryPoints": [
-		"src/*.mts",
-		"src/extension/*.mts"
+		"src/*.mts"
 	],
 	"plugin": [
 		"typedoc-plugin-missing-exports"

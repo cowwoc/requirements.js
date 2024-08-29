@@ -4,10 +4,10 @@
 	"compilerOptions": {
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
-		"target": "ES2021",
+		"target": "ES2023",
 		"lib": [
 			"DOM",
-			"ES2021"
+			"ES2023"
 		],
 		"module": "Node16",
 		"moduleResolution": "Node16",

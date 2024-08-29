@@ -7,8 +7,10 @@ A colored diff looks like this:
 * Red characters need to be deleted from `Actual`.
 * Uncolored characters are equal in `Actual` and `Expected`.
 * Green characters need to be inserted into `Actual`.
-* Characters in the opposite direction of insertions and deletions are padded with `/` characters to line up the strings
-  vertically. This padding does not contribute any characters to the string it is found in. Read on for concrete
+* Characters in the opposite direction of insertions and deletions are padded with `/` characters to line up
+  the strings
+  vertically. This padding does not contribute any characters to the string it is found in. Read on for
+  concrete
   examples.
 
 ## Example 1: insert
@@ -51,7 +53,8 @@ results in the following diff:
 Meaning:
 
 * To go from `Actual` to `Expected` we need to insert three spaces at the beginning of `Actual`.
-* There are no `///` characters in `Expected` in front of "foo". This padding is used to line up the strings vertically.
+* There are no `///` characters in `Expected` in front of "foo". This padding is used to line up the strings
+  vertically.
 
 ## Example 4: delete, keep, insert
 
@@ -69,17 +72,20 @@ Meaning, we need to:
 * Delete "foos".
 * Keep "ball".
 * Insert "room".
-* There is no whitespace before "ballroom" or after "foosball". This padding is used to line up the strings vertically.
+* There is no whitespace before "ballroom" or after "foosball". This padding is used to line up the strings
+  vertically.
 
 ## Example 5: Objects with the same toString() that are not equal
 
 * If objects are not equal, and their `toString()` values differ, we output their String representations.
-* If the `toString()` values are equal, but their types differ, we output the string representation of `Actual` followed
-  by the two types (i.e. `Actual.class` vs `Expected.class`).
-* If their classes are equal, but their `hashCode()` values differ, we output the string representation of `Actual`
+* If the `toString()` values are equal, but their types differ, we output the string representation
+  of `Actual` followed
+  by the two types (i.e. `Type.of(Actual)` vs `Type.of(Expected)`).
+* If their classes are equal, but their `hashCode()` values differ, we output the string representation
+  of `Actual`
   followed by the two hashcodes (i.e. `Actual.hashCode()` vs `Expected.hashCode()`).
 
-For example:
+For example,
 
 ```text
 Actual   = "null"
@@ -95,9 +101,9 @@ results in the following diff:
 When comparing multi-line strings:
 
 * `Actual` and `Expected` are followed by a line number.
-* Lines that are identical (with the exception of the first and last line) are omitted.
+* Lines that are identical (except the first and last line) are omitted.
 
-For example:
+For example,
 
 ```text
 Actual   = "first\nsecond\nfoo\nforth\nfifth"
@@ -116,12 +122,14 @@ Meaning:
 
 Lines always end with `\n` or `\0`. The former denotes a newline. The latter denotes the end of the string.
 
-Lines ending with "\n\n" or "\0\0" represents the literal string "\n" followed by a newline character, or the literal
+Lines ending with "\n\n" or "\0\0" represents the literal string "\n" followed by a newline character, or the
+literal
 string "\0" followed by the end of string, respectively.
 
 ## Example 7: Missing Line Numbers
 
-When `Actual` or `Expected` contain a line that does not have a corresponding line on the other side we omit the
+When `Actual` or `Expected` contain a line that does not have a corresponding line on the other side we omit
+the
 latter's line number.
 
 ```text
@@ -144,13 +152,18 @@ Meaning:
 When comparing lists or arrays:
 
 * `Actual` and `Expected` are followed by the element's index number, followed by a line number.
-* Indexes that are identical (with the exception of the first and last line) are omitted.
+* Indexes that are identical (except the first and last line) are omitted.
 
-For example:
+For example,
 
 ```java
-Actual   = List.of("1", "foo\nbar", "3");
-Expected = List.of("1", "bar\nfoo", "3");
+Actual   =List.
+
+of("1","foo\nbar","3");
+
+Expected =List.
+
+of("1","bar\nfoo","3");
 ```
 
 results in the following diff:

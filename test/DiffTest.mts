@@ -4,18 +4,38 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	Configuration,
 	EOS_MARKER,
 	NEWLINE_MARKER,
 	Node16Colors,
 	Node16MillionColors,
 	Node256Colors,
 	TerminalEncoding,
-	TextOnly
+	TextOnly,
+	DIFF_INSERT as INSERT,
+	DIFF_DELETE as DELETE,
+	DIFF_EQUAL as EQUAL,
+	JavascriptValidatorsImpl,
+	Configuration,
+	MINIMUM_LENGTH_FOR_DIFF
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
+const PADDING = TextOnly.DIFF_PADDING;
+
+
+/**
+ * Pads a string until it is long enough to trigger a diff.
+ *
+ * @param text the text to process
+ * @return the updated text
+ */
+function EXTEND_LENGTH(text: string)
+{
+	let padded = text;
+	while (padded.length < MINIMUM_LENGTH_FOR_DIFF)
+		padded += text;
+	return padded;
+}
 
 suite("DiffTest", () =>
 {
@@ -24,27 +44,34 @@ suite("DiffTest", () =>
 	 */
 	test("diffDeleteThenInsert", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "actual";
-		const expected = "expected";
+		const actual = EXTEND_LENGTH("actual");
+		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : actual" +
-				TextOnly.DIFF_PADDING.repeat("expected".length) + EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_DELETE.repeat("actual".length) +
-				TextOnly.DIFF_INSERT.repeat("expected".length) + TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected: " + " ".repeat("actual".length) + "expected" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "${EXTEND_LENGTH("actual")}"\
+${PADDING.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}${EOS_MARKER}
+diff    : ${DELETE.repeat(("\"" + EXTEND_LENGTH("actual") + "\"").length)}\
+${INSERT.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}\
+${EQUAL.repeat(EOS_MARKER.length)}
+expected: ${PADDING.repeat(("\"" + EXTEND_LENGTH("actual") + "\"").length)}"\
+${EXTEND_LENGTH("expected")}"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -53,26 +80,30 @@ suite("DiffTest", () =>
 	 */
 	test("diffMissingWhitespace", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "\"key\": \"value \"";
-		const expected = "\"key\": \"value\"";
+		const actual = `"key": "value "`;
+		const expected = `"key": "value"`;
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : \"key\": \"value \"" + EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat(13) + TextOnly.DIFF_DELETE +
-				TextOnly.DIFF_EQUAL.repeat(1 + EOS_MARKER.length) + "\n" +
-				"Expected: \"key\": \"value \"" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "\\"key\\": \\"value \\""${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"\\"key\\": \\"value`.length)}${DELETE}${EQUAL.repeat(`\\""${EOS_MARKER}`.length)}
+expected: "\\"key\\": \\"value \\""${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -81,32 +112,38 @@ suite("DiffTest", () =>
 	 */
 	test("diffNewlinePrefix", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "\nactual";
-		const expected = "expected";
+		const actual = "\n" + EXTEND_LENGTH("actual");
+		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
-				TextOnly.DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
-				TextOnly.DIFF_INSERT.repeat("expected".length) + TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected@0: " + TextOnly.DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "expected" + EOS_MARKER + "\n" +
-				"\n" +
-				"Actual@1  : actual" + EOS_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat("actual".length) +
-				TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected  : " + TextOnly.DIFF_PADDING.repeat(("actual" + EOS_MARKER).length);
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual@0  : "${NEWLINE_MARKER}
+diff      : ${DELETE.repeat(("\"" + NEWLINE_MARKER).length)}
+expected  : ${PADDING.repeat(("\"" + NEWLINE_MARKER).length)}
+
+actual@1  : ${EXTEND_LENGTH("actual")}"\
+${PADDING.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}${EOS_MARKER}
+diff      : ${DELETE.repeat((EXTEND_LENGTH("actual") + "\"").length)}\
+${INSERT.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}\
+${EQUAL.repeat(EOS_MARKER.length)}
+expected@0: ${PADDING.repeat((EXTEND_LENGTH("actual") + "\"").length)}\
+"${EXTEND_LENGTH("expected")}"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -115,32 +152,36 @@ suite("DiffTest", () =>
 	 */
 	test("diffNewlinePostfix", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "actual\n";
-		const expected = "expected";
+		const actual = EXTEND_LENGTH("actual") + "\n";
+		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : actual" + NEWLINE_MARKER +
-				TextOnly.DIFF_PADDING.repeat(("expected" + EOS_MARKER).length) + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat(("actual" + NEWLINE_MARKER).length) +
-				TextOnly.DIFF_INSERT.repeat("expected".length) + TextOnly.DIFF_EQUAL.repeat(NEWLINE_MARKER.length) +
-				"\n" +
-				"Expected@0: " + TextOnly.DIFF_PADDING.repeat(("actual" + NEWLINE_MARKER).length) + "expected" +
-				EOS_MARKER + "\n" +
-				"\n" +
-				"Actual@1  : " + EOS_MARKER + "\n" +
-				"Expected  : " + TextOnly.DIFF_PADDING.repeat(EOS_MARKER.length);
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual@0  : "${EXTEND_LENGTH("actual")}${NEWLINE_MARKER}
+diff      : ${DELETE.repeat(("\"" + EXTEND_LENGTH("actual") + NEWLINE_MARKER).length)}
+expected  : ${PADDING.repeat(("\"" + EXTEND_LENGTH("actual") + NEWLINE_MARKER).length)}
+
+actual@1  : "${PADDING.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}\
+${EOS_MARKER}
+diff      : ${DELETE}${INSERT.repeat(("\"" + EXTEND_LENGTH("expected") + "\"").length)}\
+${EQUAL.repeat(EOS_MARKER.length)}
+expected@0: ${PADDING}"${EXTEND_LENGTH("expected")}"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -149,34 +190,38 @@ suite("DiffTest", () =>
 	 */
 	test("matchAcrossLines", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "\n\nvalue";
-		const expected = "value";
+		const actual = EXTEND_LENGTH("prefix") + "\n\nvalue";
+		const expected = EXTEND_LENGTH("prefix") + "value";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : " + NEWLINE_MARKER +
-				TextOnly.DIFF_PADDING.repeat(("value" + EOS_MARKER).length) + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat(NEWLINE_MARKER.length) +
-				TextOnly.DIFF_EQUAL.repeat(("value" + EOS_MARKER).length) + "\n" +
-				"Expected@0: " + TextOnly.DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "value" + EOS_MARKER + "\n" +
-				"\n" +
-				"Actual@1  : " + NEWLINE_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
-				"Expected  : " + TextOnly.DIFF_PADDING.repeat(NEWLINE_MARKER.length) + "\n" +
-				"\n" +
-				"Actual@2  : value" + EOS_MARKER + "\n" +
-				"Expected  : " + TextOnly.DIFF_PADDING.repeat(("value" + EOS_MARKER).length);
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual@0  : "${EXTEND_LENGTH("prefix")}${NEWLINE_MARKER}
+diff      : ${EQUAL.repeat(("\"" + EXTEND_LENGTH("prefix")).length)}\
+${DELETE.repeat(NEWLINE_MARKER.length)}
+expected@0: "${EXTEND_LENGTH("prefix")}${PADDING.repeat(NEWLINE_MARKER.length)}
+
+actual@1  : ${NEWLINE_MARKER}
+diff      : ${DELETE.repeat(NEWLINE_MARKER.length)}
+expected  : ${PADDING.repeat(NEWLINE_MARKER.length)}
+
+actual@2  : value"${EOS_MARKER}
+expected@0: value"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -185,36 +230,40 @@ suite("DiffTest", () =>
 	 */
 	test("skipDuplicateLinesTest", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "1\n2\n3\n4\n5";
 		const expected = "1\n2\n9\n4\n5";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : 1" + NEWLINE_MARKER + "\n" +
-				"Expected@0: 1" + NEWLINE_MARKER + "\n" +
-				"\n" +
-				"[...]\n" +
-				"\n" +
-				"Actual@2  : 3" + TextOnly.DIFF_PADDING + NEWLINE_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
-				"Expected@2: " + TextOnly.DIFF_PADDING + "9" + NEWLINE_MARKER + "\n" +
-				"\n" +
-				"[...]\n" +
-				"\n" +
-				"Actual@4  : 5\\0\n" +
-				"Expected@4: 5\\0";
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual@0  : "1${NEWLINE_MARKER}
+expected@0: "1${NEWLINE_MARKER}
+
+[...]
+
+actual@2  : 3${PADDING + NEWLINE_MARKER}
+diff      : ${DELETE + INSERT + EQUAL.repeat(NEWLINE_MARKER.length)}
+expected@2: ${PADDING}9${NEWLINE_MARKER}
+
+[...]
+
+actual@4  : 5"${EOS_MARKER}
+expected@4: 5"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -223,134 +272,154 @@ suite("DiffTest", () =>
 	 */
 	test("charlesTest", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "The dog is brown";
 		const expected = "The fox is down";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : The dog" +
-				TextOnly.DIFF_PADDING.repeat("fox".length) + " is br" + TextOnly.DIFF_PADDING + "own" + EOS_MARKER +
-				"\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat(4) + TextOnly.DIFF_DELETE.repeat(3) +
-				TextOnly.DIFF_INSERT.repeat(3) + TextOnly.DIFF_EQUAL.repeat(4) +
-				TextOnly.DIFF_DELETE.repeat(2) + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat(3 + EOS_MARKER.length) + "\n" +
-				"Expected: The " + TextOnly.DIFF_PADDING.repeat("dog".length) + "fox is " +
-				TextOnly.DIFF_PADDING.repeat("br".length) + "down" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "The dog${PADDING.repeat("fox".length)} is br\
+${PADDING}own"${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"The `.length) + DELETE.repeat("dog".length) + INSERT.repeat("fox".length) +
+			EQUAL.repeat(" is ".length) + DELETE.repeat("br".length) + INSERT.repeat("d".length) +
+			EQUAL.repeat(`own"${EOS_MARKER}`.length)}
+expected: "The ${PADDING.repeat("dog".length)}fox is \
+${PADDING.repeat("br".length)}down"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	test("smallChangeBeforeWord", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "you like me?";
 		const expected = "Don't you like me?";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : " + TextOnly.DIFF_PADDING.repeat("Don't ".length) + "you like me?" +
-				EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_INSERT.repeat("Don't ".length) +
-				TextOnly.DIFF_EQUAL.repeat("you like me?".length + EOS_MARKER.length) + "\n" +
-				"Expected: Don't you like me?" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "${PADDING.repeat("Don't ".length)}you like me?"${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"`.length)}${INSERT.repeat("Don't ".length) +
+			EQUAL.repeat(`you like me?"`.length + EOS_MARKER.length)}
+expected: "Don't you like me?"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	test("smallChangeInMiddle", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "I lice dogs";
 		const expected = "I like dogs";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : I lic" + TextOnly.DIFF_PADDING + "e dogs" + EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat("I li".length) + TextOnly.DIFF_DELETE + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat("e dogs".length + EOS_MARKER.length) + "\n" +
-				"Expected: I li" + TextOnly.DIFF_PADDING + "ke dogs" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "I lic${PADDING}e dogs"${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"I li`.length) + DELETE + INSERT +
+			EQUAL.repeat(`e dogs"`.length + EOS_MARKER.length)}
+expected: "I li${PADDING + `ke dogs"` + EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	test("smallChangeAfterWord", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "I like dog";
 		const expected = "I like dogs";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : I like dog" + TextOnly.DIFF_PADDING + EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat("I like dog".length) + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected: I like dogs" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "I like dog${PADDING}"${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"I like dog`.length) + INSERT + EQUAL.repeat(`"${EOS_MARKER}`.length)}
+expected: "I like dogs"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	test("largeChangeInMiddle", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "I lices dogs";
 		const expected = "I like dogs";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : I lices" + TextOnly.DIFF_PADDING.repeat("like".length) + " dogs" +
-				EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat("I ".length) + TextOnly.DIFF_DELETE.repeat("lices".length) +
-				TextOnly.DIFF_INSERT.repeat("like".length) +
-				TextOnly.DIFF_EQUAL.repeat(" dogs".length + EOS_MARKER.length) + "\n" +
-				"Expected: I " + TextOnly.DIFF_PADDING.repeat("lices".length) + "like dogs" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "I lices${PADDING.repeat("like".length)} dogs"\
+${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"I `.length)}${DELETE.repeat("lices".length)}${INSERT.repeat("like".length)}\
+${EQUAL.repeat(` dogs"${EOS_MARKER}`.length)}
+expected: "I ${PADDING.repeat("lices".length)}like dogs"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -359,110 +428,125 @@ suite("DiffTest", () =>
 	 */
 	test("diffMiddleWhitespace", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "one\n" +
 			"\n" +
-			"three";
+			"three\n";
 		const expected = "one\n" +
 			"   \n" +
-			"three";
+			"three\n";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "actual must be equal to " + expected + ".\n" +
-				"\n" +
-				"Actual@0  : one" + NEWLINE_MARKER + "\n" +
-				"Expected@0: one" + NEWLINE_MARKER + "\n" +
-				"\n" +
-				"Actual@1  : " + TextOnly.DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_INSERT.repeat(3) + TextOnly.DIFF_PADDING.repeat(NEWLINE_MARKER.length) +
-				"\n" +
-				"Expected@1: " + TextOnly.DIFF_PADDING.repeat(3) + NEWLINE_MARKER + "\n" +
-				"\n" +
-				"Actual@2  : three" + EOS_MARKER + "\n" +
-				"Expected@2: three" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+"actual" had an unexpected value.
+
+actual@0  : "one${NEWLINE_MARKER}
+expected@0: "one${NEWLINE_MARKER}
+
+actual@1  : ${PADDING.repeat("   ".length) + NEWLINE_MARKER}
+diff      : ${INSERT.repeat("   ".length) + PADDING.repeat(NEWLINE_MARKER.length)}
+expected@1: ${PADDING.repeat("   ".length) + NEWLINE_MARKER}
+
+[...]
+
+actual@3  : "${EOS_MARKER}
+expected@3: "${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
-	test("arrayOfIntegers", () =>
+	test("arrayOfNumbers", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		try
 		{
 			const actual = [1, 2, 3, 4, 5];
 			const expected = [1, 2, 9, 4, 5];
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual[0]  : 1" + EOS_MARKER + "\n" +
-				"Expected[0]: 1" + EOS_MARKER + "\n" +
-				"\n" +
-				"[...]\n" +
-				"\n" +
-				"Actual[2]  : 3" + TextOnly.DIFF_PADDING.repeat(1) + EOS_MARKER + "\n" +
-				"Diff       : " + TextOnly.DIFF_DELETE + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
-				"Expected[2]: " + TextOnly.DIFF_PADDING + "9" + EOS_MARKER + "\n" +
-				"\n" +
-				"[...]\n" +
-				"\n" +
-				"Actual[4]  : 5" + EOS_MARKER + "\n" +
-				"Expected[4]: 5" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual[0]  : 1${EOS_MARKER}
+expected[0]: 1${EOS_MARKER}
+
+[...]
+
+actual[2]  : 3${PADDING.repeat(1) + EOS_MARKER}
+diff       : ${DELETE + INSERT + EQUAL.repeat(NEWLINE_MARKER.length)}
+expected[2]: ${PADDING}9${EOS_MARKER}
+
+[...]
+
+actual[4]  : 5${EOS_MARKER}
+expected[4]: 5${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	test("arrayOfStrings", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 		try
 		{
 			const actual = ["1", "foo\nbar", "3"];
 			const expected = ["1", "bar\nfoo", "3"];
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual[0]    : 1" + EOS_MARKER + "\n" +
-				"Expected[0]  : 1" + EOS_MARKER + "\n" +
-				"\n" +
-				"Actual[1]@0  : " + TextOnly.DIFF_PADDING.repeat(("bar" + NEWLINE_MARKER).length) + "foo" +
-				NEWLINE_MARKER + "\n" +
-				"Diff         : " + TextOnly.DIFF_INSERT.repeat(("bar" + NEWLINE_MARKER).length) +
-				TextOnly.DIFF_EQUAL.repeat("foo".length) + TextOnly.DIFF_DELETE.repeat(NEWLINE_MARKER.length) + "\n" +
-				"Expected[1]@0: bar" + NEWLINE_MARKER + TextOnly.DIFF_PADDING.repeat(("foo" + NEWLINE_MARKER).length) +
-				"\n" +
-				"\n" +
-				"Actual[1]@1  : " + TextOnly.DIFF_PADDING.repeat("foo".length) + "bar" + EOS_MARKER + "\n" +
-				"Diff         : " + TextOnly.DIFF_EQUAL.repeat("foo".length) +
-				TextOnly.DIFF_DELETE.repeat("bar".length) + TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected[1]@1: foo" + TextOnly.DIFF_PADDING.repeat("bar".length) + EOS_MARKER + "\n" +
-				"\n" +
-				"Actual[2]    : 3" + EOS_MARKER + "\n" +
-				"Expected[2]  : 3" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual[0]    : "1"${EOS_MARKER}
+expected[0]  : "1"${EOS_MARKER}
+
+actual[1]@0  : "foo${NEWLINE_MARKER}
+diff         : ${EQUAL}${DELETE.repeat(("foo" + NEWLINE_MARKER).length)}
+expected[1]@0: "${PADDING.repeat(("foo" + NEWLINE_MARKER).length)}
+
+actual[1]@1  : bar${PADDING.repeat(NEWLINE_MARKER.length)}
+diff         : ${EQUAL.repeat("bar".length)}${INSERT.repeat(NEWLINE_MARKER.length)}
+expected[1]@0: bar${NEWLINE_MARKER}
+
+actual[1]@1  : ${PADDING.repeat("foo".length)}"${EOS_MARKER}
+diff         : ${INSERT.repeat("foo".length)}${EQUAL.repeat(("\"" + NEWLINE_MARKER).length)}
+expected[1]@1: foo"${EOS_MARKER}
+
+actual[2]    : "3"${EOS_MARKER}
+expected[2]  : "3"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -471,200 +555,129 @@ suite("DiffTest", () =>
 	 */
 	test("diffArraySize", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
-		const actual = "int[6]";
-		const expected = "int[5]";
+		const actual = "int[1234567890]";
+		const expected = "int[1234 67890]";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
-			const scheme = new TextOnly();
-
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : int[6" + scheme.decoratePadding(1) + "]" + EOS_MARKER + "\n" +
-				"Diff    : " + TextOnly.DIFF_EQUAL.repeat(4) + TextOnly.DIFF_DELETE + TextOnly.DIFF_INSERT +
-				TextOnly.DIFF_EQUAL.repeat(1 + EOS_MARKER.length) + "\n" +
-				"Expected: int[" + scheme.decoratePadding(1) + "5]" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "int[12345${PADDING}67890]\"${EOS_MARKER}
+diff    : ${EQUAL.repeat(`"int[1234`.length)}${DELETE}${INSERT}\
+${EQUAL.repeat(`67890]"${EOS_MARKER}`.length)}
+expected: "int[1234${PADDING.repeat(2)}67890]"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	/**
-	 * Ensures that DiffGenerator.ReduceDeltasPerWord does not modify EQUAL deltas between matches. Meaning,
-	 * it should not collapse "-same-" into the [DELETE, INSERT] pair associated with "different"/"maybe".
+	 * Ensures that DiffGenerator.ReduceDeltasPerWord does not modify EQUAL deltas between matches. Meaning, it
+	 * should not collapse "-same-" into the [DELETE, INSERT] pair associated with "different"/"maybe".
 	 */
 	test("equalDeltaAfterReduceDeltasPerWord", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "different-same-different";
 		const expected = "maybe-same-maybe";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : different" + TextOnly.DIFF_PADDING.repeat("maybe".length) +
-				"-same-different" + TextOnly.DIFF_PADDING.repeat("maybe".length) + EOS_MARKER +
-				"\n" +
-				"Diff    : " + TextOnly.DIFF_DELETE.repeat("different".length) +
-				TextOnly.DIFF_INSERT.repeat("maybe".length) + TextOnly.DIFF_EQUAL.repeat("-same-".length) +
-				TextOnly.DIFF_DELETE.repeat("different".length) + TextOnly.DIFF_INSERT.repeat("maybe".length) +
-				TextOnly.DIFF_EQUAL.repeat(NEWLINE_MARKER.length) + "\n" +
-				"Expected: " + TextOnly.DIFF_PADDING.repeat("different".length) + "maybe-same-" +
-				TextOnly.DIFF_PADDING.repeat("different".length) + "maybe" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : "different${PADDING.repeat(`"maybe`.length)}-same-different"\
+${PADDING.repeat(`maybe"`.length) + EOS_MARKER}
+diff    : ${DELETE.repeat(`"different`.length)}\
+${INSERT.repeat(`"maybe`.length)}\
+${EQUAL.repeat("-same-".length)}\
+${DELETE.repeat(`different"`.length)}\
+${INSERT.repeat(`maybe"`.length)}\
+${EQUAL.repeat(NEWLINE_MARKER.length)}
+expected: ${PADDING.repeat(`"different`.length)}\
+"maybe-same-${PADDING.repeat(`different"`.length)}maybe"${EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
 	/**
 	 * When processing DELETE "same\nactual" followed by INSERT "same\nexpected", ensure that actual and
-	 * expected keep track of different "diff" line numbers. Otherwise, the DELETE advances to the next line
-	 * and INSERT updates the diff of the wrong line number. We end up with:
+	 * expected keep track of different "diff" line numbers. Otherwise, the DELETE advances to the next line and
+	 * INSERT updates the diff of the wrong line number. We end up with:
 	 *
-	 * <pre><code>
-	 * Actual@1  : same\n
-	 * Diff      : ------
-	 * Expected  :
+	 * ```console
+	 * actual@1  : same\n
+	 * diff      : ------
+	 * expected  :
 	 *
-	 * Actual@2  : actual
-	 * Diff      : ------++++++
-	 * Expected@1:       same\n
-	 * </code></pre>
-	 * <p>
+	 * actual@2  : actual
+	 * diff      : ------++++++
+	 * expected@1:       same\n
+	 * ```
 	 * instead of:
-	 *
-	 * <pre><code>
-	 * Actual    : same\n
-	 * Expected  : same\n
-	 * </code></pre>
+	 * ```
+	 * actual    : same\n
+	 * expected  : same\n
+	 * ```
 	 */
 	test("independentDiffLineNumbers", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
 
 		const actual = "actual\nsame\nactual actual";
 		const expected = "expected\nsame\nexpected expected";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : actual" + TextOnly.DIFF_PADDING.repeat("expected".length) +
-				NEWLINE_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat("actual".length) +
-				TextOnly.DIFF_INSERT.repeat("expected".length) + TextOnly.DIFF_EQUAL.repeat(NEWLINE_MARKER.length) +
-				"\n" +
-				"Expected@0: " + TextOnly.DIFF_PADDING.repeat("actual".length) + "expected" + NEWLINE_MARKER + "\n" +
-				"\n" +
-				"[...]\n" +
-				"\n" +
-				"Actual@2  : actual " + TextOnly.DIFF_PADDING.repeat("expected".length) + "actual" +
-				TextOnly.DIFF_PADDING.repeat("expected".length) + EOS_MARKER + "\n" +
-				"Diff      : " + TextOnly.DIFF_DELETE.repeat("actual".length) +
-				TextOnly.DIFF_INSERT.repeat("expected".length) + TextOnly.DIFF_EQUAL +
-				TextOnly.DIFF_DELETE.repeat("actual".length) + TextOnly.DIFF_INSERT.repeat("expected".length) +
-				TextOnly.DIFF_EQUAL.repeat(EOS_MARKER.length) + "\n" +
-				"Expected@2: " + TextOnly.DIFF_PADDING.repeat("actual".length) + "expected " +
-				TextOnly.DIFF_PADDING.repeat("actual".length) + "expected" + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
-		}
-	});
+			const expectedMessage = `\
+actual@0  : "actual${PADDING.repeat(`"expected`.length) + NEWLINE_MARKER}
+diff      : ${DELETE.repeat(`"actual`.length) + INSERT.repeat(`"expected`.length) +
+			EQUAL.repeat(NEWLINE_MARKER.length)}
+expected@0: ${PADDING.repeat(`"actual`.length)}"expected${NEWLINE_MARKER}
 
-	/**
-	 * Ensures that "expected" is included in the error message when it is shorter than the terminal width.
-	 */
-	test("expectedShorterThanTerminalWidth", () =>
-	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
-			"actual must be equal to expected.".length + 1);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+[...]
 
-		const actual = "actual";
-		const expected = "expected";
-		try
-		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
-		}
-		catch (e)
-		{
-			const actualMessage = (e as Error).message;
-			assert(actualMessage.includes("must be equal to " + expected),
-				"Actual:\n" + actualMessage);
-		}
-	});
+actual@2  : actual ${PADDING.repeat("expected".length)}actual"${PADDING.repeat(`expected"`.length) + EOS_MARKER}
+diff      : ${DELETE.repeat("actual".length) + INSERT.repeat("expected".length) + EQUAL +
+			DELETE.repeat(`actual"`.length) + INSERT.repeat(`expected"`.length) + EQUAL.repeat(EOS_MARKER.length)}
+expected@2: ${PADDING.repeat("actual".length)}expected${PADDING.repeat(` actual"`.length)}expected"\
+${EOS_MARKER}`;
 
-	/**
-	 * Ensures that "expected" is excluded from the error message when it is equal to the terminal width.
-	 */
-	test("expectedEqualToTerminalWidth", () =>
-	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
-			"actual must be equal to expected.".length);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
 
-		const actual = "actual";
-		const expected = "expected";
-		try
-		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
-		}
-		catch (e)
-		{
-			const actualMessage = (e as Error).message;
-			assert(!actualMessage.includes("must be equal to " + expected),
-				"Actual:\n" + actualMessage);
-		}
-	});
-
-	/**
-	 * Ensures that "expected" is excluded from the error message when it is equal to the terminal width.
-	 */
-	test("expectedLongerThanTerminalWidth", () =>
-	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE,
-			"actual must be equal to expected.".length - 1);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
-
-		const actual = "actual";
-		const expected = "expected";
-		try
-		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
-		}
-		catch (e)
-		{
-			const actualMessage = (e as Error).message;
-			assert(!actualMessage.includes("must be equal to " + expected),
-				"Actual:\n" + actualMessage);
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -673,31 +686,34 @@ suite("DiffTest", () =>
 	 */
 	test("diffArraySize_16Colors", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(
+			TerminalEncoding.NODE_16_COLORS), Configuration.DEFAULT);
 
-		const actual = "int[6]";
-		const expected = "int[5]";
+		const actual = "int[1234567890]";
+		const expected = "int[1234 67890]";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const scheme = new Node16Colors();
 
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
-				scheme.decorateDeletedText("6") + scheme.decoratePadding(1) +
-				scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
-				"Expected: " + scheme.decorateEqualText("int[") +
-				scheme.decoratePadding(1) + scheme.decorateInsertedText("5") +
-				scheme.decorateEqualText("]") + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : ${scheme.decorateEqualText(`"int[1234`) +
+			scheme.decorateDeletedText("5") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText(`67890]"`) + EOS_MARKER}
+expected: ${scheme.decorateEqualText(`"int[1234`) + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateInsertedText(" ") + scheme.decorateEqualText(`67890]"`) + EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -706,31 +722,34 @@ suite("DiffTest", () =>
 	 */
 	test("diffArraySize_256Colors", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_256_COLORS);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(
+			TerminalEncoding.NODE_256_COLORS), Configuration.DEFAULT);
 
-		const actual = "int[6]";
-		const expected = "int[5]";
+		const actual = "int[1234567890]";
+		const expected = "int[1234 67890]";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const scheme = new Node256Colors();
 
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
-				scheme.decorateDeletedText("6") + scheme.decoratePadding(1) +
-				scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
-				"Expected: " + scheme.decorateEqualText("int[") +
-				scheme.decoratePadding(1) + scheme.decorateInsertedText("5") +
-				scheme.decorateEqualText("]") + EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : ${scheme.decorateEqualText(`"int[1234`) +
+			scheme.decorateDeletedText("5") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText(`67890]"`) + EOS_MARKER}
+expected: ${scheme.decorateEqualText(`"int[1234`) + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateInsertedText(" ") + scheme.decorateEqualText(`67890]"`) + EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -739,31 +758,34 @@ suite("DiffTest", () =>
 	 */
 	test("diffArraySize_16MillionColors", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16MILLION_COLORS);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(
+			TerminalEncoding.NODE_16MILLION_COLORS), Configuration.DEFAULT);
 
-		const actual = "int[6]";
-		const expected = "int[5]";
+		const actual = "int[1234567890]";
+		const expected = "int[1234 67890]";
 		try
 		{
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const scheme = new Node16MillionColors();
 
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual  : " + scheme.decorateEqualText("int[") +
-				scheme.decorateDeletedText("6") + scheme.decoratePadding(1) +
-				scheme.decorateEqualText("]") + EOS_MARKER + "\n" +
-				"Expected: " + scheme.decorateEqualText("int[") +
-				scheme.decoratePadding(1) + scheme.decorateInsertedText("5") + scheme.decorateEqualText("]") +
-				EOS_MARKER;
-			assert(actualMessage.includes(expectedMessage),
-				"Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual  : ${scheme.decorateEqualText(`"int[1234`) +
+			scheme.decorateDeletedText("5") + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateEqualText(`67890]"`) + EOS_MARKER}
+expected: ${scheme.decorateEqualText(`"int[1234`) + scheme.decoratePadding(scheme.getPaddingMarker()) +
+			scheme.decorateInsertedText(" ") + scheme.decorateEqualText(`67890]"`) + EOS_MARKER}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 
@@ -772,31 +794,35 @@ suite("DiffTest", () =>
 	 */
 	test("emptyLineNumber_16Colors", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(
+			TerminalEncoding.NODE_16_COLORS), Configuration.DEFAULT);
 
 		try
 		{
-			const actual = "foo\nbar";
-			const expected = "bar";
-			requirements.requireThat(actual, "actual").isEqualTo(expected);
-			assert.fail("Expected method to throw exception");
+			const actual = EXTEND_LENGTH("prefix") + "foo\nbar";
+			const expected = EXTEND_LENGTH("prefix") + "bar";
+			validators.requireThat(actual, "actual").isEqualTo(expected);
+			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const scheme = new Node16Colors();
 
 			const actualMessage = (e as Error).message;
-			const expectedMessage = "Actual@0  : " + scheme.decorateDeletedText("foo" + NEWLINE_MARKER) +
-				scheme.decoratePadding(("bar" + EOS_MARKER).length) + "\n" +
-				"Expected@0: " + scheme.decoratePadding(("foo" + NEWLINE_MARKER).length) +
-				scheme.decorateEqualText("bar" + EOS_MARKER) + "\n" +
-				"\n" +
-				"Actual@1  : " + scheme.decorateEqualText("bar" + EOS_MARKER) + "\n" +
-				"Expected  : " + scheme.decoratePadding(("bar" + EOS_MARKER).length);
-			assert(actualMessage.includes(expectedMessage), "Expected:\n" + expectedMessage +
-				"\n****************\nActual:\n" + actualMessage);
+			const expectedMessage = `\
+actual@0  : ${scheme.decorateEqualText(`"${EXTEND_LENGTH("prefix")}`) + scheme.decorateDeletedText(`foo${NEWLINE_MARKER}`)}
+expected@0: ${scheme.decorateEqualText(`"${EXTEND_LENGTH("prefix")}`) +
+			scheme.decoratePadding(scheme.getPaddingMarker().repeat((`foo${NEWLINE_MARKER}`).length))}
+
+actual@1  : ${scheme.decorateEqualText(`bar"${EOS_MARKER}`)}
+expected@0: ${scheme.decorateEqualText(`bar"${EOS_MARKER}`)}`;
+
+			assert(actualMessage.includes(expectedMessage), `\
+**************** Actual:
+${actualMessage}
+
+**************** expected:
+${expectedMessage}`);
 		}
 	});
 });

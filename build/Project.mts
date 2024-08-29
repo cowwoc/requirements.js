@@ -17,11 +17,11 @@ import {minify} from "terser";
 import {spawn} from "child_process";
 import {LogFactory} from "./LogFactory.mjs";
 import {default as chokidar} from "chokidar";
-import eslintConfig from "../.eslintrc.mjs";
+import eslintConfig from "../eslint.config.mjs";
 import {Logger} from "winston";
 import {mode} from "./mode.mjs";
 import parseArgs from "minimist";
-import _ from "lodash";
+import debounce from "lodash.debounce";
 
 
 class Project
@@ -47,19 +47,19 @@ class Project
 		console.time("lintTypescript");
 		const eslint = new ESLint({
 			baseConfig: eslintConfig,
-			cache: true,
-			"overrideConfig": {
-				parserOptions: {
-					debugLevel: false
-				}
-			}
+			cache: true
 		});
 		let results;
 		try
 		{
 			results = await eslint.lintFiles(sources);
+			const resultsMeta: ESLint.LintResultData =
+				{
+					cwd: process.cwd(),
+					rulesMeta: eslint.getRulesMetaForResults(results)
+				};
 			const formatter = await eslint.loadFormatter("stylish");
-			const resultText = await formatter.format(results);
+			const resultText = await formatter.format(results, resultsMeta);
 			if (resultText)
 				this.log.info(resultText);
 		}
@@ -151,7 +151,8 @@ class Project
 		console.time("bundleForBrowser");
 
 		// Need to cast plugins to Function due to bug in type definitions.
-		// WORKAROUND: https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
+		// WORKAROUND:
+		// https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
 		const plugins: Plugin[] = [
 			rollupCommonjs,
 			(rollupTypescript as unknown as Function)({
@@ -305,7 +306,7 @@ class Project
 		const promise = new Promise(function(resolve, reject)
 		{
 			// https://stackoverflow.com/a/14231570/14731
-			const process = spawn(c8Path, [mochaPath, "./test/**/*.mts", "--mode=" + mode],
+			const process = spawn(c8Path, [mochaPath, "--parallel", "./test/**/*.mts", "--mode=" + mode],
 				{
 					shell: true,
 					stdio: "inherit"
@@ -350,6 +351,22 @@ class Project
 		console.timeEnd("build");
 	}
 
+	public async clean()
+	{
+		console.time("clean");
+		const typescriptFiles = await this.getTypescriptFiles();
+		for (const file of typescriptFiles)
+		{
+			let basePath = path.posix.basename(file);
+			basePath = basePath.substring(0, basePath.lastIndexOf("."));
+			if (fs.existsSync(basePath + ".mjs"))
+				await fs.promises.unlink(basePath + ".mjs");
+			if (fs.existsSync(basePath + ".mjs.map"))
+				await fs.promises.unlink(basePath + ".mjs.map");
+		}
+		console.timeEnd("clean");
+	}
+
 	/**
 	 * @param paths the paths to watch
 	 * @param callback the callback to notify after a path is updated.
@@ -378,7 +395,7 @@ class Project
 			await callback(posixPaths);
 		}
 
-		const queueUpdate = _.debounce(processUpdate, 500);
+		const queueUpdate = debounce(processUpdate, 500);
 		const onUpdate = async (changed: string, stats: fs.Stats) =>
 		{
 			changes.add(changed);
@@ -427,10 +444,23 @@ switch (command._[0])
 		await project.build();
 		break;
 	}
+	case "clean":
+	{
+		await project.clean();
+		break;
+	}
 	case "watch":
 	{
 		await project.watch();
 		break;
+	}
+	default:
+	{
+		// Use POSIX paths across all platforms
+		const posixPath = url.fileURLToPath(import.meta.url).split(path.sep).join(path.posix.sep);
+		const __filename = path.posix.basename(posixPath);
+		const log = LogFactory.getLogger(__filename);
+		log.error(`Unknown command: ${command._[0]}`);
 	}
 }
 console.timeEnd("Time elapsed");

@@ -1,9 +1,32 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 4.0 - ?
+
+* Breaking changes:
+  * Replaced `validateThat()` with `checkIf()`.
+  * Use consistent parameter ordering across the entire API: `(value, name)`.
+    * Adding contextual information now looks like this: `requireThat().withContext(value, name)`
+  * Added `Validator.and(validation: (validator: S) => void)` to nest validations.
+  * Replaced `isBetweenClosed(min, max)` with `isBetween(min, true, max, true)`.
+  * Removed ability to configure validators in order to simplify API.
+  * Renamed `StringValidator.isInteger()` to `asPrimitiveInteger()` and `isCharacter()`
+    to `asPrimitiveCharacter()`.
+  * Replaced `Validator.elseGetMessages()` with `Validator.getFailures().getMessages()`.
+  * Replaced `Validator.elseGetException()` with `Validator.getFailures().getException()`.
+  * Dropped the `isOneOf()` and `isNotOneOf()` functionality yet again. I haven't figured out a good
+    design for this yet.
+* New features:
+  * Added `validationFailed()` and `getValueOrDefault()` to all validators.
+  * Added `StringValidator.matches(regex)`.
+  * Replaced `ClassValidator.isSupertypeOf()`, `isSubtypeOf()` with `Type.isSupertypeOf()`.
+* Improvements
+  * If `checkIf()` cannot run validations due to a null value, the expected conditions are still reported.
+
 ## Version 3.4.0 - 2023/12/04
 
-* Breaking changes: The following `ObjectVerifier` methods now throw `TypeError` instead of `RangeError` if the actual
+* Breaking changes: The following `ObjectVerifier` methods now throw `TypeError` instead of `RangeError` if
+  the actual
   value does not have the desired type:
   * `isNull()`
   * `isNotNull()`
@@ -72,8 +95,9 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
     The latter is used for assertions with a return value.
     This change improves the runtime performance of `assertThat()` and reduces code duplication across
     the library.
-  * Removed `Object.isActualAvailable()` in favor of `Requirements.assertionsAreEnabled()`.
-  * `Requirements` no longer returns copies on modification. Added `Requirements.copy()` to facilitate old behavior.
+  * Removed `Object.isActualAvailable()` in favor of `Requirements.assumeThatEnabled()`.
+  * `Requirements` no longer returns copies on modification. Added `Requirements.copy()` to facilitate old
+    behavior.
 * Documentation: Migrated from JSDoc to Typedoc.
 * Build: Migrated from yarn to pnpm.
 
@@ -118,15 +142,16 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
 ## Version 2.0.9 - 2020/06/17
 
 * Bugfixes
-  * Documentation: `Configuration.getContext()` returns a `Map<string, string>` not an `Array<string, string>`.
+  * Documentation: `Configuration.getContext()` returns a `Map<string, string>` not
+    an `Array<string, string>`.
 * Improvements
   * Resolved CVE-2020-7662 security vulnerability by upgrading dependencies.
 
 ## Version 2.0.8 - 2020/05/07
 
 * Bugfixes
-  * `ValidationFailure.mergeContext()` was throwing an exception if the global configuration contained a failure
-    context.
+  * `ValidationFailure.mergeContext()` was throwing an error if the global configuration contained a
+    failure context.
 
 ## Version 2.0.7 - 2020/04/20
 
@@ -136,8 +161,8 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
 ## Version 2.0.5 - 2020/04/19
 
 * Improvements
-  * If a failure message is longer than the terminal width, push the expected value from the failure message to the
-    exception context. This helps failure messages remain readable in the face of long values.
+  * If a failure message is longer than the terminal width, push the expected value from the failure message
+    to the error context. This helps failure messages remain readable in the face of long values.
   * Added `GlobalConfiguration.getTerminalWidth()`, `withDefaultTerminalWidth()`, `withTerminalWidth()`.
 
 ## Version 2.0.0 - 2020/04/15

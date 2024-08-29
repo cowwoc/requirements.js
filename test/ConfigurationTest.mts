@@ -4,55 +4,40 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	Configuration,
 	TerminalEncoding,
-	Requirements
+	Configuration
 } from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {JavascriptValidatorsImpl} from "../src/internal/validator/JavascriptValidatorsImpl.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
-const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-const configuration = new Configuration(globalConfiguration);
-const requirements = new Requirements(configuration);
 
 suite("Configuration", () =>
 {
-	test("withAssertionsDisabled", () =>
-	{
-		requirements.withAssertionsEnabled().withAssertionsDisabled();
-	});
-
-	test("withAssertionsDisabled().alreadyDisabled", () =>
-	{
-		requirements.withAssertionsDisabled();
-	});
-
-	test("withAssertionsEnabled", () =>
-	{
-		requirements.withAssertionsEnabled();
-	});
-
-	test("withAssertionsEnabled().alreadyEnabled", () =>
-	{
-		requirements.withAssertionsEnabled().withAssertionsEnabled();
-	});
-
 	test("getContext", () =>
 	{
-		assert.deepEqual(requirements.getContext(), new Map());
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
+
+		assert.deepEqual(validators.getContext(), new Map());
 	});
 
 	test("putContext", () =>
 	{
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
+
 		const valueNotString = 12345;
-		const requirements2 = requirements.putContext("key", valueNotString);
-		assert.equal(requirements, requirements2);
+		const validators2 = validators.withContext(valueNotString, "key");
+		assert.strictEqual(validators, validators2);
 	});
 
 	test("putContext(keyNotString)", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.putContext(5 as unknown as string, "value");
+			const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+				Configuration.DEFAULT);
+			validators.withContext("value", 5 as unknown as string);
 		}, TypeError);
 	});
 
@@ -60,20 +45,27 @@ suite("Configuration", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.putContext(null as unknown as string, "value");
+			const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+				Configuration.DEFAULT);
+			validators.withContext("value", null as unknown as string);
 		}, TypeError);
 	});
 
 	test("convertToString(undefined)", () =>
 	{
-		// eslint-disable-next-line no-undefined
-		const actual = configuration.convertToString(undefined);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
+
+		const actual = validators.getConfiguration().stringMappers().toString(undefined);
 		assert.strictEqual(actual, "undefined");
 	});
 
 	test("convertToString(null)", () =>
 	{
-		const actual = configuration.convertToString(null);
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
+
+		const actual = validators.getConfiguration().stringMappers().toString(null);
 		assert.strictEqual(actual, "null");
 	});
 });

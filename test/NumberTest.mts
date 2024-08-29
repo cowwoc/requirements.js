@@ -1,36 +1,41 @@
 import {
-	Requirements,
-	Configuration,
-	TerminalEncoding
+	TerminalEncoding,
+	Configuration
 } from "../src/index.mjs";
 import {
 	suite,
 	test
 } from "mocha";
 import {assert} from "chai";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {
+	JavascriptValidatorsImpl,
+	Type
+} from "../src/internal/internal.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
-const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-const configuration = new Configuration(globalConfiguration);
-const requirements = new Requirements(configuration);
+const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+	Configuration.DEFAULT);
 
 suite("NumberTest", () =>
 {
 	test("isBetween_actualIsLowerBound", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isBetween(0, 2);
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isBetween(0, 2));
 	});
 
 	test("isBetween_actualIsInBounds", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isBetween(0, 2);
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isBetween(0, 2));
 	});
 
 	test("isBetween_actualIsUpperBound", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(2 as unknown, "actual").isNumber().isBetween(0, 2);
+			validators.requireThat(2 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isBetween(0, 2));
 		}, RangeError);
 	});
 
@@ -38,25 +43,29 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isBetween(10, 20);
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isBetween(10, 20));
 		}, RangeError);
 	});
 
 	test("isBetweenClosed_actualIsUpperBound", () =>
 	{
-		requirements.requireThat(2 as unknown, "actual").isNumber().isBetweenClosed(0, 2);
+		validators.requireThat(2 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isBetween(0, true, 2, true));
 	});
 
 	test("isNegative_actualIsNegativeOne", () =>
 	{
-		requirements.requireThat(-1 as unknown, "actual").isNumber().isNegative();
+		validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNegative());
 	});
 
 	test("isNegative_actualIsZero", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(0 as unknown, "actual").isNumber().isNegative();
+			validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isNegative());
 		}, RangeError);
 	});
 
@@ -64,34 +73,40 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isNegative();
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isNegative());
 		}, RangeError);
 	});
 
 	test("isNotNegative", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isNotNegative();
-		requirements.requireThat(1 as unknown, "actual").isNumber().isNotNegative();
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotNegative());
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotNegative());
 	});
 
 	test("isNotNegative_actualIsNegativeOne", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(-1 as unknown, "actual").isNumber().isNotNegative();
+			validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotNegative());
 		}, RangeError);
 	});
 
 	test("isZero", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isZero();
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isZero());
 	});
 
 	test("isZero_actualIsOne", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isZero();
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isZero());
 		}, RangeError);
 	});
 
@@ -99,34 +114,40 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(-1 as unknown, "actual").isNumber().isZero();
+			validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isZero());
 		}, RangeError);
 	});
 
 	test("isNotZero", () =>
 	{
-		requirements.requireThat(-1 as unknown, "actual").isNumber().isNotZero();
-		requirements.requireThat(1 as unknown, "actual").isNumber().isNotZero();
+		validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotZero());
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotZero());
 	});
 
 	test("isNotZero_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(0 as unknown, "actual").isNumber().isNotZero();
+			validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotZero());
 		}, RangeError);
 	});
 
 	test("isPositive", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isPositive();
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isPositive());
 	});
 
 	test("isPositive_actualIsZero", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(0 as unknown, "actual").isNumber().isPositive();
+			validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isPositive());
 		}, RangeError);
 	});
 
@@ -134,39 +155,46 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(-1 as unknown, "actual").isNumber().isPositive();
+			validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isPositive());
 		}, RangeError);
 	});
 
 	test("isNotPositive", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isNotPositive();
-		requirements.requireThat(-1 as unknown, "actual").isNumber().isNotPositive();
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotPositive());
+		validators.requireThat(-1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotPositive());
 	});
 
 	test("isNotPositive_actualIsOne", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isNotPositive();
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isNotPositive());
 		}, RangeError);
 	});
 
 	test("isLessThanVariable", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isLessThan(1, "expected");
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1, "expected"));
 	});
 
 	test("isLessThanConstant", () =>
 	{
-		requirements.requireThat(0 as unknown, "actual").isNumber().isLessThan(1);
+		validators.requireThat(0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1));
 	});
 
 	test("isLessThanVariable_actualIsEqual", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isLessThan(1, "expected");
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1, "expected"));
 		}, RangeError);
 	});
 
@@ -174,7 +202,8 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isLessThan(1);
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1));
 		}, RangeError);
 	});
 
@@ -182,7 +211,8 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(2 as unknown, "actual").isNumber().isLessThan(1, "expected");
+			validators.requireThat(2 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1, "expected"));
 		}, RangeError);
 	});
 
@@ -190,25 +220,31 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(2 as unknown, "actual").isNumber().isLessThan(1);
+			validators.requireThat(2 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThan(1));
 		}, RangeError);
 	});
 
 	test("isLessThanOrEqualToVariable", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isLessThanOrEqualTo(1, "expected");
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).
+				isLessThanOrEqualTo(1, "expected"));
 	});
 
 	test("isLessThanOrEqualToConstant", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isLessThanOrEqualTo(1);
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThanOrEqualTo(1));
 	});
 
 	test("isLessThanOrEqualToVariable_actualIsGreater", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(3 as unknown, "actual").isNumber().isLessThanOrEqualTo(2, "expected");
+			validators.requireThat(3 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).
+					isLessThanOrEqualTo(2, "expected"));
 		}, RangeError);
 	});
 
@@ -216,25 +252,29 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(3 as unknown, "actual").isNumber().isLessThanOrEqualTo(2);
+			validators.requireThat(3 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isLessThanOrEqualTo(2));
 		}, RangeError);
 	});
 
 	test("isGreaterThanVariable", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(0, "expected");
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(0, "expected"));
 	});
 
 	test("isGreaterThanConstant", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(0);
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(0));
 	});
 
 	test("isGreaterThanVariable_actualIsEqual", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(1, "expected");
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(1, "expected"));
 		}, RangeError);
 	});
 
@@ -242,7 +282,8 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(1);
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(1));
 		}, RangeError);
 	});
 
@@ -250,8 +291,8 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(2,
-				"expected");
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(2, "expected"));
 		}, RangeError);
 	});
 
@@ -259,25 +300,31 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThan(2);
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThan(2));
 		}, RangeError);
 	});
 
 	test("isGreaterThanOrEqualToVariable", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThanOrEqualTo(1, "expected");
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).
+				isGreaterThanOrEqualTo(1, "expected"));
 	});
 
 	test("isGreaterThanOrEqualToConstant", () =>
 	{
-		requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThanOrEqualTo(1);
+		validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThanOrEqualTo(1));
 	});
 
 	test("isGreaterThanOrEqualToVariable_actualIsLess", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThanOrEqualTo(2, "expected");
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).
+					isGreaterThanOrEqualTo(2, "expected"));
 		}, RangeError);
 	});
 
@@ -285,77 +332,87 @@ suite("NumberTest", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1 as unknown, "actual").isNumber().isGreaterThanOrEqualTo(2);
+			validators.requireThat(1 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isGreaterThanOrEqualTo(2));
 		}, RangeError);
 	});
 
 	test("isFinite", () =>
 	{
-		requirements.requireThat(1.0 as unknown, "actual").isNumber().isFinite();
+		validators.requireThat(1.0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isFinite());
 	});
 
 	test("isFinite_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1.0 / 0.0 as unknown, "actual").isNumber().isFinite();
+			validators.requireThat(1.0 / 0.0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isFinite());
 		}, RangeError);
 	});
 
 	test("isNotFinite", () =>
 	{
-		requirements.requireThat(1.0 / 0.0 as unknown, "actual").isNumber().isInfinite();
+		validators.requireThat(1.0 / 0.0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isInfinite());
 	});
 
 	test("isNotFinite_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1.0 as unknown, "actual").isNumber().isInfinite();
+			validators.requireThat(1.0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isInfinite());
 		}, RangeError);
 	});
 
 	test("isNumber", () =>
 	{
-		requirements.requireThat(1.0 as unknown, "actual").isNumber();
+		validators.requireThat(1.0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()));
 	});
 
 	test("isNumber_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(0.0 / 0.0 as unknown, "actual").isNumber().isFinite();
+			validators.requireThat(0.0 / 0.0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isFinite());
 		}, RangeError);
 	});
 
 	test("isInfinite", () =>
 	{
-		requirements.requireThat(0.0 / 0.0 as unknown, "actual").isNumber().isInfinite();
+		validators.requireThat(0.0 / 0.0 as unknown, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as number, v.getName()).isInfinite());
 	});
 
 	test("isInfinite_False", () =>
 	{
 		assert.throws(function()
 		{
-			requirements.requireThat(1.0 as unknown, "actual").isNumber().isInfinite();
+			validators.requireThat(1.0 as unknown, "actual").isType(Type.NUMBER).
+				and(v => validators.requireThat(v.getValue() as number, v.getName()).isInfinite());
 		}, RangeError);
 	});
 
 	test("getActual", () =>
 	{
 		const input = 5;
-		const output = requirements.requireThat(input, "input").getActual();
-		assert.equal(output, input);
+		const output = validators.requireThat(input, "input").getValue();
+		assert.strictEqual(output, input);
 	});
 
-	test("validateThatNullAsNumber", () =>
+	test("checkIfNullAsNumber", () =>
 	{
 		const actual = null;
-		const expectedMessages = ["actual must be a number.\n" +
-		"Actual: null\n" +
-		"Type  : null"];
-		const actualFailures = requirements.validateThat(actual, "actual").isNumber().getFailures();
-		const actualMessages = actualFailures.map(failure => failure.getMessage());
-		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
+		const expectedMessages = [`\
+"actual" must be a number.
+actual: null`];
+		const actualFailures = validators.checkIf(actual, "actual").isType(Type.NUMBER).
+			and(v => validators.requireThat(v.getValue() as unknown as number, v.getName())).elseGetFailures();
+		const actualMessages = actualFailures.getFailures().map(failure => failure.getMessage());
+		validators.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

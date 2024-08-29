@@ -29,18 +29,12 @@ Actual : [2, 3, 4, 6]
 Missing: [1, 5]
 ```
 
-## Clean stack-traces
-
-This API's classes do not show up in your stack-traces.
-
-```text
-TypeError: actual may not be null
-```
-
 ## Assertion support
 
-All verifiers allocate memory which is especially hard to justify given that most checks are never going to fail. If
-you need to run in a high-performance, zero allocation environment (to reduce latency and jitter) look no further than
+All verifiers allocate memory which is especially hard to justify given that most checks are never going to
+fail. If
+you need to run in a high-performance, zero allocation environment (to reduce latency and jitter) look no
+further than
 `DefaultRequirements.assertThat()`.
 
 `assertThat()` skips verification if assertions are disabled. `DefaultRequirements` might be less flexible
@@ -49,9 +43,11 @@ performance and no allocations if assertions are disabled.
 
 ## Grouping nested requirements
 
-Some classes provide a mechanism for grouping nested requirements. For example, `MapVerifier` has methods `keys()` and
-`keys(consumer)`, `values()` and `values(consumer)`. This enables one to group requirements that share the same parent.
-For example:
+Some classes provide a mechanism for grouping nested requirements. For example, `MapVerifier` has
+methods `keys()` and
+`keys(consumer)`, `values()` and `values(consumer)`. This enables one to group requirements that share the
+same parent.
+For example,
 
 ```typescript
 const nameToAge = new Map();
@@ -66,13 +62,14 @@ can be rewritten as:
 
 ```typescript
 requireThat(nameToAge, "nameToAge").asMap().
-	keys(k -> k.containsAll(["Leah", "Nathaniel"])).
-	values(v -> v.containsAll([3, 1]));
+	keys(k => k.containsAll(["Leah", "Nathaniel"])).
+	values(v => v.containsAll([3, 1]));
 ```
 
 ## String diff
 
-When a [String comparison](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/ObjectVerifier.html#isEqualTo)
+When
+a [String comparison](https://cowwoc.github.io/requirements.js/4.0.0/docs/api/ObjectVerifier.html#isEqualTo)
 fails, the library outputs a [diff](String_Diff.md) of the values being compared.
 
 ![colored-diff-example4.png](colored-diff-example4.png)
@@ -90,7 +87,7 @@ class Player
 
 	constructor(name)
 	{
-		this.name = requireThat(name, "name").isNotEmpty().getActual();
+		this.name = requireThat(name, "name").isNotEmpty().getValue();
 	}
 }
 ```
