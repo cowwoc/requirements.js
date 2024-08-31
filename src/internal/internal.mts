@@ -189,6 +189,7 @@ import {
 	stringDoesNotEndWith,
 	stringContains,
 	stringDoesNotContain,
+	stringDoesNotContainWhitespace,
 	stringMatches
 } from "./message/StringMessages.mjs";
 import {
@@ -356,6 +357,7 @@ export
 	stringDoesNotEndWith,
 	stringContains,
 	stringDoesNotContain,
+	stringDoesNotContainWhitespace,
 	stringMatches,
 	Difference,
 	ObjectAndSize,

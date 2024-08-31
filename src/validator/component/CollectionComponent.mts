@@ -117,7 +117,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection consists of the same elements as `unwanted`,
 	 *                    irrespective of their order
 	 */
@@ -131,7 +131,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param expected - the desired elements
 	 * @returns this
-	 * @throws TypeError  if the value or `expected` are `null`
+	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                                  <ul>
 	 *                                    <li>the collection is missing any element in `expected`</li>
@@ -147,7 +147,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection consists of the same elements as `unwanted`,
 	 *                    irrespective of their order
 	 */
@@ -162,7 +162,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -184,7 +184,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -208,7 +208,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangError if:
 	 *                   <ul>
 	 *                     <li>`name` is empty</li>
@@ -230,7 +230,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -250,7 +250,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param expected - the desired elements
 	 * @returns this
-	 * @throws TypeError  if the value or `expected` are `null`
+	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain any element in `expected`
 	 */
 	containsAny(expected: Set<E>): S;
@@ -260,7 +260,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains any of the elements in `unwanted`
 	 */
 	doesNotContainAny(unwanted: Set<E>): S;
@@ -270,7 +270,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param expected - the desired elements
 	 * @returns this
-	 * @throws TypeError  if the value or `expected` are `null`
+	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain any element in `expected`
 	 */
 	containsAny(expected: E[]): S;
@@ -280,7 +280,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains any of the elements in `unwanted`
 	 */
 	doesNotContainAny(unwanted: E[]): S;
@@ -291,7 +291,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -311,7 +311,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -331,7 +331,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -351,7 +351,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -370,7 +370,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param expected - the desired elements
 	 * @returns this
-	 * @throws TypeError  if the value or `expected` are `null`
+	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain all the elements in `expected`
 	 */
 	containsAll(expected: Set<E>): S;
@@ -380,7 +380,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains all the elements of `unwanted`
 	 */
 	doesNotContainAll(unwanted: Set<E>): S;
@@ -390,7 +390,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param expected - the desired elements
 	 * @returns this
-	 * @throws TypeError  if the value or `expected` are `null`
+	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain all the elements in `expected`
 	 */
 	containsAll(expected: E[]): S;
@@ -400,7 +400,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *
 	 * @param unwanted - the unwanted elements
 	 * @returns this
-	 * @throws TypeError  if the value or `unwanted` are `null`
+	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains all the elements of `unwanted`
 	 */
 	doesNotContainAll(unwanted: E[]): S;
@@ -411,7 +411,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -431,7 +431,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -451,7 +451,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param expected - the desired elements
 	 * @param name     - the name of the expected collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>
@@ -471,7 +471,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @param unwanted - the unwanted elements
 	 * @param name     - the name of the unwanted collection
 	 * @returns this
-	 * @throws TypeError  if the value or any of the arguments are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if:
 	 *                    <ul>
 	 *                      <li>`name` is empty</li>

@@ -31,7 +31,7 @@ abstract class AbstractApplicationScope implements ApplicationScope
 	 *
 	 * @param parent              - the parent scope
 	 * @param globalConfiguration - the global configuration
-	 * @throws TypeError if any of the arguments are `null`
+	 * @throws TypeError if any of the arguments are `undefined` or `null`
 	 */
 	protected constructor(parent: ProcessScope, globalConfiguration: GlobalConfiguration)
 	{

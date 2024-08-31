@@ -137,6 +137,21 @@ suite("StringTest", () =>
 		}, RangeError);
 	});
 
+	test("doesNotContainWhitespace", () =>
+	{
+		const actual = "mydogisthebest";
+		validators.requireThat(actual, "actual").doesNotContainWhitespace();
+	});
+
+	test("doesNotContainWhitespace_False", () =>
+	{
+		assert.throws(function()
+		{
+			const actual = "my dog is the best";
+			validators.requireThat(actual, "actual").doesNotContainWhitespace();
+		}, RangeError);
+	});
+
 	test("endsWith", () =>
 	{
 		const suffix = "home";

@@ -167,6 +167,21 @@ function stringDoesNotContain(validator: AbstractValidator<unknown, string>, unw
 
 /**
  * @param validator - the validator
+ * @returns a message for the validation failure
+ */
+function stringDoesNotContainWhitespace(validator: AbstractValidator<unknown, string>)
+{
+	const name = validator.getName();
+	const messageBuilder = new MessageBuilder(validator,
+		`${MessageBuilder.quoteName(name)} may not contain whitespace.`);
+	const value = validator.getValueOrDefault(null);
+	if (value !== null)
+		messageBuilder.withContext(value, name);
+	return messageBuilder;
+}
+
+/**
+ * @param validator - the validator
  * @param regex     - the regular expression
  * @returns a message for the validation failure
  */
@@ -194,5 +209,6 @@ export
 	stringDoesNotEndWith,
 	stringContains,
 	stringDoesNotContain,
+	stringDoesNotContainWhitespace,
 	stringMatches
 };

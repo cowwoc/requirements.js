@@ -18,6 +18,7 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
     design for this yet.
 * New features:
   * Added `validationFailed()` and `getValueOrDefault()` to all validators.
+  * Added `StringValidator.doesNotContainWhitespace()`.
   * Added `StringValidator.matches(regex)`.
   * Replaced `ClassValidator.isSupertypeOf()`, `isSubtypeOf()` with `Type.isSupertypeOf()`.
 * Improvements

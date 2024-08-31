@@ -17,7 +17,8 @@ import {
 	stringMatches,
 	stringIsTrimmed,
 	objectIsEmpty,
-	objectIsNotEmpty
+	objectIsNotEmpty,
+	stringDoesNotContainWhitespace
 } from "../internal.mjs";
 
 
@@ -73,7 +74,7 @@ class StringValidatorImpl extends AbstractValidator<StringValidator, string>
 	{
 		if (this.value.isNull())
 			this.onNull();
-		if (this.value.validationFailed(v => !/^\s|\s$/.test(v)))
+		if (this.value.validationFailed(v => v != null && !/^\s|\s$/.test(v)))
 		{
 			this.addRangeError(
 				stringIsTrimmed(this).toString());
@@ -149,6 +150,18 @@ class StringValidatorImpl extends AbstractValidator<StringValidator, string>
 		{
 			this.addRangeError(
 				stringDoesNotContain(this, unwanted).toString());
+		}
+		return this;
+	}
+
+	doesNotContainWhitespace(): StringValidator
+	{
+		if (this.value.isNull())
+			this.onNull();
+		if (this.value.validationFailed(v => v != null && !/\s/.test(v)))
+		{
+			this.addRangeError(
+				stringDoesNotContainWhitespace(this).toString());
 		}
 		return this;
 	}

@@ -26,8 +26,11 @@ class ValidationFailureImpl implements ValidationFailure
 	 * @param configuration    - the validator's configuration
 	 * @param message          - the failure message
 	 * @param errorBuilder - returns the error associated with the failure message
-	 * @throws AssertionError if any of the arguments are `null`. If the error message contains leading or
-	 *                        trailing whitespace, or is empty.
+	 * @throws AssertionError if:
+	 * <ul>
+	 *   <li>Any of the arguments are `undefined` or `null`.</li>
+	 *   <li>The error message contains leading or trailing whitespace, or is empty.</li>
+	 * </ul>
 	 */
 	public constructor(configuration: Configuration, message: string, errorBuilder: ErrorBuilder)
 	{

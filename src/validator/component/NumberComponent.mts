@@ -23,7 +23,7 @@ interface NumberComponent<S>
 	 *
 	 * @param factor - the number being multiplied
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `factor` are `undefined` or `null`
 	 * @throws RangeError if the value is not a multiple of `factor`
 	 */
 	isMultipleOf(factor: number): S;
@@ -34,7 +34,7 @@ interface NumberComponent<S>
 	 * @param factor - the number being multiplied
 	 * @param name   - the name of the factor
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty. If
 	 *                                  the value is not a multiple of `factor`.
 	 */
@@ -47,7 +47,7 @@ interface NumberComponent<S>
 	 *
 	 * @param factor - the number being multiplied
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `factor` are `undefined` or `null`
 	 * @throws RangeError if the value is a multiple of `factor`
 	 */
 	isNotMultipleOf(factor: number): S;
@@ -58,7 +58,7 @@ interface NumberComponent<S>
 	 * @param factor - the number being multiplied
 	 * @param name   - the name of the factor
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty. If
 	 *                                  the value is a multiple of `factor`.
 	 */
@@ -71,7 +71,7 @@ interface NumberComponent<S>
 	 *
 	 * @param maximumExclusive - the exclusive upper bound
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `maximumExclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is greater than or equal to `maximumExclusive`
 	 */
 	isLessThan(maximumExclusive: number): S;
@@ -82,7 +82,7 @@ interface NumberComponent<S>
 	 * @param maximumExclusive - the exclusive upper bound
 	 * @param name             - the name of the upper bound
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains a leading, trailing whitespace or is empty. If
 	 *                                  the value is greater than or equal to `maximumExclusive`.
 	 */
@@ -95,7 +95,7 @@ interface NumberComponent<S>
 	 *
 	 * @param maximumInclusive - the inclusive upper value
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `maximumInclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is greater than `maximumInclusive`
 	 */
 	isLessThanOrEqualTo(maximumInclusive: number): S;
@@ -106,7 +106,7 @@ interface NumberComponent<S>
 	 * @param maximumInclusive - the maximum value
 	 * @param name             - the name of the maximum value
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty. If
 	 *                                  the value is greater than `maximumInclusive`.
 	 */
@@ -119,7 +119,7 @@ interface NumberComponent<S>
 	 *
 	 * @param minimumInclusive - the minimum value
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `minimumInclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is less than `minimumInclusive`
 	 */
 	isGreaterThanOrEqualTo(minimumInclusive: number): S;
@@ -130,7 +130,7 @@ interface NumberComponent<S>
 	 * @param minimumInclusive - the minimum value
 	 * @param name             - the name of the minimum value
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty. If
 	 *                                  the value is less than `minimumInclusive`.
 	 */
@@ -143,7 +143,7 @@ interface NumberComponent<S>
 	 *
 	 * @param minimumExclusive - the exclusive lower bound
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or `minimumExclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is less than `minimumExclusive`
 	 */
 	isGreaterThan(minimumExclusive: number): S;
@@ -154,7 +154,7 @@ interface NumberComponent<S>
 	 * @param minimumExclusive - the exclusive lower bound
 	 * @param name             - the name of the lower bound
 	 * @returns this
-	 * @throws TypeError  if the value or `name` are `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty. If
 	 *                                  the value is less than `minimumExclusive`.
 	 */
@@ -168,7 +168,7 @@ interface NumberComponent<S>
 	 * @param minimumInclusive - the lower bound of the range (inclusive)
 	 * @param maximumExclusive - the upper bound of the range (exclusive)
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `minimumInclusive` is greater than `maximumExclusive`. If the value is less than
 	 * `minimumInclusive`. If the value is greater than or equal to `maximumExclusive`.
 	 */
@@ -182,7 +182,7 @@ interface NumberComponent<S>
 	 * @param maximum          - the upper bound of the range
 	 * @param maximumInclusive - `true` if the upper bound of the range is inclusive
 	 * @returns this
-	 * @throws TypeError  if the value is `undefined` or `null`
+	 * @throws TypeError  if the value or any of the arguments are `undefined` or `null`
 	 * @throws RangeError if `minimum` is greater than `maximum`. If
 	 * `minimumInclusive` is `true`, and the value is less than `minimum`.
 	 * If `minimumInclusive` is `false`, and the value is less than or equal to

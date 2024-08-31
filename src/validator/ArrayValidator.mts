@@ -27,7 +27,7 @@ interface ArrayValidator<E> extends
 	 * @param comparator - a function that returns a negative number if `first` should come
 	 * before `second`, zero or `NaN` if the two values are equal, or a positive number
 	 * if `first` should come after `second`.
-	 * @throws TypeError  if the value or `comparator` are `null`
+	 * @throws TypeError  if the value or `comparator` are `undefined` or `null`
 	 * @throws RangeError if the collection is not sorted
 	 * @returns this
 	 */

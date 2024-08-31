@@ -13,7 +13,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param prefix - the value that the string must start with
 	 * @returns this
-	 * @throws TypeError     if the value or `prefix` are `null`
+	 * @throws TypeError     if the value or `prefix` are `undefined` or `null`
 	 * @throws RangeError if the value does not start with `prefix`
 	 */
 	startsWith(prefix: string): StringValidator;
@@ -23,7 +23,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param prefix - the value that the string may not start with
 	 * @returns this
-	 * @throws TypeError     if the value or `prefix` are `null`
+	 * @throws TypeError     if the value or `prefix` are `undefined` or `null`
 	 * @throws RangeError if the value starts with `prefix`
 	 */
 	doesNotStartWith(prefix: string): StringValidator;
@@ -33,7 +33,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param suffix - the value that the string must end with
 	 * @returns this
-	 * @throws TypeError     if the value or `suffix` are `null`
+	 * @throws TypeError     if the value or `suffix` are `undefined` or `null`
 	 * @throws RangeError if the value does not end with `suffix`
 	 */
 	endsWith(suffix: string): StringValidator;
@@ -43,7 +43,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param suffix - the value that the string may not end with
 	 * @returns this
-	 * @throws TypeError     if the value or `suffix` are `null`
+	 * @throws TypeError     if the value or `suffix` are `undefined` or `null`
 	 * @throws RangeError if the value ends with `suffix`
 	 */
 	doesNotEndWith(suffix: string): StringValidator;
@@ -53,7 +53,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param expected - the string that the value must contain
 	 * @returns this
-	 * @throws TypeError     if the value or `expected` are `null`
+	 * @throws TypeError     if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the value does not contain `expected`
 	 */
 	contains(expected: string): StringValidator;
@@ -63,10 +63,19 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 *
 	 * @param unwanted - the string that the value may not contain
 	 * @returns this
-	 * @throws TypeError     if the value or `unwanted` are `null`
+	 * @throws TypeError     if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the value contains `unwanted`
 	 */
 	doesNotContain(unwanted: string): StringValidator;
+
+	/**
+	 * Ensures that the value does not contain whitespace characters.
+	 *
+	 * @returns this
+	 * @throws NullPointerException     if the value is `undefined` or `null`
+	 * @throws IllegalArgumentException if the value contains whitespace characters
+	 */
+	doesNotContainWhitespace(): StringValidator;
 
 	/**
 	 * Ensures that the value matches a regular expression.

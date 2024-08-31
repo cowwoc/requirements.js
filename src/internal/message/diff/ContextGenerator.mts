@@ -407,7 +407,7 @@ expectedName: ${expectedName}`);
 
 	/**
 	 * @returns the difference between the expected and actual values
-	 * @throws TypeError if `actualName` or `expectedName` are `null`
+	 * @throws TypeError if `actualName` or `expectedName` are `undefined` or `null`
 	 */
 	private compareTypes(): MessageSection[]
 	{

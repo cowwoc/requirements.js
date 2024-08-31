@@ -18,7 +18,7 @@ class DiffResult
 	 * @param diffLines - the difference between the actual and expected values (empty list if omitted)
 	 * @param expectedLines - the lines of the expected string
 	 * @param equalLines - indicates if the actual and expected values are equal for each line
-	 * @throws TypeError if any of the arguments are `null`
+	 * @throws TypeError if any of the arguments are `undefined` or `null`
 	 */
 	constructor(actualLines: string[], diffLines: string[], expectedLines: string[], equalLines: boolean[])
 	{

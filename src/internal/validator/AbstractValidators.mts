@@ -148,7 +148,7 @@ abstract class AbstractValidators<S> implements Validators<S>
 	 *
 	 * @param scope         - the application configuration
 	 * @param configuration - the configuration to use for new validators
-	 * @throws TypeError if any of the arguments are `null`
+	 * @throws TypeError if any of the arguments are `undefined` or `null`
 	 */
 	protected constructor(scope: ApplicationScope, configuration: Configuration)
 	{
