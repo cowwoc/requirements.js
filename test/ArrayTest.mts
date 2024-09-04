@@ -10,7 +10,6 @@ import {
 } from "../src/index.mjs";
 import {JavascriptValidatorsImpl} from "../src/internal/validator/JavascriptValidatorsImpl.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
-import {map} from "lodash";
 
 
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),

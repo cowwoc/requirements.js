@@ -13,11 +13,6 @@ class AssertionError extends Error
 	{
 		super(message, options);
 		this.name = this.constructor.name;
-		if (options !== undefined && options.cause !== undefined)
-		{
-			const originalError = options.cause;
-			this.stack = originalError.stack?.replace(originalError.name, this.name);
-		}
 	}
 }
 

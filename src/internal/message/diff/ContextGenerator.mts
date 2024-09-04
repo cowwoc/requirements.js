@@ -14,7 +14,8 @@ import {
 	isApplicationScope,
 	assertThatInstanceOf,
 	ValidationTarget,
-	AssertionError
+	AssertionError,
+	MessageBuilder
 } from "../../internal.mjs";
 import isEqual from "lodash.isequal";
 
@@ -46,6 +47,10 @@ class ContextGenerator
 	 * `true` if error messages may include a diff that compares actual and expected values.
 	 */
 	private _allowDiff: boolean;
+	/**
+	 * `true` if the output may include an explanation of the diff format.
+	 */
+	private _allowLegend = false;
 
 	/**
 	 * Creates a ContextGenerator.
@@ -114,6 +119,18 @@ expectedName: ${expectedName}`);
 	public allowDiff(allowDiff: boolean): ContextGenerator
 	{
 		this._allowDiff = allowDiff;
+		return this;
+	}
+
+	/**
+	 * Determines if the output may include a legend of the diff format.
+	 *
+	 * @param allowLegend - `true` if the output may include an explanation of the diff format
+	 * return this
+	 */
+	public allowLegend(allowLegend: boolean)
+	{
+		this._allowLegend = allowLegend;
 		return this;
 	}
 
@@ -210,7 +227,8 @@ expectedName: ${expectedName}`);
 			}
 
 			const elementGenerator = new ContextGenerator(this.scope, this.configuration,
-				actualNameLine, expectedNameLine);
+				actualNameLine, expectedNameLine).
+			allowLegend(false);
 			actualValueLine.ifValid(value => elementGenerator.actualValue(value));
 			expectedValueLine.ifValid(value => elementGenerator.expectedValue(value));
 
@@ -338,6 +356,8 @@ expectedName: ${expectedName}`);
 			context.push(elementGenerator.getDiffSection(actualNameLine, actualValueLine, diffLine,
 				expectedNameLine, expectedValueLine));
 		}
+		if (diffLinesExist && this._allowLegend)
+			context.push(new StringSection(MessageBuilder.DIFF_LEGEND));
 		return context;
 	}
 

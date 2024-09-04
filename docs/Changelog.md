@@ -1,7 +1,7 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
-## Version 4.0 - ?
+## Version 4.0.0 - ?
 
 * Breaking changes:
   * Replaced `validateThat()` with `checkIf()`.

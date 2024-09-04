@@ -11,11 +11,12 @@ import {
 	MainApplicationScope,
 	type ConfigurationUpdater,
 	type ValidatorComponent,
-	JavascriptValidators
+	JavascriptValidators,
+	AssertionError
 } from "./internal/internal.mjs";
 
-const typedocWorkaround: null | ValidatorComponent<unknown, unknown> |
-	JavascriptValidators = null;
+const typedocWorkaround: null | ValidatorComponent<unknown, unknown> | JavascriptValidators |
+	AssertionError = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
@@ -64,7 +65,8 @@ function requireThat<T, E, K, V>(value: T, name: string): NumberValidator | Bool
 /**
  * Validates the state of a value.
  * <p>
- * The returned validator throws an error immediately if a validation fails.
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
  *
  * @typeParam T - the type the value
  * @typeParam E - the type elements in the array or set
@@ -76,14 +78,14 @@ function requireThat<T, E, K, V>(value: T, name: string): NumberValidator | Bool
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function assertThat(value: number, name: string): NumberValidator;
-function assertThat(value: boolean, name: string): BooleanValidator;
-function assertThat<E>(value: E[], name: string): ArrayValidator<E>;
-function assertThat<E>(value: Set<E>, name: string): SetValidator<E>;
-function assertThat<K, V>(value: Map<K, V>, name: string): MapValidator<K, V>;
-function assertThat(value: string, name: string): StringValidator;
-function assertThat<T>(value: T, name: string): ObjectValidator<T>;
-function assertThat<T, E, K, V>(value: T, name: string): NumberValidator | BooleanValidator |
+function assertThat(value: number, name?: string): NumberValidator;
+function assertThat(value: boolean, name?: string): BooleanValidator;
+function assertThat<E>(value: E[], name?: string): ArrayValidator<E>;
+function assertThat<E>(value: Set<E>, name?: string): SetValidator<E>;
+function assertThat<K, V>(value: Map<K, V>, name?: string): MapValidator<K, V>;
+function assertThat(value: string, name?: string): StringValidator;
+function assertThat<T>(value: T, name?: string): ObjectValidator<T>;
+function assertThat<T, E, K, V>(value: T, name?: string): NumberValidator | BooleanValidator |
 	ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | StringValidator | ObjectValidator<T>
 {
 	return DELEGATE.assertThat(value, name);

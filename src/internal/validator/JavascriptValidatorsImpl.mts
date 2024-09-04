@@ -24,10 +24,11 @@ import {
 	Type,
 	requireThatType,
 	ValidationTarget,
-	Pluralizer
+	Pluralizer,
+	AssertionError
 } from "../internal.mjs";
 
-const typedocWorkaround: null | ConfigurationUpdater = null;
+const typedocWorkaround: null | ConfigurationUpdater | AssertionError = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
@@ -86,7 +87,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of a value, throwing errors immediately on validation failure.
+	 * Validates the state of a value.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam E - the type elements in the array or set
@@ -113,7 +116,10 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of a value, throwing `AssertionError` immediately on validation failure.
+	 * Validates the state of a value.
+	 * <p>
+	 * The returned validator throws an exception immediately if a validation fails. This exception is then
+	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam E - the type elements in the array or set
@@ -139,8 +145,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of a value, capturing errors on validation failure rather than throwing them
-	 * immediately.
+	 * Validates the state of a value.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam E - the type elements in the array or set

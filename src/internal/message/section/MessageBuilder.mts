@@ -88,7 +88,6 @@ Legend
 			actualValue(actualValue).
 			expectedValue(expectedValue);
 		this.diff.push(...contextGenerator.build());
-		this.diff.push(new StringSection(MessageBuilder.DIFF_LEGEND));
 		return this;
 	}
 

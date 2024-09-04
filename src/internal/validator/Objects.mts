@@ -120,7 +120,11 @@ function assertThatValueIsNotNull(value: unknown, name: string): void
 	catch (e)
 	{
 		if (e instanceof Error)
-			throw new AssertionError(e.message, {cause: e});
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		}
 		throw e;
 	}
 }
@@ -179,7 +183,11 @@ function assertThatType(value: unknown, name: string, type: Type): void
 	catch (e)
 	{
 		if (e instanceof Error)
-			throw new AssertionError(e.message, {cause: e});
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		}
 		throw e;
 	}
 }
@@ -243,7 +251,11 @@ function assertThatTypeCategory(value: unknown, name: string, category: TypeCate
 	catch (e)
 	{
 		if (e instanceof Error)
-			throw new AssertionError(e.message, {cause: e});
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		}
 		throw e;
 	}
 
@@ -324,7 +336,11 @@ function assertThatInstanceOf<T>(value: T, name: string, type: ClassConstructor<
 	catch (e)
 	{
 		if (e instanceof Error)
-			throw new AssertionError(e.message, {cause: e});
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		}
 		throw e;
 	}
 }
@@ -369,7 +385,11 @@ function assertThatStringIsNotEmpty(value: string, name: string): void
 	catch (e)
 	{
 		if (e instanceof Error)
-			throw new AssertionError(e.message, {cause: e});
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		}
 		throw e;
 	}
 }

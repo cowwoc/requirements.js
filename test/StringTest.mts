@@ -4,10 +4,6 @@ import {
 } from "mocha";
 import {assert} from "chai";
 import {
-	TextOnly,
-	EOS_MARKER,
-	DIFF_DELETE,
-	DIFF_INSERT,
 	JavascriptValidatorsImpl,
 	Type
 } from "../src/internal/internal.mjs";
@@ -16,6 +12,7 @@ import {
 	Configuration
 } from "../src/index.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
+
 
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);

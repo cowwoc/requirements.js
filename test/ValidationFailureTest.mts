@@ -18,6 +18,7 @@ import {
 } from "../src/internal/internal.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
+
 suite("ValidationFailureTest", () =>
 {
 	test("configurationIsUndefined", () =>

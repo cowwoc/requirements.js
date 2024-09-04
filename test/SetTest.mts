@@ -10,6 +10,7 @@ import {assert} from "chai";
 import {JavascriptValidatorsImpl} from "../src/internal/internal.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
+
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);
 

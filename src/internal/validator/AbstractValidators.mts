@@ -136,7 +136,12 @@ abstract class AbstractValidators<S> implements Validators<S>
 	 * A function that converts the thrown error to `AssertionError`.
 	 */
 	private static readonly CONVERT_TO_ASSERTION_ERROR: (error: Error) => Error =
-		error => new AssertionError(error.message, {cause: error});
+		e =>
+		{
+			const assertionError = new AssertionError(e.message);
+			assertionError.stack = e.stack?.replace(e.name, assertionError.name);
+			throw assertionError;
+		};
 	protected readonly scope: ApplicationScope;
 	private requireThatConfiguration: Configuration;
 	private assertThatConfiguration: Configuration;
