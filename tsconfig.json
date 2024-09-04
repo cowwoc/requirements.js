@@ -11,8 +11,6 @@
 		],
 		"module": "Node16",
 		"moduleResolution": "Node16",
-		// Fix importing of CommonJS/AMD/UMD modules
-		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
@@ -20,13 +18,14 @@
 		"sourceMap": true
 	},
 	"include": [
-		// Files used to generate the target/publish directory
+		// Files used to generate the target directory
 		"./src"
 	],
 	"exclude": [
 		"node_modules",
 		"target",
-		"./.eslintrc.mjs",
+		"./eslint.config.d.mts",
+		"./eslint.config.mjs",
 		"./build",
 		"./test",
 		"./test/TestGlobalConfiguration.mts"

@@ -377,12 +377,12 @@ class Project
 	private async watchFiles(paths: string | ReadonlyArray<string>,
 	                         callback: (sources: string[]) => Promise<void>): Promise<void>
 	{
-		const changes: Set<string> = new Set();
+		const changes: Set<string> = new Set<string>();
 		const project = this;
 
 		async function processUpdate()
 		{
-			const filesToProcess = new Set(changes);
+			const filesToProcess = new Set<string>(changes);
 			const posixPaths = [];
 			for (const changed of filesToProcess)
 			{

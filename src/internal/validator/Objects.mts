@@ -274,6 +274,7 @@ function assertThatTypeCategory(value: unknown, name: string, category: TypeCate
  * If `name` is not a string.
  */
 function requireThatInstanceOf(value: unknown, name: string,
+                               // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
                                type: ClassConstructor<unknown> | Record<string | number, string | number>)
 {
 	// WARNING: Per https://github.com/typescript-eslint/typescript-eslint/issues/9370 instanceof returns false
