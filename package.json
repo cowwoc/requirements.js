@@ -83,7 +83,7 @@
 		"tsx": "^4.19.0",
 		"typedoc": "^0.26.6",
 		"typedoc-plugin-missing-exports": "^3.0.0",
-		"typescript": "^5.5.4",
+		"typescript": "5.4.5",
 		"typescript-eslint": "^8.4.0",
 		"winston": "^3.14.2"
 	}

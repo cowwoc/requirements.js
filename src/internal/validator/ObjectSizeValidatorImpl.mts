@@ -24,10 +24,10 @@ import {requireThatValueIsDefined} from "./Objects.mjs";
 /**
  * Validates the state of an object's size.
  */
-class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator, number>
+class ObjectSizeValidatorImpl extends AbstractValidator<number>
 	implements UnsignedNumberValidator
 {
-	private readonly objectValidator: AbstractValidator<unknown, unknown>;
+	private readonly objectValidator: AbstractValidator<unknown>;
 	private readonly pluralizer: Pluralizer;
 
 	/**
@@ -39,12 +39,12 @@ class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator,
 	 * @param pluralizer      - the type of elements in the object
 	 * @param context         - the contextual information set by a parent validator or the user
 	 * @param failures        - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration,
-	                   objectValidator: AbstractValidator<unknown, unknown>, sizeName: string,
+	                   objectValidator: AbstractValidator<unknown>, sizeName: string,
 	                   size: ValidationTarget<number>, pluralizer: Pluralizer, context: Map<string, unknown>,
 	                   failures: ValidationFailure[])
 	{
@@ -57,22 +57,24 @@ class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator,
 		this.pluralizer = pluralizer;
 	}
 
-	public isZero(): UnsignedNumberValidator
+	public isZero(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
 		if (this.value.validationFailed(value => value == 0))
+		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(objectIsEmpty(this.objectValidator).toString());
-		return this.self();
+		}
+		return this;
 	}
 
-	public isNotZero(): UnsignedNumberValidator
+	public isNotZero(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && !(v == 0)))
+		if (this.value.validationFailed(v => !(v == 0)))
+		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(objectIsNotEmpty(this.objectValidator).toString());
-		return this.self();
+		}
+		return this;
 	}
 
 	public isPositive()
@@ -85,77 +87,73 @@ class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator,
 		return this.isZero();
 	}
 
-	public isLessThan(maximumExclusive: number): UnsignedNumberValidator;
-	public isLessThan(maximumExclusive: number, name?: string): UnsignedNumberValidator
+	public isLessThan(maximumExclusive: number): this;
+	public isLessThan(maximumExclusive: number, name?: string): this
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && v < maximumExclusive))
+		if (this.value.validationFailed(v => v < maximumExclusive))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionContainsSize(this.objectValidator, this.name, this.value.or(null),
 					"must contain less than", name ?? null, maximumExclusive, this.pluralizer).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isLessThanOrEqualTo(maximumInclusive: number): UnsignedNumberValidator;
+	public isLessThanOrEqualTo(maximumInclusive: number): this;
 	public isLessThanOrEqualTo(maximumInclusive: number, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && v <= maximumInclusive))
+		if (this.value.validationFailed(v => v <= maximumInclusive))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionContainsSize(this.objectValidator, this.name, this.value.or(null),
 					"may not contain more than", name ?? null, maximumInclusive, this.pluralizer).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isGreaterThanOrEqualTo(minimumInclusive: number): UnsignedNumberValidator;
+	public isGreaterThanOrEqualTo(minimumInclusive: number): this;
 	public isGreaterThanOrEqualTo(minimumInclusive: number, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(value => value >= minimumInclusive))
+		if (this.value.validationFailed(v => v >= minimumInclusive))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionContainsSize(this.objectValidator, this.name, this.value.or(null),
 					"must contain at least", name ?? null, minimumInclusive, this.pluralizer).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isGreaterThan(minimumExclusive: number): UnsignedNumberValidator;
-	public isGreaterThan(minimumExclusive: number, name?: string): UnsignedNumberValidator
+	public isGreaterThan(minimumExclusive: number): this;
+	public isGreaterThan(minimumExclusive: number, name?: string): this
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(value => value >= minimumExclusive))
+		if (this.value.validationFailed(v => v >= minimumExclusive))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionContainsSize(this.objectValidator, this.name, this.value.or(null),
 					"must contain more than", name ?? null, minimumExclusive, this.pluralizer).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isBetween(minimumInclusive: number, maximumExclusive: number): UnsignedNumberValidator;
+	public isBetween(minimumInclusive: number, maximumExclusive: number): this;
 	public isBetween(minimum: number, minimumIsInclusive: boolean, maximum: number,
-	                 maximumIsInclusive: boolean): UnsignedNumberValidator;
+	                 maximumIsInclusive: boolean): this;
 	public isBetween(minimum: number, maximumExclusiveOrMinimumIsInclusive: number | boolean,
 	                 maximum?: number, maximumIsInclusive?: boolean)
 	{
@@ -163,20 +161,18 @@ class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator,
 			minimum, maximumExclusiveOrMinimumIsInclusive, maximum, maximumIsInclusive);
 
 		const internalValidators = JavascriptValidatorsImpl.INTERNAL;
-		internalValidators.requireThat(normalized.minimum, "minimum").
+		internalValidators.requireThatNumber(normalized.minimum, "minimum").
 			isLessThanOrEqualTo(normalized.maximum, "maximum");
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null &&
-			ObjectSizeValidatorImpl.inBounds(v, normalized.minimum, normalized.minimumIsInclusive,
-				normalized.maximum, normalized.maximumIsInclusive)))
+		if (this.value.validationFailed(v => ObjectSizeValidatorImpl.inBounds(v, normalized.minimum,
+			normalized.minimumIsInclusive, normalized.maximum, normalized.maximumIsInclusive)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionSizeIsBetween(this, this.name, this.value.or(null), normalized.minimum,
 					normalized.minimumIsInclusive, normalized.maximum, normalized.maximumIsInclusive, this.pluralizer).
 					toString());
 		}
-		return this.self();
+		return this;
 	}
 
 	/**
@@ -202,89 +198,81 @@ class ObjectSizeValidatorImpl extends AbstractValidator<UnsignedNumberValidator,
 		return value < maximum;
 	}
 
-	public isMultipleOf(factor: number): UnsignedNumberValidator;
+	public isMultipleOf(factor: number): this;
 	public isMultipleOf(factor: number, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && NumberValidatorImpl.valueIsMultipleOf(v, factor)))
+		if (this.value.validationFailed(v => NumberValidatorImpl.valueIsMultipleOf(v, factor)))
 		{
-			{
-				const messageBuilder = numberIsMultipleOf(this, name ?? null, factor);
-				this.objectValidator.value.ifValid(v =>
-					messageBuilder.withContext(v, this.objectValidator.getName()));
-				this.addRangeError(messageBuilder.toString());
-			}
+			this.failOnUndefinedOrNull();
+			const messageBuilder = numberIsMultipleOf(this, name ?? null, factor);
+			this.objectValidator.value.ifValid(v =>
+				messageBuilder.withContext(v, this.objectValidator.getName()));
+			this.addRangeError(messageBuilder.toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isNotMultipleOf(factor: number): UnsignedNumberValidator;
+	public isNotMultipleOf(factor: number): this;
 	public isNotMultipleOf(factor: number, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && !NumberValidatorImpl.valueIsMultipleOf(v, factor)))
+		if (this.value.validationFailed(v => !NumberValidatorImpl.valueIsMultipleOf(v, factor)))
 		{
+			this.failOnUndefinedOrNull();
 			const messageBuilder = numberIsNotMultipleOf(this, name ?? null, factor);
 			this.objectValidator.value.ifValid(v => messageBuilder.withContext(v, this.objectValidator.getName()));
 			this.addRangeError(messageBuilder.toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isFinite(): UnsignedNumberValidator
+	public isFinite(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && Number.isFinite(v)))
+		if (this.value.validationFailed(v => Number.isFinite(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				numberIsFinite(this).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isInfinite(): UnsignedNumberValidator
+	public isInfinite(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && !Number.isFinite(v) && !Number.isNaN(v)))
+		if (this.value.validationFailed(v => !Number.isFinite(v) && !Number.isNaN(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				numberIsInfinite(this).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	isNumber(): UnsignedNumberValidator
+	isNumber(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && !Number.isNaN(v)))
+		if (this.value.validationFailed(v => !Number.isNaN(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				numberIsNumber(this).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	isNotNumber(): UnsignedNumberValidator
+	isNotNumber(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v !== null && Number.isNaN(v)))
+		if (this.value.validationFailed(v => Number.isNaN(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				numberIsNotNumber(this).toString());
 		}
-		return this.self();
+		return this;
 	}
 }
 

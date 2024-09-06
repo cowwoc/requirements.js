@@ -1,6 +1,5 @@
 import {
 	Type,
-	internalValueToString,
 	type StringMapper,
 	getMapper,
 	quoteString
@@ -59,8 +58,11 @@ class StringMappers
 		{
 			if (element !== null && Array.isArray(element))
 			{
-				if (seen.add(element))
+				if (!seen.has(element))
+				{
+					seen.add(element);
 					elements.push(this.valueToString(element, seen));
+				}
 				else
 					elements.push("...");
 			}
@@ -184,10 +186,7 @@ class StringMappers
 	public toString(value?: unknown)
 	{
 		const mapper = getMapper(value, this.typeToMapper);
-		if (mapper === undefined)
-			return internalValueToString(this.typeToMapper);
-		else
-			return mapper(value);
+		return mapper(value);
 	}
 }
 

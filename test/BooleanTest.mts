@@ -5,9 +5,9 @@ import {
 import {assert} from "chai";
 import {
 	TerminalEncoding,
-	requireThat,
 	Configuration,
-	Type
+	Type,
+	requireThatBoolean
 } from "../src/index.mjs";
 import {TestCompiler} from "../build/TestCompiler.mjs";
 import os from "os";
@@ -29,27 +29,27 @@ suite("BooleanTest", () =>
 {
 	test("isTrue", () =>
 	{
-		validators.requireThat(true, "actual").isTrue();
+		validators.requireThatBoolean(true, "actual").isTrue();
 	});
 
 	test("isTrue_False", () =>
 	{
 		assert.throws(function()
 		{
-			validators.requireThat(false, "actual").isTrue();
+			validators.requireThatBoolean(false, "actual").isTrue();
 		}, RangeError);
 	});
 
 	test("isFalse", () =>
 	{
-		validators.requireThat(false, "actual").isFalse();
+		validators.requireThatBoolean(false, "actual").isFalse();
 	});
 
 	test("isFalse_False", () =>
 	{
 		assert.throws(function()
 		{
-			validators.requireThat(true, "actual").isFalse();
+			validators.requireThatBoolean(true, "actual").isFalse();
 		}, RangeError);
 	});
 
@@ -58,7 +58,7 @@ suite("BooleanTest", () =>
 		assert.throws(function()
 		{
 			let actual;
-			requireThat(actual, "actual").isType(Type.BOOLEAN);
+			requireThatBoolean(actual, "actual").isType(Type.BOOLEAN);
 		}, TypeError);
 	});
 
@@ -177,7 +177,7 @@ suite("BooleanTest", () =>
 	test("getActual", () =>
 	{
 		const input = true;
-		const output = validators.requireThat(input, "input").getValue();
+		const output = validators.requireThatBoolean(input, "input").getValue();
 		assert.strictEqual(output, input);
 	});
 });

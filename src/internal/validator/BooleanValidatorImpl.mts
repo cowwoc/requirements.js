@@ -12,8 +12,8 @@ import {
 /**
  * Default implementation of `BooleanValidator`.
  */
-class BooleanValidatorImpl extends AbstractValidator<BooleanValidator, boolean>
-	implements BooleanValidator
+class BooleanValidatorImpl<T extends boolean | undefined | null> extends AbstractValidator<T>
+	implements BooleanValidator<T>
 {
 	/**
 	 * @param scope         - the application configuration
@@ -22,23 +22,21 @@ class BooleanValidatorImpl extends AbstractValidator<BooleanValidator, boolean>
 	 * @param value         - the value
 	 * @param context       - the contextual information set by a parent validator or the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration, name: string,
-	                   value: ValidationTarget<boolean>, context: Map<string, unknown>,
-	                   failures: ValidationFailure[])
+	                   value: ValidationTarget<T>, context: Map<string, unknown>, failures: ValidationFailure[])
 	{
 		super(scope, configuration, name, value, context, failures);
 	}
 
 	public isTrue()
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v))
+		if (this.value.validationFailed(v => v))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				isTrueFailed(this).toString());
 		}
@@ -47,10 +45,9 @@ class BooleanValidatorImpl extends AbstractValidator<BooleanValidator, boolean>
 
 	public isFalse()
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !v))
+		if (this.value.validationFailed(v => !v))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				isFalseFailed(this).toString());
 		}

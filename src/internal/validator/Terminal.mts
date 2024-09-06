@@ -25,7 +25,7 @@ class Terminal
 			this.supportedTypes = new Set<TerminalEncoding>();
 			this.supportedTypes.add(TerminalEncoding.NONE);
 			// https://stackoverflow.com/a/4224668/14731
-			if (globalThis.window === undefined)
+			if (typeof (globalThis.window) === "undefined")
 			{
 				// Node
 				switch (chalk.level)

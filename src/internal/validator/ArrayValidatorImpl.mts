@@ -8,15 +8,15 @@ import {
 	Pluralizer,
 	collectionIsSorted,
 	type UnsignedNumberValidator,
-	ObjectSizeValidatorImpl,
+	ObjectSizeValidatorImpl
 } from "../internal.mjs";
 import isEqual from "lodash.isequal";
 
 /**
  * Default implementation of `ArrayValidator`.
  */
-class ArrayValidatorImpl<E> extends AbstractCollectionValidator<ArrayValidator<E>, E[], E>
-	implements ArrayValidator<E>
+class ArrayValidatorImpl<T extends E[] | undefined | null, E> extends AbstractCollectionValidator<T, E>
+	implements ArrayValidator<T, E>
 {
 	/**
 	 * @param scope         - the application configuration
@@ -26,22 +26,20 @@ class ArrayValidatorImpl<E> extends AbstractCollectionValidator<ArrayValidator<E
 	 * @param pluralizer    - the type of items in the array
 	 * @param context       - the contextual information set by a parent validator or the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration, name: string,
-	                   value: ValidationTarget<E[]>, pluralizer: Pluralizer, context: Map<string, unknown>,
+	                   value: ValidationTarget<T>, pluralizer: Pluralizer, context: Map<string, unknown>,
 	                   failures: ValidationFailure[])
 	{
 		super(scope, configuration, name, value, pluralizer, context, failures);
 	}
 
-	isSorted(comparator: (first: unknown, second: unknown) => number): ArrayValidator<E>
+	isSorted(comparator: (first: unknown, second: unknown) => number): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		const sorted = this.value.map(v =>
+		const sorted = this.value.undefinedOrNullToInvalid().map(v =>
 		{
 			const valueAsList = this.collectionAsArray(v);
 			const sortedList = [...valueAsList];
@@ -52,16 +50,16 @@ class ArrayValidatorImpl<E> extends AbstractCollectionValidator<ArrayValidator<E
 		}).or(null);
 		if (sorted !== null)
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				collectionIsSorted(this, sorted).toString());
 		}
-		return this.self();
+		return this;
 	}
 
 	size(): UnsignedNumberValidator
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		return new ObjectSizeValidatorImpl(this.scope, this._configuration, this, this.name + ".size()",
 			this.value.undefinedOrNullToInvalid().map(v => v.length), this.pluralizer, this.context, this.failures);
 	}

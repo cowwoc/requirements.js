@@ -360,9 +360,8 @@ class SimplifyDeltas
 			const result = lastIndexOf(delta.value, SimplifyDeltas.WORD_DELIMITER);
 			if (result === null)
 			{
-				throw new Error("Expecting result to be equal to indexOfNextWordInEndDelta (" +
-					this.startOfNextWord + ") or later.\n" +
-					"delta.value: " + delta.value);
+				throw new Error(`Expecting result to be equal to indexOfNextWordInEndDelta (${this.startOfNextWord}) or later.
+delta.value: ${delta.value}`);
 			}
 			this.startOfWord = result.end;
 		}

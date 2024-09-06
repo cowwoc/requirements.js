@@ -7,7 +7,7 @@ import {
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function stringIsBlank(validator: AbstractValidator<unknown, string>)
+function stringIsBlank(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -22,7 +22,7 @@ function stringIsBlank(validator: AbstractValidator<unknown, string>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function stringIsNotBlank(validator: AbstractValidator<unknown, string>)
+function stringIsNotBlank(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -37,7 +37,7 @@ function stringIsNotBlank(validator: AbstractValidator<unknown, string>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function stringIsTrimmed(validator: AbstractValidator<unknown, string>)
+function stringIsTrimmed(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -52,7 +52,7 @@ function stringIsTrimmed(validator: AbstractValidator<unknown, string>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function stringIsStripped(validator: AbstractValidator<unknown, string>)
+function stringIsStripped(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -68,7 +68,7 @@ function stringIsStripped(validator: AbstractValidator<unknown, string>)
  * @param prefix    - the value that the string must start with
  * @returns a message for the validation failure
  */
-function stringStartsWith(validator: AbstractValidator<unknown, string>, prefix: string)
+function stringStartsWith(validator: AbstractValidator<unknown>, prefix: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -85,7 +85,7 @@ function stringStartsWith(validator: AbstractValidator<unknown, string>, prefix:
  * @param prefix    - the value that the string must start with
  * @returns a message for the validation failure
  */
-function stringDoesNotStartWith(validator: AbstractValidator<unknown, string>, prefix: string)
+function stringDoesNotStartWith(validator: AbstractValidator<unknown>, prefix: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -102,7 +102,7 @@ function stringDoesNotStartWith(validator: AbstractValidator<unknown, string>, p
  * @param suffix    - the value that the string must end with
  * @returns a message for the validation failure
  */
-function stringEndsWith(validator: AbstractValidator<unknown, string>, suffix: string)
+function stringEndsWith(validator: AbstractValidator<unknown>, suffix: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -119,7 +119,7 @@ function stringEndsWith(validator: AbstractValidator<unknown, string>, suffix: s
  * @param suffix    - the value that the string must end with
  * @returns a message for the validation failure
  */
-function stringDoesNotEndWith(validator: AbstractValidator<unknown, string>, suffix: string)
+function stringDoesNotEndWith(validator: AbstractValidator<unknown>, suffix: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -136,7 +136,7 @@ function stringDoesNotEndWith(validator: AbstractValidator<unknown, string>, suf
  * @param expected  - the expected value
  * @returns a message for the validation failure
  */
-function stringContains(validator: AbstractValidator<unknown, string>, expected: string)
+function stringContains(validator: AbstractValidator<unknown>, expected: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -153,7 +153,7 @@ function stringContains(validator: AbstractValidator<unknown, string>, expected:
  * @param unwanted  - the unwanted value
  * @returns a message for the validation failure
  */
-function stringDoesNotContain(validator: AbstractValidator<unknown, string>, unwanted: string)
+function stringDoesNotContain(validator: AbstractValidator<unknown>, unwanted: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();
@@ -169,7 +169,7 @@ function stringDoesNotContain(validator: AbstractValidator<unknown, string>, unw
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function stringDoesNotContainWhitespace(validator: AbstractValidator<unknown, string>)
+function stringDoesNotContainWhitespace(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -185,7 +185,7 @@ function stringDoesNotContainWhitespace(validator: AbstractValidator<unknown, st
  * @param regex     - the regular expression
  * @returns a message for the validation failure
  */
-function stringMatches(validator: AbstractValidator<unknown, string>, regex: string)
+function stringMatches(validator: AbstractValidator<unknown>, regex: string)
 {
 	const name = validator.getName();
 	const stringMappers = validator.configuration().stringMappers();

@@ -11,7 +11,7 @@ import {
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function isTrueFailed(validator: AbstractValidator<unknown, unknown>)
+function isTrueFailed(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be true");
 }
@@ -20,7 +20,7 @@ function isTrueFailed(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function isFalseFailed(validator: AbstractValidator<unknown, unknown>)
+function isFalseFailed(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be false");
 }

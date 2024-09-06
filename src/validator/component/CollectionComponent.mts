@@ -3,18 +3,19 @@ import type {
 	ValidatorComponent
 } from "../../internal/internal.mjs";
 
-const typedocWorkaround: null | ValidatorComponent<unknown, unknown> = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+const typedocWorkaround: null | ValidatorComponent<unknown> = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Methods that all collection validators must contain.
  *
- * @typeParam S - the type this validator
  * @typeParam E - the type of elements in the collection
  */
-interface CollectionComponent<S extends CollectionComponent<S, E>, E>
+interface CollectionComponent<E>
 {
 	/**
 	 * Ensures that the collection is empty.
@@ -23,7 +24,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value is `undefined` or `null`
 	 * @throws RangeError if the collection is not empty
 	 */
-	isEmpty(): S;
+	isEmpty(): this;
 
 	/**
 	 * Ensures that the collection is not empty.
@@ -32,7 +33,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value is `undefined` or `null`
 	 * @throws RangeError if the collection is empty
 	 */
-	isNotEmpty(): S;
+	isNotEmpty(): this;
 
 	/**
 	 * Ensures that the collection contains an element.
@@ -42,7 +43,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain `expected`
 	 */
-	contains(expected: E): S;
+	contains(expected: E): this;
 
 	/**
 	 * Ensures that the collection does not contain `unwanted`.
@@ -52,7 +53,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains `unwanted`
 	 */
-	doesNotContain(unwanted: E): S;
+	doesNotContain(unwanted: E): this;
 
 	/**
 	 * Ensures that the collection contains an element.
@@ -72,7 +73,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	contains(expected: E, name: string): S;
+	contains(expected: E, name: string): this;
 
 	/**
 	 * Ensures that the collection does not contain `unwanted`.
@@ -92,7 +93,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContain(unwanted: E, name: string): S;
+	doesNotContain(unwanted: E, name: string): this;
 
 	/**
 	 * Ensures that the collection consists of the same elements as `expected`, irrespective of their
@@ -109,7 +110,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *                      <li>the collection contains any element that is not in `expected`</li>
 	 *                    </ul>
 	 */
-	containsExactly(expected: Set<E>): S;
+	containsExactly(expected: Set<E>): this;
 
 	/**
 	 * Ensures that the collection and `unwanted` consist of different elements, irrespective of their
@@ -121,7 +122,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws RangeError if the collection consists of the same elements as `unwanted`,
 	 *                    irrespective of their order
 	 */
-	doesNotContainExactly(unwanted: Set<E>): S;
+	doesNotContainExactly(unwanted: Set<E>): this;
 
 	/**
 	 * Ensures that the collection consists of the same elements as `expected`, irrespective of
@@ -139,7 +140,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 *                                    `expected`</li>
 	 *                                  </ul>
 	 */
-	containsExactly(expected: E[]): S;
+	containsExactly(expected: E[]): this;
 
 	/**
 	 * Ensures that the collection and `unwanted` consist of different elements, irrespective of their
@@ -151,7 +152,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws RangeError if the collection consists of the same elements as `unwanted`,
 	 *                    irrespective of their order
 	 */
-	doesNotContainExactly(unwanted: E[]): S;
+	doesNotContainExactly(unwanted: E[]): this;
 
 	/**
 	 * Ensures that the collection consists of the same elements as `expected`, irrespective of their
@@ -175,7 +176,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsExactly(expected: Set<E>, name: string): S;
+	containsExactly(expected: Set<E>, name: string): this;
 
 	/**
 	 * Ensures that the collection and `unwanted` consist of different elements, irrespective of
@@ -197,7 +198,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainExactly(unwanted: Set<E>, name: string): S;
+	doesNotContainExactly(unwanted: Set<E>, name: string): this;
 
 	/**
 	 * Ensures that the collection consists of the same elements as `expected`, irrespective of
@@ -221,7 +222,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsExactly(expected: E[], name: string): S;
+	containsExactly(expected: E[], name: string): this;
 
 	/**
 	 * Ensures that the collection and `unwanted` consist of different elements, irrespective of their
@@ -243,7 +244,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainExactly(unwanted: E[], name: string): S;
+	doesNotContainExactly(unwanted: E[], name: string): this;
 
 	/**
 	 * Ensures that the collection contains any elements in `expected`.
@@ -253,7 +254,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain any element in `expected`
 	 */
-	containsAny(expected: Set<E>): S;
+	containsAny(expected: Set<E>): this;
 
 	/**
 	 * Ensures that the collection does not contain any of the elements in `unwanted`.
@@ -263,7 +264,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains any of the elements in `unwanted`
 	 */
-	doesNotContainAny(unwanted: Set<E>): S;
+	doesNotContainAny(unwanted: Set<E>): this;
 
 	/**
 	 * Ensures that the collection contains any elements in `expected`.
@@ -273,7 +274,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain any element in `expected`
 	 */
-	containsAny(expected: E[]): S;
+	containsAny(expected: E[]): this;
 
 	/**
 	 * Ensures that the collection does not contain any of the elements in `unwanted`.
@@ -283,7 +284,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains any of the elements in `unwanted`
 	 */
-	doesNotContainAny(unwanted: E[]): S;
+	doesNotContainAny(unwanted: E[]): this;
 
 	/**
 	 * Ensures that the collection contains at least one element in `expected`.
@@ -303,7 +304,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsAny(expected: Set<E>, name: string): S;
+	containsAny(expected: Set<E>, name: string): this;
 
 	/**
 	 * Ensures that the collection does not contain any of the elements in `unwanted`.
@@ -323,7 +324,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainAny(unwanted: Set<E>, name: string): S;
+	doesNotContainAny(unwanted: Set<E>, name: string): this;
 
 	/**
 	 * Ensures that the collection contains at least one element in `expected`.
@@ -343,7 +344,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsAny(expected: E[], name: string): S;
+	containsAny(expected: E[], name: string): this;
 
 	/**
 	 * Ensures that the collection does not contain any of the elements in `unwanted`.
@@ -363,7 +364,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainAny(unwanted: E[], name: string): S;
+	doesNotContainAny(unwanted: E[], name: string): this;
 
 	/**
 	 * Ensures that the collection contains all the elements in `expected`.
@@ -373,7 +374,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain all the elements in `expected`
 	 */
-	containsAll(expected: Set<E>): S;
+	containsAll(expected: Set<E>): this;
 
 	/**
 	 * Allows the collection to contain some, but not all, elements from a collection.
@@ -383,7 +384,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains all the elements of `unwanted`
 	 */
-	doesNotContainAll(unwanted: Set<E>): S;
+	doesNotContainAll(unwanted: Set<E>): this;
 
 	/**
 	 * Ensures that the collection contains all the elements in `expected`.
@@ -393,7 +394,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the collection does not contain all the elements in `expected`
 	 */
-	containsAll(expected: E[]): S;
+	containsAll(expected: E[]): this;
 
 	/**
 	 * Allows the collection to contain some, but not all, elements from a collection.
@@ -403,7 +404,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the collection contains all the elements of `unwanted`
 	 */
-	doesNotContainAll(unwanted: E[]): S;
+	doesNotContainAll(unwanted: E[]): this;
 
 	/**
 	 * Ensures that the collection contains all the elements in `expected`.
@@ -423,7 +424,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsAll(expected: Set<E>, name: string): S;
+	containsAll(expected: Set<E>, name: string): this;
 
 	/**
 	 * Allows the collection to contain some, but not all, elements from a collection.
@@ -443,7 +444,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainAll(unwanted: Set<E>, name: string): S;
+	doesNotContainAll(unwanted: Set<E>, name: string): this;
 
 	/**
 	 * Ensures that the collection contains all the elements in `expected`.
@@ -463,7 +464,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	containsAll(expected: E[], name: string): S;
+	containsAll(expected: E[], name: string): this;
 
 	/**
 	 * Allows the collection to contain some, but not all, elements from a collection.
@@ -483,16 +484,16 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	doesNotContainAll(unwanted: E[], name: string): S;
+	doesNotContainAll(unwanted: E[], name: string): this;
 
 	/**
-	 * Ensures that the collection contains only null values, or only non-null values.
+	 * Ensures that the collection contains only `null` values or only non-`null` values.
 	 *
 	 * @returns this
 	 * @throws TypeError if the value is `undefined` or `null`
 	 * @throws RangeError if the collection contains `undefined` or a mix of `null` and non-`null` values
 	 */
-	containsSameNullity(): S;
+	containsSameNullity(): this;
 
 	/**
 	 * Ensures that the collection does not contain any duplicate elements.
@@ -501,7 +502,7 @@ interface CollectionComponent<S extends CollectionComponent<S, E>, E>
 	 * @throws TypeError  if the value is `undefined` or `null`
 	 * @throws RangeError if the collection contains any duplicate elements
 	 */
-	doesNotContainDuplicates(): S;
+	doesNotContainDuplicates(): this;
 
 	/**
 	 * Returns a validator for the collection's size.

@@ -24,6 +24,7 @@ interface ApplicationScope extends ProcessScope
  */
 function isApplicationScope(value: unknown): value is ApplicationScope
 {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	return (value as ApplicationScope).getGlobalConfiguration !== undefined;
 }
 

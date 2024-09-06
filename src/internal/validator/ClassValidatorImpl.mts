@@ -11,7 +11,7 @@ import {
 /**
  * Default implementation of <code>ClassValidator</code>.
  */
-class ClassValidatorImpl<T> extends AbstractValidator<ClassValidator<T>, ClassConstructor<T>>
+class ClassValidatorImpl<T> extends AbstractValidator<ClassConstructor<T>>
 	implements ClassValidator<T>
 {
 	isPrimitive(): ClassValidator<T>
@@ -21,7 +21,7 @@ class ClassValidatorImpl<T> extends AbstractValidator<ClassValidator<T>, ClassCo
 			this.addRangeError(
 				classIsPrimitive(this).toString());
 		}
-		return this.self();
+		return this;
 	}
 
 	isSupertypeOf<U>(type: ClassConstructor<U>): ClassValidator<U>
@@ -33,10 +33,11 @@ class ClassValidatorImpl<T> extends AbstractValidator<ClassValidator<T>, ClassCo
 			return child.isSubtypeOf(parent);
 		}))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				classIsSupertypeOf(this, type).toString());
 		}
-		return this.self();
+		return this as unknown as ClassValidator<U>;
 	}
 
 	isSubtypeOf<U>(type: ClassConstructor<U>): ClassValidator<U>
@@ -48,10 +49,11 @@ class ClassValidatorImpl<T> extends AbstractValidator<ClassValidator<T>, ClassCo
 			return child.isSubtypeOf(parent);
 		}))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				classIsSubtypeOf(this, type).toString());
 		}
-		return this.self();
+		return this as unknown as ClassValidator<U>;
 	}
 }
 

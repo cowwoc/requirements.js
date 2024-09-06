@@ -5,10 +5,8 @@
 
 /**
  * Methods that validators for numbers that may be negative must contain.
- *
- * @typeParam S - the type of this validator
  */
-interface NegativeNumberComponent<S>
+interface NegativeNumberComponent
 {
 	/**
 	 * Ensures that the value is negative. `-0.0` is considered to be zero *and* negative.
@@ -21,7 +19,7 @@ interface NegativeNumberComponent<S>
 	 *                    </ul>
 	 * @returns this
 	 */
-	isNegative(): S;
+	isNegative(): this;
 
 	/**
 	 * Ensures that the value is not a negative number. `-0.0` is considered to be zero *and* negative.
@@ -30,7 +28,7 @@ interface NegativeNumberComponent<S>
 	 * @throws RangeError if the value is a negative number
 	 * @returns this
 	 */
-	isNotNegative(): S;
+	isNotNegative(): this;
 }
 
 export type {NegativeNumberComponent};

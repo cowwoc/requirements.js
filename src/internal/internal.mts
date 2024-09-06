@@ -83,7 +83,10 @@ import {
 	TerminalEncoding,
 	sortByDecreasingRank
 } from "../TerminalEncoding.mjs";
-import {type ValidationFailure, isValidationFailure} from "../ValidationFailure.mjs";
+import {
+	type ValidationFailure,
+	isValidationFailure
+} from "../ValidationFailure.mjs";
 import {ValidationFailures} from "../ValidationFailures.mjs";
 import {ValidationFailureImpl} from "./validator/ValidationFailureImpl.mjs";
 import {MultipleFailuresError} from "../MultipleFailuresError.mjs";
@@ -92,9 +95,27 @@ import type {JavascriptRequireThat} from "../JavascriptRequireThat.mjs";
 import type {JavascriptAssertThat} from "../JavascriptAssertThat.mjs";
 import type {JavascriptCheckIf} from "../JavascriptCheckIf.mjs";
 import {
-	requireThat,
-	assertThat,
-	checkIf,
+	requireThatNumber,
+	requireThatBoolean,
+	requireThatArray,
+	requireThatSet,
+	requireThatMap,
+	requireThatString,
+	requireThatObject,
+	assertThatNumber,
+	assertThatBoolean,
+	assertThatArray,
+	assertThatSet,
+	assertThatMap,
+	assertThatString,
+	assertThatObject,
+	checkIfNumber,
+	checkIfBoolean,
+	checkIfArray,
+	checkIfSet,
+	checkIfMap,
+	checkIfString,
+	checkIfObject,
 	updateConfiguration,
 	getContext,
 	withContext,
@@ -209,7 +230,7 @@ import type {MessageSection} from "./message/section/MessageSection.mjs";
 import {ContextSection} from "./message/section/ContextSection.mjs";
 import {StringSection} from "./message/section/StringSection.mjs";
 import {ObjectAndSize} from "./util/ObjectAndSize.mjs";
-import {	ValidationTarget} from "./util/ValidationTarget.mjs";
+import {ValidationTarget} from "./util/ValidationTarget.mjs";
 import {Difference} from "./util/Difference.mjs";
 import {
 	collectionContainsSize,
@@ -284,9 +305,27 @@ export
 	AbstractValidator,
 	ObjectValidatorImpl,
 	Pluralizer,
-	requireThat,
-	assertThat,
-	checkIf,
+	requireThatNumber,
+	requireThatBoolean,
+	requireThatArray,
+	requireThatSet,
+	requireThatMap,
+	requireThatString,
+	requireThatObject,
+	assertThatNumber,
+	assertThatBoolean,
+	assertThatArray,
+	assertThatSet,
+	assertThatMap,
+	assertThatString,
+	assertThatObject,
+	checkIfNumber,
+	checkIfBoolean,
+	checkIfArray,
+	checkIfSet,
+	checkIfMap,
+	checkIfString,
+	checkIfObject,
 	updateConfiguration,
 	getContext,
 	withContext,

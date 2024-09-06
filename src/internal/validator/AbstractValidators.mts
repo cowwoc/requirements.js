@@ -14,11 +14,12 @@ import {
 
 /**
  * Updates the configuration that will be used by new validators.
+ *
+ * @typeParam S - the type of the validator factory
  */
-class ConfigurationUpdaterImpl implements ConfigurationUpdater
+class ConfigurationUpdaterImpl<S> implements ConfigurationUpdater
 {
-	private readonly outer: AbstractValidators<unknown>;
-	private readonly setConfiguration: (configuration: Configuration) => void;
+	private readonly outer: AbstractValidators<S>;
 	private _allowDiff: boolean;
 	private readonly mutableStringMappers: MutableStringMappers;
 	private _recordStacktrace: boolean;
@@ -30,16 +31,12 @@ class ConfigurationUpdaterImpl implements ConfigurationUpdater
 	 * Creates a new configuration updater.
 	 *
 	 * @param outer - a reference to the outer class
-	 * @param setConfiguration - a method that sets the validator factory's configuration
-	 * @throws TypeError if `setConfiguration` is `undefined` or `null`
 	 */
-	public constructor(outer: AbstractValidators<unknown>,
-	                   setConfiguration: (configuration: Configuration) => void)
+	public constructor(outer: AbstractValidators<S>)
 	{
 		this.outer = outer;
-		this.setConfiguration = setConfiguration;
 
-		const configuration = outer.getConfiguration();
+		const configuration = outer.getRequireThatConfiguration();
 		this._allowDiff = configuration.allowDiff();
 		this.mutableStringMappers = MutableStringMappers.from(configuration.stringMappers());
 		this._recordStacktrace = configuration.recordStacktrace();
@@ -111,7 +108,7 @@ class ConfigurationUpdaterImpl implements ConfigurationUpdater
 		if (this.closed)
 			return;
 		this.closed = true;
-		const oldConfiguration = this.outer.getConfiguration();
+		const oldConfiguration = this.outer.getRequireThatConfiguration();
 		const immutableStringMappers = this.mutableStringMappers.toImmutable();
 		this.changed ||= immutableStringMappers !== oldConfiguration.stringMappers();
 		if (!this.changed)
@@ -174,7 +171,7 @@ abstract class AbstractValidators<S> implements Validators<S>
 		return this.scope;
 	}
 
-	public getConfiguration(): Configuration
+	public getRequireThatConfiguration(): Configuration
 	{
 		return this.requireThatConfiguration;
 	}
@@ -199,39 +196,17 @@ abstract class AbstractValidators<S> implements Validators<S>
 		return this.checkIfConfiguration;
 	}
 
-	/**
-	 * @returns this
-	 */
-	protected self(): S
-	{
-		return this as unknown as S;
-	}
-
 	public updateConfiguration(): ConfigurationUpdater;
-	public updateConfiguration(updater: (configuration: ConfigurationUpdater) => void): S;
-	public updateConfiguration(updater?: (configuration: ConfigurationUpdater) => void): ConfigurationUpdater | S
+	public updateConfiguration(updater: (configuration: ConfigurationUpdater) => void): this;
+	public updateConfiguration(updater?: (configuration: ConfigurationUpdater) => void):
+		ConfigurationUpdater | this
 	{
 		if (updater === undefined)
-		{
-			return new ConfigurationUpdaterImpl(this,
-				(newConfig: Configuration) => this.setConfiguration(newConfig));
-		}
+			return new ConfigurationUpdaterImpl(this);
 		const updatableConfiguration = this.updateConfiguration();
 		updater(updatableConfiguration);
 		updatableConfiguration.close();
-		return this.self();
-	}
-
-	/**
-	 * Returns a configuration updater that sets the validator factory's configuration.
-	 *
-	 * @param setConfiguration - a method that sets the validator factory's configuration
-	 * @returns the configuration updater
-	 * @throws TypeError if `setConfiguration` is `null`
-	 */
-	public updateAndSetConfiguration(setConfiguration: (configuration: Configuration) => void)
-	{
-		return new ConfigurationUpdaterImpl(this, setConfiguration);
+		return this;
 	}
 
 	/**
@@ -263,9 +238,9 @@ abstract class AbstractValidators<S> implements Validators<S>
 
 	abstract copy(): S;
 
-	abstract removeContext(name: string): S;
+	abstract removeContext(name: string): this;
 
-	abstract withContext(value: unknown, name: string): S;
+	abstract withContext(value: unknown, name: string): this;
 }
 
 export {AbstractValidators};

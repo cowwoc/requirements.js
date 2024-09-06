@@ -33,7 +33,7 @@ suite("BaseTest", () =>
 		{
 			const actual = {} as object | null;
 			// Changes the compile-time type of the value to null
-			const isNull: null = validators.requireThat(actual, null as unknown as string).isNull().getValue();
+			validators.requireThatObject(actual, null as unknown as string).isNull().getValue();
 		}, TypeError);
 	});
 
@@ -42,14 +42,14 @@ suite("BaseTest", () =>
 		assert.throws(function()
 		{
 			const actual = {};
-			validators.requireThat(actual, "");
+			validators.requireThatObject(actual, "");
 		}, RangeError);
 	});
 
 	test("isEqualTo", () =>
 	{
 		const actual = "actual";
-		validators.requireThat(actual, "actual").isEqualTo(actual);
+		validators.requireThatString(actual, "actual").isEqualTo(actual);
 	});
 
 	test("isEqual_False", () =>
@@ -57,11 +57,11 @@ suite("BaseTest", () =>
 		const actual = {};
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").isEqualTo("expected");
+			validators.requireThatObject(actual, "actual").isEqualTo("expected");
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").isEqualTo("expected", "expected");
+			validators.requireThatObject(actual, "actual").isEqualTo("expected", "expected");
 		}, RangeError);
 	});
 
@@ -82,7 +82,7 @@ suite("BaseTest", () =>
 	test("isEqual_nullToNull", () =>
 	{
 		const actual = null;
-		validators.requireThat(actual, "actual").isEqualTo(actual);
+		validators.requireThatObject(actual, "actual").isEqualTo(actual);
 	});
 
 	test("isEqualTo_nullToNotNull", () =>
@@ -116,7 +116,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 	test("isNotEqualTo", () =>
 	{
 		const actual = "actualValue";
-		validators.requireThat(actual, "actual").isNotEqualTo("expectedValue");
+		validators.requireThatString(actual, "actual").isNotEqualTo("expectedValue");
 	});
 
 	test("isNotEqualTo_False", () =>
@@ -124,24 +124,24 @@ assignable to parameter of type 'null'.` + os.EOL);
 		const actual = {};
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").isNotEqualTo(actual);
+			validators.requireThatObject(actual, "actual").isNotEqualTo(actual);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").isNotEqualTo(actual, "actual");
+			validators.requireThatObject(actual, "actual").isNotEqualTo(actual, "actual");
 		}, RangeError);
 	});
 
 	test("getType_isUndefined", () =>
 	{
 		const actual = undefined;
-		const validator: ObjectValidator<undefined> = validators.requireThat(actual, "actual").isUndefined();
+		validators.requireThatObject(actual, "actual").isUndefined();
 	});
 
 	test("getType_isNull", () =>
 	{
 		const actual = null;
-		const validator: ObjectValidator<null> = validators.requireThat(actual, "actual").isNull();
+		validators.requireThatObject(actual, "actual").isNull();
 	});
 
 	class Person
@@ -159,20 +159,19 @@ assignable to parameter of type 'null'.` + os.EOL);
 	test("getType_isObject", () =>
 	{
 		const actual = new Person("John Smith", 32);
-		validators.requireThat(actual, "actual").isType(Type.namedClass(null));
+		validators.requireThatObject(actual, "actual").isType(Type.namedClass(null));
 	});
 
 	test("getType_isType", () =>
 	{
 		const actual = Type.of(new Person("name", 5));
-		validators.requireThat(actual, "actual").isType(Type.namedClass("Type"));
+		validators.requireThatObject(actual, "actual").isType(Type.namedClass("Type"));
 	});
 
 	test("isInstanceOf", () =>
 	{
 		const actual = new Person("name", 5);
-		const expected: Person | null = validators.requireThat(actual as unknown, "actual").
-			isInstanceOf(Person).getValue();
+		validators.requireThatObject(actual, "actual").isInstanceOf(Person).getValue();
 	});
 
 	test("isInstanceOf_actualIsNull", () =>
@@ -180,7 +179,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = null;
-			validators.requireThat(actual, "actual").isInstanceOf(String);
+			validators.requireThatObject(actual, "actual").isInstanceOf(String);
 		}, TypeError);
 	});
 
@@ -189,7 +188,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = {};
-			validators.requireThat(actual as unknown, "actual").isInstanceOf(String);
+			validators.requireThatObject(actual, "actual").isInstanceOf(String);
 		}, TypeError);
 	});
 	test("isInstanceOf_Object", () =>
@@ -197,13 +196,13 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = 5;
-			validators.requireThat(actual as unknown, "actual").isInstanceOf(Object);
+			validators.requireThatNumber(actual, "actual").isInstanceOf(Object);
 		}, TypeError);
 	});
 
 	test("isNull", () =>
 	{
-		validators.requireThat(null, "actual").isNull();
+		validators.requireThatObject(null, "actual").isNull();
 	});
 
 	test("isNull_False", () =>
@@ -211,7 +210,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = {} as object | null;
-			const isNull: null = validators.requireThat(actual, "actual").isNull().getValue();
+			validators.requireThatObject(actual, "actual").isNull().getValue();
 		}, TypeError);
 	});
 
@@ -219,7 +218,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 	{
 		const actual = {} as object | null;
 		// Changes the compile-time type of the value to not-null
-		const notNull: object | null = validators.requireThat(actual, "actual").isNotNull().getValue();
+		validators.requireThatObject(actual, "actual").isNotNull().getValue();
 	});
 
 	test("isNotNull_False", () =>
@@ -227,15 +226,14 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = null;
-			validators.requireThat(actual, "actual").isNotNull();
+			validators.requireThatObject(actual, "actual").isNotNull();
 		}, TypeError);
 	});
 
 	test("isDefined", () =>
 	{
 		const actual = 5;
-		const foo: ObjectValidator<unknown> = validators.requireThat(actual as unknown, "actual");
-		console.log("foo: " + foo.constructor.name);
+		const foo: ObjectValidator<unknown> = validators.requireThatNumber(actual, "actual");
 		foo.isNotUndefined();
 	});
 
@@ -245,7 +243,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 		{
 			let actual;
 			// noinspection JSUnusedAssignment
-			validators.requireThat(actual, "actual").isNotUndefined();
+			validators.requireThatObject(actual, "actual").isNotUndefined();
 		}, TypeError);
 	});
 
@@ -253,7 +251,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 	{
 		let actual;
 		// noinspection JSUnusedAssignment
-		validators.requireThat(actual, "actual").isUndefined();
+		validators.requireThatObject(actual, "actual").isUndefined();
 	});
 
 	test("isUndefined_False", () =>
@@ -261,7 +259,7 @@ assignable to parameter of type 'null'.` + os.EOL);
 		assert.throws(function()
 		{
 			const actual = 5;
-			validators.requireThat(actual as unknown, "actual").isUndefined();
+			validators.requireThatNumber(actual, "actual").isUndefined();
 		}, TypeError);
 	});
 });

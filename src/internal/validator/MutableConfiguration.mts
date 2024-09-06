@@ -79,8 +79,8 @@ class MutableConfiguration
 	 * @param mayDiff - `true` if error messages may include a diff, `false` otherwise
 	 * @returns this
 	 */
-	public allowDiff(mayDiff: boolean): MutableConfiguration;
-	public allowDiff(mayDiff?: boolean): boolean | MutableConfiguration
+	public allowDiff(mayDiff: boolean): this;
+	public allowDiff(mayDiff?: boolean): boolean | this
 	{
 		if (mayDiff === undefined)
 			return this._allowDiff;
@@ -117,8 +117,8 @@ class MutableConfiguration
 	 * @param recordStacktrace - `true` if errors must be recorded when a validation failure occurs
 	 * @returns this
 	 */
-	public recordStacktrace(recordStacktrace: boolean): MutableConfiguration;
-	public recordStacktrace(recordStacktrace?: boolean): boolean | MutableConfiguration
+	public recordStacktrace(recordStacktrace: boolean): this;
+	public recordStacktrace(recordStacktrace?: boolean): boolean | this
 	{
 		if (recordStacktrace === undefined)
 			return this._recordStacktrace;
@@ -138,8 +138,8 @@ class MutableConfiguration
 	 * @param throwOnFailure - `true` if an error is thrown on validation failure
 	 * @returns this
 	 */
-	public throwOnFailure(throwOnFailure: boolean): MutableConfiguration;
-	public throwOnFailure(throwOnFailure?: boolean): boolean | MutableConfiguration
+	public throwOnFailure(throwOnFailure: boolean): this;
+	public throwOnFailure(throwOnFailure?: boolean): boolean | this
 	{
 		if (throwOnFailure === undefined)
 			return this._throwOnFailure;
@@ -163,9 +163,8 @@ class MutableConfiguration
 	 * @throws TypeError if `errorTransformer` is `undefined` or `null`
 	 * @returns this
 	 */
-	public errorTransformer(errorTransformer: (error: Error) => Error): MutableConfiguration;
-	public errorTransformer(errorTransformer?: (error: Error) => Error):
-		((error: Error) => Error) | MutableConfiguration
+	public errorTransformer(errorTransformer: (error: Error) => Error): this;
+	public errorTransformer(errorTransformer?: (error: Error) => Error): ((error: Error) => Error) | this
 	{
 		if (errorTransformer === undefined)
 			return this._errorTransformer;

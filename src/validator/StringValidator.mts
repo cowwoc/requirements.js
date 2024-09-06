@@ -6,7 +6,7 @@ import type {
 /**
  * Validates the state of a `string`.
  */
-interface StringValidator extends ValidatorComponent<StringValidator, string>
+interface StringValidator<T extends string | undefined | null> extends ValidatorComponent<T>
 {
 	/**
 	 * Ensures that the value starts with some prefix.
@@ -16,7 +16,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `prefix` are `undefined` or `null`
 	 * @throws RangeError if the value does not start with `prefix`
 	 */
-	startsWith(prefix: string): StringValidator;
+	startsWith(prefix: string): this;
 
 	/**
 	 * Ensures that the value does not start with some prefix.
@@ -26,7 +26,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `prefix` are `undefined` or `null`
 	 * @throws RangeError if the value starts with `prefix`
 	 */
-	doesNotStartWith(prefix: string): StringValidator;
+	doesNotStartWith(prefix: string): this;
 
 	/**
 	 * Ensures that the value ends with some suffix.
@@ -36,7 +36,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `suffix` are `undefined` or `null`
 	 * @throws RangeError if the value does not end with `suffix`
 	 */
-	endsWith(suffix: string): StringValidator;
+	endsWith(suffix: string): this;
 
 	/**
 	 * Ensures that the value does not end with some suffix.
@@ -46,7 +46,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `suffix` are `undefined` or `null`
 	 * @throws RangeError if the value ends with `suffix`
 	 */
-	doesNotEndWith(suffix: string): StringValidator;
+	doesNotEndWith(suffix: string): this;
 
 	/**
 	 * Ensures that the value contains some substring.
@@ -56,7 +56,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the value does not contain `expected`
 	 */
-	contains(expected: string): StringValidator;
+	contains(expected: string): this;
 
 	/**
 	 * Ensures that the value does not contain some substring.
@@ -66,7 +66,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the value contains `unwanted`
 	 */
-	doesNotContain(unwanted: string): StringValidator;
+	doesNotContain(unwanted: string): this;
 
 	/**
 	 * Ensures that the value does not contain whitespace characters.
@@ -75,7 +75,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws NullPointerException     if the value is `undefined` or `null`
 	 * @throws IllegalArgumentException if the value contains whitespace characters
 	 */
-	doesNotContainWhitespace(): StringValidator;
+	doesNotContainWhitespace(): this;
 
 	/**
 	 * Ensures that the value matches a regular expression.
@@ -85,7 +85,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if the value does not match `regex`
 	 */
-	matches(regex: RegExp): StringValidator;
+	matches(regex: RegExp): this;
 
 	/**
 	 * Ensures that the value is empty.
@@ -94,7 +94,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if the value is not empty
 	 */
-	isEmpty(): StringValidator;
+	isEmpty(): this;
 
 	/**
 	 * Ensures that the value is not empty.
@@ -103,7 +103,7 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if the value is empty
 	 */
-	isNotEmpty(): StringValidator;
+	isNotEmpty(): this;
 
 	/**
 	 * Ensures that the value does not contain leading or trailing whitespace, where whitespace is defined by
@@ -113,9 +113,9 @@ interface StringValidator extends ValidatorComponent<StringValidator, string>
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if the value contains leading or trailing whitespace
 	 * @see {@link String.trim}
-	 * @see {@link StringValidator.isEmpty}
+	 * @see {@link isEmpty}
 	 */
-	isTrimmed(): StringValidator;
+	isTrimmed(): this;
 
 	/**
 	 * Returns a validator for the length of the string.

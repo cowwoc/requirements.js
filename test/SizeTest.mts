@@ -28,7 +28,7 @@ suite("SizeTest", () =>
 	test("isGreaterThanOrEqualTo", () =>
 	{
 		const actual: unknown[] = [];
-		validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(0);
+		validators.requireThatArray(actual, "actual").length().isGreaterThanOrEqualTo(0);
 	});
 
 	test("isGreaterThanOrEqualTo_False", () =>
@@ -36,18 +36,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5);
+			validators.requireThatArray(actual, "actual").length().isGreaterThanOrEqualTo(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isGreaterThanOrEqualTo(5, "expected");
+			validators.requireThatArray(actual, "actual").length().isGreaterThanOrEqualTo(5, "expected");
 		}, RangeError);
 	});
 
 	test("isGreaterThan", () =>
 	{
 		const actual = [1];
-		validators.requireThat(actual, "actual").length().isGreaterThan(0);
+		validators.requireThatArray(actual, "actual").length().isGreaterThan(0);
 	});
 
 	test("isGreaterThan_False", () =>
@@ -55,18 +55,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isGreaterThan(5);
+			validators.requireThatArray(actual, "actual").length().isGreaterThan(5);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isGreaterThan(5, "expected");
+			validators.requireThatArray(actual, "actual").length().isGreaterThan(5, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThanOrEqualTo", () =>
 	{
 		const actual = [1];
-		validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(2);
+		validators.requireThatArray(actual, "actual").length().isLessThanOrEqualTo(2);
 	});
 
 	test("isLessThanOrEqualTo_False", () =>
@@ -74,18 +74,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1);
+			validators.requireThatArray(actual, "actual").length().isLessThanOrEqualTo(-1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isLessThanOrEqualTo(-1, "expected");
+			validators.requireThatArray(actual, "actual").length().isLessThanOrEqualTo(-1, "expected");
 		}, RangeError);
 	});
 
 	test("isLessThan", () =>
 	{
 		const actual = [1];
-		validators.requireThat(actual, "actual").length().isLessThan(2);
+		validators.requireThatArray(actual, "actual").length().isLessThan(2);
 	});
 
 	test("isLessThan_False", () =>
@@ -93,18 +93,18 @@ suite("SizeTest", () =>
 		const actual: unknown[] = [];
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isLessThan(0);
+			validators.requireThatArray(actual, "actual").length().isLessThan(0);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").length().isLessThan(0, "expected");
+			validators.requireThatArray(actual, "actual").length().isLessThan(0, "expected");
 		}, RangeError);
 	});
 
 	test("isNotPositive", () =>
 	{
 		const actual: unknown[] = [];
-		validators.requireThat(actual, "actual").length().isNotPositive();
+		validators.requireThatArray(actual, "actual").length().isNotPositive();
 	});
 
 	test("isNotPositive_False", () =>
@@ -112,14 +112,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual = [1, 2, 3];
-			validators.requireThat(actual, "actual").length().isNotPositive();
+			validators.requireThatArray(actual, "actual").length().isNotPositive();
 		}, RangeError);
 	});
 
 	test("isPositive", () =>
 	{
 		const actual = [1, 2, 3];
-		validators.requireThat(actual, "actual").length().isPositive();
+		validators.requireThatArray(actual, "actual").length().isPositive();
 	});
 
 	test("isPositive_False", () =>
@@ -127,14 +127,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			validators.requireThat(actual, "actual").length().isPositive();
+			validators.requireThatArray(actual, "actual").length().isPositive();
 		}, RangeError);
 	});
 
 	test("isNotZero", () =>
 	{
 		const actual = [1, 2, 3];
-		validators.requireThat(actual, "actual").length().isNotZero();
+		validators.requireThatArray(actual, "actual").length().isNotZero();
 	});
 
 	test("isNotZero_False", () =>
@@ -142,14 +142,14 @@ suite("SizeTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			validators.requireThat(actual, "actual").length().isNotZero();
+			validators.requireThatArray(actual, "actual").length().isNotZero();
 		}, RangeError);
 	});
 
 	test("isZero", () =>
 	{
 		const actual: unknown[] = [];
-		validators.requireThat(actual, "actual").length().isZero();
+		validators.requireThatArray(actual, "actual").length().isZero();
 	});
 
 	test("isNotNegative", () =>
@@ -160,7 +160,7 @@ suite("SizeTest", () =>
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
 			const actual: unknown[] = [];
-			validators.requireThat(actual, "actual").length().isNotNegative();`;
+			validators.requireThatArray(actual, "actual").length().isNotNegative();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'ObjectVerifier<null>'." + os.EOL);
@@ -174,7 +174,7 @@ suite("SizeTest", () =>
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
 			const actual: unknown[] = [];
-			validators.requireThat(actual, "actual").length().isNegative();`;
+			validators.requireThatArray(actual, "actual").length().isNegative();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
 			"type 'ObjectVerifier<null>'." + os.EOL);

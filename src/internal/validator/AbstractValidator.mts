@@ -24,19 +24,19 @@ import {
 	messagesIsEqualTo,
 	messagesIsUndefined,
 	type ObjectValidator,
-	type NonUndefinable,
 	messagesIsNull,
-	type ClassConstructor
+	type ClassConstructor,
+	messagesIsNotUndefined,
+	type NonUndefinable
 } from "../internal.mjs";
 import isEqual from "lodash.isequal";
 
 /**
  * Validates the state of a value, recording failures without throwing an error.
  *
- * @typeParam S - the type of validator that the methods should return
  * @typeParam T - the type of the value
  */
-abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
+abstract class AbstractValidator<T> implements ValidatorComponent<T>
 {
 	protected static readonly VALUE_IS_UNDEFINED = () => new IllegalStateError("value is invalid");
 	private static readonly CONTAINS_WHITESPACE = /.*\\s.*/u;
@@ -72,7 +72,7 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 	 * @param value - the value being validated
 	 * @param context - the contextual information set by a parent validator or the user
 	 * @param failures - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */
@@ -131,10 +131,10 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 		return this.value.or(defaultValue);
 	}
 
-	and(validation: (validator: S) => void): S
+	and(validation: (validator: this) => void): this
 	{
-		validation(this.self());
-		return this.self();
+		validation(this);
+		return this;
 	}
 
 	/**
@@ -158,7 +158,7 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 	 *
 	 * @param message - a message that explains what went wrong
 	 */
-	protected addTypeError(message: string): void
+	public addTypeError(message: string): void
 	{
 		this.addFailure(message, (theMessage: string) => new TypeError(theMessage));
 	}
@@ -177,15 +177,6 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 	public configuration(): Configuration
 	{
 		return this._configuration;
-	}
-
-	/**
-	 * @typeParam U - the expected return type
-	 * @returns this
-	 */
-	protected self<U>(): U
-	{
-		return this as unknown as U;
 	}
 
 	public elseGetFailures()
@@ -215,14 +206,14 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 		return new Map(this.context);
 	}
 
-	public withContext(value: unknown, name: string): S
+	public withContext(value: unknown, name: string): this
 	{
 		this.requireThatNameIsUnique(name, false);
 		if (value === null)
 			this.context.delete(name);
 		else
 			this.context.set(name, value);
-		return this.self();
+		return this;
 	}
 
 	public getContextAsString(): string
@@ -237,7 +228,7 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 	 * @param checkContext - `false` to allow the name to be used even if it conflicts with an
 	 * existing name in the validator context
 	 * @returns the internal validator of the name
-	 * @throws RangeError if `name` is null
+	 * @throws RangeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name`:
 	 *                    <ul>
 	 *                      <li>contains whitespace</li>
@@ -248,7 +239,7 @@ abstract class AbstractValidator<S, T> implements ValidatorComponent<S, T>
 	protected requireThatNameIsUnique(name: string, checkContext = true)
 	{
 		const internalValidators = JavascriptValidatorsImpl.INTERNAL;
-		internalValidators.requireThat(name, "name").isTrimmed().isNotEmpty();
+		internalValidators.requireThatString(name, "name").isTrimmed().isNotEmpty();
 		if (AbstractValidator.CONTAINS_WHITESPACE.test(name))
 			throw new RangeError("name may not contain whitespace");
 
@@ -267,7 +258,7 @@ different name.`);
 
 	public isUndefined()
 	{
-		if (this.value.validationFailed(v => v === undefined))
+		if (!this.value.isUndefined())
 		{
 			this.addTypeError(
 				messagesIsUndefined(this).toString());
@@ -277,18 +268,18 @@ different name.`);
 
 	public isNotUndefined()
 	{
-		if (this.value.validationFailed(v => v !== undefined))
+		if (this.value.isUndefined())
 		{
 			this.addTypeError(
 				messagesIsUndefined(this).toString());
 		}
-		return this as unknown as ObjectValidator<NonUndefinable<T>>;
+		return this as ObjectValidator<NonUndefinable<T>>;
 	}
 
 
 	public isNull()
 	{
-		if (this.value.validationFailed(v => v === null))
+		if (!this.value.isNull())
 		{
 			this.addTypeError(
 				messagesIsNull(this).toString());
@@ -298,12 +289,12 @@ different name.`);
 
 	public isNotNull()
 	{
-		if (this.value.validationFailed(v => v !== null))
+		if (this.value.isNull())
 		{
 			this.addTypeError(
 				messagesIsNotNull(this).toString());
 		}
-		return this as unknown as ObjectValidator<NonNullable<T>>;
+		return this as ObjectValidator<NonNullable<T>>;
 	}
 
 	/**
@@ -316,13 +307,13 @@ different name.`);
 	 */
 	private validateType(otherType: Type, mustBeEqual: boolean): boolean
 	{
-		const validationFailed = this.value.validationFailed(v =>
+		const validationFailed = this.value.map(v =>
 		{
 			const typeOfValue = Type.of(v);
 			if (typeof (otherType.typeGuard) !== "undefined")
 				return otherType.typeGuard(v);
-			return isEqual(typeOfValue, otherType) === mustBeEqual;
-		});
+			return isEqual(typeOfValue, otherType) !== mustBeEqual;
+		}).or(true);
 		if (validationFailed)
 		{
 			this.addTypeError(
@@ -332,59 +323,59 @@ different name.`);
 		return true;
 	}
 
-	public isType(expected: Type): S
+	public isType(expected: Type): this
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
-		if (this.value.validationFailed(v => Type.of(v).equals(expected)))
+		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
+		if (this.value.map(v => !Type.of(v).equals(expected)).or(true))
 		{
 			this.addTypeError(
 				messagesIsInstanceOf(this, expected).toString());
 		}
-		return this.self();
+		return this;
 	}
 
 	public isInstanceOf<U extends object>(expected: ClassConstructor<U>): ObjectValidator<U>
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
+		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
 		const className = Type.of(expected).name;
 		this.validateType(Type.namedClass(className), true);
 		return this as unknown as ObjectValidator<U>;
 	}
 
-	public isNotInstanceOf<U extends object>(expected: ClassConstructor<U>): ObjectValidator<T>
+	public isNotInstanceOf<U extends object>(expected: ClassConstructor<U>): this
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
+		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
 		const className = Type.of(expected).name;
 		this.validateType(Type.namedClass(className), false);
-		return this.self();
+		return this;
 	}
 
-	public isEqualTo(expected: unknown): S;
+	public isEqualTo(expected: unknown): this;
 	public isEqualTo(expected: unknown, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.validationFailed(v => isEqual(v, expected)))
+		if (this.value.map(v => !isEqual(v, expected)).or(true))
 		{
 			this.addRangeError(
 				messagesIsEqualTo(this, name ?? null, expected).toString());
 		}
-		return this.self();
+		return this;
 	}
 
-	public isNotEqualTo(unwanted: unknown): S;
+	public isNotEqualTo(unwanted: unknown): this;
 	public isNotEqualTo(unwanted: unknown, name?: string)
 	{
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.validationFailed(v => !isEqual(v, unwanted)))
+		if (this.value.map(v => isEqual(v, unwanted)).or(true))
 		{
 			this.addRangeError(
 				messagesIsNotEqualTo(this, name ?? null, unwanted).toString());
 		}
-		return this.self();
+		return this;
 	}
 
 	/**
@@ -402,11 +393,17 @@ different name.`);
 	}
 
 	/**
-	 * Invoked by a validation if the value is null. Sets the value to `undefined`.
+	 * Fails the validation if the value is `undefined` or `null`.
 	 */
-	protected onNull()
+	protected failOnUndefinedOrNull()
 	{
-		this.addRangeError(messagesIsNotNull(this).toString());
+		this.value.ifValid(v =>
+		{
+			if (v === undefined)
+				this.addRangeError(messagesIsNotUndefined(this).toString());
+			else if (v === null)
+				this.addRangeError(messagesIsNotNull(this).toString());
+		});
 	}
 }
 

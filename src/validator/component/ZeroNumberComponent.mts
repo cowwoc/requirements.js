@@ -5,10 +5,8 @@
 
 /**
  * Methods that validators for numbers that may be zero must contain.
- *
- * @typeParam S - the type of this validator
  */
-interface ZeroNumberComponent<S>
+interface ZeroNumberComponent
 {
 	/**
 	 * Ensures that the value is zero. `-0.0` is considered to be zero *and* negative.
@@ -21,7 +19,7 @@ interface ZeroNumberComponent<S>
 	 *                    </ul>
 	 * @returns this
 	 */
-	isZero(): S;
+	isZero(): this;
 
 	/**
 	 * Ensures that the value is not zero. `-0.0` is considered to be zero *and* negative.
@@ -30,7 +28,7 @@ interface ZeroNumberComponent<S>
 	 * @throws RangeError if the value is zero
 	 * @returns this
 	 */
-	isNotZero(): S;
+	isNotZero(): this;
 }
 
 export type {ZeroNumberComponent};

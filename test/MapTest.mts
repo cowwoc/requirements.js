@@ -22,7 +22,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			validators.requireThat(actual, null as unknown as string);
+			validators.requireThatMap(actual, null as unknown as string);
 		}, TypeError);
 	});
 
@@ -31,14 +31,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			validators.requireThat(actual, "");
+			validators.requireThatMap(actual, "");
 		}, RangeError);
 	});
 
 	test("isEmpty", () =>
 	{
 		const actual = new Map();
-		validators.requireThat(actual, "actual").isEmpty();
+		validators.requireThatMap(actual, "actual").isEmpty();
 	});
 
 	test("isEmpty_False", () =>
@@ -46,14 +46,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").isEmpty();
+			validators.requireThatMap(actual, "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").isNotEmpty();
+		validators.requireThatMap(actual, "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
@@ -61,14 +61,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			validators.requireThat(actual, "actual").isNotEmpty();
+			validators.requireThatMap(actual, "actual").isNotEmpty();
 		}, RangeError);
 	});
 
 	test("isEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").isEqualTo(actual);
+		validators.requireThatMap(actual, "actual").isEqualTo(actual);
 	});
 
 	test("isEqual_False", () =>
@@ -76,13 +76,13 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").isEqualTo(new Map());
+			validators.requireThatMap(actual, "actual").isEqualTo(new Map());
 		}, RangeError);
 	});
 
 	test("isNotEqualTo", () =>
 	{
-		validators.requireThat(new Map([[1, 10], [2, 20]]), "actual").isNotEqualTo(new Map());
+		validators.requireThatMap(new Map([[1, 10], [2, 20]]), "actual").isNotEqualTo(new Map());
 	});
 
 	test("isNotEqualTo_False", () =>
@@ -90,22 +90,24 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map();
-			validators.requireThat(actual, "actual").isNotEqualTo(actual);
+			validators.requireThatMap(actual, "actual").isNotEqualTo(actual);
 		}, RangeError);
 	});
 
 	test("isInstanceOf", () =>
 	{
-		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual as unknown, "actual").isInstanceOf(Map).isType(Type.namedClass(null));
+		const actual = new Map<number, number>([[1, 10], [2, 20]]);
+		validators.requireThatMap(actual as unknown as Map<number, number>, "actual").isInstanceOf(Map).
+			isType(Type.namedClass(null));
 	});
 
 	test("isInstanceOf_False", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = new Map();
-			validators.requireThat(actual as unknown, "actual").isType(Type.namedClass("string"));
+			const actual = new Map<number, number>();
+			validators.requireThatMap(actual as unknown as Map<number, number>, "actual").
+				isType(Type.namedClass("string"));
 		}, TypeError);
 	});
 
@@ -113,21 +115,21 @@ suite("MapTest", () =>
 	{
 		assert.throws(function()
 		{
-			const actual = new Map();
-			validators.requireThat(actual as unknown, "actual").isNull();
+			const actual = new Map<number, number>();
+			validators.requireThatMap(actual as unknown as Map<number, number>, "actual").isNull();
 		}, TypeError);
 	});
 
 	test("isNotNull", () =>
 	{
-		const actual = new Map();
-		validators.requireThat(actual as unknown, "actual").isNotNull();
+		const actual = new Map<number, number>();
+		validators.requireThatMap(actual as unknown as Map<number, number>, "actual").isNotNull();
 	});
 
 	test("keysContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").keys().contains(2);
+		validators.requireThatMap(actual, "actual").keys().contains(2);
 	});
 
 	test("keysContain_False", () =>
@@ -135,14 +137,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").keys().contains(5);
+			validators.requireThatMap(actual, "actual").keys().contains(5);
 		}, RangeError);
 	});
 
 	test("keysDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").keys().doesNotContain(5);
+		validators.requireThatMap(actual, "actual").keys().doesNotContain(5);
 	});
 
 	test("keysDoesNotContain_False", () =>
@@ -150,14 +152,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").keys().doesNotContain(2);
+			validators.requireThatMap(actual, "actual").keys().doesNotContain(2);
 		}, RangeError);
 	});
 
 	test("keysNestedValidator", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").and(v => v.keys().contains(2)).size().isEqualTo(2);
+		validators.requireThatMap(actual, "actual").and(v => v.keys().contains(2)).size().isEqualTo(2);
 	});
 
 	test("keysLength_False", () =>
@@ -165,11 +167,11 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").keys().length().isGreaterThan(1);
+			validators.requireThatMap(actual, "actual").keys().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").keys().length().isGreaterThan(2);
+			validators.requireThatMap(actual, "actual").keys().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
@@ -178,14 +180,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").and(v => v.keys().doesNotContain(2));
+			validators.requireThatMap(actual, "actual").and(v => v.keys().doesNotContain(2));
 		}, RangeError);
 	});
 
 	test("valuesContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").values().contains(20);
+		validators.requireThatMap(actual, "actual").values().contains(20);
 	});
 
 	test("valuesContain_False", () =>
@@ -193,14 +195,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").values().contains(50);
+			validators.requireThatMap(actual, "actual").values().contains(50);
 		}, RangeError);
 	});
 
 	test("valuesDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").values().doesNotContain(50);
+		validators.requireThatMap(actual, "actual").values().doesNotContain(50);
 	});
 
 	test("valuesDoesNotContain_False", () =>
@@ -208,7 +210,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").values().doesNotContain(20);
+			validators.requireThatMap(actual, "actual").values().doesNotContain(20);
 		}, RangeError);
 	});
 
@@ -217,18 +219,18 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").values().length().isGreaterThan(1);
+			validators.requireThatMap(actual, "actual").values().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").values().length().isGreaterThan(2);
+			validators.requireThatMap(actual, "actual").values().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
 	test("valuesNestedValidator", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").and(v => v.values().contains(20)).size().isEqualTo(2);
+		validators.requireThatMap(actual, "actual").and(v => v.values().contains(20)).size().isEqualTo(2);
 	});
 
 	test("valuesNestedValidator_Fail", () =>
@@ -236,14 +238,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").and(v => v.values().doesNotContain(20));
+			validators.requireThatMap(actual, "actual").and(v => v.values().doesNotContain(20));
 		}, RangeError);
 	});
 
 	test("entriesContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").entries().contains([2, 20]);
+		validators.requireThatMap(actual, "actual").entries().contains([2, 20]);
 	});
 
 	test("entriesContain_False", () =>
@@ -251,14 +253,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").entries().contains([5, 50]);
+			validators.requireThatMap(actual, "actual").entries().contains([5, 50]);
 		}, RangeError);
 	});
 
 	test("entriesDoesNotContain", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").entries().doesNotContain([5, 50]);
+		validators.requireThatMap(actual, "actual").entries().doesNotContain([5, 50]);
 	});
 
 	test("entriesDoesNotContain_False", () =>
@@ -266,7 +268,7 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").entries().doesNotContain([2, 20]);
+			validators.requireThatMap(actual, "actual").entries().doesNotContain([2, 20]);
 		}, RangeError);
 	});
 
@@ -275,18 +277,18 @@ suite("MapTest", () =>
 		const actual = new Map();
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").entries().length().isGreaterThan(1);
+			validators.requireThatMap(actual, "actual").entries().length().isGreaterThan(1);
 		}, RangeError);
 		assert.throws(function()
 		{
-			validators.requireThat(actual, "actual").entries().length().isGreaterThan(2);
+			validators.requireThatMap(actual, "actual").entries().length().isGreaterThan(2);
 		}, RangeError);
 	});
 
 	test("entriesNestedValidator", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").and(v => v.entries().contains([2, 20])).size().
+		validators.requireThatMap(actual, "actual").and(v => v.entries().contains([2, 20])).size().
 			isEqualTo(2);
 	});
 
@@ -295,14 +297,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").and(v => v.entries().doesNotContain([2, 20]));
+			validators.requireThatMap(actual, "actual").and(v => v.entries().doesNotContain([2, 20]));
 		}, RangeError);
 	});
 
 	test("sizeIsEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").size().isEqualTo(2);
+		validators.requireThatMap(actual, "actual").size().isEqualTo(2);
 	});
 
 	test("sizeIsEqualTo_False", () =>
@@ -310,14 +312,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").size().isEqualTo(1);
+			validators.requireThatMap(actual, "actual").size().isEqualTo(1);
 		}, RangeError);
 	});
 
 	test("sizeIsNotEqualTo", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").size().isNotEqualTo(1);
+		validators.requireThatMap(actual, "actual").size().isNotEqualTo(1);
 	});
 
 	test("sizeIsNotEqualTo_False", () =>
@@ -325,14 +327,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").size().isNotEqualTo(2);
+			validators.requireThatMap(actual, "actual").size().isNotEqualTo(2);
 		}, RangeError);
 	});
 
 	test("sizeNestedValidator", () =>
 	{
 		const actual = new Map([[1, 10], [2, 20]]);
-		validators.requireThat(actual, "actual").and(v => v.size().isEqualTo(2)).entries().
+		validators.requireThatMap(actual, "actual").and(v => v.size().isEqualTo(2)).entries().
 			contains([2, 20]);
 	});
 
@@ -341,14 +343,14 @@ suite("MapTest", () =>
 		assert.throws(function()
 		{
 			const actual = new Map([[1, 10], [2, 20]]);
-			validators.requireThat(actual, "actual").and(v => v.size().isNotEqualTo(2));
+			validators.requireThatMap(actual, "actual").and(v => v.size().isNotEqualTo(2));
 		}, RangeError);
 	});
 
 	test("getActual", () =>
 	{
 		const input = new Map([[1, 10], [2, 20]]);
-		const output = validators.requireThat(input, "input").getValue();
+		const output = validators.requireThatMap(input, "input").getValue();
 		assert.strictEqual(output, input);
 	});
 
@@ -358,8 +360,9 @@ suite("MapTest", () =>
 		const expectedMessages = [`\
 "actual" must be a Map.
 actual: null`];
-		const actualFailures = validators.checkIf(actual, "actual").isInstanceOf(Map).elseGetFailures();
+		const actualFailures = validators.checkIfMap(actual, "actual").isInstanceOf(Map).elseGetFailures();
 		const actualMessages = actualFailures.getFailures().map(failure => failure.getMessage());
-		validators.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
+		validators.requireThatArray(actualMessages, "actualMessages").
+			isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

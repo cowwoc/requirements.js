@@ -13,8 +13,8 @@ import {
 /**
  * Default implementation of `SetValidator`.
  */
-class SetValidatorImpl<E> extends AbstractCollectionValidator<SetValidator<E>, Set<E>, E>
-	implements SetValidator<E>
+class SetValidatorImpl<T extends Set<E> | undefined | null, E> extends AbstractCollectionValidator<T, E>
+	implements SetValidator<T, E>
 {
 	/**
 	 * @param scope         - the application configuration
@@ -24,12 +24,12 @@ class SetValidatorImpl<E> extends AbstractCollectionValidator<SetValidator<E>, S
 	 * @param pluralizer    - the type of items in the array
 	 * @param context       - the contextual information set by a parent validator or the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value` `context` or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration, name: string,
-	                   value: ValidationTarget<Set<E>>, pluralizer: Pluralizer, context: Map<string, unknown>,
+	                   value: ValidationTarget<T>, pluralizer: Pluralizer, context: Map<string, unknown>,
 	                   failures: ValidationFailure[])
 	{
 		super(scope, configuration, name, value, pluralizer, context, failures);
@@ -37,8 +37,7 @@ class SetValidatorImpl<E> extends AbstractCollectionValidator<SetValidator<E>, S
 
 	size(): UnsignedNumberValidator
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		return new ObjectSizeValidatorImpl(this.scope, this._configuration, this, this.name + ".size()",
 			this.value.undefinedOrNullToInvalid().map(v => this.getLength(v)), this.pluralizer, this.context,
 			this.failures);

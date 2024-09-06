@@ -13,45 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import esLint from "@eslint/js";
+import eslint from "@eslint/js";
 // https://typescript-eslint.io/getting-started#step-2-configuration
-import tsLint from "typescript-eslint";
+import tsEslint from "typescript-eslint";
 import tsdoc from "eslint-plugin-tsdoc";
-import typescriptParser from "@typescript-eslint/parser";
 
-export default [
-	esLint.configs.recommended,
+export default tsEslint.config(
+	eslint.configs.recommended,
 	// https://typescript-eslint.io/getting-started/typed-linting/
-	...tsLint.configs.strict,
-	...tsLint.configs.recommendedTypeChecked,
+	...tsEslint.configs.strictTypeChecked,
+	...tsEslint.configs.recommendedTypeChecked,
 	{
-		"settings": {
-			// https://github.com/import-js/eslint-plugin-import#typescript
-			"typescript": true,
-			"node": true,
-			"import/parsers": {
-				"@typescript-eslint/parser": [".mts"]
-			},
-			// https://github.com/kriasoft/react-starter-kit/issues/1180#issuecomment-436753540
-			"import/resolver": {
-				"typescript": {
-					"alwaysTryTypes": true
-				}
-			}
-		},
-		ignores: [
-			"**/node_modules",
-			"/target/**",
-			"./*.mts"
-		],
 		languageOptions: {
-			parser: typescriptParser,
-			ecmaVersion: "latest",
-			sourceType: "module",
 			// https://typescript-eslint.io/getting-started/typed-linting/
 			parserOptions: {
-				project: true,
-				// "project": "tsconfig.json"
+				projectService: true,
 				tsconfigRootDir: import.meta.dirname
 			}
 		},
@@ -63,7 +39,8 @@ export default [
 			"indent": "off",
 			"quotes": [
 				"error",
-				"double"
+				"double",
+				{"allowTemplateLiterals": true}
 			],
 			"semi": [
 				"error",
@@ -79,7 +56,19 @@ export default [
 			"@typescript-eslint/consistent-indexed-object-style": [
 				"error",
 				"index-signature"
+			],
+			"@typescript-eslint/restrict-template-expressions": [
+				"error",
+				{
+					allowNumber: true
+				}
 			]
 		}
-	}
-];
+	}, {
+		ignores: [
+			// Do not lint this configuration file
+			"eslint.config.mjs",
+			"/target/**",
+			"**/node_modules"
+		]
+	});

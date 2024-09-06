@@ -5,6 +5,9 @@ https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
 * Breaking changes:
   * Replaced `validateThat()` with `checkIf()`.
+  * Validation methods now contain the type of value being validated (e.g. `requireThatString()` instead of
+    `requireThat()`). This is the only way to ensure that the return type of the method matches the
+    compile-time type of the value being validated.
   * Use consistent parameter ordering across the entire API: `(value, name)`.
     * Adding contextual information now looks like this: `requireThat().withContext(value, name)`
   * Added `Validator.and(validation: (validator: S) => void)` to nest validations.

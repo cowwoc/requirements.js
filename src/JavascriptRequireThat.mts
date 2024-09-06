@@ -10,7 +10,7 @@ import {
 	type SetValidator,
 	type MapValidator,
 	type StringValidator,
-	type ObjectValidator,
+	type ObjectValidator
 } from "./internal/internal.mjs";
 
 /**
@@ -23,26 +23,88 @@ interface JavascriptRequireThat
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails.
 	 *
+	 * @typeParam T - the type of the value
 	 * @param value - the value
 	 * @param name  - the name of the value
 	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	requireThat(value: number, name: string): NumberValidator;
+	requireThatNumber<T extends number | undefined | null>(value: T, name: string): NumberValidator<T>;
 
 	/**
 	 * Validates the state of a `boolean`.
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails.
 	 *
+	 * @typeParam T - the type of the value
 	 * @param value - the value
 	 * @param name  - the name of the value
 	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	requireThat(value: boolean, name: string): BooleanValidator;
+	requireThatBoolean<T extends boolean | undefined | null>(value: T, name: string): BooleanValidator<T>;
+
+	/**
+	 * Validates the state of an array.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
+	 *
+	 * @typeParam T - the type of the value
+	 * @typeParam E - the type of elements in the collection
+	 * @param value - the value
+	 * @param name  - the name of the value
+	 * @returns a validator for the value
+	 * @throws TypeError if `name` is `undefined` or `null`
+	 * @throws RangeError if `name` contains whitespace or is empty
+	 */
+	requireThatArray<T extends E[] | undefined | null, E>(value: T, name: string): ArrayValidator<T, E>;
+
+	/**
+	 * Validates the state of a `Set`.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
+	 *
+	 * @typeParam T - the type of the value
+	 * @typeParam E - the type of elements in the set
+	 * @param value - the value
+	 * @param name  - the name of the value
+	 * @returns a validator for the value
+	 * @throws TypeError if `name` is `undefined` or `null`
+	 * @throws RangeError if `name` contains whitespace or is empty
+	 */
+	requireThatSet<T extends Set<E> | undefined | null, E>(value: T, name: string): SetValidator<T, E>;
+
+	/**
+	 * Validates the state of a `Map`.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
+	 *
+	 * @typeParam T - the type of the value
+	 * @typeParam K - the type of keys in the map
+	 * @typeParam V - the type of values in the map
+	 * @param value - the value
+	 * @param name  - the name of the value
+	 * @returns a validator for the value
+	 * @throws TypeError if `name` is `undefined` or `null`
+	 * @throws RangeError if `name` contains whitespace or is empty
+	 */
+	requireThatMap<T extends Map<K, V> | undefined | null, K, V>(value: T, name: string): MapValidator<T, K, V>;
+
+	/**
+	 * Validates the state of a `string`.
+	 * <p>
+	 * The returned validator throws an error immediately if a validation fails.
+	 *
+	 * @typeParam T - the type of the value
+	 * @param value - the value
+	 * @param name  - the name of the value
+	 * @returns a validator for the value
+	 * @throws TypeError if `name` is `undefined` or `null`
+	 * @throws RangeError if `name` contains whitespace or is empty
+	 */
+	requireThatString<T extends string | undefined | null>(value: T, name: string): StringValidator<T>;
 
 	/**
 	 * Validates the state of an `object`.
@@ -53,65 +115,10 @@ interface JavascriptRequireThat
 	 * @param value - the value
 	 * @param name  - the name of the value
 	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	requireThat<T>(value: T, name: string): ObjectValidator<T>;
-
-	/**
-	 * Validates the state of an array.
-	 * <p>
-	 * The returned validator throws an error immediately if a validation fails.
-	 *
-	 * @param value - the value
-	 * @param name  - the name of the value
-	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
-	 * @throws RangeError if `name` contains whitespace or is empty
-	 */
-	requireThat<E>(value: E[], name: string): ArrayValidator<E>;
-
-	/**
-	 * Validates the state of a `Set`.
-	 * <p>
-	 * The returned validator throws an error immediately if a validation fails.
-	 *
-	 * @typeParam E - the type of elements in the set
-	 * @param value - the value
-	 * @param name  - the name of the value
-	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
-	 * @throws RangeError if `name` contains whitespace or is empty
-	 */
-	requireThat<E>(value: Set<E>, name: string): SetValidator<E>;
-
-	/**
-	 * Validates the state of a `Map`.
-	 * <p>
-	 * The returned validator throws an error immediately if a validation fails.
-	 *
-	 * @typeParam K - the type of keys in the map
-	 * @typeParam V - the type of values in the map
-	 * @param value - the value
-	 * @param name  - the name of the value
-	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
-	 * @throws RangeError if `name` contains whitespace or is empty
-	 */
-	requireThat<K, V>(value: Map<K, V>, name: string): MapValidator<K, V>;
-
-	/**
-	 * Validates the state of a `string`.
-	 * <p>
-	 * The returned validator throws an error immediately if a validation fails.
-	 *
-	 * @param value - the value
-	 * @param name  - the name of the value
-	 * @returns a validator for the value
-	 * @throws TypeError if `name` is null
-	 * @throws RangeError if `name` contains whitespace or is empty
-	 */
-	requireThat(value: string, name: string): StringValidator;
+	requireThatObject<T extends object | undefined | null>(value: T, name: string): ObjectValidator<T>;
 }
 
 export type {JavascriptRequireThat};

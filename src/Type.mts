@@ -1,6 +1,4 @@
-import {
-	type ClassConstructor
-} from "./internal/internal.mjs";
+import {type ClassConstructor} from "./internal/internal.mjs";
 
 enum TypeCategory
 {
@@ -72,7 +70,7 @@ class Type
 				return Type.ANONYMOUS_FUNCTION;
 			}
 			const className = CLASS_NAME_REGEX.exec(valueAsString);
-			if (className !== null && className[1] !== undefined)
+			if (className !== null && className.length >= 2)
 			{
 				// A class
 				const name = className[1];
@@ -80,7 +78,7 @@ class Type
 				return Type.namedClass(name);
 			}
 			const builtInClassName = BUILT_IN_CLASS_NAME_REGEX.exec(valueAsString);
-			if (builtInClassName !== null && builtInClassName[1] !== undefined)
+			if (builtInClassName !== null && builtInClassName.length >= 2)
 			{
 				// A built-in class
 				const name = builtInClassName[1].trim();
@@ -89,7 +87,7 @@ class Type
 			}
 			// Anonymous and named functions
 			const functionName = FUNCTION_NAME_REGEX.exec(valueAsString);
-			if (functionName !== null && functionName[1] !== undefined)
+			if (functionName !== null && functionName.length >= 2)
 			{
 				// A named function
 				const name = functionName[1].trim();
@@ -107,7 +105,7 @@ class Type
 	/**
 	 * Returns the type of a named class.
 	 *
-	 * @param name - the name of the class, or `null` to represent "any object".
+	 * @param name - the name of the class, or `null` to represent any class.
 	 * @param typeGuard - (optional) for certain types, such as Typescript interfaces, runtime validation is
 	 *   not possible. In such a case, use a type guard to check if the value satisfies the type condition.
 	 * @returns the type
@@ -120,7 +118,7 @@ class Type
 	/**
 	 * Returns the type of a named function.
 	 *
-	 * @param name - (optional) the name of the function. `name` represents "any named function".
+	 * @param name - (optional) the name of the function. `name` represents any named function.
 	 * @returns the type
 	 */
 	public static namedFunction(name: string | null): Type
@@ -268,7 +266,7 @@ Actual: ${Type.of(category).toString()}`);
 				return this.equals(parent);
 			case TypeCategory.CLASS:
 			{
-				if (parent === undefined || parent === null)
+				if (parent === Type.UNDEFINED || parent === Type.NULL)
 					return false;
 				if (parent.name === null)
 				{
@@ -276,15 +274,22 @@ Actual: ${Type.of(category).toString()}`);
 					return true;
 				}
 				// There is no way to provide type-casting for a dynamic lookup of an unknown type
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+				/* eslint-disable @typescript-eslint/no-explicit-any,
+				@typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 				const parentClass = (globalThis as unknown as any)[parent.name];
+				/* eslint-enable @typescript-eslint/no-explicit-any,
+				@typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 				if (this.name == null)
 				{
 					// null represents any class
 					return true;
 				}
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+				/* eslint-disable @typescript-eslint/no-explicit-any,
+				@typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
 				const childClass = (globalThis as unknown as any)[this.name];
+				/* eslint-enable @typescript-eslint/no-explicit-any,
+				@typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
+
 				// https://stackoverflow.com/a/14486171/14731
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 				return childClass.prototype instanceof parentClass;

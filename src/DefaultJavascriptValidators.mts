@@ -15,11 +15,13 @@ import {
 	AssertionError
 } from "./internal/internal.mjs";
 
-const typedocWorkaround: null | ValidatorComponent<unknown, unknown> | JavascriptValidators |
+const typedocWorkaround: null | ValidatorComponent<unknown> | JavascriptValidators |
 	AssertionError = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Creates validators for the Javascript API.
@@ -35,41 +37,88 @@ if (typedocWorkaround !== null)
 const DELEGATE = new JavascriptValidatorsImpl(MainApplicationScope.INSTANCE, Configuration.DEFAULT);
 
 /**
- * Validates the state of a value.
+ * Validates the state of a number.
  * <p>
  * The returned validator throws an error immediately if a validation fails.
  *
  * @typeParam T - the type the value
- * @typeParam E - the type elements in the array or set
- * @typeParam K - the type of keys in the map
- * @typeParam V - the type of values in the map
  * @param value - the value
  * @param name - the name of the value
  * @returns a verifier
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function requireThat(value: number, name: string): NumberValidator;
-function requireThat(value: boolean, name: string): BooleanValidator;
-function requireThat<E>(value: E[], name: string): ArrayValidator<E>;
-function requireThat<E>(value: Set<E>, name: string): SetValidator<E>;
-function requireThat<K, V>(value: Map<K, V>, name: string): MapValidator<K, V>;
-function requireThat(value: string, name: string): StringValidator;
-function requireThat<T>(value: T, name: string): ObjectValidator<T>;
-function requireThat<T, E, K, V>(value: T, name: string): NumberValidator | BooleanValidator |
-	ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | StringValidator | ObjectValidator<T>
+function requireThatNumber<T extends number | undefined | null>
+(value: T, name: string): NumberValidator<T>
 {
-	return DELEGATE.requireThat(value, name);
+	return DELEGATE.requireThatNumber<T>(value, name);
 }
 
 /**
- * Validates the state of a value.
+ * Validates the state of a boolean.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns a verifier
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function requireThatBoolean<T extends boolean | undefined | null>
+(value: T, name: string): BooleanValidator<T>
+{
+	return DELEGATE.requireThatBoolean<T>(value, name);
+}
+
+/**
+ * Validates the state of an array.
  * <p>
  * The returned validator throws an exception immediately if a validation fails. This exception is then
  * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
  *
  * @typeParam T - the type the value
- * @typeParam E - the type elements in the array or set
+ * @typeParam E - the type elements in the array
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function requireThatArray<T extends E[] | undefined | null, E>
+(value: T, name: string): ArrayValidator<T, E>
+{
+	return DELEGATE.requireThatArray<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a set.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @typeParam E - the type elements in the set
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function requireThatSet<T extends Set<E> | undefined | null, E>
+(value: T, name: string): SetValidator<T, E>
+{
+	return DELEGATE.requireThatSet<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a map.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
  * @typeParam K - the type of keys in the map
  * @typeParam V - the type of values in the map
  * @param value - the value
@@ -78,21 +127,301 @@ function requireThat<T, E, K, V>(value: T, name: string): NumberValidator | Bool
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function assertThat(value: number, name?: string): NumberValidator;
-function assertThat(value: boolean, name?: string): BooleanValidator;
-function assertThat<E>(value: E[], name?: string): ArrayValidator<E>;
-function assertThat<E>(value: Set<E>, name?: string): SetValidator<E>;
-function assertThat<K, V>(value: Map<K, V>, name?: string): MapValidator<K, V>;
-function assertThat(value: string, name?: string): StringValidator;
-function assertThat<T>(value: T, name?: string): ObjectValidator<T>;
-function assertThat<T, E, K, V>(value: T, name?: string): NumberValidator | BooleanValidator |
-	ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | StringValidator | ObjectValidator<T>
+function requireThatMap<T extends Map<K, V> | undefined | null, K, V>
+(value: T, name: string): MapValidator<T, K, V>
 {
-	return DELEGATE.assertThat(value, name);
+	return DELEGATE.requireThatMap<T, K, V>(value, name);
 }
 
 /**
- * Validates the state of a value.
+ * Validates the state of a string.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function requireThatString<T extends string | undefined | null>
+(value: T, name: string): StringValidator<T>
+{
+	return DELEGATE.requireThatString<T>(value, name);
+}
+
+/**
+ * Validates the state of an object.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function requireThatObject<T extends object | undefined | null>
+(value: T, name: string): ObjectValidator<T>
+{
+	return DELEGATE.requireThatObject<T>(value, name);
+}
+
+/**
+ * Validates the state of a number.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatNumber<T extends number | undefined | null>
+(value: T, name?: string): NumberValidator<T>
+{
+	return DELEGATE.assertThatNumber<T>(value, name);
+}
+
+/**
+ * Validates the state of a boolean.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatBoolean<T extends boolean | undefined | null>
+(value: T, name?: string): BooleanValidator<T>
+{
+	return DELEGATE.assertThatBoolean<T>(value, name);
+}
+
+/**
+ * Validates the state of an array.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @typeParam E - the type elements in the array
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatArray<T extends E[] | undefined | null, E>
+(value: T, name?: string): ArrayValidator<T, E>
+{
+	return DELEGATE.assertThatArray<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a set.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @typeParam E - the type elements in the set
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatSet<T extends Set<E> | undefined | null, E>
+(value: T, name?: string): SetValidator<T, E>
+{
+	return DELEGATE.assertThatSet<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a map.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @typeParam K - the type of keys in the map
+ * @typeParam V - the type of values in the map
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatMap<T extends Map<K, V> | undefined | null, K, V>
+(value: T, name?: string): MapValidator<T, K, V>
+{
+	return DELEGATE.assertThatMap<T, K, V>(value, name);
+}
+
+/**
+ * Validates the state of a string.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatString<T extends string | undefined | null>
+(value: T, name?: string): StringValidator<T>
+{
+	return DELEGATE.assertThatString<T>(value, name);
+}
+
+/**
+ * Validates the state of a number.
+ * <p>
+ * The returned validator throws an exception immediately if a validation fails. This exception is then
+ * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function assertThatObject<T extends object | undefined | null>
+(value: T, name?: string): ObjectValidator<T>
+{
+	return DELEGATE.assertThatObject<T>(value, name);
+}
+
+/**
+ * Validates the state of a number.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfNumber<T extends number | undefined | null>
+(value: T, name: string): NumberValidator<T>
+{
+	return DELEGATE.checkIfNumber<T>(value, name);
+}
+
+/**
+ * Validates the state of a boolean.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfBoolean<T extends boolean | undefined | null>
+(value: T, name: string): BooleanValidator<T>
+{
+	return DELEGATE.checkIfBoolean<T>(value, name);
+}
+
+/**
+ * Validates the state of an array.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @typeParam E - the type elements in the array
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfArray<T extends E[] | undefined | null, E>
+(value: T, name: string): ArrayValidator<T, E>
+{
+	return DELEGATE.checkIfArray<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a set.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @typeParam E - the type elements in the array or set
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfSet<T extends Set<E> | undefined | null, E>
+(value: T, name: string): SetValidator<T, E>
+{
+	return DELEGATE.checkIfSet<T, E>(value, name);
+}
+
+/**
+ * Validates the state of a map.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @typeParam K - the type of keys in the map
+ * @typeParam V - the type of values in the map
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfMap<T extends Map<K, V>, K, V>
+(value: T, name: string): MapValidator<T, K, V>
+{
+	return DELEGATE.checkIfMap<T, K, V>(value, name);
+}
+
+/**
+ * Validates the state of a string.
+ * <p>
+ * The returned validator throws an error immediately if a validation fails.
+ *
+ * @typeParam T - the type the value
+ * @param value - the value
+ * @param name - the name of the value
+ * @returns validator for the value
+ * @throws TypeError  if `name` is `undefined` or `null`
+ * @throws RangeError if `name` is empty
+ */
+function checkIfString<T extends string | undefined | null>
+(value: T, name: string): StringValidator<T>
+{
+	return DELEGATE.checkIfString<T>(value, name);
+}
+
+/**
+ * Validates the state of an object.
  * <p>
  * The returned validator throws an error immediately if a validation fails.
  *
@@ -106,17 +435,10 @@ function assertThat<T, E, K, V>(value: T, name?: string): NumberValidator | Bool
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function checkIf(value: number, name: string): NumberValidator;
-function checkIf(value: boolean, name: string): BooleanValidator;
-function checkIf<E>(value: E[], name: string): ArrayValidator<E>;
-function checkIf<E>(value: Set<E>, name: string): SetValidator<E>;
-function checkIf<K, V>(value: Map<K, V>, name: string): MapValidator<K, V>;
-function checkIf(value: string, name: string): StringValidator;
-function checkIf<T>(value: T, name: string): ObjectValidator<T>;
-function checkIf<T, E, K, V>(value: T, name: string): NumberValidator | BooleanValidator |
-	ArrayValidator<E> | SetValidator<E> | MapValidator<K, V> | StringValidator | ObjectValidator<T>
+function checkIfObject<T extends object | undefined | null>
+(value: T, name: string): ObjectValidator<T>
 {
-	return DELEGATE.checkIf(value, name);
+	return DELEGATE.checkIfObject<T>(value, name);
 }
 
 /**
@@ -193,9 +515,27 @@ function globalConfiguration()
 }
 
 export {
-	requireThat,
-	assertThat,
-	checkIf,
+	requireThatNumber,
+	requireThatBoolean,
+	requireThatArray,
+	requireThatSet,
+	requireThatMap,
+	requireThatString,
+	requireThatObject,
+	assertThatNumber,
+	assertThatBoolean,
+	assertThatArray,
+	assertThatSet,
+	assertThatMap,
+	assertThatString,
+	assertThatObject,
+	checkIfNumber,
+	checkIfBoolean,
+	checkIfArray,
+	checkIfSet,
+	checkIfMap,
+	checkIfString,
+	checkIfObject,
 	updateConfiguration,
 	getContext,
 	withContext,

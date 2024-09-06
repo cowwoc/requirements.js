@@ -73,6 +73,7 @@ function lastIndexOf(source: string, target: RegExp): SearchResult | null
 	const matcher = new RegExp(target.source, flags);
 	let match;
 	let searchResult: SearchResult | null = null;
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	while (true)
 	{
 		match = matcher.exec(source);
@@ -94,7 +95,7 @@ function containsOnly(source: string, target: string)
 	return source.length === 0 || lastConsecutiveIndexOf(source, target) === 0;
 }
 
-const builtInMapper = (v: unknown) => `${internalValueToString(v)}`;
+const builtInMapper = (v: unknown) => internalValueToString(v);
 
 /**
  * Returns a StringMapper for a value or the closest ancestor that has an associated mapper.

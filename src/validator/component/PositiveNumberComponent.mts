@@ -5,10 +5,8 @@
 
 /**
  * Methods that validators for numbers that may be positive must contain.
- *
- * @typeParam S - the type of this validator
  */
-interface PositiveNumberComponent<S>
+interface PositiveNumberComponent
 {
 	/**
 	 * Ensures that the value is positive.
@@ -21,7 +19,7 @@ interface PositiveNumberComponent<S>
 	 *                    </ul>
 	 * @returns this
 	 */
-	isPositive(): S;
+	isPositive(): this;
 
 	/**
 	 * Ensures that the value is not a positive number.
@@ -30,7 +28,7 @@ interface PositiveNumberComponent<S>
 	 * @throws RangeError if the value is a positive number
 	 * @returns this
 	 */
-	isNotPositive(): S;
+	isNotPositive(): this;
 }
 
 export type {PositiveNumberComponent};

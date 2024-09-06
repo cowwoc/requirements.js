@@ -6,7 +6,7 @@ import {assert} from "chai";
 import {
 	Configuration,
 	TerminalEncoding,
-	requireThat
+	requireThatArray
 } from "../src/index.mjs";
 import {
 	ValidationFailureImpl,
@@ -29,7 +29,6 @@ suite("ValidationFailureTest", () =>
 			let errorType: undefined;
 			let message: undefined;
 
-			// eslint-disable-next-line no-new
 			new ValidationFailureImpl(configuration as unknown as Configuration,
 				message as unknown as string, errorType as unknown as ErrorBuilder);
 		}, AssertionError);
@@ -40,7 +39,6 @@ suite("ValidationFailureTest", () =>
 		assert.throws(function()
 		{
 			let type: undefined;
-			// eslint-disable-next-line no-new
 			new ValidationFailureImpl(Configuration.DEFAULT, "message.", type as unknown as ErrorBuilder);
 		}, AssertionError);
 	});
@@ -51,7 +49,6 @@ suite("ValidationFailureTest", () =>
 		{
 			let message: undefined;
 
-			// eslint-disable-next-line no-new
 			new ValidationFailureImpl(Configuration.DEFAULT, message as unknown as string, RangeError);
 		}, TypeError);
 	});
@@ -60,10 +57,9 @@ suite("ValidationFailureTest", () =>
 	{
 		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 			Configuration.DEFAULT);
-		const validator = validators.requireThat("value", "actual") as StringValidatorImpl;
+		const validator = validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 		const valueNotString = 12345;
 
-		// eslint-disable-next-line no-new
 		new ValidationFailureImpl(Configuration.DEFAULT, new MessageBuilder(validator, "message.").
 			withContext(valueNotString, "key").toString(), RangeError);
 	});
@@ -74,10 +70,9 @@ suite("ValidationFailureTest", () =>
 		{
 			const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 				Configuration.DEFAULT);
-			const validator = validators.requireThat("value", "actual") as StringValidatorImpl;
+			const validator = validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 
 			const key = null;
-			// eslint-disable-next-line no-new
 			new ValidationFailureImpl(Configuration.DEFAULT, new MessageBuilder(validator, "message.").
 				withContext(key as unknown as string, null as unknown as string).toString(), RangeError);
 		}, TypeError);
@@ -88,7 +83,7 @@ suite("ValidationFailureTest", () =>
 		const validators = new JavascriptValidatorsImpl(
 			new TestApplicationScope(TerminalEncoding.NODE_16_COLORS), Configuration.DEFAULT);
 		validators.updateConfiguration(c => c.allowDiff(false));
-		const validator = validators.requireThat("value", "actual") as StringValidatorImpl;
+		validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 
 		const actual = "int[6]";
 		const expected = "int[5]";
@@ -97,9 +92,9 @@ suite("ValidationFailureTest", () =>
 actual: "int[6]"`;
 		const expectedMessages = [expectedMessage];
 
-		const actualFailures = validators.checkIf(actual, "actual").
+		const actualFailures = validators.checkIfString(actual, "actual").
 			isEqualTo(expected).elseGetFailures();
 		const actualMessages = actualFailures.getFailures().map(failure => failure.getMessage());
-		requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
+		requireThatArray(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

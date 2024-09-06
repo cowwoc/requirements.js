@@ -8,10 +8,10 @@ import type {
 /**
  * Validates the state of an unsigned `number`.
  */
-interface UnsignedNumberValidator extends ValidatorComponent<UnsignedNumberValidator, number>,
-	NumberComponent<UnsignedNumberValidator>,
-	ZeroNumberComponent<UnsignedNumberValidator>,
-	PositiveNumberComponent<UnsignedNumberValidator>
+interface UnsignedNumberValidator extends ValidatorComponent<number>,
+	NumberComponent<number>,
+	ZeroNumberComponent,
+	PositiveNumberComponent
 {
 }
 

@@ -25,7 +25,7 @@ Legend
 [index]     : Refers to the index of a collection element
 @line-number: Refers to the line number of a multiline string
 `;
-	private readonly validator: AbstractValidator<unknown, unknown>;
+	private readonly validator: AbstractValidator<unknown>;
 	private readonly message: string;
 	private readonly failureContext = new Map<string, unknown>();
 	/**
@@ -42,7 +42,7 @@ Legend
 	 *                          <li>`message` is blank or does not end with a dot</li>
 	 *                        </ul>
 	 */
-	public constructor(validator: AbstractValidator<unknown, unknown>, message: string)
+	public constructor(validator: AbstractValidator<unknown>, message: string)
 	{
 		assertThatValueIsNotNull(validator, "validator");
 		if (!message.endsWith("."))
@@ -164,8 +164,6 @@ Legend
 
 	private addErrorMessageToContext(context: MessageSection[])
 	{
-		if (this.message === null)
-			return;
 		let updatedMessage;
 		if (context.length === 0 && !this.message.includes("\n"))
 		{

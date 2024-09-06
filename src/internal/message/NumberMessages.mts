@@ -8,7 +8,7 @@ import {
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNegative(validator: AbstractValidator<unknown, unknown>)
+function numberIsNegative(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be negative");
 }
@@ -17,7 +17,7 @@ function numberIsNegative(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNotNegative(validator: AbstractValidator<unknown, unknown>)
+function numberIsNotNegative(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "may not be negative");
 }
@@ -26,7 +26,7 @@ function numberIsNotNegative(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsZero(validator: AbstractValidator<unknown, unknown>)
+function numberIsZero(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be zero");
 }
@@ -35,7 +35,7 @@ function numberIsZero(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNotZero(validator: AbstractValidator<unknown, unknown>)
+function numberIsNotZero(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "may not be zero");
 }
@@ -44,7 +44,7 @@ function numberIsNotZero(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsPositive(validator: AbstractValidator<unknown, unknown>)
+function numberIsPositive(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be positive");
 }
@@ -53,7 +53,7 @@ function numberIsPositive(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNotPositive(validator: AbstractValidator<unknown, unknown>)
+function numberIsNotPositive(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "may not be positive");
 }
@@ -64,8 +64,7 @@ function numberIsNotPositive(validator: AbstractValidator<unknown, unknown>)
  * @param factor - the value being multiplied by
  * @returns a message for the validation failure
  */
-function numberIsMultipleOf(validator: AbstractValidator<unknown, unknown>,
-                            factorName: string | null, factor: number)
+function numberIsMultipleOf(validator: AbstractValidator<unknown>, factorName: string | null, factor: number)
 {
 	return comparableCompareValues(validator, "must be a multiple of", factorName, factor);
 }
@@ -76,8 +75,8 @@ function numberIsMultipleOf(validator: AbstractValidator<unknown, unknown>,
  * @param factor - the value being multiplied by
  * @returns a message for the validation failure
  */
-function numberIsNotMultipleOf(validator: AbstractValidator<unknown, unknown>,
-                               factorName: string | null, factor: number)
+function numberIsNotMultipleOf(validator: AbstractValidator<unknown>, factorName: string | null,
+                               factor: number)
 {
 	return comparableCompareValues(validator, "may not be a multiple of", factorName, factor);
 }
@@ -86,7 +85,7 @@ function numberIsNotMultipleOf(validator: AbstractValidator<unknown, unknown>,
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsWholeNumber(validator: AbstractValidator<unknown, unknown>)
+function numberIsWholeNumber(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be a whole number");
 }
@@ -95,7 +94,7 @@ function numberIsWholeNumber(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNotWholeNumber(validator: AbstractValidator<unknown, unknown>)
+function numberIsNotWholeNumber(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "may not be a whole number");
 }
@@ -104,7 +103,7 @@ function numberIsNotWholeNumber(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNumber(validator: AbstractValidator<unknown, unknown>)
+function numberIsNumber(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be a well-defined number");
 }
@@ -113,7 +112,7 @@ function numberIsNumber(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsNotNumber(validator: AbstractValidator<unknown, unknown>)
+function numberIsNotNumber(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "may not be a well-defined number");
 }
@@ -122,7 +121,7 @@ function numberIsNotNumber(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsFinite(validator: AbstractValidator<unknown, unknown>)
+function numberIsFinite(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be a finite number");
 }
@@ -131,7 +130,7 @@ function numberIsFinite(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function numberIsInfinite(validator: AbstractValidator<unknown, unknown>)
+function numberIsInfinite(validator: AbstractValidator<unknown>)
 {
 	return messagesConstraint(validator, "must be an infinite number");
 }

@@ -15,11 +15,12 @@ import {
 /**
  * Default implementation of `MapValidator`.
  *
+ * @typeParam T - the type of the value
  * @typeParam K - the type of keys in the map
  * @typeParam V - the type of values in the map
  */
-class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K, V>>
-	implements MapValidator<K, V>
+class MapValidatorImpl<T extends Map<K, V> | undefined | null, K, V> extends AbstractValidator<T>
+	implements MapValidator<T, K, V>
 {
 	/**
 	 * Creates a new MapValidatorImpl.
@@ -30,12 +31,12 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 	 * @param value         - the value being validated
 	 * @param context       - the contextual information set by the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError     if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
-	 * @throws AssertionError           if `scope`, `configuration, `value`, `context or `failures` are null
+	 * @throws AssertionError if `scope`, `configuration, `value`, `context or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration, name: string,
-	                   value: ValidationTarget<Map<K, V>>, context: Map<string, unknown>,
+	                   value: ValidationTarget<T>, context: Map<string, unknown>,
 	                   failures: ValidationFailure[])
 	{
 		super(scope, configuration, name, value, context, failures);
@@ -43,10 +44,9 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	isEmpty()
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.size === 0))
+		if (this.value.validationFailed(v => v.size === 0))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				objectIsEmpty(this).toString());
 		}
@@ -55,10 +55,9 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	isNotEmpty()
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.size !== 0))
+		if (this.value.validationFailed(v => v.size !== 0))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				objectIsNotEmpty(this).toString());
 		}
@@ -67,8 +66,7 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	keys()
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		const undefinedOrNullToInvalid = this.value.undefinedOrNullToInvalid();
 		const newValidator = new ArrayValidatorImpl(this.scope, this._configuration, this.name + ".keys()",
 			undefinedOrNullToInvalid.map(v => [...v.keys()]), Pluralizer.KEY, this.context, this.failures);
@@ -78,8 +76,7 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	values()
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		const undefinedOrNullToInvalid = this.value.undefinedOrNullToInvalid();
 		const newValidator = new ArrayValidatorImpl(this.scope, this._configuration, this.name + ".values()",
 			undefinedOrNullToInvalid.map(v => [...v.values()]), Pluralizer.VALUE, this.context, this.failures);
@@ -89,8 +86,7 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	entries()
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		const undefinedOrNullToInvalid = this.value.undefinedOrNullToInvalid();
 		const newValidator = new ArrayValidatorImpl(this.scope, this._configuration, this.name + ".entries()",
 			undefinedOrNullToInvalid.map(v => [...v.entries()]), Pluralizer.ENTRY, this.context, this.failures);
@@ -100,8 +96,7 @@ class MapValidatorImpl<K, V> extends AbstractValidator<MapValidator<K, V>, Map<K
 
 	size()
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		return new ObjectSizeValidatorImpl(this.scope, this._configuration, this, this.name + ".size()",
 			this.value.undefinedOrNullToInvalid().map(v => v.size), Pluralizer.ELEMENT, this.context,
 			this.failures);

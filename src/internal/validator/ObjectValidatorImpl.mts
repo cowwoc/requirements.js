@@ -4,7 +4,7 @@ import {
 	type ValidationFailure,
 	type ApplicationScope,
 	AbstractValidator,
-	ValidationTarget,
+	ValidationTarget
 
 } from "../internal.mjs";
 
@@ -14,7 +14,7 @@ import {
  * @typeParam T - the type the value
  */
 class ObjectValidatorImpl<T>
-	extends AbstractValidator<ObjectValidator<T>, T>
+	extends AbstractValidator<T>
 	implements ObjectValidator<T>
 {
 	/**
@@ -24,7 +24,7 @@ class ObjectValidatorImpl<T>
 	 * @param value         - the value
 	 * @param context       - the contextual information set by a parent validator or the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */

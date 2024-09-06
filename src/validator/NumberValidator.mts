@@ -8,12 +8,14 @@ import {
 
 /**
  * Validates the state of a `number`.
+ *
+ * @typeParam T - the type of the value
  */
-interface NumberValidator extends ValidatorComponent<NumberValidator, number>,
-	NumberComponent<NumberValidator>,
-	NegativeNumberComponent<NumberValidator>,
-	ZeroNumberComponent<NumberValidator>,
-	PositiveNumberComponent<NumberValidator>
+interface NumberValidator<T extends number | undefined | null> extends ValidatorComponent<T>,
+	NumberComponent<T>,
+	NegativeNumberComponent,
+	ZeroNumberComponent,
+	PositiveNumberComponent
 {
 }
 

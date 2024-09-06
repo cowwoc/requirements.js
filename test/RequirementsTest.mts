@@ -22,38 +22,38 @@ suite("RequirementsTest", () =>
 		assert.throws(function()
 		{
 			const actual = "actual";
-			validators.assertThat(actual, "actual").isEqualTo("expected");
+			validators.assertThatString(actual, "actual").isEqualTo("expected");
 		}, AssertionError);
 	});
 
 	test("assertThatArray", () =>
 	{
 		const actual = [1, 2, 3];
-		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatArray(actual, "actual").isEqualTo(actual, "expected");
 	});
 
 	test("assertThatNumber", () =>
 	{
 		const actual = 5;
-		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatNumber(actual, "actual").isEqualTo(actual, "expected");
 	});
 
 	test("assertThatSet", () =>
 	{
 		const actual = new Set([1, 2, 3]);
-		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatSet(actual, "actual").isEqualTo(actual, "expected");
 	});
 
 	test("assertThatMap", () =>
 	{
 		const actual = new Map([[1, 2], [2, 3]]);
-		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatMap(actual, "actual").isEqualTo(actual, "expected");
 	});
 
 	test("assertThatUrl", () =>
 	{
 		const actual = new URL("http://www.google.com/");
-		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatObject(actual, "actual").isEqualTo(actual, "expected");
 	});
 
 	test("assertThatObject", () =>
@@ -63,14 +63,14 @@ suite("RequirementsTest", () =>
 			const localValidators = validators.copy();
 
 			const actual = {};
-			localValidators.assertThat(actual, "actual").isEqualTo("expected");
+			localValidators.assertThatObject(actual, "actual").isEqualTo("expected");
 		}, AssertionError);
 	});
 
 	test("requireThat.getActual", () =>
 	{
 		const input = 12345;
-		const output = validators.requireThat(input, "input").getValue();
+		const output = validators.requireThatNumber(input, "input").getValue();
 		assert.strictEqual(output, input);
 	});
 
@@ -79,8 +79,8 @@ suite("RequirementsTest", () =>
 		const localValidators = validators.copy();
 
 		const actual = 12345;
-		const getActual = localValidators.assertThat(actual, "actual").getValue();
-		validators.requireThat(actual, "actual").isEqualTo(getActual as number, "getActual()");
+		const getActual = localValidators.assertThatNumber(actual, "actual").getValue();
+		validators.requireThatNumber(actual, "actual").isEqualTo(getActual as number, "getActual()");
 	});
 
 	test("putContext", () =>

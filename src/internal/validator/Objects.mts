@@ -15,7 +15,7 @@ type MapValue<T> = T extends Map<any, infer V> ? V : never;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ClassConstructor<T> = abstract new (...args: any[]) => NonNullable<T>;
 type Comparable = number | string | boolean;
-type NonUndefinable<T> = T extends undefined ? never : T;
+type NonUndefinable<T> = Exclude<T, undefined>
 
 /**
  * Indicates if an object is an instance of a type. To convert a type to an object, use
@@ -29,8 +29,6 @@ type NonUndefinable<T> = T extends undefined ? never : T;
  */
 function classExtends(child: ClassConstructor<unknown>, parent: ClassConstructor<unknown>)
 {
-	if (child === undefined || child === null || parent === undefined || parent === null)
-		return false;
 	// https://stackoverflow.com/a/14486171/14731
 	return child.prototype instanceof parent;
 }
@@ -436,11 +434,12 @@ function internalValueToString(value: unknown): string
 		case TypeCategory.STRING:
 			return quoteString(value as string);
 		default:
-			return `${JSON.stringify(value, undefined, 2)}`;
+			return JSON.stringify(value, undefined, 2);
 	}
 
 	// An instance of a user class
 	let current = value as ClassConstructor<unknown>;
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	while (true)
 	{
 		// See http://stackoverflow.com/a/22445303/14731,
@@ -450,17 +449,25 @@ function internalValueToString(value: unknown): string
 			return current.toString();
 
 		// Get the superclass and try again
-		current = getSuperclass(current);
-		typeOfObject = Type.of(current);
-		assert(typeOfObject.category === TypeCategory.CLASS, undefined,
-			`expected: CLASS
-actual: ${typeOfObject.toString()}`);
+		const superclass = getSuperclass(current);
 
-		const className = typeOfObject.name as string;
+		let className;
+		if (superclass === null)
+			className = "Object";
+		else
+		{
+			current = superclass;
+			typeOfObject = Type.of(current);
+			assert(typeOfObject.category === TypeCategory.CLASS, undefined,
+				`expected: CLASS
+actual: ${typeOfObject.toString()}`);
+			className = typeOfObject.name as string;
+		}
+
 		if (className === "Object")
 		{
 			// Prefer JSON.stringify() to Object.toString().
-			return JSON.stringify(current, null, 2);
+			return JSON.stringify(value, null, 2);
 		}
 	}
 }
@@ -497,7 +504,7 @@ function quoteString(value: string)
  */
 function getSuperclass(value: ClassConstructor<unknown>)
 {
-	return Object.getPrototypeOf(value.constructor.prototype) as ClassConstructor<unknown>;
+	return Object.getPrototypeOf(value.constructor.prototype) as ClassConstructor<unknown> | null;
 }
 
 /**

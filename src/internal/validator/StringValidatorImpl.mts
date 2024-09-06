@@ -25,8 +25,8 @@ import {
 /**
  * Default implementation of `StringValidator`.
  */
-class StringValidatorImpl extends AbstractValidator<StringValidator, string>
-	implements StringValidator
+class StringValidatorImpl<T extends string | undefined | null> extends AbstractValidator<T>
+	implements StringValidator<T>
 {
 	/**
 	 * @param scope         - the application configuration
@@ -35,143 +35,132 @@ class StringValidatorImpl extends AbstractValidator<StringValidator, string>
 	 * @param value         - the value
 	 * @param context       - the contextual information set by a parent validator or the user
 	 * @param failures      - the list of validation failures
-	 * @throws TypeError if `name` is null
+	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace, or is empty
 	 * @throws AssertionError if `scope`, `configuration`, `value`, `context` or `failures` are null
 	 */
 	public constructor(scope: ApplicationScope, configuration: Configuration, name: string,
-	                   value: ValidationTarget<string>, context: Map<string, unknown>,
+	                   value: ValidationTarget<T>, context: Map<string, unknown>,
 	                   failures: ValidationFailure[])
 	{
 		super(scope, configuration, name, value, context, failures);
 	}
 
-	isEmpty(): StringValidator
+	isEmpty(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.length === 0))
+		if (this.value.validationFailed(v => v.length === 0))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				objectIsEmpty(this).toString());
 		}
 		return this;
 	}
 
-	isNotEmpty(): StringValidator
+	isNotEmpty(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.length !== 0))
+		if (this.value.validationFailed(v => v.length !== 0))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				objectIsNotEmpty(this).toString());
 		}
 		return this;
 	}
 
-	isTrimmed(): StringValidator
+	isTrimmed(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !/^\s|\s$/.test(v)))
+		if (this.value.validationFailed(v => !/^\s|\s$/.test(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringIsTrimmed(this).toString());
 		}
 		return this;
 	}
 
-	startsWith(prefix: string): StringValidator
+	startsWith(prefix: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.startsWith(prefix)))
+		if (this.value.validationFailed(v => v.startsWith(prefix)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringStartsWith(this, prefix).toString());
 		}
 		return this;
 	}
 
-	doesNotStartWith(prefix: string): StringValidator
+	doesNotStartWith(prefix: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !v.startsWith(prefix)))
+		if (this.value.validationFailed(v => !v.startsWith(prefix)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringDoesNotStartWith(this, prefix).toString());
 		}
 		return this;
 	}
 
-	endsWith(suffix: string): StringValidator
+	endsWith(suffix: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.endsWith(suffix)))
+		if (this.value.validationFailed(v => v.endsWith(suffix)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringEndsWith(this, suffix).toString());
 		}
 		return this;
 	}
 
-	doesNotEndWith(suffix: string): StringValidator
+	doesNotEndWith(suffix: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !v.endsWith(suffix)))
+		if (this.value.validationFailed(v => !v.endsWith(suffix)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringDoesNotEndWith(this, suffix).toString());
 		}
 		return this;
 	}
 
-	contains(expected: string): StringValidator
+	contains(expected: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && v.includes(expected)))
+		if (this.value.validationFailed(v => v.includes(expected)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringContains(this, expected).toString());
 		}
 		return this;
 	}
 
-	doesNotContain(unwanted: string): StringValidator
+	doesNotContain(unwanted: string): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !v.includes(unwanted)))
+		if (this.value.validationFailed(v => !v.includes(unwanted)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringDoesNotContain(this, unwanted).toString());
 		}
 		return this;
 	}
 
-	doesNotContainWhitespace(): StringValidator
+	doesNotContainWhitespace(): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && !/\s/.test(v)))
+		if (this.value.validationFailed(v => !/\s/.test(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringDoesNotContainWhitespace(this).toString());
 		}
 		return this;
 	}
 
-	matches(regex: RegExp): StringValidator
+	matches(regex: RegExp): this
 	{
-		if (this.value.isNull())
-			this.onNull();
-		if (this.value.validationFailed(v => v != null && regex.test(v)))
+		if (this.value.validationFailed(v => regex.test(v)))
 		{
+			this.failOnUndefinedOrNull();
 			this.addRangeError(
 				stringMatches(this, regex.source).toString());
 		}
@@ -180,10 +169,9 @@ class StringValidatorImpl extends AbstractValidator<StringValidator, string>
 
 	length(): UnsignedNumberValidator
 	{
-		if (this.value.isNull())
-			this.onNull();
+		this.failOnUndefinedOrNull();
 		return new ObjectSizeValidatorImpl(this.scope, this._configuration, this, this.name + ".length()",
-			this.value.undefinedOrNullToInvalid().map(v => v.length), Pluralizer.ELEMENT, this.context,
+			this.value.undefinedOrNullToInvalid().map(v => v.length), Pluralizer.CHARACTER, this.context,
 			this.failures);
 	}
 }

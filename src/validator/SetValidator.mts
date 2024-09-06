@@ -9,8 +9,9 @@ import type {
  *
  * @typeParam E - the type of elements in the set
  */
-interface SetValidator<E> extends ValidatorComponent<SetValidator<E>, Set<E>>,
-	CollectionComponent<SetValidator<E>, E>
+interface SetValidator<T extends Set<E> | undefined | null, E> extends
+	ValidatorComponent<T>,
+	CollectionComponent<E>
 {
 	/**
 	 * Returns a validator for the set's size.

@@ -22,7 +22,7 @@ import {
  * @param pluralizer - the type of items in the collection
  * @returns a message for the validation failure
  */
-function collectionContainsSize(validator: AbstractValidator<unknown, unknown>, actualSizeName: string,
+function collectionContainsSize(validator: AbstractValidator<unknown>, actualSizeName: string,
                                 actualSize: number | null, relationship: string,
                                 expectedSizeName: string | null, expectedSize: number, pluralizer: Pluralizer)
 {
@@ -55,7 +55,7 @@ function collectionContainsSize(validator: AbstractValidator<unknown, unknown>, 
  * @param maximumInclusive - `true` if maximum size is inclusive
  * @param pluralizer - the type of items in the collection
  */
-function collectionSizeIsBetween(validator: AbstractValidator<unknown, unknown>, actualSizeName: string,
+function collectionSizeIsBetween(validator: AbstractValidator<unknown>, actualSizeName: string,
                                  actualSize: number | null, minimum: number, minimumInclusive: boolean,
                                  maximum: number, maximumInclusive: boolean, pluralizer: Pluralizer)
 {
@@ -114,7 +114,7 @@ bounds: ${bounds}`);
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function collectionIsEmpty(validator: AbstractValidator<unknown, unknown>)
+function collectionIsEmpty(validator: AbstractValidator<unknown>)
 {
 	return objectIsEmpty(validator);
 }
@@ -123,7 +123,7 @@ function collectionIsEmpty(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function collectionIsNotEmpty(validator: AbstractValidator<unknown, unknown>)
+function collectionIsNotEmpty(validator: AbstractValidator<unknown>)
 {
 	return objectIsNotEmpty(validator);
 }
@@ -135,7 +135,7 @@ function collectionIsNotEmpty(validator: AbstractValidator<unknown, unknown>)
  * @param expected - the expected value
  * @returns a message for the validation failure
  */
-function collectionContains(validator: AbstractValidator<unknown, unknown>, expectedName: string | null,
+function collectionContains(validator: AbstractValidator<unknown>, expectedName: string | null,
                             expected: unknown)
 {
 	// "actual" must contain the same value as "expected".
@@ -152,7 +152,7 @@ function collectionContains(validator: AbstractValidator<unknown, unknown>, expe
  * @param other - the other value
  * @returns a message for the validation failure
  */
-function collectionContainsImpl(validator: AbstractValidator<unknown, unknown>, relationship: string,
+function collectionContainsImpl(validator: AbstractValidator<unknown>, relationship: string,
                                 otherName: string | null, other: unknown)
 {
 	// "actual" must contain the same value as "expected".
@@ -162,7 +162,7 @@ function collectionContainsImpl(validator: AbstractValidator<unknown, unknown>, 
 
 	const messageBuilder = new MessageBuilder(validator,
 		`${MessageBuilder.quoteName(validator.getName())} ${relationship} ${otherNameOrValue}.`);
-	if (otherName != null)
+	if (otherName !== null)
 		messageBuilder.withContext(other, otherName);
 	return messageBuilder;
 }
@@ -173,8 +173,8 @@ function collectionContainsImpl(validator: AbstractValidator<unknown, unknown>, 
  * @param unwanted - the unwanted value
  * @returns a message for the validation failure
  */
-function collectionDoesNotContain(validator: AbstractValidator<unknown, unknown>,
-                                  unwantedName: string | null, unwanted: unknown)
+function collectionDoesNotContain(validator: AbstractValidator<unknown>, unwantedName: string | null,
+                                  unwanted: unknown)
 {
 	// "actual" may not contain the same value as "unwanted".
 	// actual  : 5
@@ -189,8 +189,8 @@ function collectionDoesNotContain(validator: AbstractValidator<unknown, unknown>
  * @param pluralizer - the type of items in the collections
  * @returns a message for the validation failure
  */
-function collectionContainsAny(validator: AbstractValidator<unknown, unknown>,
-                               expectedName: string | null, expected: unknown, pluralizer: Pluralizer)
+function collectionContainsAny(validator: AbstractValidator<unknown>, expectedName: string | null,
+                               expected: unknown, pluralizer: Pluralizer)
 {
 	// "actual" must contain any of the elements present in "expected".
 	// actual  : [1, 2, 3]
@@ -217,7 +217,7 @@ present in ${expectedNameOrValue}.`);
  * @param pluralizer - the type of items in the collections
  * @returns a message for the validation failure
  */
-function collectionDoesNotContainAny<E>(validator: AbstractValidator<unknown, unknown>,
+function collectionDoesNotContainAny<E>(validator: AbstractValidator<unknown>,
                                         difference: Difference<E> | null, unwantedName: string | null,
                                         unwanted: unknown, pluralizer: Pluralizer)
 {
@@ -233,9 +233,9 @@ function collectionDoesNotContainAny<E>(validator: AbstractValidator<unknown, un
 present in ${unwantedNameOrValue}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
-	if (unwantedName != null)
+	if (unwantedName !== null)
 		messageBuilder.withContext(unwanted, unwantedName);
-	if (difference != null)
+	if (difference !== null)
 		messageBuilder.withContext(difference.common, "elementsToRemove");
 	return messageBuilder;
 }
@@ -249,9 +249,8 @@ present in ${unwantedNameOrValue}.`);
  * @param pluralizer - the type of items in the value
  * @returns a message for the validation failure
  */
-function collectionContainsExactly<E>(validator: AbstractValidator<unknown, unknown>,
-                                      difference: Difference<E> | null, expectedName: string | null,
-                                      expected: unknown, pluralizer: Pluralizer)
+function collectionContainsExactly<E>(validator: AbstractValidator<unknown>, difference: Difference<E> | null,
+                                      expectedName: string | null, expected: unknown, pluralizer: Pluralizer)
 {
 	// "actual" must consist of the elements [2, 3, 4], regardless of their order.
 	//
@@ -290,9 +289,8 @@ function collectionContainsExactly<E>(validator: AbstractValidator<unknown, unkn
  * @param pluralizer - the type of items in the value
  * @returns a message for the validation failure
  */
-function collectionDoesNotContainExactly(validator: AbstractValidator<unknown, unknown>,
-                                         unwantedName: string | null, unwanted: unknown,
-                                         pluralizer: Pluralizer)
+function collectionDoesNotContainExactly(validator: AbstractValidator<unknown>, unwantedName: string | null,
+                                         unwanted: unknown, pluralizer: Pluralizer)
 {
 	// "actual" may not consist of the elements [2, 3, 4], regardless of their order.
 	//
@@ -322,9 +320,8 @@ function collectionDoesNotContainExactly(validator: AbstractValidator<unknown, u
  * @param pluralizer - the type of items in the value
  * @returns a message for the validation failure
  */
-function collectionContainsAll<E>(validator: AbstractValidator<unknown, unknown>,
-                                  difference: Difference<E> | null, expectedName: string | null,
-                                  expected: unknown, pluralizer: Pluralizer)
+function collectionContainsAll<E>(validator: AbstractValidator<unknown>, difference: Difference<E> | null,
+                                  expectedName: string | null, expected: unknown, pluralizer: Pluralizer)
 {
 	// "actual" must contain all the elements present in "expected".
 	// actual  : [1, 2, 3]
@@ -352,9 +349,8 @@ present in ${expectedNameOrValue}.`);
  * @param pluralizer - the type of items in the value
  * @returns a message for the validation failure
  */
-function collectionDoesNotContainAll(validator: AbstractValidator<unknown, unknown>,
-                                     unwantedName: string | null, unwanted: unknown,
-                                     pluralizer: Pluralizer)
+function collectionDoesNotContainAll(validator: AbstractValidator<unknown>, unwantedName: string | null,
+                                     unwanted: unknown, pluralizer: Pluralizer)
 {
 	// "actual" may not contain some, but not all, the elements present in "unwanted".
 	// actual  : [1, 2, 3]
@@ -379,7 +375,7 @@ ${pluralizer.nameOf(2)} present in ${unwantedNameOrValue}.`);
  * @param pluralizer - the type of items in the value
  * @returns a message for the validation failure
  */
-function collectionDoesNotContainDuplicates<E>(validator: AbstractValidator<unknown, unknown>,
+function collectionDoesNotContainDuplicates<E>(validator: AbstractValidator<unknown>,
                                                duplicates: Set<E> | null, pluralizer: Pluralizer)
 {
 	const name = validator.getName();
@@ -396,8 +392,7 @@ function collectionDoesNotContainDuplicates<E>(validator: AbstractValidator<unkn
  * @param sorted - the sorted representation of the value being validated
  * @returns a message for the validation failure
  */
-function collectionIsSorted(validator: AbstractValidator<unknown, unknown>,
-                                              sorted: unknown[] | null)
+function collectionIsSorted(validator: AbstractValidator<unknown>, sorted: unknown[] | null)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -412,7 +407,7 @@ function collectionIsSorted(validator: AbstractValidator<unknown, unknown>,
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function collectionContainsSameNullity(validator: AbstractValidator<unknown, unknown>)
+function collectionContainsSameNullity(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,

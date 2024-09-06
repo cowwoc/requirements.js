@@ -91,7 +91,7 @@ expectedName: ${expectedName}`);
 	 * @param value - the object representation of the actual value
 	 * @returns this
 	 */
-	public actualValue(value: unknown): ContextGenerator
+	public actualValue(value: unknown): this
 	{
 		this._actualValue = ValidationTarget.valid(value);
 		return this;
@@ -103,7 +103,7 @@ expectedName: ${expectedName}`);
 	 * @param value - the object representation of the expected value
 	 * @returns this
 	 */
-	public expectedValue(value: unknown): ContextGenerator
+	public expectedValue(value: unknown): this
 	{
 		this._expectedValue = ValidationTarget.valid(value);
 		return this;
@@ -116,7 +116,7 @@ expectedName: ${expectedName}`);
 	 * values
 	 * @returns this
 	 */
-	public allowDiff(allowDiff: boolean): ContextGenerator
+	public allowDiff(allowDiff: boolean): this
 	{
 		this._allowDiff = allowDiff;
 		return this;

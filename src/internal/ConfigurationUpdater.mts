@@ -9,9 +9,11 @@ import {
 } from "./internal.mjs";
 
 const typedocWorkaround: null | ValidationFailures = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Updates the configuration used by new validators.

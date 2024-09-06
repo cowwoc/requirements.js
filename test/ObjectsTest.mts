@@ -13,7 +13,6 @@ suite("ObjectsTest", () =>
 {
 	test("getType_undefined", () =>
 	{
-		// eslint-disable-next-line no-undefined
 		assert.deepEqual(Type.of(undefined), Type.UNDEFINED);
 	});
 
@@ -29,7 +28,6 @@ suite("ObjectsTest", () =>
 
 	test("getType_Boolean", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
 		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new Boolean(true);
 		assert.deepEqual(Type.of(input), Type.namedClass("Boolean"));
@@ -42,7 +40,7 @@ suite("ObjectsTest", () =>
 
 	test("getType_Number", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
+		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new Number(5);
 		assert.deepEqual(Type.of(input), Type.namedClass("Number"));
 	});
@@ -54,7 +52,6 @@ suite("ObjectsTest", () =>
 
 	test("getType_BigInt", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
 		const input = BigInt(5);
 		assert.deepEqual(Type.of(input), Type.BIGINT);
 	});
@@ -66,7 +63,7 @@ suite("ObjectsTest", () =>
 
 	test("getType_String", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
+		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new String("test");
 		assert.deepEqual(Type.of(input), Type.of(String));
 	});
@@ -102,6 +99,7 @@ suite("ObjectsTest", () =>
 	});
 
 
+	// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 	class MyClass
 	{
 	}

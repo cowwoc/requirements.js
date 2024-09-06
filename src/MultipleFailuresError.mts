@@ -33,10 +33,7 @@ class MultipleFailuresError extends Error
 		let i = 1;
 		for (const failure of failures)
 		{
-			result += `${i}. ${failure.getError().name}`;
-			const message = failure.getMessage();
-			if (message !== null)
-				result += `: ${message}\n`;
+			result += `${i}. ${failure.getError().name}: ${failure.getMessage()}\n`;
 			++i;
 		}
 		return result.toString();

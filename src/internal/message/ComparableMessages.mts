@@ -10,7 +10,7 @@ import {
  * @param expected - the expected value
  * @returns a message for the validation failure
  */
-function comparableIsEqualTo(validator: AbstractValidator<unknown, unknown>, expectedName: string | null,
+function comparableIsEqualTo(validator: AbstractValidator<unknown>, expectedName: string | null,
                              expected: unknown)
 {
 	return comparableCompareValues(validator, "must be equal to", expectedName, expected);
@@ -22,7 +22,7 @@ function comparableIsEqualTo(validator: AbstractValidator<unknown, unknown>, exp
  * @param maximumExclusive - the exclusive upper bound
  * @returns a message for the validation failure
  */
-function comparableIsLessThan(validator: AbstractValidator<unknown, unknown>, limitName: string | null,
+function comparableIsLessThan(validator: AbstractValidator<unknown>, limitName: string | null,
                               maximumExclusive: unknown)
 {
 	return comparableCompareValues(validator, "must be less than", limitName, maximumExclusive);
@@ -34,8 +34,8 @@ function comparableIsLessThan(validator: AbstractValidator<unknown, unknown>, li
  * @param maximumInclusive - the inclusive upper bound
  * @returns a message for the validation failure
  */
-function comparableIsLessThanOrEqualTo(validator: AbstractValidator<unknown, unknown>,
-                                       limitName: string | null, maximumInclusive: unknown)
+function comparableIsLessThanOrEqualTo(validator: AbstractValidator<unknown>, limitName: string | null,
+                                       maximumInclusive: unknown)
 {
 	return comparableCompareValues(validator, "must be less than or equal to", limitName, maximumInclusive);
 }
@@ -46,8 +46,8 @@ function comparableIsLessThanOrEqualTo(validator: AbstractValidator<unknown, unk
  * @param minimumInclusive - the inclusive lower bound
  * @returns a message for the validation failure
  */
-function comparableIsGreaterThanOrEqualTo(validator: AbstractValidator<unknown, unknown>,
-                                          limitName: string | null, minimumInclusive: unknown)
+function comparableIsGreaterThanOrEqualTo(validator: AbstractValidator<unknown>, limitName: string | null,
+                                          minimumInclusive: unknown)
 {
 	return comparableCompareValues(validator, "must be greater than or equal to", limitName, minimumInclusive);
 }
@@ -58,8 +58,8 @@ function comparableIsGreaterThanOrEqualTo(validator: AbstractValidator<unknown, 
  * @param minimumExclusive - the exclusive lower bound
  * @returns a message for the validation failure
  */
-function comparableIsGreaterThan(validator: AbstractValidator<unknown, unknown>,
-                                 limitName: string | null, minimumExclusive: unknown)
+function comparableIsGreaterThan(validator: AbstractValidator<unknown>, limitName: string | null,
+                                 minimumExclusive: unknown)
 {
 	return comparableCompareValues(validator, "must be greater than", limitName, minimumExclusive);
 }
@@ -72,7 +72,7 @@ function comparableIsGreaterThan(validator: AbstractValidator<unknown, unknown>,
  * @param expected - the expected value
  * @returns a message for the validation failure
  */
-function comparableCompareValues(validator: AbstractValidator<unknown, unknown>, relationship: string,
+function comparableCompareValues(validator: AbstractValidator<unknown>, relationship: string,
                                  expectedName: string | null, expected: unknown)
 {
 	const actualName = validator.getName();
@@ -86,9 +86,9 @@ function comparableCompareValues(validator: AbstractValidator<unknown, unknown>,
 		`${MessageBuilder.quoteName(actualName)} ${relationship} ${expectedNameOrValue}.`);
 
 	const invalidToNull = validator.getValueOrDefault(null);
-	if (invalidToNull != null)
+	if (invalidToNull !== null)
 		messageBuilder.withContext(invalidToNull, actualName);
-	if (expectedName != null)
+	if (expectedName !== null)
 		messageBuilder.withContext(expected, expectedName);
 	return messageBuilder;
 }
@@ -101,14 +101,14 @@ function comparableCompareValues(validator: AbstractValidator<unknown, unknown>,
  * @param maximumInclusive - `true` if the upper bound of the range is inclusive
  * @returns a message for the validation failure
  */
-function isBetweenFailed(validator: AbstractValidator<unknown, unknown>, minimum: unknown,
-                         minimumInclusive: boolean, maximum: unknown, maximumInclusive: boolean)
+function isBetweenFailed(validator: AbstractValidator<unknown>, minimum: unknown, minimumInclusive: boolean,
+                         maximum: unknown, maximumInclusive: boolean)
 {
 	const name = validator.getName();
 	const builder = new MessageBuilder(validator,
 		`${MessageBuilder.quoteName(name)} is out of bounds.`);
 	const value = validator.getValueOrDefault(null);
-	if (value != null)
+	if (value !== null)
 		builder.withContext(value, name);
 
 	const bounds = comparableGetBounds(minimum, minimumInclusive, maximum, maximumInclusive,

@@ -23,9 +23,12 @@ import {
 } from "./internal/internal.mjs";
 
 const typedocWorkaround: null | AssertionError = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Creates validators for the Javascript API with an independent configuration.
@@ -56,35 +59,74 @@ abstract class JavascriptValidators
 
 	abstract getContext(): Map<string, unknown>;
 
-	abstract withContext(value: unknown, name: string): JavascriptValidators;
+	abstract withContext(value: unknown, name: string): this;
 
 	abstract getGlobalConfiguration(): GlobalConfiguration;
 
-	abstract removeContext(name: string): JavascriptValidators;
+	abstract removeContext(name: string): this;
 
-	abstract requireThat(value: number, name: string): NumberValidator;
-	abstract requireThat(value: boolean, name: string): BooleanValidator;
-	abstract requireThat<E>(value: E[], name: string): ArrayValidator<E>;
-	abstract requireThat<E>(value: Set<E>, name: string): SetValidator<E>;
-	abstract requireThat<K, V>(value: Map<K, V>, name: string): MapValidator<K, V>;
-	abstract requireThat(value: string, name: string): StringValidator;
-	abstract requireThat<T>(value: T, name: string): ObjectValidator<T>;
+	abstract requireThatNumber<T extends number | undefined | null>
+	(value: T, name: string): NumberValidator<T>;
 
-	abstract assertThat(value: number, name?: string): NumberValidator;
-	abstract assertThat(value: boolean, name?: string): BooleanValidator;
-	abstract assertThat<E>(value: E[], name?: string): ArrayValidator<E>;
-	abstract assertThat<E>(value: Set<E>, name?: string): SetValidator<E>;
-	abstract assertThat<K, V>(value: Map<K, V>, name?: string): MapValidator<K, V>;
-	abstract assertThat(value: string, name?: string): StringValidator;
-	abstract assertThat<T>(value: T, name?: string): ObjectValidator<T>;
+	abstract requireThatBoolean<T extends boolean | undefined | null>
+	(value: T, name: string): BooleanValidator<T>;
 
-	abstract checkIf(value: number, name?: string): NumberValidator;
-	abstract checkIf(value: boolean, name?: string): BooleanValidator;
-	abstract checkIf<E>(value: E[], name?: string): ArrayValidator<E>;
-	abstract checkIf<E>(value: Set<E>, name?: string): SetValidator<E>;
-	abstract checkIf<K, V>(value: Map<K, V>, name?: string): MapValidator<K, V>;
-	abstract checkIf(value: string, name?: string): StringValidator;
-	abstract checkIf<T>(value: T, name?: string): ObjectValidator<T>;
+	abstract requireThatArray<T extends E[] | undefined | null, E>
+	(value: T, name: string): ArrayValidator<T, E>;
+
+	abstract requireThatSet<T extends Set<E> | undefined | null, E>
+	(value: T, name: string): SetValidator<T, E>;
+
+	abstract requireThatMap<T extends Map<K, V> | undefined | null, K, V>
+	(value: T, name: string): MapValidator<T, K, V>;
+
+	abstract requireThatString<T extends string | undefined | null>
+	(value: T, name: string): StringValidator<T>;
+
+	abstract requireThatObject<T extends object | undefined | null>
+	(value: T, name: string): ObjectValidator<T>;
+
+	abstract assertThatNumber<T extends number | undefined | null>
+	(value: T, name?: string): NumberValidator<T>;
+
+	abstract assertThatBoolean<T extends boolean | undefined | null>
+	(value: T, name?: string): BooleanValidator<T>;
+
+	abstract assertThatArray<T extends E[] | undefined | null, E>
+	(value: T, name?: string): ArrayValidator<T, E>;
+
+	abstract assertThatSet<T extends Set<E> | undefined | null, E>
+	(value: T, name?: string): SetValidator<T, E>;
+
+	abstract assertThatMap<T extends Map<K, V> | undefined | null, K, V>
+	(value: T, name?: string): MapValidator<T, K, V>;
+
+	abstract assertThatString<T extends string | undefined | null>
+	(value: T, name?: string): StringValidator<T>;
+
+	abstract assertThatObject<T extends object | undefined | null>
+	(value: T, name?: string): ObjectValidator<T>;
+
+	abstract checkIfNumber<T extends number | undefined | null>
+	(value: T, name?: string): NumberValidator<T>;
+
+	abstract checkIfBoolean<T extends boolean | undefined | null>
+	(value: T, name?: string): BooleanValidator<T>;
+
+	abstract checkIfArray<T extends E[] | undefined | null, E>
+	(value: T, name?: string): ArrayValidator<T, E>;
+
+	abstract checkIfSet<T extends Set<E> | undefined | null, E>
+	(value: T, name?: string): SetValidator<T, E>;
+
+	abstract checkIfMap<T extends Map<K, V> | undefined | null, K, V>
+	(value: T, name?: string): MapValidator<T, K, V>;
+
+	abstract checkIfString<T extends string | undefined | null>
+	(value: T, name?: string): StringValidator<T>;
+
+	abstract checkIfObject<T extends object | undefined | null>
+	(value: T, name?: string): ObjectValidator<T>;
 }
 
 export {JavascriptValidators};

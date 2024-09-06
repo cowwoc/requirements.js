@@ -22,7 +22,7 @@ suite("ArrayTest", () =>
 	test("isEmpty", () =>
 	{
 		const actual: unknown[] = [];
-		validators.requireThat(actual, "actual").isEmpty();
+		validators.requireThatArray(actual, "actual").isEmpty();
 	});
 
 	test("isEmpty_actualContainsOneElement", () =>
@@ -30,14 +30,14 @@ suite("ArrayTest", () =>
 		assert.throws(function()
 		{
 			const actual = ["element"];
-			validators.requireThat(actual, "actual").isEmpty();
+			validators.requireThatArray(actual, "actual").isEmpty();
 		}, RangeError);
 	});
 
 	test("isNotEmpty", () =>
 	{
 		const actual = ["element"];
-		validators.requireThat(actual, "actual").isNotEmpty();
+		validators.requireThatArray(actual, "actual").isNotEmpty();
 	});
 
 	test("isNotEmpty_False", () =>
@@ -45,14 +45,14 @@ suite("ArrayTest", () =>
 		assert.throws(function()
 		{
 			const actual: unknown[] = [];
-			validators.requireThat(actual, "actual").isNotEmpty();
+			validators.requireThatArray(actual, "actual").isNotEmpty();
 		}, RangeError);
 	});
 
 	test("contains", () =>
 	{
 		const actual = ["element"];
-		validators.requireThat(actual, "actual").contains("element");
+		validators.requireThatArray(actual, "actual").contains("element");
 	});
 
 	test("contains_False", () =>
@@ -60,14 +60,14 @@ suite("ArrayTest", () =>
 		assert.throws(function()
 		{
 			const actual = ["notElement"];
-			validators.requireThat(actual, "actual").contains("element");
+			validators.requireThatArray(actual, "actual").contains("element");
 		}, RangeError);
 	});
 
 	test("containsVariable", () =>
 	{
 		const actual = ["element"];
-		validators.requireThat(actual, "actual").contains("element", "nameOfExpected");
+		validators.requireThatArray(actual, "actual").contains("element", "nameOfExpected");
 	});
 
 	test("containsVariable_False", () =>
@@ -75,7 +75,7 @@ suite("ArrayTest", () =>
 		assert.throws(function()
 		{
 			const actual = ["notElement"];
-			validators.requireThat(actual, "actual").contains("element", "nameOfExpected");
+			validators.requireThatArray(actual, "actual").contains("element", "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -84,7 +84,7 @@ suite("ArrayTest", () =>
 		assert.throws(function()
 		{
 			const actual = ["element"];
-			validators.requireThat(actual, "actual").contains(" ");
+			validators.requireThatArray(actual, "actual").contains(" ");
 		}, RangeError);
 	});
 
@@ -96,7 +96,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
+		validators.requireThatArray(actual, "actual").containsExactly(["one", "two", "three"]);
 	});
 
 	test("containsExactly_actualContainsUnwantedElements", () =>
@@ -109,7 +109,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsExactly(["one", "two"]);
+			validators.requireThatArray(actual, "actual").containsExactly(["one", "two"]);
 		}, RangeError);
 	});
 
@@ -122,7 +122,7 @@ suite("ArrayTest", () =>
 					"one",
 					"two"
 				];
-			validators.requireThat(actual, "actual").containsExactly(["one", "two", "three"]);
+			validators.requireThatArray(actual, "actual").containsExactly(["one", "two", "three"]);
 		}, RangeError);
 	});
 
@@ -135,7 +135,7 @@ suite("ArrayTest", () =>
 					"one",
 					"two"
 				];
-			validators.requireThat(actual, "actual").containsExactly(["one", "two", "three"], "expected");
+			validators.requireThatArray(actual, "actual").containsExactly(["one", "two", "three"], "expected");
 		}, RangeError);
 	});
 
@@ -147,7 +147,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsExactly(["one", "two", "three"], "nameOfExpected");
+		validators.requireThatArray(actual, "actual").containsExactly(["one", "two", "three"], "nameOfExpected");
 	});
 
 	test("containsExactlyVariable_False", () =>
@@ -160,7 +160,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsExactly(["one", "two"], "nameOfExpected");
+			validators.requireThatArray(actual, "actual").containsExactly(["one", "two"], "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -174,7 +174,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsExactly(["one", "two", "three"], " ");
+			validators.requireThatArray(actual, "actual").containsExactly(["one", "two", "three"], " ");
 		}, RangeError);
 	});
 
@@ -186,7 +186,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsAny(["two", "four"]);
+		validators.requireThatArray(actual, "actual").containsAny(["two", "four"]);
 	});
 
 	test("containsAny_False", () =>
@@ -199,7 +199,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAny(["four", "five"]);
+			validators.requireThatArray(actual, "actual").containsAny(["four", "five"]);
 		}, RangeError);
 	});
 
@@ -211,7 +211,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsAny(["two", "four"], "nameOfExpected");
+		validators.requireThatArray(actual, "actual").containsAny(["two", "four"], "nameOfExpected");
 	});
 
 	test("containsAnyVariable_False", () =>
@@ -224,7 +224,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAny(["four", "five"], "nameOfExpected");
+			validators.requireThatArray(actual, "actual").containsAny(["four", "five"], "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -238,7 +238,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAny(["two", "four"], " ");
+			validators.requireThatArray(actual, "actual").containsAny(["two", "four"], " ");
 		}, RangeError);
 	});
 
@@ -250,7 +250,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsAll(["two", "three"]);
+		validators.requireThatArray(actual, "actual").containsAll(["two", "three"]);
 	});
 
 	test("containsAll_False", () =>
@@ -263,7 +263,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAll(["two", "four"]);
+			validators.requireThatArray(actual, "actual").containsAll(["two", "four"]);
 		}, RangeError);
 	});
 
@@ -275,7 +275,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").containsAll(["two", "three"], "nameOfExpected");
+		validators.requireThatArray(actual, "actual").containsAll(["two", "three"], "nameOfExpected");
 	});
 
 	test("containsAllVariable_False", () =>
@@ -288,7 +288,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAll(["two", "four"], "nameOfExpected");
+			validators.requireThatArray(actual, "actual").containsAll(["two", "four"], "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -302,7 +302,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").containsAll(["two", "three"], " ");
+			validators.requireThatArray(actual, "actual").containsAll(["two", "three"], " ");
 		}, RangeError);
 	});
 
@@ -312,7 +312,7 @@ suite("ArrayTest", () =>
 			[
 				"notElement"
 			];
-		validators.requireThat(actual, "actual").doesNotContain("element");
+		validators.requireThatArray(actual, "actual").doesNotContain("element");
 	});
 
 	test("doesNotContain_False", () =>
@@ -323,7 +323,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").doesNotContain("element");
+			validators.requireThatArray(actual, "actual").doesNotContain("element");
 		}, RangeError);
 	});
 
@@ -333,7 +333,7 @@ suite("ArrayTest", () =>
 			[
 				"notElement"
 			];
-		validators.requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
+		validators.requireThatArray(actual, "actual").doesNotContain("element", "nameOfExpected");
 	});
 
 	test("doesNotContainVariable_False", () =>
@@ -344,7 +344,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").doesNotContain("element", "nameOfExpected");
+			validators.requireThatArray(actual, "actual").doesNotContain("element", "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -356,7 +356,7 @@ suite("ArrayTest", () =>
 				[
 					"notElement"
 				];
-			validators.requireThat(actual, "actual").doesNotContain("element", " ");
+			validators.requireThatArray(actual, "actual").doesNotContain("element", " ");
 		}, RangeError);
 	});
 
@@ -368,7 +368,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"]);
+		validators.requireThatArray(actual, "actual").doesNotContainAny(["four", "five", "six"]);
 	});
 
 	test("doesNotContainAny_False", () =>
@@ -381,7 +381,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").doesNotContainAny(["three", "four", "five"]);
+			validators.requireThatArray(actual, "actual").doesNotContainAny(["three", "four", "five"]);
 		}, RangeError);
 	});
 
@@ -393,7 +393,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").
+		validators.requireThatArray(actual, "actual").
 			doesNotContainAny(["four", "five", "six"], "nameOfExpected");
 	});
 
@@ -407,7 +407,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").
+			validators.requireThatArray(actual, "actual").
 				doesNotContainAny(["three", "four", "five"], "nameOfExpected");
 		}, RangeError);
 	});
@@ -422,7 +422,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").doesNotContainAny(["four", "five", "six"], " ");
+			validators.requireThatArray(actual, "actual").doesNotContainAny(["four", "five", "six"], " ");
 		}, RangeError);
 	});
 
@@ -434,7 +434,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"]);
+		validators.requireThatArray(actual, "actual").doesNotContainAll(["one", "two", "four"]);
 	});
 
 	test("doesNotContainAll_False", () =>
@@ -448,7 +448,7 @@ suite("ArrayTest", () =>
 					"three",
 					"four"
 				];
-			validators.requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"]);
+			validators.requireThatArray(actual, "actual").doesNotContainAll(["one", "two", "three"]);
 		}, RangeError);
 	});
 
@@ -460,7 +460,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], "nameOfExpected");
+		validators.requireThatArray(actual, "actual").doesNotContainAll(["one", "two", "four"], "nameOfExpected");
 	});
 
 	test("doesNotContainAllVariable_False", () =>
@@ -474,7 +474,7 @@ suite("ArrayTest", () =>
 					"three",
 					"four"
 				];
-			validators.requireThat(actual, "actual").doesNotContainAll(["one", "two", "three"],
+			validators.requireThatArray(actual, "actual").doesNotContainAll(["one", "two", "three"],
 				"nameOfExpected");
 		}, RangeError);
 	});
@@ -489,7 +489,7 @@ suite("ArrayTest", () =>
 					"two",
 					"three"
 				];
-			validators.requireThat(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
+			validators.requireThatArray(actual, "actual").doesNotContainAll(["one", "two", "four"], " ");
 		}, RangeError);
 	});
 
@@ -501,7 +501,7 @@ suite("ArrayTest", () =>
 				"two",
 				"three"
 			];
-		validators.requireThat(actual, "actual").doesNotContainDuplicates();
+		validators.requireThatArray(actual, "actual").doesNotContainDuplicates();
 	});
 
 	test("doesNotContainDuplicates_False", () =>
@@ -516,7 +516,7 @@ suite("ArrayTest", () =>
 					"two",
 					"four"
 				];
-			validators.requireThat(actual, "actual").doesNotContainDuplicates();
+			validators.requireThatArray(actual, "actual").doesNotContainDuplicates();
 		}, RangeError);
 	});
 
@@ -526,7 +526,7 @@ suite("ArrayTest", () =>
 			[
 				"element"
 			];
-		validators.requireThat(actual, "actual").length().isEqualTo(1);
+		validators.requireThatArray(actual, "actual").length().isEqualTo(1);
 	});
 
 	test("lengthNestedValidatorIsEqualTo", () =>
@@ -535,7 +535,7 @@ suite("ArrayTest", () =>
 			[
 				"element"
 			];
-		validators.requireThat(actual, "actual").and(v => v.length().isEqualTo(1));
+		validators.requireThatArray(actual, "actual").and(v => v.length().isEqualTo(1));
 	});
 
 	test("lengthNestedValidatorIsEqualTo_False", () =>
@@ -546,7 +546,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").and(v => v.length().isEqualTo(2));
+			validators.requireThatArray(actual, "actual").and(v => v.length().isEqualTo(2));
 		}, RangeError);
 	});
 
@@ -558,7 +558,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isEqualTo(2);
+			validators.requireThatArray(actual, "actual").length().isEqualTo(2);
 		}, RangeError);
 	});
 
@@ -568,7 +568,7 @@ suite("ArrayTest", () =>
 			[
 				"element"
 			];
-		validators.requireThat(actual, "actual").length().isEqualTo(1, "nameOfExpected");
+		validators.requireThatArray(actual, "actual").length().isEqualTo(1, "nameOfExpected");
 	});
 
 	test("lengthIsEqualToVariable_False", () =>
@@ -579,7 +579,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isEqualTo(2, "nameOfExpected");
+			validators.requireThatArray(actual, "actual").length().isEqualTo(2, "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -591,7 +591,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isEqualTo(1, " ");
+			validators.requireThatArray(actual, "actual").length().isEqualTo(1, " ");
 		}, RangeError);
 	});
 
@@ -601,7 +601,7 @@ suite("ArrayTest", () =>
 			[
 				"element"
 			];
-		validators.requireThat(actual, "actual").length().isNotEqualTo(2);
+		validators.requireThatArray(actual, "actual").length().isNotEqualTo(2);
 	});
 
 	test("lengthIsNotEqualTo_False", () =>
@@ -612,7 +612,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isNotEqualTo(1);
+			validators.requireThatArray(actual, "actual").length().isNotEqualTo(1);
 		}, RangeError);
 	});
 
@@ -622,7 +622,7 @@ suite("ArrayTest", () =>
 			[
 				"element"
 			];
-		validators.requireThat(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
+		validators.requireThatArray(actual, "actual").length().isNotEqualTo(2, "nameOfExpected");
 	});
 
 	test("lengthIsNotEqualToVariable_False", () =>
@@ -633,7 +633,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
+			validators.requireThatArray(actual, "actual").length().isNotEqualTo(1, "nameOfExpected");
 		}, RangeError);
 	});
 
@@ -645,7 +645,7 @@ suite("ArrayTest", () =>
 				[
 					"element"
 				];
-			validators.requireThat(actual, "actual").length().isNotEqualTo(2, " ");
+			validators.requireThatArray(actual, "actual").length().isNotEqualTo(2, " ");
 		}, RangeError);
 	});
 
@@ -657,7 +657,7 @@ suite("ArrayTest", () =>
 				2,
 				3
 			];
-		validators.requireThat(actual, "actual").length().isBetween(3, 5);
+		validators.requireThatArray(actual, "actual").length().isBetween(3, 5);
 	});
 
 	test("isBetween_expectedIsInBounds", () =>
@@ -669,7 +669,7 @@ suite("ArrayTest", () =>
 				3,
 				4
 			];
-		validators.requireThat(actual, "actual").length().isBetween(3, 5);
+		validators.requireThatArray(actual, "actual").length().isBetween(3, 5);
 	});
 
 	test("isBetween_expectedIsUpperBound", () =>
@@ -684,7 +684,7 @@ suite("ArrayTest", () =>
 					4,
 					5
 				];
-			validators.requireThat(actual, "actual").length().isBetween(3, 5);
+			validators.requireThatArray(actual, "actual").length().isBetween(3, 5);
 		}, RangeError);
 	});
 
@@ -697,7 +697,7 @@ suite("ArrayTest", () =>
 					1,
 					2
 				];
-			validators.requireThat(actual, "actual").length().isBetween(3, 5);
+			validators.requireThatArray(actual, "actual").length().isBetween(3, 5);
 		}, RangeError);
 	});
 
@@ -711,14 +711,14 @@ suite("ArrayTest", () =>
 				4,
 				5
 			];
-		validators.requireThat(actual, "actual").length().isBetween(3, true, 5, true);
+		validators.requireThatArray(actual, "actual").length().isBetween(3, true, 5, true);
 	});
 
 	test("isString", () =>
 	{
 		const actual = [1, 2, 3];
-		const actualIsString = actual.toString();
-		validators.requireThat(actualIsString, "actual").isEqualTo("1,2,3");
+		const actualAsString = actual.toString();
+		validators.requireThatString(actualAsString, "actual").isEqualTo("1,2,3");
 	});
 
 	test("getActual", () =>
@@ -731,7 +731,7 @@ suite("ArrayTest", () =>
 				4,
 				5
 			];
-		const output = validators.requireThat(input, "input").getValue();
+		const output = validators.requireThatArray(input, "input").getValue();
 		assert.strictEqual(output, input);
 	});
 
@@ -745,7 +745,7 @@ suite("ArrayTest", () =>
 				4,
 				5
 			];
-		const output = validators.requireThat(input, "input").getValue();
+		const output = validators.requireThatArray(input, "input").getValue();
 		assert.strictEqual(output, input);
 	});
 
@@ -754,8 +754,10 @@ suite("ArrayTest", () =>
 		const actual = null;
 		const expectedMessages = [`"actual" must be an array.
 actual: null`];
-		const actualFailures = validators.checkIf(actual as unknown, "actual").isType(Type.ARRAY).elseGetFailures();
+		const actualFailures = validators.checkIfArray(actual as unknown as unknown[], "actual").
+			isType(Type.ARRAY).elseGetFailures();
 		const actualMessages = actualFailures.getMessages();
-		validators.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
+		validators.requireThatArray(actualMessages, "actualMessages").
+			isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

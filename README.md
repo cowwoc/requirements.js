@@ -30,7 +30,7 @@ pnpm add @cowwoc/requirements@4.0.0
 ## Sample Code
 
 ```typescript
-import {requireThat} from "@cowwoc/requirements";
+import {requireThatString} from "@cowwoc/requirements";
 
 
 class Address
@@ -41,9 +41,8 @@ class PublicAPI
 {
 	constructor(name: string | null, age: number, address: Address | undefined)
 	{
-		// To validate user input, cast them to "unknown" prior to type-checks.
-		requireThat(name as unknown, "name").isString().length().isBetween(1, 30);
-		requireThat(age as unknown, "age").isNumber().isBetween(18, 30);
+		requireThatString(name, "name").length().isBetween(1, 30);
+		requireThatNumber(age, "age").isBetween(18, 30);
 
 		// Methods that conduct runtime type-checks, such as isString() or isNotNull(), update the
 		// compile-time type returned by getValue().

@@ -56,7 +56,7 @@ suite("Configuration", () =>
 		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 			Configuration.DEFAULT);
 
-		const actual = validators.getConfiguration().stringMappers().toString(undefined);
+		const actual = validators.getRequireThatConfiguration().stringMappers().toString(undefined);
 		assert.strictEqual(actual, "undefined");
 	});
 
@@ -65,7 +65,7 @@ suite("Configuration", () =>
 		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 			Configuration.DEFAULT);
 
-		const actual = validators.getConfiguration().stringMappers().toString(null);
+		const actual = validators.getRequireThatConfiguration().stringMappers().toString(null);
 		assert.strictEqual(actual, "null");
 	});
 });

@@ -38,8 +38,6 @@ class MainGlobalConfiguration implements GlobalConfiguration
 	{
 		if (encoding === undefined)
 			return this.terminal.getEncoding();
-		if (encoding === null)
-			throw new TypeError("encoding may not be null");
 		this.terminal.setEncoding(encoding);
 		return this;
 	}

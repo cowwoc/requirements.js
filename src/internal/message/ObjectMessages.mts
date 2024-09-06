@@ -7,7 +7,7 @@ import {
  * @param validator  - the validator
  * @returns a message for the validation failure
  */
-function objectIsEmpty(validator: AbstractValidator<unknown, unknown>)
+function objectIsEmpty(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -22,7 +22,7 @@ function objectIsEmpty(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function objectIsNotEmpty(validator: AbstractValidator<unknown, unknown>)
+function objectIsNotEmpty(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	return new MessageBuilder(validator, MessageBuilder.quoteName(name) + " may not be empty.");

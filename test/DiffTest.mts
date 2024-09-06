@@ -26,8 +26,8 @@ const PADDING = TextOnly.DIFF_PADDING;
 /**
  * Pads a string until it is long enough to trigger a diff.
  *
- * @param text the text to process
- * @return the updated text
+ * @param text - the text to process
+ * @returns the updated text
  */
 function EXTEND_LENGTH(text: string)
 {
@@ -51,7 +51,7 @@ suite("DiffTest", () =>
 		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -87,7 +87,7 @@ ${expectedMessage}`);
 		const expected = `"key": "value"`;
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -119,7 +119,7 @@ ${expectedMessage}`);
 		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -159,7 +159,7 @@ ${expectedMessage}`);
 		const expected = EXTEND_LENGTH("expected");
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -197,7 +197,7 @@ ${expectedMessage}`);
 		const expected = EXTEND_LENGTH("prefix") + "value";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -237,7 +237,7 @@ ${expectedMessage}`);
 		const expected = "1\n2\n9\n4\n5";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -279,7 +279,7 @@ ${expectedMessage}`);
 		const expected = "The fox is down";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -312,7 +312,7 @@ ${expectedMessage}`);
 		const expected = "Don't you like me?";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -342,7 +342,7 @@ ${expectedMessage}`);
 		const expected = "I like dogs";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -372,7 +372,7 @@ ${expectedMessage}`);
 		const expected = "I like dogs";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -401,7 +401,7 @@ ${expectedMessage}`);
 		const expected = "I like dogs";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -439,7 +439,7 @@ ${expectedMessage}`);
 			"three\n";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -478,7 +478,7 @@ ${expectedMessage}`);
 		{
 			const actual = [1, 2, 3, 4, 5];
 			const expected = [1, 2, 9, 4, 5];
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatArray(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -516,7 +516,7 @@ ${expectedMessage}`);
 		{
 			const actual = ["1", "foo\nbar", "3"];
 			const expected = ["1", "bar\nfoo", "3"];
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatArray(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -562,14 +562,14 @@ ${expectedMessage}`);
 		const expected = "int[1234 67890]";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
 		{
 			const actualMessage = (e as Error).message;
 			const expectedMessage = `\
-actual  : "int[12345${PADDING}67890]\"${EOS_MARKER}
+actual  : "int[12345${PADDING}67890]"${EOS_MARKER}
 diff    : ${EQUAL.repeat(`"int[1234`.length)}${DELETE}${INSERT}\
 ${EQUAL.repeat(`67890]"${EOS_MARKER}`.length)}
 expected: "int[1234${PADDING.repeat(2)}67890]"${EOS_MARKER}`;
@@ -596,7 +596,7 @@ ${expectedMessage}`);
 		const expected = "maybe-same-maybe";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -624,7 +624,7 @@ ${expectedMessage}`);
 	});
 
 	/**
-	 * When processing DELETE "same\nactual" followed by INSERT "same\nexpected", ensure that actual and
+	 * When processing DELETE "same\\nactual" followed by INSERT "same\\nexpected", ensure that actual and
 	 * expected keep track of different "diff" line numbers. Otherwise, the DELETE advances to the next line and
 	 * INSERT updates the diff of the wrong line number. We end up with:
 	 *
@@ -652,7 +652,7 @@ ${expectedMessage}`);
 		const expected = "expected\nsame\nexpected expected";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -666,7 +666,8 @@ expected@0: ${PADDING.repeat(`"actual`.length)}"expected${NEWLINE_MARKER}
 
 [...]
 
-actual@2  : actual ${PADDING.repeat("expected".length)}actual"${PADDING.repeat(`expected"`.length) + EOS_MARKER}
+actual@2  : actual ${PADDING.repeat("expected".length)}actual"${PADDING.repeat(
+				`expected"`.length) + EOS_MARKER}
 diff      : ${DELETE.repeat("actual".length) + INSERT.repeat("expected".length) + EQUAL +
 			DELETE.repeat(`actual"`.length) + INSERT.repeat(`expected"`.length) + EQUAL.repeat(EOS_MARKER.length)}
 expected@2: ${PADDING.repeat("actual".length)}expected${PADDING.repeat(` actual"`.length)}expected"\
@@ -693,7 +694,7 @@ ${expectedMessage}`);
 		const expected = "int[1234 67890]";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -729,7 +730,7 @@ ${expectedMessage}`);
 		const expected = "int[1234 67890]";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -765,7 +766,7 @@ ${expectedMessage}`);
 		const expected = "int[1234 67890]";
 		try
 		{
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -801,7 +802,7 @@ ${expectedMessage}`);
 		{
 			const actual = EXTEND_LENGTH("prefix") + "foo\nbar";
 			const expected = EXTEND_LENGTH("prefix") + "bar";
-			validators.requireThat(actual, "actual").isEqualTo(expected);
+			validators.requireThatString(actual, "actual").isEqualTo(expected);
 			assert.fail("Expected method to throw error");
 		}
 		catch (e)
@@ -810,7 +811,8 @@ ${expectedMessage}`);
 
 			const actualMessage = (e as Error).message;
 			const expectedMessage = `\
-actual@0  : ${scheme.decorateEqualText(`"${EXTEND_LENGTH("prefix")}`) + scheme.decorateDeletedText(`foo${NEWLINE_MARKER}`)}
+actual@0  : ${scheme.decorateEqualText(`"${EXTEND_LENGTH("prefix")}`) + scheme.decorateDeletedText(
+				`foo${NEWLINE_MARKER}`)}
 expected@0: ${scheme.decorateEqualText(`"${EXTEND_LENGTH("prefix")}`) +
 			scheme.decoratePadding(scheme.getPaddingMarker().repeat((`foo${NEWLINE_MARKER}`).length))}
 

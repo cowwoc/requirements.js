@@ -1,4 +1,7 @@
-import {Type} from "../internal.mjs";
+import {
+	Type,
+	type NonUndefinable
+} from "../internal.mjs";
 
 /**
  * Represents a value that is being validated.
@@ -117,12 +120,13 @@ class ValidationTarget<T>
 	 * action is taken.
 	 *
 	 * @returns an invalid value if the original value was `undefined` or `null`; otherwise, returns `this`
+	 * with `T` excluding `undefined` and `null`
 	 */
-	public undefinedOrNullToInvalid(): ValidationTarget<T>
+	public undefinedOrNullToInvalid(): ValidationTarget<NonUndefinable<NonNullable<T>>>
 	{
 		if (this.valid && (this.value === undefined || this.value === null))
 			return ValidationTarget.invalid();
-		return this;
+		return this as ValidationTarget<NonUndefinable<NonNullable<T>>>;
 	}
 
 	/**
@@ -133,12 +137,12 @@ class ValidationTarget<T>
 	 * @returns the value
 	 * @throws U if the value is invalid
 	 */
-	public orThrow<U extends Error>(errorSupplier: () => U): T
+	public orThrow(errorSupplier: () => Error): T
 	{
 		if (this.valid)
 			return this.value;
 		// WORKAROUND: https://github.com/typescript-eslint/typescript-eslint/issues/9882
-		throw errorSupplier() as Error;
+		throw errorSupplier();
 	}
 
 	/**
@@ -154,7 +158,17 @@ class ValidationTarget<T>
 	/**
 	 * Checks if the value is null.
 	 *
-	 * @returns `true` if the value is null; `false` otherwise
+	 * @returns `true` if the value is `undefined`; `false` otherwise
+	 */
+	public isUndefined()
+	{
+		return this.valid && this.value === undefined;
+	}
+
+	/**
+	 * Checks if the value is null.
+	 *
+	 * @returns `true` if the value is `null`; `false` otherwise
 	 */
 	public isNull()
 	{
@@ -165,12 +179,12 @@ class ValidationTarget<T>
 	 * Evaluates a condition on the value.
 	 *
 	 * @param condition - the condition to evaluate
-	 * @returns `true` if the value is invalid or if the `condition` returns `false`;
+	 * @returns `true` if the value is invalid, `undefined`, `null` or if the `condition` returns `false`;
 	 * otherwise, returns `false`
 	 */
-	public validationFailed(condition: (value: T) => boolean)
+	public validationFailed(condition: (value: NonUndefinable<NonNullable<T>>) => boolean)
 	{
-		return !this.valid || !condition(this.value);
+		return !this.valid || this.value === undefined || this.value === null || !condition(this.value);
 	}
 
 	public toString()

@@ -7,11 +7,11 @@ import type {
 /**
  * Validates the state of an array.
  *
+ * @typeParam T - the type of the value
  * @typeParam E - the type of elements in the collection
  */
-interface ArrayValidator<E> extends
-	ValidatorComponent<ArrayValidator<E>, E[]>,
-	CollectionComponent<ArrayValidator<E>, E>
+interface ArrayValidator<T extends E[] | undefined | null, E> extends ValidatorComponent<T>,
+	CollectionComponent<E>
 {
 	/**
 	 * Returns a validator for the array's length.
@@ -31,7 +31,7 @@ interface ArrayValidator<E> extends
 	 * @throws RangeError if the collection is not sorted
 	 * @returns this
 	 */
-	isSorted(comparator: (first: unknown, second: unknown) => number): ArrayValidator<E>;
+	isSorted(comparator: (first: unknown, second: unknown) => number): this;
 }
 
 export type {ArrayValidator};

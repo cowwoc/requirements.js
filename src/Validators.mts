@@ -3,10 +3,12 @@ import type {
 	GlobalConfiguration
 } from "./internal/internal.mjs";
 
-const typedocWorkaround: null | ValidatorComponent<unknown, unknown> = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+const typedocWorkaround: null | ValidatorComponent<unknown> = null;
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * A factory that creates different types of validators.
@@ -15,7 +17,7 @@ if (typedocWorkaround !== null)
  * <ul>
  *   <li>`requireThat()` for method preconditions.</li>
  *   <li>`assertThat()` for class invariants, and method postconditions.</li>
- *   <li>`checkIf()` for  returning multiple validation failures.</li>
+ *   <li>`checkIf()` for returning multiple validation failures.</li>
  * </ul>
  *
  * @typeParam S - the type of the validator factory
@@ -71,7 +73,7 @@ interface Validators<S>
 	 *                      the validator context</li>
 	 *                    </ul>
 	 */
-	withContext(value: unknown, name: string): S;
+	withContext(value: unknown, name: string): this;
 
 	/**
 	 * Removes the contextual information of validators created by this factory.
@@ -85,7 +87,7 @@ interface Validators<S>
 	 *                      <li>is empty</li>
 	 *                    </ul>
 	 */
-	removeContext(name: string): S;
+	removeContext(name: string): this;
 
 	/**
 	 * Returns the global configuration shared by all validators.

@@ -3,16 +3,24 @@ import {
 	ValidationFailures,
 	type NonUndefinable,
 	type ClassConstructor,
-	type ObjectValidator
+	type ObjectValidator,
+	type Validators
 } from "../../internal/internal.mjs";
+
+const typedocWorkaround: null | Validators<unknown> = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+// noinspection PointlessBooleanExpressionJS
+if (typedocWorkaround !== null)
+	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Methods that all validators must contain.
  *
- * @typeParam S - the type of validator
  * @typeParam T - the type of the value
  */
-interface ValidatorComponent<S, T>
+interface ValidatorComponent<T>
 {
 	/**
 	 * Returns the name of the value.
@@ -77,10 +85,10 @@ interface ValidatorComponent<S, T>
 	 *                      context</li>
 	 *                    </ul>
 	 */
-	withContext(value: unknown, name: string): S;
+	withContext(value: unknown, name: string): this;
 
 	/**
-	 * Facilitates the validation of related properties. For example:
+	 * Facilitates the validation of related properties. For example,
 	 * <p>
 	 * ```ts
 	 * requireThat(nameToFrequency, "nameToFrequency").
@@ -94,7 +102,7 @@ interface ValidatorComponent<S, T>
 	 * @returns this
 	 * @throws TypeError if `validation` is `undefined` or `null`
 	 */
-	and(validation: (validator: S) => void): S;
+	and(validation: (validator: this) => void): this;
 
 	/**
 	 * Checks if any validation has failed.
@@ -187,7 +195,7 @@ interface ValidatorComponent<S, T>
 	 * @returns this
 	 * @throws TypeError if the value is not an instance of the specified type
 	 */
-	isType(expected: Type): S;
+	isType(expected: Type): this;
 
 	/**
 	 * Ensures that the object is not an instance of a class.
@@ -197,7 +205,7 @@ interface ValidatorComponent<S, T>
 	 * @throws TypeError if the value or `unwanted` are `undefined` or `null`
 	 * @throws RangeError if the value is an instance of the unwanted class
 	 */
-	isNotInstanceOf<U extends object>(unwanted: ClassConstructor<U>): ObjectValidator<T>;
+	isNotInstanceOf<U extends object>(unwanted: ClassConstructor<U>): this;
 
 	/**
 	 * Ensures that the object is equal to `expected`.
@@ -208,7 +216,7 @@ interface ValidatorComponent<S, T>
 	 * @see <a href="https://github.com/cowwoc/requirements.java/blob/master/docs/Textual_Diff.md">An
 	 *   explanation of the output format</a>
 	 */
-	isEqualTo(expected: unknown): S;
+	isEqualTo(expected: unknown): this;
 
 	/**
 	 * Ensures that the object is equal to `expected`.
@@ -230,7 +238,7 @@ interface ValidatorComponent<S, T>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isEqualTo(expected: unknown, name: string): S;
+	isEqualTo(expected: unknown, name: string): this;
 
 	/**
 	 * Ensures that the object is not equal to `unwanted`.
@@ -241,7 +249,7 @@ interface ValidatorComponent<S, T>
 	 * @see <a href="https://github.com/cowwoc/requirements.java/blob/master/docs/Textual_Diff.md">An
 	 * explanation of the output format</a>
 	 */
-	isNotEqualTo(unwanted: unknown): S;
+	isNotEqualTo(unwanted: unknown): this;
 
 	/**
 	 * Ensures that the object is not equal to `unwanted`.
@@ -263,7 +271,7 @@ interface ValidatorComponent<S, T>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isNotEqualTo(unwanted: unknown, name: string): S;
+	isNotEqualTo(unwanted: unknown, name: string): this;
 }
 
 export type {ValidatorComponent};

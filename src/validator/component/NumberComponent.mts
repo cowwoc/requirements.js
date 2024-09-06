@@ -6,9 +6,9 @@
 /**
  * Methods that all number validators must contain.
  *
- * @typeParam S - the type of this validator
+ * @typeParam T - the type of the value
  */
-interface NumberComponent<S>
+interface NumberComponent<T extends number | undefined | null>
 {
 	/**
 	 * Returns the value that is being validated.
@@ -16,7 +16,7 @@ interface NumberComponent<S>
 	 * @returns the validated value
 	 * @throws IllegalStateError if a previous validation failed
 	 */
-	getValue(): number;
+	getValue(): T;
 
 	/**
 	 * Ensures that the value is a multiple of `factor`.
@@ -26,7 +26,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `factor` are `undefined` or `null`
 	 * @throws RangeError if the value is not a multiple of `factor`
 	 */
-	isMultipleOf(factor: number): S;
+	isMultipleOf(factor: number): this;
 
 	/**
 	 * Ensures that the value is a multiple of `factor`.
@@ -40,7 +40,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isMultipleOf(factor: number, name: string): S;
+	isMultipleOf(factor: number, name: string): this;
 
 	/**
 	 * Ensures that the value is not a multiple of `factor`.
@@ -50,7 +50,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `factor` are `undefined` or `null`
 	 * @throws RangeError if the value is a multiple of `factor`
 	 */
-	isNotMultipleOf(factor: number): S;
+	isNotMultipleOf(factor: number): this;
 
 	/**
 	 * Ensures that the value is not a multiple of `factor`.
@@ -64,7 +64,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isNotMultipleOf(factor: number, name: string): S;
+	isNotMultipleOf(factor: number, name: string): this;
 
 	/**
 	 * Ensures that the value is less than an upper bound.
@@ -74,7 +74,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `maximumExclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is greater than or equal to `maximumExclusive`
 	 */
-	isLessThan(maximumExclusive: number): S;
+	isLessThan(maximumExclusive: number): this;
 
 	/**
 	 * Ensures that the value is less than an upper bound.
@@ -88,7 +88,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isLessThan(maximumExclusive: number, name: string): S;
+	isLessThan(maximumExclusive: number, name: string): this;
 
 	/**
 	 * Ensures that the value is less than or equal to a maximum value.
@@ -98,7 +98,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `maximumInclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is greater than `maximumInclusive`
 	 */
-	isLessThanOrEqualTo(maximumInclusive: number): S;
+	isLessThanOrEqualTo(maximumInclusive: number): this;
 
 	/**
 	 * Ensures that the value is less than or equal to a maximum value.
@@ -112,7 +112,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isLessThanOrEqualTo(maximumInclusive: number, name: string): S;
+	isLessThanOrEqualTo(maximumInclusive: number, name: string): this;
 
 	/**
 	 * Ensures that the value is greater than or equal to a minimum value.
@@ -122,7 +122,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `minimumInclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is less than `minimumInclusive`
 	 */
-	isGreaterThanOrEqualTo(minimumInclusive: number): S;
+	isGreaterThanOrEqualTo(minimumInclusive: number): this;
 
 	/**
 	 * Ensures that the value is greater than or equal a minimum value.
@@ -136,7 +136,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isGreaterThanOrEqualTo(minimumInclusive: number, name: string): S;
+	isGreaterThanOrEqualTo(minimumInclusive: number, name: string): this;
 
 	/**
 	 * Ensures that the value is greater than a lower bound.
@@ -146,7 +146,7 @@ interface NumberComponent<S>
 	 * @throws TypeError  if the value or `minimumExclusive` are `undefined` or `null`
 	 * @throws RangeError if the value is less than `minimumExclusive`
 	 */
-	isGreaterThan(minimumExclusive: number): S;
+	isGreaterThan(minimumExclusive: number): this;
 
 	/**
 	 * Ensures that the value is greater than a lower bound.
@@ -160,7 +160,7 @@ interface NumberComponent<S>
 	 */
 	// Retain separate methods because their documentation is different.
 	// eslint-disable-next-line @typescript-eslint/unified-signatures
-	isGreaterThan(minimumExclusive: number, name: string): S;
+	isGreaterThan(minimumExclusive: number, name: string): this;
 
 	/**
 	 * Ensures that the value is within a range.
@@ -172,7 +172,7 @@ interface NumberComponent<S>
 	 * @throws RangeError if `minimumInclusive` is greater than `maximumExclusive`. If the value is less than
 	 * `minimumInclusive`. If the value is greater than or equal to `maximumExclusive`.
 	 */
-	isBetween(minimumInclusive: number, maximumExclusive: number): S;
+	isBetween(minimumInclusive: number, maximumExclusive: number): this;
 
 	/**
 	 * Ensures that the value is within a range.
@@ -190,7 +190,7 @@ interface NumberComponent<S>
 	 * than `maximum`. If `maximumInclusive` is `false`, and the value is
 	 * greater than or equal to `maximum`.
 	 */
-	isBetween(minimum: number, minimumInclusive: boolean, maximum: number, maximumInclusive: boolean): S;
+	isBetween(minimum: number, minimumInclusive: boolean, maximum: number, maximumInclusive: boolean): this;
 
 	/**
 	 * Ensures that the value is a finite number.
@@ -201,7 +201,7 @@ interface NumberComponent<S>
 	 * @see {@link isNumber}
 	 * @see {@link Number.isFinite}
 	 */
-	isFinite(): S;
+	isFinite(): this;
 
 	/**
 	 * Ensures that the value is an infinite number.
@@ -212,7 +212,7 @@ interface NumberComponent<S>
 	 * @see {@link isNumber}
 	 * @see {@link Number.isFinite}
 	 */
-	isInfinite(): S;
+	isInfinite(): this;
 
 	/**
 	 * Ensures that the value is a well-defined number.
@@ -222,7 +222,7 @@ interface NumberComponent<S>
 	 * @throws RangeError if value is not a well-defined number
 	 * @see #isNotNumber()
 	 */
-	isNumber(): S;
+	isNumber(): this;
 
 	/**
 	 * Ensures that the value is the result of a mathematically undefined numerical operation (such as division
@@ -232,7 +232,7 @@ interface NumberComponent<S>
 	 * @throws NullPointerError     if the value is `undefined` or `null`
 	 * @throws RangeError if value is a well-defined number
 	 */
-	isNotNumber(): S;
+	isNotNumber(): this;
 }
 
 export type {NumberComponent};

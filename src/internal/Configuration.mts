@@ -9,9 +9,11 @@ import {
 } from "./internal.mjs";
 
 const typedocWorkaround: null | ValidationFailures = null;
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 // noinspection PointlessBooleanExpressionJS
 if (typedocWorkaround !== null)
 	console.log("WORKAROUND: https://github.com/microsoft/tsdoc/issues/348");
+/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 
 /**
  * Determines the behavior of a validator.
@@ -108,8 +110,6 @@ class Configuration
 
 	/**
 	 * Returns a function that transforms validation errors before they are thrown or recorded.
-	 *
-	 * If the function returns `undefined` or `null`, it’s treated as if it returned the input error.
 	 *
 	 * @returns a function that transforms the validation error
 	 */

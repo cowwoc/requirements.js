@@ -33,9 +33,11 @@ interface ValidationFailure
 function isValidationFailure(value: unknown): value is ValidationFailure
 {
 	const validationFailure = value as ValidationFailure;
+	/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 	return validationFailure.getMessage !== undefined &&
 		validationFailure.getType !== undefined &&
 		validationFailure.getError !== undefined;
+	/* eslint-enable @typescript-eslint/no-unnecessary-condition */
 }
 
 export {type ValidationFailure, isValidationFailure};

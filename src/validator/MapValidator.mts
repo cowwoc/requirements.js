@@ -7,17 +7,18 @@ import type {
 /**
  * Validates the state of a `Map`.
  *
+ * @typeParam T - the type of the value
  * @typeParam K - the type of keys in the map
  * @typeParam V - the type of values in the map
  */
-interface MapValidator<K, V> extends ValidatorComponent<MapValidator<K, V>, Map<K, V>>
+interface MapValidator<T extends Map<K, V> | undefined | null, K, V> extends ValidatorComponent<T>
 {
 	/**
 	 * Returns a validator for the value's {@link Map.keys|keys}.
 	 * @returns a validator for the value's {@link Map.keys|keys}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
-	keys(): ArrayValidator<K>;
+	keys(): ArrayValidator<K[], K>;
 
 	/**
 	 * Returns a validator for the value's {@link Map.values|values}.
@@ -25,7 +26,7 @@ interface MapValidator<K, V> extends ValidatorComponent<MapValidator<K, V>, Map<
 	 * @returns a validator for the value's {@link Map.values|values}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
-	values(): ArrayValidator<V>;
+	values(): ArrayValidator<V[], V>;
 
 	/**
 	 * Returns a validator for the value's {@link Map.entries|entries}
@@ -34,7 +35,7 @@ interface MapValidator<K, V> extends ValidatorComponent<MapValidator<K, V>, Map<
 	 * @returns a validator for the value's {@link Map.entries|entries}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
-	entries(): ArrayValidator<[K, V]>;
+	entries(): ArrayValidator<[K, V][], [K, V]>;
 
 	/**
 	 * Ensures that the value is empty.
@@ -43,7 +44,7 @@ interface MapValidator<K, V> extends ValidatorComponent<MapValidator<K, V>, Map<
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if value is not empty
 	 */
-	isEmpty(): MapValidator<K, V>;
+	isEmpty(): this;
 
 	/**
 	 * Ensures that the value is not empty.
@@ -52,7 +53,7 @@ interface MapValidator<K, V> extends ValidatorComponent<MapValidator<K, V>, Map<
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if value is empty
 	 */
-	isNotEmpty(): MapValidator<K, V>;
+	isNotEmpty(): this;
 
 	/**
 	 * Returns a validator for the map's {@link Map.size|size}.

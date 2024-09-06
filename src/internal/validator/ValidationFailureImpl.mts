@@ -75,8 +75,6 @@ class ValidationFailureImpl implements ValidationFailure
 			if (this.error === null)
 				this.error = (this.errorBuilder as ErrorBuilder)(this.message);
 			this.transformedError = this.errorTransformer(this.error);
-			if (this.transformedError === null)
-				this.transformedError = this.error;
 		}
 		return this.transformedError;
 	}

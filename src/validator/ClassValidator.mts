@@ -8,7 +8,7 @@ import type {
  *
  * @typeParam T - the type of the class
  */
-interface ClassValidator<T> extends ValidatorComponent<ClassValidator<T>, ClassConstructor<T>>
+interface ClassValidator<T> extends ValidatorComponent<ClassConstructor<T>>
 {
 	/**
 	 * Ensures that the value is a primitive type.

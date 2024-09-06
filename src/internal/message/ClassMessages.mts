@@ -13,7 +13,7 @@ import {
 	 * @param validator - the validator
 	 * @returns a message for the validation failure
 	 */
-	function classIsPrimitive(validator: AbstractValidator<unknown, unknown>)
+	function classIsPrimitive(validator: AbstractValidator<unknown>)
 	{
 		return messagesConstraint(validator, "must be a primitive type");
 	}
@@ -23,7 +23,7 @@ import {
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function classIsSupertypeOf(validator: AbstractValidator<unknown, unknown>, subtype: ClassConstructor<unknown>)
+function classIsSupertypeOf(validator: AbstractValidator<unknown>, subtype: ClassConstructor<unknown>)
 {
 	return messagesConstraint(validator, " must be a supertype of " + subtype.toString());
 }
@@ -33,7 +33,7 @@ function classIsSupertypeOf(validator: AbstractValidator<unknown, unknown>, subt
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function classIsSubtypeOf(validator: AbstractValidator<unknown, unknown>, supertype: ClassConstructor<unknown>)
+function classIsSubtypeOf(validator: AbstractValidator<unknown>, supertype: ClassConstructor<unknown>)
 {
 	return messagesConstraint(validator, "must be a subtype of " + supertype.toString());
 }

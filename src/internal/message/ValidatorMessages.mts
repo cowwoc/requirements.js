@@ -14,7 +14,7 @@ const MINIMUM_LENGTH_FOR_DIFF = 10;
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function messagesIsUndefined(validator: AbstractValidator<unknown, unknown>)
+function messagesIsUndefined(validator: AbstractValidator<unknown>)
 {
 	const messageBuilder = new MessageBuilder(validator,
 		MessageBuilder.quoteName(validator.getName()) + " must be undefined.");
@@ -25,19 +25,19 @@ function messagesIsUndefined(validator: AbstractValidator<unknown, unknown>)
 
 /**
  * @param validator - the validator
- * @param name - the name of the value
  * @returns a message for the validation failure
  */
-function messagesIsNotUndefined(validator: AbstractValidator<unknown, unknown>, name: string)
+function messagesIsNotUndefined(validator: AbstractValidator<unknown>)
 {
-	return new MessageBuilder(validator, MessageBuilder.quoteName(name) + " may not be undefined.");
+	return new MessageBuilder(validator,
+		MessageBuilder.quoteName(validator.getName()) + " may not be undefined.");
 }
 
 /**
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function messagesIsNull(validator: AbstractValidator<unknown, unknown>)
+function messagesIsNull(validator: AbstractValidator<unknown>)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -52,7 +52,7 @@ function messagesIsNull(validator: AbstractValidator<unknown, unknown>)
  * @param validator - the validator
  * @returns a message for the validation failure
  */
-function messagesIsNotNull(validator: AbstractValidator<unknown, unknown>)
+function messagesIsNotNull(validator: AbstractValidator<unknown>)
 {
 	return new MessageBuilder(validator, MessageBuilder.quoteName(validator.getName()) + " may not be null.");
 }
@@ -63,7 +63,7 @@ function messagesIsNotNull(validator: AbstractValidator<unknown, unknown>)
  * @param constraint - the constraint that the value must adhere to (e.g. "must be negative")
  * @returns a message for the validation failure
  */
-function messagesConstraint<T>(validator: AbstractValidator<unknown, T>, constraint: string)
+function messagesConstraint<T>(validator: AbstractValidator<T>, constraint: string)
 {
 	// "actual" must be negative.
 	// actual: 5
@@ -82,8 +82,8 @@ function messagesConstraint<T>(validator: AbstractValidator<unknown, T>, constra
  * @param expected - the expected value
  * @returns a message for the validation failure
  */
-function messagesIsEqualTo(validator: AbstractValidator<unknown, unknown>, expectedName: string | null,
-                                 expected: unknown)
+function messagesIsEqualTo(validator: AbstractValidator<unknown>, expectedName: string | null,
+                           expected: unknown)
 {
 	const stringMappers = validator.configuration().stringMappers();
 	const name = validator.getName();
@@ -101,7 +101,7 @@ function messagesIsEqualTo(validator: AbstractValidator<unknown, unknown>, expec
 			`${MessageBuilder.quoteName(name)} must be equal to ${expectedNameOrValue}.`);
 
 		validator.value.ifValid(v => messageBuilder.withContext(v, name));
-		if (expectedName != null)
+		if (expectedName !== null)
 			messageBuilder.withContext(expected, expectedName);
 		return messageBuilder;
 	}
@@ -135,7 +135,7 @@ function unnecessaryDiff(value: unknown, stringMappers: StringMappers)
  * @param expected - the expected type
  * @returns a message for the validation failure
  */
-function messagesIsInstanceOf(validator: AbstractValidator<unknown, unknown>, expected: Type)
+function messagesIsInstanceOf(validator: AbstractValidator<unknown>, expected: Type)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -155,7 +155,7 @@ function messagesIsInstanceOf(validator: AbstractValidator<unknown, unknown>, ex
  * @param unwanted - the unwanted type
  * @returns a message for the validation failure
  */
-function messagesIsNotInstanceOf(validator: AbstractValidator<unknown, unknown>, unwanted: Type)
+function messagesIsNotInstanceOf(validator: AbstractValidator<unknown>, unwanted: Type)
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
@@ -177,8 +177,8 @@ function messagesIsNotInstanceOf(validator: AbstractValidator<unknown, unknown>,
  * @param unwanted - the unwanted element
  * @returns a message for the validation failure
  */
-function messagesIsNotEqualTo(validator: AbstractValidator<unknown, unknown>,
-                              unwantedName: string | null, unwanted: unknown)
+function messagesIsNotEqualTo(validator: AbstractValidator<unknown>, unwantedName: string | null,
+                              unwanted: unknown)
 {
 	//     "actual" may not be equal to "expected".
 	//     actual  : 123
@@ -188,7 +188,7 @@ function messagesIsNotEqualTo(validator: AbstractValidator<unknown, unknown>,
 	const messageBuilder = new MessageBuilder(validator,
 		`${MessageBuilder.quoteName(name)} may not be equal to ${unwantedNameOrValue}.`);
 	validator.value.ifValid(v => messageBuilder.withContext(v, name));
-	if (unwantedName != null)
+	if (unwantedName !== null)
 		messageBuilder.withContext(unwanted, unwantedName);
 	return messageBuilder;
 }
