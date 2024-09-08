@@ -60,6 +60,9 @@ export default tsEslint.config(
 			"@typescript-eslint/restrict-template-expressions": [
 				"error",
 				{
+					allowArray: true,
+					allowBoolean: true,
+					allowNullish: true,
 					allowNumber: true
 				}
 			]

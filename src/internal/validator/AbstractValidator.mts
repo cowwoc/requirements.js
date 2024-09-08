@@ -23,7 +23,7 @@ import {
 	ValidationFailures,
 	messagesIsEqualTo,
 	messagesIsUndefined,
-	type ObjectValidator,
+	type UnknownValidator,
 	messagesIsNull,
 	type ClassConstructor,
 	messagesIsNotUndefined,
@@ -263,7 +263,7 @@ different name.`);
 			this.addTypeError(
 				messagesIsUndefined(this).toString());
 		}
-		return this as unknown as ObjectValidator<undefined>;
+		return this as unknown as UnknownValidator<undefined>;
 	}
 
 	public isNotUndefined()
@@ -273,7 +273,7 @@ different name.`);
 			this.addTypeError(
 				messagesIsUndefined(this).toString());
 		}
-		return this as ObjectValidator<NonUndefinable<T>>;
+		return this as UnknownValidator<NonUndefinable<T>>;
 	}
 
 
@@ -284,7 +284,7 @@ different name.`);
 			this.addTypeError(
 				messagesIsNull(this).toString());
 		}
-		return this as unknown as ObjectValidator<null>;
+		return this as unknown as UnknownValidator<null>;
 	}
 
 	public isNotNull()
@@ -294,7 +294,7 @@ different name.`);
 			this.addTypeError(
 				messagesIsNotNull(this).toString());
 		}
-		return this as ObjectValidator<NonNullable<T>>;
+		return this as UnknownValidator<NonNullable<T>>;
 	}
 
 	/**
@@ -325,7 +325,7 @@ different name.`);
 
 	public isType(expected: Type): this
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
+		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
 		if (this.value.map(v => !Type.of(v).equals(expected)).or(true))
 		{
 			this.addTypeError(
@@ -334,17 +334,17 @@ different name.`);
 		return this;
 	}
 
-	public isInstanceOf<U extends object>(expected: ClassConstructor<U>): ObjectValidator<U>
+	public isInstanceOf<U extends object>(expected: ClassConstructor<U>): UnknownValidator<U>
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
+		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
 		const className = Type.of(expected).name;
 		this.validateType(Type.namedClass(className), true);
-		return this as unknown as ObjectValidator<U>;
+		return this as unknown as UnknownValidator<U>;
 	}
 
 	public isNotInstanceOf<U extends object>(expected: ClassConstructor<U>): this
 	{
-		JavascriptValidatorsImpl.INTERNAL.requireThatObject(expected, "expected").isNotNull();
+		JavascriptValidatorsImpl.INTERNAL.requireThat(expected, "expected").isNotNull();
 		const className = Type.of(expected).name;
 		this.validateType(Type.namedClass(className), false);
 		return this;

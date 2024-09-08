@@ -3,7 +3,7 @@ import {
 	ValidationFailures,
 	type NonUndefinable,
 	type ClassConstructor,
-	type ObjectValidator,
+	type UnknownValidator,
 	type Validators
 } from "../../internal/internal.mjs";
 
@@ -141,7 +141,7 @@ interface ValidatorComponent<T>
 	 * @returns this
 	 * @throws TypeError if the value is not `undefined`
 	 */
-	isUndefined(): ObjectValidator<undefined>;
+	isUndefined(): UnknownValidator<undefined>;
 
 	/**
 	 * Ensures that the value is not undefined.
@@ -154,7 +154,7 @@ interface ValidatorComponent<T>
 	 * @returns this
 	 * @throws TypeError if the value is `undefined`
 	 */
-	isNotUndefined(): ObjectValidator<NonUndefinable<T>>;
+	isNotUndefined(): UnknownValidator<NonUndefinable<T>>;
 
 	/**
 	 * Ensures that the value is `null`.
@@ -162,7 +162,7 @@ interface ValidatorComponent<T>
 	 * @returns this
 	 * @throws TypeError if the value is not `null`
 	 */
-	isNull(): ObjectValidator<null>;
+	isNull(): UnknownValidator<null>;
 
 	/**
 	 * Ensures that the value is not `null`.
@@ -175,7 +175,7 @@ interface ValidatorComponent<T>
 	 * @returns this
 	 * @throws TypeError if the value is `null`
 	 */
-	isNotNull(): ObjectValidator<NonNullable<T>>;
+	isNotNull(): UnknownValidator<NonNullable<T>>;
 
 	/**
 	 * Ensures that the object is an instance of a class.
@@ -186,7 +186,7 @@ interface ValidatorComponent<T>
 	 * @throws TypeError if the value or `expected` are `undefined` or `null`
 	 * @throws RangeError if the value is not an instance of the desired class
 	 */
-	isInstanceOf<U extends object>(expected: ClassConstructor<U>): ObjectValidator<U>;
+	isInstanceOf<U extends object>(expected: ClassConstructor<U>): UnknownValidator<U>;
 
 	/**
 	 * Ensures that the value has the specified type.

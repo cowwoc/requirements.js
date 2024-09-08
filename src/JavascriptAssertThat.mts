@@ -9,7 +9,7 @@ import {
 	type MapValidator,
 	type StringValidator,
 	type NumberValidator,
-	type ObjectValidator,
+	type UnknownValidator,
 	type ArrayValidator,
 	AssertionError
 } from "./internal/internal.mjs";
@@ -122,7 +122,7 @@ interface JavascriptAssertThat
 	assertThatString<T extends string | undefined | null>(value: T, name?: string): StringValidator<T>;
 
 	/**
-	 * Validates the state of an `object`.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails. This error is then
 	 * converted into an {@link AssertionError}. Errors unrelated to validation failures are not converted.
@@ -134,7 +134,7 @@ interface JavascriptAssertThat
 	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	assertThatObject<T extends object | undefined | null>(value: T, name?: string): ObjectValidator<T>;
+	assertThat<T>(value: T, name?: string): UnknownValidator<T>;
 }
 
 export type {JavascriptAssertThat};

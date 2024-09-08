@@ -7,7 +7,7 @@ import {
 	type BooleanValidator,
 	type StringValidator,
 	type NumberValidator,
-	type ObjectValidator,
+	type UnknownValidator,
 	type ArrayValidator,
 	type SetValidator,
 	type MapValidator
@@ -120,7 +120,7 @@ interface JavascriptCheckIf
 	checkIfString<T extends string | undefined | null>(value: T, name: string): StringValidator<T>;
 
 	/**
-	 * Validates the state of an `object`.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator captures errors on validation failure rather than throwing them immediately.
 	 * These errors can be retrieved or thrown once the validation completes. Errors unrelated to
@@ -133,7 +133,7 @@ interface JavascriptCheckIf
 	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	checkIfObject<T extends object | undefined | null>(value: T, name: string): ObjectValidator<T>;
+	checkIf<T>(value: T, name: string): UnknownValidator<T>;
 }
 
 export type {JavascriptCheckIf};

@@ -9,7 +9,7 @@
 // internal.js determines the library-wide loading order.
 // Dependencies must be loaded before dependents.
 
-import type {ObjectValidator} from "../validator/ObjectValidator.mjs";
+import type {UnknownValidator} from "../validator/UnknownValidator.mjs";
 import {
 	Type,
 	TypeCategory
@@ -68,7 +68,7 @@ import {AbstractApplicationScope} from "./scope/AbstractApplicationScope.mjs";
 import {MainApplicationScope} from "./scope/MainApplicationScope.mjs";
 import {Configuration} from "./Configuration.mjs";
 import {JavascriptValidatorsImpl} from "./validator/JavascriptValidatorsImpl.mjs";
-import {ObjectValidatorImpl} from "./validator/ObjectValidatorImpl.mjs";
+import {UnknownValidatorImpl} from "./validator/UnknownValidatorImpl.mjs";
 import type {MapValidator} from "../validator/MapValidator.mjs";
 import {MapValidatorImpl} from "./validator/MapValidatorImpl.mjs";
 import type {NumberValidator} from "../validator/NumberValidator.mjs";
@@ -101,21 +101,21 @@ import {
 	requireThatSet,
 	requireThatMap,
 	requireThatString,
-	requireThatObject,
+	requireThat,
 	assertThatNumber,
 	assertThatBoolean,
 	assertThatArray,
 	assertThatSet,
 	assertThatMap,
 	assertThatString,
-	assertThatObject,
+	assertThat,
 	checkIfNumber,
 	checkIfBoolean,
 	checkIfArray,
 	checkIfSet,
 	checkIfMap,
 	checkIfString,
-	checkIfObject,
+	checkIf,
 	updateConfiguration,
 	getContext,
 	withContext,
@@ -303,7 +303,7 @@ export
 	quoteString,
 	AbstractValidators,
 	AbstractValidator,
-	ObjectValidatorImpl,
+	UnknownValidatorImpl,
 	Pluralizer,
 	requireThatNumber,
 	requireThatBoolean,
@@ -311,21 +311,21 @@ export
 	requireThatSet,
 	requireThatMap,
 	requireThatString,
-	requireThatObject,
+	requireThat,
 	assertThatNumber,
 	assertThatBoolean,
 	assertThatArray,
 	assertThatSet,
 	assertThatMap,
 	assertThatString,
-	assertThatObject,
+	assertThat,
 	checkIfNumber,
 	checkIfBoolean,
 	checkIfArray,
 	checkIfSet,
 	checkIfMap,
 	checkIfString,
-	checkIfObject,
+	checkIf,
 	updateConfiguration,
 	getContext,
 	withContext,
@@ -435,7 +435,7 @@ export type
 	MapValidator,
 	NumberValidator,
 	BooleanValidator,
-	ObjectValidator,
+	UnknownValidator,
 	ElementOf,
 	MapKey,
 	MapValue,

@@ -18,7 +18,7 @@ import {
 	type JavascriptCheckIf,
 	Configuration,
 	type GlobalConfiguration,
-	type ObjectValidator,
+	type UnknownValidator,
 	AssertionError
 } from "./internal/internal.mjs";
 
@@ -83,8 +83,7 @@ abstract class JavascriptValidators
 	abstract requireThatString<T extends string | undefined | null>
 	(value: T, name: string): StringValidator<T>;
 
-	abstract requireThatObject<T extends object | undefined | null>
-	(value: T, name: string): ObjectValidator<T>;
+	abstract requireThat<T>(value: T, name: string): UnknownValidator<T>;
 
 	abstract assertThatNumber<T extends number | undefined | null>
 	(value: T, name?: string): NumberValidator<T>;
@@ -104,8 +103,7 @@ abstract class JavascriptValidators
 	abstract assertThatString<T extends string | undefined | null>
 	(value: T, name?: string): StringValidator<T>;
 
-	abstract assertThatObject<T extends object | undefined | null>
-	(value: T, name?: string): ObjectValidator<T>;
+	abstract assertThat<T>(value: T, name?: string): UnknownValidator<T>;
 
 	abstract checkIfNumber<T extends number | undefined | null>
 	(value: T, name?: string): NumberValidator<T>;
@@ -125,8 +123,7 @@ abstract class JavascriptValidators
 	abstract checkIfString<T extends string | undefined | null>
 	(value: T, name?: string): StringValidator<T>;
 
-	abstract checkIfObject<T extends object | undefined | null>
-	(value: T, name?: string): ObjectValidator<T>;
+	abstract checkIf<T>(value: T, name?: string): UnknownValidator<T>;
 }
 
 export {JavascriptValidators};

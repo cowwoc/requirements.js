@@ -4,14 +4,14 @@ import {
 	NumberValidatorImpl,
 	SetValidatorImpl,
 	MapValidatorImpl,
-	ObjectValidatorImpl,
+	UnknownValidatorImpl,
 	Configuration,
 	AbstractValidators,
 	type BooleanValidator,
 	type StringValidator,
 	type NumberValidator,
 	type SetValidator,
-	type ObjectValidator,
+	type UnknownValidator,
 	type MapValidator,
 	type ArrayValidator,
 	ArrayValidatorImpl,
@@ -208,7 +208,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of an object.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails.
 	 *
@@ -219,11 +219,10 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
-	public requireThatObject<T extends object | undefined | null>
-	(value: T, name: string): ObjectValidator<T>
+	public requireThat<T>(value: T, name: string): UnknownValidator<T>
 	{
 		verifyName(name, "name");
-		return this.validateObject(value, name, this.getRequireThatConfiguration());
+		return this.validateUnknown(value, name, this.getRequireThatConfiguration());
 	}
 
 	/**
@@ -345,7 +344,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of an object.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator throws an exception immediately if a validation fails. This exception is then
 	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
@@ -357,10 +356,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
-	public assertThatObject<T extends object | undefined | null>
-	(value: T, name?: string): ObjectValidator<T>
+	public assertThat<T>(value: T, name?: string): UnknownValidator<T>
 	{
-		return this.validateObject(value, name, this.getAssertThatConfiguration());
+		return this.validateUnknown(value, name, this.getAssertThatConfiguration());
 	}
 
 	/**
@@ -476,7 +474,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	}
 
 	/**
-	 * Validates the state of an object.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails.
 	 *
@@ -490,13 +488,12 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
-	public checkIfObject<T extends object | undefined | null>
-	(value: T, name?: string): ObjectValidator<T>
+	public checkIf<T>(value: T, name?: string): UnknownValidator<T>
 	{
-		return this.validateObject(value, name, this.getCheckIfConfiguration());
+		return this.validateUnknown(value, name, this.getCheckIfConfiguration());
 	}
 
-	public validateNumber<T extends number | undefined | null>
+	private validateNumber<T extends number | undefined | null>
 	(value: T, name: string | undefined, configuration: Configuration): NumberValidator<T>
 	{
 		if (name === undefined)
@@ -534,7 +531,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		}
 	}
 
-	public validateBoolean<T extends boolean | undefined | null>
+	private validateBoolean<T extends boolean | undefined | null>
 	(value: T, name: string | undefined, configuration: Configuration): BooleanValidator<T>
 	{
 		if (name === undefined)
@@ -548,7 +545,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		return validator;
 	}
 
-	public validateArray<T extends E[] | undefined | null, E>
+	private validateArray<T extends E[] | undefined | null, E>
 	(value: T, name: string | undefined, configuration: Configuration): ArrayValidator<T, E>
 	{
 		if (name === undefined)
@@ -562,7 +559,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		return validator;
 	}
 
-	public validateSet<T extends Set<E> | undefined | null, E>
+	private validateSet<T extends Set<E> | undefined | null, E>
 	(value: T, name: string | undefined, configuration: Configuration): SetValidator<T, E>
 	{
 		if (name === undefined)
@@ -576,7 +573,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		return validator;
 	}
 
-	public validateMap<T extends Map<K, V> | undefined | null, K, V>
+	private validateMap<T extends Map<K, V> | undefined | null, K, V>
 	(value: T, name: string | undefined, configuration: Configuration): MapValidator<T, K, V>
 	{
 		if (name === undefined)
@@ -590,7 +587,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		return validator;
 	}
 
-	public validateString<T extends string | undefined | null>
+	private validateString<T extends string | undefined | null>
 	(value: T, name: string | undefined, configuration: Configuration): StringValidator<T>
 	{
 		if (name === undefined)
@@ -603,14 +600,14 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 		return validator;
 	}
 
-	public validateObject<T extends object | undefined | null>
-	(value: T, name: string | undefined, configuration: Configuration): ObjectValidator<T>
+	private validateUnknown<T>(value: T, name: string | undefined,
+	                           configuration: Configuration): UnknownValidator<T>
 	{
 		if (name === undefined)
 			name = JavascriptValidatorsImpl.DEFAULT_NAME;
 		else
 			verifyName(name, "name");
-		const validator = new ObjectValidatorImpl<T>(this.scope, configuration, name,
+		const validator = new UnknownValidatorImpl<T>(this.scope, configuration, name,
 			ValidationTarget.valid(value), new Map<string, unknown>(), []);
 		this.validateType(validator, value, Type.namedClass(null));
 		return validator;

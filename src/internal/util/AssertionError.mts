@@ -9,7 +9,7 @@ class AssertionError extends Error
 	 * @param message - an explanation of what went wrong
 	 * @param options - configuration options
 	 */
-	constructor(message?: string, options?: { cause: Error })
+	constructor(message?: string, options?: { cause: unknown })
 	{
 		super(message, options);
 		this.name = this.constructor.name;

@@ -1,6 +1,6 @@
 import {
 	type Configuration,
-	type ObjectValidator,
+	type UnknownValidator,
 	type ValidationFailure,
 	type ApplicationScope,
 	AbstractValidator,
@@ -9,13 +9,13 @@ import {
 } from "../internal.mjs";
 
 /**
- * Default implementation of `BaseValidator`.
+ * Default implementation of `UnknownValidator`.
  *
  * @typeParam T - the type the value
  */
-class ObjectValidatorImpl<T>
+class UnknownValidatorImpl<T>
 	extends AbstractValidator<T>
-	implements ObjectValidator<T>
+	implements UnknownValidator<T>
 {
 	/**
 	 * @param scope         - the application configuration
@@ -35,4 +35,4 @@ class ObjectValidatorImpl<T>
 	}
 }
 
-export {ObjectValidatorImpl};
+export {UnknownValidatorImpl};

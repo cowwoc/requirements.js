@@ -53,17 +53,17 @@ suite("RequirementsTest", () =>
 	test("assertThatUrl", () =>
 	{
 		const actual = new URL("http://www.google.com/");
-		validators.assertThatObject(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThat(actual, "actual").isEqualTo(actual, "expected");
 	});
 
-	test("assertThatObject", () =>
+	test("assertThat", () =>
 	{
 		assert.throws(function()
 		{
 			const localValidators = validators.copy();
 
 			const actual = {};
-			localValidators.assertThatObject(actual, "actual").isEqualTo("expected");
+			localValidators.assertThat(actual, "actual").isEqualTo("expected");
 		}, AssertionError);
 	});
 

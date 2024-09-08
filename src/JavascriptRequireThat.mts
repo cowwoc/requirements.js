@@ -10,7 +10,7 @@ import {
 	type SetValidator,
 	type MapValidator,
 	type StringValidator,
-	type ObjectValidator
+	type UnknownValidator
 } from "./internal/internal.mjs";
 
 /**
@@ -107,7 +107,7 @@ interface JavascriptRequireThat
 	requireThatString<T extends string | undefined | null>(value: T, name: string): StringValidator<T>;
 
 	/**
-	 * Validates the state of an `object`.
+	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
 	 * The returned validator throws an error immediately if a validation fails.
 	 *
@@ -118,7 +118,7 @@ interface JavascriptRequireThat
 	 * @throws TypeError if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` contains whitespace or is empty
 	 */
-	requireThatObject<T extends object | undefined | null>(value: T, name: string): ObjectValidator<T>;
+	requireThat<T>(value: T, name: string): UnknownValidator<T>;
 }
 
 export type {JavascriptRequireThat};

@@ -5,7 +5,7 @@ import {
 	type ArrayValidator,
 	type SetValidator,
 	type MapValidator,
-	type ObjectValidator,
+	type UnknownValidator,
 	Configuration,
 	JavascriptValidatorsImpl,
 	MainApplicationScope,
@@ -153,7 +153,7 @@ function requireThatString<T extends string | undefined | null>
 }
 
 /**
- * Validates the state of an object.
+ * Validates the state of an unknown value or a value that does not have a specialized validator.
  * <p>
  * The returned validator throws an exception immediately if a validation fails. This exception is then
  * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
@@ -165,10 +165,9 @@ function requireThatString<T extends string | undefined | null>
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function requireThatObject<T extends object | undefined | null>
-(value: T, name: string): ObjectValidator<T>
+function requireThat<T>(value: T, name: string): UnknownValidator<T>
 {
-	return DELEGATE.requireThatObject<T>(value, name);
+	return DELEGATE.requireThat<T>(value, name);
 }
 
 /**
@@ -290,7 +289,7 @@ function assertThatString<T extends string | undefined | null>
 }
 
 /**
- * Validates the state of a number.
+ * Validates the state of an unknown value or a value that does not have a specialized validator.
  * <p>
  * The returned validator throws an exception immediately if a validation fails. This exception is then
  * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
@@ -302,10 +301,9 @@ function assertThatString<T extends string | undefined | null>
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function assertThatObject<T extends object | undefined | null>
-(value: T, name?: string): ObjectValidator<T>
+function assertThat<T>(value: T, name?: string): UnknownValidator<T>
 {
-	return DELEGATE.assertThatObject<T>(value, name);
+	return DELEGATE.assertThat<T>(value, name);
 }
 
 /**
@@ -421,7 +419,7 @@ function checkIfString<T extends string | undefined | null>
 }
 
 /**
- * Validates the state of an object.
+ * Validates the state of an unknown value or a value that does not have a specialized validator.
  * <p>
  * The returned validator throws an error immediately if a validation fails.
  *
@@ -435,10 +433,9 @@ function checkIfString<T extends string | undefined | null>
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
-function checkIfObject<T extends object | undefined | null>
-(value: T, name: string): ObjectValidator<T>
+function checkIf<T>(value: T, name: string): UnknownValidator<T>
 {
-	return DELEGATE.checkIfObject<T>(value, name);
+	return DELEGATE.checkIf<T>(value, name);
 }
 
 /**
@@ -521,21 +518,21 @@ export {
 	requireThatSet,
 	requireThatMap,
 	requireThatString,
-	requireThatObject,
+	requireThat,
 	assertThatNumber,
 	assertThatBoolean,
 	assertThatArray,
 	assertThatSet,
 	assertThatMap,
 	assertThatString,
-	assertThatObject,
+	assertThat,
 	checkIfNumber,
 	checkIfBoolean,
 	checkIfArray,
 	checkIfSet,
 	checkIfMap,
 	checkIfString,
-	checkIfObject,
+	checkIf,
 	updateConfiguration,
 	getContext,
 	withContext,

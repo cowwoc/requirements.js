@@ -79,7 +79,6 @@ class Project
 
 	/**
 	 * @param sources - the files to compile
-	 * @private
 	 */
 	private async bundleForNode(sources: string[])
 	{
@@ -410,7 +409,6 @@ class Project
 
 	/**
 	 * @returns the resources in the project
-	 * @private
 	 */
 	private getResourceFiles()
 	{

@@ -10,6 +10,6 @@ import {type ValidatorComponent} from "../internal/internal.mjs";
  *
  * @typeParam T - the type of the value that is being validated
  */
-type ObjectValidator<T> = ValidatorComponent<T>;
+type UnknownValidator<T> = ValidatorComponent<T>;
 
-export type {ObjectValidator};
+export type {UnknownValidator};
