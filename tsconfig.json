@@ -20,13 +20,13 @@
 	"include": [
 		// Files used to generate the target directory
 		"./src",
-		"./test"
+		"./test",
+		"./build"
 	],
 	"exclude": [
 		"node_modules",
 		"target",
 		"eslint.config.mjs",
-		"./build",
 		"./test/TestGlobalConfiguration.mts"
 	],
 	"declaration": true

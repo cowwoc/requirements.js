@@ -3,9 +3,9 @@ import path from "path";
 import {ESLint} from "eslint";
 import TypeDoc from "typedoc";
 import fs from "node:fs";
-import rollupCommonjs from "@rollup/plugin-commonjs";
+import _rollupCommonJs from "@rollup/plugin-commonjs";
 import {nodeResolve as rollupNodeResolve} from "@rollup/plugin-node-resolve";
-import rollupTypescript from "@rollup/plugin-typescript";
+import _rollupTypescript, {type RollupTypescriptOptions} from "@rollup/plugin-typescript";
 import {
 	type Plugin,
 	rollup
@@ -23,6 +23,9 @@ import {mode} from "./mode.mjs";
 import parseArgs from "minimist";
 import debounce from "lodash.debounce";
 
+// WORKAROUND: https://github.com/rollup/plugins/issues/1662#issuecomment-2337703188
+const rollupCommonJs = _rollupCommonJs as unknown as (options?: unknown) => Plugin;
+const rollupTypescript = _rollupTypescript as unknown as (options?: RollupTypescriptOptions) => Plugin;
 
 class Project
 {
@@ -39,8 +42,7 @@ class Project
 	}
 
 	/**
-	 * @param sources the files to lint
-	 * @private
+	 * @param sources - the files to lint
 	 */
 	private async lintTypescript(sources: string[])
 	{
@@ -65,7 +67,7 @@ class Project
 		}
 		catch (error)
 		{
-			this.log.error(`Lint error: ${error}`);
+			this.log.error(`Lint error: ${JSON.stringify(error, null, 2)}`);
 			throw error;
 		}
 
@@ -85,33 +87,36 @@ class Project
 		console.time("bundleForNode");
 		try
 		{
-			await Promise.all([this.lintTypescript(sources), this.compileTypescript(sources)]);
+			await this.lintTypescript(sources);
 		}
 		catch (error)
 		{
-			this.log.error(`bundleForNode error: ${error}`);
+			this.log.error(`bundleForNode error: ${JSON.stringify(error, null, 2)}`);
 			throw error;
 		}
+		this.compileTypescript(sources);
 		console.timeEnd("bundleForNode");
 	}
 
 	/**
-	 * @param sources the files to compile
-	 * @private
+	 * @param sources - the files to compile
 	 */
-	private async compileTypescript(sources: string[])
+	private compileTypescript(sources: string[])
 	{
 		console.time("compileTypescript");
 		// Example of compiling using API: https://gist.github.com/jeremyben/4de4fdc40175d0f76892209e00ece98f
 		const cwd = process.cwd();
-		const configFile = ts.findConfigFile(cwd, ts.sys.fileExists, "tsconfig.json");
+		const configFile = ts.findConfigFile(cwd, filename => ts.sys.fileExists(filename), "tsconfig.json");
 		if (!configFile)
 			throw Error("tsconfig.json not found");
-		const {config} = ts.readConfigFile(configFile, ts.sys.readFile);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const {config} = ts.readConfigFile(configFile, path => ts.sys.readFile(path));
+		/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 		config.compilerOptions.outDir = "target/publish/node/";
 		config.compilerOptions.declaration = true;
 		config.include = undefined;
 		config.files = sources;
+		/* eslint-enable @typescript-eslint/no-unsafe-member-access */
 
 		const {
 			options,
@@ -134,7 +139,7 @@ class Project
 		{
 			const formatHost: ts.FormatDiagnosticsHost = {
 				getCanonicalFileName: (path) => path,
-				getCurrentDirectory: ts.sys.getCurrentDirectory,
+				getCurrentDirectory: () => ts.sys.getCurrentDirectory(),
 				getNewLine: () => ts.sys.newLine
 			};
 			const message = ts.formatDiagnostics(allDiagnostics, formatHost);
@@ -149,12 +154,8 @@ class Project
 	{
 		console.time("bundleForBrowser");
 
-		// Need to cast plugins to Function due to bug in type definitions.
-		// WORKAROUND:
-		// https://github.com/algolia/algoliasearch-client-javascript/issues/1431#issuecomment-1568529321
 		const plugins: Plugin[] = [
-			rollupCommonjs,
-			(rollupTypescript as unknown as Function)({
+			rollupTypescript({
 				"module": "ES2022",
 				"moduleResolution": "bundler"
 			}),
@@ -163,7 +164,7 @@ class Project
 					mainFields: ["module"],
 					preferBuiltins: true
 				}),
-			(rollupCommonjs as unknown as Function)({include: "node_modules/**"})
+			rollupCommonJs({include: "node_modules/**"})
 		];
 
 		try
@@ -194,7 +195,7 @@ class Project
 		}
 		catch (error)
 		{
-			this.log.error(`bundleForBrowser error: ${error}`);
+			this.log.error(`bundleForBrowser error: ${JSON.stringify(error, null, 2)}`);
 			throw error;
 		}
 		console.timeEnd("bundleForBrowser");
@@ -202,8 +203,6 @@ class Project
 
 	/**
 	 * Minify the source-code.
-	 *
-	 * @private
 	 */
 	private async minifyBrowserSources()
 	{
@@ -222,13 +221,11 @@ class Project
 				ecma: 2020,
 				compress:
 					{
-						/* eslint-disable camelcase */
 						drop_console: true,
 						global_defs:
 							{
 								"@alert": "console.log"
 							}
-						/* eslint-enable camelcase */
 					},
 				sourceMap: {
 					filename: "index.min.mjs.map"
@@ -267,7 +264,6 @@ class Project
 
 	/**
 	 * @param sources - the resources in the project
-	 * @private
 	 */
 	public async bundleResources(sources: string[])
 	{
@@ -282,13 +278,13 @@ class Project
 			for (const source of sources)
 			{
 				const target = targetDirectory + path.posix.basename(source);
-				promises.concat(fs.promises.copyFile(source, target));
+				promises = promises.concat(fs.promises.copyFile(source, target));
 			}
 			await Promise.all(promises);
 		}
 		catch (error)
 		{
-			this.log.error(`bundleResources error: ${error}`);
+			this.log.error(`bundleResources error: ${JSON.stringify(error, null, 2)}`);
 			throw error;
 		}
 		console.timeEnd("bundleResources");
@@ -300,6 +296,7 @@ class Project
 		const binPath = path.posix.resolve("./node_modules/.bin");
 		const c8Path = path.posix.resolve(binPath + "/c8");
 		const mochaPath = path.posix.resolve(binPath + "/mocha");
+		const mode = this.mode;
 
 		// https://stackoverflow.com/a/53204227/14731
 		const promise = new Promise(function(resolve, reject)
@@ -327,7 +324,7 @@ class Project
 		}
 		catch (error)
 		{
-			this.log.error(`bundleForBrowser error: ${error}`);
+			this.log.error(`bundleForBrowser error: ${JSON.stringify(error, null, 2)}`);
 			throw error;
 		}
 		console.timeEnd("test");
@@ -346,7 +343,7 @@ class Project
 		// REMINDER: If the tests return "ERROR: null" it means that the test files could not be compiled, or two
 		// tests had the same name.
 		await Promise.all([this.bundleForBrowser(), this.generateDocumentation(),
-			this.bundleResources(this.getResourceFiles()), await this.test()]);
+			this.bundleResources(this.getResourceFiles()), this.test()]);
 		console.timeEnd("build");
 	}
 
@@ -367,19 +364,17 @@ class Project
 	}
 
 	/**
-	 * @param paths the paths to watch
-	 * @param callback the callback to notify after a path is updated.
+	 * @param paths - the paths to watch
+	 * @param callback - the callback to notify after a path is updated.
 	 * The callback consumes a list of changed paths and returns a promise for the operation that processes
 	 * the changes.
-	 * @private
 	 */
-	private async watchFiles(paths: string | ReadonlyArray<string>,
-	                         callback: (sources: string[]) => Promise<void>): Promise<void>
+	private watchFiles(paths: string | ReadonlyArray<string>,
+	                   callback: (sources: string[]) => Promise<void>)
 	{
 		const changes: Set<string> = new Set<string>();
-		const project = this;
 
-		async function processUpdate()
+		const processUpdate = async () =>
 		{
 			const filesToProcess = new Set<string>(changes);
 			const posixPaths = [];
@@ -390,20 +385,20 @@ class Project
 				const posixPath = changed.split(path.sep).join(path.posix.sep);
 				posixPaths.push(posixPath);
 			}
-			project.log.info(`Updating: [${Array.from(filesToProcess).join(", ")}]`);
+			this.log.info(`Updating: [${Array.from(filesToProcess).join(", ")}]`);
 			await callback(posixPaths);
-		}
+		};
 
 		const queueUpdate = debounce(processUpdate, 500);
-		const onUpdate = async (changed: string, stats: fs.Stats) =>
+		const onUpdate = (changed: string) =>
 		{
 			changes.add(changed);
-			await queueUpdate();
+			void queueUpdate();
 		};
 		chokidar.watch(paths).on("add", onUpdate).
 			on("addDir", onUpdate).
 			on("change", onUpdate).
-			on("error", error => this.log.info(`Watch error: ${error}`)).
+			on("error", error => this.log.info(`Watch error: ${JSON.stringify(error, null, 2)}`)).
 			on("ready", () => this.log.info("Watch ready..."));
 	}
 
@@ -421,8 +416,8 @@ class Project
 
 	public async watch()
 	{
-		await Promise.all([this.watchFiles("src/**/*.mts", this.bundleForNode.bind(this)),
-			this.watchFiles(this.getResourceFiles(), this.bundleResources.bind(this))]);
+		this.watchFiles("src/**/*.mts", this.bundleForNode.bind(this));
+		this.watchFiles(this.getResourceFiles(), this.bundleResources.bind(this));
 		this.log.info("Watching for changes...");
 
 		// Wait forever

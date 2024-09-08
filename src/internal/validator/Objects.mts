@@ -3,7 +3,7 @@ import {
 	TypeCategory,
 	AssertionError
 } from "../internal.mjs";
-import isEqual from "lodash.isEqual";
+import isEqual from "lodash.isequal";
 
 type ElementOf<T> = T extends readonly (infer E)[] ? E : (T extends Set<infer E> ? E : never);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
