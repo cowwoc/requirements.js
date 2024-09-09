@@ -228,8 +228,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of a number.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @param value - the value
@@ -247,8 +248,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of a boolean.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @param value - the value
@@ -266,8 +268,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of an array.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam E - the type elements in the array
@@ -286,8 +289,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of a set.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam E - the type elements in the set
@@ -306,8 +310,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of a map.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @typeParam K - the type of keys in the map
@@ -327,8 +332,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of a string.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @param value - the value
@@ -346,8 +352,9 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	/**
 	 * Validates the state of an unknown value or a value that does not have a specialized validator.
 	 * <p>
-	 * The returned validator throws an exception immediately if a validation fails. This exception is then
-	 * converted into an {@link AssertionError}. Exceptions unrelated to validation failures are not converted.
+	 * The returned validator captures exceptions on validation failure rather than throwing them immediately.
+	 * The exceptions are converted into an {@link AssertionError} and can be retrieved or thrown once the
+	 * validation completes. Exceptions unrelated to validation failures are thrown immediately.
 	 *
 	 * @typeParam T - the type the value
 	 * @param value - the value

@@ -31,54 +31,86 @@ Missing: [1, 5]
 
 ## Assertion support
 
-All verifiers allocate memory which is especially hard to justify given that most checks are never going to
-fail. If
-you need to run in a high-performance, zero allocation environment (to reduce latency and jitter) look no
-further than
-`DefaultRequirements.assertThat()`.
+If you need to run in a high performance, zero allocation environment (to reduce latency and jitter) look no
+further than the following design pattern:
 
-`assertThat()` skips verification if assertions are disabled. `DefaultRequirements` might be less flexible
-than `Requirements` but it only allocates `Requirements` once per application. Together, they guarantee high
-performance and no allocations if assertions are disabled.
+```typescript
+import {assertThat} from "@cowwoc/requirements";
 
-## Grouping nested requirements
+class Person
+{
+  public void eatLunch()
+  {
+    assertThat("time", new Date().getHours()).isGreaterThanOrEqualTo(12, "noon").elseThrow();
+  }
+}
+```
 
-Some classes provide a mechanism for grouping nested requirements. For example, `MapVerifier` has
-methods `keys()` and
-`keys(consumer)`, `values()` and `values(consumer)`. This enables one to group requirements that share the
-same parent.
-For example,
+Use a build tool like Terser to declare `assertThat()` as a pure function and it will be stripped out from production builds.
+
+## Multiple validation failures
+
+```typescript
+const name = "George";
+const province = "Florida";
+const provinces = ["Ontario", "Quebec", "Nova Scotia", "New Brunswick", "Manitoba",
+  "British Columbia", "Prince Edward Island", "Saskatchewan", "Alberta", "Newfoundland and Labrador"];
+
+const failures = checkIf(name, "name").length().isBetween(10, 30).elseGetFailures();
+failures.addAll(checkIf(provinces, "provinces").contains(province).elseGetFailures());
+
+for (const failure of failures)
+  console.log(failure.getMessage());
+```
+
+Output will look like:
+
+```
+name must contain [10, 30) characters.
+
+"provinces" must contain provide "province".
+province: Florida
+Actual: [Ontario, Quebec, Nova Scotia, New Brunswick, Manitoba, British Columbia, Prince Edward Island, Saskatchewan, Alberta, Newfoundland and Labrador]
+```
+
+## Nested validations
+
+Nested validations facilitate checking multiple properties of a value. For example,
 
 ```typescript
 const nameToAge = new Map();
 nameToAge.set("Leah", 3);
 nameToAge.set("Nathaniel", 1);
 
-requireThat(nameToAge, "nameToAge").asMap().keys().containsAll(["Leah", "Nathaniel"]);
-requireThat(nameToAge, "nameToAge").asMap().values().containsAll([3, 1]);
+requireThat(nameToAge, "nameToAge").
+keys().containsAll(["Leah", "Nathaniel"]);
+requireThat(nameToAge, "nameToAge").
+values().containsAll([3, 1]);
 ```
 
-can be rewritten as:
+can be converted to:
 
 ```typescript
-requireThat(nameToAge, "nameToAge").asMap().
-	keys(k => k.containsAll(["Leah", "Nathaniel"])).
-	values(v => v.containsAll([3, 1]));
+requireThat(nameToAge, "nameToAge").
+  and(k => k.keys().containsAll(["Leah", "Nathaniel"])).
+  and(v => v.values().containsAll([3, 1]));
 ```
 
 ## String diff
 
 When
 a [String comparison](https://cowwoc.github.io/requirements.js/4.0.0/docs/api/ObjectVerifier.html#isEqualTo)
-fails, the library outputs a [diff](String_Diff.md) of the values being compared.
+fails, the library outputs a diff of the values being compared.
+
+Depending on the terminal capability, you will see a [textual](Textual_Diff.md) or a colored diff.
 
 ![colored-diff-example4.png](colored-diff-example4.png)
 
-Node supports colored messages. Browsers do not.
+Node supports colored exception messages. Browsers do not.
 
-## Getting the actual value
+## Returning the value after validation
 
-Sometimes it is convenient to retrieve the actual value after a verification/validation:
+You can get the value after validating or transforming it, e.g.
 
 ```typescript
 class Player

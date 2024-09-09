@@ -158,7 +158,7 @@ abstract class AbstractValidators<S> implements Validators<S>
 		requireThatValueIsNotNull(configuration, "configuration");
 		this.requireThatConfiguration = configuration;
 		this.assertThatConfiguration = MutableConfiguration.from(configuration).
-			errorTransformer(AbstractValidators.CONVERT_TO_ASSERTION_ERROR).toImmutable();
+			throwOnFailure(false).errorTransformer(AbstractValidators.CONVERT_TO_ASSERTION_ERROR).toImmutable();
 		this.checkIfConfiguration = MutableConfiguration.from(configuration).
 			throwOnFailure(false).toImmutable();
 	}

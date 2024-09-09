@@ -22,14 +22,14 @@ suite("RequirementsTest", () =>
 		assert.throws(function()
 		{
 			const actual = "actual";
-			validators.assertThatString(actual, "actual").isEqualTo("expected");
+			validators.assertThatString(actual, "actual").isEqualTo("expected").elseThrow();
 		}, AssertionError);
 	});
 
 	test("assertThatArray", () =>
 	{
 		const actual = [1, 2, 3];
-		validators.assertThatArray(actual, "actual").isEqualTo(actual, "expected");
+		validators.assertThatArray(actual, "actual").isEqualTo(actual, "expected").elseThrow();
 	});
 
 	test("assertThatNumber", () =>
