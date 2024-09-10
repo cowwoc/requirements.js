@@ -301,7 +301,7 @@ class Project
 		const mode = this.mode;
 
 		// https://stackoverflow.com/a/53204227/14731
-		const promise = new Promise(function(resolve, reject)
+		const promise = new Promise(function (resolve, reject)
 		{
 			// https://stackoverflow.com/a/14231570/14731
 			const process = spawn(c8Path, [mochaPath, "--parallel", "./test/**/*.mts", "--mode=" + mode],
@@ -309,11 +309,11 @@ class Project
 					shell: true,
 					stdio: "inherit"
 				});
-			process.on("error", function(err)
+			process.on("error", function (err)
 			{
 				reject(err);
 			});
-			process.on("close", function(code)
+			process.on("close", function (code)
 			{
 				if (code !== 0)
 					reject(new Error(`Exit code: ${code}`));
