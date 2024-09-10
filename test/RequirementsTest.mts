@@ -63,7 +63,7 @@ suite("RequirementsTest", () =>
 			const localValidators = validators.copy();
 
 			const actual = {};
-			localValidators.assertThat(actual, "actual").isEqualTo("expected");
+			localValidators.assertThat(actual, "actual").isEqualTo("expected").elseThrow();
 		}, AssertionError);
 	});
 

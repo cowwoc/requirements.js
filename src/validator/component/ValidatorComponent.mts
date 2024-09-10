@@ -59,7 +59,7 @@ interface ValidatorComponent<T>
 	 * ```
 	 *
 	 * @returns an unmodifiable map from each entry's name to its value
-	 * @see {@link Validators.getContext}
+	 * @see Validators.getContext
 	 */
 	getContext(): Map<string, unknown>;
 

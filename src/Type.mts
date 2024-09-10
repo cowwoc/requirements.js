@@ -47,7 +47,7 @@ class Type
 	 * @param value - a value
 	 * @returns the value's type
 	 * @see <a href="http://stackoverflow.com/a/332429/14731">http://stackoverflow.com/a/332429/14731</a>
-	 * @see {@link Type.isPrimitive}
+	 * @see Type.isPrimitive
 	 */
 	public static of(value: unknown): Type
 	{

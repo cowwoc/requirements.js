@@ -265,7 +265,7 @@ class SimplifyDeltas
 	 * @param expectedBuilder - a buffer to insert the expected value of the word into
 	 * @returns the updated values of `actualBuilder` and `expectedBuilder`
 	 */
-	processMiddleDeltas(actualBuilder: string, expectedBuilder: string, )
+	processMiddleDeltas(actualBuilder: string, expectedBuilder: string)
 	{
 		for (let i = this.indexOfStartDelta + 1; i < this.indexOfEndDelta; ++i)
 		{

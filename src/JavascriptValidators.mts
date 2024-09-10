@@ -50,80 +50,80 @@ abstract class JavascriptValidators
 	 *
 	 * @returns an instance of this interface
 	 */
-	static newInstance(): JavascriptValidators
+	public static newInstance(): JavascriptValidators
 	{
 		return new JavascriptValidatorsImpl(MainApplicationScope.INSTANCE, Configuration.DEFAULT);
 	}
 
-	abstract copy(): JavascriptValidators;
+	public abstract copy(): JavascriptValidators;
 
-	abstract getContext(): Map<string, unknown>;
+	public abstract getContext(): Map<string, unknown>;
 
-	abstract withContext(value: unknown, name: string): this;
+	public abstract withContext(value: unknown, name: string): this;
 
-	abstract getGlobalConfiguration(): GlobalConfiguration;
+	public abstract getGlobalConfiguration(): GlobalConfiguration;
 
-	abstract removeContext(name: string): this;
+	public abstract removeContext(name: string): this;
 
-	abstract requireThatNumber<T extends number | undefined | null>
+	public abstract requireThatNumber<T extends number | undefined | null>
 	(value: T, name: string): NumberValidator<T>;
 
-	abstract requireThatBoolean<T extends boolean | undefined | null>
+	public abstract requireThatBoolean<T extends boolean | undefined | null>
 	(value: T, name: string): BooleanValidator<T>;
 
-	abstract requireThatArray<T extends E[] | undefined | null, E>
+	public abstract requireThatArray<T extends E[] | undefined | null, E>
 	(value: T, name: string): ArrayValidator<T, E>;
 
-	abstract requireThatSet<T extends Set<E> | undefined | null, E>
+	public abstract requireThatSet<T extends Set<E> | undefined | null, E>
 	(value: T, name: string): SetValidator<T, E>;
 
-	abstract requireThatMap<T extends Map<K, V> | undefined | null, K, V>
+	public abstract requireThatMap<T extends Map<K, V> | undefined | null, K, V>
 	(value: T, name: string): MapValidator<T, K, V>;
 
-	abstract requireThatString<T extends string | undefined | null>
+	public abstract requireThatString<T extends string | undefined | null>
 	(value: T, name: string): StringValidator<T>;
 
-	abstract requireThat<T>(value: T, name: string): UnknownValidator<T>;
+	public abstract requireThat<T>(value: T, name: string): UnknownValidator<T>;
 
-	abstract assertThatNumber<T extends number | undefined | null>
+	public abstract assertThatNumber<T extends number | undefined | null>
 	(value: T, name?: string): NumberValidator<T>;
 
-	abstract assertThatBoolean<T extends boolean | undefined | null>
+	public abstract assertThatBoolean<T extends boolean | undefined | null>
 	(value: T, name?: string): BooleanValidator<T>;
 
-	abstract assertThatArray<T extends E[] | undefined | null, E>
+	public abstract assertThatArray<T extends E[] | undefined | null, E>
 	(value: T, name?: string): ArrayValidator<T, E>;
 
-	abstract assertThatSet<T extends Set<E> | undefined | null, E>
+	public abstract assertThatSet<T extends Set<E> | undefined | null, E>
 	(value: T, name?: string): SetValidator<T, E>;
 
-	abstract assertThatMap<T extends Map<K, V> | undefined | null, K, V>
+	public abstract assertThatMap<T extends Map<K, V> | undefined | null, K, V>
 	(value: T, name?: string): MapValidator<T, K, V>;
 
-	abstract assertThatString<T extends string | undefined | null>
+	public abstract assertThatString<T extends string | undefined | null>
 	(value: T, name?: string): StringValidator<T>;
 
-	abstract assertThat<T>(value: T, name?: string): UnknownValidator<T>;
+	public abstract assertThat<T>(value: T, name?: string): UnknownValidator<T>;
 
-	abstract checkIfNumber<T extends number | undefined | null>
+	public abstract checkIfNumber<T extends number | undefined | null>
 	(value: T, name?: string): NumberValidator<T>;
 
-	abstract checkIfBoolean<T extends boolean | undefined | null>
+	public abstract checkIfBoolean<T extends boolean | undefined | null>
 	(value: T, name?: string): BooleanValidator<T>;
 
-	abstract checkIfArray<T extends E[] | undefined | null, E>
+	public abstract checkIfArray<T extends E[] | undefined | null, E>
 	(value: T, name?: string): ArrayValidator<T, E>;
 
-	abstract checkIfSet<T extends Set<E> | undefined | null, E>
+	public abstract checkIfSet<T extends Set<E> | undefined | null, E>
 	(value: T, name?: string): SetValidator<T, E>;
 
-	abstract checkIfMap<T extends Map<K, V> | undefined | null, K, V>
+	public abstract checkIfMap<T extends Map<K, V> | undefined | null, K, V>
 	(value: T, name?: string): MapValidator<T, K, V>;
 
-	abstract checkIfString<T extends string | undefined | null>
+	public abstract checkIfString<T extends string | undefined | null>
 	(value: T, name?: string): StringValidator<T>;
 
-	abstract checkIf<T>(value: T, name?: string): UnknownValidator<T>;
+	public abstract checkIf<T>(value: T, name?: string): UnknownValidator<T>;
 }
 
 export {JavascriptValidators};

@@ -65,7 +65,7 @@ Actual: ${String(chalk.level)}`);
 	 * @param force - true if the encoding should be forced regardless of what the system supports
 	 * @throws TypeError if `encoding` is not a `TerminalEncoding`.
 	 * If `force` is not a `boolean`.
-	 * @see Terminal#useBestEncoding
+	 * @see Terminal.useBestEncoding
 	 */
 	private setEncodingImpl(encoding: TerminalEncoding, force: boolean)
 	{
@@ -88,7 +88,7 @@ Actual: ${String(chalk.level)}`);
 	 *
 	 * @param encoding - the type of encoding that the terminal should use
 	 * @throws TypeError if `encoding` is not a `TerminalEncoding`
-	 * @see Terminal#useBestEncoding
+	 * @see Terminal.useBestEncoding
 	 */
 	setEncoding(encoding: TerminalEncoding)
 	{
@@ -98,7 +98,7 @@ Actual: ${String(chalk.level)}`);
 	/**
 	 * Indicates that verifiers should output the best encoding supported by the terminal.
 	 *
-	 * @see Terminal#setEncoding
+	 * @see Terminal.setEncoding
 	 */
 	useBestEncoding()
 	{

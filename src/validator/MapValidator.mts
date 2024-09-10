@@ -1,7 +1,7 @@
-import type {
-	ValidatorComponent,
-	ArrayValidator,
-	UnsignedNumberValidator
+import {
+	type ValidatorComponent,
+	type ArrayValidator,
+	type UnsignedNumberValidator
 } from "../internal/internal.mjs";
 
 /**
@@ -14,25 +14,25 @@ import type {
 interface MapValidator<T extends Map<K, V> | undefined | null, K, V> extends ValidatorComponent<T>
 {
 	/**
-	 * Returns a validator for the value's {@link Map.keys|keys}.
-	 * @returns a validator for the value's {@link Map.keys|keys}
+	 * Returns a validator for the map's {@link Map.keys|keys}.
+	 * @returns a validator for the map's {@link Map.keys|keys}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
 	keys(): ArrayValidator<K[], K>;
 
 	/**
-	 * Returns a validator for the value's {@link Map.values|values}.
+	 * Returns a validator for the map's {@link Map.values|values}.
 	 *
-	 * @returns a validator for the value's {@link Map.values|values}
+	 * @returns a validator for the map's {@link Map.values|values}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
 	values(): ArrayValidator<V[], V>;
 
 	/**
-	 * Returns a validator for the value's {@link Map.entries|entries}
+	 * Returns a validator for the map's {@link Map.entries|entries}
 	 * (an array of `[key, this.value]` for each element in the Map).
 	 *
-	 * @returns a validator for the value's {@link Map.entries|entries}
+	 * @returns a validator for the map's {@link Map.entries|entries}
 	 * @throws TypeError if the value is `undefined` or `null`
 	 */
 	entries(): ArrayValidator<[K, V][], [K, V]>;

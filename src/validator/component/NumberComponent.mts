@@ -198,8 +198,8 @@ interface NumberComponent<T extends number | undefined | null>
 	 * @returns this
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if value is not a number or is an infinite number
-	 * @see {@link isNumber}
-	 * @see {@link Number.isFinite}
+	 * @see isNumber
+	 * @see Number.isFinite
 	 */
 	isFinite(): this;
 
@@ -209,8 +209,8 @@ interface NumberComponent<T extends number | undefined | null>
 	 * @returns this
 	 * @throws TypeError if the value is `undefined` or `null`
 	 * @throws RangeError if value is not a number or is a finite number
-	 * @see {@link isNumber}
-	 * @see {@link Number.isFinite}
+	 * @see isNumber
+	 * @see Number.isFinite
 	 */
 	isInfinite(): this;
 
@@ -220,7 +220,7 @@ interface NumberComponent<T extends number | undefined | null>
 	 * @returns this
 	 * @throws TypeError if the value is `undefined` or `null`
 	 * @throws RangeError if value is not a well-defined number
-	 * @see #isNotNumber()
+	 * @see isNotNumber
 	 */
 	isNumber(): this;
 

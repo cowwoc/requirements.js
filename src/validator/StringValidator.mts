@@ -106,14 +106,12 @@ interface StringValidator<T extends string | undefined | null> extends Validator
 	isNotEmpty(): this;
 
 	/**
-	 * Ensures that the value does not contain leading or trailing whitespace, where whitespace is defined by
-	 * {@link String.trim}.
+	 * Ensures that the value does not contain leading or trailing whitespace.
 	 *
 	 * @returns this
 	 * @throws TypeError     if the value is `undefined` or `null`
 	 * @throws RangeError if the value contains leading or trailing whitespace
-	 * @see {@link String.trim}
-	 * @see {@link isEmpty}
+	 * @see isEmpty
 	 */
 	isTrimmed(): this;
 

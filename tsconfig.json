@@ -14,8 +14,10 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
-		// Required by C8
+		// Required by C8 and IntelliJ's debugger
 		"sourceMap": true
+		// WORKAROUND: https://github.com/isaacs/node-lru-cache/issues/353
+		//		"strictBuiltinIteratorReturn": false
 	},
 	"include": [
 		// Files used to generate the target directory

@@ -1,10 +1,14 @@
-syntax: glob
+# Maven Wrapper files that will be regenerate automatically
+.mvn/wrapper/maven-wrapper.jar
 
 # IntelliJ IDEA
-.idea/
+/.idea/*
+!/.idea
+!/.idea/codeStyles
 
-# Files generated as part of the build
-**/node_modules/
+*.iml
+
+# Java
 target/
 coverage/
 
@@ -15,8 +19,9 @@ coverage/
 commonjs.html
 modulejs.html
 
-# eslint
-/.eslintcache
+# Node.js
+node_modules/
+.eslintcache
 
 # Credentials
 /keys.txt

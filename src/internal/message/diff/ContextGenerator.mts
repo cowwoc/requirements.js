@@ -228,7 +228,7 @@ expectedName: ${expectedName}`);
 
 			const elementGenerator = new ContextGenerator(this.scope, this.configuration,
 				actualNameLine, expectedNameLine).
-			allowLegend(false);
+				allowLegend(false);
 			actualValueLine.ifValid(value => elementGenerator.actualValue(value));
 			expectedValueLine.ifValid(value => elementGenerator.expectedValue(value));
 
