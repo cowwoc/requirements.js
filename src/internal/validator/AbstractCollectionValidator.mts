@@ -26,8 +26,7 @@ import {
 	collectionDoesNotContainAll,
 	collectionDoesNotContainDuplicates,
 	collectionDoesNotContain,
-	collectionContainsExactly,
-	collectionContainsSameNullity
+	collectionContainsExactly
 } from "../internal.mjs";
 
 /**
@@ -340,23 +339,6 @@ abstract class AbstractCollectionValidator<T extends undefined | null | E[] | Se
 				unique.add(element);
 		}
 		return duplicates;
-	}
-
-	public containsSameNullity(): this
-	{
-		if (this.value.validationFailed(v =>
-		{
-			let numberOfNulls = 0;
-			for (const element of v)
-				if (element == null)
-					++numberOfNulls;
-			return numberOfNulls == this.getLength(v);
-		}))
-		{
-			this.addRangeError(
-				collectionContainsSameNullity(this).toString());
-		}
-		return this;
 	}
 
 	length(): UnsignedNumberValidator

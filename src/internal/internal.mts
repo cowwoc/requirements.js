@@ -244,8 +244,7 @@ import {
 	collectionContainsAll,
 	collectionDoesNotContainAll,
 	collectionDoesNotContainDuplicates,
-	collectionIsSorted,
-	collectionContainsSameNullity
+	collectionIsSorted
 } from "./message/CollectionMessages.mjs";
 import {
 	classIsPrimitive,
@@ -412,7 +411,6 @@ export
 	collectionDoesNotContainAll,
 	collectionDoesNotContainDuplicates,
 	collectionIsSorted,
-	collectionContainsSameNullity,
 	classIsPrimitive,
 	classIsSupertypeOf,
 	classIsSubtypeOf,

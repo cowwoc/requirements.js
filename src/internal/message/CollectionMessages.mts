@@ -403,19 +403,6 @@ function collectionIsSorted(validator: AbstractValidator<unknown>, sorted: unkno
 	return messageBuilder;
 }
 
-/**
- * @param validator - the validator
- * @returns a message for the validation failure
- */
-function collectionContainsSameNullity(validator: AbstractValidator<unknown>)
-{
-	const name = validator.getName();
-	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} must contain all nulls, or no nulls.`);
-	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
-	return messageBuilder;
-}
-
 export {
 	collectionContainsSize,
 	collectionSizeIsBetween,
@@ -430,6 +417,5 @@ export {
 	collectionContainsAll,
 	collectionDoesNotContainAll,
 	collectionDoesNotContainDuplicates,
-	collectionIsSorted,
-	collectionContainsSameNullity
+	collectionIsSorted
 };

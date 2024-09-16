@@ -488,15 +488,6 @@ interface CollectionComponent<E>
 	doesNotContainAll(unwanted: E[], name: string): this;
 
 	/**
-	 * Ensures that the collection contains only `null` values or only non-`null` values.
-	 *
-	 * @returns this
-	 * @throws TypeError if the value is `undefined` or `null`
-	 * @throws RangeError if the collection contains `undefined` or a mix of `null` and non-`null` values
-	 */
-	containsSameNullity(): this;
-
-	/**
 	 * Ensures that the collection does not contain any duplicate elements.
 	 *
 	 * @returns this
