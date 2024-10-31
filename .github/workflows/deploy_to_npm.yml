@@ -83,16 +83,15 @@ jobs:
           cp ../../pnpm-lock.yaml .
           git status
           pnpm publish --provenance --access=public --no-git-checks
-          
-          mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
-          mv target/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Commit changes
+      - name: Publish documentation
         run: |
           git checkout gh-pages -f
           echo "INITIAL_GH_PAGES_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
+          mv target/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
           git add "${{ needs.open-release.outputs.VERSION }}/docs/api"
           git commit -m "Released version ${{ needs.open-release.outputs.VERSION }}"
           git push
