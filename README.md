@@ -153,7 +153,7 @@ The main entry points are:
 * [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0.5/docs/api/module-DefaultRequirements.html#~checkIf)
   for multiple failures and customized error handling.
 
-See the [API documentation](https://cowwoc.github.io/requirements.java/10.0/docs/api/) for more details.
+See the [API documentation](https://cowwoc.github.io/requirements.js/4.0.5/docs/api/) for more details.
 
 ## Best practices
 
