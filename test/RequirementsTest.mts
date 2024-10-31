@@ -85,7 +85,7 @@ suite("RequirementsTest", () =>
 
 	test("putContext", () =>
 	{
-		const verifiers = validators.withContext("value", "key");
-		assert.deepEqual(verifiers.getContext(), new Map([["key", "value"]]));
+		const validatorsWithContext = validators.withContext("value", "key");
+		assert.deepEqual(validatorsWithContext.getContext(), new Map([["key", "value"]]));
 	});
 });

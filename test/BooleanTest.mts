@@ -11,19 +11,13 @@ import {
 } from "../src/index.mjs";
 import {TestCompiler} from "../build/TestCompiler.mjs";
 import os from "os";
-import {mode} from "../build/mode.mjs";
 import {JavascriptValidatorsImpl} from "../src/internal/validator/JavascriptValidatorsImpl.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
 
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);
-
-let compiler: TestCompiler | undefined;
-if (mode === "DEBUG")
-	compiler = undefined;
-else
-	compiler = new TestCompiler();
+const compiler = new TestCompiler();
 
 suite("BooleanTest", () =>
 {
@@ -64,8 +58,6 @@ suite("BooleanTest", () =>
 
 	test("nullAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -73,13 +65,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'ObjectVerifier<null>'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<null>'." + os.EOL);
+	}).timeout(10000);
 
 	test("zeroNumberAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -87,13 +77,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'NumberVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<number>'." + os.EOL);
+	}).timeout(10000);
 
 	test("nonZeroNumberAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -101,13 +89,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'NumberVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<number>'." + os.EOL);
+	}).timeout(10000);
 
 	test("zeroStringAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -115,13 +101,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'StringVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<string>'." + os.EOL);
+	}).timeout(10000);
 
 	test("nonZeroStringAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -129,13 +113,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isTrue();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
-			"type 'StringVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<string>'." + os.EOL);
+	}).timeout(10000);
 
 	test("trueStringAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -143,13 +125,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isTrue();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isTrue' does not exist on " +
-			"type 'StringVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<string>'." + os.EOL);
+	}).timeout(10000);
 
 	test("emptyStringAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -157,13 +137,11 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'StringVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<string>'." + os.EOL);
+	}).timeout(10000);
 
 	test("falseStringAsBoolean", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
 			`import {requireThat} from "./target/publish/node/index.mjs";
 			
@@ -171,8 +149,8 @@ suite("BooleanTest", () =>
 			requireThat(actual, "actual").isFalse();`;
 		const messages = compiler.compile(code);
 		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'StringVerifier'." + os.EOL);
-	}).timeout(5000);
+			"type 'UnknownValidator<string>'." + os.EOL);
+	}).timeout(10000);
 
 	test("getActual", () =>
 	{

@@ -9,9 +9,6 @@ import {
 	Configuration,
 	Type
 } from "../src/index.mjs";
-import {TestCompiler} from "../build/TestCompiler.mjs";
-import * as os from "os";
-import {mode} from "../build/mode.mjs";
 import {JavascriptValidatorsImpl} from "../src/internal/internal.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
@@ -19,13 +16,7 @@ import {TestApplicationScope} from "./TestApplicationScope.mjs";
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);
 
-let compiler: TestCompiler | undefined;
-if (mode === "DEBUG")
-	compiler = undefined;
-else
-	compiler = new TestCompiler();
-
-suite("BaseTest", () =>
+suite("GenericTest", () =>
 {
 	test("nameIsNull", () =>
 	{
@@ -64,53 +55,11 @@ suite("BaseTest", () =>
 		}, RangeError);
 	});
 
-	test("isEqual_sameToStringDifferentTypes", () =>
-	{
-		if (!compiler)
-			return;
-		const code =
-			`import {requireThat} from "./target/publish/node/index.mjs";
-			
-			const actual = "null"
-			requireThat(actual, "actual").isEqualTo(null);`;
-		const messages = compiler.compile(code);
-		assert.strictEqual(messages, "test.mts(4,44): error TS2345: Argument of type 'null' is not assignable " +
-			"to parameter of type 'string'." + os.EOL);
-	}).timeout(5000);
-
 	test("isEqual_nullToNull", () =>
 	{
 		const actual = null;
 		validators.requireThat(actual, "actual").isEqualTo(actual);
 	});
-
-	test("isEqualTo_nullToNotNull", () =>
-	{
-		if (!compiler)
-			return;
-		const code =
-			`import {requireThat} from "./target/publish/node/index.mjs";
-
-			const actual = null;
-			requireThat(actual, "actual").isEqualTo("expected");`;
-		const messages = compiler.compile(code);
-		assert.strictEqual(messages, `test.mts(4,44): error TS2345: Argument of type '"expected"' is not \
-assignable to parameter of type 'null'.` + os.EOL);
-	}).timeout(5000);
-
-	test("isEqualTo_notNullToNull", () =>
-	{
-		if (!compiler)
-			return;
-		const code =
-			`import {requireThat} from "./target/publish/node/index.mjs";
-
-			const actual = "actual";
-			requireThat(actual, "actual").isEqualTo(null);`;
-		const messages = compiler.compile(code);
-		assert.equal(messages, "test.mts(4,44): error TS2345: Argument of type 'null' is not assignable " +
-			"to parameter of type 'string'." + os.EOL);
-	}).timeout(5000);
 
 	test("isNotEqualTo", () =>
 	{

@@ -17,7 +17,6 @@ import {minify} from "terser";
 import {spawn} from "child_process";
 import {default as chokidar} from "chokidar";
 import eslintConfig from "../eslint.config.mjs";
-import {mode} from "./mode.mjs";
 import parseArgs from "minimist";
 import {
 	diary,
@@ -33,12 +32,6 @@ const rollupTypescript = _rollupTypescript as unknown as (options?: RollupTypesc
 class Project
 {
 	private static readonly outputDirectory = "target";
-	private readonly mode: string;
-
-	constructor(mode: string)
-	{
-		this.mode = mode;
-	}
 
 	/**
 	 * @param sources - the files to lint
@@ -190,8 +183,7 @@ class Project
 					sourcemap: true,
 					dir: `${Project.outputDirectory}/publish/browser`
 				});
-			if (this.mode === "RELEASE")
-				await this.minifyBrowserSources();
+			await this.minifyBrowserSources();
 		}
 		catch (error)
 		{
@@ -298,22 +290,21 @@ class Project
 		const binPath = path.posix.resolve("./node_modules/.bin");
 		const c8Path = path.posix.resolve(binPath + "/c8");
 		const mochaPath = path.posix.resolve(binPath + "/mocha");
-		const mode = this.mode;
 
 		// https://stackoverflow.com/a/53204227/14731
-		const promise = new Promise(function (resolve, reject)
+		const promise = new Promise(function(resolve, reject)
 		{
 			// https://stackoverflow.com/a/14231570/14731
-			const process = spawn(c8Path, [mochaPath, "--parallel", "./test/**/*.mts", "--mode=" + mode],
+			const process = spawn(c8Path, [mochaPath, "--parallel", "./test/**/*.mts"],
 				{
 					shell: true,
 					stdio: "inherit"
 				});
-			process.on("error", function (err)
+			process.on("error", function(err)
 			{
 				reject(err);
 			});
-			process.on("close", function (code)
+			process.on("close", function(code)
 			{
 				if (code !== 0)
 					reject(new Error(`Exit code: ${code}`));
@@ -470,7 +461,7 @@ const __filename = path.posix.basename(posixPath);
 const log = diary(__filename);
 
 const startTime = performance.now();
-const project = new Project(mode);
+const project = new Project();
 const command = parseArgs(process.argv.slice(2));
 switch (command._[0])
 {

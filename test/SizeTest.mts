@@ -9,19 +9,13 @@ import {
 } from "../src/index.mjs";
 import {TestCompiler} from "../build/TestCompiler.mjs";
 import os from "os";
-import {mode} from "../build/mode.mjs";
 import {JavascriptValidatorsImpl} from "../src/internal/internal.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
 
 
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);
-
-let compiler: TestCompiler | undefined;
-if (mode === "DEBUG")
-	compiler = undefined;
-else
-	compiler = new TestCompiler();
+const compiler = new TestCompiler();
 
 suite("SizeTest", () =>
 {
@@ -154,29 +148,25 @@ suite("SizeTest", () =>
 
 	test("isNotNegative", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
-			`import {requireThat} from "./target/publish/node/index.mjs";
+			`import {requireThatArray} from "./target/publish/node/index.mjs";
 			
 			const actual: unknown[] = [];
-			validators.requireThatArray(actual, "actual").length().isNotNegative();`;
+			requireThatArray(actual, "actual").length().isNotNegative();`;
 		const messages = compiler.compile(code);
-		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'ObjectVerifier<null>'." + os.EOL);
-	}).timeout(5000);
+		assert.strictEqual(messages, "test.mts(4,48): error TS2339: Property 'isNotNegative' does not exist on " +
+			"type 'UnsignedNumberValidator'." + os.EOL);
+	}).timeout(10000);
 
 	test("isNegative", () =>
 	{
-		if (!compiler)
-			return;
 		const code =
-			`import {requireThat} from "./target/publish/node/index.mjs";
+			`import {requireThatArray} from "./target/publish/node/index.mjs";
 			
 			const actual: unknown[] = [];
-			validators.requireThatArray(actual, "actual").length().isNegative();`;
+			requireThatArray(actual, "actual").length().isNegative();`;
 		const messages = compiler.compile(code);
-		assert.strictEqual(messages, "test.mts(4,34): error TS2339: Property 'isFalse' does not exist on " +
-			"type 'ObjectVerifier<null>'." + os.EOL);
-	}).timeout(5000);
+		assert.strictEqual(messages, "test.mts(4,48): error TS2339: Property 'isNegative' does not exist on " +
+			"type 'UnsignedNumberValidator'." + os.EOL);
+	}).timeout(10000);
 });

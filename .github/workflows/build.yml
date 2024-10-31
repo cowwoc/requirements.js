@@ -26,7 +26,7 @@ jobs:
           cache: pnpm
 
       - name: Update dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: build
-        run: pnpm run build.debug
+      - name: Build
+        run: pnpm run build
