@@ -37,8 +37,10 @@ jobs:
         id: create-tag
         run: |
           echo "INITIAL_MASTER_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          TAG=release-${{ steps.parse-version.outputs.current-version }}
+          VERSION=${{ steps.parse-version.outputs.current-version }}
+          TAG=release-${VERSION}
           echo "TAG=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
           git tag ${TAG}
           git push origin tag ${TAG}  
 
