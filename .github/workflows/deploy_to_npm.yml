@@ -22,8 +22,10 @@ jobs:
           git config user.email "cowwoc2020@gmail.com"
           git config user.name "Gili Tzabari"
 
-      # Getting the current git tag: https://stackoverflow.com/a/50465671/14731
-      #
+      - name: Parse the release version from package.json
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        id: parse-version
+
       # Setting a GitHub Action output parameter:
       # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
       # Extracting the release version number: https://stackoverflow.com/a/16623897/14731
@@ -31,10 +33,9 @@ jobs:
         id: create-tag
         run: |
           echo "INITIAL_MASTER_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          ./mvnw release:prepare --batch-mode -V -e
-          TAG=$(git describe --tag --abbrev=0)
+          TAG=release-${{ steps.parse-version.outputs.current-version }}
           echo "TAG=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "VERSION=${TAG#"release-"}" >> "$GITHUB_OUTPUT"
+          git tag ${TAG}
 
   deploy:
     name: Deploy
