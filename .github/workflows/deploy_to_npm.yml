@@ -4,6 +4,10 @@ on:
 concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   open-release:
     runs-on: ubuntu-latest
@@ -46,7 +50,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.open-release.outputs.TAG }}
-          token: ${{ secrets.WORKFLOW_TOKEN }}
           fetch-depth: 0
 
       - name: Install node
@@ -101,7 +104,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
-          token: ${{ secrets.WORKFLOW_TOKEN }}
           fetch-depth: 0
       - name: Install node
         uses: actions/setup-node@v4
