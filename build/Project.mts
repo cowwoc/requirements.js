@@ -371,8 +371,7 @@ class Project
 	 * The callback consumes a list of changed paths and returns a promise for the operation that processes
 	 * the changes.
 	 */
-	private watchFiles(paths: string | ReadonlyArray<string>,
-	                   callback: (sources: string[]) => Promise<void>)
+	private watchFiles(paths: string | string[], callback: (sources: string[]) => Promise<void>)
 	{
 		const changes: Set<string> = new Set<string>();
 
@@ -405,7 +404,10 @@ class Project
 			changes.add(changed);
 			void queueUpdate();
 		};
-		chokidar.watch(paths).on("add", onUpdate).
+		chokidar.watch(paths, {
+			ignored: "",
+			awaitWriteFinish: true
+		}).on("add", onUpdate).
 			on("addDir", onUpdate).
 			on("change", onUpdate).
 			on("error", error =>
@@ -436,7 +438,7 @@ class Project
 			recursive: true,
 			force: true
 		});
-		this.watchFiles("src/**/*.mts", this.bundleForNode.bind(this));
+		this.watchFiles(await glob.glob("src/**/*.mts"), this.bundleForNode.bind(this));
 		this.watchFiles(this.getResourceFiles(), this.bundleResources.bind(this));
 		log.info("Watching for changes...");
 
