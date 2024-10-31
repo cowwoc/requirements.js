@@ -85,7 +85,7 @@ jobs:
           pnpm publish --provenance --access=public --no-git-checks
           
           mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
-          mv target/reports/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
+          mv target/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
