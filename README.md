@@ -1,14 +1,15 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
 
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-3.4.0/docs/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Fluent API for Design Contracts
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-4.0/docs/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements API
 
-[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/)
-[![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](wiki/Changelog.md)
+[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/4.0/docs/api/)
+[![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
 [![java](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
 
-A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
-[design contracts](https://en.wikipedia.org/wiki/Design_by_contract) with [automatic message generation](#usage).
+A [fluent API](https://en.m.wikipedia.org/docs/Fluent_interface) for enforcing
+[design contracts](https://en.wikipedia.org/docs/Design_by_contract) with
+[automatic message generation](docs/Features.md#automatic-message-generation):
 
 ✔️ Easy to use  
 ✔️ Fast  
@@ -17,93 +18,149 @@ A [fluent API](https://en.wikipedia.org/wiki/Fluent_interface) for enforcing
 To get started, add this dependency:
 
 ```shell
-npm install --save @cowwoc/requirements@3.4.0
+npm install --save @cowwoc/requirements@4.0
 ```
 
 or [pnpm](https://pnpm.io/):
 
 ```shell
-pnpm add @cowwoc/requirements@3.4.0
+pnpm add @cowwoc/requirements@4.0
 ```
 
-The contents of the API classes depend on which [modules](wiki/Supported_Libraries.md) are enabled.
-
-## Sample Code
+## Usage Example
 
 ```typescript
-import {requireThat} from "@cowwoc/requirements";
+import {requireThatString} from "@cowwoc/requirements";
 
-
-class Address
+class Cake
 {
-}
+  private bitesTaken = 0;
+  private piecesLeft;
 
-class PublicAPI
-{
-	constructor(name: string | null, age: number, address: Address | undefined)
-	{
-		// To validate user input, cast them to "unknown" prior to type-checks.
-		requireThat(name as unknown, "name").isString().length().isBetween(1, 30);
-		requireThat(age as unknown, "age").isNumber().isBetween(18, 30);
+  public constructor(piecesLeft: number)
+  {
+    requireThat(piecesLeft, "piecesLeft").isPositive();
+    this.piecesLeft = piecesLeft;
+  }
 
-		// Methods that conduct runtime type-checks, such as isString() or isNotNull(), update the
-		// compile-time type returned by getActual().
-		const nameIsString: string = requireThat(name as unknown, "name").isString().getActual();
-		const address: Address = requireThat(address as unknown, "address").isInstance(Address).getActual();
-	}
-}
+  public eat(): number
+  {
+    ++bitesTaken;
+    assertThat(bitesTaken, "bitesTaken").isNotNegative().elseThrow();
 
-class PrivateAPI
-{
-	public static toCamelCase(text): string
-	{
-		// Trusted input does not need to be casted to "unknown". The input type will be inferred
-		// and runtime checks will be skipped. Notice the lack of isString() or isNumber() invocations
-		// in the following code.
-		assertThat(r => r.requireThat(name, "name").length().isBetween(1, 30));
-		assertThat(r => r.requireThat(age, "age").isBetween(18, 30));
-	}
+    piecesLeft -= ThreadLocalRandom.current().nextInt(5);
+
+    assertThat(piecesLeft, "piecesLeft").isNotNegative().elseThrow();
+    return piecesLeft;
+  }
+
+  public getFailures(): String[]
+  {
+    return checkIf(bitesTaken, "bitesTaken").isNotNegative().
+      and(checkIf(piecesLeft, "piecesLeft").isGreaterThan(3)).
+      elseGetMessages();
+  }
 }
 ```
 
-Failure messages will look like this:
+If you violate a **precondition**:
 
-```text
-TypeError: name may not be null
+```typescript
+const cake = new Cake(-1000);
+```
 
-RangeError: name may not be empty
+You'll get:
 
-RangeError: age must be in range [18, 30).
-Actual: 15
+```
+RangeError: "piecesLeft" must be positive.
+actual: -1000
+```
+
+If you violate a **class invariant**:
+
+```typescript
+const cake = new Cake(1_000_000);
+while (true)
+  cake.eat();
+```
+
+You'll get:
+
+```
+lang.AssertionError: "bitesTaken" may not be negative.
+actual: -128
+```
+
+If you violate a **postcondition**:
+
+```typescript
+const cake = new Cake(100);
+while (true)
+  cake.eat();
+```
+
+You'll get:
+
+```
+AssertionError: "piecesLeft" may not be negative.
+actual: -4
+```
+
+If you violate **multiple** conditions at once:
+
+```typescript
+const cake = new Cake(1);
+cake.bitesTaken = -1;
+cake.piecesLeft = 2;
+const failures = [];
+for (const failure of cake.getFailures())
+    failures.add(failure);
+console.log(failures.join("\n\n"));
+```
+
+You'll get:
+
+```
+"bitesTaken" may not be negative.
+actual: -1
+
+"piecesLeft" must be greater than 3.
+actual: 2
 ```
 
 ## Features
 
-* [Automatic message generation](wiki/Features.md#automatic-message-generation)
-* [Diffs provided whenever possible](wiki/Features.md#diffs-provided-whenever-possible)
-* [Assertion support](wiki/Features.md#assertion-support)
-* [Grouping nested requirements](wiki/Features.md#grouping-nested-requirements)
-* [String diff](wiki/Features.md#string-diff)
+This library offers the following features:
 
-## Getting Started
+* [Automatic message generation](docs/Features.md#automatic-message-generation) for validation failures
+* [Diffs provided whenever possible](docs/Features.md#diffs-provided-whenever-possible) to highlight the
+  differences between expected and actual values
+* [Zero overhead when assertions are disabled](docs/Features.md#assertion-support) for better performance
+* [Multiple validation failures](docs/Features.md#multiple-validation-failures) that report all the errors at
+  once
+* [Nested validations](docs/Features.md#nested-validations) that allow you to validate complex objects
+* [String diff](docs/Features.md#string-diff) that shows the differences between two strings
 
-The best way to learn about the API is using your IDE's auto-complete engine.
-There are six entry points you can navigate from:
+## Entry Points
 
-* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-DefaultRequirements.html#~requireThat)
-* [validateThat(value, name)](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-DefaultRequirements.html#~validateThat)
-* [assertThat(Function)](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-DefaultRequirements.html#~assertThat)
-* [assertThatAndReturn(Function)](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-DefaultRequirements.html#~assertThatAndReturn)
+Designed for discovery using your favorite IDE's auto-complete feature.
+The main entry points are:
 
-* [Requirements](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-Requirements-Requirements.html)
-* [GlobalRequirements](https://cowwoc.github.io/requirements.js/3.4.0/docs/api/module-GlobalRequirements-GlobalRequirements.html)
+* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/4.0/docs/api/module-DefaultRequirements.html#~requireThat)
+  for method preconditions.
+* [assertThat(value, name)](https://cowwoc.github.io/requirements.js/4.0/docs/api/module-DefaultRequirements.html#~assertThat)
+  for [class invariants, method postconditions and private methods](docs/Features.md#assertion-support). 
+* [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0/docs/api/module-DefaultRequirements.html#~checkIf)
+  for multiple failures and customized error handling.
+
+See the [API documentation](https://cowwoc.github.io/requirements.java/10.0/docs/api/) for more details.
 
 ## Best practices
 
-* Use `requireThat()` to verify pre-conditions of public APIs.
-* Use `assertThat()` to verify object invariants and method post-conditions.
-  This results in excellent performance when assertions are disabled.
-  Have your cake and eat it too!
+* Use `checkIf().elseGetMessages()` to return failure messages without throwing an exception.
+  This is the fastest validation approach, ideal for web services.
+* To enhance the clarity of failure messages, you should provide parameter names, even when they are optional.
+  In other words, favor `assert that(value, name)` over `assert that(value)`.
 
 ## Related Projects
 

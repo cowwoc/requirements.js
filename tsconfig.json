@@ -4,31 +4,31 @@
 	"compilerOptions": {
 		"preserveConstEnums": true,
 		"allowSyntheticDefaultImports": true,
-		"target": "ES2021",
+		"target": "ES2022",
 		"lib": [
 			"DOM",
-			"ES2021"
+			"ES2022"
 		],
 		"module": "Node16",
 		"moduleResolution": "Node16",
-		// Fix importing of CommonJS/AMD/UMD modules
-		"esModuleInterop": true,
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
-		// Required by C8
+		// Required by C8 and IntelliJ's debugger
 		"sourceMap": true
+		// WORKAROUND: https://github.com/isaacs/node-lru-cache/issues/353
+		//		"strictBuiltinIteratorReturn": false
 	},
 	"include": [
-		// Files used to generate the target/publish directory
-		"./src"
+		// Files used to generate the target directory
+		"./src",
+		"./test",
+		"./build"
 	],
 	"exclude": [
 		"node_modules",
 		"target",
-		"./.eslintrc.mjs",
-		"./build",
-		"./test",
+		"eslint.config.mjs",
 		"./test/TestGlobalConfiguration.mts"
 	],
 	"declaration": true

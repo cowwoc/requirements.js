@@ -6,10 +6,18 @@ import {assert} from "chai";
 import {
 	Configuration,
 	TerminalEncoding,
-	ValidationFailure
+	requireThatArray
+} from "../src/index.mjs";
+import {
+	ValidationFailureImpl,
+	type ErrorBuilder,
+	JavascriptValidatorsImpl,
+	StringValidatorImpl,
+	MessageBuilder,
+	AssertionError
 } from "../src/internal/internal.mjs";
-import {Requirements} from "../src/index.mjs";
-import {TestGlobalConfiguration} from "./TestGlobalConfiguration.mjs";
+import {TestApplicationScope} from "./TestApplicationScope.mjs";
+
 
 suite("ValidationFailureTest", () =>
 {
@@ -18,84 +26,75 @@ suite("ValidationFailureTest", () =>
 		assert.throws(function()
 		{
 			let configuration: undefined;
-			let exceptionType: undefined;
+			let errorType: undefined;
 			let message: undefined;
 
-			// eslint-disable-next-line no-new
-			new ValidationFailure(configuration as unknown as Configuration,
-				exceptionType as unknown as new (exceptionMessage: string) => Error, message as unknown as string);
-		}, TypeError);
+			new ValidationFailureImpl(configuration as unknown as Configuration,
+				message as unknown as string, errorType as unknown as ErrorBuilder);
+		}, AssertionError);
 	});
 
 	test("typeIsUndefined", () =>
 	{
 		assert.throws(function()
 		{
-			const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-			const configuration = new Configuration(globalConfiguration);
-
 			let type: undefined;
-			// eslint-disable-next-line no-new
-			new ValidationFailure(configuration, type as unknown as new (message: string) => Error, "message");
-		}, TypeError);
+			new ValidationFailureImpl(Configuration.DEFAULT, "message.", type as unknown as ErrorBuilder);
+		}, AssertionError);
 	});
 
 	test("messageIsUndefined", () =>
 	{
 		assert.throws(function()
 		{
-			const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-			const configuration = new Configuration(globalConfiguration);
-
 			let message: undefined;
 
-			// eslint-disable-next-line no-new
-			new ValidationFailure(configuration, RangeError, message as unknown as string);
+			new ValidationFailureImpl(Configuration.DEFAULT, message as unknown as string, RangeError);
 		}, TypeError);
 	});
 
 	test("addContext", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-		const configuration = new Configuration(globalConfiguration);
-
+		const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+			Configuration.DEFAULT);
+		const validator = validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 		const valueNotString = 12345;
-		// eslint-disable-next-line no-new
-		new ValidationFailure(configuration, RangeError, "message").
-			addContext("key", valueNotString);
+
+		new ValidationFailureImpl(Configuration.DEFAULT, new MessageBuilder(validator, "message.").
+			withContext(valueNotString, "key").toString(), RangeError);
 	});
 
 	test("addContext_keyNotString", () =>
 	{
 		assert.throws(function()
 		{
-			const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NONE);
-			const configuration = new Configuration(globalConfiguration);
+			const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
+				Configuration.DEFAULT);
+			const validator = validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 
 			const key = null;
-
-			// eslint-disable-next-line no-new
-			new ValidationFailure(configuration, RangeError, "message").
-				addContext(key as unknown as string, null);
+			new ValidationFailureImpl(Configuration.DEFAULT, new MessageBuilder(validator, "message.").
+				withContext(key as unknown as string, null as unknown as string).toString(), RangeError);
 		}, TypeError);
 	});
 
 	test("messageWithoutFormatting", () =>
 	{
-		const globalConfiguration = new TestGlobalConfiguration(TerminalEncoding.NODE_16_COLORS);
-		const configuration = new Configuration(globalConfiguration);
-		const requirements = new Requirements(configuration);
+		const validators = new JavascriptValidatorsImpl(
+			new TestApplicationScope(TerminalEncoding.NODE_16_COLORS), Configuration.DEFAULT);
+		validators.updateConfiguration(c => c.allowDiff(false));
+		validators.requireThatString("value", "actual") as StringValidatorImpl<string>;
 
 		const actual = "int[6]";
 		const expected = "int[5]";
-		const expectedMessage = "actual must be equal to " + expected + ".\n" +
-			"Actual: int[6]";
+		const expectedMessage = `\
+"actual" must be equal to "${expected}".
+actual: "int[6]"`;
 		const expectedMessages = [expectedMessage];
 
-		const actualFailures = requirements.withoutDiff().
-			validateThat(actual, "actual").
-			isEqualTo(expected).getFailures();
-		const actualMessages = actualFailures.map(failure => failure.getMessage());
-		requirements.requireThat(actualMessages, "actualMessages").isEqualTo(expectedMessages);
+		const actualFailures = validators.checkIfString(actual, "actual").
+			isEqualTo(expected).elseGetFailures();
+		const actualMessages = actualFailures.getFailures().map(failure => failure.getMessage());
+		requireThatArray(actualMessages, "actualMessages").isEqualTo(expectedMessages, "expectedMessages");
 	});
 });

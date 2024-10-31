@@ -1,124 +1,112 @@
 import {
-	Objects,
-	VariableType
-} from "../src/internal/internal.mjs";
-import {
 	suite,
 	test
 } from "mocha";
 import {assert} from "chai";
+import {
+	Type,
+	TypeCategory
+} from "../src/index.mjs";
+
 
 suite("ObjectsTest", () =>
 {
-	test("getTypeOf_undefined", () =>
+	test("getType_undefined", () =>
 	{
-		// eslint-disable-next-line no-undefined
-		assert.deepEqual(Objects.getTypeInfo(undefined), VariableType.UNDEFINED);
+		assert.deepEqual(Type.of(undefined), Type.UNDEFINED);
 	});
 
-	test("getTypeOf_null", () =>
+	test("getType_null", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(null), VariableType.NULL);
+		assert.deepEqual(Type.of(null), Type.NULL);
 	});
 
-	test("getTypeOf_boolean", () =>
+	test("getType_boolean", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(true), VariableType.BOOLEAN);
+		assert.deepEqual(Type.of(true), Type.BOOLEAN);
 	});
 
-	test("getTypeOf_Boolean", () =>
+	test("getType_Boolean", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
 		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new Boolean(true);
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "Boolean"));
+		assert.deepEqual(Type.of(input), Type.namedClass("Boolean"));
 	});
 
-	test("getTypeOf_number", () =>
+	test("getType_number", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(5), VariableType.NUMBER);
+		assert.deepEqual(Type.of(5), Type.NUMBER);
 	});
 
-	test("getTypeOf_Number", () =>
+	test("getType_Number", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
+		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new Number(5);
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "Number"));
+		assert.deepEqual(Type.of(input), Type.namedClass("Number"));
 	});
 
-	test("getTypeOf_bigint", () =>
+	test("getType_bigint", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(5n), VariableType.BIGINT);
+		assert.deepEqual(Type.of(5n), Type.BIGINT);
 	});
 
-	test("getTypeOf_BigInt", () =>
+	test("getType_BigInt", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
 		const input = BigInt(5);
-		assert.deepEqual(Objects.getTypeInfo(input), VariableType.BIGINT);
+		assert.deepEqual(Type.of(input), Type.BIGINT);
 	});
 
-	test("getTypeOf_string", () =>
+	test("getType_string", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo("test"), VariableType.STRING);
+		assert.deepEqual(Type.of("test"), Type.STRING);
 	});
 
-	test("getTypeOf_String", () =>
+	test("getType_String", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers
+		// noinspection JSPrimitiveTypeWrapperUsage
 		const input = new String("test");
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "String"));
+		assert.deepEqual(Type.of(input), Type.of(String));
 	});
 
-	test("getTypeOf_symbol", () =>
+	test("getType_Symbol", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo(Symbol("test")), VariableType.SYMBOL);
+		assert.deepEqual(Type.of(Symbol("test")), Type.SYMBOL);
 	});
 
-	test("getTypeOf_Symbol", () =>
+	test("getType_anonymousFunction", () =>
 	{
-		// eslint-disable-next-line no-new-wrappers, @typescript-eslint/ban-types
-		const input: Symbol = Object(Symbol("test")) as Symbol;
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "Symbol"));
-	});
-
-	test("getTypeOf_anonymousFunction", () =>
-	{
-		assert.deepEqual(Objects.getTypeInfo(function()
+		assert.deepEqual(Type.of(function()
 		{
 			return "output";
-		}), VariableType.ANONYMOUS_FUNCTION);
+		}), Type.ANONYMOUS_FUNCTION);
 	});
 
-	test("getTypeOf_arrowFunction", () =>
+	test("getType_arrowFunction", () =>
 	{
-		assert.deepEqual(Objects.getTypeInfo((input: string) => input + " -> output"),
-			VariableType.ANONYMOUS_FUNCTION);
+		assert.deepEqual(Type.of((input: string) => input + " => output"),
+			Type.ANONYMOUS_FUNCTION);
 	});
 
-	test("getTypeOf_namedFunction", () =>
+	test("getType_namedFunction", () =>
 	{
 		const input = function MyFunction()
 		{
 			return "hello world";
 		};
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("function", "MyFunction"));
+		const type = Type.of(input);
+		assert.deepEqual(type.category, TypeCategory.FUNCTION);
+		assert.deepEqual(type.name, "MyFunction");
 	});
 
 
+	// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 	class MyClass
 	{
 	}
 
-	test("getTypeOf_object", () =>
-	{
-		const input = new MyClass();
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("object", "MyClass"));
-	});
-
-	test("getTypeOf_class", () =>
+	test("getType_class", () =>
 	{
 		const input = MyClass;
-		assert.deepEqual(Objects.getTypeInfo(input), new VariableType("class", "MyClass"));
+		assert.deepEqual(Type.of(input), Type.namedClass("MyClass"));
 	});
 });

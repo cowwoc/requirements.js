@@ -16,7 +16,8 @@ Expected:     ballroom\0
 * When `+` is present, `Expected` is padded to line up vertically with `Actual`.
 * The padding is not part of `Actual` and `Expected`'s value, respectively. Read on for concrete examples.
 * Lines always end with `\n` or `\0`. The former denotes a newline. The latter denotes the end of the string.
-* Lines ending with "\n\n" or "\0\0" represents the literal string "\n" followed by a newline character, or the literal
+* Lines ending with "\n\n" or "\0\0" represents the literal string "\n" followed by a newline character, or
+  the literal
   string "\0" followed by the end of string, respectively.
 
 ## Example 1: insert
@@ -71,7 +72,8 @@ Expected:    foo\0
 Meaning:
 
 * To go from `Actual` to `Expected` we need to insert three spaces at the beginning of `Actual`.
-* There is no whitespace in `Expected` in front of "foo". This padding is used to line up the strings vertically.
+* There is no whitespace in `Expected` in front of "foo". This padding is used to line up the strings
+  vertically.
 
 ## Example 4: delete, keep, insert
 
@@ -93,17 +95,17 @@ Meaning, we need to:
 * Delete "foos".
 * Keep "ball".
 * Insert "room".
-* There is no whitespace before "ballroom" or after "foosball". This padding is used to line up the strings vertically.
+* There is no whitespace before "ballroom" or after "foosball". This padding is used to line up the strings
+  vertically.
 
 ## Example 5: Objects with the same toString() that are not equal
 
 * If objects are not equal, and their `toString()` values differ, we output their String representations.
-* If the `toString()` values are equal, but their types differ, we output the string representation of `Actual` followed
-  by the two types (i.e. `Actual.class` vs `Expected.class`).
-* If their classes are equal, but their `hashCode()` values differ, we output the string representation of `Actual`
-  followed by the two hashcodes (i.e. `Actual.hashCode()` vs `Expected.hashCode()`).
+* If the `toString()` values are equal, but their types differ, we output the string representation
+  of `Actual` followed
+  by the two types (i.e. `Type.of(Actual)` vs `Type.of(Expected)`).
 
-For example:
+For example,
 
 ```text
 Actual   = "null"
@@ -113,10 +115,10 @@ Expected = null
 results in the following diff:
 
 ```text
-Actual        : null
-Actual.class  : java.lang.String    \0
-Diff          : ----------------++++
-Expected.class:                 null\0
+Actual           : null
+Type.of(Actual)  : string    \0
+Diff             : ------++++ 
+Type.of(Expected):       null\0
 ```
 
 ## Example 6: Multi-line Strings
@@ -125,9 +127,9 @@ When comparing multi-line strings:
 
 * We display the diff on a per-line basis.
 * `Actual` and `Expected` are followed by a 0-based line number.
-* Lines that are identical (with the exception of the first and last line) are omitted.
+* Lines that are identical (except the first and last line) are omitted.
 
-For example:
+For example,
 
 ```text
 Actual   = "first\nsecond\nfoo\nforth\nfifth"
@@ -160,7 +162,8 @@ Meaning:
 
 ## Example 7: Missing Line Numbers
 
-When `Actual` or `Expected` contain a line that does not have a corresponding line on the other side we omit the
+When `Actual` or `Expected` contain a line that does not have a corresponding line on the other side we omit
+the
 latter's line number.
 
 ```text
@@ -192,14 +195,19 @@ When comparing lists or arrays:
 
 * We display the diff on a per-element basis.
 * `Actual` and `Expected` are followed by the element's index number.
-* Indexes that are identical (with the exception of the first and last line) are omitted.
+* Indexes that are identical (except the first and last line) are omitted.
 
-For example:
+For example,
 
 ```java
 
-Actual   = List.of("1", "foo\nbar", "3");
-Expected = List.of("1", "bar\nfoo", "3");
+Actual   =List.
+
+of("1","foo\nbar","3");
+
+Expected =List.
+
+of("1","bar\nfoo","3");
 ```
 
 results in the following diff:

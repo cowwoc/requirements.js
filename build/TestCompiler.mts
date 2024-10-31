@@ -33,7 +33,7 @@ class TestCompiler
 	 * Compiles a code snippet.
 	 *
 	 * @param snippet - the code to compile
-	 * @return the compiler warnings and errors
+	 * @returns the compiler warnings and errors
 	 */
 	public compile(snippet: string)
 	{

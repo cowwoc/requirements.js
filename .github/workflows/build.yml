@@ -6,10 +6,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 
@@ -21,12 +21,12 @@ jobs:
       # pnpm dependencies cannot be cached until pnpm is installed
       # WORKAROUND: https://github.com/actions/setup-node/issues/531
       - name: Extract cached dependencies
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           cache: pnpm
 
       - name: Update dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: build
-        run: pnpm run build.debug
+      - name: Build
+        run: pnpm run build

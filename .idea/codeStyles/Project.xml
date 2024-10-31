@@ -1,0 +1,104 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="RIGHT_MARGIN" value="110" />
+    <JSCodeStyleSettings version="1">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+      <option name="VAR_DECLARATION_WRAP" value="2" />
+      <option name="OBJECT_LITERAL_WRAP" value="2" />
+      <option name="CHAINED_CALL_DOT_ON_NEW_LINE" value="false" />
+      <option name="FUNCTION_EXPRESSION_BRACE_STYLE" value="2" />
+      <option name="IMPORT_MERGE_MEMBERS" value="FALSE" />
+      <option name="IMPORT_USE_NODE_RESOLUTION" value="FALSE" />
+    </JSCodeStyleSettings>
+    <TypeScriptCodeStyleSettings version="0">
+      <option name="FORCE_SEMICOLON_STYLE" value="true" />
+      <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
+      <option name="FORCE_QUOTE_STYlE" value="true" />
+      <option name="ENFORCE_TRAILING_COMMA" value="Remove" />
+      <option name="OBJECT_LITERAL_WRAP" value="2" />
+      <option name="OBJECT_TYPES_WRAP" value="1" />
+      <option name="IMPORTS_WRAP" value="2" />
+      <option name="USE_CHAINED_CALLS_GROUP_INDENTS" value="true" />
+      <option name="CHAINED_CALL_DOT_ON_NEW_LINE" value="false" />
+      <option name="IMPORT_SORT_MEMBERS" value="false" />
+      <option name="FUNCTION_EXPRESSION_BRACE_STYLE" value="2" />
+    </TypeScriptCodeStyleSettings>
+    <codeStyleSettings language="JAVA">
+      <option name="RIGHT_MARGIN" value="110" />
+    </codeStyleSettings>
+    <codeStyleSettings language="JSON">
+      <option name="RIGHT_MARGIN" value="110" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="JavaScript">
+      <option name="RIGHT_MARGIN" value="110" />
+      <option name="BRACE_STYLE" value="2" />
+      <option name="CLASS_BRACE_STYLE" value="2" />
+      <option name="METHOD_BRACE_STYLE" value="2" />
+      <option name="ELSE_ON_NEW_LINE" value="true" />
+      <option name="CATCH_ON_NEW_LINE" value="true" />
+      <option name="FINALLY_ON_NEW_LINE" value="true" />
+      <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+      <option name="ALIGN_MULTILINE_FOR" value="false" />
+      <option name="TERNARY_OPERATION_WRAP" value="2" />
+      <option name="ARRAY_INITIALIZER_LBRACE_ON_NEXT_LINE" value="true" />
+      <option name="ARRAY_INITIALIZER_RBRACE_ON_NEXT_LINE" value="true" />
+      <option name="WRAP_COMMENTS" value="true" />
+      <option name="WRAP_ON_TYPING" value="0" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="110" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="TypeScript">
+      <option name="RIGHT_MARGIN" value="110" />
+      <option name="BRACE_STYLE" value="2" />
+      <option name="CLASS_BRACE_STYLE" value="2" />
+      <option name="METHOD_BRACE_STYLE" value="2" />
+      <option name="ELSE_ON_NEW_LINE" value="true" />
+      <option name="CATCH_ON_NEW_LINE" value="true" />
+      <option name="FINALLY_ON_NEW_LINE" value="true" />
+      <option name="CALL_PARAMETERS_WRAP" value="1" />
+      <option name="METHOD_PARAMETERS_WRAP" value="1" />
+      <option name="EXTENDS_LIST_WRAP" value="1" />
+      <option name="EXTENDS_KEYWORD_WRAP" value="1" />
+      <option name="METHOD_CALL_CHAIN_WRAP" value="1" />
+      <option name="WRAP_COMMENTS" value="true" />
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="XML">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="2" />
+        <option name="CONTINUATION_INDENT_SIZE" value="2" />
+        <option name="TAB_SIZE" value="2" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+        <option name="SMART_TABS" value="true" />
+      </indentOptions>
+    </codeStyleSettings>
+  </code_scheme>
+</component>
