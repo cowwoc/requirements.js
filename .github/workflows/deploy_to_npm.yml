@@ -36,6 +36,7 @@ jobs:
           TAG=release-${{ steps.parse-version.outputs.current-version }}
           echo "TAG=${TAG}" >> "$GITHUB_OUTPUT"
           git tag ${TAG}
+          git push origin tag ${TAG}  
 
   deploy:
     name: Deploy
@@ -79,6 +80,14 @@ jobs:
           mv target/reports/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit changes
+        run: |
+          git checkout gh-pages -f
+          echo "INITIAL_GH_PAGES_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          git add "${{ needs.open-release.outputs.VERSION }}/docs/api"
+          git commit -m "Released version ${{ needs.open-release.outputs.VERSION }}"
+          git push
 
   # Cleanup on failure: https://stackoverflow.com/a/74562058/14731
   on-failure:
