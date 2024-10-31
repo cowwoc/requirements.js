@@ -68,13 +68,16 @@ jobs:
           cache: pnpm
 
       - name: Test build
-        run: pnpm run build
+        run: |
+          pnpm install
+          pnpm run build
 
       - name: Deploy to npm
         run: |
-          cd target\publish
-          copy ..\..\pnpm-lock.yaml .
-          pnpm publish --provenance --access=public
+          cd target/publish
+          cp ../../pnpm-lock.yaml .
+          git status
+          pnpm publish --provenance --access=public --no-git-checks
           
           mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
           mv target/reports/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
