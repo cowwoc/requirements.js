@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   open-release:
+    name: Open release
     runs-on: ubuntu-latest
     outputs:
       INITIAL_MASTER_POSITION: ${{ steps.create-tag.outputs.INITIAL_MASTER_POSITION }}
@@ -45,7 +46,7 @@ jobs:
           git push origin tag ${TAG}  
 
   deploy:
-    name: deploy
+    name: Deploy
     needs: open-release
     runs-on: ubuntu-latest
     steps:
@@ -102,6 +103,7 @@ jobs:
 
   # Cleanup on failure: https://stackoverflow.com/a/74562058/14731
   on-failure:
+    name: On failure
     needs: [ open-release, deploy ]
     runs-on: ubuntu-latest
     if: ${{ failure() || cancelled() }}
