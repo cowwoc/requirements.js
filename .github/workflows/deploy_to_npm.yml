@@ -45,7 +45,7 @@ jobs:
           git push origin tag ${TAG}  
 
   deploy:
-    name: Deploy
+    name: deploy
     needs: open-release
     runs-on: ubuntu-latest
     steps:
@@ -86,7 +86,6 @@ jobs:
         run: |
           cd target/publish
           cp ../../pnpm-lock.yaml .
-          git status
           pnpm publish --provenance --access=public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
