@@ -15,10 +15,8 @@ import {TestApplicationScope} from "./TestApplicationScope.mjs";
 const validators = new JavascriptValidatorsImpl(new TestApplicationScope(TerminalEncoding.NONE),
 	Configuration.DEFAULT);
 
-/* eslint-disable max-statements */
 suite("ArrayTest", () =>
 {
-	/* eslint-enable max-statements */
 	test("isEmpty", () =>
 	{
 		const actual: unknown[] = [];

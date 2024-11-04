@@ -17,7 +17,8 @@ import {
 	collectionContainsSize,
 	objectIsNotEmpty,
 	objectIsEmpty,
-	collectionSizeIsBetween
+	collectionSizeIsBetween,
+	Type
 } from "../internal.mjs";
 import {requireThatValueIsDefined} from "./Objects.mjs";
 
@@ -55,6 +56,46 @@ class ObjectSizeValidatorImpl extends AbstractValidator<number>
 
 		this.objectValidator = objectValidator;
 		this.pluralizer = pluralizer;
+	}
+
+	public isEqualTo(expected: unknown): this;
+	public isEqualTo(expected: unknown, name?: string): this
+	{
+		const typeOfExpected = Type.of(expected);
+		if (typeOfExpected === Type.NUMBER)
+		{
+			if (name !== undefined)
+				this.requireThatNameIsUnique(name);
+
+			if (this.value.validationFailed(v => v === expected))
+			{
+				this.addRangeError(
+					collectionContainsSize(this.objectValidator, this.name, this.value.or(null), "must contain",
+						this.name, expected as number, this.pluralizer).toString());
+			}
+			return this;
+		}
+		return super.isEqualTo(expected);
+	}
+
+	public isNotEqualTo(unwanted: unknown): this;
+	public isNotEqualTo(unwanted: unknown, name?: string)
+	{
+		const typeOfExpected = Type.of(unwanted);
+		if (typeOfExpected === Type.NUMBER)
+		{
+			if (name !== undefined)
+				this.requireThatNameIsUnique(name);
+
+			if (this.value.validationFailed(v => v !== unwanted))
+			{
+				this.addRangeError(
+					collectionContainsSize(this.objectValidator, this.name, this.value.or(null), "may not contain",
+						this.name, unwanted as number, this.pluralizer).toString());
+			}
+			return this;
+		}
+		return super.isEqualTo(unwanted);
 	}
 
 	public isZero(): this

@@ -1,6 +1,11 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 4.0.6 - 2024/11/04
+
+* Improvements
+  * `size().isEqualTo()` and `isNotEqualTo()` now include the array value in the exception context.
+
 ## Version 4.0.5 - 2024/10/31
 
 * Breaking changes:
