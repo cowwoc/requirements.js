@@ -34,32 +34,32 @@ import {requireThatString} from "@cowwoc/requirements";
 
 class Cake
 {
-  private bitesTaken = 0;
-  private piecesLeft;
+	private bitesTaken = 0;
+	private piecesLeft;
 
-  public constructor(piecesLeft: number)
-  {
-    requireThat(piecesLeft, "piecesLeft").isPositive();
-    this.piecesLeft = piecesLeft;
-  }
+	public constructor(piecesLeft: number)
+	{
+		requireThat(piecesLeft, "piecesLeft").isPositive();
+		this.piecesLeft = piecesLeft;
+	}
 
-  public eat(): number
-  {
-    ++bitesTaken;
-    assertThat(bitesTaken, "bitesTaken").isNotNegative().elseThrow();
+	public eat(): number
+	{
+		++bitesTaken;
+		assertThat(bitesTaken, "bitesTaken").isNotNegative().elseThrow();
 
-    piecesLeft -= ThreadLocalRandom.current().nextInt(5);
+		piecesLeft -= ThreadLocalRandom.current().nextInt(5);
 
-    assertThat(piecesLeft, "piecesLeft").isNotNegative().elseThrow();
-    return piecesLeft;
-  }
+		assertThat(piecesLeft, "piecesLeft").isNotNegative().elseThrow();
+		return piecesLeft;
+	}
 
-  public getFailures(): String[]
-  {
-    return checkIf(bitesTaken, "bitesTaken").isNotNegative().
-      and(checkIf(piecesLeft, "piecesLeft").isGreaterThan(3)).
-      elseGetMessages();
-  }
+	public getFailures(): String[]
+	{
+		return checkIf(bitesTaken, "bitesTaken").isNotNegative().
+			and(checkIf(piecesLeft, "piecesLeft").isGreaterThan(3)).
+			elseGetMessages();
+	}
 }
 ```
 
@@ -81,7 +81,7 @@ If you violate a **class invariant**:
 ```typescript
 const cake = new Cake(1_000_000);
 while (true)
-  cake.eat();
+	cake.eat();
 ```
 
 You'll get:
@@ -96,7 +96,7 @@ If you violate a **postcondition**:
 ```typescript
 const cake = new Cake(100);
 while (true)
-  cake.eat();
+	cake.eat();
 ```
 
 You'll get:
@@ -114,7 +114,7 @@ cake.bitesTaken = -1;
 cake.piecesLeft = 2;
 const failures = [];
 for (const failure of cake.getFailures())
-    failures.add(failure);
+	failures.add(failure);
 console.log(failures.join("\n\n"));
 ```
 
@@ -146,12 +146,31 @@ This library offers the following features:
 Designed for discovery using your favorite IDE's auto-complete feature.
 The main entry points are:
 
-* [requireThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/module-DefaultRequirements.html#~requireThat)
-  for method preconditions.
-* [assertThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/module-DefaultRequirements.html#~assertThat)
-  for [class invariants, method postconditions and private methods](docs/Features.md#assertion-support). 
-* [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/module-DefaultRequirements.html#~checkIf)
-  for multiple failures and customized error handling.
+* `requireThat(value, name)` for method preconditions.
+  * [requireThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThat.html)
+  * [requireThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatArray.html)
+  * [requireThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatBoolean.html)
+  * [requireThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatMap.html)
+  * [requireThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatNumber.html)
+  * [requireThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatSet.html)
+  * [requireThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.requireThatString.html)
+* `assertThat(value, name)` for [class invariants, method postconditions and private methods](docs/Features.md#assertion-support).
+  * [assertThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThat.html)
+  * [assertThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatArray.html)
+  * [assertThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatBoolean.html)
+  * [assertThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatMap.html)
+  * [assertThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatNumber.html)
+  * [assertThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatSet.html)
+  * [assertThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.assertThatString.html)
+* `checkIf(value, name)` for multiple failures and customized error handling.
+  * [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIf.html)
+  * [checkIfArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfArray.html)
+  * [checkIfBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfBoolean.html)
+  * [checkIfMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfMap.html)
+  * [checkIfNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfNumber.html)
+  * [checkIfSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfSet.html)
+  * [checkIfString(value, name)](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/functions/DefaultJavascriptValidators.checkIfString.html)
+  
 
 See the [API documentation](https://cowwoc.github.io/requirements.js/4.0.7/docs/api/) for more details.
 
