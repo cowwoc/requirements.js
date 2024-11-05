@@ -34,8 +34,8 @@ function collectionContainsSize(validator: AbstractValidator<unknown>, actualSiz
 
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} ${relationship} ${expectedNameOrSize} ${pluralizer.nameOf(
-			expectedSize)}.`);
+		`${MessageBuilder.quoteName(name)} ${relationship} ${expectedNameOrSize} \
+${pluralizer.nameOf(expectedSize, expectedSizeName)}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
 	if (actualSize !== null)
@@ -72,7 +72,7 @@ function collectionSizeIsBetween(validator: AbstractValidator<unknown>, actualSi
 		// The size is null (e.g. the collection is null)
 		//
 		//  "actual" must contain [1, 3] elements
-		message += ` must contain ${bounds} ${pluralizer.nameOf(2)} .`;
+		message += ` must contain ${bounds} ${pluralizer.nameOf(2, null)} .`;
 		return new MessageBuilder(validator, message);
 	}
 
@@ -103,7 +103,7 @@ function collectionSizeIsBetween(validator: AbstractValidator<unknown>, actualSi
 actual: ${actualSize.toString()}
 bounds: ${bounds}`);
 	}
-	message += `${pluralizer.nameOf(2)}.`;
+	message += `${pluralizer.nameOf(2, null)}.`;
 	return new MessageBuilder(validator, message).
 		withContext(validator.getValue(), name).
 		withContext(actualSize, actualSizeName).
@@ -199,7 +199,7 @@ function collectionContainsAny(validator: AbstractValidator<unknown>, expectedNa
 
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} must contain any of the ${pluralizer.nameOf(2)} \
+		`${MessageBuilder.quoteName(name)} must contain any of the ${pluralizer.nameOf(2, null)} \
 present in ${expectedNameOrValue}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
@@ -229,7 +229,7 @@ function collectionDoesNotContainAny<E>(validator: AbstractValidator<unknown>,
 
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} may not contain any of the ${pluralizer.nameOf(2)} \
+		`${MessageBuilder.quoteName(name)} may not contain any of the ${pluralizer.nameOf(2, null)} \
 present in ${unwantedNameOrValue}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
@@ -266,7 +266,7 @@ function collectionContainsExactly<E>(validator: AbstractValidator<unknown>, dif
 	let message = `${MessageBuilder.quoteName(name)} must consist of the `;
 	if (expectedName !== null)
 		message += "same ";
-	message += `${pluralizer.nameOf(2)} `;
+	message += `${pluralizer.nameOf(2, null)} `;
 	const expectedNameOrValue = validator.getNameOrValue("as ", expectedName, "", expected);
 	message += `${expectedNameOrValue}, regardless of their order.`;
 
@@ -301,7 +301,7 @@ function collectionDoesNotContainExactly(validator: AbstractValidator<unknown>, 
 	let message = `${MessageBuilder.quoteName(validator.getName())} may not consist of the `;
 	if (unwantedName !== null)
 		message += "same ";
-	message += `${pluralizer.nameOf(2)} `;
+	message += `${pluralizer.nameOf(2, null)} `;
 	const unwantedStringNameOrValue = validator.getNameOrValue("as ", unwantedName, "", unwanted);
 	message += `${unwantedStringNameOrValue}, regardless of their order.`;
 
@@ -331,7 +331,7 @@ function collectionContainsAll<E>(validator: AbstractValidator<unknown>, differe
 
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} must contain all the ${pluralizer.nameOf(2)} \
+		`${MessageBuilder.quoteName(name)} must contain all the ${pluralizer.nameOf(2, null)} \
 present in ${expectedNameOrValue}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
@@ -360,7 +360,7 @@ function collectionDoesNotContainAll(validator: AbstractValidator<unknown>, unwa
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
 		`${MessageBuilder.quoteName(name)} may contain some, but not all, the \
-${pluralizer.nameOf(2)} present in ${unwantedNameOrValue}.`);
+${pluralizer.nameOf(2, null)} present in ${unwantedNameOrValue}.`);
 
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));
 	if (unwantedName !== null)
@@ -380,7 +380,7 @@ function collectionDoesNotContainDuplicates<E>(validator: AbstractValidator<unkn
 {
 	const name = validator.getName();
 	const messageBuilder = new MessageBuilder(validator,
-		`${MessageBuilder.quoteName(name)} may not contain any duplicate ${pluralizer.nameOf(2)}.`);
+		`${MessageBuilder.quoteName(name)} may not contain any duplicate ${pluralizer.nameOf(2, null)}.`);
 	if (duplicates !== null)
 		messageBuilder.withContext(duplicates, "duplicates");
 	validator.value.undefinedOrNullToInvalid().ifValid(v => messageBuilder.withContext(v, name));

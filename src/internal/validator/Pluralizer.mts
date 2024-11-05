@@ -3,36 +3,34 @@
  */
 class Pluralizer
 {
-	private readonly prefix: string;
-	private readonly singularSuffix: string;
-	private readonly pluralSuffix: string;
-	static readonly CHARACTER = new Pluralizer("character", "", "s");
-	static readonly KEY = new Pluralizer("key", "", "s");
-	static readonly VALUE = new Pluralizer("value", "", "s");
-	static readonly ELEMENT = new Pluralizer("element", "", "s");
-	static readonly ENTRY = new Pluralizer("entr", "y", "ies");
+	private readonly singular: string;
+	private readonly plural: string;
+	static readonly CHARACTER = new Pluralizer("character", "characters");
+	static readonly KEY = new Pluralizer("key", "keys");
+	static readonly VALUE = new Pluralizer("value", "values");
+	static readonly ELEMENT = new Pluralizer("element", "elements");
+	static readonly ENTRY = new Pluralizer("entry", "entries");
 
 	/**
-	 * @param prefix - the prefix common to both singular and plural forms
-	 * @param singularSuffix - the suffix to append to the singular form of the word
-	 * @param pluralSuffix - the suffix to append to the plural form of the word
+	 * @param singular - the singular form of the element
+	 * @param plural - the plural form of the element
 	 */
-	constructor(prefix: string, singularSuffix: string, pluralSuffix: string)
+	constructor(singular: string, plural: string)
 	{
-		this.prefix = prefix;
-		this.singularSuffix = singularSuffix;
-		this.pluralSuffix = pluralSuffix;
+		this.singular = singular;
+		this.plural = plural;
 	}
 
 	/**
 	 * @param count - a number of elements
-	 * @returns the singular or plural form of the element type
+	 * @param name - the name of the parameter containing the number of elements (`null` if absent)
+	 * @returns the singular or plural form of the element type (in lowercase)
 	 */
-	nameOf(count: number)
+	nameOf(count: number, name: string | null)
 	{
-		if (count === 1)
-			return this.prefix + this.singularSuffix;
-		return this.prefix + this.pluralSuffix;
+		if (count === 1 && name === null)
+			return this.singular;
+		return this.plural;
 	}
 }
 

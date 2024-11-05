@@ -1,10 +1,17 @@
 Minor updates involving cosmetic changes have been omitted from this list. See
 https://github.com/cowwoc/requirements.java/commits/master for a full list.
 
+## Version 4.0.7 - 2024/11/05
+
+* Improvements
+  * Updated dependencies
+
 ## Version 4.0.6 - 2024/11/04
 
 * Improvements
   * `size().isEqualTo()` and `isNotEqualTo()` now include the array value in the exception context.
+  * When referencing to a variable number of elements, always use the plural form of a type (e.g.
+    `actual must contain X entries` even if `X` is one).
 
 ## Version 4.0.5 - 2024/10/31
 
