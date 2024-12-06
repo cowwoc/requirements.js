@@ -18,8 +18,8 @@
 		"url": "https://github.com/cowwoc/requirements.js/"
 	},
 	"scripts": {
-		"clean": "node node_modules/tsx/dist/cli.mjs build/Project.mts clean",
-		"build": "node node_modules/tsx/dist/cli.mjs --enable-source-maps build/Project.mts build"
+		"clean": "node node_modules/tsx/dist/cli.mjs scripts/Project.mts clean",
+		"build": "node node_modules/tsx/dist/cli.mjs --enable-source-maps scripts/Project.mts build"
 	},
 	"browser": "browser/index.js",
 	"module": "node/index.mjs",

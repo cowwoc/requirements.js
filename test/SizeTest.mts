@@ -7,7 +7,7 @@ import {
 	TerminalEncoding,
 	Configuration
 } from "../src/index.mjs";
-import {TestCompiler} from "../build/TestCompiler.mjs";
+import {TestCompiler} from "../scripts/TestCompiler.mjs";
 import os from "os";
 import {JavascriptValidatorsImpl} from "../src/internal/internal.mjs";
 import {TestApplicationScope} from "./TestApplicationScope.mjs";
