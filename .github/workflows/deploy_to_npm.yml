@@ -101,8 +101,9 @@ jobs:
       - name: Commit documentation
         run: |
           git checkout ${{ github.ref_name }} -f
-          git add "docs/api/${{ needs.open-release.outputs.VERSION }}"
-          git commit -m "Committing documentation for version ${{ needs.open-release.outputs.VERSION }}"
+          VERSION=${{ needs.open-release.outputs.VERSION }}
+          git add "docs/api/${VERSION}"
+          git commit -m "Committing documentation for version ${VERSION}"
           git push
 
   document:
@@ -126,17 +127,6 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-
-      - name: Publish documentation
-        run: |
-          git checkout ${{ github.ref_name }} -f
-          echo "INITIAL_GH_PAGES_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-          mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
-          mv target/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
-          git add "${{ needs.open-release.outputs.VERSION }}/docs/api"
-          git commit -m "Released version ${{ needs.open-release.outputs.VERSION }}"
-          git push
 
   # Cleanup on failure: https://stackoverflow.com/a/74562058/14731
   on-failure:

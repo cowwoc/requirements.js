@@ -1,6 +1,6 @@
 {
 	"name": "@cowwoc/requirements",
-	"version": "4.0.10",
+	"version": "4.0.11",
 	"keywords": [
 		"preconditions",
 		"postconditions",
