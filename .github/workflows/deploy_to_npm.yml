@@ -130,7 +130,7 @@ jobs:
 
       - name: Publish documentation
         run: |
-          git checkout gh-pages -f
+          git checkout ${{ github.ref_name }} -f
           echo "INITIAL_GH_PAGES_POSITION=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           mkdir --parents "${{ needs.open-release.outputs.VERSION }}/docs"
           mv target/apidocs "${{ needs.open-release.outputs.VERSION }}/docs/api"
