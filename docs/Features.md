@@ -99,7 +99,7 @@ requireThat(nameToAge, "nameToAge").
 ## String diff
 
 When
-a [String comparison](https://cowwoc.github.io/requirements.js/4.0.8/docs/api/ObjectVerifier.html#isEqualTo)
+a [String comparison](https://cowwoc.github.io/requirements.js/4.0.9/interfaces/DefaultJavascriptValidators._internal_.ValidatorComponent.html#isEqualTo)
 fails, the library outputs a diff of the values being compared.
 
 Depending on the terminal capability, you will see a [textual](Textual_Diff.md) or a colored diff.

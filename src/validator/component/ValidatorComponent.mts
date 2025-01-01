@@ -33,7 +33,7 @@ interface ValidatorComponent<T>
 	 * Returns the value that is being validated.
 	 *
 	 * @returns the value
-	 * @throws RangeError if the value is invalid (e.g. due to dereferencing a property of a `null` object)
+	 * @throws RangeError if the value is invalid (e.g. due to dereferencing a property of a `null` value)
 	 */
 	getValue(): T;
 
@@ -42,7 +42,7 @@ interface ValidatorComponent<T>
 	 *
 	 * @param defaultValue - the fallback value to use if the value is invalid
 	 * @returns the validated value, or `defaultValue` if the value is invalid (e.g. due to dereferencing a
-	 *   property of a `null` object)
+	 *   property of a `null` value)
 	 */
 	getValueOrDefault(defaultValue: T): T;
 
@@ -178,7 +178,7 @@ interface ValidatorComponent<T>
 	isNotNull(): UnknownValidator<NonNullable<T>>;
 
 	/**
-	 * Ensures that the object is an instance of a class.
+	 * Ensures that the value is an instance of a class.
 	 *
 	 * @typeParam U - the desired class
 	 * @param expected - the desired class
@@ -198,7 +198,7 @@ interface ValidatorComponent<T>
 	isType(expected: Type): this;
 
 	/**
-	 * Ensures that the object is not an instance of a class.
+	 * Ensures that the value is not an instance of a class.
 	 *
 	 * @param unwanted - the unwanted class
 	 * @returns this
@@ -208,7 +208,7 @@ interface ValidatorComponent<T>
 	isNotInstanceOf<U extends object>(unwanted: ClassConstructor<U>): this;
 
 	/**
-	 * Ensures that the object is equal to `expected`.
+	 * Ensures that the value is equal to `expected`.
 	 *
 	 * @param expected - the expected value
 	 * @returns this
@@ -219,7 +219,7 @@ interface ValidatorComponent<T>
 	isEqualTo(expected: unknown): this;
 
 	/**
-	 * Ensures that the object is equal to `expected`.
+	 * Ensures that the value is equal to `expected`.
 	 *
 	 * @param expected - the expected value
 	 * @param name     - the name of the expected value
@@ -241,7 +241,7 @@ interface ValidatorComponent<T>
 	isEqualTo(expected: unknown, name: string): this;
 
 	/**
-	 * Ensures that the object is not equal to `unwanted`.
+	 * Ensures that the value is not equal to `unwanted`.
 	 *
 	 * @param unwanted - the unwanted value
 	 * @returns this
@@ -252,7 +252,7 @@ interface ValidatorComponent<T>
 	isNotEqualTo(unwanted: unknown): this;
 
 	/**
-	 * Ensures that the object is not equal to `unwanted`.
+	 * Ensures that the value is not equal to `unwanted`.
 	 *
 	 * @param unwanted - the unwanted value
 	 * @param name     - the name of the other value

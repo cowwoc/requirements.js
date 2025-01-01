@@ -97,7 +97,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam T - the type the value
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -116,7 +116,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam T - the type the value
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -136,7 +136,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam E - the type elements in the array
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -156,7 +156,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam E - the type elements in the set
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -177,7 +177,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam V - the type of values in the map
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -196,7 +196,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam T - the type the value
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */
@@ -215,7 +215,7 @@ class JavascriptValidatorsImpl extends AbstractValidators<JavascriptValidators>
 	 * @typeParam T - the type the value
 	 * @param value - the value
 	 * @param name - the name of the value
-	 * @returns a verifier
+	 * @returns a validator for the value
 	 * @throws TypeError  if `name` is `undefined` or `null`
 	 * @throws RangeError if `name` is empty
 	 */

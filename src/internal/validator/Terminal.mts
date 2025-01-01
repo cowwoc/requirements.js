@@ -96,7 +96,7 @@ Actual: ${String(chalk.level)}`);
 	}
 
 	/**
-	 * Indicates that verifiers should output the best encoding supported by the terminal.
+	 * Indicates that validators should output the best encoding supported by the terminal.
 	 *
 	 * @see Terminal.setEncoding
 	 */

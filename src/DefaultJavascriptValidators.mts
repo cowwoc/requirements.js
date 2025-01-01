@@ -44,7 +44,7 @@ const DELEGATE = new JavascriptValidatorsImpl(MainApplicationScope.INSTANCE, Con
  * @typeParam T - the type the value
  * @param value - the value
  * @param name - the name of the value
- * @returns a verifier
+ * @returns a validator for the value
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
@@ -62,7 +62,7 @@ function requireThatNumber<T extends number | undefined | null>
  * @typeParam T - the type the value
  * @param value - the value
  * @param name - the name of the value
- * @returns a verifier
+ * @returns a validator for the value
  * @throws TypeError  if `name` is `undefined` or `null`
  * @throws RangeError if `name` is empty
  */
