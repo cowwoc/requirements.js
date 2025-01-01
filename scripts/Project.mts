@@ -1,7 +1,7 @@
 import url from "url";
 import path from "path";
 import {ESLint} from "eslint";
-import TypeDoc from "typedoc";
+import * as TypeDoc from "typedoc";
 import fs from "node:fs";
 import _rollupCommonJs from "@rollup/plugin-commonjs";
 import {nodeResolve as rollupNodeResolve} from "@rollup/plugin-node-resolve";
