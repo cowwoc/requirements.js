@@ -1,7 +1,7 @@
 [![npm version](https://badge.fury.io/js/%40cowwoc%2Frequirements.svg)](https://badge.fury.io/js/%40cowwoc%2Frequirements)
 [![build-status](https://github.com/cowwoc/requirements.js/workflows/Build/badge.svg)](https://github.com/cowwoc/requirements.js/actions?query=workflow%3ABuild)
 
-# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-4.0.11/docs/checklist.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements API
+# <img src="https://raw.githubusercontent.com/cowwoc/requirements.js/release-4.0.11/docs/logo.svg?sanitize=true" width=64 height=64 alt="checklist"> Requirements API
 
 [![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/4.0.11/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
