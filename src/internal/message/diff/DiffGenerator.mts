@@ -253,7 +253,8 @@ class SimplifyDeltas
 				{
 					added: delta.added,
 					removed: delta.removed,
-					value: beforeWord
+					value: beforeWord,
+					count: beforeWord.length
 				});
 		}
 		return [actualBuilder, expectedBuilder];
@@ -317,14 +318,16 @@ class SimplifyDeltas
 		expectedBuilder += expectedWord;
 
 		const deleteActual: Change = {
-			value: actualBuilder,
 			added: false,
-			removed: true
+			removed: true,
+			value: actualBuilder,
+			count: actualBuilder.length
 		};
 		const insertExpected: Change = {
-			value: expectedBuilder,
 			added: true,
-			removed: false
+			removed: false,
+			value: expectedBuilder,
+			count: expectedBuilder.length
 		};
 		updatedDeltas.push(deleteActual);
 		updatedDeltas.push(insertExpected);
@@ -332,11 +335,13 @@ class SimplifyDeltas
 		// Add the remaining part of the delta
 		if (this.endOfWord < delta.value.length)
 		{
+			const value = delta.value.substring(this.endOfWord);
 			updatedDeltas.push(
 				{
 					added: delta.added,
 					removed: delta.removed,
-					value: delta.value.substring(this.endOfWord)
+					value: value,
+					count: value.length
 				});
 		}
 	}

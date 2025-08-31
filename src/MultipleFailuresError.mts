@@ -36,7 +36,7 @@ class MultipleFailuresError extends Error
 			result += `${i}. ${failure.getError().name}: ${failure.getMessage()}\n`;
 			++i;
 		}
-		return result.toString();
+		return result;
 	}
 
 	/**

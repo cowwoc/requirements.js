@@ -3,7 +3,7 @@ import {
 	TypeCategory,
 	AssertionError
 } from "../internal.mjs";
-import isEqual from "lodash.isequal";
+import {isDeepStrictEqual} from "util";
 
 type ElementOf<T> = T extends readonly (infer E)[] ? E : (T extends Set<infer E> ? E : never);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -152,7 +152,7 @@ Type  : ${typeOfName.toString()}`);
 	if (typeof (type.typeGuard) !== "undefined")
 		matchFound = type.typeGuard(value);
 	else
-		matchFound = isEqual(typeOfValue, type);
+		matchFound = isDeepStrictEqual(typeOfValue, type);
 	if (!matchFound)
 	{
 		throw new TypeError(`${name} must be a ${internalValueToString(type)}.
@@ -217,7 +217,7 @@ Type  : ${typeOfName.toString()}`);
 	if (typeGuard !== undefined)
 		matchFound = typeGuard(value);
 	else
-		matchFound = isEqual(typeCategoryOfValue, typeCategory);
+		matchFound = isDeepStrictEqual(typeCategoryOfValue, typeCategory);
 	if (!matchFound)
 	{
 		throw new TypeError(`${name} must be a ${TypeCategory[typeCategory]}.
@@ -492,7 +492,7 @@ function quoteString(value: string)
 	}
 	result = "\"" + result;
 	result = result + "\"";
-	return result.toString();
+	return result;
 }
 
 

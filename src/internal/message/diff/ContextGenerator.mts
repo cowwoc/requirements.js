@@ -17,7 +17,7 @@ import {
 	AssertionError,
 	MessageBuilder
 } from "../../internal.mjs";
-import isEqual from "lodash.isequal";
+import {isDeepStrictEqual} from "util";
 
 /**
  * Returns the difference between two values as an error context.
@@ -232,7 +232,7 @@ expectedName: ${expectedName}`);
 			actualValueLine.ifValid(value => elementGenerator.actualValue(value));
 			expectedValueLine.ifValid(value => elementGenerator.expectedValue(value));
 
-			elementsAreEqual &&= isEqual(actualValueLine, expectedValueLine);
+			elementsAreEqual &&= isDeepStrictEqual(actualValueLine, expectedValueLine);
 			if (i !== 0 && i !== maxSize - 1 && elementsAreEqual)
 			{
 				// Skip identical elements, unless they are the first or last element.
@@ -436,7 +436,7 @@ expectedName: ${expectedName}`);
 
 		const actualTypeName = Type.of(this._actualValue);
 		const expectedTypeName = Type.of(this._expectedValue);
-		if (!isEqual(actualTypeName, expectedTypeName))
+		if (!isDeepStrictEqual(actualTypeName, expectedTypeName))
 		{
 			return new ContextGenerator(this.scope, this.configuration, `${this._actualName}.type`,
 				`${this._expectedName}.type`).

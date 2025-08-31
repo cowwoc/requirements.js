@@ -159,7 +159,7 @@ Legend
 		for (const section of context)
 			lines.push(...section.getLines(maxKeyLength));
 		result += lines.join("\n");
-		return result.toString();
+		return result;
 	}
 
 	private addErrorMessageToContext(context: MessageSection[])

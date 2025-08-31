@@ -29,7 +29,7 @@ import {
 	messagesIsNotUndefined,
 	type NonUndefinable
 } from "../internal.mjs";
-import isEqual from "lodash.isequal";
+import {isDeepStrictEqual} from "util";
 
 /**
  * Validates the state of a value, recording failures without throwing an error.
@@ -312,7 +312,7 @@ different name.`);
 			const typeOfValue = Type.of(v);
 			if (typeof (otherType.typeGuard) !== "undefined")
 				return otherType.typeGuard(v);
-			return isEqual(typeOfValue, otherType) !== mustBeEqual;
+			return isDeepStrictEqual(typeOfValue, otherType) !== mustBeEqual;
 		}).or(true);
 		if (validationFailed)
 		{
@@ -356,7 +356,7 @@ different name.`);
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.map(v => !isEqual(v, expected)).or(true))
+		if (this.value.map(v => !isDeepStrictEqual(v, expected)).or(true))
 		{
 			this.addRangeError(
 				messagesIsEqualTo(this, name ?? null, expected).toString());
@@ -370,7 +370,7 @@ different name.`);
 		if (name !== undefined)
 			this.requireThatNameIsUnique(name);
 
-		if (this.value.map(v => isEqual(v, unwanted)).or(true))
+		if (this.value.map(v => isDeepStrictEqual(v, unwanted)).or(true))
 		{
 			this.addRangeError(
 				messagesIsNotEqualTo(this, name ?? null, unwanted).toString());

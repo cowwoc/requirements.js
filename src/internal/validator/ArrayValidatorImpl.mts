@@ -10,7 +10,7 @@ import {
 	type UnsignedNumberValidator,
 	ObjectSizeValidatorImpl
 } from "../internal.mjs";
-import isEqual from "lodash.isequal";
+import {isDeepStrictEqual} from "util";
 
 /**
  * Default implementation of `ArrayValidator`.
@@ -44,7 +44,7 @@ class ArrayValidatorImpl<T extends E[] | undefined | null, E> extends AbstractCo
 			const valueAsList = this.collectionAsArray(v);
 			const sortedList = [...valueAsList];
 			sortedList.sort(comparator);
-			if (isEqual(valueAsList, sortedList))
+			if (isDeepStrictEqual(valueAsList, sortedList))
 				return null;
 			return sortedList;
 		}).or(null);

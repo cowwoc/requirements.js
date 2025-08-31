@@ -2,7 +2,6 @@
  * Copyright (c) 2019 Gili Tzabari
  * Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
  */
-import isEqual from "lodash.isequal";
 import {
 	type ApplicationScope,
 	Type,
@@ -28,6 +27,7 @@ import {
 	collectionDoesNotContain,
 	collectionContainsExactly
 } from "../internal.mjs";
+import {isDeepStrictEqual} from "util";
 
 /**
  * Validates the state of a collection.
@@ -146,7 +146,7 @@ abstract class AbstractCollectionValidator<T extends undefined | null | E[] | Se
 		const valueAsArray = this.collectionAsArray(value);
 		for (let i = 0; i < valueAsArray.length; ++i)
 		{
-			if (isEqual(valueAsArray[i], element))
+			if (isDeepStrictEqual(valueAsArray[i], element))
 				return true;
 		}
 		return false;

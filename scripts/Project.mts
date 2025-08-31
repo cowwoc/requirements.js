@@ -14,7 +14,6 @@ import {assert} from "chai";
 import ts from "typescript";
 import {glob} from "glob";
 import {minify} from "terser";
-import {spawn} from "child_process";
 import {default as chokidar} from "chokidar";
 import eslintConfig from "../eslint.config.mjs";
 import parseArgs from "minimist";
@@ -24,6 +23,7 @@ import {
 } from "diary";
 import debounce from "lodash.debounce";
 import padStart from "lodash.padstart";
+import {execa} from "execa";
 
 // WORKAROUND: https://github.com/rollup/plugins/issues/1662#issuecomment-2337703188
 const rollupCommonJs = _rollupCommonJs as unknown as (options?: unknown) => Plugin;
@@ -294,10 +294,9 @@ class Project
 		// https://stackoverflow.com/a/53204227/14731
 		const promise = new Promise(function(resolve, reject)
 		{
-			// https://stackoverflow.com/a/14231570/14731
-			const process = spawn(c8Path, [mochaPath, "--parallel", "./test/**/*.mts"],
+			const process = execa(c8Path, [mochaPath, "--parallel", "./test/**/*.mts"],
 				{
-					shell: true,
+					// https://stackoverflow.com/a/14231570/14731
 					stdio: "inherit"
 				});
 			process.on("error", function(err)

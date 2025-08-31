@@ -122,9 +122,8 @@ Meaning:
 
 Lines always end with `\n` or `\0`. The former denotes a newline. The latter denotes the end of the string.
 
-Lines ending with "\n\n" or "\0\0" represents the literal string "\n" followed by a newline character, or the
-literal
-string "\0" followed by the end of string, respectively.
+Lines ending with "\n\n" or "\0\0" represent the literal string "\n" followed by a newline character, or the
+literal string "\0" followed by the end of string, respectively.
 
 ## Example 7: Missing Line Numbers
 
