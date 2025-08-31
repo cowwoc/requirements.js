@@ -3,11 +3,11 @@
 
 # <img src="docs/logo.svg" width=64 height=64 alt="checklist"> Requirements API
 
-[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/4.0.11/)
+[![API](https://img.shields.io/badge/api_docs-5B45D5.svg)](https://cowwoc.github.io/requirements.js/4.0.12/)
 [![Changelog](https://img.shields.io/badge/changelog-A345D5.svg)](docs/Changelog.md)
 [![java](https://img.shields.io/badge/other%20languages-java-457FD5.svg)](../../../requirements.java)
 
-A [fluent API](https://en.m.wikipedia.org/docs/Fluent_interface) for enforcing
+A [fluent API](https://en.m.wikipedia.org/wiki/Fluent_interface) for enforcing
 [design contracts](https://en.wikipedia.org/docs/Design_by_contract) with
 [automatic message generation](docs/Features.md#automatic-message-generation):
 
@@ -18,13 +18,13 @@ A [fluent API](https://en.m.wikipedia.org/docs/Fluent_interface) for enforcing
 To get started, add this dependency:
 
 ```shell
-npm install --save @cowwoc/requirements@4.0.11
+npm install --save @cowwoc/requirements@4.0.12
 ```
 
 or [pnpm](https://pnpm.io/):
 
 ```shell
-pnpm add @cowwoc/requirements@4.0.11
+pnpm add @cowwoc/requirements@4.0.12
 ```
 
 ## Usage Example
@@ -147,32 +147,32 @@ Designed for discovery using your favorite IDE's auto-complete feature.
 The main entry points are:
 
 * `requireThat(value, name)` for method preconditions.
-  * [requireThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThat.html)
-  * [requireThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatArray.html)
-  * [requireThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatBoolean.html)
-  * [requireThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatMap.html)
-  * [requireThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatNumber.html)
-  * [requireThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatSet.html)
-  * [requireThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.requireThatString.html)
+  * [requireThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThat.html)
+  * [requireThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatArray.html)
+  * [requireThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatBoolean.html)
+  * [requireThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatMap.html)
+  * [requireThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatNumber.html)
+  * [requireThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatSet.html)
+  * [requireThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.requireThatString.html)
 * `assertThat(value, name)` for [class invariants, method postconditions and private methods](docs/Features.md#assertion-support).
-  * [assertThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThat.html)
-  * [assertThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatArray.html)
-  * [assertThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatBoolean.html)
-  * [assertThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatMap.html)
-  * [assertThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatNumber.html)
-  * [assertThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatSet.html)
-  * [assertThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.assertThatString.html)
+  * [assertThat(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThat.html)
+  * [assertThatArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatArray.html)
+  * [assertThatBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatBoolean.html)
+  * [assertThatMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatMap.html)
+  * [assertThatNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatNumber.html)
+  * [assertThatSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatSet.html)
+  * [assertThatString(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.assertThatString.html)
 * `checkIf(value, name)` for multiple failures and customized error handling.
-  * [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIf.html)
-  * [checkIfArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfArray.html)
-  * [checkIfBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfBoolean.html)
-  * [checkIfMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfMap.html)
-  * [checkIfNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfNumber.html)
-  * [checkIfSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfSet.html)
-  * [checkIfString(value, name)](https://cowwoc.github.io/requirements.js/4.0.11/functions/DefaultJavascriptValidators.checkIfString.html)
+  * [checkIf(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIf.html)
+  * [checkIfArray(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfArray.html)
+  * [checkIfBoolean(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfBoolean.html)
+  * [checkIfMap(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfMap.html)
+  * [checkIfNumber(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfNumber.html)
+  * [checkIfSet(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfSet.html)
+  * [checkIfString(value, name)](https://cowwoc.github.io/requirements.js/4.0.12/functions/DefaultJavascriptValidators.checkIfString.html)
   
 
-See the [API documentation](https://cowwoc.github.io/requirements.js/4.0.11/) for more details.
+See the [API documentation](https://cowwoc.github.io/requirements.js/4.0.12/) for more details.
 
 ## Best practices
 

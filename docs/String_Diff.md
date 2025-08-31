@@ -1,5 +1,5 @@
 When
-a [String comparison](https://cowwoc.github.io/requirements.js/4.0.11/interfaces/DefaultJavascriptValidators._internal_.ValidatorComponent.html#isEqualTo)
+a [String comparison](https://cowwoc.github.io/requirements.js/4.0.12/interfaces/DefaultJavascriptValidators._internal_.ValidatorComponent.html#isEqualTo)
 fails, the library outputs a [diff](https://en.wikipedia.org/wiki/Diff) of the values being compared.
 
 Depending on the terminal capability, you will see a [Textual](Textual_Diff.md) or [Colored](Colored_Diff.md)
